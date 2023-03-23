@@ -1,5 +1,15 @@
 import 'package:flutter/material.dart';
 
+import 'main/l10n/app_localizations.dart';
+
+final navigatorKey = GlobalKey<NavigatorState>();
+
+extension NavigatorKeyUtils on GlobalKey<NavigatorState> {
+  AppLocalization get localization {
+    return AppLocalization.of(currentContext!)!;
+  }
+}
+
 void main() {
   runApp(const MyApp());
 }

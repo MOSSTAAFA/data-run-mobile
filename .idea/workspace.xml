@@ -1,13 +1,228 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="317e85cc-231a-4df6-b26d-c5797b54900d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.flutter-plugins" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/l10n.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/constants.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/custom_widgets/app_dropdown_button.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/custom_widgets/buttons/app_text_button.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/custom_widgets/responsive_padding.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/custom_widgets/scrollable_listview.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/date/date_utils.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/date/entry_mode.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/date/field_with_issue.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/date/field_with_issue.freezed.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/dialogs/bottomsheet/bottom_sheet_dialog_ui_model.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/dialogs/bottomsheet/bottom_sheet_dialog_ui_model.freezed.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/dialogs/bottomsheet/dialog_button_style.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/dialogs/bottomsheet/dialog_button_style.freezed.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/dialogs/dialogs.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/dialogs/loading_dialog.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/extensions/date_format_extensions.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/extensions/dynamic_extensions.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/extensions/dynamic_value_extensions.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/extensions/event_data_value_query_extension.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/extensions/list_extensions.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/extensions/standard_extensions.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/extensions/string_extension.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/extensions/tracked_entity_attribute_value_query_extension.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/extensions/value_extensions.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/extensions/value_type_rendering_extension.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/helpers/lazy.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/helpers/trio.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/network/network_utils.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/network/network_utils_module.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/org_unit_selector/business_logic/org_unit_item.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/org_unit_selector/org_unit_selector_dialog.widget.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/org_unit_selector/org_unit_selector_item.widget.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/org_unit_selector/org_unit_selector_list.widget.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/org_unit_tree/business_logic/ou_tree_list_presenter.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/org_unit_tree/business_logic/ou_tree_list_view.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/org_unit_tree/business_logic/ou_tree_node.model.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/org_unit_tree/business_logic/ou_tree_node.model.freezed.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/org_unit_tree/business_logic/ou_tree_repository.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/org_unit_tree/ou_tree_list.widget.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/org_unit_tree/ou_tree_node.widget.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/period/period_extensions.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/progress_indicators/loading_indicator.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/progress_indicators/progress_button.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/reporting/crash_report_controller.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/resources/color_utils.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/resources/resource_manager.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/core/arch/handlers/transformer.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/core/enrollment/enrollment_extensions.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/core/enrollment/enrollment_object_repository.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/core/enrollment/enrollment_projection.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/core/event/event_extensions.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/core/event/event_object_repository.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/core/event/event_projection.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/core/event/event_status.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/core/organisation_unit/organisation_unit_display_path_generator.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/core/organisation_unit/organisation_unit_scope.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/data/data_entry_base_repository.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/data/data_entry_repository.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/data/data_integrity_check_result.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/data/data_integrity_check_result.freezed.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/data/enrollment_repository.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/data/event_repository.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/data/form_repository.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/data/form_repository_impl.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/data/form_value_store.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/data/metadata/option_set_configuration.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/data/metadata/org_unit_configuration.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/data/search_option_set_option.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/data/search_repository.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/di/injector.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/model/Ui_render_type.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/model/action_type.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/model/enrollment_detail.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/model/enrollment_mode.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/model/field_ui_model.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/model/field_ui_model_impl.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/model/field_ui_model_impl.freezed.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/model/form_repository_records.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/model/info_ui_model.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/model/key_board_action_type.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/model/option_set_configuration.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/model/option_set_configuration.freezed.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/model/row_action.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/model/row_action.freezed.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/model/section_ui_model_impl.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/model/section_ui_model_impl.freezed.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/model/store_result.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/model/store_result.freezed.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/model/ui_event_type.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/model/value_store_result.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/comonents/spinner_dialog.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/event/list_view_ui_events.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/event/list_view_ui_events.freezed.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/event/ui_event_factory.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/event/ui_event_factory_impl.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/field_view_model_factory.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/field_view_model_factory_impl.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/form_view.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/form_view_model.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/form_view_model_factory.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/intent/form_intent.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/intent/form_intent.freezed.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/layout_provider_impl.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/mixins'/keyboard_manager.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/mixins'/loading_manager.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/mixins'/mixins.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/mixins'/navigation_manager.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/mixins'/session_manager.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/provider/display_name_provider.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/provider/display_name_provider_impl.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/provider/enrollment_form_labels_provider.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/provider/enrollment_result_dialog_ui_provider.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/provider/hint_provider.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/provider/hint_provider_impl.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/provider/keyboard_action_provider.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/provider/keyboard_action_provider_impl.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/provider/layout_provider.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/provider/ui_event_types_provider.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/provider/ui_event_types_provider_impl.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/provider/ui_style_provider.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/provider/ui_style_provider_impl.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/style/basic_form_ui_model_style.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/style/form_ui_color_factory.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/style/form_ui_color_type.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/style/form_ui_model_color_factory_impl.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/style/form_ui_model_style.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/style/long_text_decorator.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/style/long_text_ui_color_factory_impl.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/validation/failures/field_mask_failure.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/validation/failures/field_mask_failure.freezed.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/validation/field_error_message_provider.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/validation/validators/field_mask_validator.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/view_model/view_model.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/view_model/view_model_provider.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/generated_plugin_registrant.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/main/l10n/app_localizations.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/main/l10n/locales_strings/app_ar.arb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/main/l10n/locales_strings/app_en.arb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/main/mp_logic/enrollment_event_generator.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/main/mp_logic/enrollment_event_generator_repository.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/main/mp_logic/enrollment_event_generator_repository_impl.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/main/mp_logic/mp_enrollment_utils.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/utils/customviews/org_unit_dialog.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/utils/mass_utils/colors.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/utils/mass_utils/completers.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/utils/mass_utils/formatting.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/utils/mass_utils/platforms.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/utils/mass_utils/strings.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/utils/mass_utils/utils.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config_subset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/mass_pro.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mass_pro.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.packages" beforeDir="false" afterPath="$PROJECT_DIR$/.packages" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/d2-remote" beforeDir="false" afterPath="$PROJECT_DIR$/d2-remote" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2NQmYZWev4cvb60YhGgDJ2RGEFm" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
     <property name="android.sdk.path" value="$PROJECT_DIR$/../../../../android-tools/android_sdk" />
+    <property name="cidr.known.project.marker" value="true" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RunManager">
     <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
       <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
       <method v="2" />
     </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="317e85cc-231a-4df6-b26d-c5797b54900d" name="Changes" comment="" />
+      <created>1679604729214</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1679604729214</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

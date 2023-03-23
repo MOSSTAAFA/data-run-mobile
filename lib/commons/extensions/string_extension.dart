@@ -1,0 +1,82 @@
+import 'package:mass_pro/commons/date/date_utils.dart';
+
+extension StringNullExtension on String? {
+  DateTime? toDate() {
+    DateTime? date;
+    try {
+      date = DateUtils.databaseDateFormat().parse(this ?? '');
+    } catch (e) {
+      print('wrong format');
+    }
+    if (date == null) {
+      try {
+        date = DateUtils.dateTimeFormat().parse(this ?? '');
+      } catch (e) {
+        print('wrong format');
+      }
+    }
+    if (date == null) {
+      try {
+        date = DateUtils.uiDateFormat().parse(this ?? '');
+      } catch (e) {
+        print('wrong format');
+      }
+    }
+
+    if (date == null) {
+      try {
+        date = DateUtils.oldUiDateFormat().parse(this ?? '');
+      } catch (e) {
+        print('wrong format');
+      }
+    }
+
+    return date;
+  }
+
+  bool get isNullOrEmpty => this?.isEmpty ?? true;
+
+  bool get isNotNullOrEmpty => !isNullOrEmpty;
+
+  bool toBoolean() {
+    return this == 'true' || this == 'TRUE';
+  }
+
+  double toDouble() => double.parse(this!);
+
+  int toInt({int? radix}) => int.parse(this!, radix: radix);
+
+  String? format(List args, {String needleRegex = '%s'}) {
+    RegExp exp = RegExp(needleRegex);
+
+    // Iterable<RegExpMatch> matches = exp.allMatches(this?? '');
+    // assert(
+    //     l.length == matches.length,
+    //     'StringExtension.format: number of string '
+    //     'args not match number of %s in the string');
+
+    var i = -1;
+    return this?.replaceAllMapped(exp, (match) {
+      i = i + 1;
+      return '${args[i]}';
+    });
+  }
+}
+
+extension StringExtension on String {
+  String format(List args, {String needleRegex = '%s'}) {
+    RegExp exp = RegExp(needleRegex);
+
+    // Iterable<RegExpMatch> matches = exp.allMatches(this);
+    // assert(
+    //     l.length == matches.length,
+    //     'StringExtension.format: number of string '
+    //     'args not match number of %s in the string');
+
+    var i = -1;
+    return replaceAllMapped(exp, (match) {
+      i = i + 1;
+      return '${args[i]}';
+    });
+  }
+}

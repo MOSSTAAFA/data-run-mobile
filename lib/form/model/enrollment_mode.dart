@@ -1,0 +1,1 @@
+enum EnrollmentMode { NEW, CHECK }
