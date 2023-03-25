@@ -26,6 +26,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get edit => 'تعديل';
 
   @override
+  String get accept => 'قبول';
+
+  @override
+  String get clear => 'تصفيه';
+
+  @override
   String get cancel => 'إلغاء';
 
   @override

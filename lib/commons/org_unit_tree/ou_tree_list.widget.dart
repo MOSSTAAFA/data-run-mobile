@@ -53,6 +53,7 @@ class _OuTreeListState extends State<OuTreeList> implements OuTreeListView {
                         AsyncSnapshot<List<OuTreeNodeModel>> snapshot) {
                       if (snapshot.hasError) {
                         // return ReloadScreen(error: '${snapshot.error}', reload: presenter.loadData);
+                        return Text('error: ${snapshot.error}');
                       }
                       if (snapshot.hasData) {
                         return _createList(snapshot.data!);
@@ -94,8 +95,7 @@ class _OuTreeListState extends State<OuTreeList> implements OuTreeListView {
           ),
         ),
         AppTextButton(
-          label:
-              'clear_all' /*AppLocalization.of(context)!.localized!.clear_all*/,
+          label: AppLocalization.of(context)!.lookup('clear_all'),
           isInHeader: true,
           onPressed: () => clearAll(),
         ),
@@ -111,12 +111,12 @@ class _OuTreeListState extends State<OuTreeList> implements OuTreeListView {
     return Row(
       children: <Widget>[
         AppTextButton(
-          label: AppLocalization.of(context)!.localized!.cancel,
+          label: AppLocalization.of(context)!.lookup('cancel'),
           onPressed: () => clearAndDismiss(),
         ),
         Expanded(
           child: AppTextButton(
-            label: 'accept_' /*AppLocalization.of(context)!.localized!.accept*/,
+            label: AppLocalization.of(context)!.lookup('accept'),
             onPressed: () => exitOuSelection(),
           ),
         ),
@@ -130,6 +130,7 @@ class _OuTreeListState extends State<OuTreeList> implements OuTreeListView {
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
           if (snapshot.hasError) {
             // return ReloadScreen(error: '${snapshot.error}', reload: presenter.loadData);
+            return Text('error: ${snapshot.error}');
           }
           if (snapshot.hasData) {
             return ScrollableListViewBuilder(

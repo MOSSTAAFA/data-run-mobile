@@ -8,7 +8,7 @@ import 'package:d2_remote/modules/metadata/organisation_unit/queries/organisatio
 import 'package:dartx/dartx_io.dart';
 import '../../../core/organisation_unit/organisation_unit_scope.dart';
 import '../../helpers/trio.dart';
-import '../org_unit_selector_dialog.widget.dart';
+import '../ou_selector_dialog.widget.dart';
 
 class OrgUnitItem {
   OrgUnitItem({required OUSelectionType ouSelectionType}) {

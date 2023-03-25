@@ -5,6 +5,8 @@
   "no": "no",
   "save": "save",
   "edit": "Edit",
+  "accept": "Accept",
+  "clear": "Clear",
   "cancel": "cancel",
   "delete": "delete",
   "select": "select",

@@ -19,7 +19,7 @@ class SearchOptionSetOption {
     query = query.byOptionSet(optionSet?.id ?? '');
 
     if (textToSearch.isNotEmpty) {
-      query = query.like(attribute: 'displayName', value: textToSearch);
+      query = query.like(attribute: 'displayName', value: '%$textToSearch%');
     }
 
     if (optionsToShow.isNotEmpty) {

@@ -1,16 +1,14 @@
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisation_unit_level.entity.dart';
-import 'package:d2_remote/modules/metadata/organisation_unit/queries/organisation_unit.query.dart';
 import 'package:flutter/material.dart';
-import '../../core/organisation_unit/organisation_unit_scope.dart';
 import '../custom_widgets/app_dropdown_button.dart';
 import '../extensions/string_extension.dart';
 import '../helpers/trio.dart';
 import 'business_logic/org_unit_item.dart';
-import 'org_unit_selector_dialog.widget.dart';
+import 'ou_selector_dialog.widget.dart';
 
-class OrgUnitSelectorItem extends StatefulWidget {
-  const OrgUnitSelectorItem(
+class OuSelectorItem extends StatefulWidget {
+  const OuSelectorItem(
       {super.key,
       required this.selectionType,
       required this.ouItem,
@@ -24,49 +22,70 @@ class OrgUnitSelectorItem extends StatefulWidget {
   final OrgUnitItem ouItem;
 
   // void Function(int level, String selectedUid, bool canBeSelected) setSelectedLevel;
-  final void Function(String selectedUid, bool canBeSelected) setSelectedLevel;
+  final void Function(String? selectedUid, bool canBeSelected) setSelectedLevel;
 
   final void Function(String selectedUid) setSelectedParent;
 
   @override
-  State<OrgUnitSelectorItem> createState() => _OrgUnitSelectorItemState();
+  State<OuSelectorItem> createState() => _OuSelectorItemState();
 }
 
-class _OrgUnitSelectorItemState extends State<OrgUnitSelectorItem> {
+class _OuSelectorItemState extends State<OuSelectorItem> {
   bool _enabled = false;
   late final String _levelName;
-  late String _selectedOrgUnit;
+  String? _selectedOrgUnit;
   late Trio<String, String, bool> _selectedItem;
 
   late List<Trio<String, String, bool>> _menuItems;
 
   @override
   Widget build(BuildContext context) {
-    return AppDropdownButton<Trio<String, String, bool>>(
-        // labelText: _levelName,
-        blankLabel: _levelName,
-        blankValue: null,
-        // showBlank: true,
-        value: _selectedItem,
-        onChanged: (Trio<String, String, bool>? item) async {
-          _selectedOrgUnit = item!
-              .first; //item.getOrder() < 0 ? null : ouItem.getLevelOrgUnits().get(item.getOrder()).val0();
-          // binding.levelText.setText(item.getOrder() < 0
-          //     ? data.get(0).val1()
-          //     : data.get(item.getOrder()).val1());
-          widget.ouItem.name = item
-              .second; //.setName(item.getOrder() < 0 ? data.get(0).val1() : data.get(item.getOrder()).val1());
-          widget.ouItem.uid = item
-              .first; //.setUid(item.getOrder() < 0 ? data.get(0).val0() : data.get(item.getOrder()).val0());
-          await _setSelectedLevel(_selectedOrgUnit);
+    return Row(
+      children: [
+        AppDropdownButton<Trio<String, String, bool>>(
+            // labelText: _levelName,
+            blankLabel: _levelName,
+            blankValue: null,
+            // showBlank: true,
+            value: _selectedItem,
+            onChanged: (Trio<String, String, bool>? item) async {
+              _selectedOrgUnit = item!
+                  .first; //item.getOrder() < 0 ? null : ouItem.getLevelOrgUnits().get(item.getOrder()).val0();
+              // binding.levelText.setText(item.getOrder() < 0
+              //     ? data.get(0).val1()
+              //     : data.get(item.getOrder()).val1());
+              widget.ouItem.name = item
+                  .second; //.setName(item.getOrder() < 0 ? data.get(0).val1() : data.get(item.getOrder()).val1());
+              widget.ouItem.uid = item
+                  .first; //.setUid(item.getOrder() < 0 ? data.get(0).val0() : data.get(item.getOrder()).val0());
+              final bool canBeSelected = await _getCanBeSelected(_selectedOrgUnit!);
 
-        },
-        items: _menuItems
-            .map((Trio<String, String, bool> item) => DropdownMenuItem(
-                  value: item,
-                  child: Text(item.second),
-                ))
-            .toList());
+              widget.setSelectedLevel.call(_selectedOrgUnit, canBeSelected);
+            },
+            items: _menuItems
+                .map((Trio<String, String, bool> item) => DropdownMenuItem(
+                      value: item,
+                      child: Text(item.second),
+                    ))
+                .toList()),
+        const SizedBox(width: 16.0),
+        IconButton(
+          icon: const Icon(Icons.clear),
+          onPressed: () {
+            setState(() {
+              _selectedOrgUnit = null;
+              _levelName = _getLevelLabel();
+
+              widget.ouItem.name = null; //.setName(null);
+              widget.ouItem.uid = null; //.setUid(null);
+              widget.setSelectedLevel.call(
+                  _selectedOrgUnit,
+                  false);
+            });
+          },
+        ),
+      ],
+    );
   }
 
   @override
@@ -82,7 +101,7 @@ class _OrgUnitSelectorItemState extends State<OrgUnitSelectorItem> {
     super.didChangeDependencies();
   }
 
-  Future<void> _setSelectedLevel(String orgUnit) async {
+  Future<bool> _getCanBeSelected(String orgUnit) async {
     bool canBeSelected = false;
     if (widget.selectionType == OUSelectionType.SEARCH) {
       canBeSelected = (await D2Remote.organisationUnitModule.organisationUnit
@@ -97,7 +116,7 @@ class _OrgUnitSelectorItemState extends State<OrgUnitSelectorItem> {
               .count()) >
           0;
     }
-    widget.setSelectedLevel.call(_selectedOrgUnit, canBeSelected);
+    return canBeSelected;
   }
 
   Future<List<Trio<String, String, bool>>> _getMenuItems() async {
