@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mass_pro/commons/network/network_utils.dart';
+import 'network_utils.dart';
 
 // TODO NMC, @Singleton
 // @Module

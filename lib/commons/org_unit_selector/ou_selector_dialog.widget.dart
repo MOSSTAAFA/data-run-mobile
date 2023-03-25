@@ -46,7 +46,6 @@ class OuSelectorDialog extends StatefulWidget {
 }
 
 class _OuSelectorDialogState extends State<OuSelectorDialog> {
-  late final Future<List<OrgUnitItem>> _orgUnitItems;
   final OuSelectorDialogPresenter presenter =
       OuSelectorDialogPresenter.instance;
 
@@ -129,7 +128,6 @@ class _OuSelectorDialogState extends State<OuSelectorDialog> {
             presenter.orgUnitItems.assignAll(widget.initialData);
             presenter.acceptButtonEnabled.value = false;
             widget.onClear();
-            presenter.orgUnitSearchText.value = null;
             Navigator.pop(context);
           },
         ),

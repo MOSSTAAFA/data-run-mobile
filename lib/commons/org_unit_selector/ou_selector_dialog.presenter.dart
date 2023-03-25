@@ -1,6 +1,5 @@
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisation_unit.entity.dart';
-import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisation_unit_level.entity.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -9,15 +8,9 @@ import 'business_logic/org_unit_item.dart';
 import 'ou_selector_dialog.widget.dart';
 
 class OuSelectorDialogPresenter extends GetxController implements Listenable {
-  // OuSelectorDialogPresenter(String? selectedOu, OUSelectionType selectionType):super() {
-  //   selectedOrgUnit.value = selectedOu;
-  //   ouSelectionType = Rx<OUSelectionType>(selectionType);
-  // }
   /// Adapter vars, OuSelectorList vars
   final RxInt level = RxInt(1);
   final RxMap<int, String?> selectedParent = <int, String?>{}.obs;
-
-  // final Rx<String?> selectedOrgUnit = Rx<String?>(null);
 
   /// Dialog vars
   final RxList<OrganisationUnit> orgUnits = <OrganisationUnit>[].obs;
@@ -28,7 +21,6 @@ class OuSelectorDialogPresenter extends GetxController implements Listenable {
   final RxBool acceptButtonEnabled = false.obs;
   final Rx<String?> orgUnitSearchText = Rx<String?>(null);
 
-  // late final Rx<OUSelectionType?> ouSelectionType;
   /// You do not need that. I recommend using it just for ease of syntax.
   /// with static method: Controller.to.increment();
   /// with no static method: Get.find<Controller>().increment();
@@ -42,7 +34,6 @@ class OuSelectorDialogPresenter extends GetxController implements Listenable {
   }
 
   Future<void> loadOrgUnitItems(OUSelectionType ouSelectionType) async {
-    // orgUnitItems.value
     final List<OrganisationUnit> ouList =
         await D2Remote.organisationUnitModule.organisationUnit.get();
     int maxLevel = -1;

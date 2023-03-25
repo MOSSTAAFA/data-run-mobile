@@ -5,24 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="317e85cc-231a-4df6-b26d-c5797b54900d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/commons/custom_widgets/list_filter.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/commons/org_unit_selector/chips_row.widget.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/commons/org_unit_selector/ou_selector_dialog.presenter.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/commons/org_unit_selector/ou_selector_dialog.widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_gen/gen_l10n/app_localization.dart" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_gen/gen_l10n/app_localization.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_gen/gen_l10n/app_localization_ar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_gen/gen_l10n/app_localization_ar.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_gen/gen_l10n/app_localization_en.dart" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_gen/gen_l10n/app_localization_en.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analysis_options.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/analysis_options.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/commons/org_unit_selector/business_logic/org_unit_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/commons/org_unit_selector/business_logic/org_unit_item.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/commons/org_unit_selector/org_unit_selector_dialog.widget.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/commons/org_unit_selector/org_unit_selector_item.widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/commons/org_unit_selector/ou_selector_item.widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/commons/org_unit_selector/org_unit_selector_list.widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/commons/org_unit_selector/ou_selector_list.widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/commons/org_unit_tree/business_logic/ou_tree_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/commons/org_unit_tree/business_logic/ou_tree_repository.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/commons/org_unit_tree/ou_tree_list.widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/commons/org_unit_tree/ou_tree_list.widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/form/data/search_option_set_option.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/form/data/search_option_set_option.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main/l10n/locales_strings/app_ar.arb" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main/l10n/locales_strings/app_ar.arb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main/l10n/locales_strings/app_en.arb" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main/l10n/locales_strings/app_en.arb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/commons/dialogs/loading_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/commons/dialogs/loading_dialog.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/commons/network/network_utils_module.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/commons/network/network_utils_module.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/commons/org_unit_selector/ou_selector_dialog.presenter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/commons/org_unit_selector/ou_selector_dialog.presenter.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/commons/org_unit_selector/ou_selector_dialog.widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/commons/org_unit_selector/ou_selector_dialog.widget.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
