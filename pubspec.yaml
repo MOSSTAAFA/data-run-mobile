@@ -43,3 +43,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+  assets:
+    - lib/sample/dhis/
+    - lib/main/l10n/locales_strings/

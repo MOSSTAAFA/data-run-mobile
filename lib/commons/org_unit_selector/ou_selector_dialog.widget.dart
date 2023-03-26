@@ -5,6 +5,7 @@ import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisati
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../main.dart';
 import '../../main/l10n/app_localizations.dart';
 import '../custom_widgets/buttons/app_text_button.dart';
 import '../custom_widgets/list_filter.dart';
@@ -28,7 +29,8 @@ class OuSelectorDialog extends StatefulWidget {
 
   final String title;
 
-  final void Function(String, String) textChangedConsumer;
+  final void Function(String selectedOrgUnitUid, String selectedOrgUnitName)
+      textChangedConsumer;
   final void Function() onDialogCancelled;
   final void Function() onClear;
 
@@ -105,12 +107,12 @@ class _OuSelectorDialogState extends State<OuSelectorDialog> {
               );
             }),
         const SizedBox(width: 20),
-        _bottomBtnsRow()
+        _bottomBtnsRow(context)
       ],
     );
   }
 
-  Widget _bottomBtnsRow() {
+  Widget _bottomBtnsRow(BuildContext context) {
     final AppLocalization localization = AppLocalization.of(context)!;
     return Row(
       children: <Widget>[

@@ -57,8 +57,6 @@ class _ListFilterState extends State<ListFilter> {
       return '';
     }
 
-    final localization = AppLocalization.of(context)!;
-
     // final count = widget.entityIds.length;
     final count = widget.entityIds?.length ?? 0;
 
@@ -93,7 +91,6 @@ class _ListFilterState extends State<ListFilter> {
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalization.of(context);
     final textColor = Theme.of(context).textTheme.bodyText1?.color;
     final isFilterSet = (widget.filter ?? '').isNotEmpty;
 

@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="317e85cc-231a-4df6-b26d-c5797b54900d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="317e85cc-231a-4df6-b26d-c5797b54900d" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -46,17 +44,18 @@
     <property name="android.sdk.path" value="$PROJECT_DIR$/../../../../android-tools/android_sdk" />
     <property name="cidr.known.project.marker" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/sample/dhis" />
+    <property name="io.flutter.reload.alreadyRun" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Hamza\Learn\my-projects\Flutter\mass_pro" />
+      <recent name="D:\Hamza\Learn\my-projects\Flutter\mass_pro\lib" />
+      <recent name="D:\Hamza\Learn\my-projects\Flutter\mass_pro\lib\main" />
       <recent name="D:\Hamza\Learn\my-projects\Flutter\mass_pro\lib\sample\dhis" />
       <recent name="D:\Hamza\Learn\my-projects\Flutter\mass_pro\lib\sample" />
-      <recent name="D:\Hamza\Learn\my-projects\Flutter\mass_pro\lib" />
-      <recent name="D:\Hamza\Learn\my-projects\Flutter\mass_pro\lib\commons\custom_widgets" />
-      <recent name="D:\Hamza\Learn\my-projects\Flutter\mass_pro" />
     </key>
   </component>
   <component name="RunManager">
@@ -89,5 +88,38 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint suspend="THREAD" type="Dart">
+          <dependency master-id="0" />
+          <url>file://$PROJECT_DIR$/d2-remote/lib/modules/metadata/organisation_unit/queries/organisation_unit.query.dart</url>
+          <line>64</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint suspend="THREAD" type="Dart">
+          <dependency master-id="0" />
+          <url>file://$PROJECT_DIR$/d2-remote/lib/modules/metadata/organisation_unit/queries/organisation_unit.query.dart</url>
+          <line>61</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/d2-remote/lib/shared/utilities/http_client.util.dart</url>
+          <line>144</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/d2-remote/lib/shared/utilities/http_client.util.dart</url>
+          <line>134</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/d2-remote/lib/shared/utilities/http_client.util.dart</url>
+          <line>147</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -76,7 +76,7 @@ class _OuSelectorItemState extends State<OuSelectorItem> {
           onPressed: () {
             setState(() {
               _selectedOrgUnit = null;
-              _levelName = _getLevelLabel();
+              _levelName = _getLevelLabel(context);
 
               widget.ouItem.name = null; //.setName(null);
               widget.ouItem.uid = null; //.setUid(null);
@@ -94,7 +94,7 @@ class _OuSelectorItemState extends State<OuSelectorItem> {
     /// need to take place following a dependancy change which would otherwise
     /// prove too expensive to do for every build.
     ///
-    _levelName = _getLevelLabel();
+    _levelName = _getLevelLabel(context);
 
     _menuItems = await _getMenuItems();
 
@@ -149,7 +149,7 @@ class _OuSelectorItemState extends State<OuSelectorItem> {
     return widget.ouItem.getLevelOrgUnits();
   }
 
-  String _getLevelLabel() {
+  String _getLevelLabel(BuildContext context) {
     final AppLocalization localization = AppLocalization.of(context)!;
     OrganisationUnitLevel? orgUnitLevel = widget.ouItem.organisationUnitLevel;
     if (widget.ouItem.name != null) {
