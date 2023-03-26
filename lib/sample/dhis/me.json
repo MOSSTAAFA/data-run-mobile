@@ -1,0 +1,434 @@
+{
+  "id": "wTbIieK5GrW",
+  "username": "hamza",
+  "surname": "Abd",
+  "firstName": "Hamza",
+  "created": "2023-03-25T23:21:55.468",
+  "lastUpdated": "2023-03-25T23:41:15.583",
+  "dataViewOrganisationUnits": [
+    {
+      "code": "OU_264",
+      "name": "Bo",
+      "id": "O6uvpzGd5pu"
+    },
+    {
+      "code": "OU_193190",
+      "name": "Bombali",
+      "id": "fdc6uOvgoji"
+    }
+  ],
+  "userGroups": [
+    {
+      "name": "testNMCP",
+      "id": "X4D87P4k6J6"
+    }
+  ],
+  "organisationUnits": [
+    {
+      "code": "OU_574",
+      "name": "Faabu CHP",
+      "id": "ZpE2POxvl9P"
+    },
+    {
+      "code": "OU_619",
+      "name": "Bum Kaku MCHP",
+      "id": "EJoI3HArJ2W"
+    },
+    {
+      "code": "OU_73729",
+      "name": "Mokoba MCHP",
+      "id": "xt08cuqf1ys"
+    },
+    {
+      "code": "OU_541",
+      "name": "Bargbe",
+      "id": "dGheVylzol6"
+    },
+    {
+      "code": "OU_614",
+      "name": "Jimmi CHC",
+      "id": "vELbGdEphPd"
+    },
+    {
+      "code": "OU_602",
+      "name": "Benduma MCHP",
+      "id": "Wr8kmywwseZ"
+    },
+    {
+      "code": "OU_577",
+      "name": "Golu MCHP",
+      "id": "azRICFoILuh"
+    },
+    {
+      "code": "OU_264",
+      "name": "Bo",
+      "id": "O6uvpzGd5pu"
+    },
+    {
+      "code": "OU_678885",
+      "name": "Kpumbu MCHP",
+      "id": "pMEnu7BjqMz"
+    },
+    {
+      "code": "OU_193230",
+      "name": "Kagbaneh CHP",
+      "id": "duGLGssecoD"
+    },
+    {
+      "code": "OU_586",
+      "name": "Tugbebu CHP",
+      "id": "bG0PlyD0iP3"
+    },
+    {
+      "code": "OU_193236",
+      "name": "Bumban MCHP",
+      "id": "OI0BQUurVFS"
+    },
+    {
+      "code": "OU_193204",
+      "name": "Maforay (B. Sebora) MCHP",
+      "id": "C1zlHePEQe6"
+    },
+    {
+      "code": "OU_193201",
+      "name": "Masory MCHP",
+      "id": "dqHvtpUqLwB"
+    },
+    {
+      "code": "OU_539",
+      "name": "Badjia",
+      "id": "YuQRtpLP10I"
+    },
+    {
+      "code": "OU_193212",
+      "name": "Teko Barracks Clinic",
+      "id": "OuwX8H2CcRO"
+    },
+    {
+      "code": "OU_193206",
+      "name": "Govt. Hosp. Makeni",
+      "id": "GQcsUZf81vP"
+    },
+    {
+      "code": "OU_627",
+      "name": "Mano Yorgbo MCHP",
+      "id": "KvE0PYQzXMM"
+    },
+    {
+      "code": "OU_559",
+      "name": "Ngelehun CHC",
+      "id": "DiszpKrYNg8"
+    },
+    {
+      "code": "OU_580",
+      "name": "Kigbai MCHP",
+      "id": "egv5Es0QlQP"
+    },
+    {
+      "code": "OU_193202",
+      "name": "Masuba MCHP",
+      "id": "XzmWizbR343"
+    },
+    {
+      "code": "OU_167609",
+      "name": "Njandama MCHP",
+      "id": "g8upMTyEZGZ"
+    },
+    {
+      "code": "OU_193205",
+      "name": "Rokonta CHC",
+      "id": "mepHuAA9l51"
+    },
+    {
+      "code": "OU_424885",
+      "name": "Fullah Town (B.Sebora) MCHP",
+      "id": "aQoqXL4cZaF"
+    },
+    {
+      "code": "OU_598",
+      "name": "Mendewa MCHP",
+      "id": "YWXXO0XMkQe"
+    },
+    {
+      "code": "OU_193231",
+      "name": "Kamabai CHC",
+      "id": "mt47bcb0Rcj"
+    },
+    {
+      "code": "OU_193198",
+      "name": "Bombali Sebora",
+      "id": "KKkLOTpMXGV"
+    },
+    {
+      "code": "OU_595",
+      "name": "Ngalu CHC",
+      "id": "CvBAqD6RzLZ"
+    },
+    {
+      "code": "OU_579",
+      "name": "Jormu MCHP",
+      "id": "RzgSFJ9E46G"
+    },
+    {
+      "code": "OU_193208",
+      "name": "Red Cross Clinic",
+      "id": "wNYYRm2c9EK"
+    },
+    {
+      "code": "OU_193210",
+      "name": "Mabolleh MCHP",
+      "id": "PybxeRWVSrI"
+    },
+    {
+      "code": "OU_621",
+      "name": "Kasse MCHP",
+      "id": "cJkZLwhL8RP"
+    },
+    {
+      "code": "OU_644",
+      "name": "Mokpende MCHP",
+      "id": "am6EFqHGKeU"
+    },
+    {
+      "code": "OU_193209",
+      "name": "Makama MCHP",
+      "id": "Dbn6fyCgMBV"
+    },
+    {
+      "code": "OU_581",
+      "name": "Mbundorbu MCHP",
+      "id": "EuoA3Crpqts"
+    },
+    {
+      "code": "OU_193238",
+      "name": "Bumbanday MCHP",
+      "id": "LZclRdyVk1t"
+    },
+    {
+      "code": "OU_193213",
+      "name": "Loreto Clinic",
+      "id": "cgqkFdShPzg"
+    },
+    {
+      "code": "OU_193211",
+      "name": "Makump Bana MCHP",
+      "id": "E7IDb3nNiW7"
+    },
+    {
+      "code": "OU_639",
+      "name": "Kpetema CHP",
+      "id": "RTixJpRqS4C"
+    },
+    {
+      "code": "OU_193207",
+      "name": "Robat MCHP",
+      "id": "gP6hn503KUX"
+    },
+    {
+      "code": "OU_617",
+      "name": "Niagorehun CHP",
+      "id": "p9ZtyC3LQ9f"
+    },
+    {
+      "code": "OU_576",
+      "name": "Gerehun CHC",
+      "id": "TSyzvBiovKh"
+    },
+    {
+      "code": "OU_543062",
+      "name": "Buma MCHP",
+      "id": "AXZq6q7Dr6E"
+    },
+    {
+      "code": "OU_625",
+      "name": "Momajo MCHP",
+      "id": "fA43H8Ds0Ja"
+    },
+    {
+      "code": "OU_542",
+      "name": "Bargbo",
+      "id": "zFDYIgyGmXG"
+    },
+    {
+      "code": "OU_193190",
+      "name": "Bombali",
+      "id": "fdc6uOvgoji"
+    },
+    {
+      "code": "OU_193229",
+      "name": "Kagbankona MCHP",
+      "id": "OjTS752GbZE"
+    },
+    {
+      "code": "OU_193235",
+      "name": "Kamasikie MCHP",
+      "id": "ZxuSbAmsLCn"
+    },
+    {
+      "code": "OU_678887",
+      "name": "Ngolahun CHC",
+      "id": "wwM3YPvBKu2"
+    },
+    {
+      "code": "OU_578",
+      "name": "Jembe CHC",
+      "id": "Umh4HKqqFp6"
+    },
+    {
+      "code": "OU_623",
+      "name": "Gbangbalia MCHP",
+      "id": "ctMepV9p92I"
+    },
+    {
+      "code": "OU_540",
+      "name": "Baoma",
+      "id": "vWbkYPRmKyS"
+    },
+    {
+      "code": "OU_24765",
+      "name": "Serabu (Bumpe Ngao) UFC",
+      "id": "prNiMdHuaaU"
+    },
+    {
+      "code": "OU_167623",
+      "name": "Serabu Hospital Mission",
+      "id": "Tht0fnjagHi"
+    },
+    {
+      "code": "OU_543",
+      "name": "Bumpe Ngao",
+      "id": "BGGmAwx33dj"
+    },
+    {
+      "code": "OU_193200",
+      "name": "Pate Bana CHP",
+      "id": "wzvDhS0TkAF"
+    },
+    {
+      "code": "OU_651",
+      "name": "Bumpe CHC",
+      "id": "E497Rk80ivZ"
+    },
+    {
+      "code": "OU_585",
+      "name": "Yamandu CHC",
+      "id": "nX05QLraDhO"
+    },
+    {
+      "code": "OU_636",
+      "name": "Yengema CHP",
+      "id": "EFTcruJcNmZ"
+    },
+    {
+      "code": "OU_630",
+      "name": "Taninahun (BN) CHP",
+      "id": "kEkU53NrFmy"
+    },
+    {
+      "code": "OU_73727",
+      "name": "Blamawo MCHP",
+      "id": "WAjjFMDJKcx"
+    },
+    {
+      "code": "OU_24767",
+      "name": "Pelewahun (Baoma) MCHP",
+      "id": "KfUCAQoOIae"
+    },
+    {
+      "code": "OU_678886",
+      "name": "Wallehun MCHP",
+      "id": "tZxqVn3xNrA"
+    },
+    {
+      "code": "OU_193214",
+      "name": "Tonko Maternity Clinic",
+      "id": "uNEhNuBUr0i"
+    },
+    {
+      "code": "OU_642",
+      "name": "Kaniya MCHP",
+      "id": "CTOMXJg41hz"
+    },
+    {
+      "code": "OU_573",
+      "name": "Baoma Station CHP",
+      "id": "jNb63DIHuwU"
+    },
+    {
+      "code": "OU_583",
+      "name": "Yakaji MCHP",
+      "id": "AnXoUM1tfNT"
+    },
+    {
+      "code": "OU_193228",
+      "name": "Biriwa",
+      "id": "fwH9ipvXde9"
+    },
+    {
+      "code": "OU_609",
+      "name": "Kondiama MCHP",
+      "id": "kRWIof0qPJj"
+    },
+    {
+      "code": "OU_2732",
+      "name": "Barlie MCHP",
+      "id": "y5hLlID8ihI"
+    }
+  ],
+  "displayName": "Hamza Abd",
+  "name": "Hamza Abd",
+  "email": "hamza@gmail.com",
+  "phoneNumber": "772121233",
+  "userRoles": [
+    {
+      "name": "testNMCP",
+      "id": "AjU98sdqjxy"
+    }
+  ],
+  "programs": [
+    "MoUd5BTQ3lY",
+    "bMcwwoVnbSR",
+    "VBqh0ynB2wv"
+  ],
+  "authorities": [
+    "F_ENROLLMENT_CASCADE_DELETE",
+    "F_EXPORT_EVENTS",
+    "M_dhis-web-capture",
+    "M_dhis-web-dataentry",
+    "M_dhis-web-user",
+    "M_dhis-web-data-visualizer",
+    "M_dhis-web-tracker-capture",
+    "M_dhis-web-translations",
+    "M_dhis-web-import-export",
+    "F_TEI_CASCADE_DELETE",
+    "F_METADATA_EXPORT",
+    "F_EXPORT_DATA"
+  ],
+  "dataSets": [
+    "Nyh6laLdBEJ",
+    "j38YW1Am7he",
+    "aLpVgfXiz0f",
+    "YFTk3VdO9av",
+    "Rl58JxmKJo2",
+    "eZDhcZi6FLP",
+    "N4fIX1HL3TQ",
+    "EDzMBk0RRji",
+    "TuL8IOPzpHh",
+    "ce7DSxx5H2I",
+    "EKWVBc5C0ms",
+    "PLq9sJluXvc",
+    "ULowA8V3ucd",
+    "QX4ZTUbOt3a",
+    "pBOMPrpg1QX",
+    "OsPTWNqq26W",
+    "V8MHeZHIrcP",
+    "YZhd4nu3mzY",
+    "Y8gAn9DfAGU",
+    "vc6nF5yZsPR",
+    "Lpw6GcnTrmS",
+    "lyLU2wR22tC",
+    "VTdjfLXXmoi",
+    "SF8FDSqw30D",
+    "BfMAe6Itzgt"
+  ]
+}
