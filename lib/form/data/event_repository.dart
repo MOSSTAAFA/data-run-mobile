@@ -14,21 +14,15 @@ import 'package:d2_remote/modules/metadata/program/entities/program_stage_data_e
 import 'package:d2_remote/modules/metadata/program/entities/program_stage_section.entity.dart';
 import 'package:d2_remote/shared/utilities/sort_order.util.dart';
 import 'package:flutter/foundation.dart';
-import 'package:mass_pro/commons/extensions/string_extension.dart';
-import 'package:mass_pro/commons/extensions/value_extensions.dart';
-import 'package:mass_pro/form/data/data_entry_base_repository.dart';
-import 'package:mass_pro/form/model/field_ui_model.dart';
-import 'package:mass_pro/form/model/option_set_configuration.dart';
-import 'package:mass_pro/form/ui/field_view_model_factory.dart';
+
+import '../../commons/extensions/string_extension.dart';
+import '../../commons/extensions/value_extensions.dart';
+import '../model/field_ui_model.dart';
+import '../model/option_set_configuration.dart';
+import '../ui/field_view_model_factory.dart';
+import 'data_entry_base_repository.dart';
 
 class EventRepository extends DataEntryBaseRepository {
-  final String eventUid;
-
-  Future<Event?>? _event;
-  Future<List<ProgramStageSection>> _programStageSections =
-      Future.value(<ProgramStageSection>[]);
-  Future<Map<String, ProgramStageSection>> _sectionMap = Future.value({});
-
   EventRepository({
     required FieldViewModelFactory fieldFactory,
     required this.eventUid,
@@ -43,6 +37,13 @@ class EventRepository extends DataEntryBaseRepository {
     _sectionMap = _programStageSections.then((sections) =>
         {for (ProgramStageSection section in sections) section.id!: section});
   }
+
+  final String eventUid;
+
+  Future<Event?>? _event;
+  Future<List<ProgramStageSection>> _programStageSections =
+      Future.value(<ProgramStageSection>[]);
+  Future<Map<String, ProgramStageSection>> _sectionMap = Future.value({});
 
   @override
   bool isEvent() {
@@ -70,7 +71,7 @@ class EventRepository extends DataEntryBaseRepository {
 
   Future<List<FieldUiModel>> _getFieldsForMultipleSections() async {
     final Event event = (await _event)!;
-    List<FieldUiModel> fields = [];
+    final List<FieldUiModel> fields = [];
     final sectionMap = await _sectionMap;
     for (final programStageSection in sectionMap.values) {
       fields.add(transformSection(
@@ -121,8 +122,10 @@ class EventRepository extends DataEntryBaseRepository {
         .byId(programStageDataElement.dataElementId)
         .getOne();
 
-    final EventDataValueQuery valueRepository = D2Remote.trackerModule.eventDataValue
-        .byEvent(eventUid).byDataElement(de.id!);
+    final EventDataValueQuery valueRepository = D2Remote
+        .trackerModule.eventDataValue
+        .byEvent(eventUid)
+        .byDataElement(de.id!);
 
     ProgramStageSection? programStageSection;
     final sectionMapValues = (await _sectionMap).values;
@@ -145,7 +148,8 @@ class EventRepository extends DataEntryBaseRepository {
 
     final String? friendlyValue = await eventDataValue?.userFriendlyValue();
 
-    final bool allowFutureDates = programStageDataElement.allowFutureDate ?? false;
+    final bool allowFutureDates =
+        programStageDataElement.allowFutureDate ?? false;
     final String? formName = de.formName;
     final String? description = de.description;
 
@@ -173,7 +177,7 @@ class EventRepository extends DataEntryBaseRepository {
     ValueTypeDeviceRendering?
         fieldRendering; // = _getValueTypeDeviceRendering(programStageDataElement);
     // var objectStyle = getObjectStyle(de);
-    String error = ''; //checkConflicts(de.uid(), dataValue);
+    final String error = ''; //checkConflicts(de.uid(), dataValue);
     final isOrgUnit = valueType == ValueType.ORGANISATION_UNIT;
 
     final isDate = valueType != null && valueType.isDate;

@@ -3,14 +3,14 @@ import 'dart:async';
 import 'package:d2_remote/core/mp/enrollment/enrollment_status.dart';
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/data/tracker/entities/enrollment.entity.dart';
+import 'package:d2_remote/modules/data/tracker/models/geometry.dart';
 import 'package:d2_remote/shared/utilities/merge_mode.util.dart';
 import 'package:d2_remote/shared/utilities/save_option.util.dart';
-import 'package:d2_remote/modules/data/tracker/models/geometry.dart';
 
 class EnrollmentObjectRepository {
-  final String uid;
-
   EnrollmentObjectRepository(this.uid);
+
+  final String uid;
 
   Future<void> updateObject(Enrollment enrollment) async {
     D2Remote.trackerModule.enrollment.mergeMode = MergeMode.Merge;
@@ -86,6 +86,6 @@ class EnrollmentObjectRepository {
   }
 
   Future<Enrollment?> getEnrollment() async {
-    return await D2Remote.trackerModule.enrollment.byId(uid).getOne();
+    return D2Remote.trackerModule.enrollment.byId(uid).getOne();
   }
 }

@@ -6,23 +6,23 @@ import 'package:d2_remote/modules/metadata/program/entities/tracked_entity_attri
 import 'package:d2_remote/modules/metadata/program/entities/tracked_entity_type_attribute.entity.dart';
 import 'package:d2_remote/shared/utilities/sort_order.util.dart';
 import 'package:dartx/dartx_io.dart';
-import 'package:mass_pro/form/data/data_entry_base_repository.dart';
-import 'package:mass_pro/form/model/field_ui_model.dart';
-import 'package:mass_pro/form/model/option_set_configuration.dart';
-import 'package:mass_pro/form/ui/field_view_model_factory.dart';
+
+import '../model/field_ui_model.dart';
+import '../model/option_set_configuration.dart';
+import '../ui/field_view_model_factory.dart';
+import 'data_entry_base_repository.dart';
 
 class SearchRepository extends DataEntryBaseRepository {
-  final FieldViewModelFactory fieldViewModelFactory;
-  String? programUid;
-  final String teiTypeUid;
-  final Map<String, String> currentSearchValues;
-
   SearchRepository(
       {required this.fieldViewModelFactory,
       this.programUid,
       required this.teiTypeUid,
       required this.currentSearchValues})
       : super(fieldViewModelFactory);
+  final FieldViewModelFactory fieldViewModelFactory;
+  String? programUid;
+  final String teiTypeUid;
+  final Map<String, String> currentSearchValues;
 
   @override
   Future<List<FieldUiModel>> list() async {
@@ -49,9 +49,9 @@ class SearchRepository extends DataEntryBaseRepository {
         .where(attribute: 'searchable', value: true)
         .get();
 
-    List<FieldUiModel> fields = [];
+    final List<FieldUiModel> fields = [];
 
-    for (var typeAttribute in teTypeAttributes) {
+    for (final typeAttribute in teTypeAttributes) {
       final TrackedEntityAttribute attribute = (await D2Remote
           .programModule.trackedEntityAttribute
           .byId(typeAttribute.id!)
@@ -85,17 +85,19 @@ class SearchRepository extends DataEntryBaseRepository {
   }
 
   Future<List<FieldUiModel>> programTrackedEntityAttributes() async {
-    final List<ProgramTrackedEntityAttribute> searchableAttributes = (await D2Remote
-            .programModule.programTrackedEntityAttribute
-            .byProgram(programUid ?? '')
-            .get())
-        .filter((programAttribute) =>
-            programAttribute.searchable! || programAttribute.isUnique == true)
-        .toList(growable: false);
+    final List<ProgramTrackedEntityAttribute> searchableAttributes =
+        (await D2Remote
+                .programModule.programTrackedEntityAttribute
+                .byProgram(programUid ?? '')
+                .get())
+            .filter((programAttribute) =>
+                programAttribute.searchable! ||
+                programAttribute.isUnique == true)
+            .toList(growable: false);
 
-    List<FieldUiModel> fields = [];
+    final List<FieldUiModel> fields = [];
 
-    for (var programAttribute in searchableAttributes) {
+    for (final programAttribute in searchableAttributes) {
       final TrackedEntityAttribute attribute = (await D2Remote
           .programModule.trackedEntityAttribute
           .byId(programAttribute.attribute)

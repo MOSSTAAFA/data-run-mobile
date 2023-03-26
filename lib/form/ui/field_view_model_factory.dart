@@ -4,8 +4,8 @@ import 'package:d2_remote/core/common/value_type_device_rendering.dart';
 import 'package:d2_remote/core/program/section_rendering_type.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_tracked_entity_attribute.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/tracked_entity_attribute.entity.dart';
-import 'package:mass_pro/form/model/field_ui_model.dart';
-import 'package:mass_pro/form/model/option_set_configuration.dart';
+import '../model/field_ui_model.dart';
+import '../model/option_set_configuration.dart';
 
 abstract class FieldViewModelFactory {
   FieldViewModelFactory();

@@ -1,4 +1,6 @@
+import 'package:d2_remote/d2_remote.dart';
 import 'package:flutter/material.dart';
+import 'package:mass_pro/test_set_up.dart';
 
 import 'main/l10n/app_localizations.dart';
 
@@ -11,6 +13,9 @@ extension NavigatorKeyUtils on GlobalKey<NavigatorState> {
 }
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  D2Remote.initialize();
+
   runApp(const MyApp());
 }
 

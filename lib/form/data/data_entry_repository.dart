@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:mass_pro/form/model/field_ui_model.dart';
+import '../model/field_ui_model.dart';
 
 abstract class DataEntryRepository {
 

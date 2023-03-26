@@ -1,4 +1,4 @@
-import 'package:mass_pro/core/event/event_status.dart';
+import 'event_status.dart';
 
 extension ToEventStatusExtension on String? {
   EventStatus? get toStatus {

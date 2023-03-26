@@ -1,15 +1,17 @@
 import 'package:d2_remote/core/program/section_rendering_type.dart';
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/metadata/option_set/entities/option_group.entity.dart';
-import 'package:mass_pro/form/data/data_entry_repository.dart';
-import 'package:mass_pro/form/model/field_ui_model.dart';
-import 'package:mass_pro/form/ui/field_view_model_factory.dart';
+import 'package:d2_remote/modules/metadata/option_set/entities/option_group_option.entity.dart';
+
+import '../model/field_ui_model.dart';
+import '../ui/field_view_model_factory.dart';
+import 'data_entry_repository.dart';
 
 abstract class DataEntryBaseRepository implements DataEntryRepository {
+  DataEntryBaseRepository(this.fieldFactory);
+
   // D2Remote d2;
   final FieldViewModelFactory fieldFactory;
-
-  DataEntryBaseRepository(this.fieldFactory);
 
   @override
   FieldUiModel updateSection(FieldUiModel sectionToUpdate, bool isSectionOpen,
@@ -25,9 +27,9 @@ abstract class DataEntryBaseRepository implements DataEntryRepository {
       List<String> optionsToHide,
       List<String> optionGroupsToHide,
       List<String> optionGroupsToShow) async {
-    List<String> optionsInGroupsToHide =
+    final List<String> optionsInGroupsToHide =
         await _optionsFromGroups(optionGroupsToHide);
-    List<String> optionsInGroupsToShow =
+    final List<String> optionsInGroupsToShow =
         await _optionsFromGroups(optionGroupsToShow);
     if (fieldUiModel.optionSet != null) {
       fieldUiModel.optionSetConfiguration?.updateOptionsToHideAndShow(
@@ -42,11 +44,11 @@ abstract class DataEntryBaseRepository implements DataEntryRepository {
 
   Future<List<String>> _optionsFromGroups(List<String> optionGroupUids) async {
     if (optionGroupUids.isEmpty) return [];
-    List<String> optionsFromGroups = [];
-    List<OptionGroup> optionGroups =
+    final List<String> optionsFromGroups = [];
+    final List<OptionGroup> optionGroups =
         await D2Remote.optionModule.optionGroup.byIds(optionGroupUids).get();
-    for (var optionGroup in optionGroups) {
-      for (var option in optionGroup.options! /*?? []*/) {
+    for (final OptionGroup optionGroup in optionGroups) {
+      for (final OptionGroupOption option in optionGroup.options! /*?? []*/) {
         if (option.id != null && !optionsFromGroups.contains(option.id)) {
           // optionsFromGroups.add(option.id!.split('_').last);
           optionsFromGroups.add(option.option);

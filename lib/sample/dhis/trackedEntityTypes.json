@@ -1,0 +1,664 @@
+{
+  "trackedEntityTypes": [
+    {
+      "lastUpdated": "2014-03-26T13:48:03.209",
+      "id": "bVkFYAvoUCP",
+      "href": "https://play.dhis2.org/2.38.3/api/trackedEntityTypes/bVkFYAvoUCP",
+      "created": "2014-03-12T14:17:00.183",
+      "name": "ARV commodity",
+      "displayName": "ARV commodity",
+      "publicAccess": "rwrw----",
+      "description": "ARV commodity",
+      "externalAccess": false,
+      "allowAuditLog": false,
+      "featureType": "NONE",
+      "minAttributesRequiredToSearch": 1,
+      "displayDescription": "ARV commodity",
+      "displayFormName": "ARV commodity",
+      "maxTeiCountToReturn": 0,
+      "favorite": false,
+      "access": {
+        "read": true,
+        "update": false,
+        "externalize": false,
+        "delete": false,
+        "write": false,
+        "manage": false,
+        "data": {
+          "read": true,
+          "write": true
+        }
+      },
+      "sharing": {
+        "userGroups": {},
+        "external": false,
+        "public": "rwrw----",
+        "users": {}
+      },
+      "favorites": [],
+      "trackedEntityTypeAttributes": [],
+      "translations": [],
+      "userGroupAccesses": [],
+      "attributeValues": [],
+      "userAccesses": []
+    },
+    {
+      "lastUpdated": "2014-04-14T13:54:19.781",
+      "id": "UinS6TQnkUi",
+      "href": "https://play.dhis2.org/2.38.3/api/trackedEntityTypes/UinS6TQnkUi",
+      "created": "2014-04-14T13:54:19.781",
+      "name": "Borehole / well",
+      "displayName": "Borehole / well",
+      "publicAccess": "rwrw----",
+      "description": "Borehole / well",
+      "externalAccess": false,
+      "allowAuditLog": false,
+      "featureType": "NONE",
+      "minAttributesRequiredToSearch": 1,
+      "displayDescription": "Borehole / well",
+      "displayFormName": "Borehole / well",
+      "maxTeiCountToReturn": 0,
+      "favorite": false,
+      "access": {
+        "read": true,
+        "update": false,
+        "externalize": false,
+        "delete": false,
+        "write": false,
+        "manage": false,
+        "data": {
+          "read": true,
+          "write": true
+        }
+      },
+      "sharing": {
+        "userGroups": {},
+        "external": false,
+        "public": "rwrw----",
+        "users": {}
+      },
+      "favorites": [],
+      "trackedEntityTypeAttributes": [],
+      "translations": [],
+      "userGroupAccesses": [],
+      "attributeValues": [],
+      "userAccesses": []
+    },
+    {
+      "lastUpdated": "2018-12-03T13:22:31.700",
+      "id": "EawlYwOO61R",
+      "href": "https://play.dhis2.org/2.38.3/api/trackedEntityTypes/EawlYwOO61R",
+      "created": "2014-04-14T13:54:40.854",
+      "name": "Building",
+      "displayName": "Building",
+      "publicAccess": "rwrw----",
+      "description": "Building",
+      "externalAccess": false,
+      "allowAuditLog": false,
+      "featureType": "POLYGON",
+      "minAttributesRequiredToSearch": 1,
+      "displayDescription": "Building",
+      "displayFormName": "Building",
+      "maxTeiCountToReturn": 0,
+      "favorite": false,
+      "access": {
+        "read": true,
+        "update": false,
+        "externalize": false,
+        "delete": false,
+        "write": false,
+        "manage": false,
+        "data": {
+          "read": true,
+          "write": true
+        }
+      },
+      "lastUpdatedBy": {
+        "displayName": "John Traore",
+        "name": "John Traore",
+        "id": "xE7jOejl9FI",
+        "username": "admin"
+      },
+      "sharing": {
+        "owner": "xE7jOejl9FI",
+        "userGroups": {},
+        "external": false,
+        "public": "rwrw----",
+        "users": {}
+      },
+      "createdBy": {
+        "displayName": "John Traore",
+        "name": "John Traore",
+        "id": "xE7jOejl9FI",
+        "username": "admin"
+      },
+      "user": {
+        "displayName": "John Traore",
+        "name": "John Traore",
+        "id": "xE7jOejl9FI",
+        "username": "admin"
+      },
+      "favorites": [],
+      "trackedEntityTypeAttributes": [
+        {
+          "lastUpdated": "2018-12-03T13:22:31.701",
+          "id": "q0ZyevDvWLc",
+          "created": "2018-12-03T13:22:31.648",
+          "displayName": "Building Address",
+          "displayShortName": "null Address",
+          "externalAccess": false,
+          "valueType": "TEXT",
+          "searchable": false,
+          "displayInList": false,
+          "name": "Building Address",
+          "favorite": false,
+          "access": {
+            "read": true,
+            "update": true,
+            "externalize": false,
+            "delete": true,
+            "write": true,
+            "manage": true
+          },
+          "trackedEntityAttribute": {
+            "id": "VqEFza8wbwA"
+          },
+          "sharing": {
+            "userGroups": {},
+            "external": false,
+            "users": {}
+          },
+          "trackedEntityType": {
+            "id": "EawlYwOO61R"
+          },
+          "favorites": [],
+          "translations": [],
+          "userGroupAccesses": [],
+          "attributeValues": [],
+          "userAccesses": []
+        },
+        {
+          "lastUpdated": "2018-12-03T13:22:31.703",
+          "id": "QEhjWAf9gq5",
+          "created": "2018-12-03T13:22:31.649",
+          "displayName": "Building City",
+          "displayShortName": "null City",
+          "externalAccess": false,
+          "valueType": "TEXT",
+          "searchable": false,
+          "displayInList": false,
+          "name": "Building City",
+          "favorite": false,
+          "access": {
+            "read": true,
+            "update": true,
+            "externalize": false,
+            "delete": true,
+            "write": true,
+            "manage": true
+          },
+          "trackedEntityAttribute": {
+            "id": "FO4sWYJ64LQ"
+          },
+          "sharing": {
+            "userGroups": {},
+            "external": false,
+            "users": {}
+          },
+          "trackedEntityType": {
+            "id": "EawlYwOO61R"
+          },
+          "favorites": [],
+          "translations": [],
+          "userGroupAccesses": [],
+          "attributeValues": [],
+          "userAccesses": []
+        }
+      ],
+      "translations": [],
+      "userGroupAccesses": [],
+      "attributeValues": [],
+      "userAccesses": []
+    },
+    {
+      "lastUpdated": "2014-04-14T13:55:29.373",
+      "id": "RNaVTQTPR8z",
+      "href": "https://play.dhis2.org/2.38.3/api/trackedEntityTypes/RNaVTQTPR8z",
+      "created": "2014-04-14T13:55:29.373",
+      "name": "Drug batch",
+      "displayName": "Drug batch",
+      "publicAccess": "rwrw----",
+      "description": "Drug batch",
+      "externalAccess": false,
+      "allowAuditLog": false,
+      "featureType": "NONE",
+      "minAttributesRequiredToSearch": 1,
+      "displayDescription": "Drug batch",
+      "displayFormName": "Drug batch",
+      "maxTeiCountToReturn": 0,
+      "favorite": false,
+      "access": {
+        "read": true,
+        "update": false,
+        "externalize": false,
+        "delete": false,
+        "write": false,
+        "manage": false,
+        "data": {
+          "read": true,
+          "write": true
+        }
+      },
+      "sharing": {
+        "userGroups": {},
+        "external": false,
+        "public": "rwrw----",
+        "users": {}
+      },
+      "favorites": [],
+      "trackedEntityTypeAttributes": [],
+      "translations": [],
+      "userGroupAccesses": [],
+      "attributeValues": [],
+      "userAccesses": []
+    },
+    {
+      "lastUpdated": "2014-11-14T15:40:18.874",
+      "id": "hyKZglfYp0C",
+      "href": "https://play.dhis2.org/2.38.3/api/trackedEntityTypes/hyKZglfYp0C",
+      "created": "2014-11-14T15:40:18.874",
+      "name": "Equipment",
+      "displayName": "Equipment",
+      "publicAccess": "rwrw----",
+      "description": "Equipment",
+      "externalAccess": false,
+      "allowAuditLog": false,
+      "featureType": "NONE",
+      "minAttributesRequiredToSearch": 1,
+      "displayDescription": "Equipment",
+      "displayFormName": "Equipment",
+      "maxTeiCountToReturn": 0,
+      "favorite": false,
+      "access": {
+        "read": true,
+        "update": false,
+        "externalize": false,
+        "delete": false,
+        "write": false,
+        "manage": false,
+        "data": {
+          "read": true,
+          "write": true
+        }
+      },
+      "sharing": {
+        "userGroups": {},
+        "external": false,
+        "public": "rwrw----",
+        "users": {}
+      },
+      "favorites": [],
+      "trackedEntityTypeAttributes": [],
+      "translations": [],
+      "userGroupAccesses": [],
+      "attributeValues": [],
+      "userAccesses": []
+    },
+    {
+      "lastUpdated": "2019-08-21T13:08:47.610",
+      "id": "We9I19a3vO1",
+      "href": "https://play.dhis2.org/2.38.3/api/trackedEntityTypes/We9I19a3vO1",
+      "created": "2017-06-28T14:47:33.308",
+      "name": "Focus area",
+      "displayName": "Focus area",
+      "publicAccess": "rwrw----",
+      "externalAccess": false,
+      "allowAuditLog": false,
+      "featureType": "POLYGON",
+      "minAttributesRequiredToSearch": 1,
+      "displayFormName": "Focus area",
+      "maxTeiCountToReturn": 0,
+      "favorite": false,
+      "access": {
+        "read": true,
+        "update": false,
+        "externalize": false,
+        "delete": false,
+        "write": false,
+        "manage": false,
+        "data": {
+          "read": true,
+          "write": true
+        }
+      },
+      "lastUpdatedBy": {
+        "displayName": "Tom Wakiki",
+        "name": "Tom Wakiki",
+        "id": "GOLswS44mh8",
+        "username": "system"
+      },
+      "sharing": {
+        "owner": "xE7jOejl9FI",
+        "userGroups": {},
+        "external": false,
+        "public": "rwrw----",
+        "users": {}
+      },
+      "createdBy": {
+        "displayName": "John Traore",
+        "name": "John Traore",
+        "id": "xE7jOejl9FI",
+        "username": "admin"
+      },
+      "style": {
+        "color": "#d32f2f",
+        "icon": "circle_medium_outline"
+      },
+      "user": {
+        "displayName": "John Traore",
+        "name": "John Traore",
+        "id": "xE7jOejl9FI",
+        "username": "admin"
+      },
+      "favorites": [],
+      "trackedEntityTypeAttributes": [],
+      "translations": [],
+      "userGroupAccesses": [],
+      "attributeValues": [],
+      "userAccesses": []
+    },
+    {
+      "lastUpdated": "2014-04-14T13:54:54.497",
+      "id": "kIeke8tAQnd",
+      "href": "https://play.dhis2.org/2.38.3/api/trackedEntityTypes/kIeke8tAQnd",
+      "created": "2014-04-14T13:54:54.497",
+      "name": "Lab sample",
+      "displayName": "Lab sample",
+      "publicAccess": "rwrw----",
+      "description": "Lab sample",
+      "externalAccess": false,
+      "allowAuditLog": false,
+      "featureType": "NONE",
+      "minAttributesRequiredToSearch": 1,
+      "displayDescription": "Lab sample",
+      "displayFormName": "Lab sample",
+      "maxTeiCountToReturn": 0,
+      "favorite": false,
+      "access": {
+        "read": true,
+        "update": false,
+        "externalize": false,
+        "delete": false,
+        "write": false,
+        "manage": false,
+        "data": {
+          "read": true,
+          "write": true
+        }
+      },
+      "sharing": {
+        "userGroups": {},
+        "external": false,
+        "public": "rwrw----",
+        "users": {}
+      },
+      "favorites": [],
+      "trackedEntityTypeAttributes": [],
+      "translations": [],
+      "userGroupAccesses": [],
+      "attributeValues": [],
+      "userAccesses": []
+    },
+    {
+      "lastUpdated": "2019-08-21T13:08:06.719",
+      "id": "Zy2SEgA61ys",
+      "href": "https://play.dhis2.org/2.38.3/api/trackedEntityTypes/Zy2SEgA61ys",
+      "created": "2018-07-16T08:10:29.725",
+      "name": "Malaria Entity",
+      "displayName": "Malaria Entity",
+      "publicAccess": "rwrw----",
+      "description": "Case",
+      "externalAccess": false,
+      "allowAuditLog": false,
+      "featureType": "POINT",
+      "minAttributesRequiredToSearch": 1,
+      "displayDescription": "Case",
+      "displayFormName": "Malaria Entity",
+      "maxTeiCountToReturn": 0,
+      "favorite": false,
+      "access": {
+        "read": true,
+        "update": false,
+        "externalize": false,
+        "delete": false,
+        "write": false,
+        "manage": false,
+        "data": {
+          "read": true,
+          "write": true
+        }
+      },
+      "lastUpdatedBy": {
+        "displayName": "Tom Wakiki",
+        "name": "Tom Wakiki",
+        "id": "GOLswS44mh8",
+        "username": "system"
+      },
+      "sharing": {
+        "owner": "xE7jOejl9FI",
+        "userGroups": {},
+        "external": false,
+        "public": "rwrw----",
+        "users": {}
+      },
+      "createdBy": {
+        "displayName": "John Traore",
+        "name": "John Traore",
+        "id": "xE7jOejl9FI",
+        "username": "admin"
+      },
+      "style": {
+        "color": "#64b5f6",
+        "icon": "mosquito_positive"
+      },
+      "user": {
+        "displayName": "John Traore",
+        "name": "John Traore",
+        "id": "xE7jOejl9FI",
+        "username": "admin"
+      },
+      "favorites": [],
+      "trackedEntityTypeAttributes": [],
+      "translations": [],
+      "userGroupAccesses": [],
+      "attributeValues": [],
+      "userAccesses": []
+    },
+    {
+      "lastUpdated": "2023-03-25T23:30:28.303",
+      "id": "nEenWmSyUEp",
+      "href": "https://play.dhis2.org/2.38.3/api/trackedEntityTypes/nEenWmSyUEp",
+      "created": "2014-08-20T12:28:56.409",
+      "name": "Person",
+      "displayName": "Person",
+      "publicAccess": "rwrw----",
+      "description": "Person",
+      "externalAccess": false,
+      "allowAuditLog": false,
+      "featureType": "NONE",
+      "minAttributesRequiredToSearch": 1,
+      "displayDescription": "Person",
+      "displayFormName": "Person",
+      "maxTeiCountToReturn": 0,
+      "favorite": false,
+      "access": {
+        "read": true,
+        "update": false,
+        "externalize": false,
+        "delete": false,
+        "write": false,
+        "manage": false,
+        "data": {
+          "read": true,
+          "write": true
+        }
+      },
+      "lastUpdatedBy": {
+        "displayName": "John Traore",
+        "name": "John Traore",
+        "id": "xE7jOejl9FI",
+        "username": "admin"
+      },
+      "sharing": {
+        "owner": "xE7jOejl9FI",
+        "userGroups": {
+          "X4D87P4k6J6": {
+            "displayName": "testNMCP",
+            "access": "rwrw----",
+            "id": "X4D87P4k6J6"
+          }
+        },
+        "external": false,
+        "public": "rwrw----",
+        "users": {}
+      },
+      "createdBy": {
+        "displayName": "John Traore",
+        "name": "John Traore",
+        "id": "xE7jOejl9FI",
+        "username": "admin"
+      },
+      "user": {
+        "displayName": "John Traore",
+        "name": "John Traore",
+        "id": "xE7jOejl9FI",
+        "username": "admin"
+      },
+      "favorites": [],
+      "trackedEntityTypeAttributes": [
+        {
+          "lastUpdated": "2018-02-21T13:54:18.693",
+          "id": "Jdd8hMStmvF",
+          "created": "2018-02-21T13:54:18.324",
+          "displayName": "Person Unique ID",
+          "displayShortName": "null Unique identifier",
+          "externalAccess": false,
+          "valueType": "TEXT",
+          "searchable": false,
+          "displayInList": false,
+          "name": "Person Unique ID",
+          "favorite": false,
+          "access": {
+            "read": true,
+            "update": true,
+            "externalize": false,
+            "delete": true,
+            "write": true,
+            "manage": true
+          },
+          "trackedEntityAttribute": {
+            "id": "lZGmxYbs97q"
+          },
+          "sharing": {
+            "userGroups": {},
+            "external": false,
+            "users": {}
+          },
+          "trackedEntityType": {
+            "id": "nEenWmSyUEp"
+          },
+          "favorites": [],
+          "translations": [],
+          "userGroupAccesses": [],
+          "attributeValues": [],
+          "userAccesses": []
+        },
+        {
+          "lastUpdated": "2018-02-21T13:54:18.694",
+          "id": "EGn5VqU7pHv",
+          "created": "2018-02-21T13:54:18.324",
+          "displayName": "Person First name",
+          "displayShortName": "null First name",
+          "externalAccess": false,
+          "valueType": "TEXT",
+          "searchable": true,
+          "displayInList": true,
+          "name": "Person First name",
+          "favorite": false,
+          "access": {
+            "read": true,
+            "update": true,
+            "externalize": false,
+            "delete": true,
+            "write": true,
+            "manage": true
+          },
+          "trackedEntityAttribute": {
+            "id": "w75KJ2mc4zz"
+          },
+          "sharing": {
+            "userGroups": {},
+            "external": false,
+            "users": {}
+          },
+          "trackedEntityType": {
+            "id": "nEenWmSyUEp"
+          },
+          "favorites": [],
+          "translations": [],
+          "userGroupAccesses": [],
+          "attributeValues": [],
+          "userAccesses": []
+        },
+        {
+          "lastUpdated": "2018-02-21T13:54:18.694",
+          "id": "JBJ3AWsrg9P",
+          "created": "2018-02-21T13:54:18.324",
+          "displayName": "Person Last name",
+          "displayShortName": "null Last name",
+          "externalAccess": false,
+          "valueType": "TEXT",
+          "searchable": true,
+          "displayInList": true,
+          "name": "Person Last name",
+          "favorite": false,
+          "access": {
+            "read": true,
+            "update": true,
+            "externalize": false,
+            "delete": true,
+            "write": true,
+            "manage": true
+          },
+          "trackedEntityAttribute": {
+            "id": "zDhUuAYrxNC"
+          },
+          "sharing": {
+            "userGroups": {},
+            "external": false,
+            "users": {}
+          },
+          "trackedEntityType": {
+            "id": "nEenWmSyUEp"
+          },
+          "favorites": [],
+          "translations": [],
+          "userGroupAccesses": [],
+          "attributeValues": [],
+          "userAccesses": []
+        }
+      ],
+      "translations": [],
+      "userGroupAccesses": [
+        {
+          "access": "rwrw----",
+          "userGroupUid": "X4D87P4k6J6",
+          "displayName": "testNMCP",
+          "id": "X4D87P4k6J6"
+        }
+      ],
+      "attributeValues": [],
+      "userAccesses": []
+    }
+  ]
+}

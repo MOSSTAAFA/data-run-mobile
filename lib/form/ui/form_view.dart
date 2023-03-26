@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:mass_pro/commons/extensions/standard_extensions.dart';
-import 'package:mass_pro/form/data/data_integrity_check_result.dart';
-import 'package:mass_pro/form/model/field_ui_model.dart';
-import 'package:mass_pro/form/model/form_repository_records.dart';
-import 'package:mass_pro/form/model/info_ui_model.dart';
-import 'package:mass_pro/form/model/row_action.dart';
-import 'package:mass_pro/form/ui/event/list_view_ui_events.dart';
-import 'package:mass_pro/form/ui/form_view_model.dart';
-import 'package:mass_pro/form/ui/provider/enrollment_result_dialog_ui_provider.dart';
+import '../../commons/extensions/standard_extensions.dart';
+import '../data/data_integrity_check_result.dart';
+import '../model/field_ui_model.dart';
+import '../model/form_repository_records.dart';
+import '../model/info_ui_model.dart';
+import '../model/row_action.dart';
+import 'event/list_view_ui_events.dart';
+import 'form_view_model.dart';
+import 'provider/enrollment_result_dialog_ui_provider.dart';
 
 class FormView extends StatelessWidget {
   // final LocationProvider? locationProvider;

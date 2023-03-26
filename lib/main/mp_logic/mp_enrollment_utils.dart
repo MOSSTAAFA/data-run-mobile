@@ -5,9 +5,9 @@ import 'package:d2_remote/modules/data/tracker/entities/event.entity.dart';
 import 'package:d2_remote/modules/data/tracker/entities/tracked_entity_attribute_value.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_tracked_entity_attribute.entity.dart';
 import 'package:dartx/dartx_io.dart';
-import 'package:mass_pro/core/enrollment/enrollment_extensions.dart';
-import 'package:mass_pro/main/mp_logic/enrollment_event_generator.dart';
-import 'package:mass_pro/main/mp_logic/enrollment_event_generator_repository_impl.dart';
+import '../../core/enrollment/enrollment_extensions.dart';
+import 'enrollment_event_generator.dart';
+import 'enrollment_event_generator_repository_impl.dart';
 
 class MpEnrollmentUtils {
   const MpEnrollmentUtils();
@@ -54,7 +54,7 @@ class MpEnrollmentUtils {
               .isNotEmpty;
       return !hasValue;
     } else {
-      // TODO NMC add Activity
+      // TODO(NMC): add Activity
       final String? enrollingOrgUnit = await getOrgUnit(teiUid);
 
       // var hasValue = getTrackedEntityAttributeValues(uid, value, teiUid)
@@ -79,7 +79,7 @@ class MpEnrollmentUtils {
 
   Future<Pair<String, String?>> generateEnrollmentEvents(
       String enrollmentUid) async {
-    return await EnrollmentEventGenerator(
+    return const EnrollmentEventGenerator(
             EnrollmentEventGeneratorRepositoryImpl())
         .generateEnrollmentEvents(enrollmentUid);
   }

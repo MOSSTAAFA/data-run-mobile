@@ -1,28 +1,24 @@
-import 'dart:io';
-
+import 'package:d2_remote/core/common/value_type.dart';
 import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dart';
 import 'package:dartx/dartx_io.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:mass_pro/commons/extensions/string_extension.dart';
-import 'package:mass_pro/form/model/Ui_render_type.dart';
-import 'package:mass_pro/form/model/field_ui_model.dart';
-import 'package:mass_pro/form/model/key_board_action_type.dart';
-import 'package:mass_pro/form/model/option_set_configuration.dart';
-import 'package:mass_pro/form/model/ui_event_type.dart';
-import 'package:mass_pro/form/ui/event/list_view_ui_events.dart';
-import 'package:mass_pro/form/ui/intent/form_intent.dart';
-import 'package:mass_pro/form/ui/event/ui_event_factory.dart';
-import 'package:d2_remote/core/common/value_type.dart';
-import 'package:mass_pro/form/ui/style/form_ui_model_style.dart';
+
+import '../ui/event/list_view_ui_events.dart';
+import '../ui/event/ui_event_factory.dart';
+import '../ui/intent/form_intent.dart';
+import '../ui/style/form_ui_model_style.dart';
+import 'Ui_render_type.dart';
+import 'field_ui_model.dart';
+import 'key_board_action_type.dart';
+import 'option_set_configuration.dart';
+import 'ui_event_type.dart';
 
 part 'section_ui_model_impl.freezed.dart';
 
 @unfreezed
 class SectionUiModelImpl with _$SectionUiModelImpl implements FieldUiModel {
-  @override
-  String get formattedLabel => label;
 
   factory SectionUiModelImpl(
       {required final String uid,
@@ -65,10 +61,12 @@ class SectionUiModelImpl with _$SectionUiModelImpl implements FieldUiModel {
       @Default(false) bool lastPositionShouldChangeHeight,
       Callback? callback}) = _SectionUiModelImpl;
 
+  SectionUiModelImpl._();
+  @override
+  String get formattedLabel => label;
+
   static const String SINGLE_SECTION_UID = 'SINGLE_SECTION_UID';
   static const String CLOSING_SECTION_UID = 'closing_section';
-
-  SectionUiModelImpl._();
 
   bool hasToShowDescriptionIcon(bool isTitleEllipsed) {
     return description != null && description?.isNotEmpty == true ||

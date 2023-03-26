@@ -1,12 +1,11 @@
-import 'package:mass_pro/form/data/form_repository.dart';
-import 'package:mass_pro/form/ui/form_view_model.dart';
-import 'package:mass_pro/form/ui/view_model/view_model.dart';
-import 'package:mass_pro/form/ui/view_model/view_model_provider.dart';
+import '../data/form_repository.dart';
+import 'form_view_model.dart';
+import 'view_model/view_model_provider.dart';
 
 class FormViewModelFactory implements ViewModelFactory<FormViewModel> {
-  final FormRepository _repository;
-
   const FormViewModelFactory(this._repository);
+
+  final FormRepository _repository;
 
   @override
   FormViewModel create() {

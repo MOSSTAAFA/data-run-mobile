@@ -1,12 +1,13 @@
 import 'package:d2_remote/core/common/value_type.dart';
 import 'package:flutter/material.dart';
-import 'package:mass_pro/form/ui/provider/hint_provider.dart';
-import 'package:mass_pro/main/l10n/app_localizations.dart';
+
+import '../../../main/l10n/app_localizations.dart';
+import 'hint_provider.dart';
 
 class HintProviderImpl implements HintProvider {
-  BuildContext context;
-
   HintProviderImpl(this.context);
+
+  BuildContext context;
 
   @override
   String provideDateHint(ValueType valueType) {

@@ -1,34 +1,34 @@
 import 'package:d2_remote/d2_remote.dart';
 import 'package:flutter/material.dart';
-import 'package:mass_pro/commons/date/entry_mode.dart';
-import 'package:mass_pro/commons/network/network_utils.dart';
-import 'package:mass_pro/commons/resources/resource_manager.dart';
-import 'package:mass_pro/core/enrollment/enrollment_object_repository.dart';
-import 'package:mass_pro/form/data/data_entry_repository.dart';
-import 'package:mass_pro/form/data/enrollment_repository.dart';
-import 'package:mass_pro/form/data/event_repository.dart';
-import 'package:mass_pro/form/data/form_repository.dart';
-import 'package:mass_pro/form/data/form_repository_impl.dart';
-import 'package:mass_pro/form/data/form_value_store.dart';
-import 'package:mass_pro/form/data/metadata/org_unit_configuration.dart';
-import 'package:mass_pro/form/data/metadata/option_set_configuration.dart';
-import 'package:mass_pro/form/data/search_option_set_option.dart';
-import 'package:mass_pro/form/data/search_repository.dart';
-import 'package:mass_pro/form/model/form_repository_records.dart';
-import 'package:mass_pro/form/ui/field_view_model_factory.dart';
-import 'package:mass_pro/form/ui/field_view_model_factory_impl.dart';
-import 'package:mass_pro/form/ui/form_view_model_factory.dart';
-import 'package:mass_pro/form/ui/layout_provider_impl.dart';
-import 'package:mass_pro/form/ui/provider/display_name_provider_impl.dart';
-import 'package:mass_pro/form/ui/provider/enrollment_form_labels_provider.dart';
-import 'package:mass_pro/form/ui/provider/hint_provider_impl.dart';
-import 'package:mass_pro/form/ui/provider/keyboard_action_provider_impl.dart';
-import 'package:mass_pro/form/ui/provider/ui_event_types_provider_impl.dart';
-import 'package:mass_pro/form/ui/provider/ui_style_provider.dart';
-import 'package:mass_pro/form/ui/provider/ui_style_provider_impl.dart';
-import 'package:mass_pro/form/ui/style/form_ui_model_color_factory_impl.dart';
-import 'package:mass_pro/form/ui/style/long_text_ui_color_factory_impl.dart';
-import 'package:mass_pro/form/ui/validation/field_error_message_provider.dart';
+import '../../commons/date/entry_mode.dart';
+import '../../commons/network/network_utils.dart';
+import '../../commons/resources/resource_manager.dart';
+import '../../core/enrollment/enrollment_object_repository.dart';
+import '../data/data_entry_repository.dart';
+import '../data/enrollment_repository.dart';
+import '../data/event_repository.dart';
+import '../data/form_repository.dart';
+import '../data/form_repository_impl.dart';
+import '../data/form_value_store.dart';
+import '../data/metadata/option_set_configuration.dart';
+import '../data/metadata/org_unit_configuration.dart';
+import '../data/search_option_set_option.dart';
+import '../data/search_repository.dart';
+import '../model/form_repository_records.dart';
+import '../ui/field_view_model_factory.dart';
+import '../ui/field_view_model_factory_impl.dart';
+import '../ui/form_view_model_factory.dart';
+import '../ui/layout_provider_impl.dart';
+import '../ui/provider/display_name_provider_impl.dart';
+import '../ui/provider/enrollment_form_labels_provider.dart';
+import '../ui/provider/hint_provider_impl.dart';
+import '../ui/provider/keyboard_action_provider_impl.dart';
+import '../ui/provider/ui_event_types_provider_impl.dart';
+import '../ui/provider/ui_style_provider.dart';
+import '../ui/provider/ui_style_provider_impl.dart';
+import '../ui/style/form_ui_model_color_factory_impl.dart';
+import '../ui/style/long_text_ui_color_factory_impl.dart';
+import '../ui/validation/field_error_message_provider.dart';
 
 // /// Function that returns a [BuiltValueToStringHelper].
 // typedef BuiltValueToStringHelperProvider = BuiltValueToStringHelper Function(
@@ -42,7 +42,6 @@ import 'package:mass_pro/form/ui/validation/field_error_message_provider.dart';
 //     (String className) => IndentingBuiltValueToStringHelper(className);
 
 class Injector {
-  static final Injector _instance = Injector._internal();
 
   // using a factory is important
   // because it promises to return _an_ object of this type
@@ -57,6 +56,7 @@ class Injector {
   Injector._internal() {
     // initialization logic
   }
+  static final Injector _instance = Injector._internal();
 
   FormViewModelFactory provideFormViewModelFactory(
       BuildContext context, FormRepositoryRecords repositoryRecords) {

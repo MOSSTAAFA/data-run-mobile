@@ -24,5 +24,5 @@ abstract class EnrollmentEventGeneratorRepository {
 
   Future<DateTime> periodStartingDate(PeriodType periodType, DateTime date);
 
-  void setEventDate(String eventUid, isScheduled, DateTime date);
+  Future<void> setEventDate(String eventUid, isScheduled, DateTime date);
 }

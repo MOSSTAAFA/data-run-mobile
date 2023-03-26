@@ -2,9 +2,7 @@ import 'dart:async';
 
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisation_unit.entity.dart';
-import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisation_unit_level.entity.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localization.dart';
 import 'package:get/get.dart';
 
 import '../../main/l10n/app_localizations.dart';
@@ -38,8 +36,6 @@ class OuSelectorDialog extends StatefulWidget {
   final String? selectedOrgUnit;
   late final List<OrgUnitItem> initialData;
   final OUSelectionType ouSelectionType;
-
-  final RxList<OrganisationUnit> _orgUnits = <OrganisationUnit>[].obs;
 
   @override
   State<OuSelectorDialog> createState() => _OuSelectorDialogState();
@@ -165,7 +161,7 @@ class _OuSelectorDialogState extends State<OuSelectorDialog> {
   }
 
   @override
-  Future<void> didChangeDependencies() async {
+  void didChangeDependencies() async {
     /// This method is most used by subclasses in cases when network fetches
     /// need to take place following a dependancy change which would otherwise
     /// prove too expensive to do for every build.

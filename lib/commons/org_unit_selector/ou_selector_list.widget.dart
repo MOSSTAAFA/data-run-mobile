@@ -60,6 +60,7 @@ class _OuSelectorListState extends State<OuSelectorList> {
               // TODO(NMC): this is moved from OuSelectorItem when clear button is pressed
               // it still in OuSelectorItem
               // if no change remove from OuSelectorItem and enable this
+              // Or make as a call back from item
               // if(selectedUid == null) {
               //   widget.items[index].name = null;
               //   widget.items[index].uid = null;

@@ -7,9 +7,9 @@ import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart'
 import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity.dart';
 import 'package:d2_remote/shared/utilities/save_option.util.dart';
 import 'package:d2_remote/shared/utilities/sort_order.util.dart';
-import 'package:mass_pro/core/event/event_projection.dart';
-import 'package:mass_pro/core/event/event_status.dart';
-import 'package:mass_pro/main/mp_logic/enrollment_event_generator_repository.dart';
+import '../../core/event/event_projection.dart';
+import '../../core/event/event_status.dart';
+import 'enrollment_event_generator_repository.dart';
 
 class EnrollmentEventGeneratorRepositoryImpl
     implements EnrollmentEventGeneratorRepository {
@@ -104,13 +104,15 @@ class EnrollmentEventGeneratorRepositoryImpl
           ..activity = activityUid
           ..organisationUnit = orgUnitUid)
         .build();
-    return await D2Remote.trackerModule.event.setData(eventToAdd).save();
+
+    await D2Remote.trackerModule.event.setData(eventToAdd).save();
+    return eventToAdd.id!;
   }
 
   @override
   Future<DateTime> periodStartingDate(
       PeriodType periodType, DateTime date) async {
-    // TODO NMC
+    // TODO(NMC): kk
     // return d2.periodModule().periodHelper()
     //     .blockingGetPeriodForPeriodTypeAndDate(periodType, date)
     //     .startDate()!!;
@@ -118,7 +120,7 @@ class EnrollmentEventGeneratorRepositoryImpl
   }
 
   @override
-  void setEventDate(String eventUid, isScheduled, DateTime date) async {
+  Future<void> setEventDate(String eventUid, isScheduled, DateTime date) async {
     final EventQuery eventRepository = D2Remote.trackerModule.event;
     final Event event = (await eventRepository.getOne())!;
 

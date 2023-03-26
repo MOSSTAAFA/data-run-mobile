@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:mass_pro/main/l10n/app_localizations.dart';
+import '../../main/l10n/app_localizations.dart';
 
 class ResourceManager {
   BuildContext context;

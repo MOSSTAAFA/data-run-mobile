@@ -5,7 +5,7 @@ class OrgUnitConfiguration {
   const OrgUnitConfiguration();
 
   Future<OrganisationUnit?> orgUnitByUid(String uid) async {
-    return await D2Remote.organisationUnitModule.organisationUnit
+    return D2Remote.organisationUnitModule.organisationUnit
         .byId(uid)
         .getOne();
   }

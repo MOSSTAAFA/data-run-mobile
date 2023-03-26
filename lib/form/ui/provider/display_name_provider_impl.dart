@@ -1,16 +1,16 @@
 import 'package:d2_remote/core/common/value_type.dart';
-import 'package:mass_pro/commons/date/date_utils.dart';
-import 'package:mass_pro/commons/extensions/date_format_extensions.dart';
-import 'package:mass_pro/form/data/metadata/option_set_configuration.dart';
-import 'package:mass_pro/form/data/metadata/org_unit_configuration.dart';
-import 'package:mass_pro/form/ui/provider/display_name_provider.dart';
+import '../../../commons/date/date_utils.dart';
+import '../../../commons/extensions/date_format_extensions.dart';
+import '../../data/metadata/option_set_configuration.dart';
+import '../../data/metadata/org_unit_configuration.dart';
+import 'display_name_provider.dart';
 
 class DisplayNameProviderImpl implements DisplayNameProvider {
-  final OptionSetConfiguration optionSetConfiguration;
-  final OrgUnitConfiguration orgUnitConfiguration;
-
   const DisplayNameProviderImpl(
       this.optionSetConfiguration, this.orgUnitConfiguration);
+
+  final OptionSetConfiguration optionSetConfiguration;
+  final OrgUnitConfiguration orgUnitConfiguration;
 
   @override
   Future<String?> provideDisplayName(

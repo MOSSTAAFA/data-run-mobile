@@ -6,7 +6,7 @@ class OptionSetConfiguration {
 
   Future<Option?> optionInDataSetByCode(
       String optionSetUid, String optionCode) async {
-    return await D2Remote.optionModule.option
+    return D2Remote.optionModule.option
         .byOptionSet(optionSetUid)
         .where(attribute: 'code', value: optionCode)
         .getOne(); // .blockingGet()
@@ -14,7 +14,7 @@ class OptionSetConfiguration {
 
   Future<Option?> optionInDataSetByName(
       String optionSetUid, String optionName) async {
-    return await D2Remote.optionModule.option
+    return D2Remote.optionModule.option
         .byOptionSet(optionSetUid)
         .where(attribute: 'name', value: optionName)
         .getOne(); // .blockingGet()

@@ -2,21 +2,22 @@ import 'package:d2_remote/core/common/feature_type.dart';
 import 'package:d2_remote/core/common/value_type.dart';
 import 'package:dartx/dartx_io.dart';
 import 'package:dartz/dartz.dart';
-import 'package:get/get.dart';
-import 'package:mass_pro/commons/extensions/standard_extensions.dart';
-import 'package:mass_pro/form/data/data_integrity_check_result.dart';
-import 'package:mass_pro/form/data/form_repository.dart';
-import 'package:mass_pro/form/model/Ui_render_type.dart';
-import 'package:mass_pro/form/model/action_type.dart';
-import 'package:mass_pro/form/model/field_ui_model.dart';
-import 'package:mass_pro/form/model/info_ui_model.dart';
-import 'package:mass_pro/form/model/row_action.dart';
-import 'package:mass_pro/form/model/store_result.dart';
-import 'package:mass_pro/form/model/value_store_result.dart';
-import 'package:mass_pro/form/ui/intent/form_intent.dart';
-import 'package:mass_pro/form/ui/validation/validators/field_mask_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart' as mapping;
+
+import '../../commons/extensions/standard_extensions.dart';
+import '../data/data_integrity_check_result.dart';
+import '../data/form_repository.dart';
+import '../model/Ui_render_type.dart';
+import '../model/action_type.dart';
+import '../model/field_ui_model.dart';
+import '../model/info_ui_model.dart';
+import '../model/row_action.dart';
+import '../model/store_result.dart';
+import '../model/value_store_result.dart';
+import 'intent/form_intent.dart';
+import 'validation/validators/field_mask_validator.dart';
 
 /// MVC: Model-View-Controller
 /// https://medium.flutterdevs.com/design-patterns-in-flutter-part-2-mvp-e17b3be2e51b

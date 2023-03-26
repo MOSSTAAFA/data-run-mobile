@@ -1,7 +1,7 @@
-import 'package:mass_pro/form/model/Ui_render_type.dart';
-import 'package:mass_pro/form/model/field_ui_model.dart';
-import 'package:mass_pro/form/model/ui_event_type.dart';
-import 'package:mass_pro/form/ui/event/list_view_ui_events.dart';
+import '../../model/Ui_render_type.dart';
+import '../../model/field_ui_model.dart';
+import '../../model/ui_event_type.dart';
+import 'list_view_ui_events.dart';
 
 abstract class UiEventFactory {
   ListViewUiEvents? generateEvent(

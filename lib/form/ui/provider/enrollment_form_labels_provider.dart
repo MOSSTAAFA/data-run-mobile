@@ -1,9 +1,9 @@
-import 'package:mass_pro/commons/resources/resource_manager.dart';
+import '../../../commons/resources/resource_manager.dart';
 
 class EnrollmentFormLabelsProvider {
-  final ResourceManager resourceManager;
-
   const EnrollmentFormLabelsProvider(this.resourceManager);
+
+  final ResourceManager resourceManager;
 
   String get provideEnrollmentDataSectionLabel =>
       resourceManager.getString('enrollment_data_section_label');

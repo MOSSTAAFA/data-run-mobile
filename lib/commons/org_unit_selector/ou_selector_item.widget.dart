@@ -1,6 +1,7 @@
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisation_unit_level.entity.dart';
 import 'package:flutter/material.dart';
+import '../../main/l10n/app_localizations.dart';
 import '../custom_widgets/app_dropdown_button.dart';
 import '../extensions/string_extension.dart';
 import '../helpers/trio.dart';
@@ -21,7 +22,6 @@ class OuSelectorItem extends StatefulWidget {
 
   final OrgUnitItem ouItem;
 
-  // void Function(int level, String selectedUid, bool canBeSelected) setSelectedLevel;
   final void Function(String? selectedUid, bool canBeSelected) setSelectedLevel;
 
   final void Function(String selectedUid) setSelectedParent;
@@ -44,6 +44,7 @@ class _OuSelectorItemState extends State<OuSelectorItem> {
       children: [
         AppDropdownButton<Trio<String, String, bool>>(
             // labelText: _levelName,
+            enabled: _enabled,
             blankLabel: _levelName,
             blankValue: null,
             // showBlank: true,
@@ -58,7 +59,8 @@ class _OuSelectorItemState extends State<OuSelectorItem> {
                   .second; //.setName(item.getOrder() < 0 ? data.get(0).val1() : data.get(item.getOrder()).val1());
               widget.ouItem.uid = item
                   .first; //.setUid(item.getOrder() < 0 ? data.get(0).val0() : data.get(item.getOrder()).val0());
-              final bool canBeSelected = await _getCanBeSelected(_selectedOrgUnit!);
+              final bool canBeSelected =
+                  await _getCanBeSelected(_selectedOrgUnit!);
 
               widget.setSelectedLevel.call(_selectedOrgUnit, canBeSelected);
             },
@@ -78,9 +80,7 @@ class _OuSelectorItemState extends State<OuSelectorItem> {
 
               widget.ouItem.name = null; //.setName(null);
               widget.ouItem.uid = null; //.setUid(null);
-              widget.setSelectedLevel.call(
-                  _selectedOrgUnit,
-                  false);
+              widget.setSelectedLevel.call(_selectedOrgUnit, false);
             });
           },
         ),
@@ -120,10 +120,6 @@ class _OuSelectorItemState extends State<OuSelectorItem> {
   }
 
   Future<List<Trio<String, String, bool>>> _getMenuItems() async {
-    // binding.levelText.setOnClickListener(view -> {
-    // if (ouItem.getLevel() == 1 || !isEmpty(ouItem.getParentUid()))
-    // menu.show();
-    // });
     final bool canCaptureData = await widget.ouItem.canCaptureData();
     final List<Trio<String, String, bool>> levelOrgUnits =
         await widget.ouItem.getLevelOrgUnits();
@@ -154,6 +150,7 @@ class _OuSelectorItemState extends State<OuSelectorItem> {
   }
 
   String _getLevelLabel() {
+    final AppLocalization localization = AppLocalization.of(context)!;
     OrganisationUnitLevel? orgUnitLevel = widget.ouItem.organisationUnitLevel;
     if (widget.ouItem.name != null) {
       return widget.ouItem.name!;
@@ -162,7 +159,7 @@ class _OuSelectorItemState extends State<OuSelectorItem> {
       return orgUnitLevel.displayName!;
       // binding.levelText.setText(orgUnitLevel.displayName());
     } else {
-      return 'Level ${widget.ouItem.level}';
+      return '${localization.lookup('level')} ${widget.ouItem.level}';
       // binding.levelText.setText(String.format("Level %d", ouItem.getLevel()));
     }
   }

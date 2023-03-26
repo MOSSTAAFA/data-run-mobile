@@ -1,16 +1,16 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:mass_pro/commons/resources/color_utils.dart';
-import 'package:mass_pro/form/ui/style/form_ui_color_factory.dart';
-import 'package:mass_pro/form/ui/style/form_ui_color_type.dart';
+import '../../../commons/resources/color_utils.dart';
+import 'form_ui_color_factory.dart';
+import 'form_ui_color_type.dart';
 
 class LongTextUiColorFactoryImpl implements FormUiColorFactory {
-  BuildContext context;
-  bool isBackgroundTransparent;
-
   LongTextUiColorFactoryImpl(
       {required this.context, this.isBackgroundTransparent = false});
+
+  BuildContext context;
+  bool isBackgroundTransparent;
 
   // TODO NMC, same as FormUiModelColorFactoryImpl, change to it's Colors
   @override

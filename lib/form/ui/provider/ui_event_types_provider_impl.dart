@@ -1,8 +1,8 @@
 import 'package:d2_remote/core/common/feature_type.dart';
 import 'package:d2_remote/core/common/value_type_rendering_type.dart';
 import 'package:d2_remote/core/program/section_rendering_type.dart';
-import 'package:mass_pro/form/model/Ui_render_type.dart';
-import 'package:mass_pro/form/ui/provider/ui_event_types_provider.dart';
+import '../../model/Ui_render_type.dart';
+import 'ui_event_types_provider.dart';
 
 class UiEventTypesProviderImpl implements UiEventTypesProvider {
   const UiEventTypesProviderImpl();

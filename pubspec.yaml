@@ -27,6 +27,9 @@ dependencies:
   get: ^4.6.5
   d2_remote:
     path: ./d2-remote
+  # temp. Test dependencies
+  dio: ^4.0.4
+  http_mock_adapter: ^0.3.2
 
 dev_dependencies:
   flutter_test:

@@ -1,8 +1,8 @@
 import 'package:d2_remote/core/common/feature_type.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:mass_pro/form/model/Ui_render_type.dart';
-import 'package:mass_pro/form/model/field_ui_model.dart';
+import '../../model/Ui_render_type.dart';
+import '../../model/field_ui_model.dart';
 
 part 'list_view_ui_events.freezed.dart';
 

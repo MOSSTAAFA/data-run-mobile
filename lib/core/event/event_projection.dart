@@ -1,9 +1,16 @@
 import 'package:d2_remote/modules/data/tracker/entities/event.entity.dart';
+import 'package:d2_remote/shared/utilities/dhis_uid_generator.util.dart';
 import 'package:mass_pro/core/arch/handlers/transformer.dart';
 
 EventProjectionBuilder get _eventProjectionBuilder => EventProjectionBuilder();
 
 class EventCreateProjection {
+  EventCreateProjection._builder(EventProjectionBuilder builder)
+      : _enrollment = builder.enrollment,
+        // program = builder.program!,
+        _programStage = builder.programStage!,
+        _organisationUnit = builder.organisationUnit!,
+        _activity = builder.activity!;
   final String? _enrollment;
 
   // final String program;
@@ -13,19 +20,14 @@ class EventCreateProjection {
 
   static const Transformer _transformer = _EventTransformer();
 
-  EventCreateProjection._builder(EventProjectionBuilder builder)
-      : _enrollment = builder.enrollment,
-        // program = builder.program!,
-        _programStage = builder.programStage!,
-        _organisationUnit = builder.organisationUnit!,
-        _activity = builder.activity!;
-
   Event _transform() => _transformer.transform(this);
 
   static EventProjectionBuilder builder() => _eventProjectionBuilder;
 }
 
 class EventProjectionBuilder {
+  EventProjectionBuilder();
+
   String? enrollment;
 
   // String? program;
@@ -33,8 +35,6 @@ class EventProjectionBuilder {
   String? organisationUnit;
   String? activity;
   String? status;
-
-  EventProjectionBuilder();
 
   Event build() {
     // if (program == null) throw ArgumentError('program: Cannot be null');
@@ -55,9 +55,10 @@ class _EventTransformer implements Transformer<EventCreateProjection, Event> {
   @override
   Event transform(EventCreateProjection projection) {
     // String generatedUid = DhisUidGenerator.generate();
-    String creationDate = DateTime.now().toIso8601String().split('.')[0];
+    final String creationDate = DateTime.now().toIso8601String().split('.')[0];
 
     return Event(
+        id: DhisUidGenerator.generate(),
         activity: projection._activity,
         enrollment: projection._enrollment,
         orgUnit: projection._organisationUnit,

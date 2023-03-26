@@ -5,13 +5,13 @@ import 'package:d2_remote/modules/metadata/option_set/queries/option.query.dart'
 import 'package:d2_remote/shared/utilities/sort_order.util.dart';
 
 class SearchOptionSetOption {
-  final OptionModule optionSetModule;
-
   const SearchOptionSetOption(this.optionSetModule);
+
+  final OptionModule optionSetModule;
 
   //List<Option> invoke(String? optionSetUid, String textToSearch,
   //       List<String> optionsToShow, List<String> optionsToHide)
- Future<List<Option>> invoke(String? optionSetUid, String textToSearch,
+  Future<List<Option>> invoke(String? optionSetUid, String textToSearch,
       List<String> optionsToShow, List<String> optionsToHide) async {
     OptionSet? optionSet;
     OptionQuery query = optionSetModule.option;
@@ -34,7 +34,7 @@ class SearchOptionSetOption {
       // repository = repository.byUid().notIn(optionsToHide)
     }
 
-    return await query
+    return query
         .orderBy(attribute: 'sortOrder', order: SortOrder.ASC)
         .get(); //.blockingGet()
   }

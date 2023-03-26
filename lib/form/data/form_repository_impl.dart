@@ -1,27 +1,21 @@
 import 'package:d2_remote/core/common/value_type.dart';
 import 'package:dartx/dartx_io.dart';
-import 'package:mass_pro/commons/date/field_with_issue.dart';
-import 'package:mass_pro/commons/extensions/standard_extensions.dart';
-import 'package:mass_pro/form/data/data_entry_repository.dart';
-import 'package:mass_pro/form/data/data_integrity_check_result.dart';
-import 'package:mass_pro/form/data/form_repository.dart';
-import 'package:mass_pro/form/data/form_value_store.dart';
-import 'package:mass_pro/form/model/action_type.dart';
-import 'package:mass_pro/form/model/field_ui_model.dart';
-import 'package:mass_pro/form/model/row_action.dart';
-import 'package:mass_pro/form/model/section_ui_model_impl.dart';
-import 'package:mass_pro/form/model/store_result.dart';
-import 'package:mass_pro/form/ui/provider/display_name_provider.dart';
-import 'package:mass_pro/form/ui/validation/field_error_message_provider.dart';
+
+import '../../commons/date/field_with_issue.dart';
+import '../../commons/extensions/standard_extensions.dart';
+import '../model/action_type.dart';
+import '../model/field_ui_model.dart';
+import '../model/row_action.dart';
+import '../model/section_ui_model_impl.dart';
+import '../model/store_result.dart';
+import '../ui/provider/display_name_provider.dart';
+import '../ui/validation/field_error_message_provider.dart';
+import 'data_entry_repository.dart';
+import 'data_integrity_check_result.dart';
+import 'form_repository.dart';
+import 'form_value_store.dart';
 
 class FormRepositoryImpl implements FormRepository {
-  static const int _loopThreshold = 5;
-
-  final FormValueStore? formValueStore;
-  final FieldErrorMessageProvider fieldErrorMessageProvider;
-  final DisplayNameProvider displayNameProvider;
-  final DataEntryRepository? dataEntryRepository;
-
   // RuleEngineRepository? ruleEngineRepository;
   // RulesUtilsProvider? rulesUtilsProvider;
   // LegendValueProvider? legendValueProvider;
@@ -35,6 +29,13 @@ class FormRepositoryImpl implements FormRepository {
       this.rulesUtilsProvider,
       this.legendValueProvider*/
   });
+
+  static const int _loopThreshold = 5;
+
+  final FormValueStore? formValueStore;
+  final FieldErrorMessageProvider fieldErrorMessageProvider;
+  final DisplayNameProvider displayNameProvider;
+  final DataEntryRepository? dataEntryRepository;
 
   double _completionPercentage = 0.0;
   final List<RowAction> _itemsWithError = [];
@@ -78,11 +79,12 @@ class FormRepositoryImpl implements FormRepository {
   }
 
   @override
-  Future<DataIntegrityCheckResult> runDataIntegrityCheck({required bool allowDiscard}) {
+  Future<DataIntegrityCheckResult> runDataIntegrityCheck(
+      {required bool allowDiscard}) {
     _runDataIntegrity = true;
     final itemsWithErrors = _getFieldsWithError();
     /*final*/
-    List<FieldWithIssue> itemsWithWarning = /*ruleEffectsResult?...??*/ [];
+    final List<FieldWithIssue> itemsWithWarning = /*ruleEffectsResult?...??*/ [];
     // final DataIntegrityCheckResult result;
     if (itemsWithErrors
         .isNotEmpty /*|| ruleEffectsResult?.canComplete == false*/) {
@@ -231,7 +233,7 @@ class FormRepositoryImpl implements FormRepository {
             ? fieldErrorMessageProvider.getFriendlyErrorMessage(action.error!)
             : null;
 
-        var displayName = await displayNameProvider.provideDisplayName(
+        final displayName = await displayNameProvider.provideDisplayName(
             action.valueType, action.value);
         return item
             .setValue(action.value)

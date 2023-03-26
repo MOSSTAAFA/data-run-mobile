@@ -1,22 +1,15 @@
 import 'package:d2_remote/core/common/feature_type.dart';
 import 'package:d2_remote/core/common/value_type.dart';
 import 'package:flutter/foundation.dart';
-import 'package:mass_pro/commons/date/date_utils.dart';
-import 'package:mass_pro/commons/extensions/string_extension.dart';
-import 'package:mass_pro/form/model/Ui_render_type.dart';
-import 'package:mass_pro/form/model/field_ui_model.dart';
-import 'package:mass_pro/form/model/ui_event_type.dart';
-import 'package:mass_pro/form/ui/event/list_view_ui_events.dart';
-import 'package:mass_pro/form/ui/event/ui_event_factory.dart';
+import '../../../commons/date/date_utils.dart';
+import '../../../commons/extensions/string_extension.dart';
+import '../../model/Ui_render_type.dart';
+import '../../model/field_ui_model.dart';
+import '../../model/ui_event_type.dart';
+import 'list_view_ui_events.dart';
+import 'ui_event_factory.dart';
 
 class UiEventFactoryImpl implements UiEventFactory {
-  final String uid;
-  final String label;
-  final String? description;
-  final ValueType valueType;
-  final bool? allowFutureDates;
-  final String? optionSet;
-
   const UiEventFactoryImpl(
       {required this.uid,
       required this.label,
@@ -24,6 +17,13 @@ class UiEventFactoryImpl implements UiEventFactory {
       required this.valueType,
       this.allowFutureDates,
       this.optionSet});
+
+  final String uid;
+  final String label;
+  final String? description;
+  final ValueType valueType;
+  final bool? allowFutureDates;
+  final String? optionSet;
 
   @override
   ListViewUiEvents? generateEvent(String? value, UiEventType? uiEventType,

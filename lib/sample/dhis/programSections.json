@@ -1,0 +1,42 @@
+{
+  "programSections": [
+    {
+      "created": "2021-06-10T12:46:27.877",
+      "lastUpdated": "2021-06-10T12:46:27.877",
+      "name": "Case identifiers",
+      "id": "DvpNXTaZOZb",
+      "displayName": "Case identifiers",
+      "sortOrder": 1,
+      "renderType": {
+        "MOBILE": {
+          "type": "LISTING"
+        },
+        "DESKTOP": {
+          "type": "LISTING"
+        }
+      },
+      "program": {
+        "id": "qDkgAbB5Jlk"
+      }
+    },
+    {
+      "created": "2021-06-10T12:46:27.877",
+      "lastUpdated": "2021-06-10T12:46:27.877",
+      "name": "Patient details",
+      "id": "BQIuxFWLowN",
+      "displayName": "Patient details",
+      "sortOrder": 0,
+      "renderType": {
+        "MOBILE": {
+          "type": "LISTING"
+        },
+        "DESKTOP": {
+          "type": "LISTING"
+        }
+      },
+      "program": {
+        "id": "qDkgAbB5Jlk"
+      }
+    }
+  ]
+}

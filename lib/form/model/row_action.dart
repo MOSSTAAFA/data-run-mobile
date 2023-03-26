@@ -1,6 +1,6 @@
 import 'package:d2_remote/core/common/value_type.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:mass_pro/form/model/action_type.dart';
+import 'action_type.dart';
 
 part 'row_action.freezed.dart';
 

@@ -19,7 +19,7 @@ Color? convertHexStringToColor(String? value) {
 String? convertColorToHexString(Color color) {
   try {
     final hex = color.value.toRadixString(16);
-    return '#' + hex.substring(2, hex.length);
+    return '#${hex.substring(2, hex.length)}';
   } catch (e) {
     return null;
   }

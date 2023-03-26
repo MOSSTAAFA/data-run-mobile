@@ -1,8 +1,9 @@
 import 'package:d2_remote/core/common/value_type.dart';
-import 'package:mass_pro/form/model/field_ui_model.dart';
-import 'package:mass_pro/form/data/data_integrity_check_result.dart';
-import 'package:mass_pro/form/model/row_action.dart';
-import 'package:mass_pro/form/model/store_result.dart';
+
+import '../model/field_ui_model.dart';
+import '../model/row_action.dart';
+import '../model/store_result.dart';
+import 'data_integrity_check_result.dart';
 
 abstract class FormRepository {
   Future<List<FieldUiModel>> fetchFormItems();

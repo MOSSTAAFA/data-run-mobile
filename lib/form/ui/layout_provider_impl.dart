@@ -1,7 +1,7 @@
 import 'package:d2_remote/core/common/value_type.dart';
 import 'package:d2_remote/core/common/value_type_rendering_type.dart';
 import 'package:d2_remote/core/program/section_rendering_type.dart';
-import 'package:mass_pro/form/ui/provider/layout_provider.dart';
+import 'provider/layout_provider.dart';
 
 // NMCP maybe inject
 // private val layouts = mapOf<KClass<*>, Int>()

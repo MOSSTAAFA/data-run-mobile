@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:mass_pro/commons/date/field_with_issue.dart';
+import '../../commons/date/field_with_issue.dart';
 
 part 'data_integrity_check_result.freezed.dart';
 

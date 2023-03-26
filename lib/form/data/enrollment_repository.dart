@@ -83,7 +83,7 @@ class EnrollmentRepository extends DataEntryBaseRepository {
     List<FieldUiModel> list = [];
 
     if (programSections.isEmpty) {
-      List<FieldUiModel> singleSectionList = await _getFieldsForSingleSection();
+      final List<FieldUiModel> singleSectionList = await _getFieldsForSingleSection();
       list = await _getSingleSectionList();
       list.addAll(singleSectionList);
     } else {
@@ -99,7 +99,7 @@ class EnrollmentRepository extends DataEntryBaseRepository {
   @override
   Future<List<String>> sectionUids() async {
     const List<String> sectionUids = [ENROLLMENT_DATA_SECTION_UID];
-    final sections = (await _programSections)!;
+    final List<ProgramSection> sections = (await _programSections)!;
     sectionUids.addAll(sections.map((section) => section.id!).toList());
     throw sectionUids;
   }
@@ -109,11 +109,11 @@ class EnrollmentRepository extends DataEntryBaseRepository {
   }
 
   Future<List<FieldUiModel>> _getFieldsForMultipleSections() async {
-    List<FieldUiModel> fields = [];
+    final List<FieldUiModel> fields = [];
     final Program program = (await _program)!;
     final List<ProgramSection> programSections = (await _programSections)!;
 
-    for (var section in programSections) {
+    for (final ProgramSection section in programSections) {
       fields.add(transformSection(
           sectionUid: section.id!,
           sectionName: section.displayName,
@@ -163,7 +163,7 @@ class EnrollmentRepository extends DataEntryBaseRepository {
         .orderBy(attribute: 'sortOrder', order: SortOrder.ASC)
         .get();
     final pp = programAttributes.map((programTrackedEntityAttribute) async {
-      return await _transform(programTrackedEntityAttribute);
+      return _transform(programTrackedEntityAttribute);
     }).toList();
     final ff = Future.wait(pp).catchError((onError) {
       if (kDebugMode) {
@@ -233,7 +233,7 @@ class EnrollmentRepository extends DataEntryBaseRepository {
 
     ProgramSection? programSection;
     final List<ProgramSection>? programSections = await _programSections;
-    for (var section in programSections!) {
+    for (final section in programSections!) {
       if (UidsHelper.getUidsList(section.attributes!)
           .contains('${section.id}_${attribute.id}')) {
         programSection = section;
@@ -241,7 +241,7 @@ class EnrollmentRepository extends DataEntryBaseRepository {
       }
     }
 
-    SectionRenderingType? renderingType =
+    final SectionRenderingType? renderingType =
         _getSectionRenderingType(programSection);
 
     final FieldUiModel fieldViewModel = await fieldFactory.create(

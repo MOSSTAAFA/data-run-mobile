@@ -17,8 +17,9 @@ import 'package:d2_remote/core/common/value_type/failures/true_only_failure.dart
 import 'package:d2_remote/core/common/value_type/failures/unit_interval_failure.dart';
 import 'package:d2_remote/core/common/value_type/failures/url_failure.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:mass_pro/form/ui/validation/failures/field_mask_failure.dart';
-import 'package:mass_pro/main/l10n/app_localizations.dart';
+
+import '../../../main/l10n/app_localizations.dart';
+import 'failures/field_mask_failure.dart';
 
 class FieldErrorMessageProvider {
   BuildContext context;
