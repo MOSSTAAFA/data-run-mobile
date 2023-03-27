@@ -41,48 +41,59 @@ class OuSelectorList extends StatefulWidget {
 }
 
 class _OuSelectorListState extends State<OuSelectorList> {
-  final OuSelectorDialogPresenter presenter = Get.find<OuSelectorDialogPresenter>();
-      // OuSelectorDialogPresenter.instance;
+  final OuSelectorDialogPresenter presenter =
+      Get.find<OuSelectorDialogPresenter>();
+
+  // OuSelectorDialogPresenter.instance;
 
   @override
   Widget build(BuildContext context) {
-
     return ListView.builder(
       // padding: widget.padding,
       // itemCount: widget.items.length,
       itemCount: presenter.orgUnitItems.length,
       // controller: widget.scrollController ?? _scrollController,
       itemBuilder: (context, index) {
-        widget.items[index].parentUid = presenter.selectedParent[index];
+        // widget.items[index].parentUid = presenter.selectedParent[index];
+        presenter.orgUnitItems[index].parentUid =
+            presenter.selectedParent[index];
         return OuSelectorItem(
-            selectionType: widget.selectionType,
-            ouItem: widget.items[index],
-            setSelectedLevel: (String? selectedUid, bool canBeSelected) {
-              // TODO(NMC): this is moved from OuSelectorItem when clear button is pressed
-              // it still in OuSelectorItem
-              // if no change remove from OuSelectorItem and enable this
-              // Or make as a call back from item
-              // if(selectedUid == null) {
-              //   widget.items[index].name = null;
-              //   widget.items[index].uid = null;
-              // }
+          selectionType: widget.selectionType,
+          // ouItem: widget.items[index],
+          ouItem: presenter.orgUnitItems[index],
+          setSelectedLevel: (String? selectedUid, bool canBeSelected) {
+            // TODO(NMC): this is moved from OuSelectorItem when clear button is pressed
+            // it still in OuSelectorItem
+            // if no change remove from OuSelectorItem and enable this
+            // Or make as a call back from item
+            // if(selectedUid == null) {
+            //   widget.items[index].name = null;
+            //   widget.items[index].uid = null;
+            // }
+            if (selectedUid == null) {
+              presenter.orgUnitItems[index].name = null;
+              presenter.orgUnitItems[index].uid = null;
+            }
 
-              presenter.selectedParent.putIfAbsent(
-                  index, () => selectedUid); //Set selected orgUnit for level
-              reorderSelectedParent(index);
-              presenter.level.value = index;
-              widget.onNewLevelSelected?.call(canBeSelected);
+            presenter.selectedParent.putIfAbsent(
+                index, () => selectedUid); //Set selected orgUnit for level
+            reorderSelectedParent(index);
+            presenter.level.value = index;
+            widget.onNewLevelSelected?.call(canBeSelected);
 
-              // notifyDataSetChanged();
-              // presenter.selectedParent.assignAll(widget.selectedParent);
-              presenter.orgUnitItems.assignAll(widget.items);
-            },
-            setSelectedParent: (String selectedUid) {
-              //Set selected orgUnit for level
-              presenter.selectedParent.putIfAbsent(index, () => selectedUid);
-              // this.level.set(level);
-              presenter.level.value = index;
-            });
+            // notifyDataSetChanged();
+            // presenter.selectedParent.assignAll(widget.selectedParent);
+            // presenter.orgUnitItems.assignAll(widget.items);
+            presenter.orgUnitItems.refresh();
+          },
+          setSelectedParent: (String selectedUid) {
+            //Set selected orgUnit for level
+            presenter.selectedParent.putIfAbsent(index, () => selectedUid);
+            // this.level.set(level);
+            presenter.level.value = index;
+          },
+          index: index,
+        );
       },
       shrinkWrap: true,
     );
@@ -95,7 +106,10 @@ class _OuSelectorListState extends State<OuSelectorList> {
     /// prove too expensive to do for every build.
     ///
     if (widget.selectedOrgUnit.isNullOrEmpty) {
-      for (int ouLevel = 1; ouLevel < widget.items.length; ouLevel++) {
+      // for (int ouLevel = 1; ouLevel < widget.items.length; ouLevel++) {
+      for (int ouLevel = 1;
+          ouLevel < presenter.orgUnitItems.length;
+          ouLevel++) {
         presenter.selectedParent.putIfAbsent(ouLevel, () => '');
       }
     } else {
@@ -105,25 +119,38 @@ class _OuSelectorListState extends State<OuSelectorList> {
           .getOne())!;
       final List<String> uidPath = ou.path.replaceFirst('/', '').split('/');
       for (int ouLevel = 1; ouLevel < uidPath.length + 1; ouLevel++) {
-        presenter.selectedParent.putIfAbsent(ouLevel, () => uidPath[ouLevel - 1]);
+        presenter.selectedParent
+            .putIfAbsent(ouLevel, () => uidPath[ouLevel - 1]);
         if (ouLevel > 1) {
-          widget.items[ouLevel - 1].parentUid = uidPath[ouLevel - 1];
+          // widget.items[ouLevel - 1].parentUid = uidPath[ouLevel - 1];
+          presenter.orgUnitItems[ouLevel - 1].parentUid = uidPath[ouLevel - 1];
         }
-        widget.items[ouLevel - 1].name = ou.displayNamePath()[ouLevel - 1];
-        widget.items[ouLevel - 1].uid = uidPath[ouLevel - 1];
+        // widget.items[ouLevel - 1].name = ou.displayNamePath()[ouLevel - 1];
+        // widget.items[ouLevel - 1].uid = uidPath[ouLevel - 1];
+
+        presenter.orgUnitItems[ouLevel - 1].name =
+            ou.displayNamePath()[ouLevel - 1];
+        presenter.orgUnitItems[ouLevel - 1].uid = uidPath[ouLevel - 1];
+        presenter.orgUnitItems.refresh();
       }
     }
     super.didChangeDependencies();
   }
 
   void reorderSelectedParent(int fromLevel) {
-    for (int i = fromLevel + 1; i <= widget.items.length; i++) {
+    // for (int i = fromLevel + 1; i <= widget.items.length; i++) {
+    for (int i = fromLevel + 1; i <= presenter.orgUnitItems.length; i++) {
       //Remove selected parents for levels higher than the selected one
       presenter.selectedParent.remove(i);
 
-      widget.items[i - 1].uid = null; //.get(i - 1).setUid(null);
-      widget.items[i - 1].name = null; //.get(i - 1).setName(null);
-      widget.items[i - 1].parentUid = null; //.get(i - 1).setParentUid(null);
+      // widget.items[i - 1].uid = null; //.get(i - 1).setUid(null);
+      // widget.items[i - 1].name = null; //.get(i - 1).setName(null);
+      // widget.items[i - 1].parentUid = null; //.get(i - 1).setParentUid(null);
+
+      presenter.orgUnitItems[i - 1].uid = null; //.get(i - 1).setUid(null);
+      presenter.orgUnitItems[i - 1].name = null; //.get(i - 1).setName(null);
+      presenter.orgUnitItems[i - 1].parentUid =
+          null; //.get(i - 1).setParentUid(null);
     }
   }
 }

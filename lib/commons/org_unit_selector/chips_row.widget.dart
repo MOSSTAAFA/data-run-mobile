@@ -13,9 +13,9 @@ class ChipsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width - 2,
-      child: Wrap(
-          spacing: 5.0,
+      // width: MediaQuery.of(context).size.width - 2,
+      child: Row(
+          // spacing: 5.0,
           children: orgUnits
               .map((OrganisationUnit ou) =>
                   ChipItem(orgUnit: ou, onPressed: () => clickedItem.call(ou)))

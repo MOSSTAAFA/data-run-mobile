@@ -56,8 +56,8 @@ class _OuSelectorDialogState extends State<OuSelectorDialog> {
       // width: MediaQuery.of(context).size.width,
       builder: (BuildContext context, BoxConstraints constraints) {
         return Container(
-          height: constraints.maxHeight,
-          width: constraints.maxWidth,
+          // height: constraints.maxHeight - 100,
+          // width: constraints.maxWidth -100,
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10)
               .copyWith(right: 32),
           child: SingleChildScrollView(
@@ -90,7 +90,7 @@ class _OuSelectorDialogState extends State<OuSelectorDialog> {
                                 'orgUnitsStream snapshot Error: ${snapshot.error}');
                           }
                           if (!snapshot.hasData) {
-                            return const Text('orgUnitsStream has no data');
+                            return const SizedBox();
                           }
                           return ChipsRow(
                               orgUnits: snapshot.data!,
@@ -112,7 +112,7 @@ class _OuSelectorDialogState extends State<OuSelectorDialog> {
                               'orgUnitItemsStream Error: ${snapshot.error}');
                         }
                         if (!snapshot.hasData) {
-                          return const Text('orgUnitItemsStream has no data');
+                          return const SizedBox();
                         }
                         return OuSelectorList(
                           selectedOrgUnit: widget.selectedOrgUnit,

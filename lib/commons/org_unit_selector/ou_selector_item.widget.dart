@@ -16,13 +16,15 @@ class OuSelectorItem extends StatefulWidget {
       required this.selectionType,
       required this.ouItem,
       required this.setSelectedLevel,
-      required this.setSelectedParent});
+      required this.setSelectedParent, required this.index});
 
   // final OrgUnitCascadeLevelItemBinding binding;
   // final OrgUnitCascadeAdapter adapter;
   final OUSelectionType selectionType;
 
   final OrgUnitItem ouItem;
+
+  final int index;
 
   final void Function(String? selectedUid, bool canBeSelected) setSelectedLevel;
 
@@ -61,9 +63,11 @@ class _OuSelectorItemState extends State<OuSelectorItem> {
                     enabled: _enabled,
                     blankLabel: _levelName,
                     blankValue: null,
-                    // showBlank: true,
+                    showBlank: true,
                     value: _selectedItem,
                     onChanged: (Trio<String, String, bool>? item) async {
+                      // _selectedOrgUnit = item!
+                      //     .first; //item.getOrder() < 0 ? null : ouItem.getLevelOrgUnits().get(item.getOrder()).val0();
                       _selectedOrgUnit = item!
                           .first; //item.getOrder() < 0 ? null : ouItem.getLevelOrgUnits().get(item.getOrder()).val0();
                       // binding.levelText.setText(item.getOrder() < 0
@@ -76,6 +80,9 @@ class _OuSelectorItemState extends State<OuSelectorItem> {
                       final bool canBeSelected =
                           await _getCanBeSelected(_selectedOrgUnit!);
 
+                      setState(() {
+                        _selectedItem = item;
+                      });
                       widget.setSelectedLevel
                           .call(_selectedOrgUnit, canBeSelected);
                     },

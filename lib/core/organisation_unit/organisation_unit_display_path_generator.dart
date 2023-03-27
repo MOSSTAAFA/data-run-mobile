@@ -6,7 +6,7 @@ class OrganisationUnitDisplayPathGenerator {
   OrganisationUnitDisplayPathGenerator._();
 
   static List<String> generateDisplayPath(OrganisationUnit organisationUnit) {
-    final List<dynamic> dataList = jsonDecode(organisationUnit.ancestors!);
+    final List<dynamic> dataList = jsonDecode(jsonDecode(organisationUnit.ancestors!));
 
     final List<OrganisationUnit> ancestors =
         dataList.map((orgUnit) => OrganisationUnit.fromJson(orgUnit)).toList();
