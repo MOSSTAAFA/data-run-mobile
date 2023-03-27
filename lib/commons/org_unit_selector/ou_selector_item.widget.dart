@@ -1,11 +1,13 @@
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisation_unit_level.entity.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../main/l10n/app_localizations.dart';
 import '../custom_widgets/app_dropdown_button.dart';
 import '../extensions/string_extension.dart';
 import '../helpers/trio.dart';
 import 'business_logic/org_unit_item.dart';
+import 'ou_selector_dialog.presenter.dart';
 import 'ou_selector_dialog.widget.dart';
 
 class OuSelectorItem extends StatefulWidget {
@@ -31,72 +33,97 @@ class OuSelectorItem extends StatefulWidget {
 }
 
 class _OuSelectorItemState extends State<OuSelectorItem> {
-  bool _enabled = false;
-  late final String _levelName;
-  String? _selectedOrgUnit;
-  late Trio<String, String, bool> _selectedItem;
+  final OuSelectorDialogPresenter presenter = Get.find<OuSelectorDialogPresenter>();
+      // OuSelectorDialogPresenter.instance;
 
-  late List<Trio<String, String, bool>> _menuItems;
+  bool _enabled = false;
+  String? _levelName;
+  String? _selectedOrgUnit;
+  Trio<String, String, bool>? _selectedItem;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        AppDropdownButton<Trio<String, String, bool>>(
-            // labelText: _levelName,
-            enabled: _enabled,
-            blankLabel: _levelName,
-            blankValue: null,
-            // showBlank: true,
-            value: _selectedItem,
-            onChanged: (Trio<String, String, bool>? item) async {
-              _selectedOrgUnit = item!
-                  .first; //item.getOrder() < 0 ? null : ouItem.getLevelOrgUnits().get(item.getOrder()).val0();
-              // binding.levelText.setText(item.getOrder() < 0
-              //     ? data.get(0).val1()
-              //     : data.get(item.getOrder()).val1());
-              widget.ouItem.name = item
-                  .second; //.setName(item.getOrder() < 0 ? data.get(0).val1() : data.get(item.getOrder()).val1());
-              widget.ouItem.uid = item
-                  .first; //.setUid(item.getOrder() < 0 ? data.get(0).val0() : data.get(item.getOrder()).val0());
-              final bool canBeSelected =
-                  await _getCanBeSelected(_selectedOrgUnit!);
+    return StreamBuilder<List<Trio<String, String, bool>>>(
+        stream: presenter.menuItemsStream,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Text('menuItemsStream snapshot Error: ${snapshot.error}');
+          }
+          if (!snapshot.hasData) {
+            return const Text('menuItemsStream has no data');
+          }
 
-              widget.setSelectedLevel.call(_selectedOrgUnit, canBeSelected);
-            },
-            items: _menuItems
-                .map((Trio<String, String, bool> item) => DropdownMenuItem(
-                      value: item,
-                      child: Text(item.second),
-                    ))
-                .toList()),
-        const SizedBox(width: 16.0),
-        IconButton(
-          icon: const Icon(Icons.clear),
-          onPressed: () {
-            setState(() {
-              _selectedOrgUnit = null;
-              _levelName = _getLevelLabel(context);
+          return Row(
+            children: [
+              Expanded(
+                child: AppDropdownButton<Trio<String, String, bool>>(
+                    // labelText: _levelName,
+                    enabled: _enabled,
+                    blankLabel: _levelName,
+                    blankValue: null,
+                    // showBlank: true,
+                    value: _selectedItem,
+                    onChanged: (Trio<String, String, bool>? item) async {
+                      _selectedOrgUnit = item!
+                          .first; //item.getOrder() < 0 ? null : ouItem.getLevelOrgUnits().get(item.getOrder()).val0();
+                      // binding.levelText.setText(item.getOrder() < 0
+                      //     ? data.get(0).val1()
+                      //     : data.get(item.getOrder()).val1());
+                      widget.ouItem.name = item
+                          .second; //.setName(item.getOrder() < 0 ? data.get(0).val1() : data.get(item.getOrder()).val1());
+                      widget.ouItem.uid = item
+                          .first; //.setUid(item.getOrder() < 0 ? data.get(0).val0() : data.get(item.getOrder()).val0());
+                      final bool canBeSelected =
+                          await _getCanBeSelected(_selectedOrgUnit!);
 
-              widget.ouItem.name = null; //.setName(null);
-              widget.ouItem.uid = null; //.setUid(null);
-              widget.setSelectedLevel.call(_selectedOrgUnit, false);
-            });
-          },
-        ),
-      ],
-    );
+                      widget.setSelectedLevel
+                          .call(_selectedOrgUnit, canBeSelected);
+                    },
+                    items: snapshot.data!
+                        .map(
+                            (Trio<String, String, bool> item) => DropdownMenuItem(
+                                  value: item,
+                                  child: Text(item.second),
+                                ))
+                        .toList()),
+              ),
+              // const SizedBox(width: 16.0),
+              IconButton(
+                icon: const Icon(Icons.clear),
+                onPressed: () {
+                  setState(() {
+                    _selectedOrgUnit = null;
+                    _levelName = _getLevelLabel(context);
+
+                    widget.ouItem.name = null; //.setName(null);
+                    widget.ouItem.uid = null; //.setUid(null);
+                    widget.setSelectedLevel.call(_selectedOrgUnit, false);
+                  });
+                },
+              ),
+            ],
+          );
+        });
   }
 
   @override
-  Future<void> didChangeDependencies() async {
+  void initState() {
+    super.initState();
+
+    /// Within initState() we can initialize variables, data, properties, etc.
+    /// and subscribe to Streams, ChangeNotifiers, or any other object that
+    /// could change the data on a given widget.
+  }
+
+  @override
+  void didChangeDependencies() {
     /// This method is most used by subclasses in cases when network fetches
     /// need to take place following a dependancy change which would otherwise
     /// prove too expensive to do for every build.
-    ///
     _levelName = _getLevelLabel(context);
 
-    _menuItems = await _getMenuItems();
+    _getMenuItems().then((List<Trio<String, String, bool>> items) =>
+        presenter.menuItems.assignAll(items));
 
     super.didChangeDependencies();
   }

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/mass_pro.iml" filepath="$PROJECT_DIR$/.idea/mass_pro.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/mass_pro_android.iml" filepath="$PROJECT_DIR$/android/mass_pro_android.iml" />
     </modules>
   </component>
 </project>

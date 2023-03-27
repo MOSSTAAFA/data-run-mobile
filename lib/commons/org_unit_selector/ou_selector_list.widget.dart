@@ -41,10 +41,11 @@ class OuSelectorList extends StatefulWidget {
 }
 
 class _OuSelectorListState extends State<OuSelectorList> {
+  final OuSelectorDialogPresenter presenter = Get.find<OuSelectorDialogPresenter>();
+      // OuSelectorDialogPresenter.instance;
+
   @override
   Widget build(BuildContext context) {
-    final OuSelectorDialogPresenter presenter =
-        OuSelectorDialogPresenter.instance;
 
     return ListView.builder(
       // padding: widget.padding,
@@ -66,19 +67,19 @@ class _OuSelectorListState extends State<OuSelectorList> {
               //   widget.items[index].uid = null;
               // }
 
-              widget.selectedParent.putIfAbsent(
+              presenter.selectedParent.putIfAbsent(
                   index, () => selectedUid); //Set selected orgUnit for level
               reorderSelectedParent(index);
-              widget.level.value = index;
+              presenter.level.value = index;
               widget.onNewLevelSelected?.call(canBeSelected);
 
               // notifyDataSetChanged();
-              presenter.selectedParent.assignAll(widget.selectedParent);
+              // presenter.selectedParent.assignAll(widget.selectedParent);
               presenter.orgUnitItems.assignAll(widget.items);
             },
             setSelectedParent: (String selectedUid) {
               //Set selected orgUnit for level
-              widget.selectedParent.putIfAbsent(index, () => selectedUid);
+              presenter.selectedParent.putIfAbsent(index, () => selectedUid);
               // this.level.set(level);
               presenter.level.value = index;
             });
@@ -95,7 +96,7 @@ class _OuSelectorListState extends State<OuSelectorList> {
     ///
     if (widget.selectedOrgUnit.isNullOrEmpty) {
       for (int ouLevel = 1; ouLevel < widget.items.length; ouLevel++) {
-        widget.selectedParent.putIfAbsent(ouLevel, () => '');
+        presenter.selectedParent.putIfAbsent(ouLevel, () => '');
       }
     } else {
       final OrganisationUnit ou = (await D2Remote
@@ -104,7 +105,7 @@ class _OuSelectorListState extends State<OuSelectorList> {
           .getOne())!;
       final List<String> uidPath = ou.path.replaceFirst('/', '').split('/');
       for (int ouLevel = 1; ouLevel < uidPath.length + 1; ouLevel++) {
-        widget.selectedParent.putIfAbsent(ouLevel, () => uidPath[ouLevel - 1]);
+        presenter.selectedParent.putIfAbsent(ouLevel, () => uidPath[ouLevel - 1]);
         if (ouLevel > 1) {
           widget.items[ouLevel - 1].parentUid = uidPath[ouLevel - 1];
         }
@@ -118,7 +119,7 @@ class _OuSelectorListState extends State<OuSelectorList> {
   void reorderSelectedParent(int fromLevel) {
     for (int i = fromLevel + 1; i <= widget.items.length; i++) {
       //Remove selected parents for levels higher than the selected one
-      widget.selectedParent.remove(i);
+      presenter.selectedParent.remove(i);
 
       widget.items[i - 1].uid = null; //.get(i - 1).setUid(null);
       widget.items[i - 1].name = null; //.get(i - 1).setName(null);

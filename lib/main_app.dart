@@ -72,7 +72,7 @@ class _MainAppState extends State<MainApp> {
             AppButton(
                 label: 'Download OrgUnitLevels',
                 onPressed: () async {
-                  await downloadOrgUnits();
+                  await downloadOrgUnitLevels();
                 }),
             AppButton(
                 label: 'Open OrgDialog',
@@ -95,7 +95,7 @@ class _MainAppState extends State<MainApp> {
         builder: (BuildContext context) {
           return Card(
             elevation: 0,
-            color: Colors.transparent,
+            color: Colors.white,
             child: OuSelectorDialog(
                 title: 'title',
                 selectedOrgUnit: null,

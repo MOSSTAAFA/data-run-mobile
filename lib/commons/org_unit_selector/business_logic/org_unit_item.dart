@@ -6,6 +6,7 @@ import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisati
 import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisation_unit_level.entity.dart';
 import 'package:d2_remote/modules/metadata/organisation_unit/queries/organisation_unit.query.dart';
 import 'package:dartx/dartx_io.dart';
+import '../../../core/organisation_unit/organisation_unit_display_path_generator.dart';
 import '../../../core/organisation_unit/organisation_unit_scope.dart';
 import '../../helpers/trio.dart';
 import '../ou_selector_dialog.widget.dart';
@@ -89,16 +90,11 @@ class OrgUnitItem {
             .count();
         final bool canCapture = count > 0;
 
-        // TODO(NMC): replace after implementing displayNamePath()
-        final List<String> ancestorsUids =
-            ou.path.replaceFirst('/', '').split('/');
-
         menuOrgUnits.putIfAbsent(
             uidPath[level - 1],
             () => Trio<String, String, bool>(
                 uidPath[level - 1],
-                // ou.displayNamePath().get(level - 1),
-                ancestorsUids[level - 1],
+                ou.displayNamePath()[level - 1],
                 canCapture));
         if (canCapture) hasCaptureOrgUnits = true;
       }

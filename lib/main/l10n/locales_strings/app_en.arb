@@ -259,5 +259,6 @@
   "address": "address",
   "contacts": "contacts",
   "deletedUsers": ":value deleted user",
-  "deletedUser": "Deleted user"
+  "deletedUser": "Deleted user",
+  "level": "Level"
 }

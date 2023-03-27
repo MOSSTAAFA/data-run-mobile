@@ -4,22 +4,43 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../extensions/string_extension.dart';
+import '../helpers/trio.dart';
 import 'business_logic/org_unit_item.dart';
 import 'ou_selector_dialog.widget.dart';
 
 class OuSelectorDialogPresenter extends GetxController implements Listenable {
-  /// Adapter vars, OuSelectorList vars
+  /// OuSelectorItem vars --------------------------------
+  final RxList<Trio<String, String, bool>> menuItems =
+      <Trio<String, String, bool>>[].obs;
+
+  Stream<List<Trio<String, String, bool>>> get menuItemsStream =>
+      menuItems.stream;
+
+  // final RxBool enabledItem = false.obs;
+  //
+  // Stream<bool> get enabledItemStream => enabledItem.stream;
+
+  //-------------------------------------------------------
+
+  /// Adapter vars, OuSelectorList vars ------------------
   final RxInt level = RxInt(1);
   final RxMap<int, String?> selectedParent = <int, String?>{}.obs;
 
-  /// Dialog vars
+  //-------------------------------------------------------
+
+  /// Dialog vars  ---------------------------------------
   final RxList<OrganisationUnit> orgUnits = <OrganisationUnit>[].obs;
+
+  Stream<List<OrganisationUnit>> get orgUnitsStream => orgUnits.stream;
+
   final RxList<OrgUnitItem> orgUnitItems = <OrgUnitItem>[].obs;
 
   Stream<List<OrgUnitItem>> get orgUnitItemsStream => orgUnitItems.stream;
 
   final RxBool acceptButtonEnabled = false.obs;
   final Rx<String?> orgUnitSearchText = Rx<String?>(null);
+
+  //-------------------------------------------------------
 
   /// You do not need that. I recommend using it just for ease of syntax.
   /// with static method: Controller.to.increment();
@@ -36,6 +57,8 @@ class OuSelectorDialogPresenter extends GetxController implements Listenable {
   Future<void> loadOrgUnitItems(OUSelectionType ouSelectionType) async {
     final List<OrganisationUnit> ouList =
         await D2Remote.organisationUnitModule.organisationUnit.get();
+
+    //in DH lok int maxLevel = -1;
     int maxLevel = -1;
     for (final OrganisationUnit ou in ouList) {
       if (maxLevel < ou.level!) {
@@ -69,5 +92,17 @@ class OuSelectorDialogPresenter extends GetxController implements Listenable {
       }
     }
     return selectedUid;
+  }
+
+  @override
+  void onClose() {
+    print('OuSelectorDialogPresenter Closed ##################');
+    super.onClose();
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    print('OuSelectorDialogPresenter Init ##################');
   }
 }

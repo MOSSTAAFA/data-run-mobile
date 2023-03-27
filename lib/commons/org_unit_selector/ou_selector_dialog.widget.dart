@@ -36,7 +36,7 @@ class OuSelectorDialog extends StatefulWidget {
 
   // private CompositeDisposable disposable;
   final String? selectedOrgUnit;
-  late final List<OrgUnitItem> initialData;
+  final List<OrgUnitItem> initialData = [];
   final OUSelectionType ouSelectionType;
 
   @override
@@ -44,131 +44,165 @@ class OuSelectorDialog extends StatefulWidget {
 }
 
 class _OuSelectorDialogState extends State<OuSelectorDialog> {
-  final OuSelectorDialogPresenter presenter =
-      OuSelectorDialogPresenter.instance;
+  final OuSelectorDialogPresenter presenter = Get.find<OuSelectorDialogPresenter>();
+      // OuSelectorDialogPresenter.instance;
 
   @override
   Widget build(BuildContext context) {
     presenter.loadOrgUnitItems(widget.ouSelectionType);
 
-    return Column(
-      children: [
-        Text(widget.title),
-        const SizedBox(width: 10),
-        ListFilter(
-          filter: presenter.orgUnitSearchText.value,
-          onFilterChanged: (String? value) {
-            if (value != null) {
-              presenter.lookUpOrgUnits(value);
-            }
-          },
-        ),
-        const SizedBox(width: 10),
-        const Divider(height: 2),
-        SizedBox(
-          height: 50,
-          child: Row(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Obx(() => ChipsRow(
-                      orgUnits: presenter.orgUnits,
-                      clickedItem: (OrganisationUnit ou) {
-                        widget.textChangedConsumer
-                            .call(ou.id!, ou.displayName!);
-                        Navigator.pop(context);
-                      })),
-                ),
+    return LayoutBuilder(
+      // height: MediaQuery.of(context).size.height,
+      // width: MediaQuery.of(context).size.width,
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return Container(
+          height: constraints.maxHeight,
+          width: constraints.maxWidth,
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10)
+              .copyWith(right: 32),
+          child: SingleChildScrollView(
+            physics: const NeverScrollableScrollPhysics(),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * 0.9,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(widget.title),
+                  const SizedBox(width: 10),
+                  ListFilter(
+                    filter: presenter.orgUnitSearchText.value,
+                    onFilterChanged: (String? value) {
+                      if (value != null) {
+                        presenter.lookUpOrgUnits(value);
+                      }
+                    },
+                  ),
+                  const SizedBox(width: 10),
+                  const Divider(height: 1),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: StreamBuilder<List<OrganisationUnit>>(
+                        stream: presenter.orgUnitsStream,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasError) {
+                            return Text(
+                                'orgUnitsStream snapshot Error: ${snapshot.error}');
+                          }
+                          if (!snapshot.hasData) {
+                            return const Text('orgUnitsStream has no data');
+                          }
+                          return ChipsRow(
+                              orgUnits: snapshot.data!,
+                              clickedItem: (OrganisationUnit ou) {
+                                widget.textChangedConsumer
+                                    .call(ou.id!, ou.displayName!);
+                                dismiss();
+                              });
+                        }),
+                  ),
+                  const Divider(height: 1),
+                  const SizedBox(width: 10),
+                  StreamBuilder<List<OrgUnitItem>>(
+                      stream: presenter.orgUnitItemsStream,
+                      builder: (BuildContext context,
+                          AsyncSnapshot<List<OrgUnitItem>> snapshot) {
+                        if (snapshot.hasError) {
+                          return Text(
+                              'orgUnitItemsStream Error: ${snapshot.error}');
+                        }
+                        if (!snapshot.hasData) {
+                          return const Text('orgUnitItemsStream has no data');
+                        }
+                        return OuSelectorList(
+                          selectedOrgUnit: widget.selectedOrgUnit,
+                          items: snapshot.data!,
+                          selectionType: widget.ouSelectionType,
+                          onNewLevelSelected: (bool canBeSelected) {
+                            if (canBeSelected) {
+                              presenter.acceptButtonEnabled.value = true;
+                            } else {
+                              presenter.acceptButtonEnabled.value = false;
+                            }
+                          },
+                        );
+                      }),
+                  const SizedBox(width: 20),
+                  _bottomBtnsRow(context)
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-        const Divider(height: 2),
-        const SizedBox(width: 10),
-        StreamBuilder<List<OrgUnitItem>>(
-            stream: presenter.orgUnitItemsStream,
-            builder: (BuildContext context,
-                AsyncSnapshot<List<OrgUnitItem>> snapshot) {
-              if (snapshot.hasError) {
-                return Text('${snapshot.error}');
-              }
-              return OuSelectorList(
-                selectedOrgUnit: widget.selectedOrgUnit,
-                items: snapshot.data!,
-                selectionType: widget.ouSelectionType,
-                onNewLevelSelected: (bool canBeSelected) {
-                  if (canBeSelected) {
-                    presenter.acceptButtonEnabled.value = true;
-                  } else {
-                    presenter.acceptButtonEnabled.value = false;
-                  }
-                },
-              );
-            }),
-        const SizedBox(width: 20),
-        _bottomBtnsRow(context)
-      ],
+        );
+      },
     );
   }
 
   Widget _bottomBtnsRow(BuildContext context) {
     final AppLocalization localization = AppLocalization.of(context)!;
-    return Row(
-      children: <Widget>[
-        AppTextButton(
-          label: localization.lookup('clear'),
-          onPressed: () {
-            // showChips([]);
-            // setAdapter(initialData);
-            presenter.orgUnitSearchText.value = null;
-            presenter.orgUnits.assignAll([]);
-            presenter.orgUnitItems.assignAll(widget.initialData);
-            presenter.acceptButtonEnabled.value = false;
-            widget.onClear();
-            Navigator.pop(context);
-          },
-        ),
-        AppTextButton(
-          label: localization.lookup('cancel'),
-          onPressed: () {
-            widget.onDialogCancelled();
-            presenter.orgUnitSearchText.value = null;
-            Navigator.pop(context);
-          },
-        ),
-        Obx(() => AppTextButton(
-              label: localization.lookup('accept'),
-              onPressed: presenter.acceptButtonEnabled.value
-                  ? () async {
-                      presenter.orgUnitSearchText.value = null;
-                      // showChips([]);
-                      final String? selectedOrgUnitUid =
-                          presenter.getSelectedOrgUnit();
-                      if (selectedOrgUnitUid != null) {
-                        D2Remote.organisationUnitModule.organisationUnit
-                            .getOne()
-                            .then((OrganisationUnit? ou) {
-                          widget.textChangedConsumer
-                              .call(selectedOrgUnitUid, ou!.displayName!);
-                          presenter.orgUnitSearchText.value = null;
-                          Navigator.pop(context);
-                        });
+    return Expanded(
+      child: Row(
+        children: <Widget>[
+          AppTextButton(
+            label: localization.lookup('clear'),
+            onPressed: () {
+              // showChips([]);
+              // setAdapter(initialData);
+              presenter.orgUnitSearchText.value = null;
+              presenter.orgUnits.assignAll([]);
+              presenter.orgUnitItems.assignAll(widget.initialData);
+              presenter.acceptButtonEnabled.value = false;
+              widget.onClear();
+              dismiss();
+            },
+          ),
+          AppTextButton(
+            label: localization.lookup('cancel'),
+            onPressed: () {
+              widget.onDialogCancelled();
+              presenter.orgUnitSearchText.value = null;
+              dismiss();
+            },
+          ),
+          Obx(() => AppTextButton(
+                label: localization.lookup('accept'),
+                onPressed: presenter.acceptButtonEnabled.value
+                    ? () async {
+                        presenter.orgUnitSearchText.value = null;
+                        // showChips([]);
+                        final String? selectedOrgUnitUid =
+                            presenter.getSelectedOrgUnit();
+                        if (selectedOrgUnitUid != null) {
+                          D2Remote.organisationUnitModule.organisationUnit
+                              .getOne()
+                              .then((OrganisationUnit? ou) {
+                            widget.textChangedConsumer
+                                .call(selectedOrgUnitUid, ou!.displayName!);
+                            presenter.orgUnitSearchText.value = null;
+                            dismiss();
+                          });
+                        }
                       }
-                    }
-                  : null,
-            )),
-      ],
+                    : null,
+              )),
+        ],
+      ),
     );
   }
 
+  void dismiss() {
+    Navigator.pop(context);
+    Get.delete<OuSelectorDialogPresenter>(force: true);
+  }
   @override
   void didChangeDependencies() async {
     /// This method is most used by subclasses in cases when network fetches
     /// need to take place following a dependancy change which would otherwise
     /// prove too expensive to do for every build.
 
-    await presenter.loadOrgUnitItems(widget.ouSelectionType);
+    await presenter.loadOrgUnitItems(widget.ouSelectionType).then((_) {
+      widget.initialData.addAll(presenter.orgUnitItems.value);
+    });
     super.didChangeDependencies();
   }
 }

@@ -5564,7 +5564,7 @@ final _data = <r.Reflectable, r.ReflectorData>{
             -1,
             60,
             60, const <int>[], const <Object>[
-          const prefix8.Column(type: prefix8.ColumnType.INTEGER)
+          const prefix8.Column(type: prefix8.ColumnType.INTEGER, nullable: true)
         ]),
         r.VariableMirrorImpl(
             r'dataElement',
