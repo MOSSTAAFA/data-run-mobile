@@ -10,34 +10,9 @@ import 'form_view_model.dart';
 import 'provider/enrollment_result_dialog_ui_provider.dart';
 
 class FormView extends StatelessWidget {
-  // final LocationProvider? locationProvider;
-  /// NMC TODO make Injectable
-  final bool needToForceUpdate;
-
-  /// NMC TODO make Injectable
-  final EnrollmentResultDialogUiProvider? resultDialogUiProvider;
-
-  /// NMC TODO maybe make Injectable
-  final FormViewModel viewModel;
-
-  /// Sent ser. through
-  /// NMC TODO make Injectable
-  final FormRepositoryRecords? records;
-
-  final void Function(RowAction)? onItemChangeListener;
-  final void Function(bool)? onLoadingListener;
-  final void Function()? onFocused;
-  final void Function()? onFinishDataEntry;
-  final void Function()? onActivityForResult;
-  final void Function(double)? completionListener;
-  final void Function(DataIntegrityCheckResult)? onDataIntegrityCheck;
-  final void Function(bool)? onFieldItemsRendered;
-
-  //
-  final void Function(String)? onSavePicture;
 
   const FormView(
-      {Key? key,
+      {super.key,
       required this.needToForceUpdate,
       required this.viewModel,
 
@@ -52,8 +27,32 @@ class FormView extends StatelessWidget {
       this.onDataIntegrityCheck,
       this.onFieldItemsRendered,
       this.onSavePicture,
-      this.resultDialogUiProvider})
-      : super(key: key);
+      this.resultDialogUiProvider});
+  // final LocationProvider? locationProvider;
+  // TODO(NMC): make Injectable
+  final bool needToForceUpdate;
+
+  // TODO(NMC): make Injectable
+  final EnrollmentResultDialogUiProvider? resultDialogUiProvider;
+
+  // TODO(NMC): maybe make Injectable
+  final FormViewModel viewModel;
+
+  /// Sent ser. through
+  // TODO(NMC): make Injectable
+  final FormRepositoryRecords? records;
+
+  final void Function(RowAction)? onItemChangeListener;
+  final void Function(bool)? onLoadingListener;
+  final void Function()? onFocused;
+  final void Function()? onFinishDataEntry;
+  final void Function()? onActivityForResult;
+  final void Function(double)? completionListener;
+  final void Function(DataIntegrityCheckResult)? onDataIntegrityCheck;
+  final void Function(bool)? onFieldItemsRendered;
+
+  //
+  final void Function(String)? onSavePicture;
 
   @override
   Widget build(BuildContext context) {

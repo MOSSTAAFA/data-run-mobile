@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'commons/constants.dart';
 import 'commons/custom_widgets/buttons/elevated_button.dart';
 import 'commons/org_unit_selector/ou_selector_dialog.widget.dart';
+import 'commons/prefs/preference_provider.dart';
 import 'main.reflectable.dart';
 import 'main/di.dart' as di;
 import 'main/l10n/app_localizations.dart';
@@ -26,8 +27,11 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   initializeReflectable();
 
+  await PreferenceProvider.init();
+
   D2Remote.initialize();
   di.init();
+
   runApp(const App());
 }
 

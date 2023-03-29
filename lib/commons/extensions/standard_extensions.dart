@@ -11,6 +11,11 @@ extension StandardExt<T> on T {
   static bool _kTrue(Object? _) => true;
 
   /// Calls the specified function [block] with `this` value as its argument and returns its result.
+  Future<R> aLet<R>(Future<R> Function(T it) block) {
+    return block(this);
+  }
+
+  /// Calls the specified function [block] with `this` value as its argument and returns its result.
   R let<R>(R Function(T it) block) {
     return block(this);
   }

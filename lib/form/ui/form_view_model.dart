@@ -37,12 +37,12 @@ import 'validation/validators/field_mask_validator.dart';
 
 // class FormViewModel extends ViewModel {
 class FormViewModel extends GetxController implements Listenable {
-  final FormRepository _repository;
-
   // static const TAG = 'FormViewModel';
 
   // GeometryController _geometryController = GeometryController(GeometryParserImpl());
   FormViewModel(this._repository /*, this._geometryController*/);
+
+  final FormRepository _repository;
 
   final loading = true.obs;
   final showToast = Rx<String?>(null);

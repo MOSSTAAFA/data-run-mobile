@@ -24,13 +24,6 @@ import 'provider/ui_event_types_provider.dart';
 import 'provider/ui_style_provider.dart';
 
 class FieldViewModelFactoryImpl implements FieldViewModelFactory {
-  final bool noMandatoryFields;
-  final UiStyleProvider uiStyleProvider;
-  final LayoutProvider layoutProvider;
-  final HintProvider hintProvider;
-  final DisplayNameProvider displayNameProvider;
-  final UiEventTypesProvider uiEventTypesProvider;
-  final KeyboardActionProvider keyboardActionProvider;
 
   // LegendValueProvider legendValueProvider;
 
@@ -44,6 +37,13 @@ class FieldViewModelFactoryImpl implements FieldViewModelFactory {
     required this.keyboardActionProvider,
     /*this.legendValueProvider*/
   });
+  final bool noMandatoryFields;
+  final UiStyleProvider uiStyleProvider;
+  final LayoutProvider layoutProvider;
+  final HintProvider hintProvider;
+  final DisplayNameProvider displayNameProvider;
+  final UiEventTypesProvider uiEventTypesProvider;
+  final KeyboardActionProvider keyboardActionProvider;
 
   final Rx<String> _currentSection = Rx<String>('');
 
@@ -64,12 +64,12 @@ class FieldViewModelFactoryImpl implements FieldViewModelFactory {
       String? fieldMask,
       OptionSetConfiguration? optionSetConfiguration,
       FeatureType? featureType}) async {
-    var isMandatory = mandatory;
+    bool isMandatory = mandatory;
     isNull(valueType, 'type must be supplied');
 
     if (noMandatoryFields) isMandatory = false;
 
-    String? displayName = await displayNameProvider.provideDisplayName(
+    final String? displayName = await displayNameProvider.provideDisplayName(
         valueType, value, optionSet);
 
     return FieldUiModelImpl(
@@ -119,12 +119,12 @@ class FieldViewModelFactoryImpl implements FieldViewModelFactory {
       OptionSetConfiguration? optionSetConfiguration}) async {
     isNull(trackedEntityAttribute.valueType, 'type must be supplied');
 
-    return await create(
+    return create(
       id: trackedEntityAttribute.id!,
       // label: trackedEntityAttribute.displayFormName() ?? '',
       label: trackedEntityAttribute.formName ?? '',
       valueType: trackedEntityAttribute.valueType.toValueType!,
-      mandatory: programTrackedEntityAttribute?.mandatory == true,
+      mandatory: programTrackedEntityAttribute?.mandatory ?? false,
       // optionSet: trackedEntityAttribute.optionSet?.uid(),
       optionSet: trackedEntityAttribute.optionSet,
       value: value,

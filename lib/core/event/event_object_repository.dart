@@ -5,6 +5,7 @@ import 'package:d2_remote/modules/data/tracker/models/geometry.dart';
 import 'package:d2_remote/shared/utilities/merge_mode.util.dart';
 import 'package:d2_remote/shared/utilities/save_option.util.dart';
 
+import '../../commons/date/date_utils.dart';
 import 'event_status.dart';
 
 class EventObjectRepository {
@@ -21,20 +22,19 @@ class EventObjectRepository {
 
   ///  throws D2Error
   Future<void> setOrganisationUnitUid(String organisationUnitUid) async {
-    return updateObject(
-        (await updateBuilder())..orgUnit = organisationUnitUid);
+    return updateObject((await updateBuilder())..orgUnit = organisationUnitUid);
   }
 
   ///  throws D2Error
   Future<void> setEventDate(DateTime? enrollmentDate) async {
-    final date = enrollmentDate?.toIso8601String().split('.')[0];
+    final String? date = enrollmentDate?.toIso8601String().split('.')[0];
     return updateObject((await updateBuilder())..eventDate = date);
   }
 
   ///  throws D2Error
   Future<void> setStatus(EventStatus eventStatus) async {
     final String? completedDate = eventStatus == EnrollmentStatus.COMPLETED
-        ? DateTime.now().toIso8601String().split('.')[0]
+        ? DateUtils.databaseDateFormat().format(DateTime.now())
         : null;
 
     return updateObject((await updateBuilder())
@@ -44,13 +44,14 @@ class EventObjectRepository {
 
   ///  throws D2Error
   Future<void> setCompletedDate(DateTime completedDate) async {
-    final date = completedDate.toIso8601String().split('.')[0];
+    // final date = completedDate.toIso8601String().split('.')[0];
+    final String date = DateUtils.databaseDateFormat().format(completedDate);
     return updateObject((await updateBuilder())..completedDate = date);
   }
 
   ///  throws D2Error
   Future<void> setDueDate(DateTime dueDate) async {
-    final date = dueDate.toIso8601String().split('.')[0];
+    final String date = DateUtils.databaseDateFormat().format(dueDate);
     return updateObject((await updateBuilder())..dueDate = date);
   }
 
@@ -73,8 +74,12 @@ class EventObjectRepository {
   // }
 
   Future<Event> updateBuilder() async {
-    final Event event = (await D2Remote.trackerModule.event.byId(uid).getOne())!;
-    final String updateDate = DateTime.now().toIso8601String().split('.')[0];
+    final Event event =
+        (await D2Remote.trackerModule.event.byId(uid).getOne())!;
+    // final String updateDate = DateTime.now().toIso8601String().split('.')[0];
+    final String updateDate =
+        DateUtils.databaseDateFormat().format(DateTime.now());
+
     // bool? state = enrollment.synced;
     // state = state == State.TO_POST ? state : State.TO_UPDATE;
 
@@ -89,5 +94,9 @@ class EventObjectRepository {
 
   Future<void> deleteObject(Event enrollment) async {
     await D2Remote.trackerModule.enrollment.byId(uid).delete();
+  }
+
+  Future<Event?> getEvent() async {
+    return D2Remote.trackerModule.event.byId(uid).getOne();
   }
 }

@@ -1,7 +1,7 @@
 import 'event_status.dart';
 
 extension ToEventStatusExtension on String? {
-  EventStatus? get toStatus {
+  EventStatus? get toEventStatus {
     try {
       return EventStatus.values.firstWhere((status) => status.name == this,
           orElse: throw ArgumentError(

@@ -19,7 +19,7 @@ class MpEnrollmentUtils {
           .getOne();
 
       return enrollment == null ||
-          enrollment.status?.toStatus == EnrollmentStatus.ACTIVE;
+          enrollment.status?.toEnrollmentStatus == EnrollmentStatus.ACTIVE;
     } else {
       return true;
     }

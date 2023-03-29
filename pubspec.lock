@@ -204,6 +204,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.6"
+  equatable:
+    dependency: transitive
+    description:
+      name: equatable
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.5"
   expressions:
     dependency: transitive
     description:
@@ -553,6 +560,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.27.7"
+  sealed_annotations:
+    dependency: "direct main"
+    description:
+      name: sealed_annotations
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.13.0"
+  sealed_generators:
+    dependency: "direct dev"
+    description:
+      name: sealed_generators
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.13.0"
+  sealed_writer:
+    dependency: transitive
+    description:
+      name: sealed_writer
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.13.0"
   shared_preferences:
     dependency: "direct main"
     description:

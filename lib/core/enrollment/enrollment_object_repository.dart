@@ -7,6 +7,8 @@ import 'package:d2_remote/modules/data/tracker/models/geometry.dart';
 import 'package:d2_remote/shared/utilities/merge_mode.util.dart';
 import 'package:d2_remote/shared/utilities/save_option.util.dart';
 
+import '../../commons/date/date_utils.dart';
+
 class EnrollmentObjectRepository {
   EnrollmentObjectRepository(this.uid);
 
@@ -38,7 +40,8 @@ class EnrollmentObjectRepository {
 
   ///  throws D2Error
   Future<void> setCompletedDate(DateTime completedDate) async {
-    final date = completedDate.toIso8601String().split('.')[0];
+    // final date = completedDate.toIso8601String().split('.')[0];
+    final String date = DateUtils.databaseDateFormat().format(completedDate);
     return updateObject((await updateBuilder())..completedDate = date);
   }
 
@@ -49,8 +52,11 @@ class EnrollmentObjectRepository {
 
   ///  throws D2Error
   Future<void> setStatus(EnrollmentStatus? enrollmentStatus) async {
+    // final String? completedDate = enrollmentStatus == EnrollmentStatus.COMPLETED
+    //     ? DateTime.now().toIso8601String().split('.')[0]
+    //     : null;
     final String? completedDate = enrollmentStatus == EnrollmentStatus.COMPLETED
-        ? DateTime.now().toIso8601String().split('.')[0]
+        ? DateUtils.databaseDateFormat().format(DateTime.now())
         : null;
 
     return updateObject((await updateBuilder())
@@ -68,7 +74,8 @@ class EnrollmentObjectRepository {
   Future<Enrollment> updateBuilder() async {
     final Enrollment enrollment =
         (await D2Remote.trackerModule.enrollment.byId(uid).getOne())!;
-    final String updateDate = DateTime.now().toIso8601String().split('.')[0];
+    final String updateDate =
+        DateUtils.databaseDateFormat().format(DateTime.now());
     // bool? state = enrollment.synced;
     // state = state == State.TO_POST ? state : State.TO_UPDATE;
 
