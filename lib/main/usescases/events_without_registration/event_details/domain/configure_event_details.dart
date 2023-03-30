@@ -4,6 +4,7 @@ import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity
 import '../../../../../commons/data/event_creation_type.dart';
 import '../../../../../commons/extensions/standard_extensions.dart' as alet;
 import '../../../../../commons/extensions/string_extension.dart';
+import '../../../../../commons/helpers/result.dart';
 import '../../../../../core/event/event_editable_status.dart';
 import '../../../../../core/event/event_extensions.dart';
 import '../../../../../core/event/event_status.dart';
@@ -27,8 +28,11 @@ class ConfigureEventDetails {
   final EventCreationType _creationType;
   final EnrollmentStatus? _enrollmentStatus;
 
-  Future<EventDetails> call(DateTime? selectedDate, String? selectedOrgUnit,
-      bool isCatComboCompleted, String? coordinates, String? tempCreate) async {
+  Future<EventDetails> call(
+      {DateTime? selectedDate,
+      String? selectedOrgUnit,
+      String? coordinates,
+      String? tempCreate}) async {
     final bool isEventCompleted = _isCompleted(
         selectedDate: selectedDate,
         selectedOrgUnit: selectedOrgUnit,
@@ -74,7 +78,7 @@ class ConfigureEventDetails {
         isEventCompleted;
   }
 
-  void reopenEvent() => _repository.reopenEvent();
+  Future<Result<String>> reopenEvent() => _repository.reopenEvent();
 
   bool _isCompleted(
           {DateTime? selectedDate,

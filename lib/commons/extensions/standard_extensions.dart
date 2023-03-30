@@ -52,6 +52,18 @@ extension StandardExt<T> on T {
     }
     return null;
   }
+
+  /// Calls the specified function [block] with this value as its receiver and returns this value.
+  T apply<R>(R Function(T it) block) {
+    block(this);
+    return this;
+  }
+
+  /// Calls the specified function [block] with this value as its receiver and returns this value.
+  Future<T> aApply<R>(Future<R> Function(T it) block) async {
+    await block(this);
+    return this;
+  }
 }
 
 extension OrElse<T> on T? {

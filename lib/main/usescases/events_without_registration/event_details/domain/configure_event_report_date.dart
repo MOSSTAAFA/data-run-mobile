@@ -2,6 +2,7 @@ import 'package:d2_remote/core/mp/period/period_type.dart';
 
 import '../../../../../commons/data/event_creation_type.dart';
 import '../data/event_details_repository.dart';
+import '../models/event_date.dart';
 import '../providers/event_detail_resources_provider.dart';
 
 class ConfigureEventReportDate {
@@ -29,4 +30,9 @@ class ConfigureEventReportDate {
   // DhisPeriodUtils _periodUtils;
   final String? _enrollmentId;
   final int _scheduleInterval;
+
+  Future<EventDate> call(DateTime? selectedDate) {
+    // TODO(NMC): implement rest of ConfigureEventReportDate
+    return Future.value(EventDate());
+  }
 }

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:d2_remote/core/common/feature_type.dart';
 import 'package:d2_remote/core/common/value_type.dart';
+import 'package:d2_remote/core/maintenance/d2_error.dart';
 import 'package:d2_remote/core/mp/enrollment/enrollment_status.dart';
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/data/tracker/entities/enrollment.entity.dart';
@@ -16,6 +17,7 @@ import '../../../../../commons/date/date_utils.dart';
 import '../../../../../commons/extensions/date_format_extensions.dart';
 import '../../../../../commons/extensions/feature_type_extension.dart';
 import '../../../../../commons/extensions/standard_extensions.dart';
+import '../../../../../commons/helpers/result.dart';
 import '../../../../../commons/resources/d2_error_utils.dart';
 import '../../../../../core/event/event_editable_status.dart';
 import '../../../../../core/event/event_extensions.dart';
@@ -300,19 +302,14 @@ class EventDetailsRepository {
         false;
   }
 
-  void reopenEvent() {
-    // try {
-    //   eventUid?.let {
-    //     d2.eventModule().events().uid(it).setStatus(EventStatus.ACTIVE)
-    //     Result.success(Unit)
-    //   } ?: Result.success(Unit)
-    // } catch (d2Error: D2Error) {
-    // Result.failure(
-    // java.lang.Exception(
-    // d2ErrorMapper.getErrorMessage(d2Error),
-    // d2Error
-    // )
-    // )
-    // }
+  Future<Result<String>> reopenEvent() async {
+    try {
+      await eventUid?.aLet((String it) =>
+          EventObjectRepository(it).setStatus(EventStatus.ACTIVE));
+
+      return Result.success('');
+    } on D2Error catch (d2Error) {
+      return Result.failure(Exception(d2ErrorMapper.getErrorMessage(d2Error)));
+    }
   }
 }

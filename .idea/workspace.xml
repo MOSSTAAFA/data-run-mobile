@@ -5,23 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="754ad326-0a69-4d07-8691-6647e6f5924d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/commons/prefs/preference.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/core/event/event_non_editable_reason.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/di/event_details_module.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/domain/configure_event_coordinates.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/domain/configure_event_details.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/domain/configure_event_report_date.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/domain/configure_event_temp.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/domain/configure_org_unit.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/domain/create_or_update_event_details.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/models/event_temp.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/models/event_temp_status.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/providers/event_detail_resources_provider.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/ui/event_details_view_model.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/ui/event_details_view_model_factory.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/helpers/result.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/commons/extensions/list_extensions.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/commons/extensions/list_extensions.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/commons/extensions/standard_extensions.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/commons/extensions/standard_extensions.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/models/event_details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/models/event_details.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/data/event_details_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/data/event_details_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/domain/configure_event_details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/domain/configure_event_details.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/domain/configure_event_report_date.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/domain/configure_event_report_date.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/domain/create_or_update_event_details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/domain/create_or_update_event_details.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/ui/event_details_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/ui/event_details_view_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/ui/event_details_view_model_factory.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/ui/event_details_view_model_factory.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

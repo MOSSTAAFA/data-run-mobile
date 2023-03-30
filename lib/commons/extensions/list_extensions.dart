@@ -70,3 +70,7 @@ extension _MinMaxHelper<E> on Iterable<E> {
     return currentMin;
   }
 }
+
+extension NullOrEmpty<T> on List<T>? {
+  bool get isNullOrEmpty => this?.isEmpty ?? true;
+}
