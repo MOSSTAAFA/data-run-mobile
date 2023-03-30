@@ -13,16 +13,16 @@ import 'event_details_view_model.dart';
 class EventDetailsViewModelFactory
     implements ViewModelFactory<EventDetailsViewModel> {
   EventDetailsViewModelFactory(
-      ConfigureEventDetails configureEventDetails,
-      ConfigureEventReportDate configureEventReportDate,
-      ConfigureOrgUnit configureOrgUnit,
-      ConfigureEventCoordinates configureEventCoordinates,
-      ConfigureEventTemp configureEventTemp,
+      {required ConfigureEventDetails configureEventDetails,
+      required ConfigureEventReportDate configureEventReportDate,
+      required ConfigureOrgUnit configureOrgUnit,
+      required ConfigureEventCoordinates configureEventCoordinates,
+      required ConfigureEventTemp configureEventTemp,
       PeriodType? periodType,
-      // GeometryController geometryController,
-      // LocationProvider locationProvider,
-      CreateOrUpdateEventDetails createOrUpdateEventDetails,
-      EventDetailResourcesProvider eventDetailResourcesProvider)
+      // required GeometryController geometryController,
+      // required LocationProvider locationProvider,
+      required CreateOrUpdateEventDetails createOrUpdateEventDetails,
+      required EventDetailResourcesProvider eventDetailResourcesProvider})
       : _configureEventDetails = configureEventDetails,
         _configureEventReportDate = configureEventReportDate,
         _configureOrgUnit = configureOrgUnit,
