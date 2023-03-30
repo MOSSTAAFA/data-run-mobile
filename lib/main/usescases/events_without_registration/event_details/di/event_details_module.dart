@@ -30,27 +30,37 @@ import '../ui/event_details_view_model_factory.dart';
 
 class EventDetailsModule {
   EventDetailsModule(
-      {required this.context,
-      this.eventUid,
-      required this.eventCreationType,
-      this.programStageUid,
-      required this.programUid,
-      this.periodType,
-      this.enrollmentId,
-      required this.scheduleInterval,
-      this.initialOrgUnitUid,
-      this.enrollmentStatus});
+      {required BuildContext context,
+      String? eventUid,
+      required EventCreationType eventCreationType,
+      String? programStageUid,
+      required String programUid,
+      PeriodType? periodType,
+      String? enrollmentId,
+      required int scheduleInterval,
+      String? initialOrgUnitUid,
+      EnrollmentStatus? enrollmentStatus})
+      : _context = context,
+        _eventUid = eventUid,
+        _eventCreationType = eventCreationType,
+        _programStageUid = programStageUid,
+        _programUid = programUid,
+        _periodType = periodType,
+        _enrollmentId = enrollmentId,
+        _scheduleInterval = scheduleInterval,
+        _initialOrgUnitUid = initialOrgUnitUid,
+        _enrollmentStatus = enrollmentStatus;
 
-  final BuildContext context;
-  final String? eventUid;
-  final EventCreationType eventCreationType;
-  final String? programStageUid;
-  final String programUid;
-  final PeriodType? periodType;
-  final String? enrollmentId;
-  final int scheduleInterval;
-  final String? initialOrgUnitUid;
-  final EnrollmentStatus? enrollmentStatus;
+  final BuildContext _context;
+  final String? _eventUid;
+  final EventCreationType _eventCreationType;
+  final String? _programStageUid;
+  final String _programUid;
+  final PeriodType? _periodType;
+  final String? _enrollmentId;
+  final int _scheduleInterval;
+  final String? _initialOrgUnitUid;
+  final EnrollmentStatus? _enrollmentStatus;
 
   EventDetailResourcesProvider provideEventDetailResourceProvider(
       ResourceManager resourceManager) {
@@ -60,25 +70,25 @@ class EventDetailsModule {
   EventDetailsRepository provideEventDetailsRepository(
       ResourceManager resourceManager) {
     return EventDetailsRepository(
-        programUid: programUid,
-        eventUid: eventUid,
-        programStageUid: programStageUid,
+        programUid: _programUid,
+        eventUid: _eventUid,
+        programStageUid: _programStageUid,
         fieldFactory: FieldViewModelFactoryImpl(
           noMandatoryFields: false,
           uiStyleProvider: UiStyleProviderImpl(
               colorFactory: FormUiModelColorFactoryImpl(
-                  context: context, isBackgroundTransparent: true),
+                  context: _context, isBackgroundTransparent: true),
               longTextColorFactory: LongTextUiColorFactoryImpl(
-                  context: context, isBackgroundTransparent: true)),
+                  context: _context, isBackgroundTransparent: true)),
           layoutProvider: const LayoutProviderImpl(),
-          hintProvider: HintProviderImpl(context),
+          hintProvider: HintProviderImpl(_context),
           displayNameProvider: const DisplayNameProviderImpl(
               OptionSetConfiguration(), OrgUnitConfiguration()),
           uiEventTypesProvider: const UiEventTypesProviderImpl(),
           keyboardActionProvider: const KeyboardActionProviderImpl(),
           // legendValueProvider: LegendValueProviderImpl(resourceManager)
         ),
-        d2ErrorMapper: D2ErrorUtils(context),
+        d2ErrorMapper: D2ErrorUtils(_context),
         eventService: EventServiceImpl());
   }
 
@@ -94,26 +104,27 @@ class EventDetailsModule {
         configureEventDetails: ConfigureEventDetails(
             repository: eventDetailsRepository,
             resourcesProvider: resourcesProvider,
-            creationType: eventCreationType,
-            enrollmentStatus: enrollmentStatus),
+            creationType: _eventCreationType,
+            enrollmentStatus: _enrollmentStatus),
         configureEventReportDate: ConfigureEventReportDate(
-            creationType: eventCreationType,
+            creationType: _eventCreationType,
             resourceProvider: resourcesProvider,
             repository: eventDetailsRepository,
-            periodType: periodType,
+            periodType: _periodType,
             // periodUtils: periodUtils,
-            enrollmentId: enrollmentId,
-            scheduleInterval: scheduleInterval),
+            enrollmentId: _enrollmentId,
+            scheduleInterval: _scheduleInterval),
         configureOrgUnit: ConfigureOrgUnit(
-            creationType: eventCreationType,
+            creationType: _eventCreationType,
             repository: eventDetailsRepository,
             preferencesProvider: preferencesProvider,
-            programUid: programUid,
-            initialOrgUnitUid: initialOrgUnitUid),
+            programUid: _programUid,
+            initialOrgUnitUid: _initialOrgUnitUid),
         configureEventCoordinates:
             ConfigureEventCoordinates(repository: eventDetailsRepository),
-        configureEventTemp: ConfigureEventTemp(creationType: eventCreationType),
-        periodType: periodType,
+        configureEventTemp:
+            ConfigureEventTemp(creationType: _eventCreationType),
+        periodType: _periodType,
         // geometryController: geometryController,
         // locationProvider: locationProvider,
         createOrUpdateEventDetails: CreateOrUpdateEventDetails(

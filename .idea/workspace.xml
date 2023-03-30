@@ -6,9 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="754ad326-0a69-4d07-8691-6647e6f5924d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/di/event_details_module.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/di/event_details_module.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/domain/configure_event_coordinates.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/domain/configure_event_coordinates.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/domain/configure_event_temp.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/domain/configure_event_temp.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/ui/event_details_view_model_factory.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/ui/event_details_view_model_factory.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
