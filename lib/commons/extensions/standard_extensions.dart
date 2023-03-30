@@ -1,14 +1,13 @@
+extension StandardAsyncExt<T> on Future<T> {
+  /// Async calls the specified function [block] with `this` value as its argument and returns its result as Future.
+  Future<R> aaLet<R>(Future<R> Function(T it) block) {
+    return then((T value) => block(value));
+  }
+}
 
-// extension StandardAsyncExt<T> on Future<T> {
-//   /// Async calls the specified function [block] with `this` value as its argument and returns its result as Future.
-//   Future<R> aaLet<R>(R Function(T) block) async {
-//     final T incomingValue = await this;
-//     return block((await this) as T);
-//   }
-// }
+typedef _WhenCheck = bool Function<T>(T value);
+
 extension StandardExt<T> on T {
-  // Constant `true` function, used as callback by [forEach].
-  static bool _kTrue(Object? _) => true;
 
   /// Calls the specified function [block] with `this` value as its argument and returns its result.
   Future<R> aLet<R>(Future<R> Function(T it) block) {
@@ -36,5 +35,27 @@ extension StandardExt<T> on T {
   T? takeUnless(bool Function(T) predicate) {
     if (!predicate(this)) return this;
     return null;
+  }
+
+  V? when<T, V>(T value, Map<T, V Function()> branches) {
+    assert(branches.isNotEmpty);
+
+    for (var key in branches.keys) {
+      if ((key == value) ||
+          (key is List && key.contains(value)) ||
+          (key is _WhenCheck && key(value))) {
+        final branch = branches[key];
+        if (branch != null) {
+          return branch();
+        }
+      }
+    }
+    return null;
+  }
+}
+
+extension OrElse<T> on T? {
+  T orElse(T Function() branch) {
+    return this ?? branch();
   }
 }

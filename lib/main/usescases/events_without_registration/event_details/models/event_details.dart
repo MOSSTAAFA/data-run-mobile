@@ -37,7 +37,6 @@ class EventDetails with EquatableMixin {
   EventDetails copyWith(
           {final String? name,
           final String? description,
-
           // final ObjectStyle? style,
           final bool? enabled,
           final bool? isEditable,
@@ -45,7 +44,6 @@ class EventDetails with EquatableMixin {
           final String? temCreate,
           final DateTime? selectedDate,
           final String? selectedOrgUnit,
-          // final String? catOptionComboUid,
           final String? coordinates,
           final bool? isCompleted,
           final bool? isActionButtonVisible,
