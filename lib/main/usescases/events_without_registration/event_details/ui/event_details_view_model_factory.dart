@@ -12,7 +12,7 @@ import 'event_details_view_model.dart';
 
 class EventDetailsViewModelFactory
     implements ViewModelFactory<EventDetailsViewModel> {
-  EventDetailsViewModelFactory(
+  const EventDetailsViewModelFactory(
       {required ConfigureEventDetails configureEventDetails,
       required ConfigureEventReportDate configureEventReportDate,
       required ConfigureOrgUnit configureOrgUnit,

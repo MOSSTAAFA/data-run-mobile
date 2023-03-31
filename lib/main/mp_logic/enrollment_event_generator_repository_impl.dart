@@ -100,7 +100,6 @@ class EnrollmentEventGeneratorRepositoryImpl
           ..enrollment = enrollmentUid
           ..programStage = stageUid
           // ..program = programUid
-          // ..attributeOptionCombo = catOptionCombo)
           ..activity = activityUid
           ..organisationUnit = orgUnitUid)
         .build();

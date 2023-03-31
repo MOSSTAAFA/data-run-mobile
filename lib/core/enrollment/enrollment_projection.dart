@@ -5,6 +5,11 @@ EnrollmentProjectionBuilder get _enrollmentProjectionBuilder =>
     EnrollmentProjectionBuilder();
 
 class EnrollmentCreateProjection {
+  EnrollmentCreateProjection._builder(EnrollmentProjectionBuilder builder)
+      : _program = builder.program!,
+        _organisationUnit = builder.organisationUnit!,
+        _activity = builder.activity!,
+        _trackedEntityType = builder.trackedEntityType!;
   final String _program;
   final String _organisationUnit;
   final String _activity;
@@ -12,24 +17,18 @@ class EnrollmentCreateProjection {
 
   static const Transformer _transformer = _EnrollmentTransformer();
 
-  EnrollmentCreateProjection._builder(EnrollmentProjectionBuilder builder)
-      : _program = builder.program!,
-        _organisationUnit = builder.organisationUnit!,
-        _activity = builder.activity!,
-        _trackedEntityType = builder.trackedEntityType!;
-
   Enrollment _transform() => _transformer.transform(this);
 
   static EnrollmentProjectionBuilder builder() => _enrollmentProjectionBuilder;
 }
 
 class EnrollmentProjectionBuilder {
+  EnrollmentProjectionBuilder();
+
   String? program;
   String? organisationUnit;
   String? activity;
   String? trackedEntityType;
-
-  EnrollmentProjectionBuilder();
 
   Enrollment build() {
     assert(program != null, 'program: Cannot be null');

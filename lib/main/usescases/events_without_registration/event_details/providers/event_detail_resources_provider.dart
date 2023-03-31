@@ -3,7 +3,7 @@ import '../../../../../commons/resources/resource_manager.dart';
 import '../../../../../core/event/event_editable_status.dart';
 
 class EventDetailResourcesProvider {
-  EventDetailResourcesProvider(this._resourceManager);
+  const EventDetailResourcesProvider(this._resourceManager);
 
   final ResourceManager _resourceManager;
 

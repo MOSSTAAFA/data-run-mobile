@@ -8,7 +8,7 @@ import '../data/event_details_repository.dart';
 import '../models/event_coordinates.dart';
 
 class ConfigureEventCoordinates {
-  ConfigureEventCoordinates({required EventDetailsRepository repository})
+  const ConfigureEventCoordinates({required EventDetailsRepository repository})
       : _repository = repository;
 
   final EventDetailsRepository _repository;

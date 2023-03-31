@@ -89,7 +89,7 @@ class EventDetailsModule {
           // legendValueProvider: LegendValueProviderImpl(resourceManager)
         ),
         d2ErrorMapper: D2ErrorUtils(_context),
-        eventService: EventServiceImpl());
+        eventService: eventService);
   }
 
   EventDetailsViewModelFactory eventDetailsViewModelFactory(

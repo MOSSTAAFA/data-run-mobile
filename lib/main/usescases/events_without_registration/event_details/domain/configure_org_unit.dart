@@ -11,7 +11,7 @@ import '../data/event_details_repository.dart';
 import '../models/event_org_unit.dart';
 
 class ConfigureOrgUnit {
-  ConfigureOrgUnit(
+  const ConfigureOrgUnit(
       {required EventCreationType creationType,
       required EventDetailsRepository repository,
       required PreferenceProvider preferencesProvider,

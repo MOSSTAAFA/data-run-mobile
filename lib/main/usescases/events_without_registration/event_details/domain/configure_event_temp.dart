@@ -3,7 +3,7 @@ import '../models/event_temp.dart';
 import '../models/event_temp_status.dart';
 
 class ConfigureEventTemp {
-  ConfigureEventTemp({required EventCreationType creationType})
+  const ConfigureEventTemp({required EventCreationType creationType})
       : _creationType = creationType;
 
   final EventCreationType _creationType;

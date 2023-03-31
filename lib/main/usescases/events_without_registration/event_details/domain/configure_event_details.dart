@@ -13,7 +13,7 @@ import '../models/event_details.dart';
 import '../providers/event_detail_resources_provider.dart';
 
 class ConfigureEventDetails {
-  ConfigureEventDetails(
+  const ConfigureEventDetails(
       {required EventDetailsRepository repository,
       required EventDetailResourcesProvider resourcesProvider,
       required EventCreationType creationType,

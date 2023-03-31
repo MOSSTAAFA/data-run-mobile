@@ -6,7 +6,7 @@ import '../models/event_date.dart';
 import '../providers/event_detail_resources_provider.dart';
 
 class ConfigureEventReportDate {
-  ConfigureEventReportDate(
+  const ConfigureEventReportDate(
       {required EventCreationType creationType,
       required EventDetailResourcesProvider resourceProvider,
       required EventDetailsRepository repository,

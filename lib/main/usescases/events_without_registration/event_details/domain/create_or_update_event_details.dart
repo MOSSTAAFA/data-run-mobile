@@ -8,7 +8,7 @@ import '../data/event_details_repository.dart';
 import '../providers/event_detail_resources_provider.dart';
 
 class CreateOrUpdateEventDetails {
-  CreateOrUpdateEventDetails(
+  const CreateOrUpdateEventDetails(
       {required EventDetailsRepository repository,
       required EventDetailResourcesProvider resourcesProvider})
       : _repository = repository,

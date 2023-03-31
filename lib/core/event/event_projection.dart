@@ -37,14 +37,10 @@ class EventProjectionBuilder {
   String? status;
 
   Event build() {
-    // if (program == null) throw ArgumentError('program: Cannot be null');
-    if (programStage == null) {
-      throw ArgumentError('programStage: Cannot be null');
-    }
-    if (organisationUnit == null) {
-      throw ArgumentError('organisationUnit: Cannot be null');
-    }
-    if (activity == null) throw ArgumentError('activity: Cannot be null');
+    // assert(program != null, 'program: Cannot be null');
+    assert(programStage != null, 'programStage: Cannot be null');
+    assert(organisationUnit != null, 'organisationUnit: Cannot be null');
+    assert(activity != null, 'activity: Cannot be null');
     return EventCreateProjection._builder(this)._transform();
   }
 }

@@ -24,12 +24,13 @@ import '../../../../../core/event/event_extensions.dart';
 import '../../../../../core/event/event_object_repository.dart';
 import '../../../../../core/event/event_service.dart';
 import '../../../../../core/event/event_status.dart';
+import '../../../../../core/organisation_unit/org_unit_extension.dart';
 import '../../../../../form/model/field_ui_model.dart';
 import '../../../../../form/ui/field_view_model_factory.dart';
 import '../../../../mp_logic/authorities.dart';
 
 class EventDetailsRepository {
-  EventDetailsRepository(
+  const EventDetailsRepository(
       {required this.programUid,
       this.eventUid,
       this.programStageUid,
@@ -195,10 +196,7 @@ class EventDetailsRepository {
         // TODO(NMC): implement OrganisationUnitScope
         // .byOrganisationUnitScope(OrganisationUnitScope.SCOPE_DATA_CAPTURE)
         .get();
-    return orgUnits.filter((ou) {
-      final List<dynamic> dataList = jsonDecode(ou.programs!);
-      return dataList.contains(programUid);
-    }).toList();
+    return orgUnits.byProgramUids(programUid);
   }
 
   Future<OrganisationUnit?> getOrganisationUnit(String orgUnitUid) async {
@@ -213,10 +211,7 @@ class EventDetailsRepository {
         // TODO(NMC): implement OrganisationUnitScope
         // .byOrganisationUnitScope(OrganisationUnitScope.SCOPE_DATA_CAPTURE)
         .get();
-    return orgUnits.filter((ou) {
-      final List<dynamic> dataList = jsonDecode(ou.programs!);
-      return dataList.contains(programUid);
-    }).toList();
+    return orgUnits.byProgramUids(programUid);
   }
 
   Future<FieldUiModel> getGeometryModel() async {
