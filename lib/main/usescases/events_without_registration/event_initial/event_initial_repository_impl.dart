@@ -32,10 +32,10 @@ import 'event_initial_repository.dart';
 
 class EventInitialRepositoryImpl implements EventInitialRepository {
   EventInitialRepositoryImpl(
-      final FieldViewModelFactory fieldFactory,
+      {required final FieldViewModelFactory fieldFactory,
       // final RuleEngineRepository ruleEngineRepository,
       final String? eventUid,
-      final String stageUid)
+      required final String stageUid})
       : _fieldFactory = fieldFactory,
         // _ruleEngineRepository = ruleEngineRepository,
         _eventUid = eventUid,

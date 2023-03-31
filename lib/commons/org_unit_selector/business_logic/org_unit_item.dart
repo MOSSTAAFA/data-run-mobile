@@ -8,7 +8,7 @@ import 'package:d2_remote/modules/metadata/organisation_unit/queries/organisatio
 import 'package:dartx/dartx_io.dart';
 import '../../../core/organisation_unit/organisation_unit_display_path_generator.dart';
 import '../../../core/organisation_unit/organisation_unit_scope.dart';
-import '../../helpers/trio.dart';
+import '../../helpers/collections.dart';
 import '../ou_selector_dialog.widget.dart';
 
 class OrgUnitItem {

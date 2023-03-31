@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../../main/l10n/app_localizations.dart';
 import '../custom_widgets/app_dropdown_button.dart';
 import '../extensions/string_extension.dart';
-import '../helpers/trio.dart';
+import '../helpers/collections.dart';
 import 'business_logic/org_unit_item.dart';
 import 'ou_selector_dialog.presenter.dart';
 import 'ou_selector_dialog.widget.dart';

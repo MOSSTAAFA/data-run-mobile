@@ -5,7 +5,6 @@ import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisati
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../main.dart';
 import '../../main/l10n/app_localizations.dart';
 import '../custom_widgets/buttons/app_text_button.dart';
 import '../custom_widgets/list_filter.dart';

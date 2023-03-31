@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../extensions/string_extension.dart';
-import '../helpers/trio.dart';
+import '../helpers/collections.dart';
 import 'business_logic/org_unit_item.dart';
 import 'ou_selector_dialog.widget.dart';
 
