@@ -105,8 +105,6 @@ class EventInitialRepositoryImpl implements EventInitialRepository {
         case FeatureType.MULTI_POLYGON:
           eventRepository.setGeometry(geometry);
           break;
-        default:
-          break;
       }
     }
     return event.id!;
@@ -154,8 +152,6 @@ class EventInitialRepositoryImpl implements EventInitialRepository {
         case FeatureType.POLYGON:
         case FeatureType.MULTI_POLYGON:
           eventRepository.setGeometry(geometry);
-          break;
-        default:
           break;
       }
     }
@@ -412,6 +408,15 @@ class EventInitialRepositoryImpl implements EventInitialRepository {
     return eventService.getEditableStatus(_eventUid ?? '');
   }
 
+  /// Sometimes it might be nessascary to refer a patient to a different Organisation unit. To refer a
+  /// TEI:
+  /// 1- Open the Tracker Capture app.
+  /// 2- Open an existing TEI dashboard.
+  /// 3- In the Timeline Data entry or Tabular data entry widget, click the Arrow icon.
+  /// 4- Select a Programstage, Organisation unit and set a **Report date**.
+  /// 5- Click either One-time referral which will only refer TEI for one single event or Move
+  /// permanently which will move TEI ownership to the selected Organisation Unit. Further
+  /// access to the TEI will be based on the ownership organisation unit
   @override
   Future<String> permanentReferral(
       String enrollmentUid,

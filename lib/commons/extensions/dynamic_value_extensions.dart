@@ -43,9 +43,8 @@ extension CheckValueDynamicExtension on dynamic {
                 .byId(value)
                 .getOne();
             return orgUnit != null;
-          default:
-            return true;
         }
+        return true;
       }
     }
     return false;

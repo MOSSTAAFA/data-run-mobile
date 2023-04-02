@@ -55,8 +55,6 @@ class UiEventFactoryImpl implements UiEventFactory {
                   label: label,
                   date: DateUtils.timeFormat().parse(value ?? ''));
               break;
-            default:
-              uiEvent = null;
           }
           break;
         case UiEventType.AGE_CALENDAR:
@@ -64,7 +62,7 @@ class UiEventFactoryImpl implements UiEventFactory {
               uid: uid, label: label, date: value?.toDate());
           break;
         case UiEventType.AGE_YEAR_MONTH_DAY:
-          var yearMonthDay = _valueToYearMonthDay(value);
+          final List<int> yearMonthDay = _valueToYearMonthDay(value);
           uiEvent = ListViewUiEvents.openYearMonthDayAgeCalendar(
               uid: uid,
               year: yearMonthDay[0],
@@ -112,8 +110,6 @@ class UiEventFactoryImpl implements UiEventFactory {
         case UiEventType.OPTION_SET:
           uiEvent = ListViewUiEvents.openOptionSetDialog(field: fieldUiModel);
           break;
-        default:
-          uiEvent = null;
       }
     } catch (e) {
       if (kDebugMode) {
@@ -141,8 +137,7 @@ class UiEventFactoryImpl implements UiEventFactory {
         return FeatureType.POLYGON;
       case UiRenderType.MULTI_POLYGON:
         return FeatureType.MULTI_POLYGON;
-      default:
-        return FeatureType.NONE;
     }
+    return FeatureType.NONE;
   }
 }

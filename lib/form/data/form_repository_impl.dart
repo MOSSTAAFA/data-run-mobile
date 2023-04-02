@@ -84,7 +84,8 @@ class FormRepositoryImpl implements FormRepository {
     _runDataIntegrity = true;
     final itemsWithErrors = _getFieldsWithError();
     /*final*/
-    final List<FieldWithIssue> itemsWithWarning = /*ruleEffectsResult?...??*/ [];
+    final List<FieldWithIssue>
+        itemsWithWarning = /*ruleEffectsResult?...??*/ [];
     // final DataIntegrityCheckResult result;
     if (itemsWithErrors
         .isNotEmpty /*|| ruleEffectsResult?.canComplete == false*/) {
@@ -171,16 +172,10 @@ class FormRepositoryImpl implements FormRepository {
 
   @override
   void setFocusedItem(RowAction action) {
-    switch (action.type) {
-      case ActionType.ON_NEXT:
-        _focusedItemId = _getNextItem(action.id);
-        break;
-      case ActionType.ON_FINISH:
-        _focusedItemId = null;
-        break;
-      default:
-        _focusedItemId = action.id;
-    }
+    when(action.type, {
+      ActionType.ON_NEXT: () => _focusedItemId = _getNextItem(action.id),
+      ActionType.ON_FINISH: () => _focusedItemId = null,
+    }).orElse(() => _focusedItemId = action.id);
   }
 
   @override

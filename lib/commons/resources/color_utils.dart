@@ -30,10 +30,8 @@ class ColorUtils {
         // id = R.attr.colorPrimaryLight;
         return Theme.of(context).primaryColorLight;
       case ColorType.PRIMARY:
-      default:
-      // id = R.attr.colorPrimary;
-      return Theme.of(context).primaryColor;
     }
+    return Theme.of(context).primaryColor;
 
     // TypedValue typedValue = new TypedValue();
     // TypedArray a = context.obtainStyledAttributes(typedValue.data, new int[]{id});

@@ -30,9 +30,8 @@ class BasicFormUiModelStyle implements FormUiModelStyle {
         return Icons.access_time;
       case ValueType.PERCENTAGE:
         return Icons.percent_outlined;
-      default:
-        return null;
     }
+    return null;
   }
 
   @override

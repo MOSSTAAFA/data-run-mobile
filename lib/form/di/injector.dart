@@ -105,10 +105,9 @@ class Injector {
       case EntryMode.DE:
         return _provideEventRepository(
             context, repositoryRecords as EventRecords);
-      default:
-        return _provideSearchRepository(
-            context, repositoryRecords as SearchRecords);
     }
+    return _provideSearchRepository(
+        context, repositoryRecords as SearchRecords);
   }
 
   DataEntryRepository _provideSearchRepository(

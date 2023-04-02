@@ -269,13 +269,12 @@ class FormViewModel extends GetxController implements Listenable {
             uid: field.uid,
             value: field.value,
             featureType: 'POINT' /*getFeatureType(field.renderingType).name*/);
-      default:
-        return FormIntent.onSave(
-            uid: field.uid,
-            value: field.value,
-            valueType: field.valueType,
-            fieldMask: field.fieldMask);
     }
+    return FormIntent.onSave(
+        uid: field.uid,
+        value: field.value,
+        valueType: field.valueType,
+        fieldMask: field.fieldMask);
   }
 
   RowAction _rowActionFromIntent(FormIntent intent) {

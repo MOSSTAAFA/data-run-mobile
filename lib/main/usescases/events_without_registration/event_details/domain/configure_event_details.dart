@@ -31,6 +31,7 @@ class ConfigureEventDetails {
   Future<EventDetails> call(
       {DateTime? selectedDate,
       String? selectedOrgUnit,
+      String? selectedActivity,
       String? coordinates,
       String? tempCreate}) async {
     final bool isEventCompleted = _isCompleted(
@@ -49,6 +50,7 @@ class ConfigureEventDetails {
         temCreate: tempCreate,
         selectedDate: selectedDate,
         selectedOrgUnit: selectedOrgUnit,
+        selectedActivity: selectedActivity,
         coordinates: coordinates,
         isCompleted: isEventCompleted,
         isActionButtonVisible:

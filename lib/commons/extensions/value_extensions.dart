@@ -102,8 +102,7 @@ extension WithValueTypeCheckExtension on String? {
         return (int.tryParse(this!) ?? toDouble().toInt()).toString();
       case ValueType.UNIT_INTERVAL:
         return (int.tryParse(this!) ?? toDouble()).toString();
-      default:
-        return this;
     }
+    return this;
   }
 }

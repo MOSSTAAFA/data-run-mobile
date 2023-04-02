@@ -11,6 +11,7 @@ class EventDetails with EquatableMixin {
       this.temCreate,
       this.selectedDate,
       this.selectedOrgUnit,
+      this.selectedActivity,
       this.coordinates,
       this.isCompleted = false,
       this.isActionButtonVisible = false,
@@ -27,6 +28,7 @@ class EventDetails with EquatableMixin {
   final String? temCreate;
   final DateTime? selectedDate;
   final String? selectedOrgUnit;
+  final String? selectedActivity;
   final String? coordinates;
   final bool isCompleted;
   final bool isActionButtonVisible;
@@ -44,6 +46,7 @@ class EventDetails with EquatableMixin {
           final String? temCreate,
           final DateTime? selectedDate,
           final String? selectedOrgUnit,
+          final String? selectedActivity,
           final String? coordinates,
           final bool? isCompleted,
           final bool? isActionButtonVisible,
@@ -58,6 +61,7 @@ class EventDetails with EquatableMixin {
           temCreate: temCreate ?? this.temCreate,
           selectedDate: selectedDate ?? this.selectedDate,
           selectedOrgUnit: selectedOrgUnit ?? this.selectedOrgUnit,
+          selectedActivity: selectedActivity ?? this.selectedActivity,
           coordinates: coordinates ?? this.coordinates,
           isCompleted: isCompleted ?? this.isCompleted,
           isActionButtonVisible:
@@ -75,6 +79,7 @@ class EventDetails with EquatableMixin {
         temCreate,
         selectedDate,
         selectedOrgUnit,
+        selectedActivity,
         coordinates,
         isCompleted,
         isActionButtonVisible,

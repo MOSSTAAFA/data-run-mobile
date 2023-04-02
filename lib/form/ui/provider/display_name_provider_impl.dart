@@ -71,8 +71,7 @@ class DisplayNameProviderImpl implements DisplayNameProvider {
                 DateTime.parse(
                     '') // this will throw [FormatException], the input string cannot be parsed
             );
-      default:
-        return value;
     }
+    return value;
   }
 }

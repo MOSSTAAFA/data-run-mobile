@@ -10,8 +10,7 @@ class KeyboardActionProviderImpl implements KeyboardActionProvider {
     switch (valueType) {
       case ValueType.LONG_TEXT:
         return KeyboardActionType.ENTER;
-      default:
-        return KeyboardActionType.NEXT;
     }
+    return KeyboardActionType.NEXT;
   }
 }
