@@ -5,29 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="754ad326-0a69-4d07-8691-6647e6f5924d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/commons/custom_widgets/fields/FormEditText.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/commons/custom_widgets/fields/age_field.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/commons/custom_widgets/fields/field_bindings.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/custom_widgets/fields/FormLongText.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/commons/extensions/dynamic_value_extensions.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/commons/extensions/dynamic_value_extensions.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/commons/extensions/value_extensions.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/commons/extensions/value_extensions.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/commons/resources/color_utils.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/commons/resources/color_utils.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/form/data/form_repository_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/form/data/form_repository_impl.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/commons/custom_widgets/fields/FormEditText.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/commons/custom_widgets/fields/FormEditText.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/form/data/form_value_store.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/form/data/form_value_store.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/form/di/injector.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/form/di/injector.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/form/ui/event/ui_event_factory_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/form/ui/event/ui_event_factory_impl.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/form/ui/form_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/form/ui/form_view_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/form/ui/provider/display_name_provider_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/form/ui/provider/display_name_provider_impl.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/form/ui/provider/keyboard_action_provider_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/form/ui/provider/keyboard_action_provider_impl.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/form/ui/provider/ui_event_types_provider_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/form/ui/provider/ui_event_types_provider_impl.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/form/ui/style/basic_form_ui_model_style.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/form/ui/style/basic_form_ui_model_style.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/domain/configure_event_details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/domain/configure_event_details.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/models/event_details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/models/event_details.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/ui/event_details_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_details/ui/event_details_view_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_initial/event_initial_repository_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_initial/event_initial_repository_impl.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,12 +48,13 @@
     <property name="android.sdk.path" value="$PROJECT_DIR$/../../../../android-tools/android_sdk" />
     <property name="cidr.known.project.marker" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/commons/helpers" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/commons/custom_widgets/fields" />
     <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Hamza\Learn\my-projects\Flutter\mass_pro\lib\commons\custom_widgets\fields" />
       <recent name="D:\Hamza\Learn\my-projects\Flutter\mass_pro\lib\commons\helpers" />
       <recent name="D:\Hamza\Learn\my-projects\Flutter\mass_pro\lib\main\usescases\events_without_registration\event_details\ui" />
     </key>

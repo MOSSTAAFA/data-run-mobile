@@ -9,7 +9,6 @@ import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dar
 
 import '../../commons/date/entry_mode.dart';
 import '../../commons/extensions/event_data_value_query_extension.dart';
-import '../../commons/extensions/standard_extensions.dart';
 import '../../commons/extensions/string_extension.dart';
 import '../../commons/extensions/tracked_entity_attribute_value_query_extension.dart';
 import '../../commons/extensions/value_extensions.dart';

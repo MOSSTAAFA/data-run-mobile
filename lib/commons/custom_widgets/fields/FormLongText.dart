@@ -9,13 +9,10 @@ import '../../../form/model/ui_event_type.dart';
 import '../../../form/ui/style/form_ui_color_type.dart';
 import '../../../form/ui/style/form_ui_model_style.dart';
 import '../../../utils/mass_utils/colors.dart';
-import '../../../utils/mass_utils/completers.dart';
 import '../../extensions/standard_extensions.dart';
 
 /// form_edit_text_custom, form_integer, form_integer_negative
-/// form_integer_positive, form_integer_zero, form_letter,
-/// form_number, form_percentage, form_phone_number,
-/// form_unit_interval, form_url.xml
+/// form_integer_positive, form_integer_zero, form_letter
 class FormEditText extends StatefulWidget {
   const FormEditText({super.key});
 
@@ -29,8 +26,6 @@ class _FormEditTextState extends State<FormEditText> {
   late final TextEditingController _fieldController;
   late final FocusNode _focusNode;
 
-  // final _debouncer = Debouncer();
-
   @override
   Widget build(BuildContext context) {
     final FieldUiModel item = context.watch<FieldUiModel>();
@@ -38,7 +33,6 @@ class _FormEditTextState extends State<FormEditText> {
     final IconData? descIcon = item.style?.getDescriptionIcon();
     final String? info = item.description;
     final bool focused = item.focused;
-    final TextStyle? labelStyle = _getLabelTextColor(item.style);
 
     if (focused) {
       _focusNode.requestFocus();
@@ -50,14 +44,9 @@ class _FormEditTextState extends State<FormEditText> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
           child: TextField(
-            textInputAction: _getInputAction(item.keyboardActionType),
-            keyboardType: _getInputType(item.valueType),
+            textInputAction: getInputAction(item.keyboardActionType),
+            keyboardType: getInputType(item.valueType),
             controller: _fieldController,
-            onChanged: (value) {
-              // _debouncer.run(() {
-              item.onTextChange(value);
-              // });
-            },
             focusNode: _focusNode,
             enabled: item.editable,
             maxLength: _maxLength,
@@ -68,12 +57,11 @@ class _FormEditTextState extends State<FormEditText> {
                     Expanded(
                         child: Text(
                       item.formattedLabel,
-                      style: labelStyle,
+                      style: getLabelTextColor(item.style),
                     )),
                     if (info != null)
                       IconButton(
-                        icon:
-                            Icon(Icons.info_outline, color: labelStyle?.color),
+                        icon: const Icon(Icons.info_outline),
                         onPressed: () {
                           item.invokeUiEvent(UiEventType.SHOW_DESCRIPTION);
                         },
@@ -81,42 +69,19 @@ class _FormEditTextState extends State<FormEditText> {
                   ],
                 ),
                 border: const UnderlineInputBorder(),
-                suffixIcon: _fieldController.text.isNotEmpty ||
-                        _focusNode.hasFocus
-                    ? IconButton(
-                        icon: Icon(
-                          Icons.clear,
-                          color: labelStyle?.color,
-                        ),
-                        onPressed: () {
-                          _fieldController.text = '';
-                          _focusNode.unfocus(
-                              disposition:
-                                  UnfocusDisposition.previouslyFocusedChild);
-                          item.onTextChange(null);
-                        },
-                      )
-                    : descIcon != null
-                        ? Icon(descIcon, color: labelStyle?.color)
-                        : null,
+                prefixIcon: descIcon != null ? Icon(descIcon) : null,
                 hintText: item.hint,
-                hintStyle: _getHintStyle(item),
+                hintStyle: getHintStyle(item),
                 errorText: item.error,
                 errorStyle: item.error != null
                     ? TextStyle(
                         fontSize: 10, color: convertHexStringToColor('#FF9800'))
                     : null,
-                focusColor: _getFocusColor(item)),
+                focusColor: getFocusColor(item)),
           ),
         ),
       ],
     );
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _fieldController.text = context.read<FieldUiModel>().value ?? '';
   }
 
   @override
@@ -135,6 +100,14 @@ class _FormEditTextState extends State<FormEditText> {
         break;
     }
     // ..addListener(onFocusChanged);
+
+    // Start listening to changes.
+    _fieldController.addListener(_valueChangedListener);
+  }
+
+  void _valueChangedListener() {
+    context.read<FieldUiModel>().setValue(_fieldController.text);
+    context.read<FieldUiModel>().onTextChange(_fieldController.text);
   }
 
   @override
@@ -147,14 +120,14 @@ class _FormEditTextState extends State<FormEditText> {
     super.dispose();
   }
 
-  TextStyle? _getLabelTextColor(FormUiModelStyle? style) {
+  TextStyle? getLabelTextColor(FormUiModelStyle? style) {
     return style?.let((FormUiModelStyle it) => it
         .getColors()[FormUiColorType.FIELD_LABEL_TEXT]
         ?.let((Color color) => TextStyle(color: color)));
   }
 
   // @BindingAdapter("input_style")
-  TextStyle? _getInputStyle(FieldUiModel? styleItem) {
+  TextStyle? getInputStyle(FieldUiModel? styleItem) {
     TextStyle? style;
     styleItem?.let((FieldUiModel uiModel) {
       uiModel.textColor?.let((Color it) => style = TextStyle(color: it));
@@ -165,7 +138,7 @@ class _FormEditTextState extends State<FormEditText> {
     return style;
   }
 
-  TextStyle? _getHintStyle(FieldUiModel? styleItem) {
+  TextStyle? getHintStyle(FieldUiModel? styleItem) {
     TextStyle? style;
     styleItem?.style?.let((FormUiModelStyle it) {
       it
@@ -175,7 +148,7 @@ class _FormEditTextState extends State<FormEditText> {
     return style;
   }
 
-  Color? _getFocusColor(FieldUiModel? styleItem) {
+  Color? getFocusColor(FieldUiModel? styleItem) {
     return styleItem?.style?.let((FormUiModelStyle it) {
       return it
           .getColors()[FormUiColorType.FIELD_LABEL_TEXT]
@@ -183,7 +156,7 @@ class _FormEditTextState extends State<FormEditText> {
     });
   }
 
-  TextInputType? _getInputType(ValueType? valueType) {
+  TextInputType? getInputType(ValueType? valueType) {
     return when(valueType, {
       ValueType.TEXT: () => TextInputType.text,
       ValueType.LONG_TEXT: () => TextInputType.multiline,
@@ -203,7 +176,7 @@ class _FormEditTextState extends State<FormEditText> {
     });
   }
 
-  TextInputAction? _getInputAction(KeyboardActionType? type) {
+  TextInputAction? getInputAction(KeyboardActionType? type) {
     if (type != null) {
       return when(type, {
         KeyboardActionType.NEXT: () => TextInputAction.next,
