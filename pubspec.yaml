@@ -28,7 +28,7 @@ dependencies:
   scrollable_positioned_list: ^0.3.5
   provider: ^6.0.5
   flutter_riverpod: ^2.3.2
-#  riverpod_annotation: ^2.0.2
+  riverpod_annotation: ^2.0.2
   d2_remote:
     path: ./d2-remote
 
@@ -47,9 +47,9 @@ dev_dependencies:
   freezed: ^2.1.0+1
   built_value_generator: ^8.4.1
   sealed_generators: ^1.13.0
-#  riverpod_generator: ^2.1.4
-#  riverpod_lint: ^1.1.6
-#  custom_lint: ^0.3.2
+  riverpod_generator: ^2.0.0
+  riverpod_lint: ^1.1.0
+  custom_lint: ^0.2.12
 
 flutter:
   uses-material-design: true
