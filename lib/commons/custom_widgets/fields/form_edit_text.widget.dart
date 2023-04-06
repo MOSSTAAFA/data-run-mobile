@@ -1,4 +1,5 @@
 import 'package:d2_remote/core/common/value_type.dart';
+import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -6,11 +7,14 @@ import 'package:provider/provider.dart';
 import '../../../form/model/field_ui_model.dart';
 import '../../../form/model/key_board_action_type.dart';
 import '../../../form/model/ui_event_type.dart';
+import '../../../form/ui/event/list_view_ui_events.dart';
+import '../../../form/ui/intent/form_intent.dart';
 import '../../../form/ui/style/form_ui_color_type.dart';
 import '../../../form/ui/style/form_ui_model_style.dart';
 import '../../../utils/mass_utils/colors.dart';
 import '../../../utils/mass_utils/completers.dart';
 import '../../extensions/standard_extensions.dart';
+import 'field_bindings.dart';
 
 /// form_edit_text_custom, form_integer, form_integer_negative
 /// form_integer_positive, form_integer_zero, form_letter,
@@ -24,42 +28,51 @@ class FormEditText extends StatefulWidget {
 }
 
 class _FormEditTextState extends State<FormEditText> {
-  int? _maxLength;
-  MaxLengthEnforcement? _maxLengthEnforcement;
+  late final int? _maxLength;
+  late final MaxLengthEnforcement? _maxLengthEnforcement;
   late final TextEditingController _fieldController;
   late final FocusNode _focusNode;
+  late final TextInputType? _inputType;
+  late final TextInputAction? _inputAction;
+  late final TextStyle? _labelStyle;
+  late final TextStyle? _hintStyle;
+  late final IconData? _descIcon;
+  late final String? _info;
+  late final Color? _focusColor;
 
   // final _debouncer = Debouncer();
 
   @override
   Widget build(BuildContext context) {
-    final FieldUiModel item = context.watch<FieldUiModel>();
+    final String? error = context
+        .select<FieldUiModel, String?>((FieldUiModel value) => value.error);
 
-    final IconData? descIcon = item.style?.getDescriptionIcon();
-    final String? info = item.description;
-    final bool focused = item.focused;
-    final TextStyle? labelStyle = _getLabelTextColor(item.style);
+    final bool focused = context
+        .select<FieldUiModel, bool>((FieldUiModel value) => value.focused);
 
-    if (focused) {
-      _focusNode.requestFocus();
-    }
+    // if (focused) {
+    //   _focusNode.requestFocus();
+    // }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: TextField(
-            textInputAction: _getInputAction(item.keyboardActionType),
-            keyboardType: _getInputType(item.valueType),
+          child: TextFormField(
+            initialValue: context.select<FieldUiModel, String?>(
+                (FieldUiModel value) => value.value),
+            textInputAction: _inputAction,
+            keyboardType: _inputType,
             controller: _fieldController,
-            onChanged: (value) {
+            onChanged: (String value) {
               // _debouncer.run(() {
-              item.onTextChange(value);
+              context.read<FieldUiModel>().onTextChange(value);
               // });
             },
             focusNode: _focusNode,
-            enabled: item.editable,
+            enabled: context.select<FieldUiModel, bool>(
+                (FieldUiModel value) => value.editable),
             maxLength: _maxLength,
             maxLengthEnforcement: _maxLengthEnforcement,
             decoration: InputDecoration(
@@ -67,15 +80,18 @@ class _FormEditTextState extends State<FormEditText> {
                   children: [
                     Expanded(
                         child: Text(
-                      item.formattedLabel,
-                      style: labelStyle,
+                      context.select<FieldUiModel, String>(
+                          (FieldUiModel value) => value.formattedLabel),
+                      style: _labelStyle,
                     )),
-                    if (info != null)
+                    if (_info != null)
                       IconButton(
                         icon:
-                            Icon(Icons.info_outline, color: labelStyle?.color),
+                            Icon(Icons.info_outline, color: _labelStyle?.color),
                         onPressed: () {
-                          item.invokeUiEvent(UiEventType.SHOW_DESCRIPTION);
+                          context
+                              .read<FieldUiModel>()
+                              .invokeUiEvent(UiEventType.SHOW_DESCRIPTION);
                         },
                       )
                   ],
@@ -86,27 +102,28 @@ class _FormEditTextState extends State<FormEditText> {
                     ? IconButton(
                         icon: Icon(
                           Icons.clear,
-                          color: labelStyle?.color,
+                          color: _labelStyle?.color,
                         ),
                         onPressed: () {
                           _fieldController.text = '';
-                          _focusNode.unfocus(
-                              disposition:
-                                  UnfocusDisposition.previouslyFocusedChild);
-                          item.onTextChange(null);
+                          // _focusNode.unfocus(
+                          //     disposition:
+                          //         UnfocusDisposition.previouslyFocusedChild);
+                          context.read<FieldUiModel>().onTextChange(null);
                         },
                       )
-                    : descIcon != null
-                        ? Icon(descIcon, color: labelStyle?.color)
+                    : _descIcon != null
+                        ? Icon(_descIcon, color: _labelStyle?.color)
                         : null,
-                hintText: item.hint,
-                hintStyle: _getHintStyle(item),
-                errorText: item.error,
-                errorStyle: item.error != null
+                hintText: context
+                    .select<FieldUiModel, String?>((value) => value.hint),
+                hintStyle: _hintStyle,
+                errorText: error,
+                errorStyle: error != null
                     ? TextStyle(
                         fontSize: 10, color: convertHexStringToColor('#FF9800'))
                     : null,
-                focusColor: _getFocusColor(item)),
+                focusColor: _focusColor),
           ),
         ),
       ],
@@ -114,17 +131,12 @@ class _FormEditTextState extends State<FormEditText> {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _fieldController.text = context.read<FieldUiModel>().value ?? '';
-  }
-
-  @override
   void initState() {
     super.initState();
     _fieldController = TextEditingController();
     _focusNode = FocusNode();
-    switch (context.read<FieldUiModel>().valueType) {
+    final FieldUiModel item = context.read<FieldUiModel>();
+    switch (item.valueType) {
       case ValueType.TEXT:
         _maxLength = 50000;
         _maxLengthEnforcement = MaxLengthEnforcement.enforced;
@@ -134,7 +146,14 @@ class _FormEditTextState extends State<FormEditText> {
         _maxLengthEnforcement = MaxLengthEnforcement.enforced;
         break;
     }
-    // ..addListener(onFocusChanged);
+
+    _descIcon = item.style?.getDescriptionIcon();
+    _info = item.description;
+    _inputType = _getInputType(item.valueType);
+    _inputAction = _getInputAction(item.keyboardActionType);
+    _labelStyle = _getLabelTextColor(item.style);
+    _hintStyle = _getHintStyle(item);
+    _focusColor = _getFocusColor(item);
   }
 
   @override
@@ -153,13 +172,12 @@ class _FormEditTextState extends State<FormEditText> {
         ?.let((Color color) => TextStyle(color: color)));
   }
 
-  // @BindingAdapter("input_style")
   TextStyle? _getInputStyle(FieldUiModel? styleItem) {
     TextStyle? style;
     styleItem?.let((FieldUiModel uiModel) {
       uiModel.textColor?.let((Color it) => style = TextStyle(color: it));
-      uiModel.backGroundColor
-          ?.let((it) => style = style?.copyWith(backgroundColor: it.second));
+      uiModel.backGroundColor?.let((Pair<List<int>, Color> it) =>
+          style = style?.copyWith(backgroundColor: it.second));
     });
 
     return style;

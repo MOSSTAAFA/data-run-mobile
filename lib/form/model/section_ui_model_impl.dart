@@ -93,7 +93,7 @@ class SectionUiModelImpl with _$SectionUiModelImpl implements FieldUiModel {
         sectionToOpen = '';
       }
       selectedField.value = sectionToOpen;
-      callback!.intent(FormIntent.onSection(sectionToOpen));
+      callback?.intent?.call(FormIntent.onSection(sectionToOpen));
     }
   }
 
@@ -139,7 +139,7 @@ class SectionUiModelImpl with _$SectionUiModelImpl implements FieldUiModel {
 
   @override
   onItemClick() {
-    callback!.intent(FormIntent.onFocus(uid, value));
+    callback?.intent?.call(FormIntent.onFocus(uid, value));
   }
 
   @override
@@ -153,7 +153,7 @@ class SectionUiModelImpl with _$SectionUiModelImpl implements FieldUiModel {
 
   @override
   onDescriptionClick() {
-    callback?.listViewUiEvents(
+    callback?.listViewUiEvents?.call(
         ListViewUiEvents.showDescriptionLabelDialog(label, description));
   }
 
@@ -176,7 +176,7 @@ class SectionUiModelImpl with _$SectionUiModelImpl implements FieldUiModel {
 
   @override
   invokeIntent(FormIntent intent) {
-    callback?.intent(intent);
+    callback?.intent?.call(intent);
   }
 
   @override

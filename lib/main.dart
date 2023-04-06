@@ -1,6 +1,7 @@
 import 'package:d2_remote/d2_remote.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 
 import 'commons/constants.dart';
@@ -27,7 +28,13 @@ Future<void> main() async {
   D2Remote.initialize();
   di.init();
 
-  runApp(const App());
+  // wrap the entire app with a ProviderScope so that widgets
+  // will be able to read providers
+  runApp(const ProviderScope(
+    child: App(),
+  ));
+  //
+  // runApp(const App());
 }
 
 class App extends StatelessWidget {

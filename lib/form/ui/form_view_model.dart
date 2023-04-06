@@ -53,7 +53,7 @@ class FormViewModel extends GetxController implements Listenable {
 
   final _items = Rx<List<FieldUiModel>?>(null);
 
-  Stream<List<FieldUiModel>?> get items => _items.stream;
+  Stream<List<FieldUiModel>> get items => _items.stream.whereNotNull();
 
   final _savedValue = Rx<RowAction?>(null);
 
@@ -247,7 +247,7 @@ class FormViewModel extends GetxController implements Listenable {
         valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);
   }
 
-  bool valueTypeIsTextField(ValueType valueType, UiRenderType? renderType) {
+  bool valueTypeIsTextField(ValueType valueType, [UiRenderType? renderType]) {
     return valueType.isNumeric ||
         valueType.isText && renderType?.isPolygon != true ||
         valueType == ValueType.URL ||

@@ -129,8 +129,12 @@ abstract class FieldUiModel {
   bool isSectionWithFields();
 }
 
-abstract class Callback {
-  intent(FormIntent intent);
+class Callback {
+  const Callback({this.intent, this.listViewUiEvents});
+  final void Function(FormIntent intent)? intent;
+  final void Function(ListViewUiEvents uiEvent)? listViewUiEvents;
 
-  listViewUiEvents(ListViewUiEvents uiEvent);
+  // intent(FormIntent intent);
+  //
+  // listViewUiEvents(ListViewUiEvents uiEvent);
 }

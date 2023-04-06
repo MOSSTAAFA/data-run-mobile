@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import '../../../form/model/field_ui_model.dart';
 import '../../../form/ui/style/form_ui_color_type.dart';
 import '../../../form/ui/style/form_ui_model_style.dart';
-import '../../../utils/mass_utils/colors.dart';
 import '../../extensions/standard_extensions.dart';
+
+typedef TextChangedListener = void Function(
+    [String? value, int? start, int? count, int? after]);
 
 extension TextFormFieldExt on TextField {
   // @BindingAdapter("label_text_color")

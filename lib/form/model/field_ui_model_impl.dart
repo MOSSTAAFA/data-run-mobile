@@ -1,20 +1,21 @@
 import 'dart:io';
 
+import 'package:d2_remote/core/common/value_type.dart';
 import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dart';
 import 'package:dartx/dartx_io.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:mass_pro/commons/extensions/string_extension.dart';
-import 'package:mass_pro/form/model/Ui_render_type.dart';
-import 'package:mass_pro/form/model/field_ui_model.dart';
-import 'package:mass_pro/form/model/key_board_action_type.dart';
-import 'package:mass_pro/form/model/option_set_configuration.dart';
-import 'package:mass_pro/form/model/ui_event_type.dart';
-import 'package:mass_pro/form/ui/event/list_view_ui_events.dart';
-import 'package:mass_pro/form/ui/intent/form_intent.dart';
-import 'package:mass_pro/form/ui/event/ui_event_factory.dart';
-import 'package:d2_remote/core/common/value_type.dart';
-import 'package:mass_pro/form/ui/style/form_ui_model_style.dart';
+
+import '../../commons/extensions/string_extension.dart';
+import '../ui/event/list_view_ui_events.dart';
+import '../ui/event/ui_event_factory.dart';
+import '../ui/intent/form_intent.dart';
+import '../ui/style/form_ui_model_style.dart';
+import 'Ui_render_type.dart';
+import 'field_ui_model.dart';
+import 'key_board_action_type.dart';
+import 'option_set_configuration.dart';
+import 'ui_event_type.dart';
 
 part 'field_ui_model_impl.freezed.dart';
 
@@ -61,37 +62,37 @@ class FieldUiModelImpl with _$FieldUiModelImpl implements FieldUiModel {
 
   @override
   onItemClick() {
-    callback?.intent(FormIntent.onFocus(uid, value));
+    callback?.intent?.call(FormIntent.onFocus(uid, value));
   }
 
   @override
   onNext() {
-    callback?.intent(FormIntent.onNext(uid: uid, value: value));
+    callback?.intent?.call(FormIntent.onNext(uid: uid, value: value));
   }
 
   @override
   onTextChange(String? value) {
-    callback?.intent(FormIntent.onTextChange(
+    callback?.intent?.call(FormIntent.onTextChange(
         uid, (value ?? '').isEmpty == true ? null : value));
   }
 
   @override
   onDescriptionClick() {
-    callback?.listViewUiEvents(
-        ListViewUiEvents.showDescriptionLabelDialog(label, description));
+    callback?.listViewUiEvents
+        ?.call(ListViewUiEvents.showDescriptionLabelDialog(label, description));
   }
 
   @override
   onClear() {
     onItemClick();
-    callback?.intent(FormIntent.clearValue(uid));
+    callback?.intent?.call(FormIntent.clearValue(uid));
   }
 
   @override
   onSave(String? value) {
     onItemClick();
-    callback?.intent(
-        FormIntent.onSave(uid: uid, value: value, valueType: valueType));
+    callback?.intent
+        ?.call(FormIntent.onSave(uid: uid, value: value, valueType: valueType));
   }
 
   @override
@@ -100,7 +101,7 @@ class FieldUiModelImpl with _$FieldUiModelImpl implements FieldUiModel {
     var result = value == null || value != boolean.toString()
         ? boolean.toString()
         : null;
-    callback?.intent(
+    callback?.intent?.call(
         FormIntent.onSave(uid: uid, value: result, valueType: valueType));
   }
 
@@ -112,13 +113,13 @@ class FieldUiModelImpl with _$FieldUiModelImpl implements FieldUiModel {
     } else {
       nextValue = option.code;
     }
-    callback?.intent(
+    callback?.intent?.call(
         FormIntent.onSave(uid: uid, value: nextValue, valueType: valueType));
   }
 
   @override
   invokeUiEvent(UiEventType uiEventType) {
-    callback?.intent(FormIntent.onRequestCoordinates(uid));
+    callback?.intent?.call(FormIntent.onRequestCoordinates(uid));
     if (uiEventType != UiEventType.QR_CODE && !focused) {
       onItemClick();
     }
@@ -127,13 +128,13 @@ class FieldUiModelImpl with _$FieldUiModelImpl implements FieldUiModel {
         uiEventFactory?.generateEvent(value, uiEventType, renderingType, this);
 
     if (listViewUiEvents != null) {
-      callback?.listViewUiEvents(listViewUiEvents);
+      callback?.listViewUiEvents?.call(listViewUiEvents);
     }
   }
 
   @override
   invokeIntent(FormIntent intent) {
-    callback?.intent(intent);
+    callback?.intent?.call(intent);
   }
 
   @override
@@ -208,7 +209,7 @@ class FieldUiModelImpl with _$FieldUiModelImpl implements FieldUiModel {
     other = other as FieldUiModelImpl;
 
     if (uid != other.uid) return false;
-    if (layoutId != other.layoutId) return false;
+    // if (layoutId != other.layoutId) return false;
     if (value != other.value) return false;
     if (focused != other.focused) return false;
     if (error != other.error) return false;
@@ -233,7 +234,7 @@ class FieldUiModelImpl with _$FieldUiModelImpl implements FieldUiModel {
   int get hashCode => Object.hashAll([
         runtimeType,
         uid,
-        layoutId,
+        // layoutId,
         value,
         focused,
         error,
@@ -262,7 +263,7 @@ class FieldUiModelImpl with _$FieldUiModelImpl implements FieldUiModel {
     item = item as FieldUiModelImpl;
 
     if (uid != item.uid) return false;
-    if (layoutId != item.layoutId) return false;
+    // if (layoutId != item.layoutId) return false;
     if (value != item.value) return false;
     if (focused != item.focused) return false;
     if (error != item.error) return false;

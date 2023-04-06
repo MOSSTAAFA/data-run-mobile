@@ -69,20 +69,21 @@ class FormRepositoryImpl implements FormRepository {
     _calculationLoop = 0;
 
     return _mergeListWithErrorFields(_itemList, _itemsWithError)
-        .then((listOfItems) {
+        .then((List<FieldUiModel> listOfItems) {
           _calculateCompletionPercentage(listOfItems);
           return listOfItems;
         })
-        .then((listOfItems) => _setOpenedSection(listOfItems))
-        .then((listOfItems) => _setFocusedItem(listOfItems))
-        .then((listOfItems) => _setLastItem(listOfItems));
+        .then(
+            (List<FieldUiModel> listOfItems) => _setOpenedSection(listOfItems))
+        .then((List<FieldUiModel> listOfItems) => _setFocusedItem(listOfItems))
+        .then((List<FieldUiModel> listOfItems) => _setLastItem(listOfItems));
   }
 
   @override
   Future<DataIntegrityCheckResult> runDataIntegrityCheck(
       {required bool allowDiscard}) {
     _runDataIntegrity = true;
-    final itemsWithErrors = _getFieldsWithError();
+    final List<FieldWithIssue> itemsWithErrors = _getFieldsWithError();
     /*final*/
     final List<FieldWithIssue>
         itemsWithWarning = /*ruleEffectsResult?...??*/ [];
@@ -147,13 +148,15 @@ class FormRepositoryImpl implements FormRepository {
 
   @override
   FieldUiModel? currentFocusedItem() {
-    return _itemList.firstOrNullWhere((item) => _focusedItemId == item.uid);
+    return _itemList
+        .firstOrNullWhere((FieldUiModel item) => _focusedItemId == item.uid);
   }
 
   @override
   void removeAllValues() {
     _itemList = _itemList
-        .map((fieldUiModel) => fieldUiModel.setValue(null).setDisplayName(null))
+        .map((FieldUiModel fieldUiModel) =>
+            fieldUiModel.setValue(null).setDisplayName(null))
         .toList();
   }
 
@@ -164,9 +167,9 @@ class FormRepositoryImpl implements FormRepository {
 
   @override
   void setFieldRequestingCoordinates(String uid, bool requestInProcess) {
-    _itemList.let((list) => list
-        .firstOrNullWhere((item) => item.uid == uid)
-        ?.let((item) => list[list.indexOf(item)] =
+    _itemList.let((List<FieldUiModel> list) => list
+        .firstOrNullWhere((FieldUiModel item) => item.uid == uid)
+        ?.let((FieldUiModel item) => list[list.indexOf(item)] =
             item.setIsLoadingData(requestInProcess)));
   }
 
@@ -181,14 +184,15 @@ class FormRepositoryImpl implements FormRepository {
   @override
   void updateErrorList(RowAction action) {
     if (action.error != null) {
-      if (_itemsWithError.firstOrNullWhere((item) => item.id == action.id) ==
+      if (_itemsWithError
+              .firstOrNullWhere((RowAction item) => item.id == action.id) ==
           null) {
         _itemsWithError.add(action);
       }
     } else {
       _itemsWithError
-          .firstOrNullWhere((item) => item.id == action.id)
-          ?.let((item) => _itemsWithError.remove(item));
+          .firstOrNullWhere((RowAction item) => item.id == action.id)
+          ?.let((RowAction item) => _itemsWithError.remove(item));
     }
   }
 
@@ -200,9 +204,10 @@ class FormRepositoryImpl implements FormRepository {
   @override
   Future<void> updateValueOnList(
       String uid, String? value, ValueType? valueType) async {
-    final itemIndex = _itemList.indexWhere((item) => item.uid == uid);
+    final int itemIndex =
+        _itemList.indexWhere((FieldUiModel item) => item.uid == uid);
     if (itemIndex >= 0) {
-      final item = _itemList[itemIndex];
+      final FieldUiModel item = _itemList[itemIndex];
       _itemList[itemIndex] = item.setValue(value).setDisplayName(
           await displayNameProvider.provideDisplayName(
               valueType, value, item.optionSet));
@@ -215,21 +220,21 @@ class FormRepositoryImpl implements FormRepository {
       List<FieldUiModel> list, List<RowAction> fieldsWithError) async {
     _mandatoryItemsWithoutValue.clear();
     final List<FieldUiModel> mergedList =
-        await Future.wait<FieldUiModel>(list.map((item) async {
+        await Future.wait<FieldUiModel>(list.map((FieldUiModel item) async {
       if (item.mandatory && item.value == null) {
         _mandatoryItemsWithoutValue[item.label] =
             item.programStageSection ?? '';
       }
-      final RowAction? action =
-          fieldsWithError.firstOrNullWhere((action) => action.id == item.uid);
+      final RowAction? action = fieldsWithError
+          .firstOrNullWhere((RowAction action) => action.id == item.uid);
 
       if (action != null) {
         final String? error = action.error != null
             ? fieldErrorMessageProvider.getFriendlyErrorMessage(action.error!)
             : null;
 
-        final displayName = await displayNameProvider.provideDisplayName(
-            action.valueType, action.value);
+        final String? displayName = await displayNameProvider
+            .provideDisplayName(action.valueType, action.value);
         return item
             .setValue(action.value)
             .setError(error)
@@ -248,11 +253,12 @@ class FormRepositoryImpl implements FormRepository {
       ValueType.USERNAME
     ];
 
-    final Iterable<FieldUiModel> fields = list.filter((it) =>
+    final Iterable<FieldUiModel> fields = list.filter((FieldUiModel it) =>
         it.valueType != null && !unsupportedValueTypes.contains(it.valueType));
 
     final int totalFields = fields.length;
-    final int fieldsWithValue = fields.filter((it) => it.value != null).length;
+    final int fieldsWithValue =
+        fields.filter((FieldUiModel it) => it.value != null).length;
     if (totalFields == 0) {
       _completionPercentage = 0;
     } else {
@@ -263,7 +269,7 @@ class FormRepositoryImpl implements FormRepository {
 
   Future<List<FieldUiModel>> _setOpenedSection(List<FieldUiModel> list) async {
     final List<FieldUiModel> fields = List.empty();
-    for (final field in list) {
+    for (final FieldUiModel field in list) {
       if (field.isSection()) {
         fields.add(_updateSection(field, list));
       } else {
@@ -273,7 +279,7 @@ class FormRepositoryImpl implements FormRepository {
     }
 
     return fields
-        .filter((field) =>
+        .filter((FieldUiModel field) =>
             field.isSectionWithFields() ||
             field.programStageSection == _openedSectionUid)
         .toList();
@@ -281,14 +287,14 @@ class FormRepositoryImpl implements FormRepository {
 
   FieldUiModel _updateSection(
       FieldUiModel sectionFieldUiModel, List<FieldUiModel> fields) {
-    var total = 0;
-    var values = 0;
+    int total = 0;
+    int values = 0;
     final bool isOpen = sectionFieldUiModel.uid == _openedSectionUid;
     fields
-        .filter((item) =>
+        .filter((FieldUiModel item) =>
             item.programStageSection == sectionFieldUiModel.uid &&
             item.valueType != null)
-        .forEach((item) {
+        .forEach((FieldUiModel item) {
       total++;
       if (!item.value.isNullOrEmpty) {
         values++;
@@ -306,14 +312,16 @@ class FormRepositoryImpl implements FormRepository {
 
     final int mandatoryCount = _runDataIntegrity
         ? _mandatoryItemsWithoutValue
-            .filter((mandatory) => mandatory.value == sectionFieldUiModel.uid)
+            .filter((MapEntry<String, String> mandatory) =>
+                mandatory.value == sectionFieldUiModel.uid)
             .length
         : 0;
 
     final int errorCount = _getFieldsWithError()
-        .associate((it) => MapEntry<String, String>(it.fieldUid, it.message))
-        .filter((error) =>
-            fields.firstOrNullWhere((field) =>
+        .associate((FieldWithIssue it) =>
+            MapEntry<String, String>(it.fieldUid, it.message))
+        .filter((MapEntry<String, String> error) =>
+            fields.firstOrNullWhere((FieldUiModel field) =>
                 field.uid == error.key &&
                 field.programStageSection == sectionFieldUiModel.uid) !=
             null)
@@ -345,9 +353,9 @@ class FormRepositoryImpl implements FormRepository {
   }
 
   List<FieldWithIssue> _getFieldsWithError() {
-    return _itemsWithError.mapNotNull((errorItem) {
-      final FieldUiModel? item =
-          _itemList.firstOrNullWhere((item) => item.uid == errorItem.id);
+    return _itemsWithError.mapNotNull((RowAction errorItem) {
+      final FieldUiModel? item = _itemList
+          .firstOrNullWhere((FieldUiModel item) => item.uid == errorItem.id);
       if (item != null) {
         return FieldWithIssue(
             fieldUid: item.uid,
@@ -364,8 +372,8 @@ class FormRepositoryImpl implements FormRepository {
 
   List<FieldUiModel> _setFocusedItem(List<FieldUiModel> list) {
     if (_focusedItemId != null) {
-      final FieldUiModel? item =
-          list.firstOrNullWhere((item) => item.uid == _focusedItemId);
+      final FieldUiModel? item = list
+          .firstOrNullWhere((FieldUiModel item) => item.uid == _focusedItemId);
       if (item != null) {
         list[list.indexOf(item)] = item.setFocus();
       }
@@ -377,7 +385,7 @@ class FormRepositoryImpl implements FormRepository {
     if (list.isEmpty) {
       return list;
     }
-    if (list.all((it) => it is SectionUiModelImpl)) {
+    if (list.all((FieldUiModel it) => it is SectionUiModelImpl)) {
       final FieldUiModel lastItem = _getLastSectionItem(list);
       if (_usesKeyboard(lastItem.valueType) &&
           lastItem.valueType != ValueType.LONG_TEXT) {
@@ -389,10 +397,11 @@ class FormRepositoryImpl implements FormRepository {
   }
 
   FieldUiModel _getLastSectionItem(List<FieldUiModel> list) {
-    if (list.all((item) => item is SectionUiModelImpl)) {
+    if (list.all((FieldUiModel item) => item is SectionUiModelImpl)) {
       return list.reversed.first;
     }
-    return list.reversed.firstWhere((item) => item.valueType != null);
+    return list.reversed
+        .firstWhere((FieldUiModel item) => item.valueType != null);
   }
 
   bool _usesKeyboard(ValueType? valueType) {
@@ -402,9 +411,10 @@ class FormRepositoryImpl implements FormRepository {
   }
 
   String? _getNextItem(String currentItemUid) {
-    _itemList.let((fields) {
+    _itemList.let((List<FieldUiModel> fields) {
       // final oldItem = fields.firstOrNullWhere((item) => item.uid == currentItemUid);
-      final pos = fields.indexWhere((oldItem) => oldItem.uid == currentItemUid);
+      final int pos = fields
+          .indexWhere((FieldUiModel oldItem) => oldItem.uid == currentItemUid);
       if (pos < fields.length - 1) {
         return fields[pos + 1].uid;
       }

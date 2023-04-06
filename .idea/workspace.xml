@@ -4,11 +4,42 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="754ad326-0a69-4d07-8691-6647e6f5924d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/commons/custom_widgets/fields/FormLongText.dart" afterDir="false" />
+    <list default="true" id="1c83de8b-284e-4f97-b9bd-adb57303f191" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/lib/commons/custom_widgets/app_border.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/custom_widgets/fields/factory/field_widget_factory_impl.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/custom_widgets/fields/form_section.widget.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/custom_widgets/form_card.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons/custom_widgets/mixins/keyboard_manager.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/data_entry_item.widget.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/data_entry_list.widget.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/form/ui/form_view.widget.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_capture/domain/configure_event_completion_dialog.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_capture/event_capture_widget/event_capture_form_view.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_capture/model/event_completion_buttons.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_capture/model/event_completion_dialog.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/main/usescases/events_without_registration/event_capture/provider/event_capture_resources_provider.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/riverpod/consumer_widget.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/riverpod/notes.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/riverpod/providers.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/mass_pro.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mass_pro.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/commons/custom_widgets/fields/FormEditText.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/commons/custom_widgets/fields/FormEditText.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/form/data/form_value_store.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/form/data/form_value_store.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/commons/custom_widgets/fields/FormEditText.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/commons/custom_widgets/fields/form_edit_text.widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/commons/custom_widgets/fields/FormLongText.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/commons/custom_widgets/fields/form_long_text.widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/commons/custom_widgets/fields/field_bindings.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/commons/custom_widgets/fields/field_bindings.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/form/data/form_repository_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/form/data/form_repository_impl.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/form/model/field_ui_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/form/model/field_ui_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/form/model/field_ui_model_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/form/model/field_ui_model_impl.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/form/model/section_ui_model_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/form/model/section_ui_model_impl.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/form/ui/form_view.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/form/ui/form_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/form/ui/form_view_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/form/ui/layout_provider_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/form/ui/layout_provider_impl.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/form/ui/provider/layout_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/form/ui/provider/layout_provider.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.reflectable.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.reflectable.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/widget_test.reflectable.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/widget_test.reflectable.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +64,7 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
-  <component name="ProjectId" id="2NhasSeDlT6eN2MLrqBUrRUVxbs" />
+  <component name="ProjectId" id="2Nt59QXOiCEXBtJtfW0hc8pc8k5" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
@@ -42,21 +73,21 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
     <property name="android.sdk.path" value="$PROJECT_DIR$/../../../../android-tools/android_sdk" />
     <property name="cidr.known.project.marker" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/commons/custom_widgets/fields" />
-    <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/commons/custom_widgets/mixins" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Hamza\Learn\my-projects\Flutter\mass_pro\lib\commons\custom_widgets\mixins" />
       <recent name="D:\Hamza\Learn\my-projects\Flutter\mass_pro\lib\commons\custom_widgets\fields" />
-      <recent name="D:\Hamza\Learn\my-projects\Flutter\mass_pro\lib\commons\helpers" />
-      <recent name="D:\Hamza\Learn\my-projects\Flutter\mass_pro\lib\main\usescases\events_without_registration\event_details\ui" />
     </key>
   </component>
   <component name="RunManager">
@@ -68,11 +99,11 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="754ad326-0a69-4d07-8691-6647e6f5924d" name="Changes" comment="" />
-      <created>1680118976804</created>
+      <changelist id="1c83de8b-284e-4f97-b9bd-adb57303f191" name="Changes" comment="" />
+      <created>1680470388245</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1680118976804</updated>
+      <updated>1680470388245</updated>
     </task>
     <servers />
   </component>
@@ -86,5 +117,9 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
 </project>
