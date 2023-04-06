@@ -1,5 +1,6 @@
 import 'package:d2_remote/d2_remote.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../commons/date/entry_mode.dart';
 import '../../commons/network/network_utils.dart';
 import '../../commons/resources/resource_manager.dart';
@@ -30,16 +31,32 @@ import '../ui/style/form_ui_model_color_factory_impl.dart';
 import '../ui/style/long_text_ui_color_factory_impl.dart';
 import '../ui/validation/field_error_message_provider.dart';
 
-// /// Function that returns a [BuiltValueToStringHelper].
-// typedef BuiltValueToStringHelperProvider = BuiltValueToStringHelper Function(
-//     String className);
-//
-// /// Function used by generated code to get a [BuiltValueToStringHelper].
-// /// Set this to change built_value class toString() output. Built-in examples
-// /// are [IndentingBuiltValueToStringHelper], which is the default, and
-// /// [FlatBuiltValueToStringHelper].
-// BuiltValueToStringHelperProvider newBuiltValueToStringHelper =
-//     (String className) => IndentingBuiltValueToStringHelper(className);
+// part 'injector.g.dart';
+
+/// _provideEnrollmentObjectRepository(uid)
+final enrollmentObjectRepositoryProvider =
+    Provider.family<EnrollmentObjectRepository, String>((ref, enrollmentUid) {
+  return EnrollmentObjectRepository(enrollmentUid);
+});
+
+// /// _provideFormRepository(context, FormRepositoryRecords repositoryRecords)
+// final Provider<FormRepository> formRepositoryProvider =
+// Provider<FormRepository>((ref) {
+//   return FormRepositoryImpl(
+//     formValueStore: _provideFormValueStore(
+//         context, repositoryRecords.recordUid, repositoryRecords.entryMode),
+//     fieldErrorMessageProvider: _provideFieldErrorMessage(context),
+//     displayNameProvider: _provideDisplayNameProvider(),
+//     dataEntryRepository: _provideDataEntryRepository(
+//         entryMode: repositoryRecords.entryMode,
+//         context: context,
+//         repositoryRecords: repositoryRecords),
+//     /*ruleEngineRepository: _provideRuleEngineRepository(
+//             repositoryRecords.entryMode, repositoryRecords.recordUid),
+//         rulesUtilsProvider: _provideRulesUtilsProvider(),
+//         legendValueProvider: _provideLegendValueProvider(context)*/
+//   );
+// });
 
 class Injector {
 

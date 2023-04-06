@@ -6,7 +6,7 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dartlang.org/_fe_analyzer_shared-47.0.0/lib" />
-              <option value="$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/_fe_analyzer_shared-52.0.0/lib" />
+              <option value="$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/_fe_analyzer_shared-58.0.0/lib" />
             </list>
           </value>
         </entry>
@@ -14,7 +14,7 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dartlang.org/analyzer-4.7.0/lib" />
-              <option value="$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/analyzer-5.4.0/lib" />
+              <option value="$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/analyzer-5.10.0/lib" />
             </list>
           </value>
         </entry>
@@ -143,10 +143,17 @@
             </list>
           </value>
         </entry>
+        <entry key="ci">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/ci-0.1.0/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="cli_util">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/cli_util-0.3.5/lib" />
+              <option value="$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/cli_util-0.4.0/lib" />
             </list>
           </value>
         </entry>
@@ -200,21 +207,21 @@
         <entry key="custom_lint">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/custom_lint-0.2.12/lib" />
+              <option value="$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/custom_lint-0.3.3/lib" />
             </list>
           </value>
         </entry>
         <entry key="custom_lint_builder">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/custom_lint_builder-0.2.12/lib" />
+              <option value="$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/custom_lint_builder-0.3.3/lib" />
             </list>
           </value>
         </entry>
         <entry key="custom_lint_core">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/custom_lint_core-0.2.12/lib" />
+              <option value="$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/custom_lint_core-0.3.3/lib" />
             </list>
           </value>
         </entry>
@@ -674,13 +681,6 @@
             </list>
           </value>
         </entry>
-        <entry key="recase">
-          <value>
-            <list>
-              <option value="$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/recase-4.1.0/lib" />
-            </list>
-          </value>
-        </entry>
         <entry key="reflectable">
           <value>
             <list>
@@ -699,7 +699,7 @@
         <entry key="riverpod_analyzer_utils">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/riverpod_analyzer_utils-0.1.1/lib" />
+              <option value="$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/riverpod_analyzer_utils-0.2.0/lib" />
             </list>
           </value>
         </entry>
@@ -713,14 +713,14 @@
         <entry key="riverpod_generator">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/riverpod_generator-2.1.0/lib" />
+              <option value="$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/riverpod_generator-2.1.5/lib" />
             </list>
           </value>
         </entry>
         <entry key="riverpod_lint">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/riverpod_lint-1.1.2/lib" />
+              <option value="$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/riverpod_lint-1.1.7/lib" />
             </list>
           </value>
         </entry>
@@ -1152,8 +1152,8 @@
       <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dartlang.org/xml-6.1.0/lib" />
       <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dartlang.org/xml2json-5.3.6/lib" />
       <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dartlang.org/yaml-3.1.1/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/_fe_analyzer_shared-52.0.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/analyzer-5.4.0/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/_fe_analyzer_shared-58.0.0/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/analyzer-5.10.0/lib" />
       <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/analyzer_plugin-0.11.2/lib" />
       <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/args-2.4.0/lib" />
       <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/async-2.10.0/lib" />
@@ -1169,16 +1169,17 @@
       <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/built_value_generator-8.4.4/lib" />
       <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/characters-1.2.1/lib" />
       <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/checked_yaml-2.0.2/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/cli_util-0.3.5/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/ci-0.1.0/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/cli_util-0.4.0/lib" />
       <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/clock-1.1.1/lib" />
       <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/code_builder-4.4.0/lib" />
       <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/collection-1.17.0/lib" />
       <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/convert-3.1.1/lib" />
       <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/crypto-3.0.2/lib" />
       <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/cupertino_icons-1.0.5/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/custom_lint-0.2.12/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/custom_lint_builder-0.2.12/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/custom_lint_core-0.2.12/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/custom_lint-0.3.3/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/custom_lint_builder-0.3.3/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/custom_lint_core-0.3.3/lib" />
       <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/dart_style-2.2.5/lib" />
       <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/dartlin-0.6.3/lib" />
       <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/dartx-1.1.0/lib" />
@@ -1234,13 +1235,12 @@
       <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/pubspec_parse-1.2.2/lib" />
       <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/queue-3.1.0+2/lib" />
       <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/quiver-3.2.1/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/recase-4.1.0/lib" />
       <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/reflectable-4.0.5/lib" />
       <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/riverpod-2.3.3/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/riverpod_analyzer_utils-0.1.1/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/riverpod_analyzer_utils-0.2.0/lib" />
       <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/riverpod_annotation-2.0.3/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/riverpod_generator-2.1.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/riverpod_lint-1.1.2/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/riverpod_generator-2.1.5/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/riverpod_lint-1.1.7/lib" />
       <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/rxdart-0.27.7/lib" />
       <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/scrollable_positioned_list-0.3.5/lib" />
       <root url="file://$PROJECT_DIR$/../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/sealed_annotations-1.13.0/lib" />

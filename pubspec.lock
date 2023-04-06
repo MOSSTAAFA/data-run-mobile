@@ -5,18 +5,18 @@ packages:
     dependency: transitive
     description:
       name: _fe_analyzer_shared
-      sha256: "0c80aeab9bc807ab10022cd3b2f4cf2ecdf231949dc1ddd9442406a003f19201"
+      sha256: a36ec4843dc30ea6bf652bf25e3448db6c5e8bcf4aa55f063a5d1dad216d8214
       url: "https://pub.dev"
     source: hosted
-    version: "52.0.0"
+    version: "58.0.0"
   analyzer:
     dependency: transitive
     description:
       name: analyzer
-      sha256: cd8ee83568a77f3ae6b913a36093a1c9b1264e7cb7f834d9ddd2311dade9c1f4
+      sha256: cc4242565347e98424ce9945c819c192ec0838cb9d1f6aa4a97cc96becbc5b27
       url: "https://pub.dev"
     source: hosted
-    version: "5.4.0"
+    version: "5.10.0"
   analyzer_plugin:
     dependency: transitive
     description:
@@ -137,14 +137,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.2"
+  ci:
+    dependency: transitive
+    description:
+      name: ci
+      sha256: "145d095ce05cddac4d797a158bc4cf3b6016d1fe63d8c3d2fbd7212590adca13"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0"
   cli_util:
     dependency: transitive
     description:
       name: cli_util
-      sha256: "66f86e916d285c1a93d3b79587d94bd71984a66aac4ff74e524cfa7877f1395c"
+      sha256: b8db3080e59b2503ca9e7922c3df2072cf13992354d5e944074ffa836fba43b7
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.5"
+    version: "0.4.0"
   clock:
     dependency: transitive
     description:
@@ -197,26 +205,26 @@ packages:
     dependency: "direct dev"
     description:
       name: custom_lint
-      sha256: "324e7026902f34e180d8d27e08a89dbbe3dd8a54e0c3852a0df0db0f4046120b"
+      sha256: "80ccf10b30d4f1d0b40bd6d276a86d72266569c0a7542f1b839daf2fd05c16a5"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.12"
+    version: "0.3.3"
   custom_lint_builder:
     dependency: transitive
     description:
       name: custom_lint_builder
-      sha256: "4f4d640f86a4d8b938e27840a1c712f79c33c47e7ce373e0b9b9abe30451a61c"
+      sha256: "0f77cd4603fff002284c6131d85c9a40772bbd285d09d0556aafd520e67d1916"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.12"
+    version: "0.3.3"
   custom_lint_core:
     dependency: transitive
     description:
       name: custom_lint_core
-      sha256: "34a9447102de5741d6dc464c4824a4173b20b91d5685589ea652b051dda1f461"
+      sha256: "83bf91d1e4ef2a893bd9a7cefaede25a4e93b47779f71a2fed33d9122e3f02c9"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.12"
+    version: "0.3.3"
   d2_remote:
     dependency: "direct main"
     description:
@@ -684,14 +692,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.1"
-  recase:
-    dependency: transitive
-    description:
-      name: recase
-      sha256: e4eb4ec2dcdee52dcf99cb4ceabaffc631d7424ee55e56f280bc039737f89213
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.1.0"
   reflectable:
     dependency: transitive
     description:
@@ -712,10 +712,10 @@ packages:
     dependency: transitive
     description:
       name: riverpod_analyzer_utils
-      sha256: "51f415c7b8ed8fbb0114f7c18de015b1465b3311bf75683a209ee2f680bac160"
+      sha256: "7c2d4de69ba06107c3d7f1b3f43dc3fbdcb2f666b480560af654b4eb89af0d6d"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.1"
+    version: "0.2.0"
   riverpod_annotation:
     dependency: "direct main"
     description:
@@ -728,18 +728,18 @@ packages:
     dependency: "direct dev"
     description:
       name: riverpod_generator
-      sha256: ff9362b86fcfb4fefc94e75e1bf741a67259f9ee4aa78dc53770b1cd90e4c3b0
+      sha256: "452ea37021012562004b36e35711e5ec35cab96631c3708238c4de9a681a8b23"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "2.1.5"
   riverpod_lint:
     dependency: "direct dev"
     description:
       name: riverpod_lint
-      sha256: "3a308e7c66a657e8e0060b7f24cb0e88259434a28e6cef191ff8e5fb41dbec8a"
+      sha256: "53456df1de0ba6645b8f55cdda7b6003d25c236079a59484d733623522c58994"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.2"
+    version: "1.1.7"
   rxdart:
     dependency: "direct main"
     description:
