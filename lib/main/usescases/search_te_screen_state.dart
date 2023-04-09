@@ -1,4 +1,4 @@
-import 'package:sealed_annotations/sealed_annotations.dart';
+import 'package:equatable/equatable.dart';
 
 part 'search_te_screen_state_sealed.dart';
 

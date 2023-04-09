@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'data_integrity_check_result.dart';
 
@@ -232,6 +232,7 @@ class _$MissingMandatoryResult
   final Map<String, String> _mandatoryFields;
   @override
   Map<String, String> get mandatoryFields {
+    if (_mandatoryFields is EqualUnmodifiableMapView) return _mandatoryFields;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_mandatoryFields);
   }
@@ -239,6 +240,7 @@ class _$MissingMandatoryResult
   final List<FieldWithIssue> _errorFields;
   @override
   List<FieldWithIssue> get errorFields {
+    if (_errorFields is EqualUnmodifiableListView) return _errorFields;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_errorFields);
   }
@@ -246,6 +248,7 @@ class _$MissingMandatoryResult
   final List<FieldWithIssue> _warningFields;
   @override
   List<FieldWithIssue> get warningFields {
+    if (_warningFields is EqualUnmodifiableListView) return _warningFields;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_warningFields);
   }
@@ -558,6 +561,7 @@ class _$FieldsWithErrorResult
   final Map<String, String> _mandatoryFields;
   @override
   Map<String, String> get mandatoryFields {
+    if (_mandatoryFields is EqualUnmodifiableMapView) return _mandatoryFields;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_mandatoryFields);
   }
@@ -565,6 +569,8 @@ class _$FieldsWithErrorResult
   final List<FieldWithIssue> _fieldUidErrorList;
   @override
   List<FieldWithIssue> get fieldUidErrorList {
+    if (_fieldUidErrorList is EqualUnmodifiableListView)
+      return _fieldUidErrorList;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_fieldUidErrorList);
   }
@@ -572,6 +578,7 @@ class _$FieldsWithErrorResult
   final List<FieldWithIssue> _warningFields;
   @override
   List<FieldWithIssue> get warningFields {
+    if (_warningFields is EqualUnmodifiableListView) return _warningFields;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_warningFields);
   }
@@ -868,6 +875,8 @@ class _$FieldsWithWarningResult
   final List<FieldWithIssue> _fieldUidWarningList;
   @override
   List<FieldWithIssue> get fieldUidWarningList {
+    if (_fieldUidWarningList is EqualUnmodifiableListView)
+      return _fieldUidWarningList;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_fieldUidWarningList);
   }

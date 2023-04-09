@@ -1,22 +1,39 @@
 import 'package:d2_remote/core/common/value_type.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:equatable/equatable.dart';
 import 'action_type.dart';
 
-part 'row_action.freezed.dart';
+class RowAction with EquatableMixin {
+  RowAction(
+      {required this.id,
+      this.value,
+      this.requiresExactMatch = false,
+      this.optionCode,
+      this.optionName,
+      this.extraData,
+      this.error,
+      required this.type,
+      this.valueType});
 
-@freezed
-class RowAction with _$RowAction {
-  const factory RowAction({
-    required String id,
-    String? value,
-    @Default(false) bool requiresExactMatch,
-    String? optionCode,
-    String? optionName,
-    String? extraData,
-    Exception? error,
-    required ActionType type,
-    ValueType? valueType,
-  }) = _RowAction;
+  final String id;
+  final String? value;
+  final bool requiresExactMatch;
+  final String? optionCode;
+  final String? optionName;
+  final String? extraData;
+  final Exception? error;
+  final ActionType type;
+  final ValueType? valueType;
 
-  const RowAction._();
+  @override
+  List<Object?> get props => [
+        this.id,
+        this.value,
+        this.requiresExactMatch,
+        this.optionCode,
+        this.optionName,
+        this.extraData,
+        this.error,
+        this.type,
+        this.valueType
+      ];
 }

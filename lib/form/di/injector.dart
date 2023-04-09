@@ -1,6 +1,7 @@
 import 'package:d2_remote/d2_remote.dart';
+import 'package:d2_remote/modules/data/tracker/entities/enrollment.entity.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../commons/date/entry_mode.dart';
 import '../../commons/network/network_utils.dart';
 import '../../commons/resources/resource_manager.dart';
@@ -18,12 +19,16 @@ import '../data/search_repository.dart';
 import '../model/form_repository_records.dart';
 import '../ui/field_view_model_factory.dart';
 import '../ui/field_view_model_factory_impl.dart';
-import '../ui/form_view_model_factory.dart';
 import '../ui/layout_provider_impl.dart';
+import '../ui/provider/display_name_provider.dart';
 import '../ui/provider/display_name_provider_impl.dart';
 import '../ui/provider/enrollment_form_labels_provider.dart';
+import '../ui/provider/hint_provider.dart';
 import '../ui/provider/hint_provider_impl.dart';
+import '../ui/provider/keyboard_action_provider.dart';
 import '../ui/provider/keyboard_action_provider_impl.dart';
+import '../ui/provider/layout_provider.dart';
+import '../ui/provider/ui_event_types_provider.dart';
 import '../ui/provider/ui_event_types_provider_impl.dart';
 import '../ui/provider/ui_style_provider.dart';
 import '../ui/provider/ui_style_provider_impl.dart';
@@ -31,234 +36,229 @@ import '../ui/style/form_ui_model_color_factory_impl.dart';
 import '../ui/style/long_text_ui_color_factory_impl.dart';
 import '../ui/validation/field_error_message_provider.dart';
 
-// part 'injector.g.dart';
+part 'injector.g.dart';
 
-/// _provideEnrollmentObjectRepository(uid)
-final enrollmentObjectRepositoryProvider =
-    Provider.family<EnrollmentObjectRepository, String>((ref, enrollmentUid) {
-  return EnrollmentObjectRepository(enrollmentUid);
-});
+@riverpod
+BuildContext buildContext(BuildContextRef ref) {
+  throw UnimplementedError();
+}
 
-// /// _provideFormRepository(context, FormRepositoryRecords repositoryRecords)
-// final Provider<FormRepository> formRepositoryProvider =
-// Provider<FormRepository>((ref) {
-//   return FormRepositoryImpl(
-//     formValueStore: _provideFormValueStore(
-//         context, repositoryRecords.recordUid, repositoryRecords.entryMode),
-//     fieldErrorMessageProvider: _provideFieldErrorMessage(context),
-//     displayNameProvider: _provideDisplayNameProvider(),
-//     dataEntryRepository: _provideDataEntryRepository(
-//         entryMode: repositoryRecords.entryMode,
-//         context: context,
-//         repositoryRecords: repositoryRecords),
-//     /*ruleEngineRepository: _provideRuleEngineRepository(
-//             repositoryRecords.entryMode, repositoryRecords.recordUid),
-//         rulesUtilsProvider: _provideRulesUtilsProvider(),
-//         legendValueProvider: _provideLegendValueProvider(context)*/
-//   );
-// });
+@riverpod
+FormRepositoryRecords formRepositoryRecords(FormRepositoryRecordsRef ref) {
+  throw UnimplementedError();
+}
 
-class Injector {
-
-  // using a factory is important
-  // because it promises to return _an_ object of this type
-  // but it doesn't promise to make a new one.
-  factory Injector() {
-    return _instance;
-  }
-
-  // This named constructor is the "real" constructor
-  // It'll be called exactly once, by the static property assignment above
-  // it's also private, so it can only be called in this class
-  Injector._internal() {
-    // initialization logic
-  }
-  static final Injector _instance = Injector._internal();
-
-  FormViewModelFactory provideFormViewModelFactory(
-      BuildContext context, FormRepositoryRecords repositoryRecords) {
-    return FormViewModelFactory(
-      _provideFormRepository(
-          context, repositoryRecords), /*provideDispatchers()*/
-    );
-  }
-
-  // static D2Remote get _provideD2 => D2Remote();
-
-  SearchOptionSetOption provideOptionSetDialog() {
-    return SearchOptionSetOption(D2Remote.optionModule);
-  }
-
-  // DispatcherProvider provideDispatchers() {
-  //   return FormDispatcher();
-  // }
-
-  FormRepository _provideFormRepository(
-      BuildContext context, FormRepositoryRecords repositoryRecords) {
-    return FormRepositoryImpl(
-      formValueStore: _provideFormValueStore(
-          context, repositoryRecords.recordUid, repositoryRecords.entryMode),
-      fieldErrorMessageProvider: _provideFieldErrorMessage(context),
-      displayNameProvider: _provideDisplayNameProvider(),
-      dataEntryRepository: _provideDataEntryRepository(
-          entryMode: repositoryRecords.entryMode,
-          context: context,
-          repositoryRecords: repositoryRecords),
-      /*ruleEngineRepository: _provideRuleEngineRepository(
+@riverpod
+FormRepository formRepository(FormRepositoryRef ref) {
+  return FormRepositoryImpl(
+    formValueStore: ref.watch(FormValueStoreProvider(
+        ref.watch(buildContextProvider),
+        ref.watch(formRepositoryRecordsProvider).recordUid,
+        ref.watch(formRepositoryRecordsProvider).entryMode)),
+    fieldErrorMessageProvider: ref.watch(
+        fieldErrorMessageProviderProvider(ref.watch(buildContextProvider))),
+    displayNameProvider: ref.watch(displayNameProviderProvider),
+    dataEntryRepository: ref.watch(dataEntryRepositoryProvider(
+        entryMode: ref.watch(formRepositoryRecordsProvider).entryMode,
+        context: ref.watch(buildContextProvider),
+        repositoryRecords: ref.watch(formRepositoryRecordsProvider))),
+    /*ruleEngineRepository: _provideRuleEngineRepository(
             repositoryRecords.entryMode, repositoryRecords.recordUid),
         rulesUtilsProvider: _provideRulesUtilsProvider(),
         legendValueProvider: _provideLegendValueProvider(context)*/
-    );
-  }
+  );
+}
 
-  DataEntryRepository _provideDataEntryRepository(
-      {EntryMode? entryMode,
-      required BuildContext context,
-      required FormRepositoryRecords repositoryRecords}) {
-    switch (entryMode) {
-      case EntryMode.ATTR:
-        return _provideEnrollmentRepository(
-            context, repositoryRecords as EnrollmentRecords);
-      case EntryMode.DE:
-        return _provideEventRepository(
-            context, repositoryRecords as EventRecords);
+/// _provideEnrollmentObjectRepository(uid)
+@riverpod
+EnrollmentObjectRepository enrollmentObjectRepository(
+    EnrollmentObjectRepositoryRef ref, String enrollmentUid) {
+  return EnrollmentObjectRepository(enrollmentUid);
+}
+
+// @riverpod
+// String enrollmentUid(EnrollmentUidRef ref) {
+//   throw UnimplementedError();
+// }
+
+// @riverpod
+// EnrollmentObjectRepository? enrollmentObjectRepositoryForFormValueStore(
+//     EnrollmentObjectRepositoryRef ref, String enrollmentUid, ) {
+//   return EnrollmentObjectRepository(enrollmentUid);
+// }
+
+@riverpod
+FormValueStore? formValueStore(FormValueStoreRef ref, BuildContext context,
+    String? recordUid, EntryMode? entryMode) {
+  Future<String> uid;
+  if (entryMode != null) {
+    EnrollmentObjectRepository? enrollmentObjectRepository;
+    if (entryMode == EntryMode.ATTR) {
+      enrollmentObjectRepository =
+          ref.watch(enrollmentObjectRepositoryProvider(recordUid!));
+      uid = enrollmentObjectRepository!.getEnrollment().then<String>(
+          (Enrollment? enrollment) =>
+              enrollment?.trackedEntityInstance ?? recordUid);
+    } else {
+      enrollmentObjectRepository = null;
+      uid = Future.value(recordUid!);
     }
-    return _provideSearchRepository(
-        context, repositoryRecords as SearchRecords);
-  }
 
-  DataEntryRepository _provideSearchRepository(
-      BuildContext context, SearchRecords searchRecords) {
-    return SearchRepository(
+    return FormValueStore(
         // d2: _provideD2(),
-        fieldViewModelFactory: _provideFieldFactory(
-            context,
-            searchRecords.allowMandatoryFields,
-            searchRecords.isBackgroundTransparent),
-        programUid: searchRecords.programUid,
-        teiTypeUid: searchRecords.teiTypeUid,
-        currentSearchValues: searchRecords.currentSearchValues);
+        // recordUid: enrollmentObjectRepository
+        //         ?.blockingGet()
+        //         ?.trackedEntityInstance() ??
+        //     recordUid!,
+        recordUidFuture: uid,
+        entryMode: entryMode,
+        enrollmentRepository: enrollmentObjectRepository,
+        // crashReportController: _provideCrashReportController(),
+        networkUtils: ref.watch(networkUtilsProvider(context)),
+        resourceManager: ref.watch(resourceManagerProvider(context)));
   }
+  return null;
+}
 
-  DataEntryRepository _provideEnrollmentRepository(
-      BuildContext context, EnrollmentRecords enrollmentRecords) {
-    return EnrollmentRepository(
-        fieldFactory: _provideFieldFactory(
-            context,
-            enrollmentRecords.allowMandatoryFields,
-            enrollmentRecords.isBackgroundTransparent),
-        enrollmentUid: enrollmentRecords.enrollmentUid,
-        // d2: _provideD2(),
-        enrollmentMode: enrollmentRecords.enrollmentMode,
-        enrollmentFormLabelsProvider:
-            _provideEnrollmentFormLabelsProvider(context));
-  }
+@riverpod
+NetworkUtils networkUtils(NetworkUtilsRef ref, BuildContext context) {
+  return NetworkUtils(context);
+}
 
-  DataEntryRepository _provideEventRepository(
-      BuildContext context, EventRecords eventRecords) {
-    return EventRepository(
-      fieldFactory: _provideFieldFactory(
+@riverpod
+ResourceManager resourceManager(ResourceManagerRef ref, BuildContext context) {
+  return ResourceManager(context);
+}
+
+@riverpod
+FieldErrorMessageProvider fieldErrorMessageProvider(
+    FieldErrorMessageProviderRef ref, BuildContext context) {
+  return FieldErrorMessageProvider(context);
+}
+
+@riverpod
+EnrollmentRepository enrollmentRepository(EnrollmentRepositoryRef ref,
+    BuildContext context, EnrollmentRecords enrollmentRecords) {
+  return EnrollmentRepository(
+      fieldFactory: ref.watch(fieldViewModelFactoryProvider(
+          context,
+          enrollmentRecords.allowMandatoryFields,
+          enrollmentRecords.isBackgroundTransparent)),
+      enrollmentUid: enrollmentRecords.enrollmentUid,
+      // d2: _provideD2(),
+      enrollmentMode: enrollmentRecords.enrollmentMode,
+      enrollmentFormLabelsProvider:
+          ref.watch(enrollmentFormLabelsProviderProvider(context)));
+}
+
+@riverpod
+EventRepository eventRepository(
+    EventRepositoryRef ref, BuildContext context, EventRecords eventRecords) {
+  return EventRepository(
+      fieldFactory: ref.watch(fieldViewModelFactoryProvider(
           context,
           eventRecords.allowMandatoryFields,
-          eventRecords.isBackgroundTransparent),
-      eventUid: eventRecords.eventUid, /*d2: _provideD2()*/
-    );
+          eventRecords.isBackgroundTransparent)),
+      eventUid: eventRecords.eventUid);
+}
+
+@riverpod
+SearchRepository searchRepository(SearchRepositoryRef ref, BuildContext context,
+    SearchRecords searchRecords) {
+  return SearchRepository(
+      // d2: _provideD2(),
+      fieldViewModelFactory: ref.watch(fieldViewModelFactoryProvider(
+          context,
+          searchRecords.allowMandatoryFields,
+          searchRecords.isBackgroundTransparent)),
+      programUid: searchRecords.programUid,
+      teiTypeUid: searchRecords.teiTypeUid,
+      currentSearchValues: searchRecords.currentSearchValues);
+}
+
+@riverpod
+EnrollmentFormLabelsProvider enrollmentFormLabelsProvider(
+    EnrollmentFormLabelsProviderRef ref, BuildContext context) {
+  return EnrollmentFormLabelsProvider(
+      ref.watch(resourceManagerProvider(context)));
+}
+
+@riverpod
+DataEntryRepository dataEntryRepository(DataEntryRepositoryRef ref,
+    {EntryMode? entryMode,
+    required BuildContext context,
+    required FormRepositoryRecords repositoryRecords}) {
+  switch (entryMode) {
+    case EntryMode.ATTR:
+      return ref.watch(enrollmentRepositoryProvider(
+          context, repositoryRecords as EnrollmentRecords));
+    case EntryMode.DE:
+      return ref.watch(
+          eventRepositoryProvider(context, repositoryRecords as EventRecords));
   }
+  return ref.watch(
+      searchRepositoryProvider(context, repositoryRecords as SearchRecords));
+}
 
-  EnrollmentFormLabelsProvider _provideEnrollmentFormLabelsProvider(
-      BuildContext context) {
-    return EnrollmentFormLabelsProvider(_provideResourcesManager(context));
-  }
+@riverpod
+FieldViewModelFactory fieldViewModelFactory(
+    FieldViewModelFactoryRef ref,
+    BuildContext context,
+    bool allowMandatoryFields,
+    bool isBackgroundTransparent) {
+  return FieldViewModelFactoryImpl(
+    noMandatoryFields: !allowMandatoryFields,
+    uiStyleProvider:
+        ref.watch(uiStyleProviderProvider(context, isBackgroundTransparent)),
+    layoutProvider: ref.watch(layoutProviderProvider),
+    hintProvider: ref.watch(hintProviderProvider(context)),
+    displayNameProvider: ref.watch(displayNameProviderProvider),
+    uiEventTypesProvider: ref.watch(uiEventTypesProviderProvider),
+    keyboardActionProvider: ref.watch(keyboardActionProviderProvider),
+    // legendValueProvider: _provideLegendValueProvider(context)
+  );
+}
 
-  FieldViewModelFactory _provideFieldFactory(BuildContext context,
-      bool allowMandatoryFields, bool isBackgroundTransparent) {
-    return FieldViewModelFactoryImpl(
-      noMandatoryFields: !allowMandatoryFields,
-      uiStyleProvider:
-          _provideUiStyleProvider(context, isBackgroundTransparent),
-      layoutProvider: _provideLayoutProvider(),
-      hintProvider: _provideHintProvider(context),
-      displayNameProvider: _provideDisplayNameProvider(),
-      uiEventTypesProvider: _provideUiEventTypesProvider(),
-      keyboardActionProvider: _provideKeyBoardActionProvider(),
-      // legendValueProvider: _provideLegendValueProvider(context)
-    );
-  }
+@riverpod
+DisplayNameProvider displayNameProvider(DisplayNameProviderRef ref) {
+  return const DisplayNameProviderImpl(
+      OptionSetConfiguration(), OrgUnitConfiguration());
+}
 
-  KeyboardActionProviderImpl _provideKeyBoardActionProvider() =>
-      const KeyboardActionProviderImpl();
+@riverpod
+KeyboardActionProvider keyboardActionProvider(KeyboardActionProviderRef ref) {
+  return const KeyboardActionProviderImpl();
+}
 
-  UiEventTypesProviderImpl _provideUiEventTypesProvider() =>
-      const UiEventTypesProviderImpl();
+@riverpod
+UiEventTypesProvider uiEventTypesProvider(UiEventTypesProviderRef ref) {
+  return const UiEventTypesProviderImpl();
+}
 
-  HintProviderImpl _provideHintProvider(BuildContext context) =>
-      HintProviderImpl(context);
+@riverpod
+HintProvider hintProvider(HintProviderRef ref, BuildContext context) {
+  return HintProviderImpl(context);
+}
 
-  LayoutProviderImpl _provideLayoutProvider() => const LayoutProviderImpl();
+@riverpod
+LayoutProvider layoutProvider(LayoutProviderRef ref) {
+  return const LayoutProviderImpl();
+}
 
-  UiStyleProvider _provideUiStyleProvider(
-          BuildContext context, bool isBackgroundTransparent) =>
-      UiStyleProviderImpl(
-          colorFactory: FormUiModelColorFactoryImpl(
-              context: context,
-              isBackgroundTransparent: isBackgroundTransparent),
-          longTextColorFactory: LongTextUiColorFactoryImpl(
-              context: context,
-              isBackgroundTransparent: isBackgroundTransparent));
+@riverpod
+UiStyleProvider uiStyleProvider(UiStyleProviderRef ref, BuildContext context,
+    bool isBackgroundTransparent) {
+  return UiStyleProviderImpl(
+      colorFactory: FormUiModelColorFactoryImpl(
+          context: context, isBackgroundTransparent: isBackgroundTransparent),
+      longTextColorFactory: LongTextUiColorFactoryImpl(
+          context: context, isBackgroundTransparent: isBackgroundTransparent));
+}
 
-  FormValueStore? _provideFormValueStore(
-      BuildContext context, String? recordUid, EntryMode? entryMode) {
-    Future<String> uid;
-    if (entryMode != null) {
-      EnrollmentObjectRepository? enrollmentObjectRepository;
-      if (entryMode == EntryMode.ATTR) {
-        enrollmentObjectRepository =
-            _provideEnrollmentObjectRepository(recordUid!);
-        uid = enrollmentObjectRepository.getEnrollment().then<String>(
-            (enrollment) => enrollment?.trackedEntityInstance ?? recordUid);
-      } else {
-        enrollmentObjectRepository = null;
-        uid = Future.value(recordUid!);
-      }
-
-      // Future<String> uid =
-      return FormValueStore(
-          // d2: _provideD2(),
-          // recordUid: enrollmentObjectRepository
-          //         ?.blockingGet()
-          //         ?.trackedEntityInstance() ??
-          //     recordUid!,
-          recordUidFuture: uid,
-          entryMode: entryMode,
-          enrollmentRepository: enrollmentObjectRepository,
-          // crashReportController: _provideCrashReportController(),
-          networkUtils: _provideNetworkUtils(context),
-          resourceManager: _provideResourcesManager(context));
-    }
-    return null;
-  }
-
-  EnrollmentObjectRepository _provideEnrollmentObjectRepository(
-      String enrollmentUid) {
-    return EnrollmentObjectRepository(enrollmentUid);
-  }
-
-  // CrashReportControllerImpl _provideCrashReportController() =>
-  //     CrashReportControllerImpl();
-  //
-  NetworkUtils _provideNetworkUtils(BuildContext context) =>
-      NetworkUtils(context);
-
-  ResourceManager _provideResourcesManager(BuildContext context) =>
-      ResourceManager(context);
-
-  FieldErrorMessageProvider _provideFieldErrorMessage(BuildContext context) {
-    return FieldErrorMessageProvider(context);
-  }
-
-  DisplayNameProviderImpl _provideDisplayNameProvider() =>
-      const DisplayNameProviderImpl(
-          OptionSetConfiguration(), OrgUnitConfiguration());
+@riverpod
+SearchOptionSetOption searchOptionSetOption(SearchOptionSetOptionRef ref) {
+  return SearchOptionSetOption(D2Remote.optionModule);
+}
 
 // RuleEngineRepository? _provideRuleEngineRepository(EntryMode? entryMode,
 //     String? recordUid) {
@@ -288,4 +288,3 @@ class Injector {
 //         _provideD2(),
 //         _provideResourcesManager(context)
 //     );
-}

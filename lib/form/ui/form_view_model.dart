@@ -3,8 +3,10 @@ import 'package:d2_remote/core/common/value_type.dart';
 import 'package:dartx/dartx_io.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
-import 'package:rxdart/rxdart.dart' as mapping;
+import '../di/injector.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../commons/extensions/standard_extensions.dart';
 import '../data/data_integrity_check_result.dart';
@@ -16,117 +18,263 @@ import '../model/info_ui_model.dart';
 import '../model/row_action.dart';
 import '../model/store_result.dart';
 import '../model/value_store_result.dart';
+import 'event/list_view_ui_events.dart';
 import 'intent/form_intent.dart';
 import 'validation/validators/field_mask_validator.dart';
 
-/// MVC: Model-View-Controller
-/// https://medium.flutterdevs.com/design-patterns-in-flutter-part-2-mvp-e17b3be2e51b
-/// we could say about MVC that:
-/// - Controllers are based on behaviors and can be shared across views
-/// - Can be responsible for determining which view to display
-///
-/// MVP: But in MVP as in enrollment or orgUnitSelector or most specialized views: We used MVP
-/// MVP: All invocations from the View delegate directly to the Presenter.
-/// The Presenter is also decoupled directly from the View and talks to it through an interface.
-///
-/// So According to this, we could say about MVP that:
-/// - The view is more loosely coupled to the model. The presenter is responsible for
-/// binding the model to the view.
-/// - Easier to unit test because interaction with the view is through an interface.
-/// - Usually view to presenter map one to one. Complex views may have multi presenters.
+part 'form_view_model.g.dart';
 
-// class FormViewModel extends ViewModel {
-class FormViewModel extends GetxController implements Listenable {
-  // static const TAG = 'FormViewModel';
-
-  // GeometryController _geometryController = GeometryController(GeometryParserImpl());
-  FormViewModel(this._repository /*, this._geometryController*/);
-
-  final FormRepository _repository;
-
-  final loading = true.obs;
-  final showToast = Rx<String?>(null);
-  final focused = Rx<bool?>(null);
-  final showInfo = Rx<InfoUiModel?>(null);
-
-  // final confError = Rx<List<RulesUtilsProviderConfigurationError>?>();
-
-  final _items = Rx<List<FieldUiModel>?>(null);
-
-  Stream<List<FieldUiModel>> get items => _items.stream.whereNotNull();
-
-  final _savedValue = Rx<RowAction?>(null);
-
-  Stream<RowAction> get savedValue => _savedValue.stream.whereNotNull();
-
-  final _queryData = Rx<RowAction?>(null);
-
-  Stream<RowAction> get queryData => _queryData.stream.whereNotNull();
-
-  final _dataIntegrityResult = Rx<DataIntegrityCheckResult?>(null);
-
-  Stream<DataIntegrityCheckResult?> get dataIntegrityResult =>
-      _dataIntegrityResult.stream;
-
-  final _completionPercentage = Rx<double?>(null);
-
-  Stream<double?> get completionPercentage => _completionPercentage.stream;
-
-  final _calculationLoop = false.obs;
-
-  Stream<bool> get calculationLoop => _calculationLoop.stream;
-
-  final _pendingIntents = Rx<FormIntent?>(null);
-
-  // NMC
-  Stream<FormIntent?> get _pendingIntentsStream =>
-      _pendingIntents.stream.asBroadcastStream();
-
+@riverpod
+class Loading extends _$Loading {
   @override
-  void onInit() async {
-    _pendingIntentsStream
-        .distinct((oldI, newI) {
-          if (oldI is OnFinish && newI is OnFinish) {
-            return false;
-          } else {
-            return oldI == newI;
-          }
-        })
-        // NMC
-        // .whereType<FormIntent>()
-        .whereNotNull() // equivalent to whereType<FormIntent>()
-        .map((intent) => _createRowActionStore(intent))
-        .listen((event) async {
-          _displayResult(await event);
-        });
-    super.onInit();
+  bool build() {
+    return true;
+  }
+
+  void setValue(bool value) {
+    state = value;
+  }
+}
+
+@Riverpod(keepAlive: true)
+class ShowToast extends _$ShowToast {
+  @override
+  String? build() {
+    return null;
+  }
+
+  void setValue(String value) {
+    state = value;
+  }
+}
+
+@riverpod
+class Focused extends _$Focused {
+  @override
+  bool? build() {
+    return null;
+  }
+
+  void setValue(bool value) {
+    state = value;
+  }
+}
+
+@riverpod
+class ShowInfo extends _$ShowInfo {
+  @override
+  InfoUiModel? build() {
+    return null;
+  }
+
+  void setValue(InfoUiModel value) {
+    state = value;
+  }
+}
+
+@riverpod
+class Items extends _$Items {
+  @override
+  FutureOr<List<FieldUiModel>> build() {
+    return <FieldUiModel>[];
+  }
+
+  Future<void> loadData() async {
+    ref.read(loadingProvider.notifier).setValue(true);
+    final FormRepository repository = ref.read(formRepositoryProvider);
+    state = await AsyncValue.guard(repository.fetchFormItems);
+    ref.read(loadingProvider.notifier).setValue(false);
+  }
+
+  Future<void> processCalculatedItems() async {
+    final FormRepository repository = ref.read(formRepositoryProvider);
+    state = await AsyncValue.guard(repository.composeList);
+  }
+
+  Future<void> runDataIntegrityCheck({bool? allowDiscard}) async {
+    final AsyncValue<DataIntegrityCheckResult> result =
+        await AsyncValue.guard(() async {
+      return ref
+          .read(formRepositoryProvider)
+          .runDataIntegrityCheck(allowDiscard: allowDiscard ?? false);
+    });
+
+    ref
+        .read(dataIntegrityResultValueProvider.notifier)
+        .setValue(result.requireValue);
+    final FormRepository repository = ref.read(formRepositoryProvider);
+    state = await AsyncValue.guard(repository.composeList);
+  }
+}
+
+@riverpod
+Future<double> completionPercentageValue(
+    CompletionPercentageValueRef ref) async {
+  final List<FieldUiModel>? items = ref.watch(itemsProvider).valueOrNull;
+  return await ref
+      .read(formRepositoryProvider)
+      .completedFieldsPercentage(items ?? []);
+}
+
+@riverpod
+class SavedValue extends _$SavedValue {
+  @override
+  RowAction? build() {
+    return null;
+  }
+
+  void setValue(RowAction value) {
+    state = value;
+  }
+}
+
+@riverpod
+class QueryData extends _$QueryData {
+  @override
+  RowAction? build() {
+    return null;
+  }
+
+  void setValue(RowAction value) {
+    state = value;
+  }
+}
+
+@riverpod
+class CalculationLoopValue extends _$CalculationLoopValue {
+  @override
+  FutureOr<bool> build() {
+    return false;
+  }
+
+  Future<void> displayLoopWarningIfNeeded() async {
+    state = await AsyncValue.guard(
+        ref.read(formRepositoryProvider).calculationLoopOverLimit);
+  }
+}
+
+@riverpod
+class DataIntegrityResultValue extends _$DataIntegrityResultValue {
+  @override
+  DataIntegrityCheckResult? build() {
+    return null;
+  }
+
+  void setValue(DataIntegrityCheckResult value) {
+    state = value;
+  }
+}
+
+@riverpod
+class PendingIntents extends _$PendingIntents {
+  @override
+  FormIntent? build() {
+    return null;
+  }
+
+  void submitIntent(FormIntent intent) {
+    state = intent;
+  }
+}
+
+@riverpod
+FormViewModel formViewModel(FormViewModelRef ref) {
+  return FormViewModel(ref);
+}
+
+@riverpod
+int index(IndexRef ref) {
+  throw UnimplementedError();
+}
+
+@riverpod
+Future<FieldUiModel> item(ItemRef ref, Callback callback) async {
+  final int index = ref.read(indexProvider);
+  final FieldUiModel item = await ref
+      .watch(itemsProvider.selectAsync((List<FieldUiModel> e) => e[index]));
+
+  return item.setCallback(callback);
+}
+
+@riverpod
+FieldUiModel fieldRow(FieldRowRef ref) {
+  throw UnimplementedError();
+}
+
+@riverpod
+class UiEvent extends _$UiEvent {
+  @override
+  ListViewUiEvents? build() {
+    return null;
+  }
+
+  void setValue(ListViewUiEvents value) {
+    state = value;
+  }
+}
+
+@riverpod
+class UiIntent extends _$UiIntent {
+  @override
+  FormIntent? build() {
+    return null;
+  }
+
+  void setValue(FormIntent value) {
+    state = value;
+  }
+}
+
+class FormViewModel extends GetxController implements Listenable {
+  // 1. Pass a Ref argument to the constructor
+  FormViewModel(this.ref) {
+    _init();
+  }
+  final AutoDisposeRef ref;
+  // AutoDisposeRef
+  // GeometryController _geometryController = GeometryController(GeometryParserImpl());
+
+  void _init() {
+    ref.listen<FormIntent?>(pendingIntentsProvider,
+        (FormIntent? oldI, FormIntent? newI) {
+      // 4. Implement the event handling code
+      if (oldI is! OnFinish && newI is! OnFinish && newI != null) {
+        debugPrint(newI.toString());
+        _createRowActionStore(newI).then(
+            (Pair<RowAction, StoreResult> event) => _displayResult(event));
+      }
+    });
+
+    ref.read(itemsProvider.notifier).loadData();
   }
 
   void _displayResult(Pair<RowAction, StoreResult> result) {
     switch (result.second.valueStoreResult) {
       case ValueStoreResult.VALUE_CHANGED:
-        _savedValue.value = result.first;
+        ref.read(savedValueProvider.notifier).setValue(result.first);
         _processCalculatedItems();
         break;
       case ValueStoreResult.ERROR_UPDATING_VALUE:
-        showToast.value = 'string.update_field_error';
+        ref
+            .read(showToastProvider.notifier)
+            .setValue('string.update_field_error');
         break;
       case ValueStoreResult.UID_IS_NOT_DE_OR_ATTR:
-        print(
+        debugPrint(
             'Timber.tag(TAG).d("${result.first.id} is not a data element or attribute")');
         _processCalculatedItems();
         break;
       case ValueStoreResult.VALUE_NOT_UNIQUE:
-        showInfo.value =
-            const InfoUiModel('string.error', 'string.unique_warning');
+        ref.read(showInfoProvider.notifier).setValue(
+            const InfoUiModel('string.error', 'string.unique_warning'));
         _processCalculatedItems();
         break;
       case ValueStoreResult.VALUE_HAS_NOT_CHANGED:
         _processCalculatedItems();
         break;
       case ValueStoreResult.TEXT_CHANGING:
-        print('Timber.d("${result.first.id} is changing its value")');
-        _queryData.value = result.first;
+        debugPrint('Timber.d("${result.first.id} is changing its value")');
+        ref.read(queryDataProvider.notifier).setValue(result.first);
         break;
       case ValueStoreResult.FINISH:
         _processCalculatedItems();
@@ -137,17 +285,17 @@ class FormViewModel extends GetxController implements Listenable {
 
   Future<Pair<RowAction, StoreResult>> _createRowActionStore(
       FormIntent intent) async {
-    final rowAction = _rowActionFromIntent(intent);
+    final RowAction rowAction = _rowActionFromIntent(intent);
 
     if (rowAction.type == ActionType.ON_FOCUS) {
       // focused.postValue(true);
-      focused.value = true;
+      ref.read(focusedProvider.notifier).setValue(true);
     } else if (rowAction.type == ActionType.ON_SAVE) {
       // loading.postValue(true);
-      loading.value = true;
+      ref.read(loadingProvider.notifier).setValue(true);
     }
 
-    final result = await _processUserAction(rowAction);
+    final StoreResult result = await _processUserAction(rowAction);
     return Pair(rowAction, result);
   }
 
@@ -155,18 +303,22 @@ class FormViewModel extends GetxController implements Listenable {
     switch (action.type) {
       case ActionType.ON_SAVE:
         if (action.valueType == ValueType.COORDINATE) {
-          _repository.setFieldRequestingCoordinates(action.id, false);
+          ref
+              .read(formRepositoryProvider)
+              .setFieldRequestingCoordinates(action.id, false);
         }
-        _repository.updateErrorList(action);
+        ref.read(formRepositoryProvider).updateErrorList(action);
         if (action.error != null) {
           return StoreResult(
               uid: action.id,
               valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);
         } else {
-          final saveResult =
-              await _repository.save(action.id, action.value, action.extraData);
-          await _repository.updateValueOnList(
-              action.id, action.value, action.valueType);
+          final StoreResult? saveResult = await ref
+              .read(formRepositoryProvider)
+              .save(action.id, action.value, action.extraData);
+          await ref
+              .read(formRepositoryProvider)
+              .updateValueOnList(action.id, action.value, action.valueType);
           return saveResult ??
               StoreResult(
                   uid: action.id,
@@ -175,39 +327,44 @@ class FormViewModel extends GetxController implements Listenable {
 
       case ActionType.ON_FOCUS:
       case ActionType.ON_NEXT:
-        final storeResult = await _saveLastFocusedItem(action);
-        _repository.setFocusedItem(action);
+        final StoreResult storeResult = await _saveLastFocusedItem(action);
+        ref.read(formRepositoryProvider).setFocusedItem(action);
         return storeResult;
 
       case ActionType.ON_TEXT_CHANGE:
-        await _repository.updateValueOnList(
-            action.id, action.value, action.valueType);
+        await ref
+            .read(formRepositoryProvider)
+            .updateValueOnList(action.id, action.value, action.valueType);
         return StoreResult(
             uid: action.id, valueStoreResult: ValueStoreResult.TEXT_CHANGING);
       case ActionType.ON_SECTION_CHANGE:
-        _repository.updateSectionOpened(action);
+        ref.read(formRepositoryProvider).updateSectionOpened(action);
         return StoreResult(
             uid: action.id,
             valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);
 
       case ActionType.ON_CLEAR:
-        _repository.removeAllValues();
+        ref.read(formRepositoryProvider).removeAllValues();
         return StoreResult(
             uid: action.id, valueStoreResult: ValueStoreResult.VALUE_CHANGED);
 
       case ActionType.ON_FINISH:
-        _repository.setFocusedItem(action);
+        ref.read(formRepositoryProvider).setFocusedItem(action);
         return const StoreResult(
             uid: '', valueStoreResult: ValueStoreResult.FINISH);
 
       case ActionType.ON_REQUEST_COORDINATES:
-        _repository.setFieldRequestingCoordinates(action.id, true);
+        ref
+            .read(formRepositoryProvider)
+            .setFieldRequestingCoordinates(action.id, true);
         return StoreResult(
             uid: action.id,
             valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);
 
       case ActionType.ON_CANCELL_REQUEST_COORDINATES:
-        _repository.setFieldRequestingCoordinates(action.id, false);
+        ref
+            .read(formRepositoryProvider)
+            .setFieldRequestingCoordinates(action.id, false);
         return StoreResult(
             uid: action.id,
             valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);
@@ -217,26 +374,28 @@ class FormViewModel extends GetxController implements Listenable {
   Future<StoreResult> _saveLastFocusedItem(RowAction rowAction) async {
     final FieldUiModel? field = _getLastFocusedTextItem();
     if (field != null) {
-      final error =
+      final Exception? error =
           _checkFieldError(field.valueType, field.value, field.fieldMask);
       if (error != null) {
-        final action = _rowActionFromIntent(FormIntent.onSave(
+        final RowAction action = _rowActionFromIntent(FormIntent.onSave(
             uid: field.uid,
             value: field.value,
             valueType: field.valueType,
             fieldMask: field.fieldMask));
-        _repository.updateErrorList(action);
+        ref.read(formRepositoryProvider).updateErrorList(action);
         return StoreResult(
             uid: rowAction.id,
             valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);
       } else {
-        final intent = _getSaveIntent(field);
-        final action = _rowActionFromIntent(intent);
-        final result =
-            await _repository.save(field.uid, field.value, action.extraData);
-        await _repository.updateValueOnList(
-            field.uid, field.value, field.valueType);
-        _repository.updateErrorList(action);
+        final FormIntent intent = _getSaveIntent(field);
+        final RowAction action = _rowActionFromIntent(intent);
+        final StoreResult? result = await ref
+            .read(formRepositoryProvider)
+            .save(field.uid, field.value, action.extraData);
+        await ref
+            .read(formRepositoryProvider)
+            .updateValueOnList(field.uid, field.value, field.valueType);
+        ref.read(formRepositoryProvider).updateErrorList(action);
         if (result != null) {
           return result;
         }
@@ -256,10 +415,11 @@ class FormViewModel extends GetxController implements Listenable {
   }
 
   FieldUiModel? _getLastFocusedTextItem() {
-    return _repository.currentFocusedItem()?.takeIf((item) =>
-        item.valueType?.let((valueType) =>
-            valueTypeIsTextField(valueType, item.renderingType)) ??
-        false);
+    return ref.read(formRepositoryProvider).currentFocusedItem()?.takeIf(
+        (FieldUiModel item) =>
+            item.valueType?.let((ValueType valueType) =>
+                valueTypeIsTextField(valueType, item.renderingType)) ??
+            false);
   }
 
   FormIntent _getSaveIntent(FieldUiModel field) {
@@ -279,11 +439,12 @@ class FormViewModel extends GetxController implements Listenable {
 
   RowAction _rowActionFromIntent(FormIntent intent) {
     return intent.map(
-        onClear: (intent) => _createRowAction(
+        onClear: (OnClear intent) => _createRowAction(
             uid: '', value: null, actionType: ActionType.ON_CLEAR),
-        clearValue: (intent) => _createRowAction(uid: intent.uid, value: null),
-        selectLocationFromCoordinates: (intent) {
-          final error =
+        clearValue: (ClearValue intent) =>
+            _createRowAction(uid: intent.uid, value: null),
+        selectLocationFromCoordinates: (SelectLocationFromCoordinates intent) {
+          final Exception? error =
               _checkFieldError(ValueType.COORDINATE, intent.coordinates, null);
           return _createRowAction(
               uid: intent.uid,
@@ -292,12 +453,13 @@ class FormViewModel extends GetxController implements Listenable {
               error: error,
               valueType: ValueType.COORDINATE);
         },
-        selectLocationFromMap: (intent) => _setCoordinateFieldValue(
-            fieldUid: intent.uid,
-            featureType: intent.featureType,
-            coordinates: intent.coordinates),
-        saveCurrentLocation: (intent) {
-          final error =
+        selectLocationFromMap: (SelectLocationFromMap intent) =>
+            _setCoordinateFieldValue(
+                fieldUid: intent.uid,
+                featureType: intent.featureType,
+                coordinates: intent.coordinates),
+        saveCurrentLocation: (SaveCurrentLocation intent) {
+          final Exception? error =
               _checkFieldError(ValueType.COORDINATE, intent.value, null);
           return _createRowAction(
               uid: intent.uid,
@@ -306,12 +468,12 @@ class FormViewModel extends GetxController implements Listenable {
               error: error,
               valueType: ValueType.COORDINATE);
         },
-        onNext: (intent) => _createRowAction(
+        onNext: (OnNext intent) => _createRowAction(
             uid: intent.uid,
             value: intent.value,
             actionType: ActionType.ON_NEXT),
-        onSave: (intent) {
-          final error = _checkFieldError(
+        onSave: (OnSave intent) {
+          final Exception? error = _checkFieldError(
               intent.valueType, intent.value, intent.fieldMask);
           return _createRowAction(
               uid: intent.uid,
@@ -319,29 +481,30 @@ class FormViewModel extends GetxController implements Listenable {
               error: error,
               valueType: intent.valueType);
         },
-        onFocus: (intent) => _createRowAction(
+        onFocus: (OnFocus intent) => _createRowAction(
             uid: intent.uid,
             value: intent.value,
             actionType: ActionType.ON_FOCUS),
-        onTextChange: (intent) => _createRowAction(
+        onTextChange: (OnTextChange intent) => _createRowAction(
             uid: intent.uid,
             value: intent.value,
             actionType: ActionType.ON_TEXT_CHANGE,
             valueType: ValueType.TEXT),
-        onSection: (intent) => _createRowAction(
+        onSection: (OnSection intent) => _createRowAction(
             uid: intent.sectionUid,
             value: null,
             actionType: ActionType.ON_SECTION_CHANGE),
-        onFinish: (intent) => _createRowAction(
+        onFinish: (OnFinish intent) => _createRowAction(
             uid: '', value: null, actionType: ActionType.ON_FINISH),
-        onRequestCoordinates: (intent) => _createRowAction(
+        onRequestCoordinates: (OnRequestCoordinates intent) => _createRowAction(
             uid: intent.uid,
             value: null,
             actionType: ActionType.ON_REQUEST_COORDINATES),
-        onCancelRequestCoordinates: (intent) => _createRowAction(
-            uid: intent.uid,
-            value: null,
-            actionType: ActionType.ON_CANCELL_REQUEST_COORDINATES));
+        onCancelRequestCoordinates: (OnCancelRequestCoordinates intent) =>
+            _createRowAction(
+                uid: intent.uid,
+                value: null,
+                actionType: ActionType.ON_CANCELL_REQUEST_COORDINATES));
   }
 
   Exception? _checkFieldError(
@@ -350,18 +513,20 @@ class FormViewModel extends GetxController implements Listenable {
       return null;
     }
 
-    return fieldValue!.let((value) {
+    return fieldValue!.let((String value) {
       Exception? error;
       final Either<Exception, String>? result = valueType
-          ?.takeIf((item) => item != ValueType.IMAGE)
+          ?.takeIf((ValueType item) => item != ValueType.IMAGE)
           ?.validator
           .validate(value);
-      error = result?.fold((failure) => failure, (success) => null);
+      error = result?.fold(
+          (Exception failure) => failure, (String success) => null);
 
-      fieldMask?.let((mask) {
+      fieldMask?.let((String mask) {
         final Either<Exception, String> result =
             FieldMaskValidator(mask).validate(value);
-        error = result.fold((failure) => failure, (success) => error);
+        error = result.fold(
+            (Exception failure) => failure, (String success) => error);
       });
       return error;
     });
@@ -386,7 +551,7 @@ class FormViewModel extends GetxController implements Listenable {
       {required String fieldUid,
       required String featureType,
       String? coordinates}) {
-    final type = FeatureType.valueOfFeatureType(featureType);
+    final FeatureType? type = FeatureType.valueOfFeatureType(featureType);
     String? geometryCoordinates;
     /*coordinates?.let {
   geometryController.generateLocationFromCoordinates(
@@ -410,11 +575,7 @@ class FormViewModel extends GetxController implements Listenable {
   }
 
   void _processCalculatedItems() {
-    _repository.composeList().then((value) => _items.value = value);
-
-    // Or if we need to make sure it builds
-    // its like a trigger for build no matter what
-    // _repository.composeList().then((value) => _items.subject.add(value));
+    ref.read(itemsProvider.notifier).processCalculatedItems();
   }
 
   /////////////////////////////////////////////////
@@ -422,60 +583,50 @@ class FormViewModel extends GetxController implements Listenable {
   /////////////////////////////////////////////////
 
   void onItemsRendered() {
-    loading.value = false;
+    ref.read(loadingProvider.notifier).setValue(false);
+    // loading.value = false;
   }
 
   void submitIntent(FormIntent intent) {
-    // viewModelScope.launch {
-    _pendingIntents.value = intent;
-    // }
+    ref.read(pendingIntentsProvider.notifier).submitIntent(intent);
   }
 
   String? getFocusedItemUid() {
-    return _items.value?.first.uid;
-  }
-
-  void processCalculatedItems() {
-    _repository
-        .composeList()
-        .then((value) => _items.value = value)
-        .catchError((e) => print(e));
+    return ref.read(itemsProvider).asData?.valueOrNull?.first.uid;
   }
 
   // void updateConfigurationErrors() {
   //   _repository
   //       .getConfigurationErrors()
   //       .then((value) => confError.value = value)
-  //       .catchError((e) => print(e));
+  //       .catchError((e) => debugPrint(e));
   // }
 
   void runDataIntegrityCheck({bool? backButtonPressed}) {
-    _repository
-        .runDataIntegrityCheck(allowDiscard: backButtonPressed ?? false)
-        .then((result) => _dataIntegrityResult.value = result)
-        // finally
-        .then((_) => _repository.composeList())
-        .then((list) => _items.value = list)
-        .catchError((e) => print(e) /*Timber.e(e)*/);
+    ref
+        .read(itemsProvider.notifier)
+        .runDataIntegrityCheck(allowDiscard: backButtonPressed ?? false);
   }
 
-  void calculateCompletedFields() {
-    _repository
-        .completedFieldsPercentage(_items.value ?? [])
-        .then((result) => _completionPercentage.value = result)
-        .catchError((e) => print(e) /*Timber.e(e)*/);
-  }
+  // void calculateCompletedFields() {
+  // ref.read(completionPercentageValueProvider).calculateCompletedFields();
+  // .copyWithPrevious(previous)
+  // .completedFieldsPercentage(_items.value ?? [])
+  // .then((double result) => _completionPercentage.value = result)
+  // .catchError((e) => debugPrint(e) /*Timber.e(e)*/);
+  // }
 
-  void displayLoopWarningIfNeeded() {
-    _repository
-        .calculationLoopOverLimit()
-        .then((result) => _calculationLoop.value = result)
-        .catchError((e) => print(e) /*Timber.e(e)*/);
-  }
+  // void displayLoopWarningIfNeeded() {
+  //   ref
+  //       .read(formRepositoryProvider)
+  //       .calculationLoopOverLimit()
+  //       .then((bool result) => _calculationLoop.value = result)
+  //       .catchError((e) => debugPrint(e) /*Timber.e(e)*/);
+  // }
 
   void discardChanges() {
-    _repository.backupOfChangedItems().forEach((item) => submitIntent(
-        FormIntent.onSave(
+    ref.read(formRepositoryProvider).backupOfChangedItems().forEach(
+        (FieldUiModel item) => submitIntent(FormIntent.onSave(
             uid: item.uid,
             value: item.value,
             valueType: item.valueType,
@@ -483,21 +634,25 @@ class FormViewModel extends GetxController implements Listenable {
   }
 
   void saveDataEntry() {
-    _getLastFocusedTextItem()?.let((it) => submitIntent(_getSaveIntent(it)));
+    _getLastFocusedTextItem()
+        ?.let((FieldUiModel it) => submitIntent(_getSaveIntent(it)));
     submitIntent(const FormIntent.onFinish());
   }
 
-  void loadData() {
-    loading.value = true;
-    _repository.fetchFormItems().then((result) => _items.value = result)
-        // finally
-        .catchError((e) {
-      print(e); /*Timber.e(e)*/
-      _items.value = [];
-    });
-  }
+  // void loadData() {
+  //   loading.value = true;
+  //   ref
+  //       .read(formRepositoryProvider)
+  //       .fetchFormItems()
+  //       .then((List<FieldUiModel> result) => _items.value = result)
+  //       // finally
+  //       .catchError((e) {
+  //     debugPrint('Timber.e($e)');
+  //     _items.value = [];
+  //   });
+  // }
 
   void clearFocus() {
-    _repository.clearFocusItem();
+    ref.read(formRepositoryProvider).clearFocusItem();
   }
 }

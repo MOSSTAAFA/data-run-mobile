@@ -2,32 +2,29 @@ import 'package:d2_remote/core/common/value_type.dart';
 import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mass_pro/form/ui/form_view_model.dart';
 
 import '../../../form/model/field_ui_model.dart';
 import '../../../form/model/key_board_action_type.dart';
 import '../../../form/model/ui_event_type.dart';
-import '../../../form/ui/event/list_view_ui_events.dart';
-import '../../../form/ui/intent/form_intent.dart';
 import '../../../form/ui/style/form_ui_color_type.dart';
 import '../../../form/ui/style/form_ui_model_style.dart';
 import '../../../utils/mass_utils/colors.dart';
-import '../../../utils/mass_utils/completers.dart';
 import '../../extensions/standard_extensions.dart';
-import 'field_bindings.dart';
 
 /// form_edit_text_custom, form_integer, form_integer_negative
 /// form_integer_positive, form_integer_zero, form_letter,
 /// form_number, form_percentage, form_phone_number,
 /// form_unit_interval, form_url.xml
-class FormEditText extends StatefulWidget {
+class FormEditText extends ConsumerStatefulWidget {
   const FormEditText({super.key});
 
   @override
-  State<FormEditText> createState() => _FormEditTextState();
+  ConsumerState<FormEditText> createState() => _FormEditTextState();
 }
 
-class _FormEditTextState extends State<FormEditText> {
+class _FormEditTextState extends ConsumerState<FormEditText> {
   late final int? _maxLength;
   late final MaxLengthEnforcement? _maxLengthEnforcement;
   late final TextEditingController _fieldController;
@@ -44,11 +41,11 @@ class _FormEditTextState extends State<FormEditText> {
 
   @override
   Widget build(BuildContext context) {
-    final String? error = context
-        .select<FieldUiModel, String?>((FieldUiModel value) => value.error);
+    final String? error =
+        ref.watch(fieldRowProvider.select((value) => value?.error));
 
-    final bool focused = context
-        .select<FieldUiModel, bool>((FieldUiModel value) => value.focused);
+    final bool focused =
+        ref.watch(fieldRowProvider.select((value) => value?.focused ?? false));
 
     // if (focused) {
     //   _focusNode.requestFocus();
@@ -60,19 +57,19 @@ class _FormEditTextState extends State<FormEditText> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
           child: TextFormField(
-            initialValue: context.select<FieldUiModel, String?>(
-                (FieldUiModel value) => value.value),
+            initialValue: ref.watch(
+                fieldRowProvider.select((FieldUiModel value) => value.value)),
             textInputAction: _inputAction,
             keyboardType: _inputType,
             controller: _fieldController,
             onChanged: (String value) {
               // _debouncer.run(() {
-              context.read<FieldUiModel>().onTextChange(value);
+              ref.read<FieldUiModel>(fieldRowProvider).onTextChange(value);
               // });
             },
             focusNode: _focusNode,
-            enabled: context.select<FieldUiModel, bool>(
-                (FieldUiModel value) => value.editable),
+            enabled: ref.watch(fieldRowProvider
+                .select((FieldUiModel value) => value.editable)),
             maxLength: _maxLength,
             maxLengthEnforcement: _maxLengthEnforcement,
             decoration: InputDecoration(
@@ -80,8 +77,8 @@ class _FormEditTextState extends State<FormEditText> {
                   children: [
                     Expanded(
                         child: Text(
-                      context.select<FieldUiModel, String>(
-                          (FieldUiModel value) => value.formattedLabel),
+                      ref.watch(fieldRowProvider.select(
+                          (FieldUiModel value) => value.formattedLabel)),
                       style: _labelStyle,
                     )),
                     if (_info != null)
@@ -89,34 +86,36 @@ class _FormEditTextState extends State<FormEditText> {
                         icon:
                             Icon(Icons.info_outline, color: _labelStyle?.color),
                         onPressed: () {
-                          context
-                              .read<FieldUiModel>()
+                          ref
+                              .read<FieldUiModel>(fieldRowProvider)
                               .invokeUiEvent(UiEventType.SHOW_DESCRIPTION);
                         },
                       )
                   ],
                 ),
                 border: const UnderlineInputBorder(),
-                suffixIcon: _fieldController.text.isNotEmpty ||
-                        _focusNode.hasFocus
-                    ? IconButton(
-                        icon: Icon(
-                          Icons.clear,
-                          color: _labelStyle?.color,
-                        ),
-                        onPressed: () {
-                          _fieldController.text = '';
-                          // _focusNode.unfocus(
-                          //     disposition:
-                          //         UnfocusDisposition.previouslyFocusedChild);
-                          context.read<FieldUiModel>().onTextChange(null);
-                        },
-                      )
-                    : _descIcon != null
-                        ? Icon(_descIcon, color: _labelStyle?.color)
-                        : null,
-                hintText: context
-                    .select<FieldUiModel, String?>((value) => value.hint),
+                suffixIcon:
+                    _fieldController.text.isNotEmpty || _focusNode.hasFocus
+                        ? IconButton(
+                            icon: Icon(
+                              Icons.clear,
+                              color: _labelStyle?.color,
+                            ),
+                            onPressed: () {
+                              _fieldController.text = '';
+                              // _focusNode.unfocus(
+                              //     disposition:
+                              //         UnfocusDisposition.previouslyFocusedChild);
+                              ref
+                                  .read<FieldUiModel>(fieldRowProvider)
+                                  .onTextChange(null);
+                            },
+                          )
+                        : _descIcon != null
+                            ? Icon(_descIcon, color: _labelStyle?.color)
+                            : null,
+                hintText:
+                    ref.watch(fieldRowProvider.select((value) => value.hint)),
                 hintStyle: _hintStyle,
                 errorText: error,
                 errorStyle: error != null
@@ -135,7 +134,7 @@ class _FormEditTextState extends State<FormEditText> {
     super.initState();
     _fieldController = TextEditingController();
     _focusNode = FocusNode();
-    final FieldUiModel item = context.read<FieldUiModel>();
+    final FieldUiModel item = ref.read<FieldUiModel>(fieldRowProvider);
     switch (item.valueType) {
       case ValueType.TEXT:
         _maxLength = 50000;

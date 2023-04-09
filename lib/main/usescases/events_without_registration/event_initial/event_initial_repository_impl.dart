@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_dynamic_calls
+
 import 'package:d2_remote/core/arch/helpers/uids_helper.dart';
 import 'package:d2_remote/core/common/feature_type.dart';
 import 'package:d2_remote/core/maintenance/d2_error.dart';

@@ -5,7 +5,10 @@ import 'package:d2_remote/modules/data/tracker/entities/enrollment.entity.dart';
 import 'package:d2_remote/modules/data/tracker/entities/event.entity.dart';
 import 'package:d2_remote/modules/data/tracker/entities/event_data_value.entity.dart';
 import 'package:d2_remote/modules/data/tracker/models/geometry.dart';
+import 'package:d2_remote/modules/data/tracker/queries/event_data_value.query.dart';
+import 'package:d2_remote/modules/data/tracker/queries/tracked_entity_attribute_value.query.dart';
 import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dart';
+import 'package:d2_remote/modules/metadata/option_set/entities/option_group_option.entity.dart';
 
 import '../../commons/date/entry_mode.dart';
 import '../../commons/extensions/event_data_value_query_extension.dart';
@@ -113,7 +116,7 @@ class FormValueStore {
   }
 
   Future<void> saveTeiGeometry(Geometry? geometry) async {
-    // NMC: TODO
+    // TODO(NMC): Implement
     // var teiRepository = d2.trackedEntityModule().trackedEntityInstances()
     //     .uid(enrollmentRepository?.blockingGet()?.trackedEntityInstance())
     // teiRepository.setGeometry(geometry);
@@ -129,7 +132,7 @@ class FormValueStore {
     switch (entryMode) {
       case EntryMode.DE:
         await _loadRecordUid();
-        Event event =
+        final Event event =
             (await D2Remote.trackerModule.event.byId(recordUid).getOne())!;
         Enrollment enrollment = (await D2Remote.trackerModule.enrollment
             .byId(event.enrollment.id)
@@ -145,7 +148,7 @@ class FormValueStore {
         break;
     }
 
-    if(teiUid == null) {
+    if (teiUid == null) {
       return StoreResult(
           uid: uid, valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);
     }
@@ -155,16 +158,18 @@ class FormValueStore {
           uid: uid, valueStoreResult: ValueStoreResult.VALUE_NOT_UNIQUE);
     }
 
-    var valueRepository = D2Remote.trackerModule.trackedEntityAttributeValue
+    final TrackedEntityAttributeValueQuery valueRepository = D2Remote
+        .trackerModule.trackedEntityAttributeValue
         .byAttribute(uid)
         .byTrackedEntityInstance(teiUid);
 
-    var valueType =
+    final ValueType valueType =
         (await D2Remote.programModule.trackedEntityAttribute.byId(uid).getOne())
             ?.valueType
             .toValueType();
 
-    var newValue = value.withValueTypeCheck(valueType) ?? '';
+    String newValue = value.withValueTypeCheck(valueType) ?? '';
+
     if (valueType == ValueType.IMAGE && value != null) {
       newValue = await saveFileResource(value);
     }
@@ -179,7 +184,8 @@ class FormValueStore {
 
     if (currentValue != newValue) {
       if (!value.isNullOrEmpty) {
-        await valueRepository.blockingSetCheck(uid, newValue, (attrUid, value) {
+        await valueRepository.blockingSetCheck(uid, newValue,
+            (String attrUid, String value) {
           // crashReportController.addBreadCrumb(
           //     'blockingSetCheck Crash',
           //     'Attribute: $attrUid, value: $value'
@@ -211,7 +217,7 @@ class FormValueStore {
   ////////////////////////////////////////////////////////////
 /////////////////////////////////////////
   Future<String> saveFileResource(String path) async {
-    // NMC: TODO
+    // TODO(NMC): implement
     // var file = FileResizerHelper.resizeFile(
     //     File(path), FileResizerHelper.Dimension.MEDIUM);
     // return d2.fileResourceModule().fileResources().blockingAdd(file)
@@ -220,21 +226,22 @@ class FormValueStore {
 
   Future<StoreResult> saveDataElement(String uid, String? value) async {
     await _loadRecordUid();
-    var valueRepository = D2Remote.trackerModule.eventDataValue
+    final EventDataValueQuery valueRepository = D2Remote
+        .trackerModule.eventDataValue
         .byEvent(recordUid)
         .byDataElement(uid);
 
-    ValueType? valueType =
+    final ValueType? valueType =
         (await D2Remote.dataElementModule.dataElement.byId(uid).getOne())
             ?.valueType
             .toValueType;
 
-    var newValue = value.withValueTypeCheck(valueType) ?? '';
+    String newValue = value.withValueTypeCheck(valueType) ?? '';
     if (valueType == ValueType.IMAGE && value != null) {
       newValue = await saveFileResource(value);
     }
 
-    EventDataValue? currentDataValue = await valueRepository.getOne();
+    final EventDataValue? currentDataValue = await valueRepository.getOne();
 
     String? currentValue;
     if (currentDataValue != null) {
@@ -265,12 +272,12 @@ class FormValueStore {
   }
 
   Future<StoreResult> saveWithTypeCheck(String uid, String? value) async {
-    var dataElement = await D2Remote.dataElementModule.dataElement.byId(uid);
+    final dataElement = await D2Remote.dataElementModule.dataElement.byId(uid);
     if (dataElement != null) {
       return await saveDataElement(uid, value);
     }
 
-    var trackedEntityAttribute =
+    final trackedEntityAttribute =
         await D2Remote.programModule.trackedEntityAttribute.byId(uid);
     if (trackedEntityAttribute != null) {
       return await saveAttribute(uid, value);
@@ -295,11 +302,11 @@ class FormValueStore {
 
   Future<StoreResult> deleteDataElementValue(
       String field, String optionUid) async {
-    Option option =
+    final Option option =
         (await D2Remote.optionModule.option.byId(optionUid).getOne())!;
-    var possibleValues = [option.name!, option.code!];
+    List<String> possibleValues = [option.name!, option.code!];
     await _loadRecordUid();
-    var valueRepository = D2Remote.trackerModule.eventDataValue
+    EventDataValueQuery valueRepository = D2Remote.trackerModule.eventDataValue
         .byEvent(recordUid)
         .byDataElement(field);
     if ((await valueRepository.blockingExists()) &&
@@ -313,11 +320,12 @@ class FormValueStore {
 
   Future<StoreResult> deleteAttributeValue(
       String field, String optionUid) async {
-    Option option =
+    final Option option =
         (await D2Remote.optionModule.option.byId(optionUid).getOne())!;
-    var possibleValues = [option.name!, option.code!];
+    List<String> possibleValues = [option.name!, option.code!];
     await _loadRecordUid();
-    var valueRepository = D2Remote.trackerModule.trackedEntityAttributeValue
+    TrackedEntityAttributeValueQuery valueRepository = D2Remote
+        .trackerModule.trackedEntityAttributeValue
         .byAttribute(field)
         .byTrackedEntityInstance(recordUid);
     if ((await valueRepository.blockingExists()) &&
@@ -331,7 +339,8 @@ class FormValueStore {
 
   Future<StoreResult> deleteOptionValueIfSelectedInGroup(
       String field, String optionGroupUid, bool isInGroup) async {
-    var optionGroupOptions = (await D2Remote.optionModule.optionGroup
+    final List<OptionGroupOption>? optionGroupOptions = (await D2Remote
+            .optionModule.optionGroup
             .withOptions()
             .byId(optionGroupUid)
             .getOne())
@@ -339,7 +348,7 @@ class FormValueStore {
 
     List<String> optionsInGroup = [];
 
-    optionGroupOptions?.map((option) async {
+    optionGroupOptions?.map((OptionGroupOption option) async {
       String code = (await D2Remote.optionModule.option.getOne())!.code!;
       optionsInGroup.add(code);
     });
@@ -360,7 +369,8 @@ class FormValueStore {
   Future<StoreResult> deleteAttributeValueIfNotInGroup(
       String field, List<String> optionCodesToShow, bool isInGroup) async {
     await _loadRecordUid();
-    var valueRepository = D2Remote.trackerModule.trackedEntityAttributeValue
+    TrackedEntityAttributeValueQuery valueRepository = D2Remote
+        .trackerModule.trackedEntityAttributeValue
         .byAttribute(field)
         .byTrackedEntityInstance(recordUid);
     if ((await valueRepository.blockingExists()) &&
@@ -376,7 +386,7 @@ class FormValueStore {
   Future<StoreResult> deleteDataElementValueIfNotInGroup(
       String field, List<String> optionCodesToShow, bool isInGroup) async {
     await _loadRecordUid();
-    var valueRepository = D2Remote.trackerModule.eventDataValue
+    EventDataValueQuery valueRepository = D2Remote.trackerModule.eventDataValue
         .byEvent(recordUid)
         .byDataElement(field);
     if ((await valueRepository.blockingExists()) &&

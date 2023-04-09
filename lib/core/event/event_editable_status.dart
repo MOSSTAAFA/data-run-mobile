@@ -1,14 +1,15 @@
-import 'package:sealed_annotations/sealed_annotations.dart';
+
+import 'package:equatable/equatable.dart';
 
 part 'event_editable_status.sealed.dart';
 
-@Sealed()
+// @Sealed()
 abstract class _EventEditableStatus {
 
-  @WithName('Editable')
+  // @WithName('Editable')
   void editable();
 
-  @WithName('NonEditable')
+  // @WithName('NonEditable')
   void nonEditable(final EventNonEditableReason reason);
 }
 

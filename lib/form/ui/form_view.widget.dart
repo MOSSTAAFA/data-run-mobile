@@ -1,4 +1,7 @@
+import 'package:d2_remote/core/common/value_type.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
 import '../../commons/custom_widgets/mixins/keyboard_manager.dart';
 import '../../commons/extensions/standard_extensions.dart';
@@ -8,39 +11,37 @@ import '../model/form_repository_records.dart';
 import '../model/info_ui_model.dart';
 import '../model/row_action.dart';
 import '../model/section_ui_model_impl.dart';
+import 'components/linear_loading_indicator.dart';
 import 'data_entry_list.widget.dart';
 import 'event/list_view_ui_events.dart';
 import 'form_view_model.dart';
 import 'intent/form_intent.dart';
 import 'provider/enrollment_result_dialog_ui_provider.dart';
 
-class FormView extends StatefulWidget {
-  FormView({super.key,
-    required this.needToForceUpdate,
-    required this.viewModel,
+class FormView extends ConsumerStatefulWidget {
+  FormView(
+      {super.key,
+      required this.needToForceUpdate,
 
-    /// Sent ser. through
-    this.records,
-    this.onItemChangeListener,
-    this.onLoadingListener,
-    this.onFocused,
-    this.onFinishDataEntry,
-    this.onActivityForResult,
-    this.completionListener,
-    this.onDataIntegrityCheck,
-    this.onFieldItemsRendered,
-    this.onSavePicture,
-    this.resultDialogUiProvider});
+      /// Sent ser. through
+      this.records,
+      this.onItemChangeListener,
+      this.onLoadingListener,
+      this.onFocused,
+      this.onFinishDataEntry,
+      this.onActivityForResult,
+      this.completionListener,
+      this.onDataIntegrityCheck,
+      this.onFieldItemsRendered,
+      this.onSavePicture,
+      this.resultDialogUiProvider});
 
   // final LocationProvider? locationProvider;
-  // TODO(NMC): make Injectable
+  // TODO (NMC): make Injectable
   final bool needToForceUpdate;
 
   // TODO(NMC): make Injectable
   final EnrollmentResultDialogUiProvider? resultDialogUiProvider;
-
-  // TODO(NMC): maybe make Injectable
-  final FormViewModel viewModel;
 
   /// Sent ser. through
   // Will be comming from event or Enrollment Widgets
@@ -62,124 +63,160 @@ class FormView extends StatefulWidget {
   Map<String, int> sectionPositions = {};
 
   @override
-  State<FormView> createState() => _FormViewState();
+  ConsumerState<FormView> createState() => _FormViewState();
 }
 
-class _FormViewState extends State<FormView> with KeyboardManager {
+class _FormViewState extends ConsumerState<FormView> with KeyboardManager {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<FieldUiModel>>(
-        stream: widget.viewModel.items,
-        builder:
-            (BuildContext context, AsyncSnapshot<List<FieldUiModel>> snapshot) {
-          if (snapshot.hasError) {
-            return Text(
-                'FormView items Stream snapshot Error: ${snapshot.error}');
-          }
-          if (!snapshot.hasData) {
-            return const SizedBox();
-          }
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: const <Widget>[
+          LinearLoadingIndicator(),
+          DataEntryList(
+              // searchStyle: widget.needToForceUpdate,
+              ),
+        ],
+      ),
+    );
+    // return StreamBuilder<List<FieldUiModel>>(
+    //     stream: widget.viewModel.items,
+    //     builder:
+    //         (BuildContext context, AsyncSnapshot<List<FieldUiModel>> snapshot) {
+    //       if (snapshot.hasError) {
+    //         return Text(
+    //             'FormView items Stream snapshot Error: ${snapshot.error}');
+    //       }
+    //       if (!snapshot.hasData) {
+    //         return const SizedBox();
+    //       }
 
-          _render(snapshot.data!);
+    //       _render(snapshot.data!);
 
-          // in Adapter
-          _swap(snapshot.data!, () {
-            // dataEntryHeaderHelper.onItemsUpdatedCallback();
-            widget.viewModel.onItemsRendered();
-            widget.onFieldItemsRendered?.call(snapshot.data!.isEmpty);
-          });
+    //       // in Adapter
+    //       _swap(snapshot.data!, () {
+    //         // dataEntryHeaderHelper.onItemsUpdatedCallback();
+    //         widget.viewModel.onItemsRendered();
+    //         widget.onFieldItemsRendered?.call(snapshot.data!.isEmpty);
+    //       });
 
-          return DataEntryList(
-            fields: snapshot.data!,
-            onIntent: (FormIntent intent) {
-              if (intent is OnNext) {
-                // scrollToPosition(intent.position!);
-              }
-              _intentHandler(intent);
-            },
-            onListViewUiEvents: (ListViewUiEvents uiEvent) {
-              _uiEventHandler(uiEvent);
-            },
-            searchStyle: widget.needToForceUpdate,
-          );
-        });
+    //       return DataEntryList(
+    //         fields: snapshot.data!,
+    //         onIntent: (FormIntent intent) {
+    //           if (intent is OnNext) {
+    //             // scrollToPosition(intent.position!);
+    //           }
+    //           _intentHandler(intent);
+    //         },
+    //         onListViewUiEvents: (ListViewUiEvents uiEvent) {
+    //           _uiEventHandler(uiEvent);
+    //         },
+    //         searchStyle: widget.needToForceUpdate,
+    //       );
+    //     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    _setObservers();
+    super.didChangeDependencies();
   }
 
   void _setObservers() {
-    widget.viewModel.savedValue.listen((rowAction) {
-      widget.onItemChangeListener?.let((it) => it(rowAction));
-    });
+    ref.listenManual<RowAction?>(
+        savedValueProvider,
+        (previous, next) => next?.let((rowAction) =>
+            widget.onItemChangeListener?.let((it) => it(rowAction))));
 
-    widget.viewModel.queryData.listen((rowAction) {
-      if (widget.needToForceUpdate) {
-        widget.onItemChangeListener?.let((it) => it(rowAction));
-      }
-    });
+    ref.listenManual<RowAction?>(
+        queryDataProvider,
+        (previous, next) => next?.let((rowAction) {
+              if (widget.needToForceUpdate) {
+                widget.onItemChangeListener?.let((it) => it(rowAction));
+              }
+            }));
 
-    widget.viewModel.items.listen((items) {
-      _render(items!);
-    });
+    // ref
+    //     .watch(itemsProvider)
+    //     .let((AsyncValue<List<FieldUiModel>> items) => items.when(
+    //           loading: () {},
+    //           data: (List<FieldUiModel>? data) => _render(data ?? []),
+    //           error: (Object error, StackTrace stackTrace) =>
+    //               _error = error.toString(),
+    //         ));
 
-    widget.viewModel.loading.listen((loading) {
-      if (widget.onLoadingListener != null) {
-        widget.onLoadingListener?.let((it) => it(loading));
-      } else {
-        if (loading) {
-          // binding.progress.show();
-        } else {
-          // binding.progress.hide();
-        }
-      }
-    });
+    // ref.watch(loadingProvider).let((bool it) => _loading = it);
 
     // viewModel.confError.listen((confErrors) {
     //   displayConfigurationErrors(confErrors);
     // });
 
-    widget.viewModel.showToast.listen((message) {
-      // Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-    });
+    ref.listenManual<String?>(showToastProvider,
+        (previous, next) => next?.let((it) => showToast(it)));
 
-    widget.viewModel.focused.listen((items) {
-      widget.onFocused?.let((it) => it());
-    });
+    ref.listenManual<bool?>(
+        focusedProvider,
+        (previous, next) =>
+            next.let((it) => widget.onFocused?.let((it) => it())));
 
-    widget.viewModel.showInfo.listen((infoUiModel) {
-      _showInfoDialog(infoUiModel!);
-    });
+    ref.listenManual<InfoUiModel?>(
+        showInfoProvider,
+        (previous, next) =>
+            next?.let((infoUiModel) => _showInfoDialog(infoUiModel)));
 
-    widget.viewModel.dataIntegrityResult.listen((result) {
-      _handleDataIntegrityResult(result!);
-    });
+    ref.listenManual<DataIntegrityCheckResult?>(
+        dataIntegrityResultValueProvider,
+        (previous, next) =>
+            next?.let((result) => _handleDataIntegrityResult(result)));
 
-    widget.viewModel.completionPercentage.listen((percentage) {
-      widget.completionListener?.let((it) => it(percentage!));
-    });
+    ref.listenManual<AsyncValue<double>>(
+        completionPercentageValueProvider,
+        (previous, next) => next.let((percentage) => percentage.mapOrNull(
+            data: (AsyncData<double> data) =>
+                widget.completionListener?.let((it) => it(data.value)))));
 
-    widget.viewModel.calculationLoop.listen((displayLoopWarning) {
-      if (displayLoopWarning) {
-        _showLoopWarning();
-      }
-    });
+    ref.listenManual<AsyncValue<bool>>(
+        calculationLoopValueProvider,
+        (previous, next) =>
+            next.let((displayLoopWarning) => displayLoopWarning.mapOrNull(
+                  data: (AsyncData<bool> data) {
+                    if (displayLoopWarning.value ?? false) {
+                      _showLoopWarning();
+                    }
+                  },
+                )));
+
+    ref.listenManual<FormIntent?>(uiIntentProvider,
+        (previous, next) => next?.let((it) => _intentHandler(it)));
+
+    ref.listenManual<ListViewUiEvents?>(uiEventProvider,
+        (previous, next) => next?.let((it) => _uiEventHandler(it)));
   }
 
   void _uiEventHandler(ListViewUiEvents uiEvent) {
     uiEvent.map(
-      openCustomCalendar: (uiEvent) => _showCustomCalendar(uiEvent),
-      openYearMonthDayAgeCalendar: (uiEvent) =>
+      openCustomCalendar: (OpenCustomCalendar uiEvent) =>
+          _showCustomCalendar(uiEvent),
+      openYearMonthDayAgeCalendar: (OpenYearMonthDayAgeCalendar uiEvent) =>
           _showYearMonthDayAgeCalendar(uiEvent),
-      openTimePicker: (uiEvent) => _showTimePicker(uiEvent),
-      showDescriptionLabelDialog: (uiEvent) =>
+      openTimePicker: (OpenTimePicker uiEvent) => _showTimePicker(uiEvent),
+      showDescriptionLabelDialog: (ShowDescriptionLabelDialog uiEvent) =>
           _showDescriptionLabelDialog(uiEvent),
-      requestCurrentLocation: (uiEvent) => _requestCurrentLocation(uiEvent),
-      requestLocationByMap: (uiEvent) => _requestLocationByMap(uiEvent),
-      displayQRCode: (uiEvent) => _displayQRImage(uiEvent),
-      scanQRCode: (uiEvent) => _requestQRScan(uiEvent),
-      openOrgUnitDialog: (uiEvent) => _showOrgUnitDialog(uiEvent),
-      addImage: (uiEvent) => _requestAddImage(uiEvent),
-      showImage: (uiEvent) => _showFullPicture(uiEvent),
-      openOptionSetDialog: (uiEvent) => _showOptionSetDialog(uiEvent),
-      copyToClipboard: (uiEvent) => _copyToClipboard(uiEvent.value),
+      requestCurrentLocation: (RequestCurrentLocation uiEvent) =>
+          _requestCurrentLocation(uiEvent),
+      requestLocationByMap: (RequestLocationByMap uiEvent) =>
+          _requestLocationByMap(uiEvent),
+      displayQRCode: (DisplayQRCode uiEvent) => _displayQRImage(uiEvent),
+      scanQRCode: (ScanQRCode uiEvent) => _requestQRScan(uiEvent),
+      openOrgUnitDialog: (OpenOrgUnitDialog uiEvent) =>
+          _showOrgUnitDialog(uiEvent),
+      addImage: (AddImage uiEvent) => _requestAddImage(uiEvent),
+      showImage: (ShowImage uiEvent) => _showFullPicture(uiEvent),
+      openOptionSetDialog: (OpenOptionSetDialog uiEvent) =>
+          _showOptionSetDialog(uiEvent),
+      copyToClipboard: (CopyToClipboard uiEvent) =>
+          _copyToClipboard(uiEvent.value),
     );
   }
 
@@ -209,39 +246,52 @@ class _FormViewState extends State<FormView> with KeyboardManager {
 
   _copyToClipboard(String? value) {}
 
-  _render(List<FieldUiModel> items) {
-    widget.viewModel.calculateCompletedFields();
-    // TODO(NMC): implementing Rules
-    // viewModel.updateConfigurationErrors();
-    widget.viewModel.displayLoopWarningIfNeeded();
-    _handleKeyBoardOnFocusChange(items);
-  }
-
   _showInfoDialog(InfoUiModel infoUiModel) {}
 
-  _handleDataIntegrityResult(
-      DataIntegrityCheckResult dataIntegrityCheckResult) {}
+  _handleDataIntegrityResult(DataIntegrityCheckResult result) {
+    if (widget.onDataIntegrityCheck != null) {
+      widget.onDataIntegrityCheck?.call(result);
+    } else {
+      result.maybeMap(
+          successfulResult: (_) => widget.onFinishDataEntry?.call(),
+          orElse: () => _showDataEntryResultDialog(result));
+    }
+  }
 
+  void _showDataEntryResultDialog(DataIntegrityCheckResult result) {
+    // resultDialogUiProvider?.provideDataEntryUiModel(result)?.let {
+    //     BottomSheetDialog(
+    //         bottomSheetDialogUiModel = it,
+    //         onSecondaryButtonClicked = {
+    //             if (result.allowDiscard) {
+    //                 viewModel.discardChanges()
+    //             }
+    //             onFinishDataEntry?.invoke()
+    //         }
+    //     ).show(childFragmentManager, AlertBottomDialog::class.java.simpleName)
+    // }
+  }
   _showLoopWarning() {}
 
   void _handleKeyBoardOnFocusChange(List<FieldUiModel> items) {
-    items
-        .firstWhereOrNull((FieldUiModel it) => it.focused)
-        ?.let((fieldUiModel) =>
-        fieldUiModel.valueType?.let((valueType) {
-          if (!widget.viewModel.valueTypeIsTextField(valueType)) {
-            hideKeyboard(context);
-          }
-        }));
+    items.firstWhereOrNull((FieldUiModel it) => it.focused)?.let(
+        (FieldUiModel fieldUiModel) =>
+            fieldUiModel.valueType?.let((ValueType valueType) {
+              if (!ref
+                  .read(formViewModelProvider)
+                  .valueTypeIsTextField(valueType)) {
+                hideKeyboard(context);
+              }
+            }));
   }
 
   void _intentHandler(FormIntent intent) {
-    widget.viewModel.submitIntent(intent);
+    ref.read(formViewModelProvider).submitIntent(intent);
   }
 
   void _swap(List<FieldUiModel> updates, void Function() commitCallback) {
     widget.sectionPositions = {};
-    for (final fieldViewModel in updates) {
+    for (final FieldUiModel fieldViewModel in updates) {
       if (fieldViewModel is SectionUiModelImpl) {
         widget.sectionPositions[fieldViewModel.uid] =
             updates.indexOf(fieldViewModel);

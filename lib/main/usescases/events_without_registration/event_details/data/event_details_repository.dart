@@ -1,4 +1,4 @@
-import 'dart:convert';
+// ignore_for_file: avoid_dynamic_calls
 
 import 'package:d2_remote/core/common/feature_type.dart';
 import 'package:d2_remote/core/common/value_type.dart';
@@ -140,14 +140,16 @@ class EventDetailsRepository {
     if (eventUid != null) {
       event = await D2Remote.trackerModule.event.byId(eventUid!).getOne();
 
-      isActive = event != null
-          ? (await D2Remote.trackerModule.enrollment
-                      .byId(event.enrollment)
-                      .getOne())
-                  ?.status
-                  .toEnrollmentStatus ==
-              EnrollmentStatus.ACTIVE
-          : false;
+      if (event != null) {
+        isActive = (await D2Remote.trackerModule.enrollment
+                    .byId(event.enrollment)
+                    .getOne())
+                ?.status
+                .toEnrollmentStatus ==
+            EnrollmentStatus.ACTIVE;
+      } else {
+        isActive = false;
+      }
     }
 
     return event?.enrollment == null || isActive;
@@ -173,7 +175,7 @@ class EventDetailsRepository {
     }
 
     if (date != null) {
-      return organisationUnits.filter((orgUnit) {
+      return organisationUnits.filter((OrganisationUnit orgUnit) {
         return DateUtils.databaseDateFormat()
                     .parseOrNull(orgUnit.openingDate)
                     ?.isAfter(DateUtils.databaseDateFormat().parse(date)) ==

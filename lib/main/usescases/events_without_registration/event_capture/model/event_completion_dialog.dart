@@ -1,4 +1,4 @@
-import 'package:sealed_annotations/sealed_annotations.dart';
+import 'package:equatable/equatable.dart';
 
 import '../../../../../commons/dialogs/bottomsheet/bottom_sheet_dialog_ui_model.dart';
 

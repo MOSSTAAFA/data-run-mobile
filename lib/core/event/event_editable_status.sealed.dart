@@ -13,7 +13,7 @@ part of 'event_editable_status.dart';
 /// ([NonEditable] nonEditable){[EventNonEditableReason] reason} with data equality
 ///
 /// }
-@SealedManifest(_EventEditableStatus)
+// @SealedManifest(_EventEditableStatus)
 abstract class EventEditableStatus {
   const EventEditableStatus._internal();
 

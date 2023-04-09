@@ -1,4 +1,4 @@
-import 'package:sealed_annotations/sealed_annotations.dart';
+import 'package:equatable/equatable.dart';
 
 /// This abstraction contains either a success data of generic type `S` or a
 /// failure error of type `Exception` as its result.

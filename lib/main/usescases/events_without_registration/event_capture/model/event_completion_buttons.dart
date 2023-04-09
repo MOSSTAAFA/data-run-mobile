@@ -1,4 +1,4 @@
-import 'package:sealed_annotations/sealed_annotations.dart';
+import 'package:equatable/equatable.dart';
 
 import '../../../../../commons/dialogs/bottomsheet/dialog_button_style.dart';
 import 'event_completion_dialog.dart';

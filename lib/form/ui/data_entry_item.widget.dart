@@ -1,50 +1,53 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mass_pro/form/ui/form_view_model.dart';
 import '../../commons/custom_widgets/fields/factory/field_widget_factory_impl.dart';
-import '../../commons/custom_widgets/fields/field_bindings.dart';
 import '../model/field_ui_model.dart';
 import 'event/list_view_ui_events.dart';
 import 'intent/form_intent.dart';
 
-class DataEntryItem extends StatefulWidget {
-  const DataEntryItem(
-      {super.key,
-      required this.uiModel,
-      this.intentCallback,
-      this.listViewEventCallback,
-      this.textChangedListener});
+final AutoDisposeProvider<FieldWidgetFactoryImpl> fieldWidgetFactoryProvider =
+    Provider.autoDispose<FieldWidgetFactoryImpl>(
+        (_) => FieldWidgetFactoryImpl());
 
-  final FieldUiModel uiModel;
-  final void Function(FormIntent intent)? intentCallback;
-  final void Function(ListViewUiEvents uiEvent)? listViewEventCallback;
-  final TextChangedListener? textChangedListener;
-
-  // final LatitudeLongitudeTextWatcher coordinateTextWatcher;
+class DataEntryItem extends ConsumerWidget {
+  const DataEntryItem({super.key});
 
   @override
-  State<DataEntryItem> createState() => _DataEntryItemState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final AsyncValue<FieldUiModel> item = ref.watch(itemProvider(Callback(
+        intent: (intent) => _intentCallback(intent, ref),
+        listViewUiEvents: (uiEvent) => _listViewEventCallback(uiEvent, ref))));
 
-class _DataEntryItemState extends State<DataEntryItem> {
-  final FieldWidgetFactoryImpl _fieldFactory = FieldWidgetFactoryImpl();
-
-  @override
-  Widget build(BuildContext context) {
-    return ProxyProvider0<FieldUiModel>(
-        update: (BuildContext context, FieldUiModel? value) => widget.uiModel,
-        child: _fieldFactory.createWidgetByType(
-            key: ValueKey<String>(widget.uiModel.uid),
-            valueType: widget.uiModel.valueType,
+    return item.when(
+      data: (FieldUiModel data) => ProviderScope(
+        overrides: [fieldRowProvider.overrideWith((_) => data)],
+        child: ref.read(fieldWidgetFactoryProvider).createWidgetByType(
+            valueType: data.valueType,
             renderingType: null,
-            optionSet: widget.uiModel.optionSet,
-            sectionRenderingType: null));
+            optionSet: data.optionSet,
+            sectionRenderingType: null),
+      ),
+      error: (error, stack) => Text('error loading field $error'),
+      loading: () => Text('loading fieldModel..'),
+    );
   }
 
-  @override
-  void initState() {
-    super.initState();
-    widget.uiModel.setCallback(Callback(
-        intent: widget.intentCallback,
-        listViewUiEvents: widget.listViewEventCallback));
+  void _listViewEventCallback(ListViewUiEvents uiEvent, WidgetRef ref) =>
+      ref.read(uiEventProvider.notifier).setValue(uiEvent);
+
+  void _intentCallback(FormIntent intent, WidgetRef ref) {
+    FormIntent formIntent = intent;
+    if (intent is OnNext) {
+      // scrollToPosition(intent.position!);
+      formIntent = intent.copyWith(position: ref.read(indexProvider) + 1);
+      ref.read(uiIntentProvider.notifier).setValue(formIntent);
+      //   itemScrollController.scrollTo(
+      //       index: intent.position!,
+      //       duration: const Duration(milliseconds: 700),
+      //       curve: Curves.easeInOutCubic);
+      //   // itemScrollController.jumpTo(index: intent.position!);
+      // }
+    }
   }
 }

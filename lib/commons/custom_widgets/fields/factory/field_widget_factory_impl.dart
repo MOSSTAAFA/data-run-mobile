@@ -22,8 +22,8 @@ class FieldWidgetFactoryImpl {
   }
 
   Widget createWidgetByType(
-  {Key? key,
-        ValueType? valueType,
+      {Key? key,
+      ValueType? valueType,
       ValueTypeRenderingType? renderingType,
       String? optionSet,
       SectionRenderingType? sectionRenderingType}) {
@@ -41,7 +41,7 @@ class FieldWidgetFactoryImpl {
           style: const TextStyle(fontSize: 20),
         ); //R.layout.form_date_time
       case ValueType.LONG_TEXT:
-        return FormEditText(key: key); //R.layout.form_long_text_custom
+        return const FormEditText(); //R.layout.form_long_text_custom
       case ValueType.ORGANISATION_UNIT:
         return Text(
           '$valueType Field',
@@ -59,7 +59,7 @@ class FieldWidgetFactoryImpl {
         ); //R.layout.form_picture
       case ValueType.TEXT:
         return getLayoutForOptionSet(optionSet, sectionRenderingType,
-            renderingType, FormEditText(key: key) //R.layout.form_edit_text_custom
+            renderingType, const FormEditText() //R.layout.form_edit_text_custom
             );
       case ValueType.TRUE_ONLY:
       case ValueType.BOOLEAN:
@@ -97,41 +97,44 @@ class FieldWidgetFactoryImpl {
             ); //R.layout.form_radio_button
         }
       case ValueType.LETTER:
-        return FormEditText(key: key); //R.layout.form_letter
+        return const FormEditText(); //R.layout.form_letter
       case ValueType.PHONE_NUMBER:
-        return FormEditText(key: key); //R.layout.form_phone_number
+        return const FormEditText(); //R.layout.form_phone_number
       case ValueType.EMAIL:
-        return FormEditText(key: key); //R.layout.form_email
+        return const FormEditText(); //R.layout.form_email
       case ValueType.NUMBER:
         return getLayoutForOptionSet(optionSet, sectionRenderingType,
-            renderingType, FormEditText(key: key) //R.layout.form_number
+            renderingType, const FormEditText() //R.layout.form_number
             );
       case ValueType.UNIT_INTERVAL:
         return getLayoutForOptionSet(optionSet, sectionRenderingType,
-            renderingType, FormEditText(key: key) //R.layout.form_unit_interval
+            renderingType, const FormEditText() //R.layout.form_unit_interval
             );
       case ValueType.PERCENTAGE:
         return getLayoutForOptionSet(optionSet, sectionRenderingType,
-            renderingType, FormEditText(key: key) //R.layout.form_percentage
+            renderingType, const FormEditText() //R.layout.form_percentage
             );
       case ValueType.INTEGER:
         return getLayoutForOptionSet(optionSet, sectionRenderingType,
-            renderingType, FormEditText(key: key) //R.layout.form_integer
+            renderingType, const FormEditText() //R.layout.form_integer
             );
       case ValueType.INTEGER_POSITIVE:
         return getLayoutForOptionSet(optionSet, sectionRenderingType,
-            renderingType, FormEditText(key: key) //R.layout.form_integer_positive
+            renderingType, const FormEditText() //R.layout.form_integer_positive
             );
       case ValueType.INTEGER_NEGATIVE:
         return getLayoutForOptionSet(optionSet, sectionRenderingType,
-            renderingType, FormEditText(key: key) //R.layout.form_integer_negative
+            renderingType, const FormEditText() //R.layout.form_integer_negative
             );
       case ValueType.INTEGER_ZERO_OR_POSITIVE:
-        return getLayoutForOptionSet(optionSet, sectionRenderingType,
-            renderingType, FormEditText(key: key) //R.layout.form_integer_zero_positive
+        return getLayoutForOptionSet(
+            optionSet,
+            sectionRenderingType,
+            renderingType,
+            const FormEditText() //R.layout.form_integer_zero_positive
             );
       case ValueType.URL:
-        return FormEditText(key: key); //R.layout.form_url
+        return const FormEditText(); //R.layout.form_url
       case ValueType.REFERENCE:
       case ValueType.GEOJSON:
       case ValueType.FILE_RESOURCE:
@@ -142,7 +145,7 @@ class FieldWidgetFactoryImpl {
           style: const TextStyle(fontSize: 20),
         ); //R.layout.form_unsupported
       default:
-        return FormEditText(key: key); //R.layout.form_edit_text_custom
+        return const FormEditText(); //R.layout.form_edit_text_custom
     }
   }
 

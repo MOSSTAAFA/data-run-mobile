@@ -236,10 +236,10 @@ packages:
     dependency: transitive
     description:
       name: dart_style
-      sha256: "5be16bf1707658e4c03078d4a9b90208ded217fb02c163e207d334082412f2fb"
+      sha256: "6d691edde054969f0e0f26abb1b30834b5138b963793e56f69d3a9a4435e6352"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.5"
+    version: "2.3.0"
   dartlin:
     dependency: "direct main"
     description:
@@ -273,7 +273,7 @@ packages:
     source: hosted
     version: "4.0.6"
   equatable:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: equatable
       sha256: c2b87cb7756efdf69892005af546c56c0b5037f54d2a88269b4f347a505e3ca2
@@ -342,10 +342,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_riverpod
-      sha256: "7ccf1f98a906a91b1f4e95dea81b4b571d95049a59c54b79d57a2954b0285afe"
+      sha256: "812dfbb87af51e73e68ea038bcfd1c732078d6838d3388d03283db7dec0d1e5f"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.3"
+    version: "2.3.4"
   flutter_styled_toast:
     dependency: "direct main"
     description:
@@ -636,6 +636,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  pointer_interceptor:
+    dependency: "direct main"
+    description:
+      name: pointer_interceptor
+      sha256: "6aa680b30d96dccef496933d00208ad25f07e047f644dc98ce03ec6141633a9a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.9.3+4"
   pool:
     dependency: transitive
     description:
@@ -704,42 +712,42 @@ packages:
     dependency: transitive
     description:
       name: riverpod
-      sha256: fc63714de93a4660142d280e13f058137ba586510c825dce3b7c7d4c4714b585
+      sha256: "77ab3bcd084bb19fa8717a526217787c725d7f5be938404c7839cd760fdf6ae5"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.3"
+    version: "2.3.4"
   riverpod_analyzer_utils:
     dependency: transitive
     description:
       name: riverpod_analyzer_utils
-      sha256: "7c2d4de69ba06107c3d7f1b3f43dc3fbdcb2f666b480560af654b4eb89af0d6d"
+      sha256: "34270111fa5843517e9ee63b1f906c756d99380f2aecbce52151aadb6d1c05a6"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.0"
+    version: "0.2.1"
   riverpod_annotation:
     dependency: "direct main"
     description:
       name: riverpod_annotation
-      sha256: "9d7b5e61bd8b7eca2e93c75d50eb70e137b67316abf1a331b33cf3a80673980e"
+      sha256: afc01d5ba57e7993342c8d5120925826949455607ae29c8d98608ee840ee1cd6
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.3"
+    version: "2.0.4"
   riverpod_generator:
     dependency: "direct dev"
     description:
       name: riverpod_generator
-      sha256: "452ea37021012562004b36e35711e5ec35cab96631c3708238c4de9a681a8b23"
+      sha256: decd5427a51603fc2add9b01f04874ac0bc6b5b6547343b8a5ccb0ba1a069943
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.5"
+    version: "2.1.6"
   riverpod_lint:
     dependency: "direct dev"
     description:
       name: riverpod_lint
-      sha256: "53456df1de0ba6645b8f55cdda7b6003d25c236079a59484d733623522c58994"
+      sha256: fc5af536db5df4acdce70ca2b338263dbc832a4b77b34a70ac40b2b77f4bbc74
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.7"
+    version: "1.1.8"
   rxdart:
     dependency: "direct main"
     description:
@@ -756,30 +764,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.5"
-  sealed_annotations:
-    dependency: "direct main"
-    description:
-      name: sealed_annotations
-      sha256: "98518bc4b1ca2cf47f0068d87c33f524c2eee2a177aa01bd1640e702029911ba"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.13.0"
-  sealed_generators:
-    dependency: "direct dev"
-    description:
-      name: sealed_generators
-      sha256: "473786c1bd3d2d533859c20b9bf95c13af04dc754141927371bd9cee236fa2b1"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.13.0"
-  sealed_writer:
-    dependency: transitive
-    description:
-      name: sealed_writer
-      sha256: ef2ab36165c3d8e245d99588a56a0ee3b6d879570d970a40898464ab5c2f08be
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.13.0"
   shared_preferences:
     dependency: "direct main"
     description:

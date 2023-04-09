@@ -11,7 +11,7 @@ class SearchOptionSetOption {
 
   //List<Option> invoke(String? optionSetUid, String textToSearch,
   //       List<String> optionsToShow, List<String> optionsToHide)
-  Future<List<Option>> invoke(String? optionSetUid, String textToSearch,
+  Future<List<Option>> call(String? optionSetUid, String textToSearch,
       List<String> optionsToShow, List<String> optionsToHide) async {
     OptionSet? optionSet;
     OptionQuery query = optionSetModule.option;
@@ -27,7 +27,7 @@ class SearchOptionSetOption {
           query.whereIn(attribute: 'id', values: optionsToShow, merge: true);
     }
 
-    // TODO NMC implement in SDK
+    // TODO(NMC): implement in SDK
     if (optionsToHide.isNotEmpty) {
       // query = query
       //     .whereIn(attribute: 'id', values: optionsToHide, merge: true);
