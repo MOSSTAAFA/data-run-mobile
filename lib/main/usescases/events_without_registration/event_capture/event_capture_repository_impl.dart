@@ -25,7 +25,7 @@ import '../../../mp_logic/authorities.dart';
 import 'event_capture_contract.dart';
 
 class EventCaptureRepositoryImpl implements EventCaptureRepository {
-  EventCaptureRepositoryImpl(this.ref);
+  EventCaptureRepositoryImpl(this.ref, String eventUid) : _eventUid = eventUid;
   final AutoDisposeRef ref;
 
   late final String _eventUid;

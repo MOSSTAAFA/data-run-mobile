@@ -18,16 +18,6 @@ import '../providers/event_detail_resources_provider.dart';
 import '../ui/event_details_view_model_factory.dart';
 part 'event_details_module.g.dart';
 
-// @riverpod
-// EventDetailsModule eventDetailsModule(EventDetailsModuleRef ref) {
-//   final EventInitialBundle eventBundle = ref.read(eventBundleProvider);
-//   return EventDetailsModule(
-//       context: ref.read(buildContextProvider),
-//       eventCreationType: eventBundle.eventCreationType.toEventCreationType!,
-//       programUid: eventBundle.programUid!,
-//       scheduleInterval: eventBundle.scheduleInterval);
-// }
-
 @riverpod
 EventDetailResourcesProvider eventDetailResources(EventDetailResourcesRef ref) {
   final ResourceManager resourceManager =

@@ -89,10 +89,11 @@ EnrollmentObjectRepository enrollmentObjectRepository(
 
 @riverpod
 FormValueStore? formValueStore(FormValueStoreRef ref, BuildContext context,
-    String? recordUid, EntryMode? entryMode) {
+    String? recordUid, EntryMode? entryMode,
+    [EnrollmentObjectRepository? repository]) {
   Future<String> uid;
+  EnrollmentObjectRepository? enrollmentObjectRepository = repository;
   if (entryMode != null) {
-    EnrollmentObjectRepository? enrollmentObjectRepository;
     if (entryMode == EntryMode.ATTR) {
       enrollmentObjectRepository =
           ref.watch(enrollmentObjectRepositoryProvider(recordUid!));

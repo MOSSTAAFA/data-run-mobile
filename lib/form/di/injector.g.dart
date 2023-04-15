@@ -174,7 +174,7 @@ class EnrollmentObjectRepositoryProvider
   }
 }
 
-String _$formValueStoreHash() => r'09db4c3689f0c6ae34bfae58603710df1f0b9794';
+String _$formValueStoreHash() => r'e62c1311f84c6850debca529d1016334ea1ad821';
 typedef FormValueStoreRef = AutoDisposeProviderRef<FormValueStore?>;
 
 /// See also [formValueStore].
@@ -190,12 +190,14 @@ class FormValueStoreFamily extends Family<FormValueStore?> {
   FormValueStoreProvider call(
     BuildContext context,
     String? recordUid,
-    EntryMode? entryMode,
-  ) {
+    EntryMode? entryMode, [
+    EnrollmentObjectRepository? repository,
+  ]) {
     return FormValueStoreProvider(
       context,
       recordUid,
       entryMode,
+      repository,
     );
   }
 
@@ -207,6 +209,7 @@ class FormValueStoreFamily extends Family<FormValueStore?> {
       provider.context,
       provider.recordUid,
       provider.entryMode,
+      provider.repository,
     );
   }
 
@@ -231,13 +234,15 @@ class FormValueStoreProvider extends AutoDisposeProvider<FormValueStore?> {
   FormValueStoreProvider(
     this.context,
     this.recordUid,
-    this.entryMode,
-  ) : super.internal(
+    this.entryMode, [
+    this.repository,
+  ]) : super.internal(
           (ref) => formValueStore(
             ref,
             context,
             recordUid,
             entryMode,
+            repository,
           ),
           from: formValueStoreProvider,
           name: r'formValueStoreProvider',
@@ -253,13 +258,15 @@ class FormValueStoreProvider extends AutoDisposeProvider<FormValueStore?> {
   final BuildContext context;
   final String? recordUid;
   final EntryMode? entryMode;
+  final EnrollmentObjectRepository? repository;
 
   @override
   bool operator ==(Object other) {
     return other is FormValueStoreProvider &&
         other.context == context &&
         other.recordUid == recordUid &&
-        other.entryMode == entryMode;
+        other.entryMode == entryMode &&
+        other.repository == repository;
   }
 
   @override
@@ -268,6 +275,7 @@ class FormValueStoreProvider extends AutoDisposeProvider<FormValueStore?> {
     hash = _SystemHash.combine(hash, context.hashCode);
     hash = _SystemHash.combine(hash, recordUid.hashCode);
     hash = _SystemHash.combine(hash, entryMode.hashCode);
+    hash = _SystemHash.combine(hash, repository.hashCode);
 
     return _SystemHash.finish(hash);
   }
