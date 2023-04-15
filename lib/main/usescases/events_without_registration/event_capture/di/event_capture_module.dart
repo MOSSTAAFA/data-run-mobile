@@ -12,14 +12,14 @@ part 'event_capture_module.g.dart';
 @riverpod
 EventCaptureRepository eventCaptureRepository(EventCaptureRepositoryRef ref) {
   return EventCaptureRepositoryImpl(
-      ref, ref.read(eventBundleProvider).eventUid!);
+      ref, ref.watch(eventBundleProvider.select((bundle) => bundle.eventUid!)));
 }
 
 @riverpod
 EventCaptureResourcesProvider eventCaptureResources(
     EventCaptureResourcesRef ref) {
   return EventCaptureResourcesProvider(
-      ref.watch(resourceManagerProvider(ref.read(buildContextProvider))));
+      ref.read(resourceManagerProvider(ref.read(buildContextProvider))));
 }
 
 @riverpod
@@ -29,7 +29,7 @@ ConfigureEventCompletionDialog configureEventCompletionDialog(
       ref.read(eventCaptureResourcesProvider));
 }
 
-/// TODO(NMC): Overrid Provider
+/// TODO(NMC): Maybe Overrid Provider
 // @Provides
 //     @PerActivity
 //     FormValueStore valueStore(

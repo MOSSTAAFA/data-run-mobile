@@ -51,17 +51,17 @@ FormRepositoryRecords formRepositoryRecords(FormRepositoryRecordsRef ref) {
 @riverpod
 FormRepository formRepository(FormRepositoryRef ref) {
   return FormRepositoryImpl(
-    formValueStore: ref.watch(FormValueStoreProvider(
-        ref.watch(buildContextProvider),
-        ref.watch(formRepositoryRecordsProvider).recordUid,
-        ref.watch(formRepositoryRecordsProvider).entryMode)),
-    fieldErrorMessageProvider: ref.watch(
-        fieldErrorMessageProviderProvider(ref.watch(buildContextProvider))),
-    displayNameProvider: ref.watch(displayNameProviderProvider),
-    dataEntryRepository: ref.watch(dataEntryRepositoryProvider(
-        entryMode: ref.watch(formRepositoryRecordsProvider).entryMode,
-        context: ref.watch(buildContextProvider),
-        repositoryRecords: ref.watch(formRepositoryRecordsProvider))),
+    formValueStore: ref.read(FormValueStoreProvider(
+        ref.read(buildContextProvider),
+        ref.read(formRepositoryRecordsProvider).recordUid,
+        ref.read(formRepositoryRecordsProvider).entryMode)),
+    fieldErrorMessageProvider: ref.read(
+        fieldErrorMessageProviderProvider(ref.read(buildContextProvider))),
+    displayNameProvider: ref.read(displayNameProviderProvider),
+    dataEntryRepository: ref.read(dataEntryRepositoryProvider(
+        entryMode: ref.read(formRepositoryRecordsProvider).entryMode,
+        context: ref.read(buildContextProvider),
+        repositoryRecords: ref.read(formRepositoryRecordsProvider))),
     /*ruleEngineRepository: _provideRuleEngineRepository(
             repositoryRecords.entryMode, repositoryRecords.recordUid),
         rulesUtilsProvider: _provideRulesUtilsProvider(),
@@ -96,7 +96,7 @@ FormValueStore? formValueStore(FormValueStoreRef ref, BuildContext context,
   if (entryMode != null) {
     if (entryMode == EntryMode.ATTR) {
       enrollmentObjectRepository =
-          ref.watch(enrollmentObjectRepositoryProvider(recordUid!));
+          ref.read(enrollmentObjectRepositoryProvider(recordUid!));
       uid = enrollmentObjectRepository!.getEnrollment().then<String>(
           (Enrollment? enrollment) =>
               enrollment?.trackedEntityInstance ?? recordUid);
@@ -115,8 +115,8 @@ FormValueStore? formValueStore(FormValueStoreRef ref, BuildContext context,
         entryMode: entryMode,
         enrollmentRepository: enrollmentObjectRepository,
         // crashReportController: _provideCrashReportController(),
-        networkUtils: ref.watch(networkUtilsProvider(context)),
-        resourceManager: ref.watch(resourceManagerProvider(context)));
+        networkUtils: ref.read(networkUtilsProvider(context)),
+        resourceManager: ref.read(resourceManagerProvider(context)));
   }
   return null;
 }
@@ -141,7 +141,7 @@ FieldErrorMessageProvider fieldErrorMessageProvider(
 EnrollmentRepository enrollmentRepository(EnrollmentRepositoryRef ref,
     BuildContext context, EnrollmentRecords enrollmentRecords) {
   return EnrollmentRepository(
-      fieldFactory: ref.watch(fieldViewModelFactoryProvider(
+      fieldFactory: ref.read(fieldViewModelFactoryProvider(
           context,
           enrollmentRecords.allowMandatoryFields,
           enrollmentRecords.isBackgroundTransparent)),
@@ -149,14 +149,14 @@ EnrollmentRepository enrollmentRepository(EnrollmentRepositoryRef ref,
       // d2: _provideD2(),
       enrollmentMode: enrollmentRecords.enrollmentMode,
       enrollmentFormLabelsProvider:
-          ref.watch(enrollmentFormLabelsProviderProvider(context)));
+          ref.read(enrollmentFormLabelsProviderProvider(context)));
 }
 
 @riverpod
 EventRepository eventRepository(
     EventRepositoryRef ref, BuildContext context, EventRecords eventRecords) {
   return EventRepository(
-      fieldFactory: ref.watch(fieldViewModelFactoryProvider(
+      fieldFactory: ref.read(fieldViewModelFactoryProvider(
           context,
           eventRecords.allowMandatoryFields,
           eventRecords.isBackgroundTransparent)),
@@ -168,7 +168,7 @@ SearchRepository searchRepository(SearchRepositoryRef ref, BuildContext context,
     SearchRecords searchRecords) {
   return SearchRepository(
       // d2: _provideD2(),
-      fieldViewModelFactory: ref.watch(fieldViewModelFactoryProvider(
+      fieldViewModelFactory: ref.read(fieldViewModelFactoryProvider(
           context,
           searchRecords.allowMandatoryFields,
           searchRecords.isBackgroundTransparent)),
@@ -181,7 +181,7 @@ SearchRepository searchRepository(SearchRepositoryRef ref, BuildContext context,
 EnrollmentFormLabelsProvider enrollmentFormLabelsProvider(
     EnrollmentFormLabelsProviderRef ref, BuildContext context) {
   return EnrollmentFormLabelsProvider(
-      ref.watch(resourceManagerProvider(context)));
+      ref.read(resourceManagerProvider(context)));
 }
 
 @riverpod
@@ -191,13 +191,13 @@ DataEntryRepository dataEntryRepository(DataEntryRepositoryRef ref,
     required FormRepositoryRecords repositoryRecords}) {
   switch (entryMode) {
     case EntryMode.ATTR:
-      return ref.watch(enrollmentRepositoryProvider(
+      return ref.read(enrollmentRepositoryProvider(
           context, repositoryRecords as EnrollmentRecords));
     case EntryMode.DE:
-      return ref.watch(
+      return ref.read(
           eventRepositoryProvider(context, repositoryRecords as EventRecords));
   }
-  return ref.watch(
+  return ref.read(
       searchRepositoryProvider(context, repositoryRecords as SearchRecords));
 }
 
@@ -210,12 +210,12 @@ FieldViewModelFactory fieldViewModelFactory(
   return FieldViewModelFactoryImpl(
     noMandatoryFields: !allowMandatoryFields,
     uiStyleProvider:
-        ref.watch(uiStyleProviderProvider(context, isBackgroundTransparent)),
-    layoutProvider: ref.watch(layoutProviderProvider),
-    hintProvider: ref.watch(hintProviderProvider(context)),
-    displayNameProvider: ref.watch(displayNameProviderProvider),
-    uiEventTypesProvider: ref.watch(uiEventTypesProviderProvider),
-    keyboardActionProvider: ref.watch(keyboardActionProviderProvider),
+        ref.read(uiStyleProviderProvider(context, isBackgroundTransparent)),
+    layoutProvider: ref.read(layoutProviderProvider),
+    hintProvider: ref.read(hintProviderProvider(context)),
+    displayNameProvider: ref.read(displayNameProviderProvider),
+    uiEventTypesProvider: ref.read(uiEventTypesProviderProvider),
+    keyboardActionProvider: ref.read(keyboardActionProviderProvider),
     // legendValueProvider: _provideLegendValueProvider(context)
   );
 }

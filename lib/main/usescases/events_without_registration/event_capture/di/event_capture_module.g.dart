@@ -7,7 +7,7 @@ part of 'event_capture_module.dart';
 // **************************************************************************
 
 String _$eventCaptureRepositoryHash() =>
-    r'a9052513bcb0e1e2947031c908b970d74dd8f8b8';
+    r'06c0e465e96ff14bc8ccbe4c9b305ab6dc4957bc';
 
 /// See also [eventCaptureRepository].
 @ProviderFor(eventCaptureRepository)
@@ -25,7 +25,7 @@ final eventCaptureRepositoryProvider =
 typedef EventCaptureRepositoryRef
     = AutoDisposeProviderRef<EventCaptureRepository>;
 String _$eventCaptureResourcesHash() =>
-    r'edb2110088024bf362648159502c561f468f7223';
+    r'453c23888f4122ddcf95fb4dfb9a4250deb79bae';
 
 /// See also [eventCaptureResources].
 @ProviderFor(eventCaptureResources)
