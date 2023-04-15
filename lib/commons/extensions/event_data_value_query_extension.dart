@@ -56,6 +56,7 @@ extension SetTrackedEntityAttributeValueExtension on EventDataValueQuery {
       toUpdate.dirty = true;
       await setData(toUpdate)
           .save(saveOptions: SaveOptions(skipLocalSyncStatus: true));
+      mergeMode = MergeMode.Replace;
     }
   }
 }

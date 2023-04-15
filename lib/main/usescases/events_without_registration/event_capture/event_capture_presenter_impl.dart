@@ -1,5 +1,5 @@
 import '../../../../commons/date/field_with_issue.dart';
-import 'event_capture_presenter.dart';
+import 'event_capture_contract.dart';
 
 class EventCapturePresenterImpl implements EventCapturePresenter {
   @override

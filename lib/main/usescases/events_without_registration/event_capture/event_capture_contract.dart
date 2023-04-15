@@ -1,3 +1,4 @@
+import 'package:d2_remote/modules/activity_management/activity/entities/activity.entity.dart';
 import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisation_unit.entity.dart';
 
 import '../../../../commons/date/field_with_issue.dart';
@@ -92,7 +93,7 @@ abstract class EventCaptureRepository {
   Future<OrganisationUnit> orgUnit();
 
   /// Flowable
-  Future<String> activity();
+  Future<Activity> activity();
 
   /// Observable
   Future<bool> completeEvent();

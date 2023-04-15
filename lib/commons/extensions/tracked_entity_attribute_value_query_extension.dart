@@ -19,9 +19,10 @@ extension SetCheckTrackedEntityAttributeValueExtension
     on TrackedEntityAttributeValueQuery {
   Future<bool> blockingSetCheck(String attrUid, String value,
       Function(String attrUid, String value) onCrash) async {
-    TrackedEntityAttribute trackedEntityAttribute =
-        (await D2Remote.programModule.trackedEntityAttribute .byId(attrUid)
-            .getOne())!;
+    TrackedEntityAttribute trackedEntityAttribute = (await D2Remote
+        .programModule.trackedEntityAttribute
+        .byId(attrUid)
+        .getOne())!;
     // if (de != null) {
     if (await check(trackedEntityAttribute.valueType.toValueType,
         trackedEntityAttribute.optionSet, value)) {
@@ -68,6 +69,7 @@ extension SetTrackedEntityAttributeValueExtension
       toUpdate.dirty = true;
       await setData(toUpdate)
           .save(saveOptions: SaveOptions(skipLocalSyncStatus: true));
+      mergeMode = MergeMode.Replace;
     }
   }
 }

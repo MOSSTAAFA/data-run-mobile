@@ -9,8 +9,6 @@ import '../enrollment/enrollment_extensions.dart';
 import 'event_editable_status.dart';
 import 'event_service.dart';
 
-EventService eventService = const EventServiceImpl();
-
 class EventServiceImpl implements EventService {
   const EventServiceImpl();
 

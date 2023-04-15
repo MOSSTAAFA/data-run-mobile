@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../utils/event_mode.dart';
 import '../../general/view_Base.dart';
+import 'event_capture_contract.dart';
 import 'event_capture_tabs.widget.dart';
-import 'event_capture_view.dart';
 import 'model/event_completion_dialog.dart';
 
 /// EventCaptureActivity

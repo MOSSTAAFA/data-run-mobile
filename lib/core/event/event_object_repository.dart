@@ -18,6 +18,7 @@ class EventObjectRepository {
     await D2Remote.trackerModule.enrollment
         .setData(enrollment)
         .save(saveOptions: SaveOptions(skipLocalSyncStatus: true));
+    D2Remote.trackerModule.enrollment.mergeMode = MergeMode.Replace;
   }
 
   ///  throws D2Error

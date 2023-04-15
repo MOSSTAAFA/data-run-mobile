@@ -16,8 +16,10 @@ import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart'
 import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_stage_data_element.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_stage_section.entity.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../commons/extensions/value_extensions.dart';
+import '../../../../core/di/providers.dart';
 import '../../../../core/enrollment/enrollment_extensions.dart';
 import '../../../../core/event/event_editable_status.dart';
 import '../../../../core/event/event_extensions.dart';
@@ -33,7 +35,7 @@ import '../../../../form/ui/field_view_model_factory.dart';
 import 'event_initial_repository.dart';
 
 class EventInitialRepositoryImpl implements EventInitialRepository {
-  EventInitialRepositoryImpl(
+  EventInitialRepositoryImpl(this.ref,
       {required final FieldViewModelFactory fieldFactory,
       // final RuleEngineRepository ruleEngineRepository,
       final String? eventUid,
@@ -43,6 +45,7 @@ class EventInitialRepositoryImpl implements EventInitialRepository {
         _eventUid = eventUid,
         _stageUid = stageUid;
 
+  final AutoDisposeRef ref;
   final FieldViewModelFactory _fieldFactory;
 
   // final RuleEngineRepository _ruleEngineRepository;
@@ -185,7 +188,7 @@ class EventInitialRepositoryImpl implements EventInitialRepository {
   @override
   Future<bool> accessDataWrite(String programUid) {
     if (_eventUid != null) {
-      return eventService.isEditable(_eventUid!);
+      return ref.read(eventServiceProvider).isEditable(_eventUid!);
     } else {
       // TODO(NMC): implement DataAccess
       // return d2.programModule().programStages().uid(stageUid).get().toObservable()
@@ -407,7 +410,7 @@ class EventInitialRepositoryImpl implements EventInitialRepository {
 
   @override
   Future<EventEditableStatus> getEditableStatus() {
-    return eventService.getEditableStatus(_eventUid ?? '');
+    return ref.read(eventServiceProvider).getEditableStatus(_eventUid ?? '');
   }
 
   /// Sometimes it might be nessascary to refer a patient to a different Organisation unit. To refer a

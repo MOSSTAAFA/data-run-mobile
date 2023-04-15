@@ -17,7 +17,7 @@ import '../event_capture/event_section_model.dart';
 import 'di/event_initial_module.dart';
 import 'event_initial_repository.dart';
 import 'model/event_initial_bundle.dart';
-import 'presenter_providers.dart';
+import 'di/presenter_providers.dart';
 
 class EventInitialPresenter {
   EventInitialPresenter(this.ref) {
