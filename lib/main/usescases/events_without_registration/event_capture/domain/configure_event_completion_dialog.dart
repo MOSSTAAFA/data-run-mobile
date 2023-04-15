@@ -26,18 +26,19 @@ class ConfigureEventCompletionDialog {
         buttonStyle: DialogButtonStyle.secondaryButton(
             textResource: provider.provideNotNow()),
         action: FormBottomDialogActionType.FINISH);
-    final BottomSheetDialogUiModel bottomSheetDialogUiModel = BottomSheetDialogUiModel(
-        title: _getTitle(dialogType),
-        subtitle: _getSubtitle(dialogType),
-        iconResource: _getIcon(dialogType),
-        fieldsWithIssues: _getFieldsWithIssues(
-            errorFields: errorFields,
-            mandatoryFields: mandatoryFields.keys.toList(),
-            warningFields: warningFields,
-            onCompleteField:
-                _getOnCompleteMessage(canComplete, onCompleteMessage)),
-        mainButton: mainButton.buttonStyle,
-        secondaryButton: secondaryButton.buttonStyle);
+    final BottomSheetDialogUiModel bottomSheetDialogUiModel =
+        BottomSheetDialogUiModel(
+            title: _getTitle(dialogType),
+            subtitle: _getSubtitle(dialogType),
+            iconResource: _getIcon(dialogType),
+            fieldsWithIssues: _getFieldsWithIssues(
+                errorFields: errorFields,
+                mandatoryFields: mandatoryFields.keys.toList(),
+                warningFields: warningFields,
+                onCompleteField:
+                    _getOnCompleteMessage(canComplete, onCompleteMessage)),
+            mainButton: mainButton.buttonStyle,
+            secondaryButton: secondaryButton.buttonStyle);
 
     return EventCompletionDialog(
         bottomSheetDialogUiModel: bottomSheetDialogUiModel,
@@ -57,7 +58,7 @@ class ConfigureEventCompletionDialog {
         _DialogType.COMPLETE_ERROR: () => provider.provideOnCompleteErrorInfo(),
       })!;
 
-  IconData _getIcon(_DialogType type) => when(type, {
+  Icon _getIcon(_DialogType type) => when(type, {
         [_DialogType.ERROR, _DialogType.COMPLETE_ERROR]: () =>
             provider.provideRedAlertIcon(),
         _DialogType.MANDATORY: () => provider.provideSavedIcon(),
@@ -96,8 +97,8 @@ class ConfigureEventCompletionDialog {
 
   List<FieldWithIssue> _getOnCompleteMessage(
       bool canComplete, String? onCompleteMessage) {
-    final FieldWithIssue? issueOnComplete = onCompleteMessage?.let((String it) =>
-        FieldWithIssue(
+    final FieldWithIssue? issueOnComplete = onCompleteMessage?.let(
+        (String it) => FieldWithIssue(
             fieldUid: '',
             fieldName: it,
             issueType: canComplete

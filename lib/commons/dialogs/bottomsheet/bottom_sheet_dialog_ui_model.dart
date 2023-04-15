@@ -10,7 +10,7 @@ class BottomSheetDialogUiModel with _$BottomSheetDialogUiModel {
   const factory BottomSheetDialogUiModel(
       {required String title,
       required String subtitle,
-      required IconData iconResource,
+      required Icon iconResource,
       @Default(<FieldWithIssue>[]) List<FieldWithIssue> fieldsWithIssues,
       required DialogButtonStyle mainButton,
       DialogButtonStyle? secondaryButton}) = _BottomSheetDialogUiModel;

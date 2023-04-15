@@ -10,10 +10,9 @@ class ResourceManager {
     return AppLocalization.of(context)!.lookup(stringResource);
   }
 
-  IconData getObjectStyleDrawableResource(
-      String? icon, String defaultResource) {
+  Icon getObjectStyleDrawableResource(String? icon, String defaultResource) {
     // TODO NMC
-    return Icons.date_range_outlined;
+    return const Icon(Icons.date_range_outlined);
     // return icon?.let {
     // val iconName = if (icon.startsWith("ic_")) icon else "ic_$icon"
     // val iconResource =

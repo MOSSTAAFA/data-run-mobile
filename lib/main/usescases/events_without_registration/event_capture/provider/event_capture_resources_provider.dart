@@ -8,13 +8,19 @@ class EventCaptureResourcesProvider {
 
   final ResourceManager resourceManager;
 
-  IconData provideRedAlertIcon() =>
-      Icons.error_outline; //R.drawable.ic_error_outline;
+  Icon provideRedAlertIcon() => const Icon(
+        Icons.error_outline,
+        color: Colors.red,
+      ); //R.drawable.ic_error_outline;
 
-  IconData provideYellowAlertIcon() => MdiIcons.alert; //R.drawable.ic_alert;
+  Icon provideYellowAlertIcon() => const Icon(
+        MdiIcons.alert,
+        color: Colors.yellow,
+      ); //R.drawable.ic_alert;
 
-  IconData provideSavedIcon() =>
-      Icons.save_rounded; //R.drawable.ic_saved_check;
+  Icon provideSavedIcon() => const Icon(
+        Icons.save_rounded,
+      ); //R.drawable.ic_saved_check;
 
   String provideNotSavedText() => resourceManager.getString('not_saved');
 

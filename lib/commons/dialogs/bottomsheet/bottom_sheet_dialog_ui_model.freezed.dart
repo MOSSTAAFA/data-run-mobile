@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$BottomSheetDialogUiModel {
   String get title => throw _privateConstructorUsedError;
   String get subtitle => throw _privateConstructorUsedError;
-  IconData get iconResource => throw _privateConstructorUsedError;
+  Icon get iconResource => throw _privateConstructorUsedError;
   List<FieldWithIssue> get fieldsWithIssues =>
       throw _privateConstructorUsedError;
   DialogButtonStyle get mainButton => throw _privateConstructorUsedError;
@@ -38,7 +38,7 @@ abstract class $BottomSheetDialogUiModelCopyWith<$Res> {
   $Res call(
       {String title,
       String subtitle,
-      IconData iconResource,
+      Icon iconResource,
       List<FieldWithIssue> fieldsWithIssues,
       DialogButtonStyle mainButton,
       DialogButtonStyle? secondaryButton});
@@ -80,7 +80,7 @@ class _$BottomSheetDialogUiModelCopyWithImpl<$Res,
       iconResource: null == iconResource
           ? _value.iconResource
           : iconResource // ignore: cast_nullable_to_non_nullable
-              as IconData,
+              as Icon,
       fieldsWithIssues: null == fieldsWithIssues
           ? _value.fieldsWithIssues
           : fieldsWithIssues // ignore: cast_nullable_to_non_nullable
@@ -129,7 +129,7 @@ abstract class _$$_BottomSheetDialogUiModelCopyWith<$Res>
   $Res call(
       {String title,
       String subtitle,
-      IconData iconResource,
+      Icon iconResource,
       List<FieldWithIssue> fieldsWithIssues,
       DialogButtonStyle mainButton,
       DialogButtonStyle? secondaryButton});
@@ -171,7 +171,7 @@ class __$$_BottomSheetDialogUiModelCopyWithImpl<$Res>
       iconResource: null == iconResource
           ? _value.iconResource
           : iconResource // ignore: cast_nullable_to_non_nullable
-              as IconData,
+              as Icon,
       fieldsWithIssues: null == fieldsWithIssues
           ? _value._fieldsWithIssues
           : fieldsWithIssues // ignore: cast_nullable_to_non_nullable
@@ -206,7 +206,7 @@ class _$_BottomSheetDialogUiModel extends _BottomSheetDialogUiModel {
   @override
   final String subtitle;
   @override
-  final IconData iconResource;
+  final Icon iconResource;
   final List<FieldWithIssue> _fieldsWithIssues;
   @override
   @JsonKey()
@@ -267,7 +267,7 @@ abstract class _BottomSheetDialogUiModel extends BottomSheetDialogUiModel {
   const factory _BottomSheetDialogUiModel(
       {required final String title,
       required final String subtitle,
-      required final IconData iconResource,
+      required final Icon iconResource,
       final List<FieldWithIssue> fieldsWithIssues,
       required final DialogButtonStyle mainButton,
       final DialogButtonStyle? secondaryButton}) = _$_BottomSheetDialogUiModel;
@@ -278,7 +278,7 @@ abstract class _BottomSheetDialogUiModel extends BottomSheetDialogUiModel {
   @override
   String get subtitle;
   @override
-  IconData get iconResource;
+  Icon get iconResource;
   @override
   List<FieldWithIssue> get fieldsWithIssues;
   @override
