@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-
 /// Represents a generic pair of two values.
 ///
 /// There is no meaning attached to values in this class, it can be used for any purpose.

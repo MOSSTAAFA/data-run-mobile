@@ -9,6 +9,7 @@ import 'commons/prefs/preference_provider.dart';
 import 'main.reflectable.dart';
 import 'main/di.dart' as di;
 import 'main/l10n/app_localizations.dart';
+import 'main/usescases/events_without_registration/event_initial/di/event_initial_module.dart';
 import 'main_app.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -30,8 +31,11 @@ Future<void> main() async {
 
   // wrap the entire app with a ProviderScope so that widgets
   // will be able to read providers
-  runApp(const ProviderScope(
-    child: App(),
+  runApp(ProviderScope(
+    overrides: [
+      preferencesProvider.overrideWith((ref) => PreferenceProvider())
+    ],
+    child: const App(),
   ));
   //
   // runApp(const App());

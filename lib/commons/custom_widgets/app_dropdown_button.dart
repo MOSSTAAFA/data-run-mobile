@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class AppDropdownButton<T> extends StatelessWidget {
   const AppDropdownButton({
-    Key? key,
+    super.key,
     required this.value,
     this.onChanged,
     required this.items,
@@ -13,7 +13,7 @@ class AppDropdownButton<T> extends StatelessWidget {
     this.blankValue = '',
     this.blankLabel,
     this.enabled = true,
-  }) : super(key: key);
+  });
 
   final String? labelText;
   final dynamic value;
@@ -32,7 +32,8 @@ class AppDropdownButton<T> extends StatelessWidget {
     if (!values.contains(value)) {
       checkedValue = blankValue;
     }
-    final bool isEmpty = checkedValue == null || (checkedValue is String &&  checkedValue == '');
+    final bool isEmpty =
+        checkedValue == null || (checkedValue is String && checkedValue == '');
 
     Widget dropDownButton = DropdownButtonHideUnderline(
       child: DropdownButton<T>(

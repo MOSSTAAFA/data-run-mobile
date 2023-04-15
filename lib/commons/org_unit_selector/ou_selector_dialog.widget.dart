@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisation_unit.entity.dart';
 import 'package:flutter/material.dart';
@@ -43,8 +41,9 @@ class OuSelectorDialog extends StatefulWidget {
 }
 
 class _OuSelectorDialogState extends State<OuSelectorDialog> {
-  final OuSelectorDialogPresenter presenter = Get.find<OuSelectorDialogPresenter>();
-      // OuSelectorDialogPresenter.instance;
+  final OuSelectorDialogPresenter presenter =
+      Get.find<OuSelectorDialogPresenter>();
+  // OuSelectorDialogPresenter.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -193,6 +192,7 @@ class _OuSelectorDialogState extends State<OuSelectorDialog> {
     Navigator.pop(context);
     Get.delete<OuSelectorDialogPresenter>(force: true);
   }
+
   @override
   void didChangeDependencies() async {
     /// This method is most used by subclasses in cases when network fetches

@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../date/date_utils.dart';
 import '../extensions/standard_extensions.dart';
 
-abstract class PreferenceProvider {
+class PreferenceProvider {
   static late final SharedPreferences _instance;
 
   static const String LAST_META_SYNC = 'last_meta_sync';
@@ -24,10 +24,6 @@ abstract class PreferenceProvider {
 
   Future<bool> setValue(String key, dynamic value) async {
     if (value != null) {
-      if (value is String) {
-        return _instance.setString(key, value);
-      }
-
       if (value is String) {
         return _instance.setString(key, value);
       }

@@ -1,0 +1,1 @@
+enum EventMode { NEW, CHECK }

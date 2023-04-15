@@ -224,7 +224,7 @@ final showInfoProvider =
 );
 
 typedef _$ShowInfo = AutoDisposeNotifier<InfoUiModel?>;
-String _$itemsHash() => r'339d58a367a77b6db9d5de9eb7009d3d0bc8b381';
+String _$itemsHash() => r'821efea2aa67b4795fb6447153253212f7adf5d8';
 
 /// See also [Items].
 @ProviderFor(Items)
