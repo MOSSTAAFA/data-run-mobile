@@ -90,13 +90,12 @@ class EventCaptureRepositoryImpl implements EventCaptureRepository {
   Future<Activity> activity() async {
     final Event currentEvent = await _getCurrentEvent();
     return (await D2Remote.activityModule.activity
-        .byId(currentEvent.orgUnit)
+        .byId(currentEvent.activity)
         .getOne())!;
   }
 
   @override
   Future<bool> completeEvent() async {
-    // return Future.fromCallable(() -> {
     try {
       final Event currentEvent = await _getCurrentEvent();
       currentEvent.status = EventStatus.COMPLETED.name;

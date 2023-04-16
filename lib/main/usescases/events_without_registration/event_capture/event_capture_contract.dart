@@ -17,19 +17,21 @@ abstract class EventCapturePresenter {
       Map<String, String> emptyMandatoryFields,
       List<FieldWithIssue> warningFields);
 
-  bool isEnrollmentOpen();
+  Future<bool> isEnrollmentOpen();
 
-  void completeEvent(bool addNew);
+  Future<void> completeEvent(bool addNew);
 
-  void deleteEvent();
+  Future<void> deleteEvent();
 
   void skipEvent();
 
   void rescheduleEvent(DateTime time);
 
-  bool canWrite();
+  Future<bool> canWrite();
 
   bool hasExpired();
+
+  void displayMessage(String message);
 
   void initNoteCounter();
 
@@ -39,7 +41,7 @@ abstract class EventCapturePresenter {
 
   void showProgress();
 
-  bool getCompletionPercentageVisibility();
+  Future<bool> getCompletionPercentageVisibility();
 }
 
 abstract class EventCaptureView {
@@ -56,7 +58,7 @@ abstract class EventCaptureView {
 
   void saveAndFinish();
 
-  void showSnackBar(int messageId);
+  void showSnackBar(String messageId);
 
   void attemptToSkip();
 
@@ -77,6 +79,9 @@ abstract class EventCaptureView {
   void showNavigationBar();
 
   void hideNavigationBar();
+
+  /// NMC From parent Class
+  void displayMessage(String message);
 }
 
 abstract class EventCaptureRepository {

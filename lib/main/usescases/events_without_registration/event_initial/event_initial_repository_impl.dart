@@ -25,7 +25,6 @@ import '../../../../core/event/event_editable_status.dart';
 import '../../../../core/event/event_extensions.dart';
 import '../../../../core/event/event_object_repository.dart';
 import '../../../../core/event/event_projection.dart';
-import '../../../../core/event/event_service_impl.dart';
 import '../../../../core/event/event_status.dart';
 import '../../../../core/organisation_unit/org_unit_extension.dart';
 import '../../../../form/data/form_section_view_model.dart';

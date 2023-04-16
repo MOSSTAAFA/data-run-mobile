@@ -8,7 +8,6 @@ extension StandardAsyncExt<T> on Future<T> {
 typedef _WhenCheck = bool Function<T>(T value);
 
 extension StandardExt<T> on T {
-
   /// Calls the specified function [block] with `this` value as its argument and returns its result.
   Future<R> aLet<R>(Future<R> Function(T it) block) {
     return block(this);
@@ -27,7 +26,9 @@ extension StandardExt<T> on T {
 
   /// Returns `this` value if it satisfies the given [predicate] or `null`, if it doesn't.
   T? takeIf(bool Function(T) predicate) {
-    if (predicate(this)) return this;
+    if (predicate(this)) {
+      return this;
+    }
     return null;
   }
 
