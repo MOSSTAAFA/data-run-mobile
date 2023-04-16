@@ -59,3 +59,7 @@ flutter:
   assets:
     - lib/sample/dhis/
     - lib/main/l10n/locales_strings/
+# analyzer:
+#   strong-mode: true
+#   language:
+#     enableSuperMixins: true

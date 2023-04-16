@@ -2,6 +2,8 @@ import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity
 import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart';
 import 'package:flutter/material.dart';
 
+import '../../general/view_Base.dart';
+import '../../general/view_abstract.dart';
 import '../event_details/models/event_details.dart';
 import 'event_initial_view_base.dart';
 

@@ -32,7 +32,7 @@ class EventCaptureScreen extends StatefulWidget {
 }
 
 class _EventCaptureScreenState extends State<EventCaptureScreen>
-    with EventCaptureView, ViewBase {
+    with EventCaptureView {
   @override
   Widget build(BuildContext context) {
     return Container();
@@ -107,7 +107,7 @@ class _EventCaptureScreenState extends State<EventCaptureScreen>
   }
 
   @override
-  void showSnackBar(int messageId) {
+  void showSnackBar(String message) {
     // TODO: implement showSnackBar
   }
 

@@ -3,6 +3,7 @@ import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisati
 
 import '../../../../commons/date/field_with_issue.dart';
 import '../../../../core/event/event_status.dart';
+import '../../general/view_Base.dart';
 import 'model/event_completion_dialog.dart';
 
 abstract class EventCapturePresenter {
@@ -44,7 +45,7 @@ abstract class EventCapturePresenter {
   Future<bool> getCompletionPercentageVisibility();
 }
 
-abstract class EventCaptureView {
+abstract class EventCaptureView extends ViewBase {
   void updatePercentage(double primaryValue);
 
   void showCompleteActions(
@@ -79,9 +80,6 @@ abstract class EventCaptureView {
   void showNavigationBar();
 
   void hideNavigationBar();
-
-  /// NMC From parent Class
-  void displayMessage(String message);
 }
 
 abstract class EventCaptureRepository {

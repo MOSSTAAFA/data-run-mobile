@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:mass_pro/main/usescases/general/view_abstract.dart';
 
 import '../../../commons/utils/view_actions.dart';
+import '../../../main.dart';
 import '../../l10n/app_localizations.dart';
 
 /// any screen ActivityGlobalAbstract
-class ViewBase {
+class ViewBase implements ViewAbstract {
   // final PinDialog pinDialog;
   void onCreate() {
     // ServerComponent serverComponent = ((App) getApplicationContext()).getServerComponent();
@@ -52,9 +54,9 @@ class ViewBase {
   void back() {}
 
   @override
-  void displayMessage(String? message, BuildContext context) {
+  void displayMessage(String? message) {
     if (message != null) {
-      showToast(message, context: context);
+      showToast(message, context: navigatorKey.currentContext);
     }
   }
 
@@ -65,9 +67,9 @@ class ViewBase {
   void setTutorial() {}
 
   @override
-  Future<void> showDescription(String description, BuildContext context) {
+  Future<void> showDescription(String description) {
     return showDialog<String>(
-        context: context,
+        context: navigatorKey.currentContext!,
         builder: (BuildContext context) => Dialog(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -96,10 +98,9 @@ class ViewBase {
       required String positiveButtonText,
       required String negativeButtonText,
       void Function()? onPositiveClick,
-      void Function()? onNegativeClick,
-      required BuildContext context}) {
+      void Function()? onNegativeClick}) {
     return showDialog<void>(
-      context: context,
+      context: navigatorKey.currentContext!,
       // barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -133,10 +134,9 @@ class ViewBase {
   }
 
   @override
-  Future<void> showInfoDialogWithoutActions(
-      String title, String message, BuildContext context) {
+  Future<void> showInfoDialogWithoutActions(String title, String message) {
     return showDialog<void>(
-      context: context,
+      context: navigatorKey.currentContext!,
       // barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -150,7 +150,8 @@ class ViewBase {
           ),
           actions: <Widget>[
             TextButton(
-              child: Text(AppLocalization.of(context)!.lookup('ok')),
+              child: Text(AppLocalization.of(navigatorKey.currentContext!)!
+                  .lookup('ok')),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -164,10 +165,12 @@ class ViewBase {
   @override
   void showTutorial(bool shaked) {}
 
-  Future<void> showSyncDialog(BuildContext context) {
+  @override
+  Future<void> showSyncDialog() {
     return Future.value();
   }
 
+  @override
   TabController? getTabController() {
     return null;
   }

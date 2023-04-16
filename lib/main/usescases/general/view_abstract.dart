@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 
-/// View interface
+/// AbstractActivityContracts.View interface
 abstract class ViewAbstract {
   void back();
 
-  void displayMessage(String message, BuildContext context);
+  void displayMessage(String? message);
 
-  Future<void> showInfoDialogWithoutActions(
-      String title, String message, BuildContext context);
+  Future<void> showInfoDialogWithoutActions(String title, String message);
 
   // void showInfoDialog(
   //     String title, String message, OnDialogClickListener dialogListener);
@@ -24,12 +23,11 @@ abstract class ViewAbstract {
       required String positiveButtonText,
       required String negativeButtonText,
       void Function()? onPositiveClick,
-      void Function()? onNegativeClick,
-      required BuildContext context});
+      void Function()? onNegativeClick});
 
-  Future<void> showDescription(String description, BuildContext context);
+  Future<void> showDescription(String description);
 
-  Future<void> showSyncDialog(BuildContext context);
+  Future<void> showSyncDialog();
 
   TabController? getTabController();
 }

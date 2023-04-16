@@ -1,7 +1,9 @@
 import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity.dart';
 
-abstract class EventInitialViewBase {
+import '../../general/view_Base.dart';
+
+abstract class EventInitialViewBase extends ViewBase {
   void setProgram(Program program);
 
   void renderError(String message);
