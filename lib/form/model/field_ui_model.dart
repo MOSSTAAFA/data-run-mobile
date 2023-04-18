@@ -1,15 +1,15 @@
 import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dart';
 import 'package:dartx/dartx_io.dart';
 import 'package:flutter/material.dart';
-import 'package:mass_pro/form/model/Ui_render_type.dart';
-import 'package:mass_pro/form/model/key_board_action_type.dart';
-import 'package:mass_pro/form/model/option_set_configuration.dart';
-import 'package:mass_pro/form/model/ui_event_type.dart';
-import 'package:mass_pro/form/ui/event/list_view_ui_events.dart';
-import 'package:mass_pro/form/ui/intent/form_intent.dart';
-import 'package:mass_pro/form/ui/event/ui_event_factory.dart';
+import 'Ui_render_type.dart';
+import 'key_board_action_type.dart';
+import 'option_set_configuration.dart';
+import 'ui_event_type.dart';
+import '../ui/event/list_view_ui_events.dart';
+import '../ui/intent/form_intent.dart';
+import '../ui/event/ui_event_factory.dart';
 import 'package:d2_remote/core/common/value_type.dart';
-import 'package:mass_pro/form/ui/style/form_ui_model_style.dart';
+import '../ui/style/form_ui_model_style.dart';
 
 abstract class FieldUiModel {
   String get uid;

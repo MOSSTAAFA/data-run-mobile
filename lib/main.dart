@@ -9,6 +9,7 @@ import 'commons/prefs/preference_provider.dart';
 import 'main.reflectable.dart';
 import 'main/di.dart' as di;
 import 'main/l10n/app_localizations.dart';
+import 'main/usescases/events_without_registration/event_capture/event_capture_screen.widget.dart';
 import 'main/usescases/events_without_registration/event_initial/di/event_initial_module.dart';
 import 'main_app.dart';
 
@@ -49,9 +50,22 @@ class App extends StatelessWidget {
     final routeObserver = Get.put<RouteObserver>(RouteObserver<PageRoute>());
     final locale = AppLocalization.createLocale('en');
 
-    return MaterialApp(
+    return GetMaterialApp(
+      builder: (BuildContext context, Widget? child) {
+        final MediaQueryData data = MediaQuery.of(context);
+        return MediaQuery(
+          data:
+              data /* .copyWith(
+                textScaleFactor: context.select(
+                    (AppBloc bloc) => bloc.state.prefState.textScaleFactor),
+              ) */
+          ,
+          child: child!,
+        );
+      },
       title: 'Flutter Demo',
       navigatorKey: navigatorKey,
+      navigatorObservers: [routeObserver],
       localizationsDelegates: const [
         AppLocalization.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -85,6 +99,14 @@ class App extends StatelessWidget {
       home: const MainApp(
         title: 'Title',
       ),
+      getPages: [
+        // GetPage(
+        //   name: EventCaptureScreen.route,
+        //   page: () => EventCaptureScreen(),
+        //   transition: Transition.fade,
+        //   // binding: SplashBinding()
+        // ),
+      ],
     );
   }
 }
