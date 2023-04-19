@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// EventListFragment and ProgramEventDetailLiveAdapter
 class EventList extends StatefulWidget {
   const EventList({super.key});
 

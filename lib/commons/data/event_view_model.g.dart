@@ -21,7 +21,7 @@ final canShowAddButtonProvider = AutoDisposeProvider<bool>.internal(
 );
 
 typedef CanShowAddButtonRef = AutoDisposeProviderRef<bool>;
-String _$eventViewModelHash() => r'043170728614d6758bf557e2a97f5d83d94b9e4f';
+String _$eventViewModelHash() => r'8cfad8edd41e455507b660c2bee303434b33bc84';
 
 /// See also [EventViewModel].
 @ProviderFor(EventViewModel)

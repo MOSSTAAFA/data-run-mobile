@@ -15,8 +15,8 @@ class EventViewModel extends _$EventViewModel {
     return EventModel();
   }
 
-  void toggleValueList() {
-    state = state.copyWith(valueListIsOpen: !state.valueListIsOpen);
+  void toggleValueList(bool isOpen) {
+    state = state.copyWith(valueListIsOpen: isOpen);
   }
 }
 
@@ -117,6 +117,8 @@ class EventModel with EquatableMixin {
   List<Object?> get props => [
         type,
         stage,
+        // event?.id,
+        // event?.dirty,
         event,
         eventCount,
         lastUpdate,
