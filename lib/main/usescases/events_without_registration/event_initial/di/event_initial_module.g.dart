@@ -21,7 +21,7 @@ final fieldMapperProvider = AutoDisposeProvider<EventFieldMapper>.internal(
 
 typedef FieldMapperRef = AutoDisposeProviderRef<EventFieldMapper>;
 String _$eventInitialRepositoryHash() =>
-    r'c627ad9b6316cbfb4be300cb84a234323f9a49c9';
+    r'cc438675413ca8931f138906d7a9e9b6e34f04e3';
 
 /// See also [eventInitialRepository].
 @ProviderFor(eventInitialRepository)
@@ -39,50 +39,126 @@ final eventInitialRepositoryProvider =
 typedef EventInitialRepositoryRef
     = AutoDisposeProviderRef<EventInitialRepository>;
 String _$eventInitialPresenterHash() =>
-    r'2a34575111630c7f2127e3b8b7c5ac711dc1ed8d';
+    r'0e44c908028c457cf419bdf5364157455d11ffbb';
 
-/// See also [eventInitialPresenter].
-@ProviderFor(eventInitialPresenter)
-final eventInitialPresenterProvider =
-    AutoDisposeProvider<EventInitialPresenter>.internal(
-  eventInitialPresenter,
-  name: r'eventInitialPresenterProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$eventInitialPresenterHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+/// Copied from Dart SDK
+class _SystemHash {
+  _SystemHash._();
+
+  static int combine(int hash, int value) {
+    // ignore: parameter_assignments
+    hash = 0x1fffffff & (hash + value);
+    // ignore: parameter_assignments
+    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
+    return hash ^ (hash >> 6);
+  }
+
+  static int finish(int hash) {
+    // ignore: parameter_assignments
+    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
+    // ignore: parameter_assignments
+    hash = hash ^ (hash >> 11);
+    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
+  }
+}
 
 typedef EventInitialPresenterRef
     = AutoDisposeProviderRef<EventInitialPresenter>;
-String _$preferencesHash() => r'61752f209ee04650e2e0daaee32adf29fa571c9d';
 
-/// See also [preferences].
-@ProviderFor(preferences)
-final preferencesProvider = Provider<PreferenceProvider>.internal(
-  preferences,
-  name: r'preferencesProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$preferencesHash,
+/// See also [eventInitialPresenter].
+@ProviderFor(eventInitialPresenter)
+const eventInitialPresenterProvider = EventInitialPresenterFamily();
+
+/// See also [eventInitialPresenter].
+class EventInitialPresenterFamily extends Family<EventInitialPresenter> {
+  /// See also [eventInitialPresenter].
+  const EventInitialPresenterFamily();
+
+  /// See also [eventInitialPresenter].
+  EventInitialPresenterProvider call(
+    EventInitialViewBase view,
+  ) {
+    return EventInitialPresenterProvider(
+      view,
+    );
+  }
+
+  @override
+  EventInitialPresenterProvider getProviderOverride(
+    covariant EventInitialPresenterProvider provider,
+  ) {
+    return call(
+      provider.view,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'eventInitialPresenterProvider';
+}
+
+/// See also [eventInitialPresenter].
+class EventInitialPresenterProvider
+    extends AutoDisposeProvider<EventInitialPresenter> {
+  /// See also [eventInitialPresenter].
+  EventInitialPresenterProvider(
+    this.view,
+  ) : super.internal(
+          (ref) => eventInitialPresenter(
+            ref,
+            view,
+          ),
+          from: eventInitialPresenterProvider,
+          name: r'eventInitialPresenterProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$eventInitialPresenterHash,
+          dependencies: EventInitialPresenterFamily._dependencies,
+          allTransitiveDependencies:
+              EventInitialPresenterFamily._allTransitiveDependencies,
+        );
+
+  final EventInitialViewBase view;
+
+  @override
+  bool operator ==(Object other) {
+    return other is EventInitialPresenterProvider && other.view == view;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, view.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+String _$preferencesInstanceHash() =>
+    r'5fcbea9e7a12266cab76f31fd03eb2009c9c5093';
+
+/// See also [preferencesInstance].
+@ProviderFor(preferencesInstance)
+final preferencesInstanceProvider = Provider<PreferenceProvider>.internal(
+  preferencesInstance,
+  name: r'preferencesInstanceProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$preferencesInstanceHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef PreferencesRef = ProviderRef<PreferenceProvider>;
-String _$eventBundleHash() => r'607588372ddbc6f903cb5b1c0647d77e6900f719';
-
-/// See also [EventBundle].
-@ProviderFor(EventBundle)
-final eventBundleProvider =
-    AutoDisposeNotifierProvider<EventBundle, EventInitialBundle>.internal(
-  EventBundle.new,
-  name: r'eventBundleProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$eventBundleHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$EventBundle = AutoDisposeNotifier<EventInitialBundle>;
+typedef PreferencesInstanceRef = ProviderRef<PreferenceProvider>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

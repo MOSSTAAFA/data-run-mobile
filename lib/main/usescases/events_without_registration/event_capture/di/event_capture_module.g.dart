@@ -7,7 +7,7 @@ part of 'event_capture_module.dart';
 // **************************************************************************
 
 String _$eventCaptureRepositoryHash() =>
-    r'06c0e465e96ff14bc8ccbe4c9b305ab6dc4957bc';
+    r'd065952634def97f396b50d42814da50c1a918b0';
 
 /// See also [eventCaptureRepository].
 @ProviderFor(eventCaptureRepository)

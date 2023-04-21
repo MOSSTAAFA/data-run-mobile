@@ -18,7 +18,9 @@ class EventCapturePresenterImpl implements EventCapturePresenter {
       required this.view,
       this.isExpired = false,
       required this.preferences,
-      required this.configureEventCompletionDialog});
+      required this.configureEventCompletionDialog}) {
+    init();
+  }
 
   final AutoDisposeRef ref;
 
@@ -54,12 +56,6 @@ class EventCapturePresenterImpl implements EventCapturePresenter {
       eventCaptureRepository.activity().then((result) => activity = result),
     ]).then((value) {
       preferences.setValue(CURRENT_ORG_UNIT, orgUnit?.id);
-      // final EventCaptureModel data = ref.read(eventCaptureDataProvider);
-      // ref.read(eventCaptureDataProvider.notifier).setValue(data.copyWith(
-      //     programStageName: programStageName,
-      //     eventDate: eventDate,
-      //     orgUnit: orgUnit!.displayName,
-      //     activity: activity!.displayName));
       view.renderInitialInfo(
           stageName: programStageName,
           eventDate: eventDate,
@@ -233,5 +229,10 @@ class EventCapturePresenterImpl implements EventCapturePresenter {
 
   Future<EventStatus> _getEventStatus() {
     return eventCaptureRepository.eventStatus();
+  }
+
+  @override
+  void updatePercentage(double primaryValue) {
+    view.updatePercentage(primaryValue);
   }
 }

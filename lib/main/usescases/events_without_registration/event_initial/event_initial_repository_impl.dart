@@ -18,9 +18,9 @@ import 'package:d2_remote/modules/metadata/program/entities/program_stage_data_e
 import 'package:d2_remote/modules/metadata/program/entities/program_stage_section.entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../commons/extensions/standard_extensions.dart';
 import '../../../../commons/extensions/value_extensions.dart';
 import '../../../../core/di/providers.dart';
-import '../../../../core/enrollment/enrollment_extensions.dart';
 import '../../../../core/event/event_editable_status.dart';
 import '../../../../core/event/event_extensions.dart';
 import '../../../../core/event/event_object_repository.dart';
@@ -38,7 +38,7 @@ class EventInitialRepositoryImpl implements EventInitialRepository {
       {required final FieldViewModelFactory fieldFactory,
       // final RuleEngineRepository ruleEngineRepository,
       final String? eventUid,
-      required final String stageUid})
+      final String? stageUid})
       : _fieldFactory = fieldFactory,
         // _ruleEngineRepository = ruleEngineRepository,
         _eventUid = eventUid,
@@ -49,7 +49,7 @@ class EventInitialRepositoryImpl implements EventInitialRepository {
 
   // final RuleEngineRepository _ruleEngineRepository;
   final String? _eventUid;
-  final String _stageUid;
+  final String? _stageUid;
 
   @override
   Future<Event> event(String eventId) async {
@@ -168,8 +168,9 @@ class EventInitialRepositoryImpl implements EventInitialRepository {
   }
 
   @override
-  Future<ProgramStage?> programStageWithId(String programStageUid) {
-    return D2Remote.programModule.programStage.byId(programStageUid).getOne();
+  Future<ProgramStage?> programStageWithId(String? programStageUid) async {
+    return await programStageUid
+        ?.let((it) => D2Remote.programModule.programStage.byId(it).getOne());
   }
 
   @override
@@ -219,8 +220,9 @@ class EventInitialRepositoryImpl implements EventInitialRepository {
   }
 
   @override
-  Future<Program?> getProgramWithId(String programUid) async {
-    return D2Remote.programModule.program.byId(programUid).getOne();
+  Future<Program?> getProgramWithId(String? programUid) async {
+    return await programUid
+        ?.let((it) => D2Remote.programModule.program.byId(it).getOne());
   }
 
   @override

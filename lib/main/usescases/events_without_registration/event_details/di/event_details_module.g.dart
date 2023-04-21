@@ -39,7 +39,7 @@ final d2ErrorUtilsProvider = AutoDisposeProvider<D2ErrorUtils>.internal(
 
 typedef D2ErrorUtilsRef = AutoDisposeProviderRef<D2ErrorUtils>;
 String _$eventDetailsRepositoryHash() =>
-    r'23bcbdb0cc277c572a7a7be993f7099cbaa8ed59';
+    r'073f11d349977c981ac70bb0a8b3744ea7da6e84';
 
 /// See also [eventDetailsRepository].
 @ProviderFor(eventDetailsRepository)
@@ -57,7 +57,7 @@ final eventDetailsRepositoryProvider =
 typedef EventDetailsRepositoryRef
     = AutoDisposeProviderRef<EventDetailsRepository>;
 String _$eventDetailsViewModelFactoryHash() =>
-    r'804b2cfdae03e2330f54c8b7b69499016a7ddf87';
+    r'eb332757d72311a0bcb87c5a258e5bb6a586bbab';
 
 /// See also [eventDetailsViewModelFactory].
 @ProviderFor(eventDetailsViewModelFactory)

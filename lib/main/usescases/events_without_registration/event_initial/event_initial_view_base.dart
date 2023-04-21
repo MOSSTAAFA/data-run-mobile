@@ -4,7 +4,7 @@ import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity
 import '../../general/view_Base.dart';
 
 abstract class EventInitialViewBase extends ViewBase {
-  void setProgram(Program program);
+  void setProgram(Program? program);
 
   void renderError(String message);
 
@@ -12,7 +12,7 @@ abstract class EventInitialViewBase extends ViewBase {
 
   void onEventUpdated(String eventUid);
 
-  void setProgramStage(ProgramStage programStage);
+  void setProgramStage(ProgramStage? programStage);
 
   void updatePercentage(double primaryValue);
 

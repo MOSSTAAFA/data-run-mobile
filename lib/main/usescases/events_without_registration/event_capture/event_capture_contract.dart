@@ -43,6 +43,8 @@ abstract class EventCapturePresenter {
   void showProgress();
 
   Future<bool> getCompletionPercentageVisibility();
+
+  void updatePercentage(double primaryValue);
 }
 
 abstract class EventCaptureView extends ViewBase {

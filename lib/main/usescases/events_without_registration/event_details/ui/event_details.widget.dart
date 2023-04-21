@@ -35,7 +35,7 @@ class EventDetailsView extends ConsumerStatefulWidget {
 
 class _EventDetailsViewState extends ConsumerState<EventDetailsView> {
   late final String? activityUid;
-  late final String? orgUnit;
+  late final String? initialOrgUnitUid;
   late final String? eventUid;
   late final String programUid;
   late final String? programStageUid;
@@ -57,15 +57,16 @@ class _EventDetailsViewState extends ConsumerState<EventDetailsView> {
     final Bundle bundle = ref.read(bundleObjectProvider);
 
     activityUid = bundle.getString(ACTIVITY_UID);
-    orgUnit = bundle.getString(ACTIVITY_UID);
-    eventUid = bundle.getString(ACTIVITY_UID);
-    programUid = bundle.getString(ACTIVITY_UID)!;
-    programStageUid = bundle.getString(ACTIVITY_UID);
-    periodType = bundle.getString(ACTIVITY_UID).toPeriodType;
-    enrollmentId = bundle.getString(ACTIVITY_UID);
-    scheduleInterval = bundle.getInt(ACTIVITY_UID) ?? 0;
-    enrollmentStatus = bundle.getString(ACTIVITY_UID).toEnrollmentStatus;
-    eventCreationType = bundle.getString(ACTIVITY_UID).toEventCreationType ??
-        EventCreationType.DEFAULT;
+    initialOrgUnitUid = bundle.getString(ORG_UNIT);
+    eventUid = bundle.getString(EVENT_UID);
+    programUid = bundle.getString(PROGRAM_UID)!;
+    programStageUid = bundle.getString(PROGRAM_STAGE_UID);
+    periodType = bundle.getString(EVENT_PERIOD_TYPE).toPeriodType;
+    enrollmentId = bundle.getString(ENROLLMENT_UID);
+    scheduleInterval = bundle.getInt(EVENT_SCHEDULE_INTERVAL) ?? 0;
+    enrollmentStatus = bundle.getString(ENROLLMENT_STATUS).toEnrollmentStatus;
+    eventCreationType =
+        bundle.getString(EVENT_CREATION_TYPE).toEventCreationType ??
+            EventCreationType.DEFAULT;
   }
 }

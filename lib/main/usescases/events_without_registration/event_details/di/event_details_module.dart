@@ -1,10 +1,14 @@
+import 'package:d2_remote/core/mp/enrollment/enrollment_status.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../../commons/constants.dart';
 import '../../../../../commons/data/event_creation_type.dart';
+import '../../../../../commons/period/period_extensions.dart';
 import '../../../../../commons/resources/d2_error_utils.dart';
 import '../../../../../commons/resources/resource_manager.dart';
 import '../../../../../core/di/providers.dart';
 import '../../../../../form/di/injector.dart';
+import '../../../bundle/bundle.dart';
 import '../../event_initial/di/event_initial_module.dart';
 import '../../event_initial/model/event_initial_bundle.dart';
 import '../data/event_details_repository.dart';
@@ -32,10 +36,10 @@ D2ErrorUtils d2ErrorUtils(D2ErrorUtilsRef ref) {
 
 @riverpod
 EventDetailsRepository eventDetailsRepository(EventDetailsRepositoryRef ref) {
-  final EventInitialBundle eventBundle = ref.read(eventBundleProvider);
+  final Bundle eventBundle = ref.read(bundleObjectProvider);
 
   return EventDetailsRepository(
-      programUid: eventBundle.programUid!,
+      programUid: eventBundle.getString(PROGRAM_UID)!,
       fieldFactory: ref.read(fieldViewModelFactoryProvider(
           ref.read(buildContextProvider), false, true)),
       d2ErrorMapper: ref.read(d2ErrorUtilsProvider),
@@ -45,33 +49,42 @@ EventDetailsRepository eventDetailsRepository(EventDetailsRepositoryRef ref) {
 @riverpod
 EventDetailsViewModelFactory eventDetailsViewModelFactory(
     EventDetailsViewModelFactoryRef ref) {
-  final EventInitialBundle eventBundle = ref.read(eventBundleProvider);
+  final Bundle bundle = ref.read(bundleObjectProvider);
 
   return EventDetailsViewModelFactory(
       configureEventDetails: ConfigureEventDetails(
           repository: ref.read(eventDetailsRepositoryProvider),
           resourcesProvider: ref.read(eventDetailResourcesProvider),
-          creationType: eventBundle.eventCreationType.toEventCreationType!,
-          enrollmentStatus: eventBundle.enrollmentStatus),
+          creationType:
+              bundle.getString(EVENT_CREATION_TYPE).toEventCreationType ??
+                  EventCreationType.DEFAULT,
+          enrollmentStatus:
+              bundle.getString(ENROLLMENT_STATUS).toEnrollmentStatus),
       configureEventReportDate: ConfigureEventReportDate(
-          creationType: eventBundle.eventCreationType.toEventCreationType!,
+          creationType:
+              bundle.getString(EVENT_CREATION_TYPE).toEventCreationType ??
+                  EventCreationType.DEFAULT,
           resourceProvider: ref.read(eventDetailResourcesProvider),
           repository: ref.read(eventDetailsRepositoryProvider),
-          periodType: eventBundle.periodType,
+          periodType: bundle.getString(EVENT_PERIOD_TYPE).toPeriodType,
           // periodUtils: periodUtils,
-          enrollmentId: eventBundle.enrollmentId,
-          scheduleInterval: eventBundle.scheduleInterval),
+          enrollmentId: bundle.getString(ENROLLMENT_UID),
+          scheduleInterval: bundle.getInt(EVENT_SCHEDULE_INTERVAL) ?? 0),
       configureOrgUnit: ConfigureOrgUnit(
-          creationType: eventBundle.eventCreationType.toEventCreationType!,
+          creationType:
+              bundle.getString(EVENT_CREATION_TYPE).toEventCreationType ??
+                  EventCreationType.DEFAULT,
           repository: ref.read(eventDetailsRepositoryProvider),
-          preferencesProvider: ref.read(preferencesProvider),
-          programUid: eventBundle.programUid!,
-          initialOrgUnitUid: eventBundle.initialOrgUnitUid),
+          preferencesProvider: ref.read(preferencesInstanceProvider),
+          programUid: bundle.getString(PROGRAM_UID)!,
+          initialOrgUnitUid: bundle.getString(ORG_UNIT)),
       configureEventCoordinates: ConfigureEventCoordinates(
           repository: ref.read(eventDetailsRepositoryProvider)),
       configureEventTemp: ConfigureEventTemp(
-          creationType: eventBundle.eventCreationType.toEventCreationType!),
-      periodType: eventBundle.periodType,
+          creationType:
+              bundle.getString(EVENT_CREATION_TYPE).toEventCreationType ??
+                  EventCreationType.DEFAULT),
+      periodType: bundle.getString(EVENT_PERIOD_TYPE).toPeriodType,
       // geometryController: geometryController,
       // locationProvider: locationProvider,
       createOrUpdateEventDetails: CreateOrUpdateEventDetails(

@@ -54,7 +54,12 @@ class _ProgramEventDetailScreenState
       ],
       child: Column(
         children: [
-          const ProgressBar(),
+          Consumer(
+            builder: (context, ref, child) => LinearLoadingIndicator(
+              isLoading: ref.watch(programEventDetailModelProvider
+                  .select((value) => value.progress)),
+            ),
+          ),
           NavigationTabBarView(
             actionButtonBuilder: (context, viewAction) => when(viewAction, {
               ViewAction.list_view: () => FloatingActionButton(
@@ -196,7 +201,12 @@ class _ProgramEventDetailScreenState
 
   @override
   void startNewEvent() {
-    // TODO: implement startNewEvent
+    // analyticsHelper().setEvent(AnalyticsConstants.CREATE_EVENT, AnalyticsConstants.DATA_CREATION, AnalyticsConstants.CREATE_EVENT);
+    //     binding.addEventButton.setEnabled(false);
+    //     Bundle bundle = EventInitialActivity.getBundle(programUid, null, EventCreationType.ADDNEW.name(),
+    //             null, null, null, presenter.getStageUid(), null,
+    //             0, null);
+    //     startActivity(EventInitialActivity.class, bundle, false, false, null);
   }
 
   @override

@@ -4,6 +4,7 @@ import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../commons/constants.dart';
 import '../../../../commons/extensions/string_extension.dart';
 import '../../../../commons/helpers/collections.dart';
 import '../../../../commons/prefs/preference.dart';
@@ -13,69 +14,72 @@ import '../../../../form/di/injector.dart';
 import '../../../../form/model/field_ui_model.dart';
 import '../../../../form/ui/form_view_model.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../bundle/bundle.dart';
 import '../event_capture/event_section_model.dart';
 import 'di/event_initial_module.dart';
 import 'event_initial_repository.dart';
-import 'model/event_initial_bundle.dart';
+import 'event_initial_view_base.dart';
 import 'di/presenter_providers.dart';
 
 class EventInitialPresenter {
-  EventInitialPresenter(this.ref) {
+  EventInitialPresenter(this.ref, this.view, this.eventInitialRepository) {
     _init();
   }
   final AutoDisposeRef ref;
   // final PreferenceProvider preferences;
   //  final AnalyticsHelper analyticsHelper;
 
-  late final EventInitialRepository eventInitialRepository;
+  final EventInitialRepository eventInitialRepository;
 
   //  final RulesUtilsProvider ruleUtils;
+  final EventInitialViewBase view;
 
   //  final SchedulerProvider schedulerProvider;
   // final EventFieldMapper eventFieldMapper;
 
-  // String? eventId;
+  String? eventId;
 
-  // Program? program;
+  Program? program;
 
-  // String? programStageId;
-  late final EventInitialBundle eventBundle;
+  String? programStageId;
+  late final Bundle eventBundle;
 
   Future<void> _init() async {
-    eventBundle = ref.read(eventBundleProvider);
-    // eventId = eventBundle.eventUid;
-    // programStageId = eventBundle.programStageUid!;
-    eventInitialRepository = ref.read(eventInitialRepositoryProvider);
+    eventBundle = ref.read(bundleObjectProvider);
+
+    eventId = eventBundle.getString(EVENT_UID);
+    programStageId = eventBundle.getString(PROGRAM_STAGE_UID);
+
     // view.setAccessDataWrite(
     //             eventInitialRepository.accessDataWrite(programId).blockingFirst()
     //     );
-    if (eventBundle.eventUid != null) {
-      final program = await eventInitialRepository
-          .getProgramWithId(eventBundle.programUid!);
-      final programStage = await eventInitialRepository
-          .programStageForEvent(eventBundle.eventUid!);
-      ref.read(eventBundleProvider.notifier).setValue(
-          eventBundle.copyWith(program: program, programStage: programStage));
+    if (eventId != null) {
+      final program = (await eventInitialRepository
+          .getProgramWithId(eventBundle.getString(PROGRAM_UID)));
+      final programStage =
+          await eventInitialRepository.programStageForEvent(eventId!);
+      this.program = program;
+      view.setProgram(program);
     } else {
       eventInitialRepository
-          .getProgramWithId(eventBundle.programUid!)
+          .getProgramWithId(eventBundle.getString(PROGRAM_UID)!)
           .then((Program? program) {
-        ref
-            .read(eventBundleProvider.notifier)
-            .setValue(eventBundle.copyWith(program: program));
+        this.program = program;
+        view.setProgram(program!);
       });
 
-      _getProgramStages(eventBundle.programUid!, eventBundle.programStageUid!);
+      _getProgramStages(eventBundle.getString(PROGRAM_UID)!,
+          eventBundle.getString(PROGRAM_STAGE_UID));
     }
 
-    if (eventBundle.eventUid != null) {
+    if (eventId != null) {
       _getSectionCompletion();
     }
   }
 
   String getCurrentOrgUnit(String orgUnitUid) {
-    if (ref.read(preferencesProvider).contains([CURRENT_ORG_UNIT])) {
-      return ref.read(preferencesProvider).getString(CURRENT_ORG_UNIT)!;
+    if (ref.read(preferencesInstanceProvider).contains([CURRENT_ORG_UNIT])) {
+      return ref.read(preferencesInstanceProvider).getString(CURRENT_ORG_UNIT)!;
     } else {
       return orgUnitUid;
     }
@@ -87,9 +91,8 @@ class EventInitialPresenter {
 
   void deleteEvent(String trackedEntityInstance) {
     final BuildContext context = ref.read(buildContextProvider);
-    if (eventBundle.eventUid != null) {
-      eventInitialRepository.deleteEvent(
-          eventBundle.eventUid!, trackedEntityInstance);
+    if (eventId != null) {
+      eventInitialRepository.deleteEvent(eventId!, trackedEntityInstance);
       ref
           .read(showToastProvider.notifier)
           .setValue(AppLocalization.of(context)!.lookup('event_was_deleted'));
@@ -107,9 +110,7 @@ class EventInitialPresenter {
   void getProgramStage(String programStageUid) {
     eventInitialRepository
         .programStageWithId(programStageUid)
-        .then((value) => ref
-            .read(eventBundleProvider.notifier)
-            .setValue(eventBundle.copyWith(programStage: value)))
+        .then((programStage) => view.setProgramStage(programStage))
         .onError((error, stackTrace) {
       // view.showProgramStageSelection();
     });
@@ -125,23 +126,23 @@ class EventInitialPresenter {
   }
 
   Future<void> _getProgramStages(
-      String programUid, String programStageUid) async {
+      String programUid, String? programStageUid) async {
     Future<ProgramStage?> programStage;
-    if (eventBundle.programStageUid.isNullOrEmpty) {
+    if (programStageId.isNullOrEmpty) {
       programStage = eventInitialRepository.programStage(programUid);
     } else {
       programStage = eventInitialRepository.programStageWithId(programStageUid);
     }
     programStage
-        .then((ProgramStage? value) => ref
-            .read(eventBundleProvider.notifier)
-            .setValue(eventBundle.copyWith(programStage: value)))
+        .then(
+            (ProgramStage? programStage) => view.setProgramStage(programStage))
         .onError((error, stackTrace) {
       // view.showProgramStageSelection();
     });
   }
 
   void onBackClick() {
+    view.back();
     // setChangingCoordinates(false);
     // if (eventId != null)
     //     analyticsHelper.setEvent(BACK_EVENT, CLICK, CREATE_EVENT);
@@ -156,18 +157,13 @@ class EventInitialPresenter {
       String orgUnitUid,
       Geometry geometry,
       String trackedEntityInstance) {
-    if (eventBundle.program != null) {
-      ref.read(preferencesProvider).setValue(CURRENT_ORG_UNIT, orgUnitUid);
+    if (program != null) {
+      ref
+          .read(preferencesInstanceProvider)
+          .setValue(CURRENT_ORG_UNIT, orgUnitUid);
       eventInitialRepository
-          .createEvent(
-              enrollmentUid,
-              trackedEntityInstance,
-              eventBundle.program!.id!,
-              programStageModel,
-              date,
-              orgUnitUid,
-              activityUid,
-              geometry)
+          .createEvent(enrollmentUid, trackedEntityInstance, program!.id!,
+              programStageModel, date, orgUnitUid, activityUid, geometry)
           .then((String value) =>
               ref.read(onEventCreatedProvider.notifier).setValue(value))
           .onError((error, stackTrace) => ref
@@ -184,13 +180,15 @@ class EventInitialPresenter {
       String activityUid,
       String orgUnitUid,
       Geometry geometry) {
-    if (eventBundle.program != null) {
-      ref.read(preferencesProvider).setValue(CURRENT_ORG_UNIT, orgUnitUid);
+    if (program != null) {
+      ref
+          .read(preferencesInstanceProvider)
+          .setValue(CURRENT_ORG_UNIT, orgUnitUid);
       eventInitialRepository
           .permanentReferral(
               enrollmentUid,
               trackedEntityInstanceUid,
-              eventBundle.program!.id!,
+              program!.id!,
               programStageModel,
               dueDate,
               orgUnitUid,
@@ -211,11 +209,13 @@ class EventInitialPresenter {
       String orgUnitUid,
       String activityUid,
       Geometry geometry) {
-    if (eventBundle.program != null) {
-      ref.read(preferencesProvider).setValue(CURRENT_ORG_UNIT, orgUnitUid);
+    if (program != null) {
+      ref
+          .read(preferencesInstanceProvider)
+          .setValue(CURRENT_ORG_UNIT, orgUnitUid);
       eventInitialRepository
-          .scheduleEvent(enrollmentUid, null, eventBundle.program!.id!,
-              programStageModel, dueDate, orgUnitUid, activityUid, geometry)
+          .scheduleEvent(enrollmentUid, null, program!.id!, programStageModel,
+              dueDate, orgUnitUid, activityUid, geometry)
           .then((String value) =>
               ref.read(onEventCreatedProvider.notifier).setValue(value))
           .onError((error, stackTrace) => ref
@@ -249,9 +249,13 @@ class EventInitialPresenter {
 
   void setChangingCoordinates(bool changingCoordinates) {
     if (changingCoordinates) {
-      ref.read(preferencesProvider).setValue(EVENT_COORDINATE_CHANGED, true);
+      ref
+          .read(preferencesInstanceProvider)
+          .setValue(EVENT_COORDINATE_CHANGED, true);
     } else {
-      ref.read(preferencesProvider).removeValue(EVENT_COORDINATE_CHANGED);
+      ref
+          .read(preferencesInstanceProvider)
+          .removeValue(EVENT_COORDINATE_CHANGED);
     }
   }
 

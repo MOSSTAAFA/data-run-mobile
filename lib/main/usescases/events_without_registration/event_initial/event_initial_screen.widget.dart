@@ -77,12 +77,12 @@ class _EventInitialScreenState extends State<EventInitialScreen>
   }
 
   @override
-  void setProgram(Program program) {
+  void setProgram(Program? program) {
     // TODO: implement setProgram
   }
 
   @override
-  void setProgramStage(ProgramStage programStage) {
+  void setProgramStage(ProgramStage? programStage) {
     // TODO: implement setProgramStage
   }
 

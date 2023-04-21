@@ -1,7 +1,8 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../../commons/constants.dart';
 import '../../../../../form/di/injector.dart';
-import '../../event_initial/di/event_initial_module.dart';
+import '../../../bundle/bundle.dart';
 import '../domain/configure_event_completion_dialog.dart';
 import '../event_capture_contract.dart';
 import '../event_capture_repository_impl.dart';
@@ -12,7 +13,9 @@ part 'event_capture_module.g.dart';
 @riverpod
 EventCaptureRepository eventCaptureRepository(EventCaptureRepositoryRef ref) {
   return EventCaptureRepositoryImpl(
-      ref, ref.watch(eventBundleProvider.select((bundle) => bundle.eventUid!)));
+      ref,
+      ref.watch(bundleObjectProvider
+          .select((bundle) => bundle.getString(EVENT_UID))));
 }
 
 @riverpod

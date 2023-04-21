@@ -64,7 +64,12 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
       ],
       child: Column(
         children: [
-          const ProgressBar(),
+          Consumer(
+            builder: (context, ref, child) => LinearLoadingIndicator(
+              isLoading: ref.watch(programEventDetailModelProvider
+                  .select((value) => value.progress)),
+            ),
+          ),
           NavigationTabBarView(
             actionButtonBuilder: (context, viewAction) => when(viewAction, {
               ViewAction.data_entry: () => FloatingActionButton(
@@ -197,12 +202,12 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
 
   @override
   void updateNoteBadge(int numberOfNotes) {
-    // TODO: implement updateNoteBadge
+    ref.read(noteBadgeProvider.notifier).update((_) => numberOfNotes);
   }
 
   @override
   void updatePercentage(double primaryValue) {
-    // TODO: implement updatePercentage
+    ref.read(percentageProvider.notifier).update((_) => primaryValue);
   }
 
   @override
@@ -211,6 +216,28 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
       String? eventDate,
       OrganisationUnit? orgUnit,
       Activity? activity}) {
-    // TODO: implement renderInitialInfo
+    ref.read(programStageNameProvider.notifier).update((_) => stageName ?? '');
+    ref
+        .read(activityNameProvider.notifier)
+        .update((_) => activity?.displayName ?? activity?.name ?? '');
+    ref.read(eventDateProvider.notifier).update((_) => eventDate ?? '');
+    ref
+        .read(orgUnitNameProvider.notifier)
+        .update((_) => orgUnit?.displayName ?? orgUnit?.name ?? '');
   }
 }
+
+final programStageNameProvider = StateProvider.autoDispose<String>((ref) => '');
+final activityNameProvider = StateProvider.autoDispose<String>((ref) => '');
+
+final eventDateProvider = StateProvider.autoDispose<String>((ref) => '');
+final orgUnitNameProvider = StateProvider.autoDispose<String>((ref) => '');
+final eventDataString = Provider.autoDispose<String>((ref) {
+  final eventDate = ref.watch(eventDateProvider);
+  final orgUnitName = ref.watch(orgUnitNameProvider);
+
+  return '$eventDate | $orgUnitName';
+});
+
+final noteBadgeProvider = StateProvider.autoDispose<int>((ref) => 0);
+final percentageProvider = StateProvider.autoDispose<double>((ref) => 0);

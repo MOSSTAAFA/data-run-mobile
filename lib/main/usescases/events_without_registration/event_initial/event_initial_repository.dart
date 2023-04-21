@@ -1,4 +1,3 @@
-
 import 'package:d2_remote/modules/data/tracker/entities/event.entity.dart';
 import 'package:d2_remote/modules/data/tracker/models/geometry.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart';
@@ -38,7 +37,7 @@ abstract class EventInitialRepository {
   Future<ProgramStage?> programStage(String programUid);
 
   /// Observable
-  Future<ProgramStage?> programStageWithId(String programStageUid);
+  Future<ProgramStage?> programStageWithId(String? programStageUid);
 
   /// Observable
   Future<bool> accessDataWrite(String programId);
@@ -48,7 +47,7 @@ abstract class EventInitialRepository {
   Future<bool> isEnrollmentOpen();
 
   /// Observable
-  Future<Program?> getProgramWithId(String programUid);
+  Future<Program?> getProgramWithId(String? programUid);
 
   /// Flowable
   Future<ProgramStage?> programStageForEvent(String eventId);

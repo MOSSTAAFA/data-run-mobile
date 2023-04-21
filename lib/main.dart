@@ -33,7 +33,7 @@ Future<void> main() async {
   // will be able to read providers
   runApp(ProviderScope(
     overrides: [
-      preferencesProvider.overrideWith((ref) => PreferenceProvider())
+      preferencesInstanceProvider.overrideWith((ref) => PreferenceProvider())
     ],
     child: const App(),
   ));

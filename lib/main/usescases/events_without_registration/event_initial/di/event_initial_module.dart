@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../../commons/constants.dart';
 import '../../../../../commons/prefs/preference_provider.dart';
 import '../../../../../form/di/injector.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../bundle/bundle.dart';
 import '../../event_capture/event_field_mapper.dart';
 import '../event_initial_presenter.dart';
 import '../event_initial_repository.dart';
 import '../event_initial_repository_impl.dart';
+import '../event_initial_view_base.dart';
 import '../model/event_initial_bundle.dart';
 
 part 'event_initial_module.g.dart';
@@ -17,17 +20,17 @@ part 'event_initial_module.g.dart';
 //   throw UnimplementedError();
 // }
 
-@riverpod
-class EventBundle extends _$EventBundle {
-  @override
-  EventInitialBundle build() {
-    return EventInitialBundle();
-  }
+// @riverpod
+// class EventBundle extends _$EventBundle {
+//   @override
+//   EventInitialBundle build() {
+//     return EventInitialBundle();
+//   }
 
-  void setValue(EventInitialBundle value) {
-    state = value;
-  }
-}
+//   void setValue(EventInitialBundle value) {
+//     state = value;
+//   }
+// }
 
 @riverpod
 EventFieldMapper fieldMapper(FieldMapperRef ref) {
@@ -42,22 +45,24 @@ EventFieldMapper fieldMapper(FieldMapperRef ref) {
 @riverpod
 EventInitialRepository eventInitialRepository(EventInitialRepositoryRef ref) {
   final BuildContext context = ref.read(buildContextProvider);
-  final EventInitialBundle eventBundle = ref.read(eventBundleProvider);
+  final Bundle eventBundle = ref.read(bundleObjectProvider);
 
   return EventInitialRepositoryImpl(ref,
       fieldFactory:
           ref.read(fieldViewModelFactoryProvider(context, true, true)),
-      eventUid: eventBundle.eventUid,
-      stageUid: eventBundle.programStageUid!);
+      eventUid: eventBundle.getString(EVENT_UID),
+      stageUid: eventBundle.getString(PROGRAM_STAGE_UID));
 }
 
 @riverpod
-EventInitialPresenter eventInitialPresenter(EventInitialPresenterRef ref) {
-  return EventInitialPresenter(ref);
+EventInitialPresenter eventInitialPresenter(
+    EventInitialPresenterRef ref, EventInitialViewBase view) {
+  return EventInitialPresenter(
+      ref, view, ref.read(eventInitialRepositoryProvider));
 }
 
 @Riverpod(keepAlive: true)
-PreferenceProvider preferences(PreferencesRef ref) {
+PreferenceProvider preferencesInstance(PreferencesInstanceRef ref) {
   throw UnimplementedError();
 }
 

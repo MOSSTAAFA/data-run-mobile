@@ -17,7 +17,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../commons/date/date_utils.dart';
 import '../../../../commons/extensions/string_extension.dart';
 import '../../../../core/di/providers.dart';
-import '../../../../core/enrollment/enrollment_extensions.dart';
 import '../../../../core/event/event_editable_status.dart';
 import '../../../../core/event/event_extensions.dart';
 import '../../../../core/event/event_status.dart';
@@ -25,13 +24,13 @@ import '../../../mp_logic/authorities.dart';
 import 'event_capture_contract.dart';
 
 class EventCaptureRepositoryImpl implements EventCaptureRepository {
-  EventCaptureRepositoryImpl(this.ref, String eventUid) : _eventUid = eventUid;
+  EventCaptureRepositoryImpl(this.ref, String? eventUid) : _eventUid = eventUid;
   final AutoDisposeRef ref;
 
-  late final String _eventUid;
+  final String? _eventUid;
 
   Future<Event> _getCurrentEvent() async {
-    return (await D2Remote.trackerModule.event.byId(_eventUid).getOne())!;
+    return (await D2Remote.trackerModule.event.byId(_eventUid ?? '').getOne())!;
     // return await d2.eventModule().events().uid(eventUid).blockingGet();
   }
 
@@ -114,7 +113,7 @@ class EventCaptureRepositoryImpl implements EventCaptureRepository {
   @override
   Future<bool> deleteEvent() async {
     return await D2Remote.trackerModule.event
-        .byId(_eventUid)
+        .byId(_eventUid ?? '')
         .delete()
         .then((value) => true);
   }
