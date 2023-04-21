@@ -1,5 +1,4 @@
 import 'package:d2_remote/core/common/value_type.dart';
-import 'package:dartx/dartx_io.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get_utils/get_utils.dart';
@@ -29,7 +28,6 @@ class DataEntryListState extends ConsumerState<DataEntryList>
 
   @override
   Widget build(BuildContext context) {
-    final AsyncValue<List<FieldUiModel>> items = ref.watch(itemsProvider);
     ref
         .watch(itemsProvider)
         .let((AsyncValue<List<FieldUiModel>> items) => items.when(
@@ -39,7 +37,7 @@ class DataEntryListState extends ConsumerState<DataEntryList>
                   debugPrint('error loading forme Fields $error'),
             ));
     return ScrollablePositionedList.builder(
-      itemCount: _items.count(),
+      itemCount: _items.length,
       itemBuilder: (BuildContext context, int index) => ProviderScope(
         overrides: [indexProvider.overrideWith((_) => index)],
         child: const DataEntryItem(),

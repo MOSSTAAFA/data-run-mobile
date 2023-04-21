@@ -24,6 +24,26 @@ abstract class NavigationPageConfigurator {
         }).orElse(() => false);
   }
 
+  bool actionButtonVisibility(ViewAction viewAction);
+  // {
+  //   return when(
+  //       NavigationPage.values.firstOrNullWhere(
+  //           (NavigationPage it) => it.viewAction == viewAction),
+  //       {
+  //         NavigationPage.DETAILS: () => false,
+  //         NavigationPage.EVENTS: () => false,
+  //         NavigationPage.ANALYTICS: () => false,
+  //         NavigationPage.RELATIONSHIPS: () => false,
+  //         NavigationPage.NOTES: () => false,
+  //         NavigationPage.DATA_ENTRY: () => false,
+  //         NavigationPage.LIST_VIEW: () => false,
+  //         NavigationPage.MAP_VIEW: () => false,
+  //         NavigationPage.TABLE_VIEW: () => false,
+  //         NavigationPage.TASKS: () => false,
+  //         NavigationPage.PROGRAMS: () => false,
+  //       }).orElse(() => false);
+  // }
+
   bool displayDetails() {
     return false;
   }

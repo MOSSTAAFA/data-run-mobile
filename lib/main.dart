@@ -9,7 +9,6 @@ import 'commons/prefs/preference_provider.dart';
 import 'main.reflectable.dart';
 import 'main/di.dart' as di;
 import 'main/l10n/app_localizations.dart';
-import 'main/usescases/events_without_registration/event_capture/event_capture_screen.widget.dart';
 import 'main/usescases/events_without_registration/event_initial/di/event_initial_module.dart';
 import 'main_app.dart';
 

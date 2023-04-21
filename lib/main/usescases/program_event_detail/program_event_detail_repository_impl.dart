@@ -14,13 +14,13 @@ import 'program_event_mapper.dart';
 import '../../../commons/data/program_event_view_model.dart';
 import '../../../commons/extensions/feature_type_extension.dart';
 import '../../../commons/extensions/standard_extensions.dart';
-import 'di/program_uid_provider.dart';
 import 'program_event_detail_repository.dart';
 import 'program_event_map_data.dart';
 
 class ProgramEventDetailRepositoryImpl implements ProgramEventDetailRepository {
-  ProgramEventDetailRepositoryImpl(this.ref, this.mapper);
+  ProgramEventDetailRepositoryImpl(this.programUid, this.ref, this.mapper);
   AutoDisposeRef ref;
+  final String programUid;
   final ProgramEventMapper mapper;
 
   @override
@@ -51,7 +51,7 @@ class ProgramEventDetailRepositoryImpl implements ProgramEventDetailRepository {
 
   @override
   Future<FeatureType> featureType() async {
-    final String programUid = ref.read(programUidProvider)!;
+    // final String programUid = ref.read(programUidProvider)!;
     return (await D2Remote.programModule.programStage
             .byProgram(programUid)
             .getOne())!
@@ -72,13 +72,13 @@ class ProgramEventDetailRepositoryImpl implements ProgramEventDetailRepository {
 
   @override
   Future<ProgramStage?> programStage() async {
-    final String programUid = ref.read(programUidProvider)!;
+    // final String programUid = ref.read(programUidProvider)!;
     return D2Remote.programModule.programStage.byProgram(programUid).getOne();
   }
 
   @override
   Future<Program> program() async {
-    final String programUid = ref.read(programUidProvider)!;
+    // final String programUid = ref.read(programUidProvider)!;
     return (await D2Remote.programModule.program.byId(programUid).getOne())!;
   }
 

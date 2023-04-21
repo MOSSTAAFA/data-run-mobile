@@ -81,21 +81,21 @@ class EventModel with EquatableMixin {
   // }
 
   EventModel copyWith(
-          {final EventViewModelType? type,
-          final ProgramStage? stage,
-          final Event? event,
-          final int? eventCount,
-          final DateTime? lastUpdate,
-          final bool? isSelected,
-          final bool? canAddNewEvent,
-          final String? orgUnitName,
-          final String? activityName,
-          final List<Pair<String, String?>>? dataElementValues,
-          final bool? groupedByStage,
-          final bool? valueListIsOpen,
-          final bool? showTopShadow,
-          final bool? showBottomShadow,
-          final String? displayDate}) =>
+          {EventViewModelType? type,
+          ProgramStage? stage,
+          Event? event,
+          int? eventCount,
+          DateTime? lastUpdate,
+          bool? isSelected,
+          bool? canAddNewEvent,
+          String? orgUnitName,
+          String? activityName,
+          List<Pair<String, String?>>? dataElementValues,
+          bool? groupedByStage,
+          bool? valueListIsOpen,
+          bool? showTopShadow,
+          bool? showBottomShadow,
+          String? displayDate}) =>
       EventModel(
           type: type ?? this.type,
           stage: stage ?? this.stage,

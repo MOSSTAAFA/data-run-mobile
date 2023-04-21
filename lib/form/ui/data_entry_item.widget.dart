@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/form/ui/form_view_model.dart';
+import 'form_view_model.dart';
 import '../../commons/custom_widgets/fields/factory/field_widget_factory_impl.dart';
 import '../model/field_ui_model.dart';
 import 'event/list_view_ui_events.dart';

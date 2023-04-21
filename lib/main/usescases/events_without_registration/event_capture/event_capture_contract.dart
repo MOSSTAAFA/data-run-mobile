@@ -46,6 +46,12 @@ abstract class EventCapturePresenter {
 }
 
 abstract class EventCaptureView extends ViewBase {
+  void renderInitialInfo(
+      {String? stageName,
+      String? eventDate,
+      OrganisationUnit? orgUnit,
+      Activity? activity});
+
   void updatePercentage(double primaryValue);
 
   void showCompleteActions(

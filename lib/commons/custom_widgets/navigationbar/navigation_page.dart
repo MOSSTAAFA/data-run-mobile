@@ -1,3 +1,4 @@
+import '../../helpers/iterable.dart';
 import '../../utils/view_actions.dart';
 
 enum NavigationPage {
@@ -16,4 +17,9 @@ enum NavigationPage {
   const NavigationPage(this.viewAction);
 
   final ViewAction viewAction;
+
+  static NavigationPage? getMenu(ViewAction viewAction) {
+    return values
+        .firstOrNullWhere((NavigationPage it) => it.viewAction == viewAction);
+  }
 }

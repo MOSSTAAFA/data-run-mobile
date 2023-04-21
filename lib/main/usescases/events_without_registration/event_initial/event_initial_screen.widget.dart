@@ -1,7 +1,11 @@
+import 'package:d2_remote/core/mp/enrollment/enrollment_status.dart';
+import 'package:d2_remote/core/mp/period/period_type.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../commons/constants.dart';
+import '../../bundle/bundle.dart';
 import '../../general/view_Base.dart';
 import '../../general/view_abstract.dart';
 import '../event_details/models/event_details.dart';
@@ -13,6 +17,34 @@ class EventInitialScreen extends StatefulWidget {
 
   @override
   State<EventInitialScreen> createState() => _EventInitialScreenState();
+
+  static Bundle getBundle(
+      String? programUid,
+      String? eventUid,
+      String? eventCreationType,
+      String? teiUid,
+      PeriodType? eventPeriodType,
+      String? orgUnit,
+      String? stageUid,
+      String? enrollmentUid,
+      int? eventScheduleInterval,
+      EnrollmentStatus? enrollmentStatus) {
+    // final Map<String, dynamic> bundle = {};
+    final Bundle bundle = Bundle();
+    bundle.putString(PROGRAM_UID, programUid);
+    bundle.putString(EVENT_UID, eventUid);
+    bundle.putString(EVENT_CREATION_TYPE, eventCreationType);
+    bundle.putString(TRACKED_ENTITY_INSTANCE, teiUid);
+    bundle.putString(ENROLLMENT_UID, enrollmentUid);
+    bundle.putString(ORG_UNIT, orgUnit);
+    // bundle.putSerializable(EVENT_PERIOD_TYPE, eventPeriodType?.name);
+    bundle.putString(EVENT_PERIOD_TYPE, eventPeriodType?.name);
+    bundle.putString(PROGRAM_STAGE_UID, stageUid);
+    bundle.putInt(EVENT_SCHEDULE_INTERVAL, eventScheduleInterval);
+    // bundle.putSerializable(ENROLLMENT_STATUS, enrollmentStatus?.name);
+    bundle.putString(ENROLLMENT_STATUS, enrollmentStatus?.name);
+    return bundle;
+  }
 }
 
 class _EventInitialScreenState extends State<EventInitialScreen>

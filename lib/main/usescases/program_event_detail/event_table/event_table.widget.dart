@@ -10,6 +10,8 @@ class EventTable extends StatefulWidget {
 class _EventTableState extends State<EventTable> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return const Center(
+      child: Text('Unimplemented'),
+    );
   }
 }

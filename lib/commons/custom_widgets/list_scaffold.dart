@@ -1,15 +1,16 @@
 // import 'package:flutter/material.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import '../../main/l10n/app_localizations.dart';
 // import '../../utils/mass_utils/platforms.dart';
 // import '../state/app_state.dart';
+// import '../state/app_state_notifier.dart';
 // import '../state/pref_state.dart';
 
-// class ListScaffold extends StatelessWidget {
+// class ListScaffold extends ConsumerWidget {
 //   const ListScaffold({
 //     super.key,
 //     required this.appBarTitle,
 //     required this.body,
-//     required this.entityType,
 //     this.onCheckboxPressed,
 //     this.appBarActions,
 //     this.appBarLeadingActions = const [],
@@ -20,9 +21,9 @@
 //     this.onCancelSettingsIndex = 0,
 //   });
 
-//   final EntityType? entityType;
 //   final Widget body;
-//   final AppBottomBar? bottomNavigationBar;
+//   // final AppBottomBar? bottomNavigationBar;
+//   final Widget? bottomNavigationBar;
 //   final FloatingActionButton? floatingActionButton;
 //   final Widget appBarTitle;
 //   final List<Widget>? appBarActions;
@@ -33,15 +34,16 @@
 //   final Function? onCheckboxPressed;
 
 //   @override
-//   Widget build(BuildContext context) {
+//   Widget build(BuildContext context, WidgetRef ref) {
 //     final localization = AppLocalization.of(context)!.localized!;
 //     // final prefState = context.select((AppBloc bloc) => bloc.state.prefState);
 //     final PrefState prefState =
-//         BlocProvider.of<AppBloc>(context).state.prefState;
-//     final AppState appState = context.read<AppBloc>().state;
+//         ref.watch(appStateNotifierProvider.select((value) => value.prefState));
+
+//     final AppState appState = ref.read(appStateNotifierProvider);
 
 //     Widget leading = const SizedBox();
-//     if (isMobile(context) || prefState.isMenuFloated) {
+//     if (isMobile(context)) {
 //       leading = Builder(
 //         builder: (context) => InkWell(
 //           onLongPress: onHamburgerLongPress,
@@ -54,22 +56,7 @@
 //           ),
 //         ),
 //       );
-//     } else if (entityType != null && entityType != EntityType.settings) {
-//       leading = IconButton(
-//         icon: const Icon(Icons.add),
-//         tooltip: prefState.enableTooltips ? localization.createNew : null,
-//         onPressed: () {
-//           createEntityByType(entityType: entityType, context: context);
-//         },
-//       );
 //     }
-//     // leading = IconButton(
-//     //   icon: const Icon(Icons.add),
-//     //   // tooltip: prefState.enableTooltips ? localization.createNew : null,
-//     //   onPressed: () {
-//     //     // createEntityByType(entityType: entityType, context: context);
-//     //   },
-//     // );
 
 //     leading = Row(
 //       children: [
@@ -87,14 +74,12 @@
 
 //     return WillPopScope(
 //         onWillPop: () async {
-//           context.read<AppBloc>().add(const ViewDashboard());
+//           ref.read(appStateNotifierProvider.notifier).viewDashboard();
 //           return false;
 //         },
 //         child: FocusTraversalGroup(
 //           child: Scaffold(
-//             drawer: isMobile(context) || prefState.isMenuFloated
-//                 ? const MenuDrawerBuilder()
-//                 : null,
+//             // drawer: isMobile(context) ? const MenuDrawerBuilder() : null,
 //             // endDrawer: isMobile(context) ||
 //             //         (state.prefState.isHistoryFloated && !isSettings)
 //             //     ? HistoryDrawerBuilder()
@@ -109,65 +94,10 @@
 //               title: Row(
 //                 children: [
 //                   Expanded(child: appBarTitle),
-//                   if (isDesktop(context) && onCancelSettingsSection != null)
-//                     TextButton(
-//                         onPressed: () {
-//                           context.read<AppBloc>().add(ViewSettings(
-//                                 user: user,
-//                                 section: onCancelSettingsSection,
-//                                 tabIndex: onCancelSettingsIndex,
-//                               ));
-//                         },
-//                         child: Text(
-//                           localization.back,
-//                           style: TextStyle(color: appState.headerTextColor),
-//                         )),
 //                 ],
 //               ),
 //               actions: [
 //                 ...appBarActions ?? <Widget>[],
-//                 // if (!isSettings &&
-//                 //     (isMobile(context) || !state.prefState.isHistoryVisible))
-//                 //   Builder(builder: (context) {
-//                 //     return InkWell(
-//                 //       onTap: () {
-//                 //         if (isMobile(context) ||
-//                 //             state.prefState.isHistoryFloated) {
-//                 //           Scaffold.of(context).openEndDrawer();
-//                 //         } else {
-//                 //           store.dispatch(UpdateUserPreferences(
-//                 //               sidebar: AppSidebar.history));
-//                 //         }
-//                 //       },
-//                 //       child: Padding(
-//                 //         padding: const EdgeInsets.symmetric(horizontal: 12),
-//                 //         child: Icon(
-//                 //           Icons.history,
-//                 //           color: state.headerTextColor,
-//                 //         ),
-//                 //       ),
-//                 //     );
-//                 //   })
-//                 /*
-//                   Builder(
-//                     builder: (context) => IconButton(
-//                       padding: const EdgeInsets.only(left: 4, right: 20),
-//                       tooltip: prefState.enableTooltips
-//                           ? localization.history
-//                           : null,
-//                       icon: Icon(Icons.history),
-//                       onPressed: () {
-//                         if (isMobile(context) ||
-//                             state.prefState.isHistoryFloated) {
-//                           Scaffold.of(context).openEndDrawer();
-//                         } else {
-//                           store.dispatch(UpdateUserPreferences(
-//                               sidebar: AppSidebar.history));
-//                         }
-//                       },
-//                     ),
-//                   ),
-//                   */
 //               ],
 //             ),
 //             body: ClipRect(

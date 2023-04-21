@@ -2,13 +2,14 @@ import 'package:equatable/equatable.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../commons/helpers/collections.dart';
+import '../../../core/event/event_status.dart';
 part 'program_event_detail_view_model.g.dart';
 
 @riverpod
-class ProgramEventDetailViewModel extends _$ProgramEventDetailViewModel {
+class ProgramEventDetailModel extends _$ProgramEventDetailModel {
   @override
-  ProgramEventDetailModel build() {
-    return ProgramEventDetailModel();
+  ProgramEventDetailViewModel build() {
+    return ProgramEventDetailViewModel();
   }
 
   void setProgress(bool showProgress) {
@@ -34,6 +35,19 @@ class ProgramEventDetailViewModel extends _$ProgramEventDetailViewModel {
   void updateBackdrop(bool isActive) {
     state = state.copyWith(backdropActive: isActive);
   }
+
+  void onEventSelected(String eventUid, String orgUnitUid, String? activityUid,
+      EventStatus? eventStatus) {
+    state = state.copyWith(eventClicked: Pair(eventUid, orgUnitUid));
+  }
+
+  void onSyncClick(String? eventUid) {
+    state = state.copyWith(eventSyncClicked: eventUid);
+  }
+
+  void setUpdateEvent(String eventId) {
+    state = state.copyWith(updateEvent: eventId);
+  }
 }
 
 enum EventProgramScreen {
@@ -44,8 +58,8 @@ enum EventProgramScreen {
   ANALYTICS,
 }
 
-class ProgramEventDetailModel with EquatableMixin {
-  ProgramEventDetailModel(
+class ProgramEventDetailViewModel with EquatableMixin {
+  ProgramEventDetailViewModel(
       {this.progress = true,
       this.writePermission = false,
       this.eventSyncClicked,
@@ -70,7 +84,7 @@ class ProgramEventDetailModel with EquatableMixin {
   /// NMC
   final String? programName;
 
-  ProgramEventDetailModel copyWith({
+  ProgramEventDetailViewModel copyWith({
     final bool? progress,
     final bool? writePermission,
     final String? eventSyncClicked,
@@ -81,7 +95,7 @@ class ProgramEventDetailModel with EquatableMixin {
     EventProgramScreen? currentScreen,
     bool? backdropActive,
   }) =>
-      ProgramEventDetailModel(
+      ProgramEventDetailViewModel(
           progress: progress ?? this.progress,
           writePermission: writePermission ?? this.writePermission,
           eventSyncClicked: eventSyncClicked,

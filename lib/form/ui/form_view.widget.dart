@@ -72,9 +72,11 @@ class _FormViewState extends ConsumerState<FormView> with KeyboardManager {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
-        children: const <Widget>[
-          LinearLoadingIndicator(),
-          DataEntryList(
+        children: <Widget>[
+          LinearLoadingIndicator(
+            isLoading: ref.watch(loadingProvider),
+          ),
+          const DataEntryList(
               // searchStyle: widget.needToForceUpdate,
               ),
         ],

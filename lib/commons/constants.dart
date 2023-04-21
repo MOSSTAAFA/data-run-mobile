@@ -227,3 +227,54 @@ const String kSettingsUserManagementView = 'user_management/view';
 const String kSettingsUserManagementEdit = 'user_management/edit';
 const String kSettingsAccountManagement = 'account_management';
 const String kSettingsImportExport = 'import_export';
+
+// EVENT_CREATION
+const String PREVIOUS_DASHBOARD_PROGRAM = 'previous_dashboard_program';
+const String PROGRAM_THEME = 'PROGRAM_THEME';
+const String SERVER = 'SERVER';
+const String THEME = 'THEME';
+const String DATA_SET_UID = 'DATA_SET_UID';
+const String DATA_SET_NAME = 'DATA_SET_NAME';
+const int DESCRIPTION_DIALOG = 111;
+const String PERIOD_TYPE = 'PERIOD_TYPE';
+const String PERIOD_ID = 'PERIOD_ID';
+const String PERIOD_TYPE_DATE = 'PERIOD_TYPE_DATE';
+const String CAT_COMB = 'CAT_COMB';
+const String DEFAULT_CAT_COMBO = 'DEFAULT_CAT_COMB';
+const String DATA_SET_SECTION = 'DATA_SET_SECTION';
+const String PROGRAM_STAGE_UID = 'PROGRAM_STAGE_UID';
+const int RQ_MANDATORY_EVENTS = 2001;
+const String OPTION_SET_DIALOG_THRESHOLD = 'optionSetDialogThredshold';
+const String USER_TEST_ANDROID = 'android';
+const String USER = 'USER';
+const String USER_ASKED_CRASHLYTICS = 'USER_ACCEPT_CRASHLYTICS';
+const String ENROLLMENT_STATUS = 'ENROLLMENT_STATUS';
+
+const String SYNC_RESULT = 'sync_result';
+const String LAST_DATA_SYNC = 'last_data_sync';
+const String LAST_DATA_SYNC_STATUS = 'last_data_sync_status';
+const String LAST_META_SYNC = 'last_meta_sync';
+const String LAST_META_SYNC_STATUS = 'last_meta_sync_status';
+const String LAST_META_SYNC_NO_NETWORK = 'last_meta_sync_no_network';
+const String EVENT_UID = 'EVENT_UID';
+const String EVENT_MODE = 'EVENT_MODE';
+
+const String EVENT_CREATION_TYPE = 'EVENT_CREATION_TYPE';
+const String EVENT_SCHEDULE_INTERVAL = 'EVENT_SCHEDULE_INTERVAL';
+const String TRACKED_ENTITY_INSTANCE = 'TRACKED_ENTITY_INSTANCE';
+const String PROGRAM_UID = 'PROGRAM_UID';
+const String ORG_UNIT = 'ORG_UNIT';
+const String ACTIVITY_UID = 'ACTIVITY_UID';
+const String ORG_UNIT_NAME = 'ORG_UNIT_NAME';
+const String ONE_TIME = 'ONE_TIME';
+const String PERMANENT = 'PERMANENT';
+const String ENROLLMENT_UID = 'ENROLLMENT_UID';
+const String EVENT_REPEATABLE = 'EVENT_REPEATABLE';
+const String EVENT_PERIOD_TYPE = 'EVENT_PERIOD_TYPE';
+const String ENROLLMENT_DATE_UID = 'ENROLLMENT_DATE_UID';
+const String ENROLLMENT_DATE = 'enrollmentDate';
+const String INCIDENT_DATE = 'incidentDate';
+
+// Note
+const String NOTE_ID = 'NOTE_ID';
+const String NOTE_TYPE = 'NOTE_TYPE';

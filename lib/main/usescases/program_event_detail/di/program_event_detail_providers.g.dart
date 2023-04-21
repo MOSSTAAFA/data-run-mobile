@@ -24,7 +24,7 @@ final programEventMapperProvider =
 
 typedef ProgramEventMapperRef = AutoDisposeProviderRef<ProgramEventMapper>;
 String _$programEventDetailRepositoryHash() =>
-    r'173297daf391f2d62228561a374fc16e21655f74';
+    r'31cf6bd29853e5f02a87e97915dd451e9c51c320';
 
 /// ProgramEventDetailPresenter
 ///
@@ -151,40 +151,36 @@ class ProgramEventDetailPresenterProvider
   }
 }
 
-String _$filteredProgramEventsHash() =>
-    r'cbab372920ee87513016013e14db3bf2940cd405';
+String _$pageConfiguratorHash() => r'8b1bd9f042edc7629d82a8f0599077f3ca19ecb8';
 
-/// LiveData<PagedList<EventViewModel>> filteredProgramEvents()
-/// in ProgramEventDetailRepositoryImpl
-///
-/// Copied from [filteredProgramEvents].
-@ProviderFor(filteredProgramEvents)
-final filteredProgramEventsProvider =
-    AutoDisposeProvider<List<EventModel>>.internal(
-  filteredProgramEvents,
-  name: r'filteredProgramEventsProvider',
+/// See also [pageConfigurator].
+@ProviderFor(pageConfigurator)
+final pageConfiguratorProvider =
+    AutoDisposeProvider<NavigationPageConfigurator>.internal(
+  pageConfigurator,
+  name: r'pageConfiguratorProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$filteredProgramEventsHash,
+      : _$pageConfiguratorHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef FilteredProgramEventsRef = AutoDisposeProviderRef<List<EventModel>>;
-String _$programEventsHash() => r'6580426c54e77e0819a93fa5036b7f13f062a112';
+typedef PageConfiguratorRef
+    = AutoDisposeProviderRef<NavigationPageConfigurator>;
+String _$programUidHash() => r'0e75989fb3aa8aef264538b64b4d280f75c6ebe6';
 
-/// See also [ProgramEvents].
-@ProviderFor(ProgramEvents)
-final programEventsProvider =
-    AutoDisposeNotifierProvider<ProgramEvents, List<EventModel>>.internal(
-  ProgramEvents.new,
-  name: r'programEventsProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$programEventsHash,
+/// See also [ProgramUid].
+@ProviderFor(ProgramUid)
+final programUidProvider =
+    AutoDisposeNotifierProvider<ProgramUid, String>.internal(
+  ProgramUid.new,
+  name: r'programUidProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$programUidHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$ProgramEvents = AutoDisposeNotifier<List<EventModel>>;
+typedef _$ProgramUid = AutoDisposeNotifier<String>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

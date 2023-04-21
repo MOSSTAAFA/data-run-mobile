@@ -9,7 +9,6 @@ import '../../../../core/event/event_status.dart';
 import 'di/event_capture_providers.dart';
 import 'domain/configure_event_completion_dialog.dart';
 import 'event_capture_contract.dart';
-import 'model/event_capture_model.dart';
 import 'model/event_completion_dialog.dart';
 
 class EventCapturePresenterImpl implements EventCapturePresenter {
@@ -55,13 +54,17 @@ class EventCapturePresenterImpl implements EventCapturePresenter {
       eventCaptureRepository.activity().then((result) => activity = result),
     ]).then((value) {
       preferences.setValue(CURRENT_ORG_UNIT, orgUnit?.id);
-      final EventCaptureModel data = ref.read(eventCaptureDataProvider);
-      ref.read(eventCaptureDataProvider.notifier).setValue(data.copyWith(
-          programStageName: programStageName,
+      // final EventCaptureModel data = ref.read(eventCaptureDataProvider);
+      // ref.read(eventCaptureDataProvider.notifier).setValue(data.copyWith(
+      //     programStageName: programStageName,
+      //     eventDate: eventDate,
+      //     orgUnit: orgUnit!.displayName,
+      //     activity: activity!.displayName));
+      view.renderInitialInfo(
+          stageName: programStageName,
           eventDate: eventDate,
-          orgUnit: orgUnit!.displayName,
-          activity: activity!.displayName));
-      // view.renderInitialInfo();
+          orgUnit: orgUnit,
+          activity: activity);
     });
 
     _checkExpiration();
