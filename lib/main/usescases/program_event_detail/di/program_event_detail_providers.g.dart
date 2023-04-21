@@ -24,7 +24,7 @@ final programEventMapperProvider =
 
 typedef ProgramEventMapperRef = AutoDisposeProviderRef<ProgramEventMapper>;
 String _$programEventDetailRepositoryHash() =>
-    r'31cf6bd29853e5f02a87e97915dd451e9c51c320';
+    r'af535df6137eff83c7c24315e439fb883e786c37';
 
 /// ProgramEventDetailPresenter
 ///
@@ -168,19 +168,4 @@ final pageConfiguratorProvider =
 
 typedef PageConfiguratorRef
     = AutoDisposeProviderRef<NavigationPageConfigurator>;
-String _$programUidHash() => r'0e75989fb3aa8aef264538b64b4d280f75c6ebe6';
-
-/// See also [ProgramUid].
-@ProviderFor(ProgramUid)
-final programUidProvider =
-    AutoDisposeNotifierProvider<ProgramUid, String>.internal(
-  ProgramUid.new,
-  name: r'programUidProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$programUidHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$ProgramUid = AutoDisposeNotifier<String>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

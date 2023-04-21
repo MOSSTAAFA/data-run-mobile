@@ -114,7 +114,8 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
   @override
   void initState() {
     super.initState();
-    final Bundle bundle = Get.arguments as Bundle;
+    // final Bundle bundle = Get.arguments as Bundle;
+    final Bundle bundle = ref.read(bundleObjectProvider);
     eventMode = bundle.getString(EVENT_MODE)?.toEventMode;
     activityUid = bundle.getString(ACTIVITY_UID);
     programUid = bundle.getString(PROGRAM_UID);

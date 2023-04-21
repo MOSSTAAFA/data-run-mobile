@@ -51,7 +51,6 @@ class ProgramEventDetailRepositoryImpl implements ProgramEventDetailRepository {
 
   @override
   Future<FeatureType> featureType() async {
-    // final String programUid = ref.read(programUidProvider)!;
     return (await D2Remote.programModule.programStage
             .byProgram(programUid)
             .getOne())!
@@ -72,13 +71,11 @@ class ProgramEventDetailRepositoryImpl implements ProgramEventDetailRepository {
 
   @override
   Future<ProgramStage?> programStage() async {
-    // final String programUid = ref.read(programUidProvider)!;
     return D2Remote.programModule.programStage.byProgram(programUid).getOne();
   }
 
   @override
   Future<Program> program() async {
-    // final String programUid = ref.read(programUidProvider)!;
     return (await D2Remote.programModule.program.byId(programUid).getOne())!;
   }
 

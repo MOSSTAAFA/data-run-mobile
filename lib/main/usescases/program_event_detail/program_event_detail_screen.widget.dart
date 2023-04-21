@@ -40,7 +40,8 @@ class _ProgramEventDetailScreenState
     extends ConsumerState<ProgramEventDetailScreen>
     with ProgramEventDetailView, ViewBase {
   late final ProgramEventDetailPresenter presenter;
-  late final String? programUid;
+  late final String programUid;
+  late final String? activityUid;
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +100,13 @@ class _ProgramEventDetailScreenState
   @override
   void initState() {
     presenter = ref.read(programEventDetailPresenterProvider(this));
-    programUid = (Get.arguments as Bundle).getString(EXTRA_PROGRAM_UID);
+    // programUid = (Get.arguments as Bundle).getString(EXTRA_PROGRAM_UID);
+    programUid = ref.read(bundleObjectProvider).getString(EXTRA_PROGRAM_UID)!;
+    activityUid = ref.read(bundleObjectProvider).getString(ACTIVITY_UID);
+
+    //TODO(NMC): is it needed set to New Bundle
+    ref.read(bundleObjectProvider.notifier).setValue(Bundle());
+
     super.initState();
   }
 
@@ -133,26 +140,23 @@ class _ProgramEventDetailScreenState
     ref.read(programEventDetailModelProvider.notifier).setUpdateEvent(eventId);
     // programEventsViewModel.setUpdateEvent(eventId);
 
-    final Bundle bundle = Bundle();
-    bundle.putString(
-        PROGRAM_UID, (Get.arguments as Bundle).getString(EXTRA_PROGRAM_UID));
-    ref
-        .read(programUidProvider.notifier)
-        .setValue((Get.arguments as Bundle).getString(EXTRA_PROGRAM_UID)!);
+    // final Bundle bundle = Bundle();
+    Bundle bundle = ref.read(bundleObjectProvider);
 
-    bundle.putString(EVENT_UID, eventId);
-    bundle.putString(ORG_UNIT, orgUnit);
+    bundle = bundle.putString(PROGRAM_UID, programUid);
+
+    bundle = bundle.putString(EVENT_UID, eventId);
+    bundle = bundle.putString(ORG_UNIT, orgUnit);
     // NMC
-    bundle.putString(EVENT_MODE, EventMode.CHECK.name);
-    bundle.putString(
-        ACTIVITY_UID, (Get.arguments as Bundle).getString(ACTIVITY_UID));
+    bundle = bundle.putString(EVENT_MODE, EventMode.CHECK.name);
+    bundle = bundle.putString(ACTIVITY_UID, activityUid);
+
+    // set to the  Bundle activityUid
+    ref.read(bundleObjectProvider.notifier).setValue(bundle);
+
     ref
         .read(appStateNotifierProvider.notifier)
         .navigateTo(EventCaptureScreen.route, bundle: bundle);
-    //     startActivity(EventCaptureActivity.class,
-    //             EventCaptureActivity.getActivityBundle(eventId, programUid, EventMode.CHECK),
-    //             false, false, null
-    //     );
   }
 
   @override
