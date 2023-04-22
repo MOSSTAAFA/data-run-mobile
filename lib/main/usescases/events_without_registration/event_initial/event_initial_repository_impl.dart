@@ -31,6 +31,7 @@ import '../../../../form/data/form_section_view_model.dart';
 import '../../../../form/model/field_ui_model.dart';
 import '../../../../form/model/option_set_configuration.dart';
 import '../../../../form/ui/field_view_model_factory.dart';
+import 'di/event_initial_module.dart';
 import 'event_initial_repository.dart';
 
 class EventInitialRepositoryImpl implements EventInitialRepository {
@@ -44,7 +45,7 @@ class EventInitialRepositoryImpl implements EventInitialRepository {
         _eventUid = eventUid,
         _stageUid = stageUid;
 
-  final AutoDisposeRef ref;
+  final EventInitialRepositoryRef ref;
   final FieldViewModelFactory _fieldFactory;
 
   // final RuleEngineRepository _ruleEngineRepository;

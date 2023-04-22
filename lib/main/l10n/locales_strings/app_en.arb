@@ -260,5 +260,6 @@
   "contacts": "contacts",
   "deletedUsers": ":value deleted user",
   "deletedUser": "Deleted user",
-  "level": "Level"
+  "level": "Level",
+  "fixError": "There are some errors. Please fix them before continuing."
 }

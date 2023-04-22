@@ -6,6 +6,7 @@ import '../../../../commons/date/field_with_issue.dart';
 import '../../../../commons/prefs/preference.dart';
 import '../../../../commons/prefs/preference_provider.dart';
 import '../../../../core/event/event_status.dart';
+import 'di/event_capture_module.dart';
 import 'di/event_capture_providers.dart';
 import 'domain/configure_event_completion_dialog.dart';
 import 'event_capture_contract.dart';
@@ -16,19 +17,19 @@ class EventCapturePresenterImpl implements EventCapturePresenter {
       {required this.eventCaptureRepository,
       required this.eventUid,
       required this.view,
-      this.isExpired = false,
+      // this.isExpired = false,
       required this.preferences,
       required this.configureEventCompletionDialog}) {
     init();
   }
 
-  final AutoDisposeRef ref;
+  final EventCapturePresenterRef ref;
 
   /* private */ final EventCaptureRepository eventCaptureRepository;
   /* private */ final String eventUid;
   // /* private */ final SchedulerProvider schedulerProvider;
   /* private */ final EventCaptureView view;
-  /* private */ bool isExpired;
+  // /* private */ bool isExpired;
   // /* private */ final PublishProcessor<Unit> notesCounterProcessor;
   /* private */ final PreferenceProvider preferences;
   /* private */ final ConfigureEventCompletionDialog

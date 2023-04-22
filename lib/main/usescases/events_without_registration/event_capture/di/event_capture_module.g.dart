@@ -24,6 +24,113 @@ final eventCaptureRepositoryProvider =
 
 typedef EventCaptureRepositoryRef
     = AutoDisposeProviderRef<EventCaptureRepository>;
+String _$eventCapturePresenterHash() =>
+    r'16f41982cd5e3d9d4eb9916e14c83e4099008106';
+
+/// Copied from Dart SDK
+class _SystemHash {
+  _SystemHash._();
+
+  static int combine(int hash, int value) {
+    // ignore: parameter_assignments
+    hash = 0x1fffffff & (hash + value);
+    // ignore: parameter_assignments
+    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
+    return hash ^ (hash >> 6);
+  }
+
+  static int finish(int hash) {
+    // ignore: parameter_assignments
+    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
+    // ignore: parameter_assignments
+    hash = hash ^ (hash >> 11);
+    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
+  }
+}
+
+typedef EventCapturePresenterRef
+    = AutoDisposeProviderRef<EventCapturePresenter>;
+
+/// See also [eventCapturePresenter].
+@ProviderFor(eventCapturePresenter)
+const eventCapturePresenterProvider = EventCapturePresenterFamily();
+
+/// See also [eventCapturePresenter].
+class EventCapturePresenterFamily extends Family<EventCapturePresenter> {
+  /// See also [eventCapturePresenter].
+  const EventCapturePresenterFamily();
+
+  /// See also [eventCapturePresenter].
+  EventCapturePresenterProvider call(
+    EventCaptureView view,
+  ) {
+    return EventCapturePresenterProvider(
+      view,
+    );
+  }
+
+  @override
+  EventCapturePresenterProvider getProviderOverride(
+    covariant EventCapturePresenterProvider provider,
+  ) {
+    return call(
+      provider.view,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'eventCapturePresenterProvider';
+}
+
+/// See also [eventCapturePresenter].
+class EventCapturePresenterProvider
+    extends AutoDisposeProvider<EventCapturePresenter> {
+  /// See also [eventCapturePresenter].
+  EventCapturePresenterProvider(
+    this.view,
+  ) : super.internal(
+          (ref) => eventCapturePresenter(
+            ref,
+            view,
+          ),
+          from: eventCapturePresenterProvider,
+          name: r'eventCapturePresenterProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$eventCapturePresenterHash,
+          dependencies: EventCapturePresenterFamily._dependencies,
+          allTransitiveDependencies:
+              EventCapturePresenterFamily._allTransitiveDependencies,
+        );
+
+  final EventCaptureView view;
+
+  @override
+  bool operator ==(Object other) {
+    return other is EventCapturePresenterProvider && other.view == view;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, view.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
 String _$eventCaptureResourcesHash() =>
     r'453c23888f4122ddcf95fb4dfb9a4250deb79bae';
 

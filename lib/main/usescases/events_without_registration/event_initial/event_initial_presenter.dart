@@ -25,7 +25,7 @@ class EventInitialPresenter {
   EventInitialPresenter(this.ref, this.view, this.eventInitialRepository) {
     _init();
   }
-  final AutoDisposeRef ref;
+  final EventInitialPresenterRef ref;
   // final PreferenceProvider preferences;
   //  final AnalyticsHelper analyticsHelper;
 

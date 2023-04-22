@@ -247,5 +247,6 @@
   "active": "فعال",
   "inactive": "منسحب",
   "newChv": "متطوعة جديدة",
-  "level": "مستوى"
+  "level": "مستوى",
+  "fixError": "There are some errors. Please fix them before continuing."
 }

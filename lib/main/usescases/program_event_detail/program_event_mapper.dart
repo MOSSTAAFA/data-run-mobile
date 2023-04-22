@@ -20,12 +20,13 @@ import '../../../commons/extensions/value_extensions.dart';
 import '../../../commons/helpers/collections.dart';
 import '../../../core/di/providers.dart';
 import '../../../core/event/event_extensions.dart';
+import 'di/program_event_detail_providers.dart';
 
 class ProgramEventMapper {
   // final DhisPeriodUtils periodUtils;
   // final CrashReportController crashReportController;
   ProgramEventMapper(this.ref);
-  final AutoDisposeRef ref;
+  final ProgramEventMapperRef ref;
 
   Future<EventModel> eventToEventViewModel(Event event) async {
     final ProgramStage programStage = (await D2Remote.programModule.programStage

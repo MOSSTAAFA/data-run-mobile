@@ -1,7 +1,6 @@
 import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart';
 import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisation_unit.entity.dart';
 import 'package:d2_remote/core/common/feature_type.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'di/program_event_detail_providers.dart';
 import 'program_event_detail_repository.dart';
 import 'program_event_detail_contract.dart';
@@ -10,7 +9,7 @@ class ProgramEventDetailPresenterImpl implements ProgramEventDetailPresenter {
   ProgramEventDetailPresenterImpl(this.ref, this.view) {
     init();
   }
-  final AutoDisposeRef ref;
+  final ProgramEventDetailPresenterRef ref;
   ProgramEventDetailView view;
   late final ProgramEventDetailRepository eventRepository;
   // final SchedulerProvider schedulerProvider;

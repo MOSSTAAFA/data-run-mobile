@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 
 import '../../../../commons/constants.dart';
 import '../../bundle/bundle.dart';
-import '../../general/view_Base.dart';
-import '../../general/view_abstract.dart';
 import '../event_details/models/event_details.dart';
 import 'event_initial_view_base.dart';
 
 /// EventInitialActivity
 class EventInitialScreen extends StatefulWidget {
   const EventInitialScreen({super.key});
+
+  static const String route = '/eventInitialActivity';
 
   @override
   State<EventInitialScreen> createState() => _EventInitialScreenState();

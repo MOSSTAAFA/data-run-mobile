@@ -1,8 +1,8 @@
-
 bool isAllDigits(String value) {
   return value.replaceAll(RegExp('[^\\d]'), '') == value;
 }
 
+/// snakecase('foo_bar') // => "foo_bar"
 String toSnakeCase(String? value) {
   if ((value ?? '').isEmpty) {
     return '';
@@ -12,6 +12,7 @@ String toSnakeCase(String? value) {
       RegExp(r'[A-Z]'), (Match match) => '_${match[0]?.toLowerCase()}');
 }
 
+/// camelcase('foo_bar') // => "fooBar"
 String toCamelCase(String? subject) {
   if ((subject ?? '').isEmpty) {
     return '';
@@ -32,6 +33,7 @@ String toCamelCase(String? subject) {
   return _firstWord + _restWords.join('');
 }
 
+/// spacecase('foo_bar') // => "foo bar"
 String toSpaceCase(String? value) {
   if ((value ?? '').isEmpty) {
     return '';
@@ -41,6 +43,7 @@ String toSpaceCase(String? value) {
       RegExp(r'[A-Z]'), (Match match) => ' ${match[0]?.toLowerCase()}');
 }
 
+/// titlecase('foo_bar') // => "Foo Bar"
 String toTitleCase(String? text) {
   if ((text ?? '').isEmpty) {
     return '';
@@ -119,7 +122,10 @@ bool matchesStrings({
   return isMatch;
 }
 
-bool matchesString({required String haystack, String? needle, bool enableFlexibleSearch = false}) {
+bool matchesString(
+    {required String haystack,
+    String? needle,
+    bool enableFlexibleSearch = false}) {
   if (needle == null || needle.isEmpty) {
     return true;
   }

@@ -1,13 +1,14 @@
 import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/get.dart';
 import '../../../commons/constants.dart';
+import '../../../commons/data/event_creation_type.dart';
 import '../../../commons/helpers/collections.dart';
 import '../../../commons/state/app_state_notifier.dart';
 import '../../utils/event_mode.dart';
 import '../bundle/bundle.dart';
 import '../events_without_registration/event_capture/event_capture_screen.widget.dart';
+import '../events_without_registration/event_initial/event_initial_screen.widget.dart';
 import 'event_list/event_list_screen.widget.dart';
 import 'program_event_detail_view_model.dart';
 import 'program_event_page_configurator.dart';
@@ -22,7 +23,6 @@ import 'event_table/event_table.widget.dart';
 import 'program_event_detail_contract.dart';
 
 import '../general/view_Base.dart';
-import 'widgets/progress_bar.dart';
 
 /// ProgramEventDetailActivity
 
@@ -61,21 +61,11 @@ class _ProgramEventDetailScreenState
             ),
           ),
           NavigationTabBarView(
-            actionButtonBuilder: (context, viewAction) => when(viewAction, {
-              ViewAction.list_view: () => FloatingActionButton(
-                    heroTag: ViewAction.list_view.name,
-                    child: const Icon(Icons.add),
-                    onPressed: () {},
-                  ),
-              ViewAction.table_view: () => FloatingActionButton(
-                    heroTag: ViewAction.table_view.name,
-                    child: const Icon(Icons.add),
-                    onPressed: () {},
-                  ),
-            }),
-            // onPressedActionButton: (viewAction) => when(viewAction, {
-            //   [ViewAction.list_view, ViewAction.table_view]: () {},
-            // }),
+            actionButtonBuilder: (context, viewAction) => FloatingActionButton(
+              heroTag: ViewAction.list_view.name,
+              child: const Icon(Icons.add),
+              onPressed: () => startNewEvent(),
+            ),
             tabBuilder: (context, viewAction) {
               final name = localization.lookup(viewAction.name);
               return when(viewAction, {
@@ -90,9 +80,6 @@ class _ProgramEventDetailScreenState
               ViewAction.list_view: () => const EventListScreen(),
               ViewAction.table_view: () => const EventTable(),
               ViewAction.map_view: () => const EventMap(),
-              // ViewAction.analytics: () => const Center(
-              //       child: Text('Unimplemented'),
-              //     ),
             }).orElse(() => const Center(
                       child: Text('Unimplemented Screen!'),
                     )),
@@ -108,17 +95,8 @@ class _ProgramEventDetailScreenState
     // programUid = (Get.arguments as Bundle).getString(EXTRA_PROGRAM_UID);
     programUid = ref.read(bundleObjectProvider).getString(EXTRA_PROGRAM_UID)!;
     activityUid = ref.read(bundleObjectProvider).getString(ACTIVITY_UID);
-
-    //TODO(NMC): is it needed set to New Bundle
-    ref.read(bundleObjectProvider.notifier).setValue(Bundle());
-
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
     _setObservers();
-    super.didChangeDependencies();
+    super.initState();
   }
 
   void _setObservers() {
@@ -161,7 +139,7 @@ class _ProgramEventDetailScreenState
 
     ref
         .read(appStateNotifierProvider.notifier)
-        .navigateTo(EventCaptureScreen.route, bundle: bundle);
+        .navigateToScreen(const EventCaptureScreen(), bundle: bundle);
   }
 
   @override
@@ -175,8 +153,10 @@ class _ProgramEventDetailScreenState
   }
 
   @override
-  void setProgram(Program programModel) {
-    // TODO: implement setProgram
+  void setProgram(Program program) {
+    Future(() => ref
+        .read(programNameProvider.notifier)
+        .update((state) => program.displayName ?? program.name ?? ''));
   }
 
   @override
@@ -191,7 +171,7 @@ class _ProgramEventDetailScreenState
 
   @override
   void showFilterProgress() {
-    // TODO: implement showFilterProgress
+    ref.read(programEventDetailModelProvider.notifier).setProgress(true);
   }
 
   @override
@@ -200,13 +180,36 @@ class _ProgramEventDetailScreenState
   }
 
   @override
-  void startNewEvent() {
+  Future<void> startNewEvent() async {
     // analyticsHelper().setEvent(AnalyticsConstants.CREATE_EVENT, AnalyticsConstants.DATA_CREATION, AnalyticsConstants.CREATE_EVENT);
     //     binding.addEventButton.setEnabled(false);
     //     Bundle bundle = EventInitialActivity.getBundle(programUid, null, EventCreationType.ADDNEW.name(),
     //             null, null, null, presenter.getStageUid(), null,
     //             0, null);
     //     startActivity(EventInitialActivity.class, bundle, false, false, null);
+    Bundle bundle = ref.read(bundleObjectProvider);
+
+    bundle = bundle.putString(ACTIVITY_UID, activityUid);
+
+    bundle = bundle.putString(PROGRAM_UID, programUid);
+    // bundle = bundle.putString(EVENT_UID, null);
+    bundle =
+        bundle.putString(EVENT_CREATION_TYPE, EventCreationType.ADDNEW.name);
+    // bundle = bundle.putString(TRACKED_ENTITY_INSTANCE, null);
+    // bundle.putString(ENROLLMENT_UID, null);
+    // bundle = bundle.putString(ORG_UNIT, null);
+    // bundle.putSerializable(EVENT_PERIOD_TYPE, eventPeriodType?.name);
+    // bundle = bundle.putString(EVENT_PERIOD_TYPE, null);
+    bundle = bundle.putString(PROGRAM_STAGE_UID, await presenter.getStageUid());
+    bundle = bundle.putInt(EVENT_SCHEDULE_INTERVAL, 0);
+    // bundle.putSerializable(ENROLLMENT_STATUS, enrollmentStatus?.name);
+    // bundle = bundle.putString(ENROLLMENT_STATUS, null);
+    // set to the  Bundle activityUid
+    ref.read(bundleObjectProvider.notifier).setValue(bundle);
+
+    ref
+        .read(appStateNotifierProvider.notifier)
+        .navigateToScreen(const EventInitialScreen(), bundle: bundle);
   }
 
   @override
@@ -214,3 +217,5 @@ class _ProgramEventDetailScreenState
     // TODO: implement updateFilters
   }
 }
+
+final programNameProvider = StateProvider.autoDispose<String>((ref) => '');

@@ -9,6 +9,7 @@ import 'package:d2_remote/modules/activity_management/activity/entities/activity
 import 'package:d2_remote/core/common/feature_type.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../commons/data/event_view_model.dart';
+import 'di/program_event_detail_providers.dart';
 import 'program_event_mapper.dart';
 
 import '../../../commons/data/program_event_view_model.dart';
@@ -19,7 +20,7 @@ import 'program_event_map_data.dart';
 
 class ProgramEventDetailRepositoryImpl implements ProgramEventDetailRepository {
   ProgramEventDetailRepositoryImpl(this.programUid, this.ref, this.mapper);
-  AutoDisposeRef ref;
+  ProgramEventDetailRepositoryRef ref;
   final String programUid;
   final ProgramEventMapper mapper;
 

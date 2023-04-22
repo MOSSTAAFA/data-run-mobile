@@ -21,11 +21,12 @@ import '../../../../core/event/event_editable_status.dart';
 import '../../../../core/event/event_extensions.dart';
 import '../../../../core/event/event_status.dart';
 import '../../../mp_logic/authorities.dart';
+import 'di/event_capture_module.dart';
 import 'event_capture_contract.dart';
 
 class EventCaptureRepositoryImpl implements EventCaptureRepository {
   EventCaptureRepositoryImpl(this.ref, String? eventUid) : _eventUid = eventUid;
-  final AutoDisposeRef ref;
+  final EventCaptureRepositoryRef ref;
 
   final String? _eventUid;
 

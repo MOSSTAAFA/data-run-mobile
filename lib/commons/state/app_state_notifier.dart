@@ -4,6 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../main.dart';
 import '../../main/usescases/bundle/bundle.dart';
+import '../../utils/mass_utils/strings.dart';
 import 'app_state.dart';
 
 part 'app_state_notifier.g.dart';
@@ -16,9 +17,14 @@ class AppStateNotifier extends _$AppStateNotifier {
     return AppState.initial();
   }
 
-  void navigateTo(String route, {Bundle? bundle}) {
+  void navigateToRoute(String route, {Bundle? bundle}) {
     updateCurrentRoute(route);
     Get.toNamed(route, arguments: bundle);
+  }
+
+  void navigateToScreen(Widget screen, {Bundle? bundle}) {
+    updateCurrentRoute(toCamelCase('$runtimeType'));
+    Get.to(screen, arguments: bundle);
   }
 
   void updateCurrentRoute(String route) {

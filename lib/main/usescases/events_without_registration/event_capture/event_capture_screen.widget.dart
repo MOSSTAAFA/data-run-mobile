@@ -144,17 +144,12 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
 
   @override
   void goBack() {
-    // TODO: implement goBack
+    // Get.back();
   }
 
   @override
   void hideNavigationBar() {
     // TODO: implement hideNavigationBar
-  }
-
-  @override
-  void hideProgress() {
-    // TODO: implement hideProgress
   }
 
   @override
@@ -177,7 +172,16 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
 
   @override
   void showErrorSnackBar() {
-    // TODO: implement showErrorSnackBar
+    Get.snackbar(
+      AppLocalization.of(context)!.lookup('error'),
+      AppLocalization.of(context)!.lookup('fix_error'),
+      icon: const Icon(Icons.error),
+      shouldIconPulse: true,
+      // onTap: () {},
+      barBlur: 20,
+      isDismissible: true,
+      duration: const Duration(seconds: 2),
+    );
   }
 
   @override
@@ -192,12 +196,26 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
 
   @override
   void showProgress() {
-    // TODO: implement showProgress
+    ref.read(progressVisibilityProvider.notifier).update((_) => true);
+  }
+
+  @override
+  void hideProgress() {
+    ref.read(progressVisibilityProvider.notifier).update((_) => false);
   }
 
   @override
   void showSnackBar(String message) {
-    // TODO: implement showSnackBar
+    Get.snackbar(
+      '',
+      AppLocalization.of(context)!.lookup(message),
+      icon: const Icon(Icons.error),
+      shouldIconPulse: true,
+      // onTap: () {},
+      barBlur: 20,
+      isDismissible: true,
+      duration: const Duration(seconds: 2),
+    );
   }
 
   @override
@@ -227,6 +245,8 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
   }
 }
 
+final progressVisibilityProvider =
+    StateProvider.autoDispose<bool>((ref) => false);
 final programStageNameProvider = StateProvider.autoDispose<String>((ref) => '');
 final activityNameProvider = StateProvider.autoDispose<String>((ref) => '');
 

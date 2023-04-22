@@ -230,7 +230,7 @@ class FormViewModel extends GetxController implements Listenable {
   FormViewModel(this.ref) {
     _init();
   }
-  final AutoDisposeRef ref;
+  final FormViewModelRef ref;
   // AutoDisposeRef
   // GeometryController _geometryController = GeometryController(GeometryParserImpl());
 
