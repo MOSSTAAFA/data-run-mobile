@@ -21,7 +21,7 @@ import 'provider/enrollment_result_dialog_ui_provider.dart';
 class FormView extends ConsumerStatefulWidget {
   FormView(
       {super.key,
-      required this.needToForceUpdate,
+      this.needToForceUpdate = false,
 
       /// Sent ser. through
       this.records,
@@ -30,7 +30,7 @@ class FormView extends ConsumerStatefulWidget {
       this.onFocused,
       this.onFinishDataEntry,
       this.onActivityForResult,
-      this.completionListener,
+      this.onPercentageUpdate,
       this.onDataIntegrityCheck,
       this.onFieldItemsRendered,
       this.onSavePicture,
@@ -47,14 +47,14 @@ class FormView extends ConsumerStatefulWidget {
   // Will be comming from event or Enrollment Widgets
   final FormRepositoryRecords? records;
 
-  final void Function(RowAction)? onItemChangeListener;
-  final void Function(bool)? onLoadingListener;
+  final void Function(RowAction rowAction)? onItemChangeListener;
+  final void Function(bool loading)? onLoadingListener;
   final void Function()? onFocused;
   final void Function()? onFinishDataEntry;
   final void Function()? onActivityForResult;
-  final void Function(double)? completionListener;
-  final void Function(DataIntegrityCheckResult)? onDataIntegrityCheck;
-  final void Function(bool)? onFieldItemsRendered;
+  final void Function(double percentage)? onPercentageUpdate;
+  final void Function(DataIntegrityCheckResult result)? onDataIntegrityCheck;
+  final void Function(bool fieldItemsRendered)? onFieldItemsRendered;
 
   //
   final void Function(String)? onSavePicture;
@@ -120,9 +120,9 @@ class _FormViewState extends ConsumerState<FormView> with KeyboardManager {
   }
 
   @override
-  void didChangeDependencies() {
+  void initState() {
     _setObservers();
-    super.didChangeDependencies();
+    super.initState();
   }
 
   void _setObservers() {
@@ -176,7 +176,7 @@ class _FormViewState extends ConsumerState<FormView> with KeyboardManager {
         completionPercentageValueProvider,
         (previous, next) => next.let((percentage) => percentage.mapOrNull(
             data: (AsyncData<double> data) =>
-                widget.completionListener?.let((it) => it(data.value)))));
+                widget.onPercentageUpdate?.let((it) => it(data.value)))));
 
     ref.listenManual<AsyncValue<bool>>(
         calculationLoopValueProvider,
@@ -303,5 +303,36 @@ class _FormViewState extends ConsumerState<FormView> with KeyboardManager {
     // submitList(updates) {
     commitCallback.call();
     // }
+  }
+
+  void onEditionFinish() {
+    // binding.recyclerView.requestFocus();
+  }
+
+  int _negativeOrZero(String value) {
+    if (value.isEmpty) {
+      return 0;
+    } else {
+      return -(int.tryParse(value) ?? 0);
+    }
+  }
+
+  void clearValues() {
+    _intentHandler(FormIntent.onClear());
+  }
+
+  void onBackPressed() {
+    ref
+        .read(formViewModelProvider)
+        .runDataIntegrityCheck(backButtonPressed: true);
+  }
+
+  void onSaveClick() {
+    onEditionFinish();
+    ref.read(formViewModelProvider).saveDataEntry();
+  }
+
+  void reload() {
+    ref.read(itemsProvider.notifier).loadData();
   }
 }

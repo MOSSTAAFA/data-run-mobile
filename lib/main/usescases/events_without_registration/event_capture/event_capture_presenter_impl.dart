@@ -1,11 +1,12 @@
 import 'package:d2_remote/modules/activity_management/activity/entities/activity.entity.dart';
 import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisation_unit.entity.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../../../commons/date/field_with_issue.dart';
 import '../../../../commons/prefs/preference.dart';
 import '../../../../commons/prefs/preference_provider.dart';
+import '../../../../core/di/providers.dart';
+import '../../../../core/event/event_editable_status.dart';
 import '../../../../core/event/event_status.dart';
+import '../../../../form/data/data_integrity_check_result.dart';
 import 'di/event_capture_module.dart';
 import 'di/event_capture_providers.dart';
 import 'domain/configure_event_completion_dialog.dart';
@@ -25,15 +26,14 @@ class EventCapturePresenterImpl implements EventCapturePresenter {
 
   final EventCapturePresenterRef ref;
 
-  /* private */ final EventCaptureRepository eventCaptureRepository;
-  /* private */ final String eventUid;
-  // /* private */ final SchedulerProvider schedulerProvider;
-  /* private */ final EventCaptureView view;
-  // /* private */ bool isExpired;
-  // /* private */ final PublishProcessor<Unit> notesCounterProcessor;
-  /* private */ final PreferenceProvider preferences;
-  /* private */ final ConfigureEventCompletionDialog
-      configureEventCompletionDialog;
+  final EventCaptureRepository eventCaptureRepository;
+  final String eventUid;
+  // final SchedulerProvider schedulerProvider;
+  final EventCaptureView view;
+  // bool isExpired;
+  // final PublishProcessor<Unit> notesCounterProcessor;
+  final PreferenceProvider preferences;
+  final ConfigureEventCompletionDialog configureEventCompletionDialog;
 
   @override
   void init() {
@@ -89,7 +89,7 @@ class EventCapturePresenterImpl implements EventCapturePresenter {
   @override
   Future<void> attemptFinish(
       bool canComplete,
-      String onCompleteMessage,
+      String? onCompleteMessage,
       List<FieldWithIssue> errorFields,
       Map<String, String> emptyMandatoryFields,
       List<FieldWithIssue> warningFields) async {
@@ -154,7 +154,9 @@ class EventCapturePresenterImpl implements EventCapturePresenter {
   @override
   Future<void> deleteEvent() {
     return eventCaptureRepository.deleteEvent().then((result) {
-      if (result) view.showSnackBar('event_was_deleted');
+      if (result) {
+        view.showSnackBar('event_was_deleted');
+      }
     }).then((value) => view.finishDataEntry());
   }
 
@@ -235,5 +237,41 @@ class EventCapturePresenterImpl implements EventCapturePresenter {
   @override
   void updatePercentage(double primaryValue) {
     view.updatePercentage(primaryValue);
+  }
+
+  /// By NMC: From EventCaptureFormPresenter
+  @override
+  void handleDataIntegrityResult(DataIntegrityCheckResult result) {
+    result.map(
+      fieldsWithErrorResult: (result) => attemptFinish(
+          result.canComplete,
+          result.onCompleteMessage,
+          result.fieldUidErrorList,
+          result.mandatoryFields,
+          result.warningFields),
+      fieldsWithWarningResult: (result) => attemptFinish(result.canComplete,
+          result.onCompleteMessage, [], {}, result.fieldUidWarningList),
+      missingMandatoryResult: (result) => attemptFinish(
+          result.canComplete,
+          result.onCompleteMessage,
+          result.errorFields,
+          result.mandatoryFields,
+          result.warningFields),
+      successfulResult: (result) => attemptFinish(
+          result.canComplete, result.onCompleteMessage, [], {}, []),
+      notSavedResult: (result) {},
+    );
+  }
+
+  /// By NMC: From EventCaptureFormPresenter
+  @override
+  Future<void> showOrHideSaveButton() async {
+    final EventEditableStatus isEditable =
+        await ref.read(eventServiceProvider).getEditableStatus(eventUid);
+    if (isEditable is Editable) {
+      view.showSaveButton();
+    } else {
+      view.hideSaveButton();
+    }
   }
 }

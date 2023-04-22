@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 /// AbstractActivityContracts.View interface
 abstract class ViewAbstract {
   void back();
@@ -28,6 +26,4 @@ abstract class ViewAbstract {
   Future<void> showDescription(String description);
 
   Future<void> showSyncDialog([String? uid]);
-
-  TabController? getTabController();
 }

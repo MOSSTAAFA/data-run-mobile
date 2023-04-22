@@ -22,7 +22,7 @@ import 'event_map/event_map.widget.dart';
 import 'event_table/event_table.widget.dart';
 import 'program_event_detail_contract.dart';
 
-import '../general/view_Base.dart';
+import '../general/view_base.dart';
 
 /// ProgramEventDetailActivity
 
@@ -55,6 +55,8 @@ class _ProgramEventDetailScreenState
       child: Column(
         children: [
           Consumer(
+            // This builder will only get called when the
+            // programEventDetailModelProvider.progress is updated.
             builder: (context, ref, child) => LinearLoadingIndicator(
               isLoading: ref.watch(programEventDetailModelProvider
                   .select((value) => value.progress)),

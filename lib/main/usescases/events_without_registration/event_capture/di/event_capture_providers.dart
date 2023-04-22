@@ -1,6 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../event_capture_widget/on_edition_listener.dart';
+import '../event_capture_form/on_edition_listener.dart';
 part 'event_capture_providers.g.dart';
 
 // @riverpod
@@ -30,8 +30,8 @@ class HasExpired extends _$HasExpired {
 @riverpod
 class OnEditionEventCaptureListener extends _$OnEditionEventCaptureListener {
   @override
-  OnEditionListener build() {
-    return OnEditionListener();
+  OnEditionListener? build() {
+    return null;
   }
 
   void setFormEditionListener(void Function()? onEditionListener) {

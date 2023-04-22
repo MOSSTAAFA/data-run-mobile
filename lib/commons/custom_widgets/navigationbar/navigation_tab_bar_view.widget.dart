@@ -208,28 +208,28 @@ class NavigationTabBarViewState extends ConsumerState<NavigationTabBarView>
 
     final AppState appState = ref.read(appStateNotifierProvider);
 
-    Widget leading = const SizedBox();
-    if (isMobile(context)) {
-      leading = Builder(
-        builder: (context) => InkWell(
-          onLongPress: widget.onHamburgerLongPress,
-          child: IconButton(
-            tooltip: localization.menuSidebar,
-            icon: const Icon(Icons.menu),
-            onPressed: () {
-              Scaffold.of(context).openDrawer();
-            },
-          ),
-        ),
-      );
-    }
+    Widget? leading;
+    // if (isMobile(context)) {
+    //   leading = Builder(
+    //     builder: (context) => InkWell(
+    //       onLongPress: widget.onHamburgerLongPress,
+    //       child: IconButton(
+    //         tooltip: localization.menuSidebar,
+    //         icon: const Icon(Icons.menu),
+    //         onPressed: () {
+    //           Scaffold.of(context).openDrawer();
+    //         },
+    //       ),
+    //     ),
+    //   );
+    // }
 
-    leading = Row(
-      children: [
-        Expanded(child: leading),
-        ...?widget.appBarLeadingActions,
-      ],
-    );
+    // leading = Row(
+    //   children: [
+    //     Expanded(child: leading),
+    //     ...?widget.appBarLeadingActions,
+    //   ],
+    // );
 
     return WillPopScope(
         onWillPop: () async {

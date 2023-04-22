@@ -3,7 +3,8 @@ import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisati
 
 import '../../../../commons/date/field_with_issue.dart';
 import '../../../../core/event/event_status.dart';
-import '../../general/view_Base.dart';
+import '../../../../form/data/data_integrity_check_result.dart';
+import '../../general/view_base.dart';
 import 'model/event_completion_dialog.dart';
 
 abstract class EventCapturePresenter {
@@ -13,7 +14,7 @@ abstract class EventCapturePresenter {
 
   void attemptFinish(
       bool canComplete,
-      String onCompleteMessage,
+      String? onCompleteMessage,
       List<FieldWithIssue> errorFields,
       Map<String, String> emptyMandatoryFields,
       List<FieldWithIssue> warningFields);
@@ -45,6 +46,12 @@ abstract class EventCapturePresenter {
   Future<bool> getCompletionPercentageVisibility();
 
   void updatePercentage(double primaryValue);
+
+  /// By NMC: From EventCaptureFormPresenter
+  void handleDataIntegrityResult(DataIntegrityCheckResult result);
+
+  /// By NMC: From EventCaptureFormPresenter
+  Future<void> showOrHideSaveButton();
 }
 
 abstract class EventCaptureView extends ViewBase {
@@ -88,6 +95,21 @@ abstract class EventCaptureView extends ViewBase {
   void showNavigationBar();
 
   void hideNavigationBar();
+
+  /// By NMC: From EventCaptureFormPresenter
+  void showSaveButton();
+
+  /// By NMC: From EventCaptureFormPresenter
+  void hideSaveButton();
+
+  /// By NMC: From EventCaptureFormPresenter
+  void performSaveClick();
+
+  /// By NMC: From EventCaptureFormPresenter
+  void onReopen();
+
+  /// By NMC: From EventCaptureFormPresenter
+  void onEditionListener();
 }
 
 abstract class EventCaptureRepository {

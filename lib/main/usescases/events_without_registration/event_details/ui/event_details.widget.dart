@@ -2,15 +2,12 @@ import 'package:d2_remote/core/mp/enrollment/enrollment_status.dart';
 import 'package:d2_remote/core/mp/period/period_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/get.dart';
 
 import '../../../../../commons/constants.dart';
 import '../../../../../commons/data/event_creation_type.dart';
 import '../../../../../commons/period/period_extensions.dart';
-import '../../../../../core/enrollment/enrollment_extensions.dart';
 import '../../../bundle/bundle.dart';
 import '../models/event_details.dart';
-import 'event_details_view_model.dart';
 
 /// EventDetailsFragment
 class EventDetailsView extends ConsumerStatefulWidget {

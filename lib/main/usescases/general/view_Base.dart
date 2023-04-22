@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
-import 'package:mass_pro/main/usescases/general/view_abstract.dart';
+import 'view_abstract.dart';
 
 import '../../../commons/utils/view_actions.dart';
 import '../../../main.dart';
@@ -168,10 +168,5 @@ class ViewBase implements ViewAbstract {
   @override
   Future<void> showSyncDialog([String? uid]) {
     return Future.value();
-  }
-
-  @override
-  TabController? getTabController() {
-    return null;
   }
 }

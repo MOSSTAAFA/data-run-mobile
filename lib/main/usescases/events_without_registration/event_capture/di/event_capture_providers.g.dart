@@ -22,12 +22,12 @@ final hasExpiredProvider =
 
 typedef _$HasExpired = AutoDisposeNotifier<bool>;
 String _$onEditionEventCaptureListenerHash() =>
-    r'5c866ad8de8ee92c2d63a83327d2f48e233440b3';
+    r'2ebe4e4ecf7b69d37257e25d00954f4196d5ad9a';
 
 /// See also [OnEditionEventCaptureListener].
 @ProviderFor(OnEditionEventCaptureListener)
 final onEditionEventCaptureListenerProvider = AutoDisposeNotifierProvider<
-    OnEditionEventCaptureListener, OnEditionListener>.internal(
+    OnEditionEventCaptureListener, OnEditionListener?>.internal(
   OnEditionEventCaptureListener.new,
   name: r'onEditionEventCaptureListenerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -38,5 +38,5 @@ final onEditionEventCaptureListenerProvider = AutoDisposeNotifierProvider<
 );
 
 typedef _$OnEditionEventCaptureListener
-    = AutoDisposeNotifier<OnEditionListener>;
+    = AutoDisposeNotifier<OnEditionListener?>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

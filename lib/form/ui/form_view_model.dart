@@ -3,7 +3,6 @@ import 'package:d2_remote/core/common/value_type.dart';
 import 'package:dartx/dartx_io.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import '../di/injector.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
