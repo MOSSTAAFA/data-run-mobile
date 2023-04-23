@@ -24,14 +24,13 @@ part 'event_details_module.g.dart';
 
 @riverpod
 EventDetailResourcesProvider eventDetailResources(EventDetailResourcesRef ref) {
-  final ResourceManager resourceManager =
-      ref.read(resourceManagerProvider(ref.read(buildContextProvider)));
+  final ResourceManager resourceManager = ref.read(resourceManagerProvider);
   return EventDetailResourcesProvider(resourceManager);
 }
 
 @riverpod
 D2ErrorUtils d2ErrorUtils(D2ErrorUtilsRef ref) {
-  return D2ErrorUtils(ref.read(buildContextProvider));
+  return const D2ErrorUtils();
 }
 
 @riverpod
@@ -40,8 +39,7 @@ EventDetailsRepository eventDetailsRepository(EventDetailsRepositoryRef ref) {
 
   return EventDetailsRepository(
       programUid: eventBundle.getString(PROGRAM_UID)!,
-      fieldFactory: ref.read(fieldViewModelFactoryProvider(
-          ref.read(buildContextProvider), false, true)),
+      fieldFactory: ref.read(fieldViewModelFactoryProvider(false, true)),
       d2ErrorMapper: ref.read(d2ErrorUtilsProvider),
       eventService: ref.read(eventServiceProvider));
 }

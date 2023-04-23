@@ -38,8 +38,7 @@ EventCapturePresenter eventCapturePresenter(
 @riverpod
 EventCaptureResourcesProvider eventCaptureResources(
     EventCaptureResourcesRef ref) {
-  return EventCaptureResourcesProvider(
-      ref.read(resourceManagerProvider(ref.read(buildContextProvider))));
+  return EventCaptureResourcesProvider(ref.read(resourceManagerProvider));
 }
 
 @riverpod

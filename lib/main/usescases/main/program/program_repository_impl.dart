@@ -1,20 +1,10 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
 import '../../../../commons/resources/resource_manager.dart';
 import '../../../../core/common/state.dart';
-import '../../../../form/di/injector.dart';
 import '../../../mp_logic/mp_program_utils.dart';
 import 'program_repository.dart';
 import 'program_view_model.dart';
 import 'program_view_model_mapper.dart';
-part 'program_repository_impl.g.dart';
-
-@Riverpod(keepAlive: true)
-ProgramRepository programRepository(ProgramRepositoryRef ref) {
-  return ProgramRepositoryImpl(ref.read(mpProgramUtilsProvider),
-      ref.read(resourceManagerProvider(ref.read(buildContextProvider))));
-}
 
 class ProgramRepositoryImpl implements ProgramRepository {
   ProgramRepositoryImpl(this.mpProgramUtils, this.resourceManager) {

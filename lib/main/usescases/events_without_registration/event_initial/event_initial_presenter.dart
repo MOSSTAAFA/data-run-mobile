@@ -13,6 +13,7 @@ import '../../../../form/data/form_section_view_model.dart';
 import '../../../../form/di/injector.dart';
 import '../../../../form/model/field_ui_model.dart';
 import '../../../../form/ui/form_view_model.dart';
+import '../../../../main.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../bundle/bundle.dart';
 import '../event_capture/event_section_model.dart';
@@ -90,7 +91,7 @@ class EventInitialPresenter {
   }
 
   void deleteEvent(String trackedEntityInstance) {
-    final BuildContext context = ref.read(buildContextProvider);
+    final BuildContext context = navigatorKey.currentContext!;
     if (eventId != null) {
       eventInitialRepository.deleteEvent(eventId!, trackedEntityInstance);
       ref

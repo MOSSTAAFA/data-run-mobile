@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 class NetworkUtils {
-  BuildContext context;
-
-  NetworkUtils(this.context);
+  const NetworkUtils();
 
   bool isOnline() {
     var isOnline = false;

@@ -1,25 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
 import '../../../../commons/ui/metadata_icon_data.dart';
-
-part 'program_view_model.g.dart';
-
-@riverpod
-class ProgramModel extends _$ProgramModel {
-  @override
-  ProgramViewModel build() {
-    return ProgramViewModel();
-  }
-
-  void setValue(ProgramViewModel value) {
-    state = value;
-  }
-
-  void setCompleteSyncAnimation() {
-    state = state.copyWith(hasShownCompleteSyncAnimation: true);
-  }
-}
 
 class ProgramViewModel with EquatableMixin {
   ProgramViewModel({

@@ -4,6 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../../../commons/constants.dart';
 import '../../../../../commons/prefs/preference_provider.dart';
 import '../../../../../form/di/injector.dart';
+import '../../../../../main.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../bundle/bundle.dart';
 import '../../event_capture/event_field_mapper.dart';
@@ -11,7 +12,6 @@ import '../event_initial_presenter.dart';
 import '../event_initial_repository.dart';
 import '../event_initial_repository_impl.dart';
 import '../event_initial_view_base.dart';
-import '../model/event_initial_bundle.dart';
 
 part 'event_initial_module.g.dart';
 
@@ -34,22 +34,20 @@ part 'event_initial_module.g.dart';
 
 @riverpod
 EventFieldMapper fieldMapper(FieldMapperRef ref) {
-  final BuildContext context = ref.read(buildContextProvider);
+  final BuildContext context = navigatorKey.currentContext!;
   return EventFieldMapper(
-      fieldFactory:
-          ref.read(fieldViewModelFactoryProvider(context, true, true)),
+      fieldFactory: ref.read(fieldViewModelFactoryProvider(true, true)),
       mandatoryFieldWarning:
           AppLocalization.of(context)!.lookup('field_is_mandatory'));
 }
 
 @riverpod
 EventInitialRepository eventInitialRepository(EventInitialRepositoryRef ref) {
-  final BuildContext context = ref.read(buildContextProvider);
+  final BuildContext context = navigatorKey.currentContext!;
   final Bundle eventBundle = ref.read(bundleObjectProvider);
 
   return EventInitialRepositoryImpl(ref,
-      fieldFactory:
-          ref.read(fieldViewModelFactoryProvider(context, true, true)),
+      fieldFactory: ref.read(fieldViewModelFactoryProvider(true, true)),
       eventUid: eventBundle.getString(EVENT_UID),
       stageUid: eventBundle.getString(PROGRAM_STAGE_UID));
 }

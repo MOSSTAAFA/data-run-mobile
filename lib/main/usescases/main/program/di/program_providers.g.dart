@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'program_presenter.dart';
+part of 'program_providers.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -110,20 +110,19 @@ class ProgramPresenterProvider extends Provider<ProgramPresenter> {
   }
 }
 
-String _$programViewModelsHash() => r'668f2b85c460950d8626d9b8b4403af7c3d9de28';
+String _$programRepositoryHash() => r'b2b9b173df5da25df2e1d928da85ebcc872aafc6';
 
-/// See also [ProgramViewModels].
-@ProviderFor(ProgramViewModels)
-final programViewModelsProvider = AutoDisposeNotifierProvider<ProgramViewModels,
-    IList<ProgramViewModel>>.internal(
-  ProgramViewModels.new,
-  name: r'programViewModelsProvider',
+/// See also [programRepository].
+@ProviderFor(programRepository)
+final programRepositoryProvider = Provider<ProgramRepository>.internal(
+  programRepository,
+  name: r'programRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$programViewModelsHash,
+      : _$programRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$ProgramViewModels = AutoDisposeNotifier<IList<ProgramViewModel>>;
+typedef ProgramRepositoryRef = ProviderRef<ProgramRepository>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

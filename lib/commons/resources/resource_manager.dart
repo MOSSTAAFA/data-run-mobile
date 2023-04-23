@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import '../../main.dart';
 import '../../main/l10n/app_localizations.dart';
 import '../../utils/mass_utils/colors.dart';
 import '../extensions/standard_extensions.dart';
 
 class ResourceManager {
-  BuildContext context;
-
-  ResourceManager(this.context);
+  const ResourceManager();
 
   String getString(String stringResource) {
-    return AppLocalization.of(context)!.lookup(stringResource);
+    return AppLocalization.of(navigatorKey.currentContext!)!
+        .lookup(stringResource);
   }
 
   Icon getObjectStyleDrawableResource(
@@ -52,7 +52,7 @@ class ResourceManager {
 
   Color getColorOrDefaultFrom(String? hexColor) {
     return convertHexStringToColor(hexColor) ??
-        Theme.of(context).colorScheme.primary;
+        Theme.of(navigatorKey.currentContext!).colorScheme.primary;
   }
 
   String? parseD2Error(Exception throwable) {

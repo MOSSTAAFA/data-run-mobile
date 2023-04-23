@@ -6,20 +6,6 @@ part of 'injector.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$buildContextHash() => r'8efbd2b1f8fea84ba377c66d5c34bf33a25c0396';
-
-/// See also [buildContext].
-@ProviderFor(buildContext)
-final buildContextProvider = AutoDisposeProvider<BuildContext>.internal(
-  buildContext,
-  name: r'buildContextProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$buildContextHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef BuildContextRef = AutoDisposeProviderRef<BuildContext>;
 String _$formRepositoryRecordsHash() =>
     r'9a3120d831c80fd25293cfa369832874d55a7a4a';
 
@@ -38,7 +24,7 @@ final formRepositoryRecordsProvider =
 
 typedef FormRepositoryRecordsRef
     = AutoDisposeProviderRef<FormRepositoryRecords>;
-String _$formRepositoryHash() => r'b5e921115edf207064747220374f9d6de5960c9a';
+String _$formRepositoryHash() => r'aa42c44ce8a918d4929e48a4bf800c7704df2467';
 
 /// See also [formRepository].
 @ProviderFor(formRepository)
@@ -174,7 +160,7 @@ class EnrollmentObjectRepositoryProvider
   }
 }
 
-String _$formValueStoreHash() => r'385dbd3f1f6f55c07cf006be07eeae6fbdca4e76';
+String _$formValueStoreHash() => r'60928d4611f3d97e3ccbec674bccbcccfcaf65ad';
 typedef FormValueStoreRef = AutoDisposeProviderRef<FormValueStore?>;
 
 /// See also [formValueStore].
@@ -188,13 +174,11 @@ class FormValueStoreFamily extends Family<FormValueStore?> {
 
   /// See also [formValueStore].
   FormValueStoreProvider call(
-    BuildContext context,
     String? recordUid,
     EntryMode? entryMode, [
     EnrollmentObjectRepository? repository,
   ]) {
     return FormValueStoreProvider(
-      context,
       recordUid,
       entryMode,
       repository,
@@ -206,7 +190,6 @@ class FormValueStoreFamily extends Family<FormValueStore?> {
     covariant FormValueStoreProvider provider,
   ) {
     return call(
-      provider.context,
       provider.recordUid,
       provider.entryMode,
       provider.repository,
@@ -232,14 +215,12 @@ class FormValueStoreFamily extends Family<FormValueStore?> {
 class FormValueStoreProvider extends AutoDisposeProvider<FormValueStore?> {
   /// See also [formValueStore].
   FormValueStoreProvider(
-    this.context,
     this.recordUid,
     this.entryMode, [
     this.repository,
   ]) : super.internal(
           (ref) => formValueStore(
             ref,
-            context,
             recordUid,
             entryMode,
             repository,
@@ -255,7 +236,6 @@ class FormValueStoreProvider extends AutoDisposeProvider<FormValueStore?> {
               FormValueStoreFamily._allTransitiveDependencies,
         );
 
-  final BuildContext context;
   final String? recordUid;
   final EntryMode? entryMode;
   final EnrollmentObjectRepository? repository;
@@ -263,7 +243,6 @@ class FormValueStoreProvider extends AutoDisposeProvider<FormValueStore?> {
   @override
   bool operator ==(Object other) {
     return other is FormValueStoreProvider &&
-        other.context == context &&
         other.recordUid == recordUid &&
         other.entryMode == entryMode &&
         other.repository == repository;
@@ -272,7 +251,6 @@ class FormValueStoreProvider extends AutoDisposeProvider<FormValueStore?> {
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, context.hashCode);
     hash = _SystemHash.combine(hash, recordUid.hashCode);
     hash = _SystemHash.combine(hash, entryMode.hashCode);
     hash = _SystemHash.combine(hash, repository.hashCode);
@@ -281,259 +259,55 @@ class FormValueStoreProvider extends AutoDisposeProvider<FormValueStore?> {
   }
 }
 
-String _$networkUtilsHash() => r'338ed806a5fb394ee049f491bcae4fc04a53765f';
-typedef NetworkUtilsRef = AutoDisposeProviderRef<NetworkUtils>;
+String _$networkUtilsHash() => r'536cfd3bfc12b51db1953e2689f637b9fb80df7a';
 
 /// See also [networkUtils].
 @ProviderFor(networkUtils)
-const networkUtilsProvider = NetworkUtilsFamily();
+final networkUtilsProvider = AutoDisposeProvider<NetworkUtils>.internal(
+  networkUtils,
+  name: r'networkUtilsProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$networkUtilsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
-/// See also [networkUtils].
-class NetworkUtilsFamily extends Family<NetworkUtils> {
-  /// See also [networkUtils].
-  const NetworkUtilsFamily();
-
-  /// See also [networkUtils].
-  NetworkUtilsProvider call(
-    BuildContext context,
-  ) {
-    return NetworkUtilsProvider(
-      context,
-    );
-  }
-
-  @override
-  NetworkUtilsProvider getProviderOverride(
-    covariant NetworkUtilsProvider provider,
-  ) {
-    return call(
-      provider.context,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'networkUtilsProvider';
-}
-
-/// See also [networkUtils].
-class NetworkUtilsProvider extends AutoDisposeProvider<NetworkUtils> {
-  /// See also [networkUtils].
-  NetworkUtilsProvider(
-    this.context,
-  ) : super.internal(
-          (ref) => networkUtils(
-            ref,
-            context,
-          ),
-          from: networkUtilsProvider,
-          name: r'networkUtilsProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$networkUtilsHash,
-          dependencies: NetworkUtilsFamily._dependencies,
-          allTransitiveDependencies:
-              NetworkUtilsFamily._allTransitiveDependencies,
-        );
-
-  final BuildContext context;
-
-  @override
-  bool operator ==(Object other) {
-    return other is NetworkUtilsProvider && other.context == context;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, context.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-String _$resourceManagerHash() => r'fd4e456eeb17248d90482730fd8bf4f9dcd8f891';
-typedef ResourceManagerRef = AutoDisposeProviderRef<ResourceManager>;
+typedef NetworkUtilsRef = AutoDisposeProviderRef<NetworkUtils>;
+String _$resourceManagerHash() => r'bfece2e3123ce71949da5ea11e6b0d99660821ea';
 
 /// See also [resourceManager].
 @ProviderFor(resourceManager)
-const resourceManagerProvider = ResourceManagerFamily();
+final resourceManagerProvider = AutoDisposeProvider<ResourceManager>.internal(
+  resourceManager,
+  name: r'resourceManagerProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$resourceManagerHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
-/// See also [resourceManager].
-class ResourceManagerFamily extends Family<ResourceManager> {
-  /// See also [resourceManager].
-  const ResourceManagerFamily();
-
-  /// See also [resourceManager].
-  ResourceManagerProvider call(
-    BuildContext context,
-  ) {
-    return ResourceManagerProvider(
-      context,
-    );
-  }
-
-  @override
-  ResourceManagerProvider getProviderOverride(
-    covariant ResourceManagerProvider provider,
-  ) {
-    return call(
-      provider.context,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'resourceManagerProvider';
-}
-
-/// See also [resourceManager].
-class ResourceManagerProvider extends AutoDisposeProvider<ResourceManager> {
-  /// See also [resourceManager].
-  ResourceManagerProvider(
-    this.context,
-  ) : super.internal(
-          (ref) => resourceManager(
-            ref,
-            context,
-          ),
-          from: resourceManagerProvider,
-          name: r'resourceManagerProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$resourceManagerHash,
-          dependencies: ResourceManagerFamily._dependencies,
-          allTransitiveDependencies:
-              ResourceManagerFamily._allTransitiveDependencies,
-        );
-
-  final BuildContext context;
-
-  @override
-  bool operator ==(Object other) {
-    return other is ResourceManagerProvider && other.context == context;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, context.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
+typedef ResourceManagerRef = AutoDisposeProviderRef<ResourceManager>;
 String _$fieldErrorMessageProviderHash() =>
-    r'6cbdd47bb20a54f2c51df1ce700df9a9c49cf84c';
-typedef FieldErrorMessageProviderRef
-    = AutoDisposeProviderRef<FieldErrorMessageProvider>;
+    r'736b9ff87eb263423b1e96b2d64ec7d447b1294c';
 
 /// See also [fieldErrorMessageProvider].
 @ProviderFor(fieldErrorMessageProvider)
-const fieldErrorMessageProviderProvider = FieldErrorMessageProviderFamily();
+final fieldErrorMessageProviderProvider =
+    AutoDisposeProvider<FieldErrorMessageProvider>.internal(
+  fieldErrorMessageProvider,
+  name: r'fieldErrorMessageProviderProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$fieldErrorMessageProviderHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
-/// See also [fieldErrorMessageProvider].
-class FieldErrorMessageProviderFamily
-    extends Family<FieldErrorMessageProvider> {
-  /// See also [fieldErrorMessageProvider].
-  const FieldErrorMessageProviderFamily();
-
-  /// See also [fieldErrorMessageProvider].
-  FieldErrorMessageProviderProvider call(
-    BuildContext context,
-  ) {
-    return FieldErrorMessageProviderProvider(
-      context,
-    );
-  }
-
-  @override
-  FieldErrorMessageProviderProvider getProviderOverride(
-    covariant FieldErrorMessageProviderProvider provider,
-  ) {
-    return call(
-      provider.context,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'fieldErrorMessageProviderProvider';
-}
-
-/// See also [fieldErrorMessageProvider].
-class FieldErrorMessageProviderProvider
-    extends AutoDisposeProvider<FieldErrorMessageProvider> {
-  /// See also [fieldErrorMessageProvider].
-  FieldErrorMessageProviderProvider(
-    this.context,
-  ) : super.internal(
-          (ref) => fieldErrorMessageProvider(
-            ref,
-            context,
-          ),
-          from: fieldErrorMessageProviderProvider,
-          name: r'fieldErrorMessageProviderProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$fieldErrorMessageProviderHash,
-          dependencies: FieldErrorMessageProviderFamily._dependencies,
-          allTransitiveDependencies:
-              FieldErrorMessageProviderFamily._allTransitiveDependencies,
-        );
-
-  final BuildContext context;
-
-  @override
-  bool operator ==(Object other) {
-    return other is FieldErrorMessageProviderProvider &&
-        other.context == context;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, context.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
+typedef FieldErrorMessageProviderRef
+    = AutoDisposeProviderRef<FieldErrorMessageProvider>;
 String _$enrollmentRepositoryHash() =>
-    r'18f79654ce9f24069e3663a991ce04dd35f0ae93';
+    r'9e4288f89c8cefc360ce928617f79639fddd4754';
 typedef EnrollmentRepositoryRef = AutoDisposeProviderRef<EnrollmentRepository>;
 
 /// See also [enrollmentRepository].
@@ -547,11 +321,9 @@ class EnrollmentRepositoryFamily extends Family<EnrollmentRepository> {
 
   /// See also [enrollmentRepository].
   EnrollmentRepositoryProvider call(
-    BuildContext context,
     EnrollmentRecords enrollmentRecords,
   ) {
     return EnrollmentRepositoryProvider(
-      context,
       enrollmentRecords,
     );
   }
@@ -561,7 +333,6 @@ class EnrollmentRepositoryFamily extends Family<EnrollmentRepository> {
     covariant EnrollmentRepositoryProvider provider,
   ) {
     return call(
-      provider.context,
       provider.enrollmentRecords,
     );
   }
@@ -586,12 +357,10 @@ class EnrollmentRepositoryProvider
     extends AutoDisposeProvider<EnrollmentRepository> {
   /// See also [enrollmentRepository].
   EnrollmentRepositoryProvider(
-    this.context,
     this.enrollmentRecords,
   ) : super.internal(
           (ref) => enrollmentRepository(
             ref,
-            context,
             enrollmentRecords,
           ),
           from: enrollmentRepositoryProvider,
@@ -605,27 +374,24 @@ class EnrollmentRepositoryProvider
               EnrollmentRepositoryFamily._allTransitiveDependencies,
         );
 
-  final BuildContext context;
   final EnrollmentRecords enrollmentRecords;
 
   @override
   bool operator ==(Object other) {
     return other is EnrollmentRepositoryProvider &&
-        other.context == context &&
         other.enrollmentRecords == enrollmentRecords;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, context.hashCode);
     hash = _SystemHash.combine(hash, enrollmentRecords.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
-String _$eventRepositoryHash() => r'b3e2eb8d1e1cd44b488814e05c5c5448db5a4022';
+String _$eventRepositoryHash() => r'376067aa3bfcf77ddbf65d2a42d19539546570d3';
 typedef EventRepositoryRef = AutoDisposeProviderRef<EventRepository>;
 
 /// See also [eventRepository].
@@ -639,11 +405,9 @@ class EventRepositoryFamily extends Family<EventRepository> {
 
   /// See also [eventRepository].
   EventRepositoryProvider call(
-    BuildContext context,
     EventRecords eventRecords,
   ) {
     return EventRepositoryProvider(
-      context,
       eventRecords,
     );
   }
@@ -653,7 +417,6 @@ class EventRepositoryFamily extends Family<EventRepository> {
     covariant EventRepositoryProvider provider,
   ) {
     return call(
-      provider.context,
       provider.eventRecords,
     );
   }
@@ -677,12 +440,10 @@ class EventRepositoryFamily extends Family<EventRepository> {
 class EventRepositoryProvider extends AutoDisposeProvider<EventRepository> {
   /// See also [eventRepository].
   EventRepositoryProvider(
-    this.context,
     this.eventRecords,
   ) : super.internal(
           (ref) => eventRepository(
             ref,
-            context,
             eventRecords,
           ),
           from: eventRepositoryProvider,
@@ -696,27 +457,24 @@ class EventRepositoryProvider extends AutoDisposeProvider<EventRepository> {
               EventRepositoryFamily._allTransitiveDependencies,
         );
 
-  final BuildContext context;
   final EventRecords eventRecords;
 
   @override
   bool operator ==(Object other) {
     return other is EventRepositoryProvider &&
-        other.context == context &&
         other.eventRecords == eventRecords;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, context.hashCode);
     hash = _SystemHash.combine(hash, eventRecords.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
-String _$searchRepositoryHash() => r'fdde56070341ed7a7ba47aca097db83fdeb980b8';
+String _$searchRepositoryHash() => r'9890909d1c9a5b032be96cf2670a66ee07321912';
 typedef SearchRepositoryRef = AutoDisposeProviderRef<SearchRepository>;
 
 /// See also [searchRepository].
@@ -730,11 +488,9 @@ class SearchRepositoryFamily extends Family<SearchRepository> {
 
   /// See also [searchRepository].
   SearchRepositoryProvider call(
-    BuildContext context,
     SearchRecords searchRecords,
   ) {
     return SearchRepositoryProvider(
-      context,
       searchRecords,
     );
   }
@@ -744,7 +500,6 @@ class SearchRepositoryFamily extends Family<SearchRepository> {
     covariant SearchRepositoryProvider provider,
   ) {
     return call(
-      provider.context,
       provider.searchRecords,
     );
   }
@@ -768,12 +523,10 @@ class SearchRepositoryFamily extends Family<SearchRepository> {
 class SearchRepositoryProvider extends AutoDisposeProvider<SearchRepository> {
   /// See also [searchRepository].
   SearchRepositoryProvider(
-    this.context,
     this.searchRecords,
   ) : super.internal(
           (ref) => searchRepository(
             ref,
-            context,
             searchRecords,
           ),
           from: searchRepositoryProvider,
@@ -787,20 +540,17 @@ class SearchRepositoryProvider extends AutoDisposeProvider<SearchRepository> {
               SearchRepositoryFamily._allTransitiveDependencies,
         );
 
-  final BuildContext context;
   final SearchRecords searchRecords;
 
   @override
   bool operator ==(Object other) {
     return other is SearchRepositoryProvider &&
-        other.context == context &&
         other.searchRecords == searchRecords;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, context.hashCode);
     hash = _SystemHash.combine(hash, searchRecords.hashCode);
 
     return _SystemHash.finish(hash);
@@ -808,95 +558,25 @@ class SearchRepositoryProvider extends AutoDisposeProvider<SearchRepository> {
 }
 
 String _$enrollmentFormLabelsProviderHash() =>
-    r'23c85b132b4a4c5cf81e43b9ef39e5eed2953794';
-typedef EnrollmentFormLabelsProviderRef
-    = AutoDisposeProviderRef<EnrollmentFormLabelsProvider>;
+    r'ba3eb7fa1326c6bc894995e0dba238d981be723d';
 
 /// See also [enrollmentFormLabelsProvider].
 @ProviderFor(enrollmentFormLabelsProvider)
-const enrollmentFormLabelsProviderProvider =
-    EnrollmentFormLabelsProviderFamily();
+final enrollmentFormLabelsProviderProvider =
+    AutoDisposeProvider<EnrollmentFormLabelsProvider>.internal(
+  enrollmentFormLabelsProvider,
+  name: r'enrollmentFormLabelsProviderProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$enrollmentFormLabelsProviderHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
-/// See also [enrollmentFormLabelsProvider].
-class EnrollmentFormLabelsProviderFamily
-    extends Family<EnrollmentFormLabelsProvider> {
-  /// See also [enrollmentFormLabelsProvider].
-  const EnrollmentFormLabelsProviderFamily();
-
-  /// See also [enrollmentFormLabelsProvider].
-  EnrollmentFormLabelsProviderProvider call(
-    BuildContext context,
-  ) {
-    return EnrollmentFormLabelsProviderProvider(
-      context,
-    );
-  }
-
-  @override
-  EnrollmentFormLabelsProviderProvider getProviderOverride(
-    covariant EnrollmentFormLabelsProviderProvider provider,
-  ) {
-    return call(
-      provider.context,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'enrollmentFormLabelsProviderProvider';
-}
-
-/// See also [enrollmentFormLabelsProvider].
-class EnrollmentFormLabelsProviderProvider
-    extends AutoDisposeProvider<EnrollmentFormLabelsProvider> {
-  /// See also [enrollmentFormLabelsProvider].
-  EnrollmentFormLabelsProviderProvider(
-    this.context,
-  ) : super.internal(
-          (ref) => enrollmentFormLabelsProvider(
-            ref,
-            context,
-          ),
-          from: enrollmentFormLabelsProviderProvider,
-          name: r'enrollmentFormLabelsProviderProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$enrollmentFormLabelsProviderHash,
-          dependencies: EnrollmentFormLabelsProviderFamily._dependencies,
-          allTransitiveDependencies:
-              EnrollmentFormLabelsProviderFamily._allTransitiveDependencies,
-        );
-
-  final BuildContext context;
-
-  @override
-  bool operator ==(Object other) {
-    return other is EnrollmentFormLabelsProviderProvider &&
-        other.context == context;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, context.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
+typedef EnrollmentFormLabelsProviderRef
+    = AutoDisposeProviderRef<EnrollmentFormLabelsProvider>;
 String _$dataEntryRepositoryHash() =>
-    r'cf8153f899c205ef90d6930f310f49266740b23e';
+    r'a7e2e60bf647df396dd51a3f5a2a48ee380407e6';
 typedef DataEntryRepositoryRef = AutoDisposeProviderRef<DataEntryRepository>;
 
 /// See also [dataEntryRepository].
@@ -911,12 +591,10 @@ class DataEntryRepositoryFamily extends Family<DataEntryRepository> {
   /// See also [dataEntryRepository].
   DataEntryRepositoryProvider call({
     EntryMode? entryMode,
-    required BuildContext context,
     required FormRepositoryRecords repositoryRecords,
   }) {
     return DataEntryRepositoryProvider(
       entryMode: entryMode,
-      context: context,
       repositoryRecords: repositoryRecords,
     );
   }
@@ -927,7 +605,6 @@ class DataEntryRepositoryFamily extends Family<DataEntryRepository> {
   ) {
     return call(
       entryMode: provider.entryMode,
-      context: provider.context,
       repositoryRecords: provider.repositoryRecords,
     );
   }
@@ -953,13 +630,11 @@ class DataEntryRepositoryProvider
   /// See also [dataEntryRepository].
   DataEntryRepositoryProvider({
     this.entryMode,
-    required this.context,
     required this.repositoryRecords,
   }) : super.internal(
           (ref) => dataEntryRepository(
             ref,
             entryMode: entryMode,
-            context: context,
             repositoryRecords: repositoryRecords,
           ),
           from: dataEntryRepositoryProvider,
@@ -974,14 +649,12 @@ class DataEntryRepositoryProvider
         );
 
   final EntryMode? entryMode;
-  final BuildContext context;
   final FormRepositoryRecords repositoryRecords;
 
   @override
   bool operator ==(Object other) {
     return other is DataEntryRepositoryProvider &&
         other.entryMode == entryMode &&
-        other.context == context &&
         other.repositoryRecords == repositoryRecords;
   }
 
@@ -989,7 +662,6 @@ class DataEntryRepositoryProvider
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, entryMode.hashCode);
-    hash = _SystemHash.combine(hash, context.hashCode);
     hash = _SystemHash.combine(hash, repositoryRecords.hashCode);
 
     return _SystemHash.finish(hash);
@@ -997,7 +669,7 @@ class DataEntryRepositoryProvider
 }
 
 String _$fieldViewModelFactoryHash() =>
-    r'fcca8e8233a2dd6b859fdc23e0cd779226835fdf';
+    r'88ca3cc50ab2bbd97ab6a9fc1d945838e68b2abb';
 typedef FieldViewModelFactoryRef
     = AutoDisposeProviderRef<FieldViewModelFactory>;
 
@@ -1012,12 +684,10 @@ class FieldViewModelFactoryFamily extends Family<FieldViewModelFactory> {
 
   /// See also [fieldViewModelFactory].
   FieldViewModelFactoryProvider call(
-    BuildContext context,
     bool allowMandatoryFields,
     bool isBackgroundTransparent,
   ) {
     return FieldViewModelFactoryProvider(
-      context,
       allowMandatoryFields,
       isBackgroundTransparent,
     );
@@ -1028,7 +698,6 @@ class FieldViewModelFactoryFamily extends Family<FieldViewModelFactory> {
     covariant FieldViewModelFactoryProvider provider,
   ) {
     return call(
-      provider.context,
       provider.allowMandatoryFields,
       provider.isBackgroundTransparent,
     );
@@ -1054,13 +723,11 @@ class FieldViewModelFactoryProvider
     extends AutoDisposeProvider<FieldViewModelFactory> {
   /// See also [fieldViewModelFactory].
   FieldViewModelFactoryProvider(
-    this.context,
     this.allowMandatoryFields,
     this.isBackgroundTransparent,
   ) : super.internal(
           (ref) => fieldViewModelFactory(
             ref,
-            context,
             allowMandatoryFields,
             isBackgroundTransparent,
           ),
@@ -1075,14 +742,12 @@ class FieldViewModelFactoryProvider
               FieldViewModelFactoryFamily._allTransitiveDependencies,
         );
 
-  final BuildContext context;
   final bool allowMandatoryFields;
   final bool isBackgroundTransparent;
 
   @override
   bool operator ==(Object other) {
     return other is FieldViewModelFactoryProvider &&
-        other.context == context &&
         other.allowMandatoryFields == allowMandatoryFields &&
         other.isBackgroundTransparent == isBackgroundTransparent;
   }
@@ -1090,7 +755,6 @@ class FieldViewModelFactoryProvider
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, context.hashCode);
     hash = _SystemHash.combine(hash, allowMandatoryFields.hashCode);
     hash = _SystemHash.combine(hash, isBackgroundTransparent.hashCode);
 
@@ -1150,88 +814,20 @@ final uiEventTypesProviderProvider =
 );
 
 typedef UiEventTypesProviderRef = AutoDisposeProviderRef<UiEventTypesProvider>;
-String _$hintProviderHash() => r'bf990c4c480e8b6a6921d4ac6e3944beb6af02cf';
-typedef HintProviderRef = AutoDisposeProviderRef<HintProvider>;
+String _$hintProviderHash() => r'e776cc0b3d1930e6482c052f222e1059e07926ca';
 
 /// See also [hintProvider].
 @ProviderFor(hintProvider)
-const hintProviderProvider = HintProviderFamily();
+final hintProviderProvider = AutoDisposeProvider<HintProvider>.internal(
+  hintProvider,
+  name: r'hintProviderProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$hintProviderHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
-/// See also [hintProvider].
-class HintProviderFamily extends Family<HintProvider> {
-  /// See also [hintProvider].
-  const HintProviderFamily();
-
-  /// See also [hintProvider].
-  HintProviderProvider call(
-    BuildContext context,
-  ) {
-    return HintProviderProvider(
-      context,
-    );
-  }
-
-  @override
-  HintProviderProvider getProviderOverride(
-    covariant HintProviderProvider provider,
-  ) {
-    return call(
-      provider.context,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'hintProviderProvider';
-}
-
-/// See also [hintProvider].
-class HintProviderProvider extends AutoDisposeProvider<HintProvider> {
-  /// See also [hintProvider].
-  HintProviderProvider(
-    this.context,
-  ) : super.internal(
-          (ref) => hintProvider(
-            ref,
-            context,
-          ),
-          from: hintProviderProvider,
-          name: r'hintProviderProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$hintProviderHash,
-          dependencies: HintProviderFamily._dependencies,
-          allTransitiveDependencies:
-              HintProviderFamily._allTransitiveDependencies,
-        );
-
-  final BuildContext context;
-
-  @override
-  bool operator ==(Object other) {
-    return other is HintProviderProvider && other.context == context;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, context.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
+typedef HintProviderRef = AutoDisposeProviderRef<HintProvider>;
 String _$layoutProviderHash() => r'62a05ae0de3c8aebe885eee3eed6b11cc00f72e7';
 
 /// See also [layoutProvider].
@@ -1247,7 +843,7 @@ final layoutProviderProvider = AutoDisposeProvider<LayoutProvider>.internal(
 );
 
 typedef LayoutProviderRef = AutoDisposeProviderRef<LayoutProvider>;
-String _$uiStyleProviderHash() => r'05eb41d4a62d1a8c1d1e67a69424c4c816df26ca';
+String _$uiStyleProviderHash() => r'27f9751e8b6848b249be8c91488785e3d2eea4a0';
 typedef UiStyleProviderRef = AutoDisposeProviderRef<UiStyleProvider>;
 
 /// See also [uiStyleProvider].
@@ -1261,11 +857,9 @@ class UiStyleProviderFamily extends Family<UiStyleProvider> {
 
   /// See also [uiStyleProvider].
   UiStyleProviderProvider call(
-    BuildContext context,
     bool isBackgroundTransparent,
   ) {
     return UiStyleProviderProvider(
-      context,
       isBackgroundTransparent,
     );
   }
@@ -1275,7 +869,6 @@ class UiStyleProviderFamily extends Family<UiStyleProvider> {
     covariant UiStyleProviderProvider provider,
   ) {
     return call(
-      provider.context,
       provider.isBackgroundTransparent,
     );
   }
@@ -1299,12 +892,10 @@ class UiStyleProviderFamily extends Family<UiStyleProvider> {
 class UiStyleProviderProvider extends AutoDisposeProvider<UiStyleProvider> {
   /// See also [uiStyleProvider].
   UiStyleProviderProvider(
-    this.context,
     this.isBackgroundTransparent,
   ) : super.internal(
           (ref) => uiStyleProvider(
             ref,
-            context,
             isBackgroundTransparent,
           ),
           from: uiStyleProviderProvider,
@@ -1318,20 +909,17 @@ class UiStyleProviderProvider extends AutoDisposeProvider<UiStyleProvider> {
               UiStyleProviderFamily._allTransitiveDependencies,
         );
 
-  final BuildContext context;
   final bool isBackgroundTransparent;
 
   @override
   bool operator ==(Object other) {
     return other is UiStyleProviderProvider &&
-        other.context == context &&
         other.isBackgroundTransparent == isBackgroundTransparent;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, context.hashCode);
     hash = _SystemHash.combine(hash, isBackgroundTransparent.hashCode);
 
     return _SystemHash.finish(hash);

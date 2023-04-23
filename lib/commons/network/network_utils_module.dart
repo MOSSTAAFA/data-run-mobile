@@ -14,8 +14,6 @@ import 'network_utils.dart';
 
 class NetworkUtilsModule {
   NetworkUtils networkUtilsProvider(BuildContext context) {
-    return NetworkUtils(context);
+    return const NetworkUtils();
   }
 }
-
-

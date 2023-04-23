@@ -132,7 +132,7 @@ class EventCapturePresenterProvider
 }
 
 String _$eventCaptureResourcesHash() =>
-    r'453c23888f4122ddcf95fb4dfb9a4250deb79bae';
+    r'33e1bb223dd3e98b6762a2f25d746fae840d5256';
 
 /// See also [eventCaptureResources].
 @ProviderFor(eventCaptureResources)

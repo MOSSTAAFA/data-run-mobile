@@ -7,7 +7,7 @@ part of 'event_details_module.dart';
 // **************************************************************************
 
 String _$eventDetailResourcesHash() =>
-    r'9b776149c41dfd749c6216aba3f15e844642f2bb';
+    r'222d1c42c610a1f841883f7268036dc773734f19';
 
 /// See also [eventDetailResources].
 @ProviderFor(eventDetailResources)
@@ -24,7 +24,7 @@ final eventDetailResourcesProvider =
 
 typedef EventDetailResourcesRef
     = AutoDisposeProviderRef<EventDetailResourcesProvider>;
-String _$d2ErrorUtilsHash() => r'd615f97ac1285052a2abf6b14f3afffad112b850';
+String _$d2ErrorUtilsHash() => r'2f084ac19bdecd3d1822abf71cafbd1220f115ed';
 
 /// See also [d2ErrorUtils].
 @ProviderFor(d2ErrorUtils)
@@ -39,7 +39,7 @@ final d2ErrorUtilsProvider = AutoDisposeProvider<D2ErrorUtils>.internal(
 
 typedef D2ErrorUtilsRef = AutoDisposeProviderRef<D2ErrorUtils>;
 String _$eventDetailsRepositoryHash() =>
-    r'073f11d349977c981ac70bb0a8b3744ea7da6e84';
+    r'a826b950566943f6e17aa6e7448295726dd7f099';
 
 /// See also [eventDetailsRepository].
 @ProviderFor(eventDetailsRepository)

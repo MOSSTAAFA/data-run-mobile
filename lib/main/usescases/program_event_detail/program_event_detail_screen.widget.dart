@@ -50,7 +50,7 @@ class _ProgramEventDetailScreenState
     return ProviderScope(
       overrides: [
         pageConfiguratorProvider
-            .overrideWith((_) => ProgramEventPageConfigurator())
+            .overrideWith((_) => ProgramEventPageConfigurator()),
       ],
       child: Column(
         children: [

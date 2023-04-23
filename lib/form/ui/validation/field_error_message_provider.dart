@@ -18,17 +18,16 @@ import 'package:d2_remote/core/common/value_type/failures/unit_interval_failure.
 import 'package:d2_remote/core/common/value_type/failures/url_failure.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../../main.dart';
 import '../../../main/l10n/app_localizations.dart';
 import 'failures/field_mask_failure.dart';
 
 class FieldErrorMessageProvider {
-  BuildContext context;
-
-  FieldErrorMessageProvider(this.context);
+  const FieldErrorMessageProvider();
 
   String getFriendlyErrorMessage(Exception error) {
-    return AppLocalization.of(context)!.lookup(
-        _parseErrorToMessage(error));
+    return AppLocalization.of(navigatorKey.currentContext!)!
+        .lookup(_parseErrorToMessage(error));
   }
 
   String _parseErrorToMessage(Exception error) {
@@ -42,7 +41,8 @@ class FieldErrorMessageProvider {
     if (error is PhoneNumberFailure) return _getPhoneNumberError(error);
     if (error is EmailFailure) return _getEmailError(error);
     if (error is IntegerNegativeFailure) return _getIntegerNegativeError(error);
-    if (error is IntegerZeroOrPositiveFailure) return _getIntegerZeroOrPositiveError(error);
+    if (error is IntegerZeroOrPositiveFailure)
+      return _getIntegerZeroOrPositiveError(error);
     if (error is IntegerPositiveFailure) return _getIntegerPositiveError(error);
     if (error is UnitIntervalFailure) return _getUnitIntervalFailure(error);
     if (error is PercentageFailure) return _getPercentageError(error);
@@ -55,8 +55,10 @@ class FieldErrorMessageProvider {
   }
 
   String _getTrueOnlyError(TrueOnlyFailure error) {
-    return error.when(oneIsNotTrueException: (_) => 'error_true_only_one_is_not_true',
-        falseIsNotAValidValueException: (_) => 'error_true_only_false_not_valid',
+    return error.when(
+        oneIsNotTrueException: (_) => 'error_true_only_one_is_not_true',
+        falseIsNotAValidValueException: (_) =>
+            'error_true_only_false_not_valid',
         booleanMalformedException: (_) => 'error_true_only_malformed');
   }
 
@@ -169,10 +171,12 @@ class FieldErrorMessageProvider {
   }
 
   String mandatoryWarning() {
-    return AppLocalization.of(context)!.lookup('field_is_mandatory');
+    return AppLocalization.of(navigatorKey.currentContext!)!
+        .lookup('field_is_mandatory');
   }
 
   String defaultValidationErrorMessage() {
-    return AppLocalization.of(context)!.lookup('validation_error_message');
+    return AppLocalization.of(navigatorKey.currentContext!)!
+        .lookup('validation_error_message');
   }
 }

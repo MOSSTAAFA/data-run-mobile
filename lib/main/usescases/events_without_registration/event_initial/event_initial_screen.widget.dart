@@ -13,8 +13,6 @@ import 'event_initial_view_base.dart';
 class EventInitialScreen extends StatefulWidget {
   const EventInitialScreen({super.key});
 
-  static const String route = '/eventInitialActivity';
-
   @override
   State<EventInitialScreen> createState() => _EventInitialScreenState();
 

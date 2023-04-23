@@ -1,22 +1,39 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
-import 'package:mass_pro/main/usescases/main/program/program_view.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'di/program_providers.dart';
+import 'program_list/program_list.widget.dart';
+import 'program_presenter.dart';
+import 'program_view.dart';
 import 'program_view_model.dart';
 
 /// ProgramFragment
-class ProgramViewScreen extends StatefulWidget {
+class ProgramViewScreen extends ConsumerStatefulWidget {
   const ProgramViewScreen({super.key});
 
   @override
-  State<ProgramViewScreen> createState() => _ProgramViewScreenState();
+  ConsumerState<ProgramViewScreen> createState() => _ProgramViewScreenState();
 }
 
-class _ProgramViewScreenState extends State<ProgramViewScreen>
+class _ProgramViewScreenState extends ConsumerState<ProgramViewScreen>
     with ProgramView {
+  late final ProgramPresenter presenter;
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return ProgramList(
+      onItemClick: (programViewModel) =>
+          presenter.onItemClick(programViewModel),
+      onGranularSyncClick: (programViewModel) =>
+          presenter.onSyncStatusClick(programViewModel),
+      onDescriptionClick: (programViewModel) =>
+          presenter.showDescription(programViewModel.description),
+    );
+  }
+
+  @override
+  void initState() {
+    presenter = ref.read(programPresenterProvider(this));
+    super.initState();
   }
 
   @override

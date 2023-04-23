@@ -1,14 +1,11 @@
 import 'package:d2_remote/core/maintenance/d2_error.dart';
 import 'package:d2_remote/core/maintenance/d2_error_code.dart';
 import 'package:dartlin/control_flow.dart';
-import 'package:flutter/cupertino.dart';
-
+import '../../main.dart';
 import '../../main/l10n/app_localizations.dart';
 
 class D2ErrorUtils {
-  D2ErrorUtils(this.context);
-
-  BuildContext context;
+  const D2ErrorUtils();
 
   String getErrorMessage(Exception exception) {
     if (exception is D2Error) {
@@ -18,7 +15,7 @@ class D2ErrorUtils {
   }
 
   String _handleD2Error(D2Error? d2Error) {
-    final AppLocalization localization = AppLocalization.of(context)!;
+    final AppLocalization localization = navigatorKey.localization;
 
     return when(d2Error?.errorCode, {
       D2ErrorCode.LOGIN_PASSWORD_NULL: () =>

@@ -1,17 +1,13 @@
 import 'package:d2_remote/core/common/value_type.dart';
-import 'package:flutter/material.dart';
-
-import '../../../main/l10n/app_localizations.dart';
+import '../../../main.dart';
 import 'hint_provider.dart';
 
 class HintProviderImpl implements HintProvider {
-  HintProviderImpl(this.context);
-
-  BuildContext context;
+  const HintProviderImpl();
 
   @override
   String provideDateHint(ValueType valueType) {
-    final localization = AppLocalization.of(context)!;
+    final localization = navigatorKey.localization;
     switch (valueType) {
       case ValueType.TEXT:
         return localization.lookup('enter_text');
