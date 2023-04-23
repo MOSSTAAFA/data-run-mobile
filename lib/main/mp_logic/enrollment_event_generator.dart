@@ -85,7 +85,7 @@ class EnrollmentEventGenerator {
           enrollment.activity);
 
       final bool hideDueDate = programStage.hideDueDate;
-      final PeriodType? periodType = programStage.periodType?.toPeriodType;
+      final PeriodType? periodType = programStage.periodType.toPeriodType;
       final int minDaysFromStart = programStage.minDaysFromStart ?? 0;
 
       final DateTime now = DateTime.now();

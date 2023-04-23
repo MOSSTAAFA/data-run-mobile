@@ -47,7 +47,7 @@ extension StringNullExtension on String? {
   int toInt({int? radix}) => int.parse(this!, radix: radix);
 
   String? format(List args, {String needleRegex = '%s'}) {
-    RegExp exp = RegExp(needleRegex);
+    final RegExp exp = RegExp(needleRegex);
 
     // Iterable<RegExpMatch> matches = exp.allMatches(this?? '');
     // assert(
@@ -65,7 +65,7 @@ extension StringNullExtension on String? {
 
 extension StringExtension on String {
   String format(List args, {String needleRegex = '%s'}) {
-    RegExp exp = RegExp(needleRegex);
+    final RegExp exp = RegExp(needleRegex);
 
     // Iterable<RegExpMatch> matches = exp.allMatches(this);
     // assert(

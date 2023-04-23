@@ -7,7 +7,7 @@ part of 'form_view_model.dart';
 // **************************************************************************
 
 String _$completionPercentageValueHash() =>
-    r'd938027c791f384400d91450513ee5b372be1277';
+    r'fc76529128cbc1b0b95bcc8e8406016570bc9561';
 
 /// See also [completionPercentageValue].
 @ProviderFor(completionPercentageValue)

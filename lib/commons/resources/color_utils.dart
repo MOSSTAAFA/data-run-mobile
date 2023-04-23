@@ -1,22 +1,23 @@
+// ignore_for_file: avoid_classes_with_only_static_members
+
 import 'package:flutter/material.dart';
 
-enum ColorType {
-  PRIMARY, PRIMARY_LIGHT, PRIMARY_DARK, ACCENT}
+enum ColorType { PRIMARY, PRIMARY_LIGHT, PRIMARY_DARK, ACCENT }
 
 class ColorUtils {
-  static final int ALPHA_20_PERCENT = 51;
+  static const int ALPHA_20_PERCENT = 51;
 
   static int parseColor(String hexColor) {
-    if (hexColor.length == 4) {//Color is formatted as #fff
-      String r = hexColor[1];
-      String g = hexColor[2];
-      String b = hexColor[3];
+    if (hexColor.length == 4) {
+      //Color is formatted as #fff
+      final String r = hexColor[1];
+      final String g = hexColor[2];
+      final String b = hexColor[3];
       hexColor = "#" + r + r + g + g + b + b; //formatted to #ffff
     }
     return Color(int.parse(hexColor, radix: 16) + 0xFF000000).value;
   }
 
-  /**/
   static Color getPrimaryColor(BuildContext context, ColorType colorType) {
     // int  id;
     switch (colorType) {

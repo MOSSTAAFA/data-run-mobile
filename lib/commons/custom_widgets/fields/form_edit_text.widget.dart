@@ -3,7 +3,7 @@ import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/form/ui/form_view_model.dart';
+import '../../../form/ui/form_view_model.dart';
 
 import '../../../form/model/field_ui_model.dart';
 import '../../../form/model/key_board_action_type.dart';
@@ -42,10 +42,10 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
   @override
   Widget build(BuildContext context) {
     final String? error =
-        ref.watch(fieldRowProvider.select((value) => value?.error));
+        ref.watch(fieldRowProvider.select((value) => value.error));
 
     final bool focused =
-        ref.watch(fieldRowProvider.select((value) => value?.focused ?? false));
+        ref.watch(fieldRowProvider.select((value) => value.focused));
 
     // if (focused) {
     //   _focusNode.requestFocus();
@@ -143,6 +143,8 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
       case ValueType.LETTER:
         _maxLength = 1;
         _maxLengthEnforcement = MaxLengthEnforcement.enforced;
+        break;
+      default:
         break;
     }
 

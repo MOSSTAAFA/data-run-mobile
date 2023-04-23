@@ -55,18 +55,18 @@ class EventInitialPresenter {
     //             eventInitialRepository.accessDataWrite(programId).blockingFirst()
     //     );
     if (eventId != null) {
-      final program = (await eventInitialRepository
-          .getProgramWithId(eventBundle.getString(PROGRAM_UID)));
+      final program = await eventInitialRepository
+          .getProgramWithId(eventBundle.getString(PROGRAM_UID));
       final programStage =
           await eventInitialRepository.programStageForEvent(eventId!);
       this.program = program;
       view.setProgram(program);
     } else {
       eventInitialRepository
-          .getProgramWithId(eventBundle.getString(PROGRAM_UID)!)
+          .getProgramWithId(eventBundle.getString(PROGRAM_UID))
           .then((Program? program) {
         this.program = program;
-        view.setProgram(program!);
+        view.setProgram(program);
       });
 
       _getProgramStages(eventBundle.getString(PROGRAM_UID)!,

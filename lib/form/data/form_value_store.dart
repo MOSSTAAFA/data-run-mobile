@@ -49,9 +49,9 @@ class FormValueStore {
   Future<StoreResult> save(String uid, String? value, String? extraData) async {
     switch (entryMode) {
       case EntryMode.DE:
-        return await saveDataElement(uid, value);
+        return saveDataElement(uid, value);
       case EntryMode.ATTR:
-        return await checkStoreEnrollmentDetail(uid, value, extraData);
+        return checkStoreEnrollmentDetail(uid, value, extraData);
       case EntryMode.DV:
         throw Exception(
             resourceManager.getString('R.string.data_values_save_error'));
@@ -61,14 +61,14 @@ class FormValueStore {
   Future<StoreResult> checkStoreEnrollmentDetail(
       String uid, String? value, String? extraData) async {
     if (uid == EnrollmentDetail.ENROLLMENT_DATE_UID.name) {
-      await enrollmentRepository?.setEnrollmentDate(value?.toDate());
+      await enrollmentRepository?.setEnrollmentDate(value.toDate());
 
       return StoreResult(
           uid: EnrollmentDetail.ENROLLMENT_DATE_UID.name,
           valueStoreResult: ValueStoreResult.VALUE_CHANGED);
     }
     if (uid == EnrollmentDetail.INCIDENT_DATE_UID.name) {
-      await enrollmentRepository?.setIncidentDate(value?.toDate());
+      await enrollmentRepository?.setIncidentDate(value.toDate());
 
       return StoreResult(
           uid: EnrollmentDetail.INCIDENT_DATE_UID.name,
@@ -134,7 +134,7 @@ class FormValueStore {
         await _loadRecordUid();
         final Event event =
             (await D2Remote.trackerModule.event.byId(recordUid).getOne())!;
-        Enrollment enrollment = (await D2Remote.trackerModule.enrollment
+        final Enrollment enrollment = (await D2Remote.trackerModule.enrollment
             .byId(event.enrollment.id)
             .getOne())!;
 
@@ -153,7 +153,7 @@ class FormValueStore {
           uid: uid, valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);
     }
 
-    if (!(await checkUniqueFilter(uid, value, teiUid!))) {
+    if (!(await checkUniqueFilter(uid, value, teiUid))) {
       return StoreResult(
           uid: uid, valueStoreResult: ValueStoreResult.VALUE_NOT_UNIQUE);
     }
@@ -274,13 +274,13 @@ class FormValueStore {
   Future<StoreResult> saveWithTypeCheck(String uid, String? value) async {
     final dataElement = await D2Remote.dataElementModule.dataElement.byId(uid);
     if (dataElement != null) {
-      return await saveDataElement(uid, value);
+      return saveDataElement(uid, value);
     }
 
     final trackedEntityAttribute =
         await D2Remote.programModule.trackedEntityAttribute.byId(uid);
     if (trackedEntityAttribute != null) {
-      return await saveAttribute(uid, value);
+      return saveAttribute(uid, value);
     } else {
       return StoreResult(
           uid: uid, valueStoreResult: ValueStoreResult.UID_IS_NOT_DE_OR_ATTR);
@@ -291,9 +291,9 @@ class FormValueStore {
       String field, String optionUid) async {
     switch (entryMode) {
       case EntryMode.DE:
-        return await deleteDataElementValue(field, optionUid);
+        return deleteDataElementValue(field, optionUid);
       case EntryMode.ATTR:
-        return await deleteAttributeValue(field, optionUid);
+        return deleteAttributeValue(field, optionUid);
       case EntryMode.DV:
         throw ArgumentError(
             resourceManager.getString('R.string.data_values_save_error'));
@@ -304,14 +304,15 @@ class FormValueStore {
       String field, String optionUid) async {
     final Option option =
         (await D2Remote.optionModule.option.byId(optionUid).getOne())!;
-    List<String> possibleValues = [option.name!, option.code!];
+    final List<String> possibleValues = [option.name!, option.code!];
     await _loadRecordUid();
-    EventDataValueQuery valueRepository = D2Remote.trackerModule.eventDataValue
+    final EventDataValueQuery valueRepository = D2Remote
+        .trackerModule.eventDataValue
         .byEvent(recordUid)
         .byDataElement(field);
     if ((await valueRepository.blockingExists()) &&
         possibleValues.contains((await valueRepository.getOne())?.value)) {
-      return await saveDataElement(field, null);
+      return saveDataElement(field, null);
     } else {
       return StoreResult(
           uid: field, valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);
@@ -322,15 +323,15 @@ class FormValueStore {
       String field, String optionUid) async {
     final Option option =
         (await D2Remote.optionModule.option.byId(optionUid).getOne())!;
-    List<String> possibleValues = [option.name!, option.code!];
+    final List<String> possibleValues = [option.name!, option.code!];
     await _loadRecordUid();
-    TrackedEntityAttributeValueQuery valueRepository = D2Remote
+    final TrackedEntityAttributeValueQuery valueRepository = D2Remote
         .trackerModule.trackedEntityAttributeValue
         .byAttribute(field)
         .byTrackedEntityInstance(recordUid);
     if ((await valueRepository.blockingExists()) &&
         possibleValues.contains((await valueRepository.getOne())?.value)) {
-      return await saveAttribute(field, null);
+      return saveAttribute(field, null);
     } else {
       return StoreResult(
           uid: field, valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);
@@ -346,19 +347,19 @@ class FormValueStore {
             .getOne())
         ?.options;
 
-    List<String> optionsInGroup = [];
+    final List<String> optionsInGroup = [];
 
     optionGroupOptions?.map((OptionGroupOption option) async {
-      String code = (await D2Remote.optionModule.option.getOne())!.code!;
+      final String code = (await D2Remote.optionModule.option.getOne())!.code!;
       optionsInGroup.add(code);
     });
 
     switch (entryMode) {
       case EntryMode.DE:
-        return await deleteDataElementValueIfNotInGroup(
+        return deleteDataElementValueIfNotInGroup(
             field, optionsInGroup, isInGroup);
       case EntryMode.ATTR:
-        return await deleteAttributeValueIfNotInGroup(
+        return deleteAttributeValueIfNotInGroup(
             field, optionsInGroup, isInGroup);
       case EntryMode.DV:
         throw ArgumentError(
@@ -369,14 +370,14 @@ class FormValueStore {
   Future<StoreResult> deleteAttributeValueIfNotInGroup(
       String field, List<String> optionCodesToShow, bool isInGroup) async {
     await _loadRecordUid();
-    TrackedEntityAttributeValueQuery valueRepository = D2Remote
+    final TrackedEntityAttributeValueQuery valueRepository = D2Remote
         .trackerModule.trackedEntityAttributeValue
         .byAttribute(field)
         .byTrackedEntityInstance(recordUid);
     if ((await valueRepository.blockingExists()) &&
         optionCodesToShow.contains((await valueRepository.getOne())?.value) ==
             isInGroup) {
-      return await saveAttribute(field, null);
+      return saveAttribute(field, null);
     } else {
       return StoreResult(
           uid: field, valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);
@@ -386,13 +387,14 @@ class FormValueStore {
   Future<StoreResult> deleteDataElementValueIfNotInGroup(
       String field, List<String> optionCodesToShow, bool isInGroup) async {
     await _loadRecordUid();
-    EventDataValueQuery valueRepository = D2Remote.trackerModule.eventDataValue
+    final EventDataValueQuery valueRepository = D2Remote
+        .trackerModule.eventDataValue
         .byEvent(recordUid)
         .byDataElement(field);
     if ((await valueRepository.blockingExists()) &&
         optionCodesToShow.contains((await valueRepository.getOne())?.value) ==
             isInGroup) {
-      return await saveDataElement(field, null);
+      return saveDataElement(field, null);
     } else {
       return StoreResult(
           uid: field, valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);

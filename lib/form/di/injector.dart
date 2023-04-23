@@ -93,7 +93,7 @@ FormValueStore? formValueStore(
               enrollment?.trackedEntityInstance ?? recordUid);
     } else {
       enrollmentObjectRepository = null;
-      uid = Future.value(recordUid!);
+      uid = Future.value(recordUid);
     }
 
     return FormValueStore(
@@ -181,6 +181,7 @@ DataEntryRepository dataEntryRepository(DataEntryRepositoryRef ref,
     case EntryMode.DE:
       return ref
           .read(eventRepositoryProvider(repositoryRecords as EventRecords));
+    default:
   }
   return ref.read(searchRepositoryProvider(repositoryRecords as SearchRecords));
 }

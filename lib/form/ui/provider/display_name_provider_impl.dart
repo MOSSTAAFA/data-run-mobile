@@ -25,7 +25,7 @@ class DisplayNameProviderImpl implements DisplayNameProvider {
         final String? v = await _getOptionSetValue(value, optionSet);
         return v ?? await _getValueTypeValue(value, valueType);
       }
-      return await _getValueTypeValue(value, valueType);
+      return _getValueTypeValue(value, valueType);
     }
 
     return value;
@@ -53,7 +53,7 @@ class DisplayNameProviderImpl implements DisplayNameProvider {
   Future<String?> _getValueTypeValue(String value, ValueType? valueType) async {
     switch (valueType) {
       case ValueType.ORGANISATION_UNIT:
-        return await orgUnitConfiguration
+        return orgUnitConfiguration
             .orgUnitByUid(value)
             .then((orgUnit) => orgUnit?.displayName ?? value);
       case ValueType.DATE:
@@ -71,6 +71,7 @@ class DisplayNameProviderImpl implements DisplayNameProvider {
                 DateTime.parse(
                     '') // this will throw [FormatException], the input string cannot be parsed
             );
+      default:
     }
     return value;
   }

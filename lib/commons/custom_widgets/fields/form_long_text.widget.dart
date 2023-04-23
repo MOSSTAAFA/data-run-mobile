@@ -98,6 +98,8 @@ class _FormEditTextState extends State<FormEditText> {
         _maxLength = 1;
         _maxLengthEnforcement = MaxLengthEnforcement.enforced;
         break;
+      default:
+        break;
     }
     // ..addListener(onFocusChanged);
 

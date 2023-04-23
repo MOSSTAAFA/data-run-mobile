@@ -273,12 +273,13 @@ class EventDetailsRepository {
             .getOne())
         ?.featureType
         .toFeatureType;
-
     switch (featureType) {
       case FeatureType.POINT:
       case FeatureType.POLYGON:
       case FeatureType.MULTI_POLYGON:
         await eventRepository.setGeometry(geometry);
+        break;
+      default:
     }
 
     return (await eventRepository.getEvent())!;

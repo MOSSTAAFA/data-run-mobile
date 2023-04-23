@@ -16,7 +16,8 @@ class OuSelectorItem extends StatefulWidget {
       required this.selectionType,
       required this.ouItem,
       required this.setSelectedLevel,
-      required this.setSelectedParent, required this.index});
+      required this.setSelectedParent,
+      required this.index});
 
   // final OrgUnitCascadeLevelItemBinding binding;
   // final OrgUnitCascadeAdapter adapter;
@@ -35,8 +36,9 @@ class OuSelectorItem extends StatefulWidget {
 }
 
 class _OuSelectorItemState extends State<OuSelectorItem> {
-  final OuSelectorDialogPresenter presenter = Get.find<OuSelectorDialogPresenter>();
-      // OuSelectorDialogPresenter.instance;
+  final OuSelectorDialogPresenter presenter =
+      Get.find<OuSelectorDialogPresenter>();
+  // OuSelectorDialogPresenter.instance;
 
   bool _enabled = false;
   String? _levelName;
@@ -87,11 +89,11 @@ class _OuSelectorItemState extends State<OuSelectorItem> {
                           .call(_selectedOrgUnit, canBeSelected);
                     },
                     items: snapshot.data!
-                        .map(
-                            (Trio<String, String, bool> item) => DropdownMenuItem(
-                                  value: item,
-                                  child: Text(item.second),
-                                ))
+                        .map((Trio<String, String, bool> item) =>
+                            DropdownMenuItem(
+                              value: item,
+                              child: Text(item.second),
+                            ))
                         .toList()),
               ),
               // const SizedBox(width: 16.0),
@@ -185,7 +187,8 @@ class _OuSelectorItemState extends State<OuSelectorItem> {
 
   String _getLevelLabel(BuildContext context) {
     final AppLocalization localization = AppLocalization.of(context)!;
-    OrganisationUnitLevel? orgUnitLevel = widget.ouItem.organisationUnitLevel;
+    final OrganisationUnitLevel? orgUnitLevel =
+        widget.ouItem.organisationUnitLevel;
     if (widget.ouItem.name != null) {
       return widget.ouItem.name!;
       // binding.levelText.setText(ouItem.getName());

@@ -26,14 +26,14 @@ class RowAction with EquatableMixin {
 
   @override
   List<Object?> get props => [
-        this.id,
-        this.value,
-        this.requiresExactMatch,
-        this.optionCode,
-        this.optionName,
-        this.extraData,
-        this.error,
-        this.type,
-        this.valueType
+        id,
+        value,
+        requiresExactMatch,
+        optionCode,
+        optionName,
+        extraData,
+        error,
+        type,
+        valueType
       ];
 }

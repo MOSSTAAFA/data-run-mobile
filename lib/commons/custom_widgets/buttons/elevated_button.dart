@@ -6,6 +6,7 @@ import '../icon_text.dart';
 
 class AppButton extends StatelessWidget {
   const AppButton({
+    super.key,
     required this.label,
     required this.onPressed,
     this.iconData,

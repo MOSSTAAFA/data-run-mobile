@@ -1,4 +1,6 @@
 // Flutter imports:
+// ignore_for_file: unnecessary_null_checks
+
 import 'package:flutter/material.dart' hide DateUtils;
 import '../../../utils/mass_utils/formatting.dart';
 import '../../../utils/mass_utils/strings.dart';
@@ -33,7 +35,7 @@ class DatePicker extends StatefulWidget {
   final DateTime? firstDate;
 
   @override
-  _DatePickerState createState() => new _DatePickerState();
+  _DatePickerState createState() => _DatePickerState();
 }
 
 class _DatePickerState extends State<DatePicker> {
@@ -91,7 +93,7 @@ class _DatePickerState extends State<DatePicker> {
         firstDate = initialDate;
       }
     } else {
-      firstDate = DateTime(1920, 1);
+      firstDate = DateTime(1920);
     }
 
     // final store = StoreProvider.of<AppState>(context);
@@ -143,7 +145,7 @@ class _DatePickerState extends State<DatePicker> {
           widget.onSelected('', false);
         } else {
           String? date = '';
-          final dateAsNumber = value.replaceAll('/', '').replaceAll('\\', '');
+          final dateAsNumber = value.replaceAll('/', '').replaceAll(r'\', '');
           if (isAllDigits(dateAsNumber) || value.length <= 5) {
             String firstPart = '01';
             String secondPart = '01';

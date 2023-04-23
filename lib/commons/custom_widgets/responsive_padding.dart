@@ -7,7 +7,7 @@ import '../../utils/mass_utils/utils.dart';
 import '../constants.dart';
 
 class ResponsivePadding extends StatelessWidget {
-  const ResponsivePadding({this.child});
+  const ResponsivePadding({super.key, this.child});
 
   final Widget? child;
 

@@ -1,19 +1,12 @@
 import 'package:d2_remote/core/common/value_type.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-
 import '../../../form/model/field_ui_model.dart';
 import '../../../form/model/key_board_action_type.dart';
-import '../../../form/model/ui_event_type.dart';
 import '../../../form/ui/style/form_ui_color_type.dart';
 import '../../../form/ui/style/form_ui_model_style.dart';
 import '../../../main/l10n/app_localizations.dart';
-import '../../../utils/mass_utils/colors.dart';
-import '../../../utils/mass_utils/completers.dart';
 import '../../extensions/standard_extensions.dart';
 import '../buttons/app_text_button.dart';
-import 'field_bindings.dart';
 
 /// form_edit_text_custom, form_integer, form_integer_negative
 /// form_integer_positive, form_integer_zero, form_letter,

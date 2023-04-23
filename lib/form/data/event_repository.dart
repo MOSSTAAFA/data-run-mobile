@@ -28,7 +28,7 @@ class EventRepository extends DataEntryBaseRepository {
     required this.eventUid,
   }) : super(fieldFactory) {
     _event = D2Remote.trackerModule.event.byId(eventUid).getOne();
-    _programStageSections = _event!.then((event) async => await D2Remote
+    _programStageSections = _event!.then((event) => D2Remote
         .programModule.programStageSection
         .withDataElements()
         .byProgramStage(event!.programStage.id!)
@@ -105,8 +105,8 @@ class EventRepository extends DataEntryBaseRepository {
         .orderBy(attribute: 'sortOrder', order: SortOrder.ASC)
         .get();
 
-    final pp = stageDataElements.map((stageDataElement) async {
-      return await _transform(stageDataElement);
+    final pp = stageDataElements.map((stageDataElement) {
+      return _transform(stageDataElement);
     }).toList();
     final ff = Future.wait(pp).catchError((onError) {
       if (kDebugMode) {
@@ -146,7 +146,7 @@ class EventRepository extends DataEntryBaseRepository {
     final EventDataValue? eventDataValue = await valueRepository.getOne();
     String? dataValue = eventDataValue?.value;
 
-    final String? friendlyValue = await eventDataValue?.userFriendlyValue();
+    final String? friendlyValue = await eventDataValue.userFriendlyValue();
 
     final bool allowFutureDates =
         programStageDataElement.allowFutureDate ?? false;

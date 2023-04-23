@@ -5,6 +5,7 @@ import '../../../utils/mass_utils/colors.dart';
 
 class AppTextButton extends StatelessWidget {
   const AppTextButton({
+    super.key,
     required this.label,
     this.onPressed,
     this.isInHeader = false,

@@ -57,11 +57,11 @@ class EventCapturePresenterImpl implements EventCapturePresenter {
       eventCaptureRepository.activity().then((result) => activity = result),
     ]).then((value) {
       preferences.setValue(CURRENT_ORG_UNIT, orgUnit?.id);
-      view.renderInitialInfo(
+      Future(() => view.renderInitialInfo(
           stageName: programStageName,
           eventDate: eventDate,
           orgUnit: orgUnit,
-          activity: activity);
+          activity: activity));
     });
 
     _checkExpiration();

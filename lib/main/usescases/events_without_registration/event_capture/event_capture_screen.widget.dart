@@ -71,6 +71,7 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
                 _hideSyncButton();
               }
             },
+            appBarTitle: Text(ref.watch(eventDataStringProvider)),
             appBarActions: [
               Consumer(
                 builder: (context, ref, child) {
@@ -292,7 +293,8 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
 
   @override
   void updatePercentage(double primaryValue) {
-    ref.read(percentageProvider.notifier).update((_) => primaryValue);
+    Future(() =>
+        ref.read(percentageProvider.notifier).update((_) => primaryValue));
   }
 
   @override
@@ -302,10 +304,13 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
       OrganisationUnit? orgUnit,
       Activity? activity}) {
     ref.read(programStageNameProvider.notifier).update((_) => stageName ?? '');
+
     ref
         .read(activityNameProvider.notifier)
         .update((_) => activity?.displayName ?? activity?.name ?? '');
+
     ref.read(eventDateProvider.notifier).update((_) => eventDate ?? '');
+
     ref
         .read(orgUnitNameProvider.notifier)
         .update((_) => orgUnit?.displayName ?? orgUnit?.name ?? '');
@@ -360,7 +365,7 @@ final activityNameProvider = StateProvider.autoDispose<String>((ref) => '');
 
 final eventDateProvider = StateProvider.autoDispose<String>((ref) => '');
 final orgUnitNameProvider = StateProvider.autoDispose<String>((ref) => '');
-final eventDataString = Provider.autoDispose<String>((ref) {
+final eventDataStringProvider = Provider.autoDispose<String>((ref) {
   final eventDate = ref.watch(eventDateProvider);
   final orgUnitName = ref.watch(orgUnitNameProvider);
 

@@ -17,6 +17,7 @@ class ConfigureEventTemp {
     switch (_creationType) {
       case EventCreationType.REFERAL:
         return status != null;
+      default:
     }
     return true;
   }

@@ -87,6 +87,7 @@ class ActionMenuButton extends StatelessWidget {
 /// during tests
 class ViewActionMenuButton extends StatelessWidget {
   const ViewActionMenuButton({
+    super.key,
     // required this.entity,
     required this.onSelected,
     this.isSaving = false,

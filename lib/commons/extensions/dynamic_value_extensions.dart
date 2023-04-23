@@ -3,18 +3,18 @@ import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/file_resource/entities/file_resource.entity.dart';
 import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dart';
 import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisation_unit.entity.dart';
-import 'package:mass_pro/commons/date/date_utils.dart';
-import 'package:mass_pro/commons/extensions/string_extension.dart';
+import '../date/date_utils.dart';
+import 'string_extension.dart';
 
 extension CheckValueDynamicExtension on dynamic {
   Future<bool> check(
       ValueType? valueType, String? optionSetUid, String value) async {
     if (optionSetUid != null) {
-      Option? optionByCode = await D2Remote.optionModule.option
+      final Option? optionByCode = await D2Remote.optionModule.option
           .byOptionSet(optionSetUid)
           .where(attribute: 'code', value: value);
 
-      Option? optionByName = await D2Remote.optionModule.option
+      final Option? optionByName = await D2Remote.optionModule.option
           .byOptionSet(optionSetUid)
           .where(attribute: 'name', value: value);
       return optionByCode != null || optionByName != null;
@@ -32,17 +32,19 @@ extension CheckValueDynamicExtension on dynamic {
         switch (valueType) {
           case ValueType.FILE_RESOURCE:
           case ValueType.IMAGE:
-            FileResource? fileResource = await D2Remote
+            final FileResource? fileResource = await D2Remote
                 .fileResourceModule.fileResource
                 .byId(value)
                 .getOne();
             return fileResource != null;
           case ValueType.ORGANISATION_UNIT:
-            OrganisationUnit? orgUnit = await D2Remote
+            final OrganisationUnit? orgUnit = await D2Remote
                 .organisationUnitModule.organisationUnit
                 .byId(value)
                 .getOne();
             return orgUnit != null;
+          default:
+            break;
         }
         return true;
       }
@@ -51,8 +53,7 @@ extension CheckValueDynamicExtension on dynamic {
   }
 }
 
-extension CheckOptionSetValueDynamicExtension
-on dynamic {
+extension CheckOptionSetValueDynamicExtension on dynamic {
   Future<String?> checkOptionSetValue(String optionSetUid, String code) async {
     return await D2Remote.optionModule.option
         .byOptionSet(optionSetUid)
@@ -62,8 +63,7 @@ on dynamic {
   }
 }
 
-extension CheckValueTypeValueDynamicExtension
-on dynamic {
+extension CheckValueTypeValueDynamicExtension on dynamic {
   Future<String?> checkValueTypeValue(
       ValueType? valueType, String value) async {
     switch (valueType) {
@@ -74,8 +74,8 @@ on dynamic {
             .displayName;
       case ValueType.IMAGE:
       case ValueType.FILE_RESOURCE:
-        FileResource? fileResource =
-        await D2Remote.fileResourceModule.fileResource.byId(value).getOne();
+        final FileResource? fileResource =
+            await D2Remote.fileResourceModule.fileResource.byId(value).getOne();
         if (fileResource != null) {
           return fileResource.localFilePath;
         } else {
@@ -102,6 +102,8 @@ on dynamic {
         } catch (e) {
           return '';
         }
+      default:
+        break;
     }
 
     return value;

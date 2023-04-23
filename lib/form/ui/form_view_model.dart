@@ -107,10 +107,9 @@ class Items extends _$Items {
 }
 
 @riverpod
-Future<double> completionPercentageValue(
-    CompletionPercentageValueRef ref) async {
+Future<double> completionPercentageValue(CompletionPercentageValueRef ref) {
   final List<FieldUiModel>? items = ref.watch(itemsProvider).valueOrNull;
-  return await ref
+  return ref
       .read(formRepositoryProvider)
       .completedFieldsPercentage(items ?? []);
 }
@@ -279,6 +278,7 @@ class FormViewModel extends GetxController implements Listenable {
         _processCalculatedItems();
         runDataIntegrityCheck();
         break;
+      default:
     }
   }
 
@@ -428,6 +428,7 @@ class FormViewModel extends GetxController implements Listenable {
             uid: field.uid,
             value: field.value,
             featureType: 'POINT' /*getFeatureType(field.renderingType).name*/);
+      default:
     }
     return FormIntent.onSave(
         uid: field.uid,

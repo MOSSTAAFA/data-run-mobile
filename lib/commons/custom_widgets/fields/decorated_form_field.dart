@@ -120,7 +120,7 @@ class _DecoratedFormFieldState extends State<DecoratedFormField> {
           labelText: widget.label ?? '',
           hintText: widget.hint ?? '',
           icon: widget.icon,
-          suffixIcon: icon == null ? null : icon,
+          suffixIcon: icon,
           floatingLabelBehavior:
               (widget.hint ?? '').isNotEmpty && (widget.label ?? '').isEmpty
                   ? FloatingLabelBehavior.always
@@ -161,7 +161,7 @@ class _DecoratedFormFieldState extends State<DecoratedFormField> {
         if (widget.onFieldSubmitted != null) {
           return widget.onFieldSubmitted!(value);
         } else if (widget.keyboardType == TextInputType.multiline) {
-          return null;
+          // return null;
         }
       },
       enabled: widget.enabled,

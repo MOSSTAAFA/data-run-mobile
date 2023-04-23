@@ -19,12 +19,14 @@ class UiEventTypesProviderImpl implements UiEventTypesProvider {
         return UiRenderType.POLYGON;
       case FeatureType.MULTI_POLYGON:
         return UiRenderType.MULTI_POLYGON;
+      default:
     }
     switch (sectionRenderingType) {
       case SectionRenderingType.SEQUENTIAL:
         return UiRenderType.SEQUENCIAL;
       case SectionRenderingType.MATRIX:
         return UiRenderType.MATRIX;
+      default:
     }
     switch (valueTypeRenderingType) {
       case ValueTypeRenderingType.VERTICAL_RADIOBUTTONS:
@@ -41,6 +43,7 @@ class UiEventTypesProviderImpl implements UiEventTypesProvider {
         return UiRenderType.QR_CODE;
       case ValueTypeRenderingType.BAR_CODE:
         return UiRenderType.BAR_CODE;
+      default:
     }
     return UiRenderType.DEFAULT;
   }

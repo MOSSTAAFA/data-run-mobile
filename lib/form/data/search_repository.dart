@@ -25,11 +25,11 @@ class SearchRepository extends DataEntryBaseRepository {
   final Map<String, String> currentSearchValues;
 
   @override
-  Future<List<FieldUiModel>> list() async {
+  Future<List<FieldUiModel>> list() {
     if (programUid != null) {
-      return await programTrackedEntityAttributes();
+      return programTrackedEntityAttributes();
     }
-    return await trackedEntitySearchFields();
+    return trackedEntitySearchFields();
   }
 
   @override

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_function_literals_in_foreach_calls
+
 import 'package:d2_remote/core/common/value_type.dart';
 import '../../../../commons/extensions/standard_extensions.dart';
 import '../../../../commons/extensions/string_extension.dart';
@@ -242,13 +244,13 @@ class EventFieldMapper {
   }
 
   bool _isUnsupported(ValueType? type) {
-    switch (type) {
-      case ValueType.TRACKER_ASSOCIATE:
-      case ValueType.USERNAME:
-      case ValueType.FILE_RESOURCE:
-        return true;
-    }
-    return false;
+    return when(type, {
+      [
+        ValueType.TRACKER_ASSOCIATE,
+        ValueType.USERNAME,
+        ValueType.FILE_RESOURCE
+      ]: () => true,
+    }).orElse(() => false);
   }
 
   double _calculateCompletionPercentage(int completedFields, int totals) {

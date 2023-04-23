@@ -1,17 +1,11 @@
-import 'package:d2_remote/core/common/value_type.dart';
 import 'package:d2_remote/d2_remote.dart';
-import 'package:d2_remote/modules/data/tracker/entities/tracked_entity_attribute_value.entity.dart';
-import 'package:d2_remote/modules/data/tracker/queries/event_data_value.query.dart';
 import 'package:d2_remote/modules/data/tracker/queries/tracked_entity_attribute_value.query.dart';
-import 'package:d2_remote/modules/metadata/data_element/entities/data_element.entity.dart';
 import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/tracked_entity_attribute.entity.dart';
-import 'package:d2_remote/shared/queries/base.query.dart';
 import 'package:d2_remote/shared/utilities/merge_mode.util.dart';
 import 'package:d2_remote/shared/utilities/save_option.util.dart';
-import 'package:mass_pro/commons/extensions/dynamic_value_extensions.dart';
-import 'package:mass_pro/commons/extensions/string_extension.dart';
-import 'package:mass_pro/commons/extensions/value_extensions.dart';
+import 'dynamic_value_extensions.dart';
+import 'value_extensions.dart';
 
 /// BlockingSetCheckTrackedEntityAttributeValueExtension
 /// TODO BaseQueryWithValue extends BaseQuery on which these extension are put
@@ -81,7 +75,7 @@ extension BlockingDeleteIfExistTrackedEntityAttributeValueExtension
   Future<void> blockingDeleteIfExist() async {
     // blockingDelete()
     // delete(blockingGetWithoutChildren())
-    var toDelete = await getOne();
+    final toDelete = await getOne();
     if (toDelete != null) {
       await byId(toDelete.id as String).delete();
     }
@@ -93,7 +87,7 @@ extension ExistTrackedEntityAttributeValueExtension
     on TrackedEntityAttributeValueQuery {
   // NMC: TODO throws D2Error
   Future<bool> blockingExists() async {
-    var teav = await getOne();
+    final teav = await getOne();
     return teav != null;
   }
 }

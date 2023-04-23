@@ -16,8 +16,6 @@ import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart'
 import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_stage_data_element.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_stage_section.entity.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../../../commons/extensions/standard_extensions.dart';
 import '../../../../commons/extensions/value_extensions.dart';
 import '../../../../core/di/providers.dart';
@@ -110,6 +108,7 @@ class EventInitialRepositoryImpl implements EventInitialRepository {
         case FeatureType.MULTI_POLYGON:
           eventRepository.setGeometry(geometry);
           break;
+        default:
       }
     }
     return event.id!;
@@ -158,6 +157,7 @@ class EventInitialRepositoryImpl implements EventInitialRepository {
         case FeatureType.MULTI_POLYGON:
           eventRepository.setGeometry(geometry);
           break;
+        default:
       }
     }
     return event.id!;
@@ -311,7 +311,7 @@ class EventInitialRepositoryImpl implements EventInitialRepository {
                   dataelement,
                   _searchValueDataElement(programStageDataElement.dataElementId,
                       event?.dataValues ?? []),
-                  stageSection.id!,
+                  stageSection.id,
                   event!.status.toEventStatus!));
             }
           }

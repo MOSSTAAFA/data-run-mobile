@@ -10,8 +10,6 @@ class EventMap extends StatefulWidget {
 class _EventMapState extends State<EventMap> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: const Center(child: Text('Unmplemented')),
-    );
+    return const Center(child: Text('Unmplemented'));
   }
 }

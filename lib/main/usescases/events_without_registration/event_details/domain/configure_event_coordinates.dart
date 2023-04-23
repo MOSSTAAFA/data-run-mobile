@@ -29,7 +29,7 @@ class ConfigureEventCoordinates {
   Future<bool> _isActive() async {
     return (await _repository.getProgramStage())
         .let((ProgramStage programStage) {
-      programStage.featureType?.toFeatureType.let((FeatureType? it) {
+      programStage.featureType.toFeatureType.let((FeatureType? it) {
         return it != FeatureType.NONE;
       });
       return false;

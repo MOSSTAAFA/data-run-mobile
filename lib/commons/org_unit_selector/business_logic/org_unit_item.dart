@@ -1,6 +1,4 @@
 // TODO(NMC): move to SDK OrgUnit
-import 'dart:convert';
-
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisation_unit.entity.dart';
 import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisation_unit_level.entity.dart';
@@ -92,11 +90,11 @@ class OrgUnitItem {
 
         menuOrgUnits.putIfAbsent(
             uidPath[level - 1],
-            () => Trio<String, String, bool>(
-                uidPath[level - 1],
-                ou.displayNamePath()[level - 1],
-                canCapture));
-        if (canCapture) hasCaptureOrgUnits = true;
+            () => Trio<String, String, bool>(uidPath[level - 1],
+                ou.displayNamePath()[level - 1], canCapture));
+        if (canCapture) {
+          hasCaptureOrgUnits = true;
+        }
       }
     }
     menuOrgUnitList.addAll(menuOrgUnits.values);

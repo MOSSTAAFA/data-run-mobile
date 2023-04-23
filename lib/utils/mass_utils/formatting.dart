@@ -74,7 +74,7 @@ DateTime convertSqlDateToDateTime([String? date]) {
 
 DateTime convertTimestampToDate(int? timestamp) =>
     // DateTime.fromMillisecondsSinceEpoch((timestamp ?? 0) * 1000, isUtc: true);
-DateTime.fromMillisecondsSinceEpoch((timestamp ?? 0), isUtc: true);
+    DateTime.fromMillisecondsSinceEpoch(timestamp ?? 0, isUtc: true);
 
 String convertTimestampToDateString(int? timestamp) =>
     convertTimestampToDate(timestamp).toIso8601String();

@@ -2,12 +2,10 @@ import 'package:d2_remote/core/common/value_type.dart';
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/data/tracker/entities/event_data_value.entity.dart';
 import 'package:d2_remote/modules/data/tracker/entities/tracked_entity_attribute_value.entity.dart';
-import 'package:d2_remote/modules/data/tracker/queries/tracked_entity_attribute_value.query.dart';
-import 'package:d2_remote/modules/file_resource/entities/file_resource.entity.dart';
 import 'package:d2_remote/modules/metadata/data_element/entities/data_element.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/tracked_entity_attribute.entity.dart';
-import 'package:mass_pro/commons/extensions/dynamic_value_extensions.dart';
-import 'package:mass_pro/commons/extensions/string_extension.dart';
+import 'dynamic_value_extensions.dart';
+import 'string_extension.dart';
 
 /// UserFriendlyTrackedEntityAttributeValueExtension
 extension UserFriendlyTrackedEntityAttributeValueExtension
@@ -17,7 +15,7 @@ extension UserFriendlyTrackedEntityAttributeValueExtension
       return value;
     }
 
-    TrackedEntityAttribute? attribute = await D2Remote
+    final TrackedEntityAttribute? attribute = await D2Remote
         .programModule.trackedEntityAttribute
         .byId(this.attribute)
         .getOne();
@@ -52,7 +50,8 @@ extension UserFriendlyEventDataValueExtension on EventDataValue? {
       }
     }
 
-    DataElement? dataElement = await D2Remote.dataElementModule.dataElement
+    final DataElement? dataElement = await D2Remote
+        .dataElementModule.dataElement
         .byId(this!.dataElement)
         .getOne();
 
@@ -102,6 +101,8 @@ extension WithValueTypeCheckExtension on String? {
         return (int.tryParse(this!) ?? toDouble().toInt()).toString();
       case ValueType.UNIT_INTERVAL:
         return (int.tryParse(this!) ?? toDouble()).toString();
+      default:
+      // break;
     }
     return this;
   }

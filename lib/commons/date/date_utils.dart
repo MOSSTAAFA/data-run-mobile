@@ -7,13 +7,13 @@ class DateUtils {
       "yyyy-MM-dd'T'HH:mm:ss";
   static const String DATABASE_FORMAT_EXPRESSION_NO_SECONDS =
       "yyyy-MM-dd'T'HH:mm";
-  static const String DATE_TIME_FORMAT_EXPRESSION = "yyyy-MM-dd HH:mm";
-  static const String DATE_FORMAT_EXPRESSION = "yyyy-MM-dd";
-  static const String WEEKLY_FORMAT_EXPRESSION = "w yyyy";
-  static const String MONTHLY_FORMAT_EXPRESSION = "MMM yyyy";
-  static const String YEARLY_FORMAT_EXPRESSION = "yyyy";
-  static const String SIMPLE_DATE_FORMAT = "d/M/yyyy";
-  static const String TIME_12H_EXPRESSION = "hh:mm a";
+  static const String DATE_TIME_FORMAT_EXPRESSION = 'yyyy-MM-dd HH:mm';
+  static const String DATE_FORMAT_EXPRESSION = 'yyyy-MM-dd';
+  static const String WEEKLY_FORMAT_EXPRESSION = 'w yyyy';
+  static const String MONTHLY_FORMAT_EXPRESSION = 'MMM yyyy';
+  static const String YEARLY_FORMAT_EXPRESSION = 'yyyy';
+  static const String SIMPLE_DATE_FORMAT = 'd/M/yyyy';
+  static const String TIME_12H_EXPRESSION = 'hh:mm a';
 
   static DateFormat uiDateFormat() {
     return DateFormat(SIMPLE_DATE_FORMAT, 'en_US');
@@ -24,7 +24,7 @@ class DateUtils {
   }
 
   static DateFormat timeFormat() {
-    return DateFormat("HH:mm", 'en_US');
+    return DateFormat('HH:mm', 'en_US');
   }
 
   static DateFormat dateTimeFormat() {

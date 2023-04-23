@@ -1,11 +1,10 @@
 // Flutter imports:
+// ignore_for_file: avoid_dynamic_calls
+
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisation_unit.entity.dart';
 import 'package:flutter/material.dart' hide DateUtils;
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import '../../../utils/mass_utils/formatting.dart';
-import '../../../utils/mass_utils/strings.dart';
-import '../../date/date_utils.dart';
 import '../../org_unit_selector/ou_selector_dialog.widget.dart';
 import 'decorated_form_field.dart';
 
@@ -62,7 +61,6 @@ class OrgUnitPickerState extends State<OrgUnitPicker> {
         _displayName = value!.displayName;
         _textController.text = value.displayName!;
       });
-      // ignore: avoid_dynamic_calls
       // _textController.text = widget.selectedOrgUnit!;
     }
 
@@ -74,7 +72,6 @@ class OrgUnitPickerState extends State<OrgUnitPicker> {
       // _textController.text = formatDate(widget.selectedDate, context);
       if (widget.selectedOrgUnit != null) {
         // _textController.text = formatDate(widget.selectedDate, context);
-        // ignore: avoid_dynamic_calls
         _textController.text = _displayName ?? '';
       }
       // setState(() {

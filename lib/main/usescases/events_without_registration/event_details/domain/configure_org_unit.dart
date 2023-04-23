@@ -97,6 +97,7 @@ class ConfigureOrgUnit {
         case EventCreationType.ADDNEW:
         case EventCreationType.DEFAULT:
           return orgUnits.firstOrNull;
+        default:
       }
     }
     return null;

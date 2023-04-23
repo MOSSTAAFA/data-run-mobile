@@ -13,19 +13,18 @@ import 'package:d2_remote/modules/data/tracker/entities/tracked_entity_attribute
 import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_section.entity.dart';
-import 'package:d2_remote/modules/metadata/program/entities/program_section_attribute.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_tracked_entity_attribute.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/tracked_entity_attribute.entity.dart';
 import 'package:d2_remote/shared/utilities/sort_order.util.dart';
 import 'package:flutter/foundation.dart';
-import 'package:mass_pro/commons/extensions/string_extension.dart';
-import 'package:mass_pro/commons/extensions/value_extensions.dart';
-import 'package:mass_pro/form/data/data_entry_base_repository.dart';
-import 'package:mass_pro/form/model/enrollment_mode.dart';
-import 'package:mass_pro/form/model/field_ui_model.dart';
-import 'package:mass_pro/form/model/option_set_configuration.dart';
-import 'package:mass_pro/form/ui/field_view_model_factory.dart';
-import 'package:mass_pro/form/ui/provider/enrollment_form_labels_provider.dart';
+import '../../commons/extensions/string_extension.dart';
+import '../../commons/extensions/value_extensions.dart';
+import 'data_entry_base_repository.dart';
+import '../model/enrollment_mode.dart';
+import '../model/field_ui_model.dart';
+import '../model/option_set_configuration.dart';
+import '../ui/field_view_model_factory.dart';
+import '../ui/provider/enrollment_form_labels_provider.dart';
 
 class EnrollmentRepository extends DataEntryBaseRepository {
   static const String ENROLLMENT_DATA_SECTION_UID =
@@ -58,7 +57,7 @@ class EnrollmentRepository extends DataEntryBaseRepository {
         .byId(enrollment!.program)
         .getOne());
 
-    _programSections = _program!.then((program) async => await D2Remote
+    _programSections = _program!.then((program) => D2Remote
         .programModule.programSection
         .byProgram(program!.id!)
         .withAttributes()
@@ -83,7 +82,8 @@ class EnrollmentRepository extends DataEntryBaseRepository {
     List<FieldUiModel> list = [];
 
     if (programSections.isEmpty) {
-      final List<FieldUiModel> singleSectionList = await _getFieldsForSingleSection();
+      final List<FieldUiModel> singleSectionList =
+          await _getFieldsForSingleSection();
       list = await _getSingleSectionList();
       list.addAll(singleSectionList);
     } else {
@@ -125,7 +125,7 @@ class EnrollmentRepository extends DataEntryBaseRepository {
             .byProgram(program.id!)
             .byTrackedEntityAttribute(attribute.id!)
             .getOne();
-        if(programTrackedEntityAttribute != null ){
+        if (programTrackedEntityAttribute != null) {
           fields.add(await _transform(programTrackedEntityAttribute,
               sectionUid: section.id!));
         }
@@ -180,17 +180,17 @@ class EnrollmentRepository extends DataEntryBaseRepository {
         .programModule.trackedEntityAttribute
         .byId(programTrackedEntityAttribute.attribute)
         .getOne()
-        .then((attr) => attr!);
+        .then((attr) => attr);
 
     final Enrollment? enrollment = await _enrollment;
 
-    final  valueType = ValueType.valueOf(attribute.valueType);
-    final  mandatory = programTrackedEntityAttribute.mandatory;
-    final  optionSet = attribute.optionSet;
+    final valueType = ValueType.valueOf(attribute.valueType);
+    final mandatory = programTrackedEntityAttribute.mandatory;
+    final optionSet = attribute.optionSet;
     // var generated = attribute.generated()!!;
 
-    final  orgUnitUid = enrollment!.orgUnit;
-    final  activityUid = enrollment.activity;
+    final orgUnitUid = enrollment!.orgUnit;
+    final activityUid = enrollment.activity;
 
     final TrackedEntityAttributeValue? attrValue = await D2Remote
         .trackerModule.trackedEntityAttributeValue
@@ -275,12 +275,11 @@ class EnrollmentRepository extends DataEntryBaseRepository {
     }
   }
 
-  Future<String?> _getAttributeValue(
-      TrackedEntityAttributeValue? attrValue) async {
+  Future<String?> _getAttributeValue(TrackedEntityAttributeValue? attrValue) {
     if (attrValue != null) {
-      return await attrValue.userFriendlyValue();
+      return attrValue.userFriendlyValue();
     } else {
-      return null;
+      return Future.value();
     }
   }
 

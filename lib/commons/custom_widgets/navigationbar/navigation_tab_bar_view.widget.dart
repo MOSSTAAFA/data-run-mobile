@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
 import '../../../main/l10n/app_localizations.dart';
 import '../../../main/usescases/program_event_detail/di/program_event_detail_providers.dart';
 import '../../../utils/mass_utils/platforms.dart';

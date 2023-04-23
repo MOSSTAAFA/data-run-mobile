@@ -47,7 +47,7 @@ class EventInitialScreen extends StatefulWidget {
 
 class _EventInitialScreenState extends State<EventInitialScreen>
     with EventInitialViewBase {
-  EventDetails _eventDetails = new EventDetails();
+  final EventDetails _eventDetails = const EventDetails();
 
   @override
   Widget build(BuildContext context) {

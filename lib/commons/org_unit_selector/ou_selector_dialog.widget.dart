@@ -194,12 +194,12 @@ class _OuSelectorDialogState extends State<OuSelectorDialog> {
   }
 
   @override
-  void didChangeDependencies() async {
+  void didChangeDependencies() {
     /// This method is most used by subclasses in cases when network fetches
     /// need to take place following a dependancy change which would otherwise
     /// prove too expensive to do for every build.
 
-    await presenter.loadOrgUnitItems(widget.ouSelectionType).then((_) {
+    presenter.loadOrgUnitItems(widget.ouSelectionType).then((_) {
       widget.initialData.addAll(presenter.orgUnitItems.value);
     });
     super.didChangeDependencies();

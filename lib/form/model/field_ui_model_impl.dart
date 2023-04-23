@@ -124,7 +124,7 @@ class FieldUiModelImpl with _$FieldUiModelImpl implements FieldUiModel {
       onItemClick();
     }
 
-    ListViewUiEvents? listViewUiEvents =
+    final ListViewUiEvents? listViewUiEvents =
         uiEventFactory?.generateEvent(value, uiEventType, renderingType, this);
 
     if (listViewUiEvents != null) {
@@ -150,10 +150,10 @@ class FieldUiModelImpl with _$FieldUiModelImpl implements FieldUiModel {
   }
 
   @override
-  bool get isAffirmativeChecked => value?.toBoolean() == true;
+  bool get isAffirmativeChecked => value.toBoolean() == true;
 
   @override
-  bool get isNegativeChecked => value?.toBoolean() == false;
+  bool get isNegativeChecked => value.toBoolean() == false;
 
   @override
   FieldUiModel setValue(String? value) => copyWith(value: value);

@@ -8,6 +8,7 @@ import '../constants.dart';
 
 class AppBorder extends StatelessWidget {
   const AppBorder({
+    super.key,
     required this.child,
     this.isTop,
     this.isBottom,

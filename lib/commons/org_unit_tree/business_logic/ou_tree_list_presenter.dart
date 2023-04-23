@@ -36,7 +36,7 @@ class OuTreeListPresenter extends GetxController implements Listenable {
       // isLoading = true;
 
       final List<OrganisationUnit> orgUnits = await repository.orgUnits();
-      var orgs = orgUnits.filter((orgUnit) =>
+      final orgs = orgUnits.filter((orgUnit) =>
           orgUnit.level == orgUnits.minBy((item) => item.level!)?.level);
       final List<OuTreeNodeModel> nodes = [];
       for (final org in orgs) {

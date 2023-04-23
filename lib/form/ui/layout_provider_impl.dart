@@ -25,37 +25,37 @@ class LayoutProviderImpl implements LayoutProvider {
       SectionRenderingType? sectionRenderingType]) {
     switch (valueType) {
       case ValueType.AGE:
-        return 0;/*Text(
+        return 0; /*Text(
           '$valueType Field',
           style: const TextStyle(fontSize: 20),
-        ); *///R.layout.form_age_custom
+        ); */ //R.layout.form_age_custom
       case ValueType.DATE:
       case ValueType.TIME:
       case ValueType.DATETIME:
-        return 0;/*Text(
+        return 0; /*Text(
           '$valueType Field',
           style: const TextStyle(fontSize: 20),
-        ); *///R.layout.form_date_time
+        ); */ //R.layout.form_date_time
       case ValueType.LONG_TEXT:
         return 0; //FormEditText(); //R.layout.form_long_text_custom
       case ValueType.ORGANISATION_UNIT:
-        return 0;/*Text(
+        return 0; /*Text(
           '$valueType Field',
           style: const TextStyle(fontSize: 20),
         );*/ //R.layout.form_org_unit
       case ValueType.COORDINATE:
-        return 0;/*Text(
+        return 0; /*Text(
           '$valueType Field',
           style: const TextStyle(fontSize: 20),
         );*/ //R.layout.form_coordinate_custom
       case ValueType.IMAGE:
-        return 0;/*Text(
+        return 0; /*Text(
           '$valueType Field',
           style: const TextStyle(fontSize: 20),
         );*/ //R.layout.form_picture
       case ValueType.TEXT:
         return getLayoutForOptionSet(optionSet, sectionRenderingType,
-            renderingType, 0/*FormEditText()*/ //R.layout.form_edit_text_custom
+            renderingType, 0 /*FormEditText()*/ //R.layout.form_edit_text_custom
             );
       case ValueType.TRUE_ONLY:
       case ValueType.BOOLEAN:
@@ -70,34 +70,34 @@ class LayoutProviderImpl implements LayoutProvider {
           case ValueTypeRenderingType.TOGGLE:
             switch (valueType) {
               case ValueType.TRUE_ONLY:
-                return 0;/*Text(
+                return 0; /*Text(
                   '$valueType Field',
                   style: const TextStyle(fontSize: 20),
                 );*/ //R.layout.form_toggle
               default:
-                return 0;/*Text(
+                return 0; /*Text(
                   '$valueType Field',
                   style: const TextStyle(fontSize: 20),
                 );*/ //R.layout.form_radio_button
             }
           case ValueTypeRenderingType.HORIZONTAL_CHECKBOXES:
           case ValueTypeRenderingType.VERTICAL_CHECKBOXES:
-            return 0;/*Text(
+            return 0; /*Text(
               '$valueType Field',
               style: const TextStyle(fontSize: 20),
             );*/ //R.layout.form_check_button
           default:
-            return 0;/*Text(
+            return 0; /*Text(
               '$valueType Field',
               style: const TextStyle(fontSize: 20),
-            ); *///R.layout.form_radio_button
+            ); */ //R.layout.form_radio_button
         }
       case ValueType.LETTER:
-        return 0;//FormEditText(); //R.layout.form_letter
+        return 0; //FormEditText(); //R.layout.form_letter
       case ValueType.PHONE_NUMBER:
-        return 0;//FormEditText(); //R.layout.form_phone_number
+        return 0; //FormEditText(); //R.layout.form_phone_number
       case ValueType.EMAIL:
-        return 0;//FormEditText(); //R.layout.form_email
+        return 0; //FormEditText(); //R.layout.form_email
       case ValueType.NUMBER:
         return getLayoutForOptionSet(optionSet, sectionRenderingType,
             renderingType, 0 //R.layout.form_number
@@ -123,11 +123,8 @@ class LayoutProviderImpl implements LayoutProvider {
             renderingType, 0 //R.layout.form_integer_negative
             );
       case ValueType.INTEGER_ZERO_OR_POSITIVE:
-        return getLayoutForOptionSet(
-            optionSet,
-            sectionRenderingType,
-            renderingType,
-            0 //R.layout.form_integer_zero_positive
+        return getLayoutForOptionSet(optionSet, sectionRenderingType,
+            renderingType, 0 //R.layout.form_integer_zero_positive
             );
       case ValueType.URL:
         return 0; //FormEditText(); //R.layout.form_url
@@ -136,7 +133,7 @@ class LayoutProviderImpl implements LayoutProvider {
       case ValueType.FILE_RESOURCE:
       case ValueType.USERNAME:
       case ValueType.TRACKER_ASSOCIATE:
-        return 0;/*Text(
+        return 0; /*Text(
           '$valueType Field',
           style: const TextStyle(fontSize: 20),
         );*/ //R.layout.form_unsupported
@@ -147,7 +144,7 @@ class LayoutProviderImpl implements LayoutProvider {
 
   @override
   int getLayoutForSection() {
-    return 0;  /*const FormCard(
+    return 0; /*const FormCard(
       // isLast: true,
       children: <Widget>[],
     );*/ //R.layout.form_section;
@@ -163,24 +160,24 @@ class LayoutProviderImpl implements LayoutProvider {
       return 0; /*const Text(
         'form_option_set_matrix',
         style: TextStyle(fontSize: 20),
-      )*/; //R.layout.form_option_set_matrix
+      )*/ //R.layout.form_option_set_matrix
     } else if (shouldRenderAsSelector(optionSet, renderingType)) {
-      return 0;/*const Text(
+      return 0; /*const Text(
         'form_option_set_selector',
         style: TextStyle(fontSize: 20),
       );*/ // R.layout.form_option_set_selector
     } else if (shouldRenderAsSpinner(optionSet)) {
-      return 0;/*const Text(
+      return 0; /*const Text(
         'form_option_set_spinner',
         style: TextStyle(fontSize: 20),
       );*/ // R.layout.form_option_set_spinner
     } else if (shouldRenderAsScan(renderingType)) {
-      return 0;/*const Text(
+      return 0; /*const Text(
         'form_scan',
         style: TextStyle(fontSize: 20),
       );*/ // R.layout.form_scan
     } else if (shouldRenderAsSelector(optionSet, renderingType)) {
-      return 0;/*const Text(
+      return 0; /*const Text(
         'form_option_set_selector',
         style: TextStyle(fontSize: 20),
       );*/ // R.layout.form_option_set_selector

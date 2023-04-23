@@ -55,11 +55,12 @@ class UiEventFactoryImpl implements UiEventFactory {
                   label: label,
                   date: DateUtils.timeFormat().parse(value ?? ''));
               break;
+            default:
           }
           break;
         case UiEventType.AGE_CALENDAR:
           uiEvent = ListViewUiEvents.openTimePicker(
-              uid: uid, label: label, date: value?.toDate());
+              uid: uid, label: label, date: value.toDate());
           break;
         case UiEventType.AGE_YEAR_MONTH_DAY:
           final List<int> yearMonthDay = _valueToYearMonthDay(value);
@@ -110,6 +111,7 @@ class UiEventFactoryImpl implements UiEventFactory {
         case UiEventType.OPTION_SET:
           uiEvent = ListViewUiEvents.openOptionSetDialog(field: fieldUiModel);
           break;
+        default:
       }
     } catch (e) {
       if (kDebugMode) {
@@ -137,6 +139,7 @@ class UiEventFactoryImpl implements UiEventFactory {
         return FeatureType.POLYGON;
       case UiRenderType.MULTI_POLYGON:
         return FeatureType.MULTI_POLYGON;
+      default:
     }
     return FeatureType.NONE;
   }

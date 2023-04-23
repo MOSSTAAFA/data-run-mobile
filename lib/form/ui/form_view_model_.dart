@@ -132,6 +132,7 @@ class FormViewModelOld extends GetxController implements Listenable {
         _processCalculatedItems();
         runDataIntegrityCheck();
         break;
+      default:
     }
   }
 
@@ -269,6 +270,7 @@ class FormViewModelOld extends GetxController implements Listenable {
             uid: field.uid,
             value: field.value,
             featureType: 'POINT' /*getFeatureType(field.renderingType).name*/);
+      default:
     }
     return FormIntent.onSave(
         uid: field.uid,

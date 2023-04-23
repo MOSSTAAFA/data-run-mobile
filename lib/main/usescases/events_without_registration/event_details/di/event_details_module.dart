@@ -10,7 +10,6 @@ import '../../../../../core/di/providers.dart';
 import '../../../../../form/di/injector.dart';
 import '../../../bundle/bundle.dart';
 import '../../event_initial/di/event_initial_module.dart';
-import '../../event_initial/model/event_initial_bundle.dart';
 import '../data/event_details_repository.dart';
 import '../domain/configure_event_coordinates.dart';
 import '../domain/configure_event_details.dart';

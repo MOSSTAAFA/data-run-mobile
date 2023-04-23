@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class IconText extends StatelessWidget {
   const IconText({
+    super.key,
     this.text,
     required this.icon,
     this.style,
