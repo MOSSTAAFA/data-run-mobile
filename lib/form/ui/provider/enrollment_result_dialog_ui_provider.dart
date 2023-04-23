@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+
 import '../../../commons/date/field_with_issue.dart';
 import '../../../commons/dialogs/bottomsheet/bottom_sheet_dialog_ui_model.dart';
 import '../../../commons/dialogs/bottomsheet/dialog_button_style.dart';
@@ -17,7 +20,7 @@ class EnrollmentResultDialogUiProvider {
             subtitle: _getErrorSubtitle(result.allowDiscard),
             // NMC: fix later
             iconResource: resourceManager.getObjectStyleDrawableResource(
-                'icon', 'defaultResource'),
+                null, Icons.date_range_outlined),
             fieldsWithIssues: _getFieldsWithIssues(
                 errorFields: result.fieldUidErrorList,
                 mandatoryFields: result.mandatoryFields.keys.toList(),
@@ -30,7 +33,7 @@ class EnrollmentResultDialogUiProvider {
             title: resourceManager.getString('string.saved'),
             subtitle: resourceManager.getString('string.review_message'),
             iconResource: resourceManager.getObjectStyleDrawableResource(
-                'R.drawable.ic_alert', 'defaultResource'),
+                null, MdiIcons.alertCircle),
             fieldsWithIssues: result.fieldUidWarningList,
             mainButton: const DialogButtonStyle.mainButton(
                 textResource: 'R.string.review'),
@@ -40,7 +43,7 @@ class EnrollmentResultDialogUiProvider {
               title: resourceManager.getString('R.string.not_saved'),
               subtitle: _getMandatorySubtitle(result.allowDiscard),
               iconResource: resourceManager.getObjectStyleDrawableResource(
-                  'R.drawable.ic_error_outline', 'defaultResource'),
+                  null, Icons.error),
               fieldsWithIssues: _getFieldsWithIssues(
                   mandatoryFields: result.mandatoryFields.keys.toList(),
                   warningFields: result.warningFields),
@@ -56,7 +59,7 @@ class EnrollmentResultDialogUiProvider {
             title: resourceManager.getString('R.string.not_saved'),
             subtitle: resourceManager.getString('R.string.discard_go_back'),
             iconResource: resourceManager.getObjectStyleDrawableResource(
-                'R.drawable.ic_alert', 'defaultResource'),
+                null, MdiIcons.alertCircle),
             mainButton: const DialogButtonStyle.mainButton(
                 textResource: 'R.string.keep_editing'),
             secondaryButton: DialogButtonStyle.discardButton()));

@@ -27,7 +27,7 @@ abstract class ProgramEventDetailView extends ViewAbstract {
   void navigateToEvent(String eventId, String orgUnit);
 
   @override
-  Future<void> showSyncDialog([String? uid]);
+  Future<void> showSyncDialog<String>([String? uid]);
 
   void showCatOptComboDialog(String catComboUid);
 

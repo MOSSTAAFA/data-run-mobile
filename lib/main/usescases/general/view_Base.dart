@@ -166,7 +166,7 @@ class ViewBase implements ViewAbstract {
   void showTutorial(bool shaked) {}
 
   @override
-  Future<void> showSyncDialog([String? uid]) {
+  Future<void> showSyncDialog<T>([T? uid]) {
     return Future.value();
   }
 }

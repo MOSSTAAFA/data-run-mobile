@@ -25,5 +25,5 @@ abstract class ViewAbstract {
 
   Future<void> showDescription(String description);
 
-  Future<void> showSyncDialog([String? uid]);
+  Future<void> showSyncDialog<T>([T? uid]);
 }

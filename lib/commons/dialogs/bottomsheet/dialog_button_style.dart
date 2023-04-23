@@ -5,7 +5,6 @@ part 'dialog_button_style.freezed.dart';
 
 @freezed
 abstract class DialogButtonStyle with _$DialogButtonStyle {
-
   const factory DialogButtonStyle(
       {required String textResource,
       Color? colorResource,

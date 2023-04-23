@@ -1,8 +1,14 @@
-// import 'package:mass_pro/main/program/program_view_model.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
-// abstract class ProgramRepository {
-//   Future<List<ProgramViewModel>> homeItems(SyncStatusData syncStatusData);
-//   Future<List<ProgramViewModel>> programModels(SyncStatusData syncStatusData);
-//   Future<List<ProgramViewModel>> aggregatesModels(
-//       SyncStatusData syncStatusData);
-// }
+import 'program_view_model.dart';
+
+abstract class ProgramRepository {
+  Future<IList<ProgramViewModel>> homeItems(
+      /* SyncStatusData syncStatusData */);
+  Future<IList<ProgramViewModel>> programModels(
+      /* SyncStatusData syncStatusData */);
+  Future<IList<ProgramViewModel>> aggregatesModels(
+      /* 
+      SyncStatusData syncStatusData */
+      );
+}

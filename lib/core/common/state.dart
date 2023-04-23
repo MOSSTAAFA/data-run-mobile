@@ -1,0 +1,9 @@
+enum State {
+  TO_POST,
+  TO_UPDATE,
+  ERROR,
+  SYNCED,
+  WARNING,
+  UPLOADING,
+  SENT_VIA_SMS,
+}

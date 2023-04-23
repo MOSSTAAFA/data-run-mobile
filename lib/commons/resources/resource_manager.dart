@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../main/l10n/app_localizations.dart';
+import '../../utils/mass_utils/colors.dart';
+import '../extensions/standard_extensions.dart';
 
 class ResourceManager {
   BuildContext context;
@@ -10,9 +12,10 @@ class ResourceManager {
     return AppLocalization.of(context)!.lookup(stringResource);
   }
 
-  Icon getObjectStyleDrawableResource(String? icon, String defaultResource) {
+  Icon getObjectStyleDrawableResource(
+      IconData? icon, IconData defaultResource) {
     // TODO NMC
-    return const Icon(Icons.date_range_outlined);
+    return icon?.let((it) => Icon(icon)) ?? Icon(defaultResource);
     // return icon?.let {
     // val iconName = if (icon.startsWith("ic_")) icon else "ic_$icon"
     // val iconResource =
@@ -41,18 +44,16 @@ class ResourceManager {
   }
 
   Color? getColorFrom(String? hexColor) {
+    return convertHexStringToColor(hexColor);
     // return hexColor?.let {
     // ColorUtils.parseColor(it)
     // } ?: -1
   }
 
-  // Color getColorOrDefaultFrom(String? hexColor) {
-
-  // return ColorUtils.getColorFrom(
-  // hexColor,
-  // ColorUtils.getPrimaryColor(context, ColorUtils.ColorType.PRIMARY_LIGHT)
-  // )
-  // }
+  Color getColorOrDefaultFrom(String? hexColor) {
+    return convertHexStringToColor(hexColor) ??
+        Theme.of(context).colorScheme.primary;
+  }
 
   String? parseD2Error(Exception throwable) {
     // D2ErrorUtils(getWrapperContext()).getErrorMessage(throwable)

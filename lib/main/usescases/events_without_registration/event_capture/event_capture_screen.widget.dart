@@ -21,7 +21,6 @@ import '../event_details/ui/event_details.widget.dart';
 import 'di/event_capture_module.dart';
 import 'di/event_capture_providers.dart';
 import 'event_capture_contract.dart';
-import 'event_capture_form/event_capture_form.widget.dart';
 import 'event_capture_form/on_edition_listener.dart';
 import 'event_page_configurator.dart';
 import 'model/event_completion_dialog.dart';
@@ -31,25 +30,7 @@ import 'model/event_completion_dialog.dart';
 class EventCaptureScreen extends ConsumerStatefulWidget {
   const EventCaptureScreen({
     super.key,
-    // this.isEventCompleted = false,
-    // required this.eventMode,
-    // required this.activityUid,
-    // required this.programUid,
-    // required this.eventUid,
-    // this.onEditionListener,
-    // required this.adapter
   });
-
-  static const String route = '/eventCaptureActivity';
-
-  // final bool isEventCompleted;
-  // final EventMode eventMode;
-  // final String activityUid;
-  // final String programUid;
-  // final String eventUid;
-  // LiveData<bool> relationshipMapButton = new MutableLiveData<>(false);
-  // final void Function()? onEditionListener;
-  // final EventCaptureTabs adapter;
 
   @override
   ConsumerState<EventCaptureScreen> createState() => _EventCaptureScreenState();
@@ -85,13 +66,9 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
             onPositionChange: (position) {
               if (position == ViewAction.details &&
                   eventMode != EventMode.NEW) {
-                ref
-                    .read(syncButtonVisibilityProvider.notifier)
-                    .update((state) => true);
+                _showSyncButton();
               } else {
-                ref
-                    .read(syncButtonVisibilityProvider.notifier)
-                    .update((state) => false);
+                _hideSyncButton();
               }
             },
             appBarActions: [
@@ -109,8 +86,9 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
             ],
             actionButtonBuilder: (context, viewAction) => FloatingActionButton(
               heroTag: ViewAction.data_entry.name,
-              child: const Icon(Icons.add),
+              tooltip: localization.lookup('save'),
               onPressed: () {},
+              child: const Icon(Icons.save),
             ),
             // onPressedActionButton: (viewAction) => when(viewAction, {
             //   [ViewAction.data_entry, ViewAction.notes]: () {},
@@ -145,9 +123,8 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
                     // onActivityForResult: onActivityForResult,
                     onPercentageUpdate: (percentage) =>
                         updatePercentage(percentage),
-                    onDataIntegrityCheck: (result) {
-                      presenter.handleDataIntegrityResult(result);
-                    },
+                    onDataIntegrityCheck: (result) =>
+                        presenter.handleDataIntegrityResult(result),
                     // onFieldItemsRendered: onFieldItemsRendered,
                     // onSavePicture: onSavePicture,
                     // resultDialogUiProvider: resultDialogUiProvider
@@ -365,6 +342,14 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
     // TODO: implement performSaveClick
     // formView.onEditionFinish();
     // in form View it's just: binding.recyclerView.requestFocus();
+  }
+
+  void _showSyncButton() {
+    ref.read(syncButtonVisibilityProvider.notifier).update((state) => true);
+  }
+
+  void _hideSyncButton() {
+    ref.read(syncButtonVisibilityProvider.notifier).update((state) => false);
   }
 }
 
