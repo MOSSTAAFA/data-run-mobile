@@ -248,5 +248,18 @@
   "inactive": "منسحب",
   "newChv": "متطوعة جديدة",
   "level": "مستوى",
-  "fixError": "There are some errors. Please fix them before continuing."
+  "fixError": "There are some errors. Please fix them before continuing.",
+  "level": "Level",
+  "listView": "List View",
+  "mapView": "Map View",
+  "tableView": "Table View",
+  "dataEntry": "Data Entry",
+  "notes": "Notes",
+  "programs": "Programs",
+  "events": "Events",
+  "tasks": "Tasks",
+  "relationships": "Relationships",
+  "showHelp": "Show Help",
+  "analytics": "Analytics",
+  "share": "Share"
 }

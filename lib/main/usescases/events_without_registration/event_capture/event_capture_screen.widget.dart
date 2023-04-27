@@ -267,7 +267,8 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
 
   @override
   void hideProgress() {
-    ref.read(progressVisibilityProvider.notifier).update((_) => false);
+    Future(() =>
+        ref.read(progressVisibilityProvider.notifier).update((_) => false));
   }
 
   @override
@@ -285,7 +286,8 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
 
   @override
   void updateNoteBadge(int numberOfNotes) {
-    ref.read(noteBadgeProvider.notifier).update((_) => numberOfNotes);
+    Future(() =>
+        ref.read(noteBadgeProvider.notifier).update((_) => numberOfNotes));
   }
 
   @override
