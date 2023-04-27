@@ -213,7 +213,8 @@ class EventInitialRepositoryImpl implements EventInitialRepository {
         await D2Remote.trackerModule.event.byId(_eventUid ?? '').getOne();
     return event == null ||
         event.enrollment == null ||
-        (await D2Remote.trackerModule.enrollment /*.byId(event.enrollment)*/
+        (await D2Remote.trackerModule.enrollment
+                    .byId(event.enrollment)
                     .getOne())
                 ?.status
                 .toEnrollmentStatus ==

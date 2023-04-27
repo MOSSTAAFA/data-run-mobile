@@ -82,9 +82,9 @@ class OrgUnitItem {
           (parentUid.isNullOrEmpty ||
               (level > 1 && uidPath[level - 2] == parentUid))) {
         // TODO(NMC): Edit after implementing ouScope
-        final int count = await D2Remote.organisationUnitModule
-            .organisationUnit /*.byOrganisationUnitScope(ouScope)*/
+        final int count = await D2Remote.organisationUnitModule.organisationUnit
             .byId(uidPath[level - 1])
+            /*.byOrganisationUnitScope(ouScope)*/
             .count();
         final bool canCapture = count > 0;
 

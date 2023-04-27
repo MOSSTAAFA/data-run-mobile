@@ -110,7 +110,7 @@ class ProgramPresenterProvider extends Provider<ProgramPresenter> {
   }
 }
 
-String _$programRepositoryHash() => r'b2b9b173df5da25df2e1d928da85ebcc872aafc6';
+String _$programRepositoryHash() => r'767156dcc27e7cd699338cb8dc4991f2e682cf05';
 
 /// See also [programRepository].
 @ProviderFor(programRepository)

@@ -197,8 +197,8 @@ class ProgramEventMapper {
           String? programStage) async =>
       (await programStage?.aLet((String it) => D2Remote
           .programModule.programStageSection
-          .withDataElements()
           .byId(it)
+          .withDataElements()
           .get())) ??
       [];
 

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_dynamic_calls
+
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/data/tracker/entities/event.entity.dart';
 import 'package:d2_remote/modules/data/tracker/queries/event.query.dart';
@@ -11,11 +13,13 @@ import '../../core/program/program_type.dart';
 part 'mp_program_utils.g.dart';
 
 @Riverpod(keepAlive: true)
-MpProgramUtils mpProgramUtils(MpProgramUtilsRef ref) {
-  return MpProgramUtils();
+MpProgramUtils mpProgramUtils(MpProgramUtilsRef ref, EventQuery eventQuery) {
+  return MpProgramUtils(eventQuery);
 }
 
 class MpProgramUtils {
+  MpProgramUtils(this.eventQuery);
+  final EventQuery eventQuery;
   Future<State> getProgramState(Program? program) {
     return when(program?.programType.toProgramType, {
       ProgramType.WITH_REGISTRATION: () {
@@ -29,9 +33,7 @@ class MpProgramUtils {
 
   Future<State> getProgramStateByUid(String programUid) async {
     return getProgramState(
-        await D2Remote.programModule.program.byId(programUid).getOne()
-        // d2.programModule().programs().uid(programUid).blockingGet()
-        );
+        await D2Remote.programModule.program.byId(programUid).getOne());
   }
 
   Future<List<Program>> getProgramsInCaptureOrgUnits() {
@@ -44,9 +46,10 @@ class MpProgramUtils {
 
   Future<State> getEventProgramState(Program? program) async {
     if (program != null) {
-      bool hasEventWithErrorState = _hasEventWithErrorState(program.id!);
-      bool hasEventWithSMSState = _hasEventWithSMSState(program.id!);
-      bool hasEventWithNotSyncedStateOrDeleted =
+      final bool hasEventWithErrorState =
+          await _hasEventWithErrorState(program.id!);
+      final bool hasEventWithSMSState = _hasEventWithSMSState(program.id!);
+      final bool hasEventWithNotSyncedStateOrDeleted =
           await _hasEventWithNotSyncedStateOrDeleted(program.id!);
       return when(true, {
         hasEventWithErrorState: () => State.WARNING,
@@ -58,22 +61,20 @@ class MpProgramUtils {
     }
   }
 
-  bool _hasEventWithErrorState(String id) {
-    // TODO(NMC): implement
-    return false;
-    // return eventRepository
-    //     .byDeleted().isFalse
-    //     .byAggregatedSyncState().`in`(State.ERROR, State.WARNING)
-    //     .blockingGet().isNotEmpty()
+  Future<bool> _hasEventWithErrorState(String id) async {
+    return (await eventQuery
+            .byProgram(id)
+            .where(attribute: 'deleted', value: false)
+            .where(attribute: 'synced', value: false)
+            .where(attribute: 'dirty', value: true)
+            .where(attribute: 'syncFailed', value: true)
+            .count()) >
+        0;
   }
 
   bool _hasEventWithSMSState(String id) {
     // TODO(NMC): implement
     return false;
-    // return eventRepository
-    //     .byDeleted().isFalse
-    //     .byAggregatedSyncState().`in`(State.SENT_VIA_SMS, State.SYNCED_VIA_SMS)
-    //     .blockingGet().isNotEmpty();
   }
 
   Future<bool> _hasEventWithNotSyncedStateOrDeleted(String id) async {

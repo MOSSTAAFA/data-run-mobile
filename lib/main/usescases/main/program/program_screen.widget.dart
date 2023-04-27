@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'di/program_providers.dart';
 import 'program_list/program_list.widget.dart';
 import 'program_presenter.dart';
-import 'program_view.dart';
-import 'program_view_model.dart';
+import 'program.view.dart';
+import 'program_view.model.dart';
 
 /// ProgramFragment
 class ProgramViewScreen extends ConsumerStatefulWidget {
@@ -22,11 +22,11 @@ class _ProgramViewScreenState extends ConsumerState<ProgramViewScreen>
   Widget build(BuildContext context) {
     return ProgramList(
       onItemClick: (programViewModel) =>
-          presenter.onItemClick(programViewModel),
+          presenter.onItemClick(programViewModel!),
       onGranularSyncClick: (programViewModel) =>
-          presenter.onSyncStatusClick(programViewModel),
+          presenter.onSyncStatusClick(programViewModel!),
       onDescriptionClick: (programViewModel) =>
-          presenter.showDescription(programViewModel.description),
+          presenter.showDescription(programViewModel?.description),
     );
   }
 

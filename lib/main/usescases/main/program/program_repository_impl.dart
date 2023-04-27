@@ -1,29 +1,52 @@
+// ignore_for_file: avoid_dynamic_calls
+
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import '../../../../commons/extensions/standard_extensions.dart';
 import '../../../../commons/resources/resource_manager.dart';
+import '../../../../core/arch/call/d2_progress_status.dart';
 import '../../../../core/common/state.dart';
+import '../../../data/service/sync_status_controller.dart';
+import '../../../data/service/sync_status_data.dart';
 import '../../../mp_logic/mp_program_utils.dart';
+import 'di/program_providers.dart';
 import 'program_repository.dart';
-import 'program_view_model.dart';
+import 'program_view.model.dart';
 import 'program_view_model_mapper.dart';
 
 class ProgramRepositoryImpl implements ProgramRepository {
-  ProgramRepositoryImpl(this.mpProgramUtils, this.resourceManager) {
+  ProgramRepositoryImpl(this.ref, this.mpProgramUtils, this.resourceManager) {
     programViewModelMapper = ProgramViewModelMapper(resourceManager);
+    _startListeningForLastSyncStatus();
   }
+
+  void _startListeningForLastSyncStatus() {
+    ref.listen<SyncStatusData>(
+        syncStatusControllerInstanceProvider
+            .select((value) => value.syncStatusData), (previous, next) {
+      lastSyncStatus = previous;
+    });
+  }
+
   // final FilterPresenter filterPresenter;
+  final ProgramRepositoryRef ref;
   final MpProgramUtils mpProgramUtils;
   // final DhisTrackedEntityInstanceUtils dhisTeiUtils;
   final ResourceManager resourceManager;
 
   late final ProgramViewModelMapper programViewModelMapper;
-  // SyncStatusData? lastSyncStatus = null;
   IList<ProgramViewModel> baseProgramCache = IList<ProgramViewModel>();
+  SyncStatusData? lastSyncStatus;
 
   @override
-  Future<IList<ProgramViewModel>> homeItems() async {
-    IList<ProgramViewModel> programViewModels = await programModels();
-    programViewModels = programViewModels.addAll(await aggregatesModels()).sort(
-        (p1, p2) => p1.title.toLowerCase().compareTo(p2.title.toLowerCase()));
+  Future<IList<ProgramViewModel>> homeItems(
+      SyncStatusData syncStatusData) async {
+    IList<ProgramViewModel> programViewModels = await programModels(
+        syncStatusData) /* .catchError((onError) => IList<ProgramViewModel>()) */;
+    programViewModels = programViewModels
+        .addAll(await aggregatesModels(
+            syncStatusData) /* .catchError((onError) => IList<ProgramViewModel>()) */)
+        .sort((p1, p2) =>
+            p1.title.toLowerCase().compareTo(p2.title.toLowerCase()));
 
     return programViewModels;
     // return programModels(syncStatusData).onErrorReturn { arrayListOf() }
@@ -39,24 +62,21 @@ class ProgramRepositoryImpl implements ProgramRepository {
   }
 
   @override
-  Future<IList<ProgramViewModel>> aggregatesModels() {
+  Future<IList<ProgramViewModel>> aggregatesModels(
+      SyncStatusData syncStatusData) {
     // TODO: implement aggregatesModels
     return Future.value(IList<ProgramViewModel>());
   }
 
   @override
-  Future<IList<ProgramViewModel>> programModels() async {
+  Future<IList<ProgramViewModel>> programModels(
+      SyncStatusData syncStatusData) async {
     if (baseProgramCache.isEmpty) {
       baseProgramCache = await _basePrograms();
     }
-    return baseProgramCache;
-    // return Flowable.fromCallable {
-    //         baseProgramCache.ifEmpty {
-    //             baseProgramCache = basePrograms()
-    //             baseProgramCache
-    //         }.applyFilters()
-    //             .applySync(syncStatusData)
-    //     }
+    return baseProgramCache
+        .let((it) => applyFilters(it))
+        .let((it) => applySync(it, syncStatusData));
   }
 
   Future<IList<ProgramViewModel>> _basePrograms() async {
@@ -75,5 +95,50 @@ class ProgramRepositoryImpl implements ProgramRepository {
       programModles = programModles.add(programModel);
     }
     return programModles;
+  }
+
+  IList<ProgramViewModel> applyFilters(IList<ProgramViewModel> models) {
+    // TODO(NMC): implement filtering
+    return models;
+    // return map { programModel ->
+    //     val program = d2.programModule().programs().uid(programModel.uid).blockingGet()
+    //     val (count, hasOverdue) =
+    //         if (program.programType() == WITHOUT_REGISTRATION) {
+    //             getSingleEventCount(program)
+    //         } else {
+    //             getTrackerTeiCountAndOverdue(program)
+    //         }
+    //     programModel.copy(
+    //         count = count,
+    //         hasOverdueEvent = hasOverdue,
+    //         filtersAreActive = filterPresenter.areFiltersActive()
+    //     )
+    // }
+  }
+
+  IList<ProgramViewModel> applySync(
+      IList<ProgramViewModel> models, SyncStatusData syncStatusData) {
+    return models
+        .map((programModel) => programModel.copyWith(
+            downloadState: when<bool, ProgramDownloadState>(true, {
+              syncStatusData.hasDownloadError(programModel.uid): () =>
+                  ProgramDownloadState.ERROR,
+              syncStatusData.isProgramDownloading(programModel.uid): () =>
+                  ProgramDownloadState.DOWNLOADING,
+              syncStatusData.wasProgramDownloading(
+                  lastSyncStatus, programModel.uid): () => when(
+                      syncStatusData
+                          .programSyncStatusMap[programModel.uid]?.syncStatus,
+                      {
+                        [
+                          D2ProgressSyncStatus.SUCCESS,
+                          D2ProgressSyncStatus.ERROR
+                        ]: () => ProgramDownloadState.DOWNLOADED,
+                        D2ProgressSyncStatus.PARTIAL_ERROR: () =>
+                            ProgramDownloadState.ERROR,
+                      }).orElse(() => ProgramDownloadState.DOWNLOADED),
+            }).orElse(() => ProgramDownloadState.NONE),
+            downloadActive: syncStatusData.running))
+        .toIList();
   }
 }

@@ -1,10 +1,9 @@
 import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisation_unit.entity.dart';
 import '../../../../commons/extensions/string_extension.dart';
 import 'di/program_providers.dart';
-import 'program_list/program_list_item_provider.dart';
 import 'program_repository.dart';
-import 'program_view.dart';
-import 'program_view_model.dart';
+import 'program.view.dart';
+import 'program_view.model.dart';
 
 class ProgramPresenter {
   ProgramPresenter(this.ref, this.view, this.programRepository);
@@ -15,14 +14,14 @@ class ProgramPresenter {
   // final FilterManager filterManager;
   // final MatomoAnalyticsController matomoAnalyticsController;
   // final SyncStatusController syncStatusController;
-  void init() {
-    programRepository.homeItems().then((programs) {
-      Future(() {
-        ref.read(programViewModelsProvider.notifier).setValue(programs);
-        view.swapProgramModelData(programs);
-      });
-    });
-  }
+  // void init() {
+  //   programRepository.homeItems().then((programs) {
+  //     Future(() {
+  //       ref.read(programViewModelsProvider.notifier).setValue(programs);
+  //       view.swapProgramModelData(programs);
+  //     });
+  //   });
+  // }
 
   void onSyncStatusClick(ProgramViewModel program) {
     // val programTitle = "$CLICK_ON${program.title}"

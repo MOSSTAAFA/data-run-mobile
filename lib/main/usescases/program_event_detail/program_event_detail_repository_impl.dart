@@ -44,8 +44,8 @@ class ProgramEventDetailRepositoryImpl implements ProgramEventDetailRepository {
   @override
   Future<ProgramEventViewModel> getInfoForEvent(String eventUid) async {
     return (await D2Remote.trackerModule.event
-            .withDataValues()
             .byId(eventUid)
+            .withDataValues()
             .getOne())!
         .let(mapper.eventToProgramEvent);
   }

@@ -146,9 +146,9 @@ class _OuSelectorItemState extends State<OuSelectorItem> {
           0;
     } else {
       canBeSelected = (await D2Remote.organisationUnitModule.organisationUnit
+              .byId(orgUnit)
               // TODO(NMC): Edit after implementing ouScope
               // .byOrganisationUnitScope(OrganisationUnitScope.SCOPE_DATA_CAPTURE)
-              .byId(orgUnit)
               .count()) >
           0;
     }

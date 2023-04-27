@@ -2,7 +2,7 @@ import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart'
 import 'package:flutter/material.dart' show Icons;
 import '../../../../commons/resources/resource_manager.dart';
 import '../../../../core/common/state.dart';
-import 'program_view_model.dart';
+import 'program_view.model.dart';
 import '../../../../commons/ui/metadata_icon_data.dart';
 
 /// TODO(NMC): maybe implement in programModelProvider instead

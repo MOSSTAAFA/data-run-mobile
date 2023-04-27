@@ -693,7 +693,7 @@ packages:
     source: hosted
     version: "1.2.2"
   queue:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: queue
       sha256: "9a41ecadc15db79010108c06eae229a45c56b18db699760f34e8c9ac9b831ff9"
@@ -709,7 +709,7 @@ packages:
     source: hosted
     version: "3.2.1"
   reflectable:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: reflectable
       sha256: "775388897bfce5b1d0386b7160706367b565cdc72b5870bc6a198d0f7be1aa0b"
