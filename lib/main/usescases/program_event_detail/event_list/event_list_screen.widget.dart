@@ -10,22 +10,19 @@ class EventListScreen extends ConsumerWidget {
   const EventListScreen({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ref.watch(eventListProgramProvider).when(data: (data) {
-      Future(() => ref
-          .read(programEventDetailModelProvider.notifier)
-          .setProgress(false));
-      return EventList(
-        program: data,
-      );
-    }, error: (error, __) {
-      Future(() => ref
-          .read(programEventDetailModelProvider.notifier)
-          .setProgress(false));
-      return Text('WhenError: EventListScreen $error');
-    }, loading: () {
-      Future(() =>
-          ref.read(programEventDetailModelProvider.notifier).setProgress(true));
-      return const SizedBox();
-    });
+    final program = ref.watch(eventListProgramProvider).value;
+    ref.watch(eventListProgramProvider).maybeWhen(
+          loading: () {
+            Future(() => ref
+                .read(programEventDetailModelProvider.notifier)
+                .setProgress(true));
+          },
+          orElse: () => Future(() => ref
+              .read(programEventDetailModelProvider.notifier)
+              .setProgress(false)),
+        );
+    return EventList(
+      program: program,
+    );
   }
 }

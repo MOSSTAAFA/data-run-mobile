@@ -5,7 +5,7 @@ import 'package:d2_remote/modules/data/tracker/entities/event.entity.dart';
 import 'package:d2_remote/modules/data/tracker/entities/tracked_entity_attribute_value.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_tracked_entity_attribute.entity.dart';
 import 'package:dartx/dartx_io.dart';
-import '../../core/enrollment/enrollment_extensions.dart';
+import '../../commons/extensions/base_query_extension.dart';
 import 'enrollment_event_generator.dart';
 import 'enrollment_event_generator_repository_impl.dart';
 
@@ -15,7 +15,7 @@ class MpEnrollmentUtils {
   Future<bool> isEventEnrollmentOpen(Event event) async {
     if (event.enrollment != null) {
       final Enrollment? enrollment = await D2Remote.trackerModule.enrollment
-          .byId(event.enrollment.id!)
+          .byId(event.enrollment.id ?? '')
           .getOne();
 
       return enrollment == null ||
@@ -94,6 +94,7 @@ class MpEnrollmentUtils {
   Future<List<TrackedEntityAttributeValue>> getTrackedEntityAttributeValues(
       String uid, String value, String teiUid) async {
     return await D2Remote.trackerModule.trackedEntityAttributeValue
+        .resetFilters()
         .byAttribute(uid)
         .whereNeq(attribute: 'trackedEntityInstance', value: teiUid)
         .where(attribute: 'value', value: value)

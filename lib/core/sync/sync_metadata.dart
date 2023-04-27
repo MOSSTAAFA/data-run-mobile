@@ -38,7 +38,7 @@ class SyncMetadata {
               return items.isNotEmpty &&
                   items.first.type == QueryType.METADATA &&
 
-                  /// aut == true Metadata are automatically downloaded
+                  /// aut == true, Metadata are automatically downloaded
                   /// using sync, but Metadata with aut set to false are
                   /// only downloaded on User Request.
                   items.first.aut;

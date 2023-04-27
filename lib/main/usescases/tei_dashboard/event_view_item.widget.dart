@@ -19,7 +19,7 @@ import '../program_event_detail/program_event_detail_view_model.dart';
 class EventViewItem extends ConsumerStatefulWidget {
   const EventViewItem({super.key, required this.program});
 
-  final Program program;
+  final Program? program;
   // final void Function(String?) onSyncClick;
   // final void Function(String?) onScheduleClick;
   // final Function(String?, String?, String?, EventStatus?) onEventSelected;
@@ -32,19 +32,18 @@ class _EventViewItemState extends ConsumerState<EventViewItem> {
   @override
   Widget build(BuildContext context) {
     // final AsyncValue<EventModel> item = ref.watch(eventModelItemProvider);
-    final EventModel? eventModel =
-        ref.watch(eventModelItemProvider).valueOrNull;
+    final EventModel? eventModel = ref.watch(eventModelItemProvider).value;
 
     // final Program? program = ref.watch(eventListProgramProvider).valueOrNull;
 
-    ref.watch(eventModelItemProvider).maybeWhen(
-          error: (Object error, StackTrace st) =>
-              debugPrint('debugPrint: ${st.toString()}'),
-          loading: () => ref
-              .watch(programEventDetailModelProvider.notifier)
-              .setProgress(true),
-          orElse: () {},
-        );
+    // ref.watch(eventModelItemProvider).maybeWhen(
+    //       error: (Object error, StackTrace st) =>
+    //           debugPrint('debugPrint: ${st.toString()}'),
+    //       loading: () => ref
+    //           .watch(programEventDetailModelProvider.notifier)
+    //           .setProgress(true),
+    //       orElse: () {},
+    //     );
 
     final Event? event = eventModel?.event;
     // ref.watch(eventModelItemProvider.select((AsyncValue<EventModel> eventModel) => eventModel.event));
@@ -68,7 +67,7 @@ class _EventViewItemState extends ConsumerState<EventViewItem> {
     // ref.watch(eventViewModelProvider
     //     .select((EventModel eventModel) => eventModel.groupedByStage));
 
-    final Color? cardColor = widget.program.programType.toProgramType ==
+    final Color? cardColor = widget.program?.programType.toProgramType ==
             ProgramType.WITH_REGISTRATION
         ? convertHexStringToColor('#FAFAFA')
         : Colors.white;

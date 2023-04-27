@@ -10,38 +10,39 @@ import 'di/event_list_providers.dart';
 
 /// ProgramEventDetailLiveAdapter
 class EventList extends ConsumerStatefulWidget {
-  const EventList({super.key, required this.program});
-  final Program program;
+  const EventList({super.key, this.program});
+  final Program? program;
   @override
   ConsumerState<EventList> createState() => _EventListState();
 }
 
 class _EventListState extends ConsumerState<EventList> {
   final ItemScrollController itemScrollController = ItemScrollController();
-  List<EventModel> eventModels = [];
   @override
   Widget build(BuildContext context) {
-    return ref.watch(filteredProgramEventsProvider).when(
-        data: (List<EventModel> data) {
-      ref.read(programEventDetailModelProvider.notifier).setProgress(false);
-      return ScrollablePositionedList.builder(
-        itemCount: eventModels.length,
-        itemBuilder: (BuildContext context, int index) => ProviderScope(
-          overrides: [eventModelItemIndexProvider.overrideWith((_) => index)],
-          child: EventViewItem(
-            program: widget.program,
-          ),
+    final filteredProgramEvents =
+        ref.watch(filteredProgramEventsProvider).value;
+    ref.watch(filteredProgramEventsProvider).maybeWhen(
+          loading: () {
+            Future(() => ref
+                .read(programEventDetailModelProvider.notifier)
+                .setProgress(true));
+          },
+          orElse: () => Future(() => ref
+              .read(programEventDetailModelProvider.notifier)
+              .setProgress(false)),
+        );
+    return ScrollablePositionedList.builder(
+      itemCount: filteredProgramEvents?.length ?? 0,
+      itemBuilder: (BuildContext context, int index) => ProviderScope(
+        overrides: [eventModelItemIndexProvider.overrideWith((_) => index)],
+        child: EventViewItem(
+          program: widget.program,
         ),
-        itemScrollController: itemScrollController,
-        // itemPositionsListener: itemPositionsListener,
-      );
-    }, error: (error, __) {
-      ref.read(programEventDetailModelProvider.notifier).setProgress(false);
-      return Text('WhenError: EventListScreen $error');
-    }, loading: () {
-      ref.read(programEventDetailModelProvider.notifier).setProgress(true);
-      return const SizedBox();
-    });
+      ),
+      itemScrollController: itemScrollController,
+      // itemPositionsListener: itemPositionsListener,
+    );
   }
 
   @override

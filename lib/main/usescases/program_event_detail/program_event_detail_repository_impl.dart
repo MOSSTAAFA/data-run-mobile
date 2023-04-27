@@ -7,14 +7,13 @@ import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart'
 import 'package:d2_remote/modules/activity_management/activity/entities/activity.entity.dart';
 
 import 'package:d2_remote/core/common/feature_type.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../commons/data/event_view_model.dart';
+import '../../../commons/extensions/base_query_extension.dart';
 import 'di/program_event_detail_providers.dart';
 import 'program_event_mapper.dart';
 
 import '../../../commons/data/program_event_view_model.dart';
 import '../../../commons/extensions/feature_type_extension.dart';
-import '../../../commons/extensions/standard_extensions.dart';
 import 'program_event_detail_repository.dart';
 import 'program_event_map_data.dart';
 
@@ -26,7 +25,10 @@ class ProgramEventDetailRepositoryImpl implements ProgramEventDetailRepository {
 
   @override
   Future<List<EventModel>> programEvents() async {
-    final List<Event> events = await D2Remote.trackerModule.event.get();
+    final List<Event> events = await D2Remote.trackerModule.event
+        .resetFilters()
+        .byProgram(programUid)
+        .get();
     final List<EventModel> eventsModels = [];
     Future.forEach(
         events,
@@ -53,6 +55,7 @@ class ProgramEventDetailRepositoryImpl implements ProgramEventDetailRepository {
   @override
   Future<FeatureType> featureType() async {
     return (await D2Remote.programModule.programStage
+            .resetFilters()
             .byProgram(programUid)
             .getOne())!
         .let((ProgramStage stage) {
@@ -72,7 +75,10 @@ class ProgramEventDetailRepositoryImpl implements ProgramEventDetailRepository {
 
   @override
   Future<ProgramStage?> programStage() async {
-    return D2Remote.programModule.programStage.byProgram(programUid).getOne();
+    return D2Remote.programModule.programStage
+        .resetFilters()
+        .byProgram(programUid)
+        .getOne();
   }
 
   @override

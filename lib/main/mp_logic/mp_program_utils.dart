@@ -104,8 +104,10 @@ class MpProgramUtils {
     return when<ProgramType?, Future<String>>(
         program.programType.toProgramType, {
       ProgramType.WITH_REGISTRATION: () async {
-        final TrackedEntityType? trackedEntityType =
-            await D2Remote.programModule.trackedEntityType.getOne();
+        final TrackedEntityType? trackedEntityType = await D2Remote
+            .programModule.trackedEntityType
+            .byId(program.trackedEntityType ?? '')
+            .getOne();
         return trackedEntityType?.displayName ?? defaultTrackerLabel;
       },
       ProgramType.WITHOUT_REGISTRATION: () => Future.value(defaultEventLabel)
