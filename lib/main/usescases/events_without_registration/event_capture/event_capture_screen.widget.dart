@@ -91,9 +91,6 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
               onPressed: () {},
               child: const Icon(Icons.save),
             ),
-            // onPressedActionButton: (viewAction) => when(viewAction, {
-            //   [ViewAction.data_entry, ViewAction.notes]: () {},
-            // }),
             tabBuilder: (context, viewAction) {
               final name = localization.lookup(viewAction.name);
               return when(viewAction, {

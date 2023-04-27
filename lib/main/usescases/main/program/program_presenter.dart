@@ -14,14 +14,6 @@ class ProgramPresenter {
   // final FilterManager filterManager;
   // final MatomoAnalyticsController matomoAnalyticsController;
   // final SyncStatusController syncStatusController;
-  // void init() {
-  //   programRepository.homeItems().then((programs) {
-  //     Future(() {
-  //       ref.read(programViewModelsProvider.notifier).setValue(programs);
-  //       view.swapProgramModelData(programs);
-  //     });
-  //   });
-  // }
 
   void onSyncStatusClick(ProgramViewModel program) {
     // val programTitle = "$CLICK_ON${program.title}"

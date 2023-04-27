@@ -49,16 +49,6 @@ class ProgramRepositoryImpl implements ProgramRepository {
             p1.title.toLowerCase().compareTo(p2.title.toLowerCase()));
 
     return programViewModels;
-    // return programModels(syncStatusData).onErrorReturn { arrayListOf() }
-    //         .mergeWith(aggregatesModels(syncStatusData).onErrorReturn { arrayListOf() })
-    //         .flatMapIterable { data -> data }
-    //         .sorted { p1, p2 -> p1.title.compareTo(p2.title, ignoreCase = true) }
-    //         .toList().toFlowable()
-    //         .subscribeOn(schedulerProvider.io())
-    //         .onErrorReturn { arrayListOf() }
-    //         .doOnNext {
-    //             lastSyncStatus = syncStatusData
-    //         }
   }
 
   @override
@@ -100,20 +90,6 @@ class ProgramRepositoryImpl implements ProgramRepository {
   IList<ProgramViewModel> applyFilters(IList<ProgramViewModel> models) {
     // TODO(NMC): implement filtering
     return models;
-    // return map { programModel ->
-    //     val program = d2.programModule().programs().uid(programModel.uid).blockingGet()
-    //     val (count, hasOverdue) =
-    //         if (program.programType() == WITHOUT_REGISTRATION) {
-    //             getSingleEventCount(program)
-    //         } else {
-    //             getTrackerTeiCountAndOverdue(program)
-    //         }
-    //     programModel.copy(
-    //         count = count,
-    //         hasOverdueEvent = hasOverdue,
-    //         filtersAreActive = filterPresenter.areFiltersActive()
-    //     )
-    // }
   }
 
   IList<ProgramViewModel> applySync(

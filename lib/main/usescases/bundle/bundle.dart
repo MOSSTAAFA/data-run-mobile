@@ -39,23 +39,11 @@ class Bundle with EquatableMixin {
   Bundle putString(String key, String? value) {
     bundleMap = bundleMap.add(key, value);
     return Bundle(bundleMap);
-    //  Map.from(state)
-    //   ..update(
-    //     key,
-    //     (_) => value,
-    //     ifAbsent: () => value,
-    //   );
   }
 
   Bundle putInt(String key, int? value) {
     bundleMap = bundleMap.add(key, value);
     return Bundle(bundleMap);
-    // Map.from(state)
-    //   ..update(
-    //     key,
-    //     (_) => value,
-    //     ifAbsent: () => value,
-    //   );
   }
 
   String? getString(String key) {
