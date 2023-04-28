@@ -1,3 +1,5 @@
+// ignore_for_file: always_specify_types
+
 class Constants {
   static const String EVENT_PERIOD_TYPE = 'EVENT_PERIOD_TYPE';
   static const String ENROLLMENT_DATE_UID = 'ENROLLMENT_DATE_UID';
@@ -5,8 +7,8 @@ class Constants {
   static const String INCIDENT_DATE = 'incidentDate';
 }
 
-const kAppVersion = 'v1.0.0';
-const kAppName = 'Flutter Examples';
+const String kAppVersion = 'v1.0.0';
+const String kAppName = 'Flutter Examples';
 // final kAppIcon =
 // Image.asset('res/images/launcher_icon.png', height: 64.0, width: 64.0);
 const String kAppProductionUrl = 'https://nmcpye.org';
@@ -14,7 +16,7 @@ const String kAppStagingUrl = 'https://staging.nmcpye.org';
 const String kAppLargeTestUrl = 'https://testv5.nmcpye.org';
 const String kAppDemoUrl = 'https://demo.nmcpye.org';
 
-const kAppDescription = 'ICCM App.';
+const String kAppDescription = 'ICCM App.';
 
 // Shared Prefs
 const String kSharedPrefs = 'shared_prefs';
@@ -28,32 +30,32 @@ const String kDashboard = 'dashboard';
 const String kReports = 'reports';
 
 // Paths
-const kGooglePlayUrl = '';
-const kGitHubUrl = 'https://github.com/Hamza-ye/flutter_examples';
-const kApiBaseUrl = 'http://localhost:9080';
-const kCoverageReportsPath = 'coverage-reports';
-const kCoverageDataItemsPath = 'coverage-data_items';
-const kTeamsPath = 'teams';
-const kTargetsPath = 'targets';
-const kChvMalariaCasesPath = 'chv-malaria-cases';
-const kOrgUnitApiPath = 'organisation-units';
-const kStockTypeApiPath = 'stock-items';
-const kUserApiPath = 'account';
-const kUserGroupApiPath = 'user-groups';
-const kPeopleApiPath = 'user-data';
-const kUserAuthGroupApiPath = 'user-authority-groups';
-const kChvApiPath = 'chvs';
-const kChvTeamApiPath = 'chv-teams';
-const kAuthenticationApiPath = 'authenticate';
-const kSignupApiPath = 'signup';
+const String kGooglePlayUrl = '';
+const String kGitHubUrl = 'https://github.com/Hamza-ye/flutter_examples';
+const String kApiBaseUrl = 'http://localhost:9080';
+const String kCoverageReportsPath = 'coverage-reports';
+const String kCoverageDataItemsPath = 'coverage-data_items';
+const String kTeamsPath = 'teams';
+const String kTargetsPath = 'targets';
+const String kChvMalariaCasesPath = 'chv-malaria-cases';
+const String kOrgUnitApiPath = 'organisation-units';
+const String kStockTypeApiPath = 'stock-items';
+const String kUserApiPath = 'account';
+const String kUserGroupApiPath = 'user-groups';
+const String kPeopleApiPath = 'user-data';
+const String kUserAuthGroupApiPath = 'user-authority-groups';
+const String kChvApiPath = 'chvs';
+const String kChvTeamApiPath = 'chv-teams';
+const String kAuthenticationApiPath = 'authenticate';
+const String kSignupApiPath = 'signup';
 
 // Hive Boxes
-const kChvMalariaCasesBoxName = 'chv_malaria_cases_box';
-const kOrgUnitsBoxName = 'org_units_box';
-const kStockTypesBoxName = 'stock_types_box';
-const kChvInfoBoxName = 'chv_info_box';
-const kUserInfoBoxName = 'user_info_box';
-const kCPeopleInfoBoxName = 'people_info_box';
+const String kChvMalariaCasesBoxName = 'chv_malaria_cases_box';
+const String kOrgUnitsBoxName = 'org_units_box';
+const String kStockTypesBoxName = 'stock_types_box';
+const String kChvInfoBoxName = 'chv_info_box';
+const String kUserInfoBoxName = 'user_info_box';
+const String kCPeopleInfoBoxName = 'people_info_box';
 
 // Theme
 const String kColorThemeLight = 'light';
@@ -71,8 +73,8 @@ const double kDrawerWidthDesktop = 210;
 const double kTableColumnGap = 16;
 const double kTopBottomBarHeight = 50;
 const double kDialogWidth = 400;
-const double kDashboardPanelHeight = 543; // TODO remove this
-const double kDashboardPanelHeightWeb = 539; // TODO remove this
+const double kDashboardPanelHeight = 543; // TODO(Old): remove this
+const double kDashboardPanelHeightWeb = 539; // TODO(Old): remove this
 const double kListNumberWidth = 100;
 
 const double kTabletLayoutWidth = 1100;
@@ -161,19 +163,19 @@ const String kEntityStatusCompleted = '3';
 const String kEntityStatusUncompleted = '4';
 const String kEntityStatusUnSynchronizable = '5';
 
-const kChvMalariaCaseStatuses = {
+const Map<String, String> kChvMalariaCaseStatuses = {
   kEntityStatusDraft: 'draft',
   kEntityStatusSynced: 'sent',
   kEntityStatusCompleted: 'completed',
   kEntityStatusUncompleted: 'uncompleted',
 };
 
-const kGenders = {
+const Map<String, String> kGenders = {
   'MALE': 'MALE',
   'FEMALE': 'FEMALE',
 };
 
-const kMalariaTestResult = {
+const Map<String, String> kMalariaTestResult = {
   'NEGATIVE': 'NEGATIVE',
   'PF': 'PF',
   'PV': 'PV',
@@ -181,7 +183,7 @@ const kMalariaTestResult = {
   'INVALID': 'INVALID',
 };
 
-const kMalariaSeverity = {
+const Map<String, String> kMalariaSeverity = {
   'SIMPLE': 'SIMPLE',
   'SEVERE': 'SEVERE',
 };
