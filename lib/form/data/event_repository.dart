@@ -12,6 +12,7 @@ import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dar
 import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_stage_data_element.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_stage_section.entity.dart';
+import 'package:d2_remote/modules/metadata/program/entities/program_stage_section_data_element.entity.dart';
 import 'package:d2_remote/shared/utilities/sort_order.util.dart';
 import 'package:flutter/foundation.dart';
 
@@ -31,7 +32,7 @@ class EventRepository extends DataEntryBaseRepository {
     _programStageSections = _event!.then((event) => D2Remote
         .programModule.programStageSection
         .withDataElements()
-        .byProgramStage(event!.programStage.id!)
+        .byProgramStage(event!.programStage)
         .get());
 
     _sectionMap = _programStageSections.then((sections) =>
@@ -77,10 +78,11 @@ class EventRepository extends DataEntryBaseRepository {
       fields.add(transformSection(
           sectionUid: programStageSection.id!,
           sectionName: programStageSection.displayName));
-      programStageSection.dataElements?.forEach((dataElement) async {
+      await Future.forEach<ProgramStageSectionDataElement>(
+          programStageSection.dataElements ?? [], (dataElement) async {
         final programStageDataElement = await D2Remote
             .programModule.programStageDataElement
-            .byProgramStage(event.programStage.id!)
+            .byProgramStage(event.programStage)
             .byDataElement(dataElement.dataElement)
             .getOne();
         if (programStageDataElement != null) {
@@ -95,7 +97,7 @@ class EventRepository extends DataEntryBaseRepository {
     final Event event = (await _event)!;
 
     final ProgramStage programStage = (await D2Remote.programModule.programStage
-        .byId(event.programStage.id!)
+        .byId(event.programStage)
         .getOne())!;
 
     final List<ProgramStageDataElement> stageDataElements = await D2Remote
@@ -108,11 +110,13 @@ class EventRepository extends DataEntryBaseRepository {
     final pp = stageDataElements.map((stageDataElement) {
       return _transform(stageDataElement);
     }).toList();
-    final ff = Future.wait(pp).catchError((onError) {
+    final ff = Future.wait(
+            pp) /* .catchError((onError) {
       if (kDebugMode) {
         print(onError);
       }
-    });
+    }) */
+        ;
     return ff;
   }
 

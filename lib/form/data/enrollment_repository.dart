@@ -13,6 +13,7 @@ import 'package:d2_remote/modules/data/tracker/entities/tracked_entity_attribute
 import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_section.entity.dart';
+import 'package:d2_remote/modules/metadata/program/entities/program_section_attribute.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_tracked_entity_attribute.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/tracked_entity_attribute.entity.dart';
 import 'package:d2_remote/shared/utilities/sort_order.util.dart';
@@ -52,10 +53,8 @@ class EnrollmentRepository extends DataEntryBaseRepository {
     _enrollment =
         D2Remote.trackerModule.enrollment.byId(enrollmentUid).getOne();
 
-    _program = _enrollment!.then((enrollment) async => await D2Remote
-        .programModule.program
-        .byId(enrollment!.program)
-        .getOne());
+    _program = _enrollment!.then((enrollment) =>
+        D2Remote.programModule.program.byId(enrollment!.program).getOne());
 
     _programSections = _program!.then((program) => D2Remote
         .programModule.programSection
@@ -118,8 +117,8 @@ class EnrollmentRepository extends DataEntryBaseRepository {
           sectionUid: section.id!,
           sectionName: section.displayName,
           sectionDescription: section.description));
-
-      section.attributes?.forEach((attribute) async {
+      await Future.forEach<ProgramSectionAttribute>(section.attributes ?? [],
+          (attribute) async {
         final programTrackedEntityAttribute = await D2Remote
             .programModule.programTrackedEntityAttribute
             .byProgram(program.id!)
@@ -139,7 +138,7 @@ class EnrollmentRepository extends DataEntryBaseRepository {
 
     final TrackedEntityInstance? tei = await D2Remote
         .trackerModule.trackedEntityInstance
-        .byId(enrollment!.trackedEntityInstance.id)
+        .byId(enrollment!.trackedEntityInstance)
         .getOne();
 
     final teiType = tei!.trackedEntityType;
@@ -176,17 +175,16 @@ class EnrollmentRepository extends DataEntryBaseRepository {
   Future<FieldUiModel> _transform(
       ProgramTrackedEntityAttribute programTrackedEntityAttribute,
       {String sectionUid = 'SINGLE_SECTION_UID'}) async {
-    final TrackedEntityAttribute attribute = await D2Remote
+    final TrackedEntityAttribute? attribute = await D2Remote
         .programModule.trackedEntityAttribute
         .byId(programTrackedEntityAttribute.attribute)
-        .getOne()
-        .then((attr) => attr);
+        .getOne();
 
     final Enrollment? enrollment = await _enrollment;
 
-    final valueType = ValueType.valueOf(attribute.valueType);
+    final valueType = ValueType.valueOf(attribute?.valueType);
     final mandatory = programTrackedEntityAttribute.mandatory;
-    final optionSet = attribute.optionSet;
+    final optionSet = attribute?.optionSet;
     // var generated = attribute.generated()!!;
 
     final orgUnitUid = enrollment!.orgUnit;
@@ -194,7 +192,7 @@ class EnrollmentRepository extends DataEntryBaseRepository {
 
     final TrackedEntityAttributeValue? attrValue = await D2Remote
         .trackerModule.trackedEntityAttributeValue
-        .byId('${enrollment.trackedEntityInstance.id}_${attribute.id}');
+        .byId('${enrollment.trackedEntityInstance}_${attribute?.id}');
     String? dataValue = await _getAttributeValue(attrValue);
 
     OptionSetConfiguration? optionSetConfig;
@@ -235,7 +233,7 @@ class EnrollmentRepository extends DataEntryBaseRepository {
     final List<ProgramSection>? programSections = await _programSections;
     for (final section in programSections!) {
       if (UidsHelper.getUidsList(section.attributes!)
-          .contains('${section.id}_${attribute.id}')) {
+          .contains('${section.id}_${attribute?.id}')) {
         programSection = section;
         break;
       }
@@ -245,7 +243,7 @@ class EnrollmentRepository extends DataEntryBaseRepository {
         _getSectionRenderingType(programSection);
 
     final FieldUiModel fieldViewModel = await fieldFactory.create(
-        id: attribute.id!,
+        id: attribute!.id!,
         label: attribute.displayName ?? '',
         valueType: valueType!,
         mandatory: mandatory,

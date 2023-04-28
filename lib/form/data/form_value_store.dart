@@ -342,17 +342,21 @@ class FormValueStore {
       String field, String optionGroupUid, bool isInGroup) async {
     final List<OptionGroupOption>? optionGroupOptions = (await D2Remote
             .optionModule.optionGroup
-            .withOptions()
             .byId(optionGroupUid)
+            .withOptions()
             .getOne())
         ?.options;
 
-    final List<String> optionsInGroup = [];
-
-    optionGroupOptions?.map((OptionGroupOption option) async {
-      final String code = (await D2Remote.optionModule.option.getOne())!.code!;
-      optionsInGroup.add(code);
-    });
+    final List<String> optionsInGroup = await Future.wait(
+        optionGroupOptions?.map((OptionGroupOption option) async {
+              // final String code = (await D2Remote.optionModule.option.getOne())!.code!;
+              return (await D2Remote.optionModule.option
+                      .byId(option.option)
+                      .getOne())!
+                  .code!;
+              // optionsInGroup.add(code);
+            }) ??
+            []);
 
     switch (entryMode) {
       case EntryMode.DE:
