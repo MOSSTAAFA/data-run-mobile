@@ -1,23 +1,18 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:d2_remote/core/arch/helpers/uids_helper.dart';
-import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/data/tracker/queries/event.query.dart';
 import 'package:d2_remote/modules/data/tracker/queries/tracked_entity_instance.query.dart';
 import 'package:d2_remote/modules/metadata/dataset/queries/data_set.query.dart';
 import 'package:d2_remote/modules/metadata/program/queries/program.query.dart';
-import 'package:d2_remote/shared/entities/base.entity.dart';
-import 'package:d2_remote/shared/queries/base.query.dart';
 import 'package:dio/dio.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import '../../../commons/extensions/base_query_extension.dart';
 import '../../../commons/helpers/result.dart';
 import '../../../core/arch/call/d2_progress.dart';
 import '../../../core/arch/call/d2_progress_manager.dart';
 import '../../../core/arch/call/d2_progress_status.dart';
-import '../../../core/d2_remote_extensions/tracker/queries/event_query_download_extension.dart';
-import '../../../core/d2_remote_extensions/tracker/queries/event_query_upload_extension.dart';
-import '../../../core/d2_remote_extensions/tracker/queries/tei_upload_extension.dart';
 import '../../../core/tracker/tracker_d2_progress.dart';
 import 'sync_presenter.dart';
 import 'sync_result.dart';
@@ -54,10 +49,6 @@ class SyncPresenterImpl implements SyncPresenter {
     ref
         .read(syncStatusControllerInstanceProvider.notifier)
         .updateDownloadProcess(d2Progress.programs);
-  }
-
-  void _resetQueryFilters(BaseQuery<BaseEntity> query) {
-    query.filters = null;
   }
 
   @override
@@ -100,26 +91,28 @@ class SyncPresenterImpl implements SyncPresenter {
   Future<void> syncAndDownloadEvents({Dio? dioTestClient}) async {
     // upload unSynced
     // TODO(NMC): make service to do that and handle errors inside it
-    _resetQueryFilters(eventQuery);
     // await D2Remote.trackerModule.event
-    await eventQuery.uploadProgress(_postProgress,
-        dioTestClient: dioTestClient);
+    await eventQuery
+        .resetFilters()
+        .uploadProgress(_postProgress, dioTestClient: dioTestClient);
     // download
     // await D2Remote.trackerModule.event
-    await D2Remote.trackerModule.event
+    await eventQuery
+        .resetFilters()
         .downloadWithProgress(_postProgress, dioTestClient: dioTestClient);
   }
 
   // throws Exception;
   @override
   Future<void> syncAndDownloadTeis({Dio? dioTestClient}) async {
-    _resetQueryFilters(D2Remote.trackerModule.trackedEntityInstance);
     // await D2Remote.trackerModule.trackedEntityInstance
-    await D2Remote.trackerModule.trackedEntityInstance
+    await teisQuery
+        .resetFilters()
         .uploadWithProgress(_postProgress, dioTestClient: dioTestClient);
     // download teis
     // await D2Remote.trackerModule.trackedEntityInstance
-    await D2Remote.trackerModule.trackedEntityInstance
+    await teisQuery
+        .resetFilters()
         .downloadWithProgress(_postProgress, dioTestClient: dioTestClient);
   }
 
@@ -183,15 +176,16 @@ class SyncPresenterImpl implements SyncPresenter {
       {Dio? dioTestClient}) async {
     // upload unSynced
     // TODO(NMC): make service to do that and handle errors inside it
-    _resetQueryFilters(eventQuery);
     // await D2Remote.trackerModule.event
     // await EventQuery()
     await eventQuery
+        .resetFilters()
         .byProgram(programUid)
         .uploadProgress(_postProgress, dioTestClient: dioTestClient);
     // download
     // return D2Remote.trackerModule.event
     return eventQuery
+        .resetFilters()
         .byProgram(programUid)
         .downloadWithProgress(_postProgress, dioTestClient: dioTestClient)
         .then((value) => Result.success(''))
@@ -205,14 +199,15 @@ class SyncPresenterImpl implements SyncPresenter {
       {Dio? dioTestClient}) async {
     // upload unSynced
     // TODO(NMC): make service to do that and handle errors inside it
-    _resetQueryFilters(eventQuery);
     // await D2Remote.trackerModule.event
     await eventQuery
+        .resetFilters()
         .byActivity(activityUid)
         .uploadProgress(_postProgress, dioTestClient: dioTestClient);
     // download
     // return D2Remote.trackerModule.event
     return eventQuery
+        .resetFilters()
         .byActivity(activityUid)
         .downloadWithProgress(_postProgress, dioTestClient: dioTestClient)
         .then((value) => Result.success(''))
