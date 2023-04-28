@@ -4,7 +4,7 @@ import 'package:d2_remote/modules/metadata/data_element/entities/data_element.en
 import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dart';
 import 'package:d2_remote/shared/utilities/merge_mode.util.dart';
 import 'package:d2_remote/shared/utilities/save_option.util.dart';
-import 'base_query_extension.dart';
+import '../../core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
 import 'dynamic_value_extensions.dart';
 import 'value_extensions.dart';
 

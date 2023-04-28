@@ -8,7 +8,7 @@ import 'package:d2_remote/modules/activity_management/activity/entities/activity
 
 import 'package:d2_remote/core/common/feature_type.dart';
 import '../../../commons/data/event_view_model.dart';
-import '../../../commons/extensions/base_query_extension.dart';
+import '../../../core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
 import 'di/program_event_detail_providers.dart';
 import 'program_event_mapper.dart';
 

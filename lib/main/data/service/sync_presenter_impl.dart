@@ -8,7 +8,7 @@ import 'package:d2_remote/modules/metadata/program/queries/program.query.dart';
 import 'package:dio/dio.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../../commons/extensions/base_query_extension.dart';
+import '../../../core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
 import '../../../commons/helpers/result.dart';
 import '../../../core/arch/call/d2_progress.dart';
 import '../../../core/arch/call/d2_progress_manager.dart';
