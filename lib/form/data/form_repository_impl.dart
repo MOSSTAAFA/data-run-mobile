@@ -1,5 +1,6 @@
 import 'package:d2_remote/core/common/value_type.dart';
 import 'package:dartx/dartx_io.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
 import '../../commons/date/field_with_issue.dart';
 import '../../commons/extensions/standard_extensions.dart';
@@ -38,45 +39,47 @@ class FormRepositoryImpl implements FormRepository {
   final DataEntryRepository? dataEntryRepository;
 
   double _completionPercentage = 0.0;
-  final List<RowAction> _itemsWithError = [];
+  final IList<RowAction> _itemsWithError = IList();
   final Map<String, String> _mandatoryItemsWithoutValue = {};
   String? _openedSectionUid;
-  List<FieldUiModel> _itemList = [];
+  IList<FieldUiModel> _itemList = IList();
   String? _focusedItemId;
 
   // RuleUtilsProviderResult? ruleEffectsResult;
   bool _runDataIntegrity = false;
   int _calculationLoop = 0;
-  List<FieldUiModel> _backupList = [];
+  IList<FieldUiModel> _backupList = IList();
 
   @override
-  Future<List<FieldUiModel>> fetchFormItems() async {
-    final List<String>? sectionUids = await dataEntryRepository?.sectionUids();
+  Future<IList<FieldUiModel>> fetchFormItems() async {
+    final IList<String>? sectionUids =
+        (await dataEntryRepository?.sectionUids())?.lock;
 
     _openedSectionUid = sectionUids != null && sectionUids.isNotEmpty
         ? sectionUids.first
         : null;
 
-    final List<FieldUiModel>? items = await dataEntryRepository?.list();
-    _itemList = items ?? [];
+    final IList<FieldUiModel>? items =
+        (await dataEntryRepository?.list())?.lock;
+    _itemList = items ?? IList();
 
     _backupList = _itemList;
     return composeList();
   }
 
   @override
-  Future<List<FieldUiModel>> composeList() {
+  Future<IList<FieldUiModel>> composeList() {
     _calculationLoop = 0;
 
     return _mergeListWithErrorFields(_itemList, _itemsWithError)
-        .then((List<FieldUiModel> listOfItems) {
+        .then((IList<FieldUiModel> listOfItems) {
           _calculateCompletionPercentage(listOfItems);
           return listOfItems;
         })
         .then(
-            (List<FieldUiModel> listOfItems) => _setOpenedSection(listOfItems))
-        .then((List<FieldUiModel> listOfItems) => _setFocusedItem(listOfItems))
-        .then((List<FieldUiModel> listOfItems) => _setLastItem(listOfItems));
+            (IList<FieldUiModel> listOfItems) => _setOpenedSection(listOfItems))
+        .then((IList<FieldUiModel> listOfItems) => _setFocusedItem(listOfItems))
+        .then((IList<FieldUiModel> listOfItems) => _setLastItem(listOfItems));
   }
 
   @override
@@ -85,8 +88,8 @@ class FormRepositoryImpl implements FormRepository {
     _runDataIntegrity = true;
     final List<FieldWithIssue> itemsWithErrors = _getFieldsWithError();
     /*final*/
-    final List<FieldWithIssue>
-        itemsWithWarning = /*ruleEffectsResult?...??*/ [];
+    final List<FieldWithIssue> itemsWithWarning = /*ruleEffectsResult?...??*/
+        [];
     // final DataIntegrityCheckResult result;
     if (itemsWithErrors
         .isNotEmpty /*|| ruleEffectsResult?.canComplete == false*/) {
@@ -126,7 +129,7 @@ class FormRepositoryImpl implements FormRepository {
   }
 
   @override
-  List<FieldUiModel> backupOfChangedItems() {
+  IList<FieldUiModel> backupOfChangedItems() {
     // return backupList.minus(itemList.applyRuleEffects());
     return _backupList;
   }
@@ -142,7 +145,7 @@ class FormRepositoryImpl implements FormRepository {
   }
 
   @override
-  Future<double> completedFieldsPercentage(List<FieldUiModel> value) {
+  Future<double> completedFieldsPercentage(IList<FieldUiModel> value) {
     return Future.value(_completionPercentage);
   }
 
@@ -157,7 +160,7 @@ class FormRepositoryImpl implements FormRepository {
     _itemList = _itemList
         .map((FieldUiModel fieldUiModel) =>
             fieldUiModel.setValue(null).setDisplayName(null))
-        .toList();
+        .toIList();
   }
 
   @override
@@ -167,10 +170,11 @@ class FormRepositoryImpl implements FormRepository {
 
   @override
   void setFieldRequestingCoordinates(String uid, bool requestInProcess) {
-    _itemList.let((List<FieldUiModel> list) => list
+    // TODO(NMC): improve
+    _itemList.let((IList<FieldUiModel> list) => list
         .firstOrNullWhere((FieldUiModel item) => item.uid == uid)
-        ?.let((FieldUiModel item) => list[list.indexOf(item)] =
-            item.setIsLoadingData(requestInProcess)));
+        ?.let((FieldUiModel item) => list.replace(
+            list.indexOf(item), item.setIsLoadingData(requestInProcess))));
   }
 
   @override
@@ -207,17 +211,19 @@ class FormRepositoryImpl implements FormRepository {
     final int itemIndex =
         _itemList.indexWhere((FieldUiModel item) => item.uid == uid);
     if (itemIndex >= 0) {
+      // TODO(NMC): improve
       final FieldUiModel item = _itemList[itemIndex];
-      _itemList[itemIndex] = item.setValue(value).setDisplayName(
-          await displayNameProvider.provideDisplayName(
-              valueType, value, item.optionSet));
+      _itemList = _itemList.replace(
+          itemIndex,
+          item.setValue(value).setDisplayName(await displayNameProvider
+              .provideDisplayName(valueType, value, item.optionSet)));
       /*   .setLegend(
                 legendValueProvider?.provideLegendValue(item.uid, value))*/
     }
   }
 
-  Future<List<FieldUiModel>> _mergeListWithErrorFields(
-      List<FieldUiModel> list, List<RowAction> fieldsWithError) async {
+  Future<IList<FieldUiModel>> _mergeListWithErrorFields(
+      IList<FieldUiModel> list, IList<RowAction> fieldsWithError) async {
     _mandatoryItemsWithoutValue.clear();
     final List<FieldUiModel> mergedList =
         await Future.wait<FieldUiModel>(list.map((FieldUiModel item) async {
@@ -243,10 +249,10 @@ class FormRepositoryImpl implements FormRepository {
         return item;
       }
     }));
-    return mergedList;
+    return mergedList.lock;
   }
 
-  void _calculateCompletionPercentage(List<FieldUiModel> list) {
+  void _calculateCompletionPercentage(IList<FieldUiModel> list) {
     const List<ValueType> unsupportedValueTypes = [
       ValueType.FILE_RESOURCE,
       ValueType.TRACKER_ASSOCIATE,
@@ -267,7 +273,8 @@ class FormRepositoryImpl implements FormRepository {
     }
   }
 
-  Future<List<FieldUiModel>> _setOpenedSection(List<FieldUiModel> list) async {
+  Future<IList<FieldUiModel>> _setOpenedSection(
+      IList<FieldUiModel> list) async {
     final List<FieldUiModel> fields = List.empty();
     for (final FieldUiModel field in list) {
       if (field.isSection()) {
@@ -282,11 +289,11 @@ class FormRepositoryImpl implements FormRepository {
         .filter((FieldUiModel field) =>
             field.isSectionWithFields() ||
             field.programStageSection == _openedSectionUid)
-        .toList();
+        .toIList();
   }
 
   FieldUiModel _updateSection(
-      FieldUiModel sectionFieldUiModel, List<FieldUiModel> fields) {
+      FieldUiModel sectionFieldUiModel, IList<FieldUiModel> fields) {
     int total = 0;
     int values = 0;
     final bool isOpen = sectionFieldUiModel.uid == _openedSectionUid;
@@ -370,18 +377,18 @@ class FormRepositoryImpl implements FormRepository {
     }).toList();
   }
 
-  List<FieldUiModel> _setFocusedItem(List<FieldUiModel> list) {
+  IList<FieldUiModel> _setFocusedItem(IList<FieldUiModel> list) {
     if (_focusedItemId != null) {
       final FieldUiModel? item = list
           .firstOrNullWhere((FieldUiModel item) => item.uid == _focusedItemId);
       if (item != null) {
-        list[list.indexOf(item)] = item.setFocus();
+        list = list.replace(list.indexOf(item), item.setFocus());
       }
     }
     return list;
   }
 
-  List<FieldUiModel> _setLastItem(List<FieldUiModel> list) {
+  IList<FieldUiModel> _setLastItem(IList<FieldUiModel> list) {
     if (list.isEmpty) {
       return list;
     }
@@ -389,14 +396,14 @@ class FormRepositoryImpl implements FormRepository {
       final FieldUiModel lastItem = _getLastSectionItem(list);
       if (_usesKeyboard(lastItem.valueType) &&
           lastItem.valueType != ValueType.LONG_TEXT) {
-        list[list.indexOf(lastItem)] = lastItem.setKeyBoardActionDone();
-        return list;
+        return list.replace(
+            list.indexOf(lastItem), lastItem.setKeyBoardActionDone());
       }
     }
     return list;
   }
 
-  FieldUiModel _getLastSectionItem(List<FieldUiModel> list) {
+  FieldUiModel _getLastSectionItem(IList<FieldUiModel> list) {
     if (list.all((FieldUiModel item) => item is SectionUiModelImpl)) {
       return list.reversed.first;
     }
@@ -411,7 +418,7 @@ class FormRepositoryImpl implements FormRepository {
   }
 
   String? _getNextItem(String currentItemUid) {
-    _itemList.let((List<FieldUiModel> fields) {
+    _itemList.let((IList<FieldUiModel> fields) {
       // final oldItem = fields.firstOrNullWhere((item) => item.uid == currentItemUid);
       final int pos = fields
           .indexWhere((FieldUiModel oldItem) => oldItem.uid == currentItemUid);

@@ -1,7 +1,8 @@
 import 'package:d2_remote/core/common/value_type.dart';
+import 'package:dartx/dartx_io.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/get_utils/get_utils.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import '../../commons/extensions/standard_extensions.dart';
 
@@ -22,22 +23,19 @@ class DataEntryList extends ConsumerStatefulWidget {
 class DataEntryListState extends ConsumerState<DataEntryList>
     with KeyboardManager {
   final ItemScrollController itemScrollController = ItemScrollController();
-  List<FieldUiModel> _items = [];
-  // final ItemPositionsListener itemPositionsListener =
-  //     ItemPositionsListener.create();
 
   @override
   Widget build(BuildContext context) {
-    ref
-        .watch(itemsProvider)
-        .let((AsyncValue<List<FieldUiModel>> items) => items.when(
-              loading: () {},
-              data: (List<FieldUiModel>? data) => _render(data ?? []),
-              error: (Object error, StackTrace stackTrace) =>
-                  debugPrint('error loading forme Fields $error'),
-            ));
+    // TODO(NMC): try watch only length
+    final items = ref.watch(itemsProvider).value;
+
+    ref.listen<AsyncValue<IList<FieldUiModel>>>(itemsProvider,
+        (previous, next) {
+      next.value?.let((it) => _render(it));
+    });
+
     return ScrollablePositionedList.builder(
-      itemCount: _items.length,
+      itemCount: items?.length ?? 0,
       itemBuilder: (BuildContext context, int index) => ProviderScope(
         overrides: [indexProvider.overrideWith((_) => index)],
         child: const DataEntryItem(),
@@ -47,20 +45,21 @@ class DataEntryListState extends ConsumerState<DataEntryList>
     );
   }
 
-  void _render(List<FieldUiModel> items) {
-    ref.read(itemsProvider.notifier).processCalculatedItems();
+  void _render(IList<FieldUiModel> items) {
+    Future(() => ref.read(itemsProvider.notifier).processCalculatedItems());
+
     // widget.viewModel.calculateCompletedFields();
     // TODO(NMC): implementing Rules
     // viewModel.updateConfigurationErrors();
-    ref
+    Future(() => ref
         .read(calculationLoopValueProvider.notifier)
-        .displayLoopWarningIfNeeded();
+        .displayLoopWarningIfNeeded());
+
     _handleKeyBoardOnFocusChange(items);
-    _items = items;
   }
 
-  void _handleKeyBoardOnFocusChange(List<FieldUiModel> items) {
-    items.firstWhereOrNull((FieldUiModel it) => it.focused)?.let(
+  void _handleKeyBoardOnFocusChange(IList<FieldUiModel> items) {
+    items.firstOrNullWhere((FieldUiModel it) => it.focused)?.let(
         (FieldUiModel fieldUiModel) =>
             fieldUiModel.valueType?.let((ValueType valueType) {
               if (!ref

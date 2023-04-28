@@ -1,3 +1,4 @@
+import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -11,16 +12,16 @@ class EventListScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final program = ref.watch(eventListProgramProvider).value;
-    ref.watch(eventListProgramProvider).maybeWhen(
-          loading: () {
-            Future(() => ref
-                .read(programEventDetailModelProvider.notifier)
-                .setProgress(true));
-          },
-          orElse: () => Future(() => ref
-              .read(programEventDetailModelProvider.notifier)
-              .setProgress(false)),
-        );
+    ref.listen<AsyncValue<Program>>(eventListProgramProvider, (previous, next) {
+      next.maybeWhen(
+        loading: () => Future(() => ref
+            .read(programEventDetailModelProvider.notifier)
+            .setProgress(true)),
+        orElse: () => Future(() => ref
+            .read(programEventDetailModelProvider.notifier)
+            .setProgress(false)),
+      );
+    });
     return EventList(
       program: program,
     );

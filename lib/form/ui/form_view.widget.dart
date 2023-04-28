@@ -73,9 +73,11 @@ class _FormViewState extends ConsumerState<FormView> with KeyboardManager {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: <Widget>[
-          LinearLoadingIndicator(
-            isLoading: ref.watch(loadingProvider),
-          ),
+          // Consumer(
+          //   builder: (context, ref, child) => LinearLoadingIndicator(
+          //     isLoading: ref.watch(loadingProvider),
+          //   ),
+          // ),
           const DataEntryList(
               // searchStyle: widget.needToForceUpdate,
               ),
@@ -126,10 +128,13 @@ class _FormViewState extends ConsumerState<FormView> with KeyboardManager {
   }
 
   void _setObservers() {
+    ref.listenManual<bool>(loadingProvider,
+        (previous, next) => widget.onLoadingListener?.call(next));
+
     ref.listenManual<RowAction?>(
         savedValueProvider,
-        (previous, next) => next?.let((rowAction) =>
-            widget.onItemChangeListener?.let((it) => it(rowAction))));
+        (previous, next) => next
+            ?.let((rowAction) => widget.onItemChangeListener?.call(rowAction)));
 
     ref.listenManual<RowAction?>(
         queryDataProvider,
@@ -157,10 +162,8 @@ class _FormViewState extends ConsumerState<FormView> with KeyboardManager {
     ref.listenManual<String?>(showToastProvider,
         (previous, next) => next?.let((it) => showToast(it)));
 
-    ref.listenManual<bool?>(
-        focusedProvider,
-        (previous, next) =>
-            next.let((it) => widget.onFocused?.let((it) => it())));
+    ref.listenManual<bool?>(focusedProvider,
+        (previous, next) => next.let((it) => widget.onFocused?.call()));
 
     ref.listenManual<InfoUiModel?>(
         showInfoProvider,
@@ -174,20 +177,13 @@ class _FormViewState extends ConsumerState<FormView> with KeyboardManager {
 
     ref.listenManual<AsyncValue<double>>(
         completionPercentageValueProvider,
-        (previous, next) => next.let((percentage) => percentage.mapOrNull(
-            data: (AsyncData<double> data) =>
-                widget.onPercentageUpdate?.let((it) => it(data.value)))));
+        (previous, next) => next.let((percentage) =>
+            widget.onPercentageUpdate?.call(percentage.value ?? 0)));
 
     ref.listenManual<AsyncValue<bool>>(
         calculationLoopValueProvider,
-        (previous, next) =>
-            next.let((displayLoopWarning) => displayLoopWarning.mapOrNull(
-                  data: (AsyncData<bool> data) {
-                    if (displayLoopWarning.value ?? false) {
-                      _showLoopWarning();
-                    }
-                  },
-                )));
+        (previous, next) => next.let((displayLoopWarning) =>
+            displayLoopWarning.value ?? false ? _showLoopWarning() : null));
 
     ref.listenManual<FormIntent?>(uiIntentProvider,
         (previous, next) => next?.let((it) => _intentHandler(it)));

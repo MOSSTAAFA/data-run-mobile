@@ -225,7 +225,7 @@ class FieldUiModelImpl with _$FieldUiModelImpl implements FieldUiModel {
     // if (legend != item.legend) return false;
     if (optionSet != other.optionSet) return false;
     if (allowFutureDates != other.allowFutureDates) return false;
-    if (callback != other.callback) return false;
+    // if (callback != other.callback) return false;
 
     return true;
   }

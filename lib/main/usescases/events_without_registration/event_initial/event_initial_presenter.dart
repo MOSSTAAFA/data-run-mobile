@@ -2,7 +2,6 @@ import 'package:d2_remote/modules/data/tracker/models/geometry.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../commons/constants.dart';
 import '../../../../commons/extensions/string_extension.dart';
@@ -10,7 +9,6 @@ import '../../../../commons/helpers/collections.dart';
 import '../../../../commons/prefs/preference.dart';
 import '../../../../core/event/event_editable_status.dart';
 import '../../../../form/data/form_section_view_model.dart';
-import '../../../../form/di/injector.dart';
 import '../../../../form/model/field_ui_model.dart';
 import '../../../../form/ui/form_view_model.dart';
 import '../../../../main.dart';

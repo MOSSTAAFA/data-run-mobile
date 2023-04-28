@@ -8,7 +8,7 @@ class LinearLoadingIndicator extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SizedBox(
-      height: 5,
+      height: 6,
       child: isLoading
           ? LinearProgressIndicator(
               valueColor: AlwaysStoppedAnimation<Color>(

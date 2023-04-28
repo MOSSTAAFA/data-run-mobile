@@ -7,7 +7,7 @@ part of 'form_view_model.dart';
 // **************************************************************************
 
 String _$completionPercentageValueHash() =>
-    r'fc76529128cbc1b0b95bcc8e8406016570bc9561';
+    r'ea1a51fa448b41d2f907ca3f9a796ac3cb3a15b7';
 
 /// See also [completionPercentageValue].
 @ProviderFor(completionPercentageValue)
@@ -52,112 +52,11 @@ final indexProvider = AutoDisposeProvider<int>.internal(
 );
 
 typedef IndexRef = AutoDisposeProviderRef<int>;
-String _$itemHash() => r'af1784a7524905959078672f76d62d1751cc05ee';
-
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
-
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
-  }
-
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
-  }
-}
-
-typedef ItemRef = AutoDisposeFutureProviderRef<FieldUiModel>;
-
-/// See also [item].
-@ProviderFor(item)
-const itemProvider = ItemFamily();
-
-/// See also [item].
-class ItemFamily extends Family<AsyncValue<FieldUiModel>> {
-  /// See also [item].
-  const ItemFamily();
-
-  /// See also [item].
-  ItemProvider call(
-    Callback callback,
-  ) {
-    return ItemProvider(
-      callback,
-    );
-  }
-
-  @override
-  ItemProvider getProviderOverride(
-    covariant ItemProvider provider,
-  ) {
-    return call(
-      provider.callback,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'itemProvider';
-}
-
-/// See also [item].
-class ItemProvider extends AutoDisposeFutureProvider<FieldUiModel> {
-  /// See also [item].
-  ItemProvider(
-    this.callback,
-  ) : super.internal(
-          (ref) => item(
-            ref,
-            callback,
-          ),
-          from: itemProvider,
-          name: r'itemProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product') ? null : _$itemHash,
-          dependencies: ItemFamily._dependencies,
-          allTransitiveDependencies: ItemFamily._allTransitiveDependencies,
-        );
-
-  final Callback callback;
-
-  @override
-  bool operator ==(Object other) {
-    return other is ItemProvider && other.callback == callback;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, callback.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-String _$fieldRowHash() => r'23c5209c1e4af2dbf0e14fe5b28c43b7ca8cb938';
+String _$fieldRowHash() => r'443059f2aead91de2105341a8b39f3a28d5273d7';
 
 /// See also [fieldRow].
 @ProviderFor(fieldRow)
-final fieldRowProvider = AutoDisposeProvider<FieldUiModel>.internal(
+final fieldRowProvider = AutoDisposeProvider<FieldUiModel?>.internal(
   fieldRow,
   name: r'fieldRowProvider',
   debugGetCreateSourceHash:
@@ -166,7 +65,7 @@ final fieldRowProvider = AutoDisposeProvider<FieldUiModel>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef FieldRowRef = AutoDisposeProviderRef<FieldUiModel>;
+typedef FieldRowRef = AutoDisposeProviderRef<FieldUiModel?>;
 String _$loadingHash() => r'2ed8ed17ccc9a7a43d0276b80bab516862840ebe';
 
 /// See also [Loading].
@@ -224,12 +123,12 @@ final showInfoProvider =
 );
 
 typedef _$ShowInfo = AutoDisposeNotifier<InfoUiModel?>;
-String _$itemsHash() => r'821efea2aa67b4795fb6447153253212f7adf5d8';
+String _$itemsHash() => r'72ab4a841237b575adc12149a73a13857176f889';
 
 /// See also [Items].
 @ProviderFor(Items)
 final itemsProvider =
-    AutoDisposeAsyncNotifierProvider<Items, List<FieldUiModel>>.internal(
+    AutoDisposeAsyncNotifierProvider<Items, IList<FieldUiModel>>.internal(
   Items.new,
   name: r'itemsProvider',
   debugGetCreateSourceHash:
@@ -238,7 +137,7 @@ final itemsProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$Items = AutoDisposeAsyncNotifier<List<FieldUiModel>>;
+typedef _$Items = AutoDisposeAsyncNotifier<IList<FieldUiModel>>;
 String _$savedValueHash() => r'c6c70d35b9e0dda88bb517af75021f4b5f779883';
 
 /// See also [SavedValue].
@@ -320,6 +219,123 @@ final pendingIntentsProvider =
 );
 
 typedef _$PendingIntents = AutoDisposeNotifier<FormIntent?>;
+String _$fieldItemHash() => r'8f794191cff740e1297b50535639286569554215';
+
+/// Copied from Dart SDK
+class _SystemHash {
+  _SystemHash._();
+
+  static int combine(int hash, int value) {
+    // ignore: parameter_assignments
+    hash = 0x1fffffff & (hash + value);
+    // ignore: parameter_assignments
+    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
+    return hash ^ (hash >> 6);
+  }
+
+  static int finish(int hash) {
+    // ignore: parameter_assignments
+    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
+    // ignore: parameter_assignments
+    hash = hash ^ (hash >> 11);
+    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
+  }
+}
+
+abstract class _$FieldItem
+    extends BuildlessAutoDisposeAsyncNotifier<FieldUiModel> {
+  late final Callback callback;
+
+  FutureOr<FieldUiModel> build(
+    Callback callback,
+  );
+}
+
+/// See also [FieldItem].
+@ProviderFor(FieldItem)
+const fieldItemProvider = FieldItemFamily();
+
+/// See also [FieldItem].
+class FieldItemFamily extends Family<AsyncValue<FieldUiModel>> {
+  /// See also [FieldItem].
+  const FieldItemFamily();
+
+  /// See also [FieldItem].
+  FieldItemProvider call(
+    Callback callback,
+  ) {
+    return FieldItemProvider(
+      callback,
+    );
+  }
+
+  @override
+  FieldItemProvider getProviderOverride(
+    covariant FieldItemProvider provider,
+  ) {
+    return call(
+      provider.callback,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'fieldItemProvider';
+}
+
+/// See also [FieldItem].
+class FieldItemProvider
+    extends AutoDisposeAsyncNotifierProviderImpl<FieldItem, FieldUiModel> {
+  /// See also [FieldItem].
+  FieldItemProvider(
+    this.callback,
+  ) : super.internal(
+          () => FieldItem()..callback = callback,
+          from: fieldItemProvider,
+          name: r'fieldItemProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$fieldItemHash,
+          dependencies: FieldItemFamily._dependencies,
+          allTransitiveDependencies: FieldItemFamily._allTransitiveDependencies,
+        );
+
+  final Callback callback;
+
+  @override
+  bool operator ==(Object other) {
+    return other is FieldItemProvider && other.callback == callback;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, callback.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+
+  @override
+  FutureOr<FieldUiModel> runNotifierBuild(
+    covariant FieldItem notifier,
+  ) {
+    return notifier.build(
+      callback,
+    );
+  }
+}
+
 String _$uiEventHash() => r'0f088847f34e14c22d3667864349a3b0776a9824';
 
 /// See also [UiEvent].

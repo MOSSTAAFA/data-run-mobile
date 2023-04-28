@@ -106,7 +106,7 @@ class EventInitialRepositoryImpl implements EventInitialRepository {
         case FeatureType.POINT:
         case FeatureType.POLYGON:
         case FeatureType.MULTI_POLYGON:
-          eventRepository.setGeometry(geometry);
+          await eventRepository.setGeometry(geometry);
           break;
         default:
       }
@@ -155,7 +155,7 @@ class EventInitialRepositoryImpl implements EventInitialRepository {
         case FeatureType.POINT:
         case FeatureType.POLYGON:
         case FeatureType.MULTI_POLYGON:
-          eventRepository.setGeometry(geometry);
+          await eventRepository.setGeometry(geometry);
           break;
         default:
       }
@@ -171,7 +171,7 @@ class EventInitialRepositoryImpl implements EventInitialRepository {
   @override
   Future<ProgramStage?> programStageWithId(String? programStageUid) async {
     return await programStageUid
-        ?.let((it) => D2Remote.programModule.programStage.byId(it).getOne());
+        ?.aLet((it) => D2Remote.programModule.programStage.byId(it).getOne());
   }
 
   @override
@@ -224,7 +224,7 @@ class EventInitialRepositoryImpl implements EventInitialRepository {
   @override
   Future<Program?> getProgramWithId(String? programUid) async {
     return await programUid
-        ?.let((it) => D2Remote.programModule.program.byId(it).getOne());
+        ?.aLet((it) => D2Remote.programModule.program.byId(it).getOne());
   }
 
   @override

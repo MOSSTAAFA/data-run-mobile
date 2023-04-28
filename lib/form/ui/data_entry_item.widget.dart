@@ -15,21 +15,26 @@ class DataEntryItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AsyncValue<FieldUiModel> item = ref.watch(itemProvider(Callback(
-        intent: (intent) => _intentCallback(intent, ref),
-        listViewUiEvents: (uiEvent) => _listViewEventCallback(uiEvent, ref))));
+    final item = ref
+        .read(fieldItemProvider(Callback(
+            intent: (intent) => _intentCallback(intent, ref),
+            listViewUiEvents: (uiEvent) =>
+                _listViewEventCallback(uiEvent, ref))))
+        .value;
 
-    return item.when(
-      data: (FieldUiModel data) => ProviderScope(
-        overrides: [fieldRowProvider.overrideWith((_) => data)],
-        child: ref.read(fieldWidgetFactoryProvider).createWidgetByType(
-            valueType: data.valueType,
-            renderingType: null,
-            optionSet: data.optionSet,
-            sectionRenderingType: null),
-      ),
-      error: (error, stack) => Text('error loading field $error'),
-      loading: () => Text('loading fieldModel..'),
+    // .watch(itemProvider(Callback(
+    //     intent: (intent) => _intentCallback(intent, ref),
+    //     listViewUiEvents: (uiEvent) =>
+    //         _listViewEventCallback(uiEvent, ref))))
+    // .value;
+
+    return ProviderScope(
+      overrides: [fieldRowProvider.overrideWith((_) => item)],
+      child: ref.read(fieldWidgetFactoryProvider).createWidgetByType(
+          valueType: item?.valueType,
+          renderingType: null,
+          optionSet: item?.optionSet,
+          sectionRenderingType: null),
     );
   }
 
@@ -41,7 +46,8 @@ class DataEntryItem extends ConsumerWidget {
     if (intent is OnNext) {
       // scrollToPosition(intent.position!);
       formIntent = intent.copyWith(position: ref.read(indexProvider) + 1);
-      ref.read(uiIntentProvider.notifier).setValue(formIntent);
+      Future(() => ref.read(uiIntentProvider.notifier).setValue(formIntent));
+
       //   itemScrollController.scrollTo(
       //       index: intent.position!,
       //       duration: const Duration(milliseconds: 700),

@@ -1,4 +1,5 @@
 import 'package:d2_remote/core/common/value_type.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
 import '../model/field_ui_model.dart';
 import '../model/row_action.dart';
@@ -6,20 +7,20 @@ import '../model/store_result.dart';
 import 'data_integrity_check_result.dart';
 
 abstract class FormRepository {
-  Future<List<FieldUiModel>> fetchFormItems();
+  Future<IList<FieldUiModel>> fetchFormItems();
 
-  Future<List<FieldUiModel>> composeList();
+  Future<IList<FieldUiModel>> composeList();
 
   // List<RulesUtilsProviderConfigurationError>? getConfigurationErrors();
   Future<DataIntegrityCheckResult> runDataIntegrityCheck(
       {required bool allowDiscard});
 
   // Currently no need to return Future
-  Future<double> completedFieldsPercentage(List<FieldUiModel> value);
+  Future<double> completedFieldsPercentage(IList<FieldUiModel> value);
 
   Future<bool> calculationLoopOverLimit();
 
-  List<FieldUiModel> backupOfChangedItems();
+  IList<FieldUiModel> backupOfChangedItems();
 
   void updateErrorList(RowAction action);
 

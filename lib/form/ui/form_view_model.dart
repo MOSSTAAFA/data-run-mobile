@@ -1,7 +1,8 @@
 import 'package:d2_remote/core/common/feature_type.dart';
 import 'package:d2_remote/core/common/value_type.dart';
 import 'package:dartx/dartx_io.dart';
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' show Either;
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../di/injector.dart';
@@ -74,8 +75,8 @@ class ShowInfo extends _$ShowInfo {
 @riverpod
 class Items extends _$Items {
   @override
-  FutureOr<List<FieldUiModel>> build() {
-    return <FieldUiModel>[];
+  FutureOr<IList<FieldUiModel>> build() {
+    return IList();
   }
 
   Future<void> loadData() async {
@@ -108,10 +109,10 @@ class Items extends _$Items {
 
 @riverpod
 Future<double> completionPercentageValue(CompletionPercentageValueRef ref) {
-  final List<FieldUiModel>? items = ref.watch(itemsProvider).valueOrNull;
+  final IList<FieldUiModel>? items = ref.watch(itemsProvider).value;
   return ref
       .read(formRepositoryProvider)
-      .completedFieldsPercentage(items ?? []);
+      .completedFieldsPercentage(items ?? IList());
 }
 
 @riverpod
@@ -186,16 +187,27 @@ int index(IndexRef ref) {
 }
 
 @riverpod
-Future<FieldUiModel> item(ItemRef ref, Callback callback) async {
-  final int index = ref.read(indexProvider);
-  final FieldUiModel item = await ref
-      .watch(itemsProvider.selectAsync((List<FieldUiModel> e) => e[index]));
-
-  return item.setCallback(callback);
+class FieldItem extends _$FieldItem {
+  @override
+  FutureOr<FieldUiModel> build(Callback callback) async {
+    final int index = ref.read(indexProvider);
+    final FieldUiModel item = await ref
+        .watch(itemsProvider.selectAsync((IList<FieldUiModel> e) => e[index]));
+    return item.setCallback(callback);
+  }
 }
 
+// @riverpod
+// Future<FieldUiModel> item(ItemRef ref, Callback callback) async {
+//   final int index = ref.read(indexProvider);
+//   final FieldUiModel item = await ref
+//       .watch(itemsProvider.selectAsync((List<FieldUiModel> e) => e[index]));
+
+//   return item.setCallback(callback);
+// }
+
 @riverpod
-FieldUiModel fieldRow(FieldRowRef ref) {
+FieldUiModel? fieldRow(FieldRowRef ref) {
   throw UnimplementedError();
 }
 
@@ -291,7 +303,7 @@ class FormViewModel extends GetxController implements Listenable {
       ref.read(focusedProvider.notifier).setValue(true);
     } else if (rowAction.type == ActionType.ON_SAVE) {
       // loading.postValue(true);
-      ref.read(loadingProvider.notifier).setValue(true);
+      // ref.read(loadingProvider.notifier).setValue(true);
     }
 
     final StoreResult result = await _processUserAction(rowAction);

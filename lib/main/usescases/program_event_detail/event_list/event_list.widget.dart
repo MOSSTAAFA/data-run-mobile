@@ -20,18 +20,21 @@ class _EventListState extends ConsumerState<EventList> {
   final ItemScrollController itemScrollController = ItemScrollController();
   @override
   Widget build(BuildContext context) {
+    // TODO(NMC): watch only length
     final filteredProgramEvents =
         ref.watch(filteredProgramEventsProvider).value;
-    ref.watch(filteredProgramEventsProvider).maybeWhen(
-          loading: () {
-            Future(() => ref
-                .read(programEventDetailModelProvider.notifier)
-                .setProgress(true));
-          },
-          orElse: () => Future(() => ref
-              .read(programEventDetailModelProvider.notifier)
-              .setProgress(false)),
-        );
+    ref.listen<AsyncValue<List<EventModel>>>(filteredProgramEventsProvider,
+        (previous, next) {
+      next.maybeWhen(
+        loading: () => Future(() => ref
+            .read(programEventDetailModelProvider.notifier)
+            .setProgress(true)),
+        orElse: () => Future(() => ref
+            .read(programEventDetailModelProvider.notifier)
+            .setProgress(false)),
+      );
+    });
+
     return ScrollablePositionedList.builder(
       itemCount: filteredProgramEvents?.length ?? 0,
       itemBuilder: (BuildContext context, int index) => ProviderScope(
@@ -43,10 +46,5 @@ class _EventListState extends ConsumerState<EventList> {
       itemScrollController: itemScrollController,
       // itemPositionsListener: itemPositionsListener,
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 }
