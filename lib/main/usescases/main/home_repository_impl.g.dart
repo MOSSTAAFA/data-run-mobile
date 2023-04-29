@@ -1,27 +1,24 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'work_manager_controller_impl.dart';
+part of 'home_repository_impl.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$workManagerControllerHash() =>
-    r'ea52ace62c2028dbf3d6380382d38b7410f91bea';
+String _$homeRepositoryHash() => r'88a33ce6903a9637a122aee6c5d12d93a45b4b6b';
 
-/// See also [workManagerController].
-@ProviderFor(workManagerController)
-final workManagerControllerProvider =
-    AutoDisposeProvider<WorkManagerController>.internal(
-  workManagerController,
-  name: r'workManagerControllerProvider',
+/// See also [homeRepository].
+@ProviderFor(homeRepository)
+final homeRepositoryProvider = Provider<HomeRepository>.internal(
+  homeRepository,
+  name: r'homeRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$workManagerControllerHash,
+      : _$homeRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef WorkManagerControllerRef
-    = AutoDisposeProviderRef<WorkManagerController>;
+typedef HomeRepositoryRef = ProviderRef<HomeRepository>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

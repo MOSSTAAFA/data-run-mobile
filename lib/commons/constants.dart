@@ -280,3 +280,11 @@ const String INCIDENT_DATE = 'incidentDate';
 // Note
 const String NOTE_ID = 'NOTE_ID';
 const String NOTE_TYPE = 'NOTE_TYPE';
+
+// AnalyticsConstants
+const String DATA_TIME = 'data_time';
+const String METADATA_TIME = 'metadata_time';
+
+// Sync Output
+const String METADATA_STATE = 'METADATA_STATE';
+const String METADATA_MESSAGE = 'METADATA_MESSAGE';

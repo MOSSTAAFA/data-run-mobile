@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:workmanager/workmanager.dart';
 
 import 'worker_type.dart';
 
@@ -10,20 +9,20 @@ class WorkerItem with EquatableMixin {
     required this.workerType,
     this.delayInSeconds,
     this.data,
-    this.policy,
+    // this.policy,
     this.initialDelay = Duration.zero,
-    this.backoffPolicy,
-    this.constraints,
+    // this.backoffPolicy,
+    // this.constraints,
   });
   final String workerName;
   final WorkerType workerType;
   final double? delayInSeconds;
   final Map<String, dynamic>? data;
 
-  final ExistingWorkPolicy? policy;
+  // final ExistingWorkPolicy? policy;
   final Duration initialDelay;
-  final BackoffPolicy? backoffPolicy;
-  final Constraints? constraints;
+  // final BackoffPolicy? backoffPolicy;
+  // final Constraints? constraints;
   // final ExistingPeriodicWorkPolicy? periodicPolicy;
 
   @override
@@ -32,9 +31,9 @@ class WorkerItem with EquatableMixin {
         workerType,
         delayInSeconds,
         data,
-        policy,
+        // policy,
         initialDelay,
-        backoffPolicy,
-        constraints
+        // backoffPolicy,
+        // constraints
       ];
 }

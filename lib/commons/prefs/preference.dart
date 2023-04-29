@@ -4,6 +4,8 @@ const String INITIAL_DATA_SYNC_DONE = 'INITIAL_DATA_SYNC_DONE';
 const String SESSION_LOCKED = 'SessionLocked';
 const String PIN = 'pin';
 
+const String RESERVED = 'TAG_RV';
+
 // SYNC PARAMETERS
 const String EVENT_MAX = 'EVENT_MAX';
 const String TEI_MAX = 'TEI_MAX';

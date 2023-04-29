@@ -46,11 +46,20 @@ class Bundle with EquatableMixin {
     return Bundle(bundleMap);
   }
 
+  Bundle putBool(String key, bool? value) {
+    bundleMap = bundleMap.add(key, value);
+    return Bundle(bundleMap);
+  }
+
   String? getString(String key) {
     return bundleMap[key];
   }
 
   int? getInt(String key) {
+    return bundleMap[key];
+  }
+
+  bool? getBool(String key) {
     return bundleMap[key];
   }
 

@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
+
 class NetworkUtils {
-  const NetworkUtils();
+  const NetworkUtils(BuildContext context);
 
   bool isOnline() {
-    var isOnline = false;
+    final isOnline = true;
     // try {
     //   var manager = context.getSystemService(Context.CONNECTIVITY_SERVICE)
     //       as ConnectivityManager;

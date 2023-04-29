@@ -11,6 +11,7 @@ import 'main/di.dart' as di;
 import 'main/l10n/app_localizations.dart';
 import 'main/usescases/events_without_registration/event_initial/di/event_initial_module.dart';
 import 'main_app.dart';
+import 'dart:async';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -37,8 +38,6 @@ Future<void> main() async {
     ],
     child: const App(),
   ));
-  //
-  // runApp(const App());
 }
 
 class App extends StatelessWidget {
