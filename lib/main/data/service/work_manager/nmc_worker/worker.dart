@@ -11,7 +11,7 @@ part 'worker.g.dart';
 
 @riverpod
 Worker syncMetadataWorker(SyncMetadataWorkerRef ref) {
-  return SyncMetadataWorker(
+  return SyncMetadataWorker(ref,
       presenter: ref.read(syncPresenterProvider),
       prefs: ref.read(preferencesInstanceProvider),
       resourceManager: ref.read(resourceManagerProvider));
@@ -19,7 +19,7 @@ Worker syncMetadataWorker(SyncMetadataWorkerRef ref) {
 
 @riverpod
 Worker syncDataWorker(SyncDataWorkerRef ref) {
-  return SyncDataWorker(
+  return SyncDataWorker(ref,
       presenter: ref.read(syncPresenterProvider),
       prefs: ref.read(preferencesInstanceProvider),
       resourceManager: ref.read(resourceManagerProvider));

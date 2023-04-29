@@ -7,7 +7,7 @@ part of 'worker.dart';
 // **************************************************************************
 
 String _$syncMetadataWorkerHash() =>
-    r'2c531a7b20856fb102204ce7506b1ec352c883e9';
+    r'357d311d1776a2fc39be5b1ce6706229423f519d';
 
 /// See also [syncMetadataWorker].
 @ProviderFor(syncMetadataWorker)
@@ -22,7 +22,7 @@ final syncMetadataWorkerProvider = AutoDisposeProvider<Worker>.internal(
 );
 
 typedef SyncMetadataWorkerRef = AutoDisposeProviderRef<Worker>;
-String _$syncDataWorkerHash() => r'c4a7effa82de22fa6135fa48c48a7ddb29ba5c23';
+String _$syncDataWorkerHash() => r'085fc92436e88e28544c669ea3b4456c176af045';
 
 /// See also [syncDataWorker].
 @ProviderFor(syncDataWorker)

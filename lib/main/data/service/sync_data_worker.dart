@@ -17,10 +17,12 @@ import 'sync_result.dart';
 import 'work_manager/nmc_worker/worker.dart';
 
 class SyncDataWorker extends Worker {
-  SyncDataWorker(
+  SyncDataWorker(this.ref,
       {required this.presenter,
       required this.prefs,
       required this.resourceManager});
+
+  final SyncDataWorkerRef ref;
   final SyncPresenter presenter;
 
   final PreferenceProvider prefs;
@@ -56,7 +58,7 @@ class SyncDataWorker extends Worker {
     try {
       await presenter.syncAndDownloadTeis();
     } catch (e) {
-      if (!NetworkUtils(navigatorKey.currentContext!).isOnline()) {
+      if (!ref.read(networkUtilsProvider).isOnline()) {
         presenter.setNetworkUnavailable();
       }
       print('Timber.e($e)');
@@ -69,7 +71,7 @@ class SyncDataWorker extends Worker {
     try {
       await presenter.syncAndDownloadDataValues();
     } catch (e) {
-      if (!NetworkUtils(navigatorKey.currentContext!).isOnline()) {
+      if (!ref.read(networkUtilsProvider).isOnline()) {
         presenter.setNetworkUnavailable();
       }
       print('Timber.e($e)');

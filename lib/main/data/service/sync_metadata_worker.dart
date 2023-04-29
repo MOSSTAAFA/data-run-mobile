@@ -20,10 +20,11 @@ import 'work_manager/nmc_worker/worker.dart';
 typedef OnProgressUpdate = Function(int progress);
 
 class SyncMetadataWorker extends Worker {
-  SyncMetadataWorker(
+  SyncMetadataWorker(this.ref,
       {required this.presenter,
       required this.prefs,
       required this.resourceManager});
+  final SyncMetadataWorkerRef ref;
   final SyncPresenter presenter;
 
   final PreferenceProvider prefs;
@@ -52,7 +53,7 @@ class SyncMetadataWorker extends Worker {
       } catch (e) {
         print('Timber.e($e)');
         isMetaOk = false;
-        if (!NetworkUtils(navigatorKey.currentContext!).isOnline()) {
+        if (!ref.read(networkUtilsProvider).isOnline()) {
           noNetwork = true;
         }
         if (e is D2Error) {

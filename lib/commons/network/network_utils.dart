@@ -1,8 +1,16 @@
-import 'package:flutter/cupertino.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'network_utils.g.dart';
+
+@Riverpod(keepAlive: true)
+NetworkUtils networkUtils(NetworkUtilsRef ref) {
+  return const NetworkUtils();
+}
 
 class NetworkUtils {
-  const NetworkUtils(BuildContext context);
+  const NetworkUtils();
 
+  /// navigatorKey.currentContext!
   bool isOnline() {
     final isOnline = true;
     // try {
