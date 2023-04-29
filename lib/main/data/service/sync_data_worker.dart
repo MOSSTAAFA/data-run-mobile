@@ -48,9 +48,9 @@ class SyncDataWorker extends Worker {
     try {
       await presenter.syncAndDownloadEvents(dioTestClient: dioTestClient);
     } catch (e) {
-      // if (!NetworkUtils(navigatorKey.currentContext!).isOnline()) {
-      //   presenter.setNetworkUnavailable();
-      // }
+      if (!ref.read(networkUtilsProvider).isOnline()) {
+        presenter.setNetworkUnavailable();
+      }
       print('Timber.e($e)');
       isEventOk = false;
     }
