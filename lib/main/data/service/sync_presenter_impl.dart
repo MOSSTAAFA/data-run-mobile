@@ -7,6 +7,7 @@ import 'package:d2_remote/modules/metadata/dataset/queries/data_set.query.dart';
 import 'package:d2_remote/modules/metadata/program/queries/program.query.dart';
 import 'package:dio/dio.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:mass_pro/main/data/service/sync_metadata_worker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
 import '../../../commons/helpers/result.dart';
@@ -124,7 +125,8 @@ class SyncPresenterImpl implements SyncPresenter {
 
   // throws Exception;
   @override
-  Future<void> syncMetadata({Dio? dioTestClient}) {
+  Future<void> syncMetadata(
+      {OnProgressUpdate? onProgressUpdate, Dio? dioTestClient}) {
     final d2ProgressManager = D2ProgressManager(totalCalls: 4);
     // TODO(NMC): here it will sync everything
     // return ref.read(syncProvider).download(

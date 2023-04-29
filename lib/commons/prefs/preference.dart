@@ -15,7 +15,9 @@ const String TIME_META = 'timeMeta';
 const String TIME_DATA = 'timeData';
 const String INITIAL_SYNC = 'INITIAL_SYNC';
 const String META = 'METADATA';
+const String META_NOW = 'METADATA_NOW';
 const String DATA = 'DATA';
+const String DATA_NOW = 'DATA_NOW';
 
 // METADATA SYNC TIME RANGES
 const int TIME_DAILY = 86400;

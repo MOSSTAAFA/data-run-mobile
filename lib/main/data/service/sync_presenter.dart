@@ -1,8 +1,7 @@
-import 'package:d2_remote/shared/models/request_progress.model.dart';
 import 'package:dio/dio.dart';
+import 'package:mass_pro/main/data/service/sync_metadata_worker.dart';
 import '../../../commons/helpers/result.dart';
 import '../../../core/arch/call/d2_progress.dart';
-import '../mp_services/d2_request_progress.dart';
 import 'sync_result.dart';
 
 abstract class SyncPresenter {
@@ -10,7 +9,9 @@ abstract class SyncPresenter {
 
   Future<void> syncAndDownloadTeis({Dio? dioTestClient}); // throws Exception;
 
-  Future<void> syncMetadata({Dio? dioTestClient}); // throws Exception;
+  Future<void> syncMetadata(
+      {OnProgressUpdate? onProgressUpdate,
+      Dio? dioTestClient}); // throws Exception;
 
   Future<void> syncAndDownloadDataValues(
       {Dio? dioTestClient}); // throws Exception;

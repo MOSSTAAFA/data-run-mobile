@@ -106,7 +106,7 @@ class _EventViewItemState extends ConsumerState<EventViewItem> {
                 case EventStatus.ACTIVE:
                 case EventStatus.COMPLETED:
                   ref
-                      .watch(programEventDetailModelProvider.notifier)
+                      .read(programEventDetailModelProvider.notifier)
                       .onEventSelected(
                           event!.id!,
                           event.orgUnit,
