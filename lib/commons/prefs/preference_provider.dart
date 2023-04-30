@@ -79,7 +79,7 @@ class PreferenceProvider {
     return _sharedPreferences!.getDouble(key) ?? defaultValue;
   }
 
-  Iterable<String>? getList(String key, [List<String>? defaultValue]) {
+  List<String>? getList(String key, [List<String>? defaultValue]) {
     assert(_sharedPreferences != null, 'PreferenceProvider is not initialized');
     return _sharedPreferences!.getStringList(key) ?? defaultValue;
   }
@@ -167,7 +167,6 @@ class PreferenceProvider {
     assert(_sharedPreferences != null, 'PreferenceProvider is not initialized');
     // TODO: implement closeJiraSession
   }
-
 // SharedPreferences sharedPreferences();
 // void saveUserCredentials(String serverUrl, String userName, String pass);
 // bool areCredentialsSet();
@@ -184,7 +183,6 @@ class PreferenceProvider {
 // // long? getLong(String key, long defaultValue);
 // bool getBoolean(String key, bool defaultValue);
 // double? getDouble(String key, double defaultValue);
-// Set<String>? getSet(String key, Set<String> defaultValue);
 // T getObjectFromJson<T>(
 //     String key, /*TypeToken<T>*/ Type typeToken, T defaultValue);
 // void saveAsJson<T>(String key, T objectToSave);
