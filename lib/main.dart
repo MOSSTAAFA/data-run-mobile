@@ -25,7 +25,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   initializeReflectable();
 
-  await PreferenceProvider.init();
+  await PreferenceProvider.initialize();
 
   D2Remote.initialize();
   di.init();

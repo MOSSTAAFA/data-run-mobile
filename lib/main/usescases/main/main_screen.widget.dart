@@ -1,20 +1,30 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'main_presenter.dart';
 import 'main_view.dart';
 
-class MainScreen extends StatefulWidget {
+class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({super.key});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  ConsumerState<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> with MainView {
+class _MainScreenState extends ConsumerState<MainScreen> with MainView {
+  late final MainPresenter presenter;
+
   @override
   Widget build(BuildContext context) {
     return Container();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    presenter = ref.read(mainPresenterProvider(this));
   }
 
   @override
@@ -33,7 +43,7 @@ class _MainScreenState extends State<MainScreen> with MainView {
   }
 
   @override
-  void goToLogin(int accountsCount, bool isDeletion) {
+  void goToLogin(int accountsCount, {bool isDeletion = false}) {
     // TODO: implement goToLogin
   }
 

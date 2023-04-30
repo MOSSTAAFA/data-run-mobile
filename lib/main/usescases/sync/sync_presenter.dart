@@ -12,13 +12,14 @@ import 'sync_view.dart';
 part 'sync_presenter.g.dart';
 
 @riverpod
-SyncPresenter syncScreenPresenter(SyncScreenPresenterRef ref, SyncView view) {
-  return SyncPresenter(view, ref.read(preferencesInstanceProvider),
+SyncScreenPresenter syncScreenPresenter(
+    SyncScreenPresenterRef ref, SyncView view) {
+  return SyncScreenPresenter(view, ref.read(preferencesInstanceProvider),
       ref.read(workManagerControllerProvider));
 }
 
-class SyncPresenter {
-  SyncPresenter(this.view, this.preferences, this.workManagerController) {
+class SyncScreenPresenter {
+  SyncScreenPresenter(this.view, this.preferences, this.workManagerController) {
     workManagerController.syncMetaDataForWorker(META_NOW, INITIAL_SYNC);
   }
 

@@ -288,3 +288,8 @@ const String METADATA_TIME = 'metadata_time';
 // Sync Output
 const String METADATA_STATE = 'METADATA_STATE';
 const String METADATA_MESSAGE = 'METADATA_MESSAGE';
+
+//PREFERENCES
+const String SHARE_PREFS = 'org.dhis2';
+const String PREFS_URLS = 'pref_urls';
+const String PREFS_USERS = 'pref_users';

@@ -1,13 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'sync_presenter.dart';
+part of 'splash_presenter.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$syncScreenPresenterHash() =>
-    r'ef854afa7f03116b4fb5f1fbb59a606259e01604';
+String _$splashPresenterHash() => r'762edca641651941bf5004e34463474ede5e7755';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -30,29 +29,29 @@ class _SystemHash {
   }
 }
 
-typedef SyncScreenPresenterRef = AutoDisposeProviderRef<SyncScreenPresenter>;
+typedef SplashPresenterRef = AutoDisposeProviderRef<SplashPresenter>;
 
-/// See also [syncScreenPresenter].
-@ProviderFor(syncScreenPresenter)
-const syncScreenPresenterProvider = SyncScreenPresenterFamily();
+/// See also [splashPresenter].
+@ProviderFor(splashPresenter)
+const splashPresenterProvider = SplashPresenterFamily();
 
-/// See also [syncScreenPresenter].
-class SyncScreenPresenterFamily extends Family<SyncScreenPresenter> {
-  /// See also [syncScreenPresenter].
-  const SyncScreenPresenterFamily();
+/// See also [splashPresenter].
+class SplashPresenterFamily extends Family<SplashPresenter> {
+  /// See also [splashPresenter].
+  const SplashPresenterFamily();
 
-  /// See also [syncScreenPresenter].
-  SyncScreenPresenterProvider call(
-    SyncView view,
+  /// See also [splashPresenter].
+  SplashPresenterProvider call(
+    SplashView view,
   ) {
-    return SyncScreenPresenterProvider(
+    return SplashPresenterProvider(
       view,
     );
   }
 
   @override
-  SyncScreenPresenterProvider getProviderOverride(
-    covariant SyncScreenPresenterProvider provider,
+  SplashPresenterProvider getProviderOverride(
+    covariant SplashPresenterProvider provider,
   ) {
     return call(
       provider.view,
@@ -71,36 +70,35 @@ class SyncScreenPresenterFamily extends Family<SyncScreenPresenter> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'syncScreenPresenterProvider';
+  String? get name => r'splashPresenterProvider';
 }
 
-/// See also [syncScreenPresenter].
-class SyncScreenPresenterProvider
-    extends AutoDisposeProvider<SyncScreenPresenter> {
-  /// See also [syncScreenPresenter].
-  SyncScreenPresenterProvider(
+/// See also [splashPresenter].
+class SplashPresenterProvider extends AutoDisposeProvider<SplashPresenter> {
+  /// See also [splashPresenter].
+  SplashPresenterProvider(
     this.view,
   ) : super.internal(
-          (ref) => syncScreenPresenter(
+          (ref) => splashPresenter(
             ref,
             view,
           ),
-          from: syncScreenPresenterProvider,
-          name: r'syncScreenPresenterProvider',
+          from: splashPresenterProvider,
+          name: r'splashPresenterProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$syncScreenPresenterHash,
-          dependencies: SyncScreenPresenterFamily._dependencies,
+                  : _$splashPresenterHash,
+          dependencies: SplashPresenterFamily._dependencies,
           allTransitiveDependencies:
-              SyncScreenPresenterFamily._allTransitiveDependencies,
+              SplashPresenterFamily._allTransitiveDependencies,
         );
 
-  final SyncView view;
+  final SplashView view;
 
   @override
   bool operator ==(Object other) {
-    return other is SyncScreenPresenterProvider && other.view == view;
+    return other is SplashPresenterProvider && other.view == view;
   }
 
   @override

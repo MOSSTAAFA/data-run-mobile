@@ -1,18 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'sync_presenter.dart';
 import 'sync_view.dart';
 
-class SyncScreen extends StatefulWidget {
+class SyncScreen extends ConsumerStatefulWidget {
   const SyncScreen({super.key});
 
   @override
-  State<SyncScreen> createState() => _SyncScreenState();
+  ConsumerState<SyncScreen> createState() => _SyncScreenState();
 }
 
-class _SyncScreenState extends State<SyncScreen> with SyncView {
+class _SyncScreenState extends ConsumerState<SyncScreen> with SyncView {
+  late final SyncScreenPresenter presenter;
+
   @override
   Widget build(BuildContext context) {
     return Container();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    presenter = ref.read(syncScreenPresenterProvider(this));
   }
 
   @override
