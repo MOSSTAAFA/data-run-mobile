@@ -11,6 +11,8 @@ import '../events_without_registration/event_initial/di/event_initial_module.dar
 import 'sync_view.dart';
 part 'sync_presenter.g.dart';
 
+const String WAS_INITIAL_SYNC_DONE = 'WasInitialSyncDone';
+
 @riverpod
 SyncScreenPresenter syncScreenPresenter(
     SyncScreenPresenterRef ref, SyncView view) {

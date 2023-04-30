@@ -3,11 +3,16 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'main_navigator.dart';
 import 'main_presenter.dart';
 import 'main_view.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
-  const MainScreen({super.key});
+  const MainScreen({super.key, this.initScreen, this.launchDataSync = false});
+
+  final MainScreenNavItem? initScreen;
+  final bool launchDataSync;
+  // final OpenIdSession.LogOutReason? logOutReason;
 
   @override
   ConsumerState<MainScreen> createState() => _MainScreenState();
