@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../commons/state/app_state_notifier.dart';
+import '../login/login_screen.widget.dart';
 import '../main/main_screen.widget.dart';
 import '../sync/sync_screen.widget.dart';
 import 'splash_presenter.dart';
@@ -18,13 +19,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SplashView {
   late final SplashPresenter presenter;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
         body: Center(
-            child: Container(
-      child: const Text(
-        'Splash Screen',
-        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-      ),
+            child: Text(
+      'Splash Screen',
+      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
     )));
   }
 
@@ -43,19 +42,17 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SplashView {
     if (isUserLogged && initialSyncDone && !sessionLocked) {
       ref
           .read(appStateNotifierProvider.notifier)
-          .navigateToScreen(const MainScreen());
-      // MainScreen.bundle(launchDataSync: initialDataSyncDone);
+          .navigateToScreen(MainScreen(launchDataSync: initialDataSyncDone));
     } else if (isUserLogged && !initialSyncDone) {
       ref
           .read(appStateNotifierProvider.notifier)
           .navigateToScreen(const SyncScreen());
     } else {
-      // TODO(NMC): Enable after implementing LoginScreen
-      // ref
-      //     .read(appStateNotifierProvider.notifier)
-      //     .navigateToScreen(const LoginScreen());
-
-      // LoginScreen.bundle(accountsCount = presenter.getAccounts());
+      presenter.getAccounts().then((int count) {
+        ref
+            .read(appStateNotifierProvider.notifier)
+            .navigateToScreen(LoginScreen(accountsCount: count));
+      });
     }
   }
 
