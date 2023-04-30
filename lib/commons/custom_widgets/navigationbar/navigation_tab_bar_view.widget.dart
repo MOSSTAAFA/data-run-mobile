@@ -10,59 +10,6 @@ import '../../state/pref_state.dart';
 import '../../utils/view_actions.dart';
 import 'navigation_page.dart';
 
-// void main() => runApp(MyApp());
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return const MaterialApp(
-//       title: 'Flutter Demo',
-//       home: MyHomePage(),
-//     );
-//   }
-// }
-
-// class MyHomePage extends StatefulWidget {
-//   const MyHomePage({super.key});
-
-//   @override
-//   MyHomePageState createState() => MyHomePageState();
-// }
-
-// class MyHomePageState extends State<MyHomePage> {
-//   List<String> data = ['Page 0', 'Page 1', 'Page 2'];
-//   int initPosition = 1;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: SafeArea(
-//         child: CustomTabBarView(
-//           initPosition: initPosition,
-//           itemCount: data.length,
-//           tabBuilder: (context, index) => Tab(text: data[index]),
-//           pageBuilder: (context, index) => Center(child: Text(data[index])),
-//           onPositionChange: (index) {
-//             print('current position: $index');
-//             initPosition = index;
-//           },
-//           onScroll: (position) => print('$position'),
-//         ),
-//       ),
-//       floatingActionButton: FloatingActionButton(
-//         onPressed: () {
-//           setState(() {
-//             data.add('Page ${data.length}');
-//           });
-//         },
-//         child: const Icon(Icons.add),
-//       ),
-//     );
-//   }
-// }
-
 typedef ViewActionWidgetBuilder = Widget Function(
     BuildContext context, ViewAction viewAction);
 
@@ -87,7 +34,8 @@ class NavigationTabBarView extends ConsumerStatefulWidget {
       this.appBarActions,
       this.appBarLeadingActions,
       this.onHamburgerLongPress,
-      this.appBarTitle});
+      this.appBarTitle,
+      this.drawer});
 
   // final NavigationPageConfigurator navigationPageConfigurator;
   // final IndexedWidgetBuilder tabBuilder;
@@ -108,6 +56,7 @@ class NavigationTabBarView extends ConsumerStatefulWidget {
   final List<Widget>? appBarLeadingActions;
   final Function()? onHamburgerLongPress;
   final Widget? appBarTitle;
+  final Widget? drawer;
 
   @override
   NavigationTabBarViewState createState() => NavigationTabBarViewState();
@@ -206,28 +155,31 @@ class NavigationTabBarViewState extends ConsumerState<NavigationTabBarView>
 
     final AppState appState = ref.read(appStateNotifierProvider);
 
-    Widget? leading;
-    // if (isMobile(context)) {
-    //   leading = Builder(
-    //     builder: (context) => InkWell(
-    //       onLongPress: widget.onHamburgerLongPress,
-    //       child: IconButton(
-    //         tooltip: localization.menuSidebar,
-    //         icon: const Icon(Icons.menu),
-    //         onPressed: () {
-    //           Scaffold.of(context).openDrawer();
-    //         },
-    //       ),
-    //     ),
-    //   );
-    // }
+    Widget? leadingActions;
+    Widget? drawerHamburger;
+    if (widget.drawer != null) {
+      drawerHamburger = Builder(
+        builder: (context) => InkWell(
+          onLongPress: widget.onHamburgerLongPress,
+          child: IconButton(
+            tooltip: localization.menuSidebar,
+            icon: const Icon(Icons.menu),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+          ),
+        ),
+      );
+    }
 
-    // leading = Row(
-    //   children: [
-    //     Expanded(child: leading),
-    //     ...?widget.appBarLeadingActions,
-    //   ],
-    // );
+    if (widget.appBarLeadingActions != null) {
+      leadingActions = Row(
+        children: [
+          if (drawerHamburger != null) Expanded(child: drawerHamburger),
+          ...?widget.appBarLeadingActions,
+        ],
+      );
+    }
 
     return WillPopScope(
         onWillPop: () async {
@@ -236,12 +188,11 @@ class NavigationTabBarViewState extends ConsumerState<NavigationTabBarView>
         },
         child: FocusTraversalGroup(
           child: Scaffold(
-            // TODO(NMC): implement MenuDrawerBuilder
-            // drawer: isMobile(context) ? const MenuDrawerBuilder() : null,
+            drawer: widget.drawer,
             appBar: AppBar(
               centerTitle: false,
               automaticallyImplyLeading: false,
-              leading: leading,
+              leading: leadingActions,
               leadingWidth: kMinInteractiveDimension *
                   (widget.appBarLeadingActions?.length ??
                       0 + (isMobile(context) ? 1 : 2)),
@@ -250,9 +201,7 @@ class NavigationTabBarViewState extends ConsumerState<NavigationTabBarView>
                       Expanded(child: it),
                     ],
                   )),
-              actions: [
-                ...widget.appBarActions ?? <Widget>[],
-              ],
+              actions: widget.appBarActions,
             ),
             body: _visibleTabs.length > 1
                 ? ClipRect(

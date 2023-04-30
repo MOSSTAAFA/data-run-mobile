@@ -5,9 +5,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../commons/custom_widgets/navigationbar/navigation_tab_bar_view.widget.dart';
 import '../../../commons/extensions/standard_extensions.dart';
+import '../../../commons/state/app_state_notifier.dart';
 import '../../../commons/utils/view_actions.dart';
 import '../../../form/ui/components/linear_loading_indicator.dart';
 import '../../l10n/app_localizations.dart';
+import '../login/login_screen.widget.dart';
 import '../program_event_detail/di/program_event_detail_providers.dart';
 import '../program_event_detail/program_event_detail_view_model.dart';
 import 'home_page_configurator.dart';
@@ -53,6 +55,20 @@ class _MainScreenState extends ConsumerState<MainScreen> with MainView {
             //   child: const Icon(Icons.add),
             //   onPressed: () => startNewEvent(),
             // ),
+            // appBarTitle: Text(ref.watch(eventDataStringProvider)),
+            // appBarActions: [
+            //   Consumer(
+            //     builder: (context, ref, child) {
+            //       return ref.watch(syncButtonVisibilityProvider)
+            //           ? IconButton(
+            //               icon: const Icon(Icons.sync),
+            //               tooltip: localization.lookup('sync'),
+            //               onPressed: () => showSyncDialog(),
+            //             )
+            //           : const SizedBox();
+            //     },
+            //   ),
+            // ],
             tabBuilder: (context, viewAction) {
               final name = localization.lookup(viewAction.name);
               return when(viewAction, {
@@ -99,7 +115,10 @@ class _MainScreenState extends ConsumerState<MainScreen> with MainView {
 
   @override
   void goToLogin(int accountsCount, {bool isDeletion = false}) {
-    // TODO: implement goToLogin
+    ref.read(appStateNotifierProvider.notifier).navigateToScreen(LoginScreen(
+          accountsCount: accountsCount,
+          isDeletion: isDeletion,
+        ));
   }
 
   @override

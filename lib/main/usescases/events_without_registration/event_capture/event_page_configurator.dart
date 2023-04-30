@@ -1,23 +1,26 @@
 // class EventPageConfigurator.kt
 import '../../../../commons/custom_widgets/navigationbar/navigation_page.dart';
 import '../../../../commons/custom_widgets/navigationbar/navigation_page_configurator.dart';
-import '../../../../commons/extensions/standard_extensions.dart';
-import '../../../../commons/helpers/iterable.dart';
 import '../../../../commons/utils/view_actions.dart';
 
 class EventPageConfigurator with NavigationPageConfigurator {
   @override
   bool actionButtonVisibility(ViewAction viewAction) {
-    return when(
-        NavigationPage.values.firstOrNullWhere(
-            (NavigationPage it) => it.viewAction == viewAction),
-        {
-          [
-            NavigationPage.DETAILS,
-            NavigationPage.NOTES,
-            NavigationPage.DATA_ENTRY
-          ]: () => true,
-        }).orElse(() => false);
+    return [
+      NavigationPage.DETAILS,
+      NavigationPage.NOTES,
+      NavigationPage.DATA_ENTRY
+    ].any((element) => element.viewAction == viewAction);
+    // return when(
+    //     NavigationPage.values.firstOrNullWhere(
+    //         (NavigationPage it) => it.viewAction == viewAction),
+    //     {
+    //       [
+    //         NavigationPage.DETAILS,
+    //         NavigationPage.NOTES,
+    //         NavigationPage.DATA_ENTRY
+    //       ]: () => true,
+    //     }).orElse(() => false);
   }
 
   @override
