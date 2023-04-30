@@ -3,6 +3,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../commons/custom_widgets/navigationbar/navigation_tab_bar_view.widget.dart';
+import '../../../commons/extensions/standard_extensions.dart';
+import '../../../commons/utils/view_actions.dart';
+import '../../../form/ui/components/linear_loading_indicator.dart';
+import '../../l10n/app_localizations.dart';
+import '../program_event_detail/di/program_event_detail_providers.dart';
+import '../program_event_detail/program_event_detail_view_model.dart';
+import 'home_page_configurator.dart';
 import 'main_navigator.dart';
 import 'main_presenter.dart';
 import 'main_view.dart';
@@ -23,7 +31,49 @@ class _MainScreenState extends ConsumerState<MainScreen> with MainView {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    final localization = AppLocalization.of(context)!;
+
+    return ProviderScope(
+      overrides: [
+        pageConfiguratorProvider.overrideWith((_) => HomePageConfigurator()),
+      ],
+      child: Column(
+        children: [
+          Consumer(
+            // This builder will only get called when the
+            // programEventDetailModelProvider.progress is updated.
+            builder: (context, ref, child) => LinearLoadingIndicator(
+              isLoading: ref.watch(programEventDetailModelProvider
+                  .select((value) => value.progress)),
+            ),
+          ),
+          NavigationTabBarView(
+            // actionButtonBuilder: (context, viewAction) => FloatingActionButton(
+            //   heroTag: ViewAction.list_view.name,
+            //   child: const Icon(Icons.add),
+            //   onPressed: () => startNewEvent(),
+            // ),
+            tabBuilder: (context, viewAction) {
+              final name = localization.lookup(viewAction.name);
+              return when(viewAction, {
+                ViewAction.list_view: () => Tab(text: name),
+                ViewAction.table_view: () => Tab(text: name),
+                ViewAction.map_view: () => Tab(text: name),
+                ViewAction.analytics: () => Tab(text: name),
+              })!;
+            },
+            pageBuilder: (context, viewAction) =>
+                when<ViewAction, Widget>(viewAction, {
+              // ViewAction.list_view: () => const EventListScreen(),
+              // ViewAction.table_view: () => const EventTable(),
+              // ViewAction.map_view: () => const EventMap(),
+            }).orElse(() => const Center(
+                      child: Text('Unimplemented Screen!'),
+                    )),
+          ),
+        ],
+      ),
+    );
   }
 
   @override

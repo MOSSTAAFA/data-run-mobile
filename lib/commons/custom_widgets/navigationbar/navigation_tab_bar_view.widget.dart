@@ -93,7 +93,7 @@ class NavigationTabBarView extends ConsumerStatefulWidget {
   // final IndexedWidgetBuilder tabBuilder;
   // final IndexedWidgetBuilder pageBuilder;
   // final NavigationItemBuilder tabBuilder;
-  final ViewActionWidgetBuilder tabBuilder;
+  final ViewActionWidgetBuilder? tabBuilder;
   final ViewActionWidgetBuilder pageBuilder;
   // final void Function(ViewAction viewAction)? onPressedActionButton;
   final Widget? stub;
@@ -254,42 +254,42 @@ class NavigationTabBarViewState extends ConsumerState<NavigationTabBarView>
                 ...widget.appBarActions ?? <Widget>[],
               ],
             ),
-            body: ClipRect(
-              child: TabBarView(
-                controller: controller,
-                children: List.generate(
-                  _visibleTabs.length,
-                  (index) => widget.pageBuilder(
-                      context, _visibleTabs[index].viewAction),
-                ),
-              ),
-            ),
-            bottomNavigationBar: TabBar(
-              isScrollable: true,
-              controller: controller,
-              labelColor: Theme.of(context).primaryColor,
-              unselectedLabelColor: Theme.of(context).hintColor,
-              indicator: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: Theme.of(context).primaryColor,
-                    width: 2,
-                  ),
-                ),
-              ),
-              tabs: List.generate(
-                _visibleTabs.length,
-                (index) =>
-                    widget.tabBuilder(context, _visibleTabs[index].viewAction),
-              ),
-            ),
+            body: _visibleTabs.length > 1
+                ? ClipRect(
+                    child: TabBarView(
+                      controller: controller,
+                      children: List.generate(
+                        _visibleTabs.length,
+                        (index) => widget.pageBuilder(
+                            context, _visibleTabs[index].viewAction),
+                      ),
+                    ),
+                  )
+                : widget.pageBuilder(context, _visibleTabs.first.viewAction),
+            bottomNavigationBar:
+                widget.tabBuilder != null && _visibleTabs.length > 1
+                    ? TabBar(
+                        isScrollable: true,
+                        controller: controller,
+                        labelColor: Theme.of(context).primaryColor,
+                        unselectedLabelColor: Theme.of(context).hintColor,
+                        indicator: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: Theme.of(context).primaryColor,
+                              width: 2,
+                            ),
+                          ),
+                        ),
+                        tabs: List.generate(
+                          _visibleTabs.length,
+                          (index) => widget.tabBuilder!
+                              .call(context, _visibleTabs[index].viewAction),
+                        ),
+                      )
+                    : null,
             floatingActionButton: _isActionButtonVisible
                 ? widget.actionButtonBuilder?.call(context, _currentAction)
-                // FloatingActionButton(
-                //     child: const Icon(Icons.add),
-                //     onPressed: () =>
-                //         widget.onPressedActionButton?.call(_currentAction),
-                //   )
                 : null,
             floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           ),
