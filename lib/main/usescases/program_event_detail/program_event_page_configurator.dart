@@ -11,17 +11,11 @@ class ProgramEventPageConfigurator with NavigationPageConfigurator {
         NavigationPage.values.firstOrNullWhere(
             (NavigationPage it) => it.viewAction == viewAction),
         {
-          NavigationPage.DETAILS: () => false,
-          NavigationPage.EVENTS: () => false,
-          NavigationPage.ANALYTICS: () => true,
-          NavigationPage.RELATIONSHIPS: () => false,
-          NavigationPage.NOTES: () => false,
-          NavigationPage.DATA_ENTRY: () => false,
-          NavigationPage.LIST_VIEW: () => true,
-          NavigationPage.MAP_VIEW: () => true,
-          NavigationPage.TABLE_VIEW: () => true,
-          NavigationPage.TASKS: () => false,
-          NavigationPage.PROGRAMS: () => false,
+          [
+            NavigationPage.LIST_VIEW,
+            NavigationPage.TABLE_VIEW,
+            NavigationPage.MAP_VIEW
+          ]: () => true
         }).orElse(() => false);
   }
 
