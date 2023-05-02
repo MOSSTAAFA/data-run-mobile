@@ -12,7 +12,7 @@ import '../../../main.dart';
 import '../../usescases/bundle/bundle.dart';
 import 'sync_presenter.dart';
 
-import '../../../commons/helpers/result.dart';
+import 'package:d2_remote/core/mp/helpers/result.dart';
 import '../../../commons/prefs/preference_provider.dart';
 import '../../../commons/resources/resource_manager.dart';
 import 'work_manager/nmc_worker/worker.dart';

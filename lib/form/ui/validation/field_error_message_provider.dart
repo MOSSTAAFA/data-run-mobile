@@ -56,118 +56,118 @@ class FieldErrorMessageProvider {
 
   String _getTrueOnlyError(TrueOnlyFailure error) {
     return error.when(
-        oneIsNotTrueException: (_) => 'error_true_only_one_is_not_true',
-        falseIsNotAValidValueException: (_) =>
+        oneIsNotTrueException: (_, __) => 'error_true_only_one_is_not_true',
+        falseIsNotAValidValueException: (_, __) =>
             'error_true_only_false_not_valid',
-        booleanMalformedException: (_) => 'error_true_only_malformed');
+        booleanMalformedException: (_, __) => 'error_true_only_malformed');
   }
 
   String _getTextError(TextFailure error) {
-    return error.when(tooLargeTextException: (_) => 'error_text_too_long');
+    return error.when(tooLargeTextException: (_, __) => 'error_text_too_long');
   }
 
   String _getLetterError(LetterFailure error) {
     return error.when(
-        stringIsNotALetterException: (_) => 'error_letter_not_a_letter',
-        moreThanOneLetterException: (_) => 'error_letter_more_than_one',
-        emptyStringException: (_) => 'error_letter_empty');
+        stringIsNotALetterException: (_, __) => 'error_letter_not_a_letter',
+        moreThanOneLetterException: (_, __) => 'error_letter_more_than_one',
+        emptyStringException: (_, __) => 'error_letter_empty');
   }
 
   String _getTimeError(TimeFailure error) {
-    return error.when(parseException: (_) => 'error_time_parsing');
+    return error.when(parseException: (_, __) => 'error_time_parsing');
   }
 
   String _getDateTimeError(DateTimeFailure error) {
-    return error.when(parseException: (_) => 'error_date_time_parsing');
+    return error.when(parseException: (_, __) => 'error_date_time_parsing');
   }
 
   String _getDateError(DateFailure error) {
-    return error.when(parseException: (_) => 'error_date_parsing');
+    return error.when(parseException: (_, __) => 'error_date_parsing');
   }
 
   String _getBooleanError(BooleanFailure error) {
     return error.when(
-        oneIsNotTrueException: (_) => 'error_boolean_one_is_not_true',
-        zeroIsNotFalseException: (_) => 'error_boolean_zero_is_not_false',
-        booleanMalformedException: (_) => 'error_boolean_malformed');
+        oneIsNotTrueException: (_, __) => 'error_boolean_one_is_not_true',
+        zeroIsNotFalseException: (_, __) => 'error_boolean_zero_is_not_false',
+        booleanMalformedException: (_, __) => 'error_boolean_malformed');
   }
 
   String _getCoordinateError(CoordinateFailure error) {
-    return error.when(coordinateMalformedException: (_) => 'wrong_pattern');
+    return error.when(coordinateMalformedException: (_, __) => 'wrong_pattern');
   }
 
   String _getFieldMaskError(FieldMaskFailure error) {
     return error.when(
-        wrongPatternException: (_) => 'wrong_pattern',
-        invalidPatternException: (_) => 'pattern_error');
+        wrongPatternException: (_, __) => 'wrong_pattern',
+        invalidPatternException: (_, __) => 'pattern_error');
   }
 
   String _getPhoneNumberError(PhoneNumberFailure error) {
     return error.when(
-        malformedPhoneNumberException: (_) => 'invalid_phone_number');
+        malformedPhoneNumberException: (_, __) => 'invalid_phone_number');
   }
 
   String _getEmailError(EmailFailure error) {
-    return error.when(malformedEmailException: (_) => 'invalid_email');
+    return error.when(malformedEmailException: (_, __) => 'invalid_email');
   }
 
   String _getIntegerNegativeError(IntegerNegativeFailure error) {
     return error.when(
-        numberFormatException: (_) => 'formatting_error',
-        integerOverflow: (_) => 'formatting_error',
-        valueIsZero: (_) => 'invalid_negative_number',
-        valueIsPositive: (_) => 'invalid_negative_number',
-        leadingZeroException: (_) => 'leading_zero_error');
+        numberFormatException: (_, __) => 'formatting_error',
+        integerOverflow: (_, __) => 'formatting_error',
+        valueIsZero: (_, __) => 'invalid_negative_number',
+        valueIsPositive: (_, __) => 'invalid_negative_number',
+        leadingZeroException: (_, __) => 'leading_zero_error');
   }
 
   String _getIntegerZeroOrPositiveError(IntegerZeroOrPositiveFailure error) {
     return error.when(
-        numberFormatException: (_) => 'formatting_error',
-        integerOverflow: (_) => 'formatting_error',
-        valueIsNegative: (_) => 'invalid_positive_zero',
-        leadingZeroException: (_) => 'leading_zero_error');
+        numberFormatException: (_, __) => 'formatting_error',
+        integerOverflow: (_, __) => 'formatting_error',
+        valueIsNegative: (_, __) => 'invalid_positive_zero',
+        leadingZeroException: (_, __) => 'leading_zero_error');
   }
 
   String _getIntegerPositiveError(IntegerPositiveFailure error) {
     return error.when(
-        numberFormatException: (_) => 'formatting_error',
-        integerOverflow: (_) => 'formatting_error',
-        valueIsZero: (_) => 'invalid_positive',
-        valueIsNegative: (_) => 'invalid_positive',
-        leadingZeroException: (_) => 'leading_zero_error');
+        numberFormatException: (_, __) => 'formatting_error',
+        integerOverflow: (_, __) => 'formatting_error',
+        valueIsZero: (_, __) => 'invalid_positive',
+        valueIsNegative: (_, __) => 'invalid_positive',
+        leadingZeroException: (_, __) => 'leading_zero_error');
   }
 
   String _getUnitIntervalFailure(UnitIntervalFailure error) {
     return error.when(
-        scientificNotationException: (_) => 'formatting_error',
-        numberFormatException: (_) => 'formatting_error',
-        greaterThanOneException: (_) => 'invalid_interval',
-        smallerThanZeroException: (_) => 'invalid_interval');
+        scientificNotationException: (_, __) => 'formatting_error',
+        numberFormatException: (_, __) => 'formatting_error',
+        greaterThanOneException: (_, __) => 'invalid_interval',
+        smallerThanZeroException: (_, __) => 'invalid_interval');
   }
 
   String _getPercentageError(PercentageFailure error) {
     return error.when(
-        numberFormatException: (_) => 'formatting_error',
-        valueGreaterThan100: (_) => 'invalid_percentage',
-        valueIsNegative: (_) => 'invalid_positive');
+        numberFormatException: (_, __) => 'formatting_error',
+        valueGreaterThan100: (_, __) => 'invalid_percentage',
+        valueIsNegative: (_, __) => 'invalid_positive');
   }
 
   String _getUrlError(UrlFailure error) {
-    return error.when(malformedUrlException: (_) => 'validation_url');
+    return error.when(malformedUrlException: (_, __) => 'validation_url');
   }
 
   String _getIntegerError(IntegerFailure error) {
     return error.when(
-        numberFormatException: (_) => 'invalid_integer',
-        integerOverflow: (_) => 'formatting_error',
-        leadingZeroException: (_) => 'leading_zero_error');
+        numberFormatException: (_, __) => 'invalid_integer',
+        integerOverflow: (_, __) => 'formatting_error',
+        leadingZeroException: (_, __) => 'leading_zero_error');
   }
 
   String _getNumberError(NumberFailure error) {
     return error.when(
-        scientificNotationException: (_) => 'formatting_error',
-        numberFormatException: (_) => 'formatting_error',
-        leadingZeroException: (_) => 'leading_zero_error');
+        scientificNotationException: (_, __) => 'formatting_error',
+        numberFormatException: (_, __) => 'formatting_error',
+        leadingZeroException: (_, __) => 'leading_zero_error');
   }
 
   String mandatoryWarning() {

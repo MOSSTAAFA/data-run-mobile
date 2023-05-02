@@ -1,5 +1,7 @@
+import 'package:d2_remote/core/common/exception/exception.dart';
 import 'package:d2_remote/core/common/feature_type.dart';
 import 'package:d2_remote/core/common/value_type.dart';
+import 'package:d2_remote/core/mp/helpers/result.dart';
 import 'package:dartx/dartx_io.dart';
 import 'package:dartz/dartz.dart' show Either;
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
@@ -527,7 +529,7 @@ class FormViewModel extends GetxController implements Listenable {
 
     return fieldValue!.let((String value) {
       Exception? error;
-      final Either<Exception, String>? result = valueType
+      final Result<String, ThrowableException>? result = valueType
           ?.takeIf((ValueType item) => item != ValueType.IMAGE)
           ?.validator
           .validate(value);
@@ -535,7 +537,7 @@ class FormViewModel extends GetxController implements Listenable {
           (Exception failure) => failure, (String success) => null);
 
       fieldMask?.let((String mask) {
-        final Either<Exception, String> result =
+        final Result<String, ThrowableException> result =
             FieldMaskValidator(mask).validate(value);
         error = result.fold(
             (Exception failure) => failure, (String success) => error);

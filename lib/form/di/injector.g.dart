@@ -273,21 +273,6 @@ final networkUtilsProvider = AutoDisposeProvider<NetworkUtils>.internal(
 );
 
 typedef NetworkUtilsRef = AutoDisposeProviderRef<NetworkUtils>;
-String _$resourceManagerHash() => r'bfece2e3123ce71949da5ea11e6b0d99660821ea';
-
-/// See also [resourceManager].
-@ProviderFor(resourceManager)
-final resourceManagerProvider = AutoDisposeProvider<ResourceManager>.internal(
-  resourceManager,
-  name: r'resourceManagerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$resourceManagerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef ResourceManagerRef = AutoDisposeProviderRef<ResourceManager>;
 String _$fieldErrorMessageProviderHash() =>
     r'736b9ff87eb263423b1e96b2d64ec7d447b1294c';
 

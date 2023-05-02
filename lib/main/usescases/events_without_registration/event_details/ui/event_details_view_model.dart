@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import '../../../../../commons/extensions/list_extensions.dart';
 import '../../../../../commons/extensions/standard_extensions.dart';
-import '../../../../../commons/helpers/result.dart';
+import 'package:d2_remote/core/mp/helpers/result.dart';
 import '../domain/configure_event_coordinates.dart';
 import '../domain/configure_event_details.dart';
 import '../domain/configure_event_report_date.dart';
@@ -179,9 +179,9 @@ class EventDetailsViewModel {
                 selectedDate: date,
                 selectedOrgUnit: _eventDetails.value.selectedOrgUnit,
                 coordinates: _eventDetails.value.coordinates)
-            .then((Result<String> result) {
+            .then((Result<String, dynamic> result) {
           result.fold(
-            (Exception failure) =>
+            (dynamic failure) =>
                 showEventUpdateStatus?.call(failure.toString()),
             (String message) => showEventUpdateStatus?.call(message),
           );
@@ -189,7 +189,8 @@ class EventDetailsViewModel {
   }
 
   Future<void> onReopenClick() async {
-    final Result<String> result = await _configureEventDetails.reopenEvent();
+    final Result<String, dynamic> result =
+        await _configureEventDetails.reopenEvent();
     if (result.isSuccess) {
       await _loadEventDetails();
       onReopenSuccess?.call(_resourcesProvider.provideReOpened());

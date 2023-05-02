@@ -1,11 +1,22 @@
+import 'package:d2_remote/core/common/exception/exception.dart';
 import 'package:flutter/material.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../main.dart';
 import '../../main/l10n/app_localizations.dart';
 import '../../utils/mass_utils/colors.dart';
 import '../extensions/standard_extensions.dart';
+import 'd2_error_utils.dart';
+part 'resource_manager.g.dart';
+
+@riverpod
+ResourceManager resourceManager(ResourceManagerRef ref) {
+  return ResourceManager(ref);
+}
 
 class ResourceManager {
-  const ResourceManager();
+  const ResourceManager(this.ref);
+
+  final ResourceManagerRef ref;
 
   String getString(String stringResource) {
     return AppLocalization.of(navigatorKey.currentContext!)!
@@ -56,8 +67,7 @@ class ResourceManager {
   }
 
   String? parseD2Error(Exception throwable) {
-    // D2ErrorUtils(getWrapperContext()).getErrorMessage(throwable)
-    //
+    return ref.read(d2ErrorUtilsProvider).getErrorMessage(throwable);
   }
 
   String defaultEventLabel() => getString('R.string.events');

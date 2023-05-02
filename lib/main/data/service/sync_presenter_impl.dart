@@ -7,10 +7,10 @@ import 'package:d2_remote/modules/metadata/dataset/queries/data_set.query.dart';
 import 'package:d2_remote/modules/metadata/program/queries/program.query.dart';
 import 'package:dio/dio.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:mass_pro/main/data/service/sync_metadata_worker.dart';
+import 'sync_metadata_worker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
-import '../../../commons/helpers/result.dart';
+import 'package:d2_remote/core/mp/helpers/result.dart';
 import '../../../core/arch/call/d2_progress.dart';
 import '../../../core/arch/call/d2_progress_manager.dart';
 import '../../../core/arch/call/d2_progress_status.dart';
@@ -174,7 +174,7 @@ class SyncPresenterImpl implements SyncPresenter {
 
   /// ListenableWorker.Result
   @override
-  Future<Result<String>> syncGranularProgram(String programUid,
+  Future<Result<String, dynamic>> syncGranularProgram(String programUid,
       {Dio? dioTestClient}) async {
     // upload unSynced
     // TODO(NMC): make service to do that and handle errors inside it
@@ -197,7 +197,7 @@ class SyncPresenterImpl implements SyncPresenter {
 
   /// ListenableWorker.Result
   @override
-  Future<Result<String>> syncGranularActivity(String activityUid,
+  Future<Result<String, dynamic>> syncGranularActivity(String activityUid,
       {Dio? dioTestClient}) async {
     // upload unSynced
     // TODO(NMC): make service to do that and handle errors inside it
@@ -218,7 +218,7 @@ class SyncPresenterImpl implements SyncPresenter {
   }
 
   @override
-  Future<Result<String>> syncGranularTei(
+  Future<Result<String, dynamic>> syncGranularTei(
       String? teiUid, String? activityUid, String? orgUnit,
       {Dio? dioTestClient}) async {
     return Future.value(Result.success('not Implemented'));
@@ -254,7 +254,7 @@ class SyncPresenterImpl implements SyncPresenter {
 
   /// ListenableWorker.Result
   @override
-  Future<Result<String>> syncGranularDataSet(String dataSetUid,
+  Future<Result<String, dynamic>> syncGranularDataSet(String dataSetUid,
       {Dio? dioTestClient}) {
     return Future.value(Result.success('not Implemented'));
   }
@@ -280,7 +280,7 @@ class SyncPresenterImpl implements SyncPresenter {
 
   /// Observable
   @override
-  Future<Result<String>> syncGranularDataValues(
+  Future<Result<String, dynamic>> syncGranularDataValues(
       String? activityUid, String? orgUnit, String? period,
       {Dio? dioTestClient}) async {
     // TODO(NMC): not implemented on DataValue Level, we have to upload the
@@ -363,7 +363,7 @@ class SyncPresenterImpl implements SyncPresenter {
 
   /// ListenableWorker.Result
   @override
-  Future<Result<String>> syncGranularDataSetValues(String dataSetUid,
+  Future<Result<String, dynamic>> syncGranularDataSetValues(String dataSetUid,
       String activityUid, String orgUnitUid, String? periodId,
       {Dio? dioTestClient}) {
     return Future.value(Result.success('not Implemented'));

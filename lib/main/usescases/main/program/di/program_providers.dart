@@ -1,6 +1,6 @@
 import 'package:d2_remote/modules/data/tracker/queries/event.query.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../../../../form/di/injector.dart';
+import '../../../../../commons/resources/resource_manager.dart';
 import '../../../../mp_logic/mp_program_utils.dart';
 import '../program_presenter.dart';
 import '../program_repository.dart';

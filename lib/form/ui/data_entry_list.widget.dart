@@ -65,7 +65,7 @@ class DataEntryListState extends ConsumerState<DataEntryList>
               if (!ref
                   .read(formViewModelProvider)
                   .valueTypeIsTextField(valueType)) {
-                hideKeyboard(context);
+                hideTheKeyboard(context);
               }
             }));
   }

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'network_utils.g.dart';
@@ -11,7 +12,7 @@ class NetworkUtils {
   const NetworkUtils();
 
   /// navigatorKey.currentContext!
-  bool isOnline() {
+  bool isOnline([BuildContext? context]) {
     final isOnline = true;
     // try {
     //   var manager = context.getSystemService(Context.CONNECTIVITY_SERVICE)

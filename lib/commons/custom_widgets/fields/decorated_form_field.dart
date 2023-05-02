@@ -77,7 +77,7 @@ class _DecoratedFormFieldState extends State<DecoratedFormField> {
   Widget build(BuildContext context) {
     Widget? iconButton = widget.suffixIconButton;
 
-    final hasValue = (widget.initialValue ?? '').isNotEmpty ||
+    final bool hasValue = (widget.initialValue ?? '').isNotEmpty ||
         (widget.controller?.text ?? '').isNotEmpty;
 
     if (_showClear &&
@@ -89,7 +89,7 @@ class _DecoratedFormFieldState extends State<DecoratedFormField> {
           widget.suffixIcon == null &&
           widget.enabled) {
         iconButton = IconButton(
-          icon: Icon(Icons.clear),
+          icon: const Icon(Icons.clear),
           onPressed: () {
             widget.controller?.text = '';
             setState(() {
@@ -106,10 +106,10 @@ class _DecoratedFormFieldState extends State<DecoratedFormField> {
     } else if (widget.label == null && widget.hint == null) {
       inputDecoration = null;
     } else {
-      var icon = widget.suffixIcon ?? iconButton;
+      Widget? icon = widget.suffixIcon ?? iconButton;
       if (icon == null) {
         if (widget.isPercent) {
-          icon = Icon(
+          icon = const Icon(
             MdiIcons.percent,
             size: 16,
           );
@@ -150,14 +150,14 @@ class _DecoratedFormFieldState extends State<DecoratedFormField> {
       textInputAction: widget.keyboardType == TextInputType.multiline
           ? TextInputAction.newline
           : TextInputAction.next,
-      onChanged: (value) {
+      onChanged: (String value) {
         _showClear = true;
         if (widget.onChanged != null) {
           widget.onChanged!(value);
         }
       },
       inputFormatters: widget.inputFormatters,
-      onFieldSubmitted: (value) {
+      onFieldSubmitted: (String value) {
         if (widget.onFieldSubmitted != null) {
           return widget.onFieldSubmitted!(value);
         } else if (widget.keyboardType == TextInputType.multiline) {

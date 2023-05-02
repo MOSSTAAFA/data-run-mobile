@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:mass_pro/main/data/service/sync_metadata_worker.dart';
-import '../../../commons/helpers/result.dart';
+import 'sync_metadata_worker.dart';
+import 'package:d2_remote/core/mp/helpers/result.dart';
 import '../../../core/arch/call/d2_progress.dart';
 import 'sync_result.dart';
 
@@ -24,14 +24,14 @@ abstract class SyncPresenter {
   Future<D2Progress> syncGranularEvent(String eventUid, {Dio? dioTestClient});
 
   /// ListenableWorker.Result
-  Future<Result<String>> syncGranularProgram(String programUid,
+  Future<Result<String, dynamic>> syncGranularProgram(String programUid,
       {Dio? dioTestClient});
 
-  Future<Result<String>> syncGranularActivity(String activityUid,
+  Future<Result<String, dynamic>> syncGranularActivity(String activityUid,
       {Dio? dioTestClient});
 
   /// ListenableWorker.Result
-  Future<Result<String>> syncGranularTei(
+  Future<Result<String, dynamic>> syncGranularTei(
       String? teiUid, String? activityUid, String? orgUnit,
       {Dio? dioTestClient});
 
@@ -40,7 +40,7 @@ abstract class SyncPresenter {
   //     {Dio? dioTestClient});
 
   /// ListenableWorker.Result
-  Future<Result<String>> syncGranularDataSet(String dataSetUid,
+  Future<Result<String, dynamic>> syncGranularDataSet(String dataSetUid,
       {Dio? dioTestClient});
 
   // /// Observable
@@ -54,7 +54,7 @@ abstract class SyncPresenter {
   // Future<D2Progress> syncGranularDataSet(String uid, {Dio? dioTestClient});
 
   /// Observable
-  Future<Result<String>> syncGranularDataValues(
+  Future<Result<String, dynamic>> syncGranularDataValues(
       String? activityUid, String? orgUnit, String? period,
       {Dio? dioTestClient});
 
@@ -91,7 +91,7 @@ abstract class SyncPresenter {
   Future<void> downloadResources({Dio? dioTestClient});
 
   /// ListenableWorker.Result
-  Future<Result<String>> syncGranularDataSetValues(String dataSetUid,
+  Future<Result<String, dynamic>> syncGranularDataSetValues(String dataSetUid,
       String activityUid, String orgUnitUid, String? periodId,
       {Dio? dioTestClient});
 

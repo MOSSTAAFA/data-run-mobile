@@ -1,17 +1,15 @@
 import 'dart:async';
 
+import 'package:d2_remote/core/mp/helpers/result.dart';
 import 'package:dio/dio.dart';
 
 import '../../../commons/constants.dart';
 import '../../../commons/date/date_utils.dart';
 import '../../../commons/network/network_utils.dart';
 import '../../../commons/resources/resource_manager.dart';
-import '../../../main.dart';
 import '../../usescases/bundle/bundle.dart';
 import 'sync_metadata_worker.dart';
 import 'sync_presenter.dart';
-
-import '../../../commons/helpers/result.dart';
 import '../../../commons/prefs/preference_provider.dart';
 import 'sync_result.dart';
 import 'work_manager/nmc_worker/worker.dart';

@@ -24,20 +24,6 @@ final eventDetailResourcesProvider =
 
 typedef EventDetailResourcesRef
     = AutoDisposeProviderRef<EventDetailResourcesProvider>;
-String _$d2ErrorUtilsHash() => r'2f084ac19bdecd3d1822abf71cafbd1220f115ed';
-
-/// See also [d2ErrorUtils].
-@ProviderFor(d2ErrorUtils)
-final d2ErrorUtilsProvider = AutoDisposeProvider<D2ErrorUtils>.internal(
-  d2ErrorUtils,
-  name: r'd2ErrorUtilsProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$d2ErrorUtilsHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef D2ErrorUtilsRef = AutoDisposeProviderRef<D2ErrorUtils>;
 String _$eventDetailsRepositoryHash() =>
     r'a826b950566943f6e17aa6e7448295726dd7f099';
 

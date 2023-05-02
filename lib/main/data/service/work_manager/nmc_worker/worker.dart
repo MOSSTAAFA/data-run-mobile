@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../../../commons/helpers/result.dart';
-import '../../../../../form/di/injector.dart';
+import 'package:d2_remote/core/mp/helpers/result.dart';
+import '../../../../../commons/resources/resource_manager.dart';
 import '../../../../usescases/events_without_registration/event_initial/di/event_initial_module.dart';
 import '../../sync_data_worker.dart';
 import '../../sync_metadata_worker.dart';

@@ -1,8 +1,7 @@
 import 'package:d2_remote/modules/data/tracker/entities/event.entity.dart';
-import 'package:dartz/dartz.dart';
 
 import '../../../../../commons/extensions/standard_extensions.dart';
-import '../../../../../commons/helpers/result.dart';
+import 'package:d2_remote/core/mp/helpers/result.dart';
 import '../../../../../core/event/event_editable_status.dart';
 import '../data/event_details_repository.dart';
 import '../providers/event_detail_resources_provider.dart';
@@ -17,7 +16,7 @@ class CreateOrUpdateEventDetails {
   final EventDetailsRepository _repository;
   final EventDetailResourcesProvider _resourcesProvider;
 
-  Future<Result<String>> call(
+  Future<Result<String, dynamic>> call(
       {required DateTime selectedDate,
       String? selectedOrgUnit,
       String? catOptionComboUid,

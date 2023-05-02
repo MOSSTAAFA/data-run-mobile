@@ -1,3 +1,6 @@
+import 'package:d2_remote/core/common/exception/exception.dart';
+import 'package:d2_remote/core/maintenance/d2_error.dart';
+import 'package:d2_remote/core/maintenance/d2_error_code.dart';
 import 'package:d2_remote/modules/auth/user/models/login-response.model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -93,7 +96,7 @@ class LoginScreenPresenter {
     preferenceProvider.setValue(SERVER, '$serverUrl/api');
     // this.userManager = userManager
     // userName.trim { it <= ' ' }, pass, serverUrl
-    userManager?.logIn(userName.trim(), pass, serverUrl).then((value) async {
+    userManager?.logIn(userName.trim(), pass, serverUrl).then((it) async {
       preferenceProvider.setValue(
         USER,
         await userManager?.userName(),
@@ -102,12 +105,15 @@ class LoginScreenPresenter {
       preferenceProvider.setValue(PIN, null);
       _trackUserInfo();
       // Response.success<Any>(null)
-      //  this.handleResponse(it, userName, serverUrl);
-    }).onError<LoginResponseStatus>(
-      (error, stackTrace) {
-        _handleError(error, serverUrl, userName, pass);
-      },
-    );
+      handleResponse(it, userName, serverUrl);
+    }).catchError((Object error, StackTrace stackTrace) {
+      if (error is ThrowableException) {
+        error.cause != null
+            ? _handleError(
+                error.cause! as ThrowableException, serverUrl, userName, pass)
+            : _handleError(error, serverUrl, userName, pass);
+      }
+    });
   }
 
   void _trackUserInfo() {
@@ -155,15 +161,19 @@ class LoginScreenPresenter {
     }
   }
 
-  void _handleError(LoginResponseStatus throwable, String serverUrl,
-      String userName, String pass) {
+  Future<void> _handleError(Exception throwable, String serverUrl,
+      String userName, String pass) async {
     print('Timber.e($throwable)');
-    // if (throwable is D2Error && throwable.errorCode() == D2ErrorCode.ALREADY_AUTHENTICATED) {
-    //     userManager?.d2?.userModule()?.blockingLogOut()
-    //     logIn(serverUrl, userName, pass)
-    // } else {
-    view.renderError(Exception(throwable.name));
-    // }
+    if (throwable is D2Error) {
+      (throwable as D2Error).errorCode;
+      if ((throwable as D2Error).errorCode ==
+          D2ErrorCode.ALREADY_AUTHENTICATED) {
+        await userManager?.logout();
+        logIn(serverUrl, userName, pass);
+      }
+    } else {
+      view.renderError(throwable);
+    }
     view.showLoginProgress(false);
   }
 }

@@ -28,11 +28,6 @@ EventDetailResourcesProvider eventDetailResources(EventDetailResourcesRef ref) {
 }
 
 @riverpod
-D2ErrorUtils d2ErrorUtils(D2ErrorUtilsRef ref) {
-  return const D2ErrorUtils();
-}
-
-@riverpod
 EventDetailsRepository eventDetailsRepository(EventDetailsRepositoryRef ref) {
   final Bundle eventBundle = ref.read(bundleObjectProvider);
 

@@ -1,3 +1,5 @@
+import 'package:d2_remote/core/common/exception/exception.dart';
+
 import '../general/view_base.dart';
 
 abstract class LoginView extends ViewBase {

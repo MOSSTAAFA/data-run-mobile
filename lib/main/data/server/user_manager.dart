@@ -1,11 +1,13 @@
 import 'package:d2_remote/modules/auth/user/entities/user.entity.dart';
+import 'package:d2_remote/modules/auth/user/models/login-response.model.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../usescases/bundle/bundle.dart';
 
 abstract class UserManager {
-  Future<User?> logIn(String username, String password, String serverUrl,
+  Future<LoginResponseStatus> logIn(
+      String username, String password, String serverUrl,
       {Future<SharedPreferences>? sharedPreferenceInstance,
       bool? inMemory,
       Dio? dioTestClient});

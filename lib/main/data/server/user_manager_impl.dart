@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../core/user/internal/log_in_exceptions.dart';
 import '../../usescases/bundle/bundle.dart';
 import 'user_manager.dart';
 part 'user_manager_impl.g.dart';
@@ -19,10 +20,15 @@ class UserManagerImpl implements UserManager {
   const UserManagerImpl();
 
   @override
-  Future<User?> logIn(String username, String password, String serverUrl,
+  Future<LoginResponseStatus> logIn(
+      String username, String password, String serverUrl,
       {Future<SharedPreferences>? sharedPreferenceInstance,
       bool? inMemory,
       Dio? dioTestClient}) async {
+    throwExceptionIfUsernameNull(username);
+    throwExceptionIfPasswordNull(password);
+    await throwExceptionIfAlreadyAuthenticated(username);
+
     final LoginResponseStatus responseStatus = await D2Remote.logIn(
         username: username,
         password: password,
@@ -31,16 +37,12 @@ class UserManagerImpl implements UserManager {
         inMemory: inMemory,
         dioTestClient: dioTestClient);
 
-    return when<LoginResponseStatus, Future<User?>>(responseStatus, {
-      LoginResponseStatus.ONLINE_LOGIN_SUCCESS: () =>
-          D2Remote.userModule.user.getOne(),
-      LoginResponseStatus.OFFLINE_LOGIN_SUCCESS: () =>
-          D2Remote.userModule.user.getOne(),
-      LoginResponseStatus.WRONG_CREDENTIALS: () =>
-          throw LoginResponseStatus.WRONG_CREDENTIALS,
-      LoginResponseStatus.SERVER_ERROR: () =>
-          throw LoginResponseStatus.SERVER_ERROR
+    when(responseStatus, {
+      LoginResponseStatus.WRONG_CREDENTIALS: () => throw badCredentialsError(),
+      LoginResponseStatus.SERVER_ERROR: () => throw serverError()
     });
+
+    return responseStatus;
   }
 
   @override

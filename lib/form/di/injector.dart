@@ -118,11 +118,6 @@ NetworkUtils networkUtils(NetworkUtilsRef ref) {
 }
 
 @riverpod
-ResourceManager resourceManager(ResourceManagerRef ref) {
-  return const ResourceManager();
-}
-
-@riverpod
 FieldErrorMessageProvider fieldErrorMessageProvider(
     FieldErrorMessageProviderRef ref) {
   return const FieldErrorMessageProvider();

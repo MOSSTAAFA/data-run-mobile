@@ -12,6 +12,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:mass_pro/main/l10n/app_localizations.dart';
 
 import '../../commons/constants.dart';
+import '../../commons/utils/module_layout.dart';
 
 // TODO remove this function
 bool supportsInlineBrowser() => !isDesktopOS();
@@ -216,16 +217,16 @@ String getRateAppURL(BuildContext context) {
   }
 }
 
-// AppLayout calculateLayout(BuildContext context) {
-//   final size = MediaQuery.of(context).size.width;
-//
-//   if (size < kMobileLayoutWidth) {
-//     return AppLayout.mobile;
-//   } else {
-//     return AppLayout.desktop;
-//   }
-// }
-//
+AppLayout calculateLayout(BuildContext context) {
+  final size = MediaQuery.of(context).size.width;
+
+  if (size < kMobileLayoutWidth) {
+    return AppLayout.mobile;
+  } else {
+    return AppLayout.desktop;
+  }
+}
+
 // AppLayout getLayout(BuildContext context) =>
 //     context.read<AppBloc>().state.prefState.appLayout;
 

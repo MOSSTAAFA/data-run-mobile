@@ -278,7 +278,7 @@ class _FormViewState extends ConsumerState<FormView> with KeyboardManager {
               if (!ref
                   .read(formViewModelProvider)
                   .valueTypeIsTextField(valueType)) {
-                hideKeyboard(context);
+                hideTheKeyboard(context);
               }
             }));
   }

@@ -17,7 +17,7 @@ import '../../../../../commons/date/date_utils.dart';
 import '../../../../../commons/extensions/date_format_extensions.dart';
 import '../../../../../commons/extensions/feature_type_extension.dart';
 import '../../../../../commons/extensions/standard_extensions.dart';
-import '../../../../../commons/helpers/result.dart';
+import 'package:d2_remote/core/mp/helpers/result.dart';
 import '../../../../../commons/resources/d2_error_utils.dart';
 import '../../../../../core/event/event_editable_status.dart';
 import '../../../../../core/event/event_extensions.dart';
@@ -300,7 +300,7 @@ class EventDetailsRepository {
         false;
   }
 
-  Future<Result<String>> reopenEvent() async {
+  Future<Result<String, dynamic>> reopenEvent() async {
     try {
       await eventUid?.aLet((String it) =>
           EventObjectRepository(it).setStatus(EventStatus.ACTIVE));

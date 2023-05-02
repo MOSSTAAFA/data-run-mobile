@@ -1,7 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../../commons/constants.dart';
-import '../../../../../form/di/injector.dart';
+import '../../../../../commons/resources/resource_manager.dart';
 import '../../../bundle/bundle.dart';
 import '../../event_initial/di/event_initial_module.dart';
 import '../domain/configure_event_completion_dialog.dart';

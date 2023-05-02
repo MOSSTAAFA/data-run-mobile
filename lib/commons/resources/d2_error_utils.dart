@@ -1,17 +1,28 @@
+import 'package:d2_remote/core/common/exception/exception.dart';
 import 'package:d2_remote/core/maintenance/d2_error.dart';
 import 'package:d2_remote/core/maintenance/d2_error_code.dart';
 import 'package:dartlin/control_flow.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../main.dart';
 import '../../main/l10n/app_localizations.dart';
+part 'd2_error_utils.g.dart';
+
+@riverpod
+D2ErrorUtils d2ErrorUtils(D2ErrorUtilsRef ref) {
+  return const D2ErrorUtils();
+}
 
 class D2ErrorUtils {
   const D2ErrorUtils();
 
   String getErrorMessage(Exception exception) {
-    if (exception is D2Error) {
-      return _handleD2Error(exception);
-    }
-    return exception.toString();
+    return when(true, {
+      exception is ThrowableException: () => when(true, {
+            (exception as ThrowableException).cause is D2Error: () =>
+                _handleD2Error(exception.cause as D2Error?),
+            exception is D2Error: () => _handleD2Error(exception as D2Error)
+          }),
+    }).orElse(() => exception.toString());
   }
 
   String _handleD2Error(D2Error? d2Error) {
