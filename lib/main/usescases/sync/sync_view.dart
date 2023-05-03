@@ -4,7 +4,7 @@ abstract class SyncView extends ViewBase {
   void setServerTheme(int themeId);
   void setFlag(String? flagName);
   void goToLogin();
-  void setMetadataSyncStarted();
+  void setMetadataSyncStarted([int? progress]);
   void setMetadataSyncSucceed();
   void showMetadataFailedMessage(String? message);
   void goToMain();

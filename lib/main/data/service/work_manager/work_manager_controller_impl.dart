@@ -1,5 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../commons/helpers/collections.dart';
+import 'nmc_worker/work_info.dart';
 import 'nmc_worker/worker.dart';
 import 'work_manager_controller.dart';
 import 'worker_item.dart';
@@ -8,6 +10,35 @@ part 'work_manager_controller_impl.g.dart';
 @riverpod
 WorkManagerController workManagerController(WorkManagerControllerRef ref) {
   return WorkManagerControllerImpl(ref);
+}
+
+/// WorkInfosForUniqueWorkLiveData
+@riverpod
+class SyncProgress extends _$SyncProgress {
+  @override
+  WorkInfo build() {
+    return WorkInfo();
+  }
+
+  void update(WorkInfo Function(WorkInfo state) progress) {
+    state = progress.call(state);
+  }
+
+  void updateWorkInfoState(WorkInfoState workInfoState) {
+    state = state.copyWith(state: workInfoState);
+  }
+
+  void updateMessage(String message) {
+    state = state.copyWith(message: message);
+  }
+
+  void updateProgress(int progress) {
+    state = state.copyWith(progress: progress);
+  }
+
+  void updateFinalResult(WorkInfoState state, String message) {
+    this.state = this.state.copyWith(state: state, message: message);
+  }
 }
 
 class WorkManagerControllerImpl implements WorkManagerController {
@@ -26,7 +57,24 @@ class WorkManagerControllerImpl implements WorkManagerController {
     final Worker worker = ref.read(syncMetadataWorkerProvider);
     // TODO(NMC): Implement android_alarm_manager_plus
     // https://stackoverflow.com/questions/51706265/how-to-schedule-background-tasks-in-flutter#:~:text=14-,SOLUTION,-1%3A%20android_alarm_manager_plus
-    await worker();
+
+    /// Set Running
+    ref
+        .read(syncProgressProvider.notifier)
+        .updateWorkInfoState(WorkInfoState.RUNNING);
+
+    /// update progress
+    final finalResult = await worker(
+      onProgressUpdate: (progress) {
+        ref.read(syncProgressProvider.notifier).updateProgress(progress);
+      },
+    );
+
+    /// update SyncProgress Final Result
+    ref
+        .read(syncProgressProvider.notifier)
+        .updateFinalResult(finalResult.state, finalResult.message);
+
     // WorkManager()
     //     workerOneBuilder
     //         .addTag(metadataWorkerTag)

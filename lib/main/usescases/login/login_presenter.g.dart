@@ -7,7 +7,7 @@ part of 'login_presenter.dart';
 // **************************************************************************
 
 String _$loginScreenPresenterHash() =>
-    r'60737dba204f11066d799825cdaef62a692457d2';
+    r'146f400b70259ab89440f86e1dd3602511e16c64';
 
 /// Copied from Dart SDK
 class _SystemHash {

@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'sync_presenter.dart';
+part of 'sync_screen_presenter.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
 String _$syncScreenPresenterHash() =>
-    r'ef854afa7f03116b4fb5f1fbb59a606259e01604';
+    r'1872636978d141171c4a9c2c3938de6f02766f4c';
 
 /// Copied from Dart SDK
 class _SystemHash {

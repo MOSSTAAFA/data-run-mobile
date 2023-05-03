@@ -24,4 +24,21 @@ final workManagerControllerProvider =
 
 typedef WorkManagerControllerRef
     = AutoDisposeProviderRef<WorkManagerController>;
+String _$syncProgressHash() => r'83a4999aa1cf60f526d5f2c21ea3b1d80a9490fa';
+
+/// WorkInfosForUniqueWorkLiveData
+///
+/// Copied from [SyncProgress].
+@ProviderFor(SyncProgress)
+final syncProgressProvider =
+    AutoDisposeNotifierProvider<SyncProgress, WorkInfo>.internal(
+  SyncProgress.new,
+  name: r'syncProgressProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$syncProgressHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$SyncProgress = AutoDisposeNotifier<WorkInfo>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

@@ -89,7 +89,7 @@ class UserManagerImpl implements UserManager {
   // Future<Pair<String, Integer>> getTheme(){}
 
   @override
-  Future<bool> logout() {
+  Future<bool> logOut() {
     return D2Remote.logOut();
   }
 

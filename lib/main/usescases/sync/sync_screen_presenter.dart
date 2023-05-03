@@ -1,9 +1,10 @@
-import 'package:d2_remote/d2_remote.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../commons/extensions/standard_extensions.dart';
 import '../../../commons/prefs/preference.dart';
 import '../../../commons/prefs/preference_provider.dart';
+import '../../data/server/user_manager.dart';
+import '../../data/server/user_manager_impl.dart';
 import '../../data/service/work_manager/nmc_worker/work_info.dart';
 import '../../data/service/work_manager/work_manager_controller.dart';
 import '../../data/service/work_manager/work_manager_controller_impl.dart';
@@ -16,17 +17,21 @@ const String WAS_INITIAL_SYNC_DONE = 'WasInitialSyncDone';
 @riverpod
 SyncScreenPresenter syncScreenPresenter(
     SyncScreenPresenterRef ref, SyncView view) {
-  return SyncScreenPresenter(view, ref.read(preferencesInstanceProvider),
+  return SyncScreenPresenter(
+      view,
+      ref.read(userManagerProvider),
+      ref.read(preferencesInstanceProvider),
       ref.read(workManagerControllerProvider));
 }
 
 class SyncScreenPresenter {
-  SyncScreenPresenter(this.view, this.preferences, this.workManagerController) {
+  SyncScreenPresenter(this.view, this.userManager, this.preferences,
+      this.workManagerController) {
     workManagerController.syncMetaDataForWorker(META_NOW, INITIAL_SYNC);
   }
 
   final SyncView view;
-  // final UserManager? userManager;
+  final UserManager? userManager;
   final WorkManagerController workManagerController;
   final PreferenceProvider preferences;
 
@@ -34,17 +39,20 @@ class SyncScreenPresenter {
   //       return workManagerController.getWorkInfosForUniqueWorkLiveData(Constants.INITIAL_SYNC);
   //   }
 
-  void handleSyncInfo(/* List<WorkInfo> workInfoList */) {
+  //Trio<int, WorkInfoState?, String?>
+  // void handleSyncInfo(/* List<WorkInfo> workInfoList */) {
+  void handleSyncInfo(WorkInfo progressInfo) {
     // workInfoList.forEach { workInfo ->
     //     if (workInfo.tags.contains(Constants.META_NOW)) {
-    //         handleMetaState(workInfo.state, workInfo.outputData.getString(METADATA_MESSAGE))
+    handleMetaState(
+        progressInfo.progress, progressInfo.state, progressInfo.message);
     //     }
     // }
   }
 
-  void handleMetaState(WorkInfoState state, String? message) {
+  void handleMetaState(int progress, WorkInfoState state, String message) {
     when(state, {
-      WorkInfoState.RUNNING: () => view.setMetadataSyncStarted(),
+      WorkInfoState.RUNNING: () => view.setMetadataSyncStarted(progress),
       WorkInfoState.SUCCEEDED: () => view.setMetadataSyncSucceed(),
       WorkInfoState.FAILED: () => view.showMetadataFailedMessage(message),
     });
@@ -74,7 +82,7 @@ class SyncScreenPresenter {
   }
 
   Future<void> onLogout() async {
-    await D2Remote.logOut();
+    await userManager?.logOut();
     // userManager?.let { userManager ->
     //     disposable.add(
     //         userManager.logout()

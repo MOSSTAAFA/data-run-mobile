@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'sync_presenter.dart';
+import 'sync_screen_presenter.dart';
 import 'sync_view.dart';
 
 class SyncScreen extends ConsumerStatefulWidget {
@@ -41,7 +41,7 @@ class _SyncScreenState extends ConsumerState<SyncScreen> with SyncView {
   }
 
   @override
-  void setMetadataSyncStarted() {
+  void setMetadataSyncStarted([int? progresss]) {
     // TODO: implement setMetadataSyncStarted
   }
 

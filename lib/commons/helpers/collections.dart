@@ -45,6 +45,11 @@ class Trio<F, S, T> {
 
   T get last => third;
 
+  Trio<F, S, T> copyWith({F? first, S? second, T? third}) {
+    return Trio<F, S, T>(
+        first ?? this.first, second ?? this.second, third ?? this.third);
+  }
+
   List toJson() => [first, second, third];
 
   @override

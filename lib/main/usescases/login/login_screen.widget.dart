@@ -12,9 +12,12 @@ import '../../../commons/custom_widgets/form_card.dart';
 import '../../../commons/custom_widgets/mixins/keyboard_manager.dart';
 import '../../../commons/extensions/string_extension.dart';
 import '../../../commons/resources/resource_manager.dart';
+import '../../../commons/state/app_state_notifier.dart';
 import '../../../form/di/injector.dart';
 import '../../l10n/app_localizations.dart';
 import '../general/view_base.dart';
+import '../main/main_screen.widget.dart';
+import '../sync/sync_screen.widget.dart';
 import 'login_presenter.dart';
 import 'login_view.dart';
 import 'login_view_model.dart';
@@ -45,15 +48,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
   final GlobalKey<FormState> _formKey =
       GlobalKey<FormState>(debugLabel: '_login');
 
-  final TextEditingController _firstNameController = TextEditingController();
-  final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _userController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _urlController = TextEditingController();
-  final TextEditingController _secretController = TextEditingController();
-  final TextEditingController _oneTimePasswordController =
-      TextEditingController();
-  final TextEditingController _tokenController = TextEditingController();
 
   final RoundedLoadingButtonController _buttonController =
       RoundedLoadingButtonController();
@@ -194,15 +191,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
         .read(loginModelProvider.notifier)
         .onPassChanged(_passwordController.text));
 
-    _firstNameController.dispose();
-    _lastNameController.dispose();
     _userController.dispose();
     _passwordController.dispose();
     _urlController.dispose();
-    _secretController.dispose();
-    _oneTimePasswordController.dispose();
-    _tokenController.dispose();
-
     super.dispose();
   }
 
@@ -268,7 +259,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
 
   @override
   void goToNextScreen() {
-    // TODO: implement goToNextScreen
+    if (isNetworkAvailable() && !widget.skipSync) {
+      ref
+          .read(appStateNotifierProvider.notifier)
+          .navigateToScreen(const SyncScreen());
+    } else {
+      ref
+          .read(appStateNotifierProvider.notifier)
+          .navigateToScreen(const MainScreen());
+    }
   }
 
   @override
@@ -288,7 +287,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
 
   @override
   void onLogoutClick(ViewBase android) {
-    // TODO: implement onLogoutClick
+    presenter.logOut();
   }
 
   @override
@@ -345,9 +344,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
   void showUnlockButton() {
     // TODO: implement showUnlockButton
   }
-
-  @override
-  void goToMainScreen() {}
 }
 
 final showLoginProgressProvider =

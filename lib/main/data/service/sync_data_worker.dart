@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 
 import '../../../commons/constants.dart';
 import '../../../commons/date/date_utils.dart';
+import '../../../commons/helpers/collections.dart';
 import '../../../commons/network/network_utils.dart';
 import '../../../commons/resources/resource_manager.dart';
 import '../../usescases/bundle/bundle.dart';
@@ -12,6 +13,7 @@ import 'sync_metadata_worker.dart';
 import 'sync_presenter.dart';
 import '../../../commons/prefs/preference_provider.dart';
 import 'sync_result.dart';
+import 'work_manager/nmc_worker/work_info.dart';
 import 'work_manager/nmc_worker/worker.dart';
 
 class SyncDataWorker extends Worker {
@@ -28,10 +30,11 @@ class SyncDataWorker extends Worker {
   final ResourceManager resourceManager;
 
   @override
-  FutureOr<Result> call(
+  FutureOr<WorkInfo> call(
       {OnProgressUpdate? onProgressUpdate, Dio? dioTestClient}) async {
     await presenter.initSyncControllerMap();
 
+    onProgressUpdate?.call(0);
     _triggerNotification(resourceManager.getString('R_app_name'),
         resourceManager.getString('R_syncing_data'), 0);
 
@@ -41,6 +44,7 @@ class SyncDataWorker extends Worker {
 
     final int init = DateTime.now().millisecond;
 
+    onProgressUpdate?.call(25);
     _triggerNotification(resourceManager.getString('R_app_name'),
         resourceManager.getString('R_syncing_events'), 25);
     try {
@@ -63,6 +67,7 @@ class SyncDataWorker extends Worker {
       isTeiOk = false;
     }
 
+    onProgressUpdate?.call(75);
     _triggerNotification(resourceManager.getString('R_app_name'),
         resourceManager.getString('R_syncing_data_sets'), 75);
 
@@ -76,6 +81,7 @@ class SyncDataWorker extends Worker {
       isDataValue = false;
     }
 
+    onProgressUpdate?.call(90);
     _triggerNotification(resourceManager.getString('R_app_name'),
         resourceManager.getString('R_syncing_resources'), 90);
 
@@ -85,6 +91,7 @@ class SyncDataWorker extends Worker {
       print('Timber.e($e)');
     }
 
+    onProgressUpdate?.call(100);
     _triggerNotification(resourceManager.getString('R_app_name'),
         resourceManager.getString('R_syncing_done'), 100);
 
@@ -105,12 +112,12 @@ class SyncDataWorker extends Worker {
 
     presenter.finishSync();
 
-    return Result.success(_createOutputData(true));
+    return WorkInfo(state: WorkInfoState.SUCCEEDED);
   }
 
-  Bundle _createOutputData(bool state) {
-    return Bundle().putBool('DATA_STATE', state);
-  }
+  // Bundle _createOutputData(bool state) {
+  //   return Bundle().putBool('DATA_STATE', state);
+  // }
 
   void _cancelNotification() {
     // NotificationManagerCompat notificationManager =

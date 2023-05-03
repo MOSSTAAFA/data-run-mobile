@@ -1,20 +1,26 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../../usescases/bundle/bundle.dart';
-
 class WorkInfo with EquatableMixin {
-  WorkInfo(this.mId, this.mState, this.mOutputData, this.mTags, this.mProgress,
-      this.mRunAttemptCount);
-  final String mId;
-  final WorkInfoState mState;
-  final Bundle mOutputData;
-  final Set<String> mTags;
-  final Bundle mProgress;
-  final int mRunAttemptCount;
+  WorkInfo(
+      {this.progress = 0,
+      this.state = WorkInfoState.ENQUEUED,
+      this.message = ''});
+  final String message;
+  final WorkInfoState state;
+  // final Bundle mOutputData;
+  // final ISet<String> mTags;
+  // final Bundle mProgress;
+  final int progress;
+
+  WorkInfo copyWith({String? message, WorkInfoState? state, int? progress}) {
+    return WorkInfo(
+        progress: progress ?? this.progress,
+        state: state ?? this.state,
+        message: message ?? this.message);
+  }
 
   @override
-  List<Object?> get props =>
-      [mId, mState, mOutputData, mProgress, mTags, mRunAttemptCount];
+  List<Object?> get props => [message, state, progress];
 }
 
 enum WorkInfoState {

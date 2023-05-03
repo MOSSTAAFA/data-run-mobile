@@ -30,7 +30,7 @@ abstract class UserManager {
 
   // Future<Pair<String, Integer>> getTheme();
 
-  Future<bool> logout();
+  Future<bool> logOut();
 
   Future<bool> allowScreenShare();
 }

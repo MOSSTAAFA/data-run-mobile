@@ -47,6 +47,4 @@ abstract class LoginView extends ViewBase {
   // void openOpenIDActivity(IntentWithRequestCode? it);
   void openAccountsActivity();
   void showNoConnectionDialog();
-
-  void goToMainScreen();
 }

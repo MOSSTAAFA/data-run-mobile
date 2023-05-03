@@ -9,9 +9,11 @@ import '../../../commons/extensions/string_extension.dart';
 import '../../../commons/network/network_utils.dart';
 import '../../../commons/prefs/preference.dart';
 import '../../../commons/prefs/preference_provider.dart';
+import '../../../commons/state/app_state_notifier.dart';
 import '../../data/server/user_manager.dart';
 import '../../data/server/user_manager_impl.dart';
 import '../events_without_registration/event_initial/di/event_initial_module.dart';
+import '../main/main_screen.widget.dart';
 import 'login_view.dart';
 import 'sync_is_performed_interactor.dart';
 part 'login_presenter.g.dart';
@@ -19,14 +21,19 @@ part 'login_presenter.g.dart';
 @riverpod
 LoginScreenPresenter loginScreenPresenter(
     LoginScreenPresenterRef ref, LoginView view) {
-  return LoginScreenPresenter(view, ref.read(preferencesInstanceProvider),
+  return LoginScreenPresenter(ref, view, ref.read(preferencesInstanceProvider),
       ref.read(networkUtilsProvider),
       userManager: ref.read(userManagerProvider));
 }
 
 class LoginScreenPresenter {
-  LoginScreenPresenter(this.view, this.preferenceProvider, this.network,
-      {this.userManager});
+  LoginScreenPresenter(
+      this.ref, this.view, this.preferenceProvider, this.network,
+      {this.userManager}) {
+    init();
+  }
+
+  final LoginScreenPresenterRef ref;
 
   final LoginView view;
   // final FingerPrintController fingerPrintController;
@@ -42,22 +49,23 @@ class LoginScreenPresenter {
 
   late SyncIsPerformedInteractor syncIsPerformedInteractor;
 
-  void init({UserManager? userManager}) {
-    this.userManager = userManager;
+  void init(/* {UserManager? userManager} */) {
+    // this.userManager = userManager;
     syncIsPerformedInteractor = SyncIsPerformedInteractor(userManager);
 
-    if (this.userManager == null) {
+    if (userManager == null) {
       view.setUrl(view.getDefaultServerProtocol());
     } else {
-      this
-          .userManager!
+      userManager!
           .isUserLoggedIn(
               sharedPreferenceInstance: PreferenceProvider.sharedPreferences())
           .then((isUserLoggedIn) {
         final isSessionLocked =
             preferenceProvider.getBoolean(SESSION_LOCKED, false);
         if (isUserLoggedIn && !isSessionLocked) {
-          view.goToMainScreen();
+          ref
+              .read(appStateNotifierProvider.notifier)
+              .navigateToScreen(const MainScreen());
         } else if (isSessionLocked) {
           view.showUnlockButton();
         }
@@ -126,7 +134,7 @@ class LoginScreenPresenter {
 
   void logOut() {
     if (userManager != null) {
-      userManager!.logout().then((value) async {
+      userManager!.logOut().then((value) async {
         await preferenceProvider.setValue(SESSION_LOCKED, false);
         view.handleLogout();
         return true;
@@ -168,12 +176,31 @@ class LoginScreenPresenter {
       (throwable as D2Error).errorCode;
       if ((throwable as D2Error).errorCode ==
           D2ErrorCode.ALREADY_AUTHENTICATED) {
-        await userManager?.logout();
+        await userManager?.logOut();
         logIn(serverUrl, userName, pass);
       }
     } else {
       view.renderError(throwable);
     }
     view.showLoginProgress(false);
+  }
+
+  bool areSameCredentials(String serverUrl, String userName, String pass) {
+    return PreferenceProvider.areCredentialsSet() &&
+        PreferenceProvider.areSameCredentials(serverUrl, userName, pass);
+  }
+
+  Future<void> saveUserCredentials(
+      String serverUrl, String userName, String pass) {
+    return PreferenceProvider.saveUserCredentials(serverUrl, userName, pass);
+  }
+
+  void onAccountRecovery() {
+    if (network.isOnline()) {
+      // analyticsHelper.setEvent(ACCOUNT_RECOVERY, CLICK, ACCOUNT_RECOVERY);
+      view.openAccountRecovery();
+    } else {
+      view.showNoConnectionDialog();
+    }
   }
 }

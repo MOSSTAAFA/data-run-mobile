@@ -7,6 +7,8 @@ import 'package:d2_remote/modules/metadata/dataset/queries/data_set.query.dart';
 import 'package:d2_remote/modules/metadata/program/queries/program.query.dart';
 import 'package:dio/dio.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:get/get.dart';
+import '../../../core/sync/sync_metadata.dart';
 import 'sync_metadata_worker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
@@ -128,21 +130,12 @@ class SyncPresenterImpl implements SyncPresenter {
   Future<void> syncMetadata(
       {OnProgressUpdate? onProgressUpdate, Dio? dioTestClient}) {
     final d2ProgressManager = D2ProgressManager(totalCalls: 4);
-    // TODO(NMC): here it will sync everything
-    // return ref.read(syncProvider).download(
-    //     callback: (requestProgresses, p1, p2) {
-    //   if (requestProgresses != null) {
-    //     for (final requestProgress in requestProgresses) {
-    //       ref.read(d2ProgressNotifierProvider.notifier).postValue(
-    //           d2ProgressManager.increaseProgress(
-    //               resourceName: requestProgress.resourceName,
-    //               message: requestProgress.message,
-    //               percentage: requestProgress.percentage,
-    //               isComplete: p1));
-    //     }
-    //   }
-    // });
-    return Future.value();
+    return ref.read(syncMetadataProvider).download(
+      callback: (progress) {
+        printInfo(info: progress?.message ?? '');
+        onProgressUpdate?.call((progress?.percentage ?? 0.0).ceil());
+      },
+    );
   }
 
   @override

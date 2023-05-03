@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:d2_remote/core/common/exception/exception.dart';
 import 'package:d2_remote/core/maintenance/d2_error.dart';
 import 'package:d2_remote/d2_remote.dart';
 import 'package:dio/dio.dart';
@@ -7,14 +8,15 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../commons/constants.dart';
 import '../../../commons/date/date_utils.dart';
+import '../../../commons/helpers/collections.dart';
 import '../../../commons/network/network_utils.dart';
-import '../../../main.dart';
-import '../../usescases/bundle/bundle.dart';
+import '../../../core/arch/call/d2_progress.dart';
 import 'sync_presenter.dart';
 
 import 'package:d2_remote/core/mp/helpers/result.dart';
 import '../../../commons/prefs/preference_provider.dart';
 import '../../../commons/resources/resource_manager.dart';
+import 'work_manager/nmc_worker/work_info.dart';
 import 'work_manager/nmc_worker/worker.dart';
 
 typedef OnProgressUpdate = Function(int progress);
@@ -32,7 +34,7 @@ class SyncMetadataWorker extends Worker {
   final ResourceManager resourceManager;
 
   @override
-  FutureOr<Result> call(
+  FutureOr<WorkInfo> call(
       {OnProgressUpdate? onProgressUpdate, Dio? dioTestClient}) async {
     if (await D2Remote.isAuthenticated()) {
       _triggerNotification(resourceManager.getString('R_app_name'),
@@ -40,12 +42,13 @@ class SyncMetadataWorker extends Worker {
 
       bool isMetaOk = true;
       bool noNetwork = false;
-      StringBuffer message = StringBuffer();
+      final StringBuffer message = StringBuffer();
 
       final int init = DateTime.now().microsecond;
       try {
-        presenter.syncMetadata(
+        await presenter.syncMetadata(
           onProgressUpdate: (progress) {
+            onProgressUpdate?.call(progress);
             _triggerNotification(resourceManager.getString('R_app_name'),
                 resourceManager.getString('R_syncing_configuration'), progress);
           },
@@ -56,12 +59,14 @@ class SyncMetadataWorker extends Worker {
         if (!ref.read(networkUtilsProvider).isOnline()) {
           noNetwork = true;
         }
-        if (e is D2Error) {
-          D2Error error = e;
-          message.write(_composeErrorMessageInfo(error));
-          // } else if (e.getCause() is D2Error) {
-          //     D2Error error = (D2Error) e.getCause();
-          //     message.write(_composeErrorMessageInfo(error));
+        if (e is ThrowableException) {
+          if (e is D2Error) {
+            final D2Error error = e;
+            message.write(_composeErrorMessageInfo(error));
+          } else if (e.cause is D2Error) {
+            final D2Error error = e.cause as D2Error;
+            message.write(_composeErrorMessageInfo(error));
+          }
         } else {
           message.write(e.toString().split('\n\t')[0]);
         }
@@ -80,15 +85,18 @@ class SyncMetadataWorker extends Worker {
       _cancelNotification();
 
       if (!isMetaOk)
-        return Result.failure(
-            Exception(_createOutputData(false, message.toString())));
+        // return Result.failure(_createOutputData(false, message.toString()));
+        return WorkInfo(
+            state: WorkInfoState.FAILED, message: message.toString());
 
       presenter.startPeriodicMetaWork();
 
-      return Result.success(_createOutputData(true, message.toString()));
+      return WorkInfo(
+          state: WorkInfoState.SUCCEEDED, message: message.toString());
     } else {
-      return Result.failure(Exception(_createOutputData(
-          false, resourceManager.getString('R_error_init_session'))));
+      return WorkInfo(
+          state: WorkInfoState.FAILED,
+          message: resourceManager.getString('R_error_init_session'));
     }
   }
 
@@ -103,7 +111,7 @@ class SyncMetadataWorker extends Worker {
   }
 
   StringBuffer _composeErrorMessageInfo(D2Error error) {
-    StringBuffer builder = StringBuffer('Cause: ');
+    final StringBuffer builder = StringBuffer('Cause: ');
     builder
       ..write(resourceManager.parseD2Error(error))
       ..write('\n\n')
@@ -147,11 +155,13 @@ class SyncMetadataWorker extends Worker {
     return builder;
   }
 
-  Bundle _createOutputData(bool state, String message) {
-    return Bundle()
-      ..putBool('DATA_STATE', state)
-      ..putString(METADATA_MESSAGE, message);
-  }
+  // Pair<WorkInfoState, String> _createOutputData(
+  //     WorkInfoState state, String message) {
+  //   return Pair<WorkInfoState, String>(state, message);
+  //   // return Bundle()
+  //   //   ..putBool(METADATA_STATE, state)
+  //   //   ..putString(METADATA_MESSAGE, message);
+  // }
 
   void _triggerNotification(String title, String content, int progress) {
     //     NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);

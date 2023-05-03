@@ -1,6 +1,6 @@
 import '../../../commons/prefs/preference_provider.dart';
 import '../../data/server/user_manager.dart';
-import '../sync/sync_presenter.dart';
+import '../sync/sync_screen_presenter.dart';
 
 class SyncIsPerformedInteractor {
   const SyncIsPerformedInteractor(this.userManager);
