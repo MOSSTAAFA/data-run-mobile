@@ -35,31 +35,35 @@ class SyncScreenPresenter {
   final WorkManagerController workManagerController;
   final PreferenceProvider preferences;
 
+  /// Replaced by syncSucceedProvider & syncFailedProvider
+  /// defined in SyncScreen Widget
   // LiveData<List<WorkInfo>> observeSyncProcess() {
   //       return workManagerController.getWorkInfosForUniqueWorkLiveData(Constants.INITIAL_SYNC);
   //   }
 
-  //Trio<int, WorkInfoState?, String?>
-  // void handleSyncInfo(/* List<WorkInfo> workInfoList */) {
-  void handleSyncInfo(WorkInfo progressInfo) {
-    // workInfoList.forEach { workInfo ->
-    //     if (workInfo.tags.contains(Constants.META_NOW)) {
-    handleMetaState(
-        progressInfo.progress, progressInfo.state, progressInfo.message);
-    //     }
-    // }
-  }
+  /// Replaced by syncSucceedProvider & syncFailedProvider
+  /// defined in SyncScreen Widget
+  // void handleSyncInfo(WorkInfo progressInfo) {
+  //   // workInfoList.forEach { workInfo ->
+  //   //     if (workInfo.tags.contains(Constants.META_NOW)) {
+  //   handleMetaState(
+  //       progressInfo.progress, progressInfo.state, progressInfo.message);
+  //   //     }
+  //   // }
+  // }
 
-  void handleMetaState(int progress, WorkInfoState state, String message) {
-    when(state, {
-      WorkInfoState.RUNNING: () => view.setMetadataSyncStarted(progress),
-      WorkInfoState.SUCCEEDED: () => view.setMetadataSyncSucceed(),
-      WorkInfoState.FAILED: () => view.showMetadataFailedMessage(message),
-    });
-  }
+  /// Replaced by syncSucceedProvider & syncFailedProvider
+  /// defined in SyncScreen Widget
+  // void handleMetaState(int progress, WorkInfoState state, String message) {
+  //   when(state, {
+  //     WorkInfoState.RUNNING: () => view.setMetadataSyncStarted(progress),
+  //     WorkInfoState.SUCCEEDED: () => view.setMetadataSyncSucceed(),
+  //     WorkInfoState.FAILED: () => view.showMetadataFailedMessage(message),
+  //   });
+  // }
 
-  void onMetadataSyncSuccess() {
-    preferences.setValue(INITIAL_METADATA_SYNC_DONE, true);
+  Future<void> onMetadataSyncSuccess() async {
+    await preferences.setValue(INITIAL_METADATA_SYNC_DONE, true);
     // userManager?.let { userManager ->
     //     disposable.add(
     //         userManager.theme.doOnSuccess { flagAndTheme ->

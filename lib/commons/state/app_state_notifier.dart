@@ -22,9 +22,23 @@ class AppStateNotifier extends _$AppStateNotifier {
     Get.toNamed(route, arguments: bundle);
   }
 
+  /// To navigate to a new screen and option to go back
   void navigateToScreen(Widget screen, {Bundle? bundle}) {
     updateCurrentRoute(toCamelCase('$runtimeType'));
     Get.to(screen, arguments: bundle);
+  }
+
+  /// To go to the next screen and no option to go back to the previous screen (for use in SplashScreens, login screens and etc.)
+  /// startActivity()
+  void gotToNextScreen(Widget screen, {Bundle? bundle}) {
+    updateCurrentRoute(toCamelCase('$runtimeType'));
+    Get.off(screen, arguments: bundle);
+  }
+
+  /// To go to the next screen and cancel all previous routes (useful in shopping carts, polls, and tests)
+  void gotToNextScreenPopAll(Widget screen, {Bundle? bundle}) {
+    updateCurrentRoute(toCamelCase('$runtimeType'));
+    Get.offAll(screen, arguments: bundle);
   }
 
   void updateCurrentRoute(String route) {

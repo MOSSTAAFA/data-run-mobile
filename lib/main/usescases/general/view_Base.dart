@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import '../../../commons/custom_widgets/copy_to_clipboard.dart';
 import 'view_abstract.dart';
 
 import '../../../commons/utils/view_actions.dart';
@@ -94,9 +95,10 @@ class ViewBase implements ViewAbstract {
   @override
   Future<void> showInfoDialog(
       {required String title,
+      String? prefix,
       required String message,
-      required String positiveButtonText,
-      required String negativeButtonText,
+      String? positiveButtonText,
+      String? negativeButtonText,
       void Function()? onPositiveClick,
       void Function()? onNegativeClick}) {
     return showDialog<void>(
@@ -108,25 +110,29 @@ class ViewBase implements ViewAbstract {
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text(message),
+                CopyToClipboard(
+                  prefix: prefix,
+                  value: message,
+                  child: Text(message),
+                )
               ],
             ),
           ),
           actions: <Widget>[
-            TextButton(
-              child: Text(negativeButtonText),
-              onPressed: () {
-                onNegativeClick?.call();
-                // Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text(positiveButtonText),
-              onPressed: () {
-                onPositiveClick?.call();
-                // Navigator.of(context).pop();
-              },
-            ),
+            if (positiveButtonText != null)
+              TextButton(
+                child: Text(positiveButtonText),
+                onPressed: () {
+                  onPositiveClick?.call();
+                },
+              ),
+            if (negativeButtonText != null)
+              TextButton(
+                child: Text(negativeButtonText),
+                onPressed: () {
+                  onNegativeClick?.call();
+                },
+              ),
           ],
         );
       },

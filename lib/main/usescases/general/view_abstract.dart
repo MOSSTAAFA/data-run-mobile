@@ -17,9 +17,10 @@ abstract class ViewAbstract {
 
   Future<void> showInfoDialog(
       {required String title,
+      String? prefix,
       required String message,
-      required String positiveButtonText,
-      required String negativeButtonText,
+      String? positiveButtonText,
+      String? negativeButtonText,
       void Function()? onPositiveClick,
       void Function()? onNegativeClick});
 

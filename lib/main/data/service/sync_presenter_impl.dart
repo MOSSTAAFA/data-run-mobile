@@ -129,7 +129,7 @@ class SyncPresenterImpl implements SyncPresenter {
   @override
   Future<void> syncMetadata(
       {OnProgressUpdate? onProgressUpdate, Dio? dioTestClient}) {
-    final d2ProgressManager = D2ProgressManager(totalCalls: 4);
+    // final d2ProgressManager = D2ProgressManager(totalCalls: 4);
     return ref.read(syncMetadataProvider).download(
       callback: (progress) {
         printInfo(info: progress?.message ?? '');

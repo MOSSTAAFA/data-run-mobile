@@ -40,9 +40,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SplashView {
       required bool initialSyncDone,
       required bool initialDataSyncDone}) {
     if (isUserLogged && initialSyncDone && !sessionLocked) {
-      ref
-          .read(appStateNotifierProvider.notifier)
-          .navigateToScreen(MainScreen(launchDataSync: initialDataSyncDone));
+      ref.read(appStateNotifierProvider.notifier).gotToNextScreenPopAll(
+          MainScreen(launchDataSync: initialDataSyncDone));
     } else if (isUserLogged && !initialSyncDone) {
       ref
           .read(appStateNotifierProvider.notifier)
@@ -51,7 +50,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SplashView {
       presenter.getAccounts().then((int count) {
         ref
             .read(appStateNotifierProvider.notifier)
-            .navigateToScreen(LoginScreen(accountsCount: count));
+            .gotToNextScreenPopAll(LoginScreen(accountsCount: count));
       });
     }
   }
