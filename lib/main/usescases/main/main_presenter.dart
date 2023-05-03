@@ -9,6 +9,8 @@ import '../../data/service/work_manager/work_manager_controller_impl.dart';
 import '../../data/service/work_manager/worker_item.dart';
 import '../../data/service/work_manager/worker_type.dart';
 import '../events_without_registration/event_initial/di/event_initial_module.dart';
+import '../login/sync_is_performed_interactor.dart';
+import '../sync/sync_screen_presenter.dart';
 import 'home_repository.dart';
 import 'home_repository_impl.dart';
 import 'main_view.dart';
@@ -21,29 +23,34 @@ MainPresenter mainPresenter(MainPresenterRef ref, MainView view) {
       ref.read(homeRepositoryProvider),
       ref.read(preferencesInstanceProvider),
       ref.read(workManagerControllerProvider),
-      ref.read(syncStatusControllerInstanceProvider));
+      ref.read(syncStatusControllerInstanceProvider),
+      ref.read(syncIsPerformedInteractorProvider));
 }
 
 class MainPresenter {
-  MainPresenter(this.view, this.repository, this.preferences,
-      this.workManagerController, this.syncStatusController) {
-    _init();
-  }
+  MainPresenter(
+      this.view,
+      this.repository,
+      this.preferencesProvider,
+      this.workManagerController,
+      this.syncStatusController,
+      this.syncIsPerformedInteractor);
 
   final MainView view;
   final HomeRepository repository;
-  final PreferenceProvider preferences;
+  final PreferenceProvider preferencesProvider;
   final WorkManagerController workManagerController;
   // final FilterManager filterManager;
   // final FilterRepository filterRepository;
   // final MatomoAnalyticsController matomoAnalyticsController;
   // final UserManager userManager;
   // final DeleteUserData deleteUserData;
-  // final SyncIsPerformedInteractor syncIsPerformedInteractor;
+  final SyncIsPerformedInteractor syncIsPerformedInteractor;
+
   final SyncStatusController syncStatusController;
 
-  Future<void> _init() async {
-    preferences.removeValue(CURRENT_ORG_UNIT);
+  Future<void> init() async {
+    preferencesProvider.removeValue(CURRENT_ORG_UNIT);
     repository.user().then((it) => view.renderUsername(it!.username!));
   }
 
@@ -59,8 +66,8 @@ class MainPresenter {
     return Future.wait([
       workManagerController.cancelAllWork(),
       // FilterManager.getInstance().clearAllFilters(),
-      preferences.setValue(SESSION_LOCKED, false),
-      preferences.setValue(PIN, null)
+      preferencesProvider.setValue(SESSION_LOCKED, false),
+      preferencesProvider.setValue(PIN, null)
     ])
         .then((value) => repository.logOut())
         .then((value) async =>
@@ -140,17 +147,15 @@ class MainPresenter {
   //     return syncStatusController.observeDownloadProcess();
   // }
 
-  bool wasSyncAlreadyDone() {
+  Future<bool> wasSyncAlreadyDone() async {
     if (view.hasToNotSync()) {
       return true;
     }
-    // TODO(NMCP): save and get if excuted
-    return true;
-    // return syncIsPerformedInteractor.execute()
+    return syncIsPerformedInteractor();
   }
 
-  Future onDataSuccess() async {
-    // TODO(NMCP): implement
+  Future<bool> onDataSuccess() async {
+    return preferencesProvider.setValue(WAS_INITIAL_SYNC_DONE, true);
     // userManager.d2.dataStoreModule().localDataStore().value(WAS_INITIAL_SYNC_DONE)
     //     .blockingSet(TRUE)
   }

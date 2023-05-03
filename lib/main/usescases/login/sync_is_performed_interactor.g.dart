@@ -1,25 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'app_state_notifier.dart';
+part of 'sync_is_performed_interactor.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$appStateNotifierHash() => r'3a5d04ba079c531ba5959c2aebc3b5240d65631d';
+String _$syncIsPerformedInteractorHash() =>
+    r'e96b6801f4cdfd322c41b8d1c964b2dc4b0dea48';
 
-/// See also [AppStateNotifier].
-@ProviderFor(AppStateNotifier)
-final appStateNotifierProvider =
-    AutoDisposeNotifierProvider<AppStateNotifier, AppState>.internal(
-  AppStateNotifier.new,
-  name: r'appStateNotifierProvider',
+/// See also [syncIsPerformedInteractor].
+@ProviderFor(syncIsPerformedInteractor)
+final syncIsPerformedInteractorProvider =
+    AutoDisposeProvider<SyncIsPerformedInteractor>.internal(
+  syncIsPerformedInteractor,
+  name: r'syncIsPerformedInteractorProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$appStateNotifierHash,
+      : _$syncIsPerformedInteractorHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$AppStateNotifier = AutoDisposeNotifier<AppState>;
+typedef SyncIsPerformedInteractorRef
+    = AutoDisposeProviderRef<SyncIsPerformedInteractor>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

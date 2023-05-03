@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../date/date_utils.dart';
 import '../extensions/standard_extensions.dart';
+import 'preference.dart';
 
 class PreferenceProvider {
   static late final SharedPreferences? _sharedPreferences;
@@ -12,14 +13,6 @@ class PreferenceProvider {
 
   static const String LAST_META_SYNC = 'last_meta_sync';
   static const String LAST_DATA_SYNC = 'last_data_sync';
-
-  static const String SECURE_CREDENTIALS = 'SECURE_CREDENTIALS';
-  static const String SECURE_SERVER_URL = 'SECURE_SERVER_URL';
-  static const String SECURE_USER_NAME = 'SECURE_USER_NAME';
-  static const String SECURE_PASS = 'SECURE_PASS';
-  static const String SHARE_PREFS = 'org.dhis2';
-  static const String JIRA_AUTH = 'JIRA_AUTH';
-  static const String JIRA_USER = 'JIRA_USER';
 
   // call this method from iniState() function of mainApp().
   static Future<SharedPreferences> initialize() async =>
@@ -86,7 +79,6 @@ class PreferenceProvider {
 
   bool contains(Iterable<String> keys) {
     assert(_sharedPreferences != null, 'PreferenceProvider is not initialized');
-    // return _instance.getKeys().containsAny(keys);
     return _sharedPreferences!.getKeys().containsAll(keys);
   }
 
@@ -126,7 +118,7 @@ class PreferenceProvider {
     // TODO: implement saveAsJson
   }
 
-  static Future<bool> saveUserCredentials(
+  Future<bool> saveUserCredentials(
       String serverUrl, String userName, String pass) async {
     assert(_sharedPreferences != null, 'PreferenceProvider is not initialized');
     // TODO(NMC):  encrypted
@@ -139,17 +131,16 @@ class PreferenceProvider {
     return Future<bool>.value(true);
   }
 
-  static bool areCredentialsSet() {
+  bool areCredentialsSet() {
     assert(_sharedPreferences != null, 'PreferenceProvider is not initialized');
-    // TODO: implement areCredentialsSet
-    throw UnimplementedError();
+    return _sharedPreferences!.getBool(SECURE_CREDENTIALS) ?? false;
   }
 
-  static bool areSameCredentials(
-      String serverUrl, String userName, String pass) {
+  bool areSameCredentials(String serverUrl, String userName, String pass) {
     assert(_sharedPreferences != null, 'PreferenceProvider is not initialized');
-    // TODO: implement areSameCredentials
-    throw UnimplementedError();
+    return getString(SECURE_SERVER_URL, '') == serverUrl &&
+        getString(SECURE_USER_NAME, '') == userName &&
+        getString(SECURE_PASS, '') == pass;
   }
 
   String saveJiraCredentials(String jiraAuth) {

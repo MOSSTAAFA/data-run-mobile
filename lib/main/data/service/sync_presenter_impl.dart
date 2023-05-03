@@ -14,7 +14,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
 import 'package:d2_remote/core/mp/helpers/result.dart';
 import '../../../core/arch/call/d2_progress.dart';
-import '../../../core/arch/call/d2_progress_manager.dart';
 import '../../../core/arch/call/d2_progress_status.dart';
 import '../../../core/tracker/tracker_d2_progress.dart';
 import 'sync_presenter.dart';

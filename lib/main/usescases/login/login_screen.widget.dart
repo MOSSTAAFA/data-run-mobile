@@ -54,6 +54,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
 
   final RoundedLoadingButtonController _buttonController =
       RoundedLoadingButtonController();
+  bool skipSync = false;
 
   @override
   Widget build(BuildContext context) {
@@ -177,6 +178,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
         .read(loginModelProvider.notifier)
         .onPassChanged(_passwordController.text));
     // _setListeners();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    presenter.init();
+    _urlController.text = kApiBaseUrl;
   }
 
   @override
@@ -307,7 +315,44 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
 
   @override
   void saveUsersData(bool isInitialSyncDone) {
-    // TODO: implement saveUsersData
+    skipSync = isInitialSyncDone;
+    if (!presenter.areSameCredentials(
+        _urlController.text, _userController.text, _passwordController.text)) {
+      // This is commented until fingerprint login for multiuser is supported
+      /* if (presenter.canHandleBiometrics() == true) {
+                showInfoDialog(
+                    getString(R.string.biometrics_security_title),
+                    getString(R.string.biometrics_security_text),
+                    object : OnDialogClickListener {
+                        override fun onPositiveClick() {
+                            presenter.saveUserCredentials(
+                                binding.serverUrlEdit.text.toString(),
+                                binding.userNameEdit.text.toString(),
+                                binding.userPassEdit.text.toString()
+                            )
+                            goToNextScreen()
+                        }
+
+                        override fun onNegativeClick() {
+                            goToNextScreen()
+                        }
+                    }
+                )
+               goToNextScreen()
+            } else {
+                presenter.saveUserCredentials(
+                    binding.serverUrlEdit.text.toString(),
+                    binding.userNameEdit.text.toString(),
+                    ""
+                )
+                goToNextScreen()
+            } */
+      presenter.saveUserCredentials(
+          _urlController.text, _userController.text, '');
+      goToNextScreen();
+    } else {
+      goToNextScreen();
+    }
   }
 
   @override
@@ -332,12 +377,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
 
   @override
   void showEmptyCredentialsMessage() {
-    // TODO: implement showEmptyCredentialsMessage
+    final localization = AppLocalization.of(context)!;
+    showInfoDialog(
+        title: localization.lookup('R.biometrics_dialog_title'),
+        message: localization.lookup('R.biometrics_first_use_text'));
   }
 
   @override
   void showNoConnectionDialog() {
-    // TODO: implement showNoConnectionDialog
+    final localization = AppLocalization.of(context)!;
+    showInfoDialog(
+        title: localization.lookup('R.network_unavailable'),
+        message: localization.lookup('R.no_network_to_recover_account'),
+        positiveButtonText: localization.lookup('ok'));
   }
 
   @override

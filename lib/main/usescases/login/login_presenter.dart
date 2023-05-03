@@ -29,9 +29,9 @@ LoginScreenPresenter loginScreenPresenter(
 class LoginScreenPresenter {
   LoginScreenPresenter(
       this.ref, this.view, this.preferenceProvider, this.network,
-      {this.userManager}) {
+      {this.userManager}); /* {
     init();
-  }
+  } */
 
   final LoginScreenPresenterRef ref;
 
@@ -173,9 +173,8 @@ class LoginScreenPresenter {
       String userName, String pass) async {
     print('Timber.e($throwable)');
     if (throwable is D2Error) {
-      (throwable as D2Error).errorCode;
-      if ((throwable as D2Error).errorCode ==
-          D2ErrorCode.ALREADY_AUTHENTICATED) {
+      throwable.errorCode;
+      if (throwable.errorCode == D2ErrorCode.ALREADY_AUTHENTICATED) {
         await userManager?.logOut();
         logIn(serverUrl, userName, pass);
       }
@@ -186,13 +185,13 @@ class LoginScreenPresenter {
   }
 
   bool areSameCredentials(String serverUrl, String userName, String pass) {
-    return PreferenceProvider.areCredentialsSet() &&
-        PreferenceProvider.areSameCredentials(serverUrl, userName, pass);
+    return preferenceProvider.areCredentialsSet() &&
+        preferenceProvider.areSameCredentials(serverUrl, userName, pass);
   }
 
   Future<void> saveUserCredentials(
       String serverUrl, String userName, String pass) {
-    return PreferenceProvider.saveUserCredentials(serverUrl, userName, pass);
+    return preferenceProvider.saveUserCredentials(serverUrl, userName, pass);
   }
 
   void onAccountRecovery() {

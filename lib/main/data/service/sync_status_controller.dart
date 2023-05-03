@@ -160,7 +160,7 @@ class SyncStatusController with EquatableMixin {
       : progressStatusMap = IMap<String, D2ProgressStatus>(),
         syncStatusData = syncStatusData ??
             SyncStatusData(
-                running: true,
+                running: false,
                 downloadingMedia: false,
                 programSyncStatusMap:
                     IMap.orNull(progressStatusMap?.unlock) ?? IMap());

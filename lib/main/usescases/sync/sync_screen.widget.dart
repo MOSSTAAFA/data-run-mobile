@@ -102,6 +102,12 @@ class _SyncScreenState extends ConsumerState<SyncScreen> with SyncView {
   }
 
   @override
+  void didChangeDependencies() {
+    presenter.init();
+    super.didChangeDependencies();
+  }
+
+  @override
   void setMetadataSyncSucceed() {
     presenter.onMetadataSyncSuccess();
   }

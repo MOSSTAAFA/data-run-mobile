@@ -24,14 +24,18 @@ SyncScreenPresenter syncScreenPresenter(
 
 class SyncScreenPresenter {
   SyncScreenPresenter(this.view, this.userManager, this.preferences,
-      this.workManagerController) {
+      this.workManagerController); /*  {
     workManagerController.syncMetaDataForWorker(META_NOW, INITIAL_SYNC);
-  }
+  } */
 
   final SyncView view;
   final UserManager? userManager;
   final WorkManagerController workManagerController;
   final PreferenceProvider preferences;
+
+  void init() {
+    workManagerController.syncMetaDataForWorker(META_NOW, INITIAL_SYNC);
+  }
 
   /// Replaced by syncSucceedProvider & syncFailedProvider
   /// defined in SyncScreen Widget

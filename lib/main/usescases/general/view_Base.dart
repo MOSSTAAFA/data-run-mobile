@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:get/get.dart';
 import '../../../commons/custom_widgets/copy_to_clipboard.dart';
 import 'view_abstract.dart';
 
@@ -101,72 +102,87 @@ class ViewBase implements ViewAbstract {
       String? negativeButtonText,
       void Function()? onPositiveClick,
       void Function()? onNegativeClick}) {
-    return showDialog<void>(
-      context: navigatorKey.currentContext!,
-      // barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(title),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                CopyToClipboard(
-                  prefix: prefix,
-                  value: message,
-                  child: Text(message),
-                )
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            if (positiveButtonText != null)
-              TextButton(
-                child: Text(positiveButtonText),
-                onPressed: () {
-                  onPositiveClick?.call();
-                },
-              ),
-            if (negativeButtonText != null)
-              TextButton(
-                child: Text(negativeButtonText),
-                onPressed: () {
-                  onNegativeClick?.call();
-                },
-              ),
-          ],
-        );
+    final localization = AppLocalization.of(navigatorKey.currentContext!)!;
+    return Get.defaultDialog(
+      title: title,
+      content: CopyToClipboard(
+        prefix: prefix,
+        value: message,
+        child: Text(message),
+      ),
+      textConfirm: positiveButtonText ?? localization.lookup('ok'),
+      textCancel: negativeButtonText ?? localization.lookup('cancel'),
+      onConfirm: () {
+        positiveButtonText != null ? onPositiveClick?.call() : Get.back();
+      },
+      onCancel: () {
+        negativeButtonText != null ? onNegativeClick?.call() : Get.back();
       },
     );
+    // return showDialog<void>(
+    //   context: navigatorKey.currentContext!,
+    //   // barrierDismissible: false,
+    //   builder: (BuildContext context) {
+    //     return AlertDialog(
+    //       title: Text(title),
+    //       scrollable: true,
+    //       content: CopyToClipboard(
+    //         prefix: prefix,
+    //         value: message,
+    //         child: Text(message),
+    //       ),
+    //       actions: <Widget>[
+    //         TextButton(
+    //           child: Text(positiveButtonText ?? localization.lookup('ok')),
+    //           onPressed: () {
+    //             positiveButtonText != null
+    //                 ? onPositiveClick?.call()
+    //                 : Navigator.of(context).pop();
+    //           },
+    //         ),
+    //         TextButton(
+    //           child: Text(negativeButtonText ?? localization.lookup('cancel')),
+    //           onPressed: () {
+    //             negativeButtonText != null
+    //                 ? onNegativeClick?.call()
+    //                 : Navigator.of(context).pop();
+    //           },
+    //         ),
+    //       ],
+    //     );
+    //   },
+    // );
   }
 
-  @override
-  Future<void> showInfoDialogWithoutActions(String title, String message) {
-    return showDialog<void>(
-      context: navigatorKey.currentContext!,
-      // barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(title),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(message),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text(AppLocalization.of(navigatorKey.currentContext!)!
-                  .lookup('ok')),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+  // @override
+  // Future<void> showInfoDialogWithoutActions(String title, String message) {
+  //   final localization = AppLocalization.of(navigatorKey.currentContext!)!;
+  //   return showDialog<void>(
+  //     context: navigatorKey.currentContext!,
+  //     // barrierDismissible: false,
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: Text(title),
+  //         scrollable: true,
+  //         content: Text(message),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             child: Text(localization.lookup('ok')),
+  //             onPressed: () {
+  //               Navigator.of(context).pop();
+  //             },
+  //           ),
+  //           TextButton(
+  //             child: Text(localization.lookup('cancel')),
+  //             onPressed: () {
+  //               Navigator.of(context).pop();
+  //             },
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   void showTutorial(bool shaked) {}

@@ -8,6 +8,7 @@ import '../../../commons/extensions/standard_extensions.dart';
 import '../../../commons/state/app_state_notifier.dart';
 import '../../../commons/utils/view_actions.dart';
 import '../../../form/ui/components/linear_loading_indicator.dart';
+import '../../data/service/sync_status_controller.dart';
 import '../../l10n/app_localizations.dart';
 import '../login/login_screen.widget.dart';
 import '../program_event_detail/di/program_event_detail_providers.dart';
@@ -18,7 +19,13 @@ import 'main_presenter.dart';
 import 'main_view.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
-  const MainScreen({super.key, this.initScreen, this.launchDataSync = false});
+  const MainScreen(
+      {super.key,
+      this.initScreen,
+      this.launchDataSync = false,
+      this.forceToNotSynced = false});
+
+  final bool forceToNotSynced;
 
   final MainScreenNavItem? initScreen;
   final bool launchDataSync;
@@ -96,6 +103,30 @@ class _MainScreenState extends ConsumerState<MainScreen> with MainView {
   void initState() {
     super.initState();
     presenter = ref.read(mainPresenterProvider(this));
+
+    ref.listenManual<bool?>(
+        syncStatusControllerInstanceProvider.select((syncStatusController) =>
+            syncStatusController.syncStatusData.running), (previous, next) {
+      if (next ?? false) {
+        // setFilterButtonVisibility(false);
+        // setBottomNavigationVisibility(false);
+      } else {
+        // setFilterButtonVisibility(true);
+        // setBottomNavigationVisibility(true);
+        presenter.onDataSuccess();
+      }
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    presenter.init();
+    presenter.wasSyncAlreadyDone().then((alreadyDone) {
+      if (!alreadyDone) {
+        presenter.launchInitialDataSync();
+      }
+    });
+    super.didChangeDependencies();
   }
 
   @override
@@ -115,7 +146,9 @@ class _MainScreenState extends ConsumerState<MainScreen> with MainView {
 
   @override
   void goToLogin(int accountsCount, {bool isDeletion = false}) {
-    ref.read(appStateNotifierProvider.notifier).navigateToScreen(LoginScreen(
+    ref
+        .read(appStateNotifierProvider.notifier)
+        .gotToNextScreenPopAll(LoginScreen(
           accountsCount: accountsCount,
           isDeletion: isDeletion,
         ));
@@ -123,8 +156,7 @@ class _MainScreenState extends ConsumerState<MainScreen> with MainView {
 
   @override
   bool hasToNotSync() {
-    // TODO: implement hasToNotSync
-    throw UnimplementedError();
+    return widget.forceToNotSynced;
   }
 
   @override

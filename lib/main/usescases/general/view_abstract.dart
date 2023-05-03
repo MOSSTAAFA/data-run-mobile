@@ -4,7 +4,7 @@ abstract class ViewAbstract {
 
   void displayMessage(String? message);
 
-  Future<void> showInfoDialogWithoutActions(String title, String message);
+  // Future<void> showInfoDialogWithoutActions(String title, String message);
 
   // void showInfoDialog(
   //     String title, String message, OnDialogClickListener dialogListener);

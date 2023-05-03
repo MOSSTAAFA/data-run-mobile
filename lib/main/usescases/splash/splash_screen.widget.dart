@@ -34,6 +34,12 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SplashView {
   }
 
   @override
+  void didChangeDependencies() {
+    presenter.init();
+    super.didChangeDependencies();
+  }
+
+  @override
   void goToNextScreen(
       {required bool isUserLogged,
       required bool sessionLocked,

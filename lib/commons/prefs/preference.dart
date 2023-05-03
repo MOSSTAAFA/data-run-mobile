@@ -51,3 +51,5 @@ const String SECURE_SERVER_URL = 'SEURE_SERVER_URL';
 const String SECURE_USER_NAME = 'SECURE_USER_NAME';
 const String SECURE_PASS = 'SECURE_PASS';
 const String SHARE_PREFS = 'org.dhis2';
+const String JIRA_AUTH = 'JIRA_AUTH';
+const String JIRA_USER = 'JIRA_USER';

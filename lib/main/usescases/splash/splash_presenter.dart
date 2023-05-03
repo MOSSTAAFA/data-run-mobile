@@ -17,9 +17,7 @@ SplashPresenter splashPresenter(SplashPresenterRef ref, SplashView view) {
 }
 
 class SplashPresenter {
-  SplashPresenter(this.view, this.preferenceProvider, this.userManager) {
-    init();
-  }
+  SplashPresenter(this.view, this.preferenceProvider, this.userManager);
   final SplashView view;
   UserManager? userManager;
   final PreferenceProvider preferenceProvider;
@@ -50,10 +48,6 @@ class SplashPresenter {
                   .then((userLogged) {
                 if (userLogged) {
                   _trackUserInfo();
-                  //   required bool isUserLogged,
-                  // required bool sessionLocked,
-                  // required bool initialSyncDone,
-                  // required bool initialDataSyncDone
                   view.goToNextScreen(
                       isUserLogged: userLogged,
                       sessionLocked:
