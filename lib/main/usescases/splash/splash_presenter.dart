@@ -1,3 +1,4 @@
+import 'package:d2_remote/d2_remote.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../commons/constants.dart';
@@ -36,7 +37,7 @@ class SplashPresenter {
     _isUserLoggedIn();
   }
 
-  void _isUserLoggedIn() {
+  Future<void> _isUserLoggedIn() async {
     if (userManager != null) {
       Future.delayed(
           Duration(
@@ -86,7 +87,7 @@ class SplashPresenter {
     // crashReportController.trackUser(username, server);
   }
 
-  Future<int> getAccounts() {
-    return Future.value(1);
+  Future<int> getAccounts() async {
+    return await D2Remote.userModule.user.count();
   }
 }

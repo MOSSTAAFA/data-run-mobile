@@ -45,7 +45,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SplashView {
     } else if (isUserLogged && !initialSyncDone) {
       ref
           .read(appStateNotifierProvider.notifier)
-          .navigateToScreen(const SyncScreen());
+          .gotToNextScreenPopAll(const SyncScreen());
     } else {
       presenter.getAccounts().then((int count) {
         ref

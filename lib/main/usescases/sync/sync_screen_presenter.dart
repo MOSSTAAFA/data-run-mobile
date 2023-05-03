@@ -1,11 +1,9 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../commons/extensions/standard_extensions.dart';
 import '../../../commons/prefs/preference.dart';
 import '../../../commons/prefs/preference_provider.dart';
 import '../../data/server/user_manager.dart';
 import '../../data/server/user_manager_impl.dart';
-import '../../data/service/work_manager/nmc_worker/work_info.dart';
 import '../../data/service/work_manager/work_manager_controller.dart';
 import '../../data/service/work_manager/work_manager_controller_impl.dart';
 import '../events_without_registration/event_initial/di/event_initial_module.dart';
