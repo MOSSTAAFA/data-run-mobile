@@ -34,10 +34,11 @@ class _SyncScreenState extends ConsumerState<SyncScreen> with SyncView {
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: CircularPercentIndicator(
-                radius: 45.0,
-                lineWidth: 7.0,
+                radius: 40.0,
+                lineWidth: 3.0,
                 animation: true,
-                percent: syncProgressInfo.progress.toDouble() / 100.0,
+                animateFromLastPercent: true,
+                percent: syncProgressInfo.progress / 100,
                 // header: Icon(
                 //   Icons.person_pin,
                 //   size: 50.0,
@@ -45,16 +46,16 @@ class _SyncScreenState extends ConsumerState<SyncScreen> with SyncView {
                 // ),
                 center: syncProgressInfo.state == WorkInfoState.SUCCEEDED
                     ? const Icon(
-                        Icons.check_circle_outline_outlined,
-                        color: Colors.white,
+                        Icons.check,
+                        color: Color(0xffffad30),
                         size: 35,
                       )
                     : Text(
-                        '${syncProgressInfo.progress}',
-                        style: TextStyle(
+                        '${syncProgressInfo.progress}%',
+                        style: const TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 13.0,
-                            color: Colors.orange[300]),
+                            fontSize: 14.0,
+                            color: Color(0xffb3cbf4)),
                       ),
                 footer: Padding(
                   padding: const EdgeInsets.all(16),
@@ -66,7 +67,7 @@ class _SyncScreenState extends ConsumerState<SyncScreen> with SyncView {
                   ),
                 ),
                 circularStrokeCap: CircularStrokeCap.round,
-                backgroundColor: convertHexStringToColor('#2C98F0')!,
+                backgroundColor: Colors.transparent,
                 progressColor: Colors.blue[100],
               ),
             ),

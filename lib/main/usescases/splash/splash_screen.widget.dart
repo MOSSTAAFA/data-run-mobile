@@ -22,7 +22,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SplashView {
     return const Scaffold(
         body: Center(
             child: Text(
-      'Splash Screen',
+      'Splash Screen...',
       style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
     )));
   }

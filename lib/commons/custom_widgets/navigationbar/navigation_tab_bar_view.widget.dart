@@ -72,77 +72,6 @@ class NavigationTabBarViewState extends ConsumerState<NavigationTabBarView>
   late ViewAction _currentAction;
 
   @override
-  void initState() {
-    _visibleTabs = getVisibleTabs();
-
-    _currentPosition = widget.initPosition;
-    _currentAction = _visibleTabs[_currentPosition].viewAction;
-    _isActionButtonVisible = ref
-        .read(pageConfiguratorProvider)
-        .actionButtonVisibility(_currentAction);
-
-    controller = TabController(
-      length: _visibleTabs.length,
-      vsync: this,
-      initialIndex: _currentPosition,
-    );
-    controller.addListener(onPositionChange);
-    controller.animation!.addListener(onScroll);
-    _currentCount = _visibleTabs.length;
-    super.initState();
-  }
-
-  @override
-  void didUpdateWidget(NavigationTabBarView oldWidget) {
-    if (_currentCount != _visibleTabs.length) {
-      controller.animation!.removeListener(onScroll);
-      controller.removeListener(onPositionChange);
-      controller.dispose();
-      _currentPosition = widget.initPosition;
-
-      if (_currentPosition > _visibleTabs.length - 1) {
-        _currentPosition = _visibleTabs.length - 1;
-        _currentPosition = _currentPosition < 0 ? 0 : _currentPosition;
-        if (widget.onPositionChange is ValueChanged<ViewAction>) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (mounted && widget.onPositionChange != null) {
-              widget
-                  .onPositionChange!(_visibleTabs[_currentPosition].viewAction);
-            }
-          });
-        }
-      }
-
-      _currentCount = _visibleTabs.length;
-      setState(() {
-        controller = TabController(
-          length: _visibleTabs.length,
-          vsync: this,
-          initialIndex: _currentPosition,
-        );
-        controller.addListener(onPositionChange);
-        controller.animation!.addListener(onScroll);
-        _isActionButtonVisible = ref
-            .read(pageConfiguratorProvider)
-            .actionButtonVisibility(_visibleTabs[_currentPosition].viewAction);
-        _currentAction = _visibleTabs[_currentPosition].viewAction;
-      });
-    } else {
-      controller.animateTo(widget.initPosition);
-    }
-
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  void dispose() {
-    controller.animation!.removeListener(onScroll);
-    controller.removeListener(onPositionChange);
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     if (_visibleTabs.isEmpty) {
       return widget.stub ?? const SizedBox();
@@ -245,6 +174,79 @@ class NavigationTabBarViewState extends ConsumerState<NavigationTabBarView>
         ));
   }
 
+  /// LifeCycle methods
+  @override
+  void initState() {
+    _visibleTabs = getVisibleTabs();
+
+    _currentPosition = widget.initPosition;
+    _currentAction = _visibleTabs[_currentPosition].viewAction;
+    _isActionButtonVisible = ref
+        .read(pageConfiguratorProvider)
+        .actionButtonVisibility(_currentAction);
+
+    controller = TabController(
+      length: _visibleTabs.length,
+      vsync: this,
+      initialIndex: _currentPosition,
+    );
+    controller.addListener(onPositionChange);
+    controller.animation!.addListener(onScroll);
+    _currentCount = _visibleTabs.length;
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(NavigationTabBarView oldWidget) {
+    if (_currentCount != _visibleTabs.length) {
+      controller.animation!.removeListener(onScroll);
+      controller.removeListener(onPositionChange);
+      controller.dispose();
+      _currentPosition = widget.initPosition;
+
+      if (_currentPosition > _visibleTabs.length - 1) {
+        _currentPosition = _visibleTabs.length - 1;
+        _currentPosition = _currentPosition < 0 ? 0 : _currentPosition;
+        if (widget.onPositionChange is ValueChanged<ViewAction>) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted && widget.onPositionChange != null) {
+              widget
+                  .onPositionChange!(_visibleTabs[_currentPosition].viewAction);
+            }
+          });
+        }
+      }
+
+      _currentCount = _visibleTabs.length;
+      setState(() {
+        controller = TabController(
+          length: _visibleTabs.length,
+          vsync: this,
+          initialIndex: _currentPosition,
+        );
+        controller.addListener(onPositionChange);
+        controller.animation!.addListener(onScroll);
+        _isActionButtonVisible = ref
+            .read(pageConfiguratorProvider)
+            .actionButtonVisibility(_visibleTabs[_currentPosition].viewAction);
+        _currentAction = _visibleTabs[_currentPosition].viewAction;
+      });
+    } else {
+      controller.animateTo(widget.initPosition);
+    }
+
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    controller.animation!.removeListener(onScroll);
+    controller.removeListener(onPositionChange);
+    controller.dispose();
+    super.dispose();
+  }
+
+  /// Custom Widget methods
   void onPositionChange() {
     if (!controller.indexIsChanging) {
       _currentPosition = controller.index;

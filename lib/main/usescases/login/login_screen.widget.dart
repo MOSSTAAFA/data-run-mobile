@@ -85,9 +85,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                   return Column(
                                     children: <Widget>[
                                       DecoratedFormField(
-                                        icon: Icon(Icons.person,
-                                            color: Theme.of(context)
-                                                .primaryColorLight),
+                                        // icon: Icon(Icons.person,
+                                        //     color: Theme.of(context)
+                                        //         .primaryColorLight),
                                         controller: _userController,
                                         label: localization.lookup('username'),
                                         keyboardType: TextInputType.name,
@@ -163,6 +163,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
     );
   }
 
+  /// LifeCycle methods
   @override
   void initState() {
     super.initState();
@@ -211,6 +212,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
   //       (previous, next) => !next ? _buttonController.reset() : null);
   // }
 
+  /// Custom methods
   @override
   void hideKeyboard() {
     hideTheKeyboard(context);

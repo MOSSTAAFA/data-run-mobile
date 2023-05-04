@@ -17,6 +17,7 @@ import 'home_page_configurator.dart';
 import 'main_navigator.dart';
 import 'main_presenter.dart';
 import 'main_view.dart';
+import 'program/program_screen.widget.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
   const MainScreen(
@@ -87,7 +88,7 @@ class _MainScreenState extends ConsumerState<MainScreen> with MainView {
             },
             pageBuilder: (context, viewAction) =>
                 when<ViewAction, Widget>(viewAction, {
-              // ViewAction.list_view: () => const EventListScreen(),
+              ViewAction.list_view: () => const ProgramViewScreen(),
               // ViewAction.table_view: () => const EventTable(),
               // ViewAction.map_view: () => const EventMap(),
             }).orElse(() => const Center(

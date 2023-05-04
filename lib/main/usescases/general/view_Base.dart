@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
 import '../../../commons/custom_widgets/copy_to_clipboard.dart';
-import 'view_abstract.dart';
 
 import '../../../commons/utils/view_actions.dart';
 import '../../../main.dart';
 import '../../l10n/app_localizations.dart';
+import 'view_abstract.dart';
 
 /// any screen ActivityGlobalAbstract
 class ViewBase implements ViewAbstract {
@@ -70,27 +70,37 @@ class ViewBase implements ViewAbstract {
 
   @override
   Future<void> showDescription(String description) {
-    return showDialog<String>(
-        context: navigatorKey.currentContext!,
-        builder: (BuildContext context) => Dialog(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(description),
-                    const SizedBox(height: 15),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(AppLocalization.of(context)!.lookup('close')),
-                    ),
-                  ],
-                ),
-              ),
-            ));
+    final localization = AppLocalization.of(navigatorKey.currentContext!)!;
+    return Get.defaultDialog(
+      title: localization.lookup('description'),
+      content: Text(description),
+      textCancel: localization.lookup('close'),
+      onCancel: () {
+        Get.back();
+      },
+    );
+
+    // return showDialog<String>(
+    //     context: navigatorKey.currentContext!,
+    //     builder: (BuildContext context) => Dialog(
+    //           child: Padding(
+    //             padding: const EdgeInsets.all(8.0),
+    //             child: Column(
+    //               mainAxisSize: MainAxisSize.min,
+    //               mainAxisAlignment: MainAxisAlignment.center,
+    //               children: <Widget>[
+    //                 Text(description),
+    //                 const SizedBox(height: 15),
+    //                 TextButton(
+    //                   onPressed: () {
+    //                     Navigator.pop(context);
+    //                   },
+    //                   child: Text(AppLocalization.of(context)!.lookup('close')),
+    //                 ),
+    //               ],
+    //             ),
+    //           ),
+    //         ));
   }
 
   @override

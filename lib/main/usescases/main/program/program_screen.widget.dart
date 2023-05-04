@@ -1,6 +1,10 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../commons/extensions/standard_extensions.dart';
+import '../../../../commons/state/app_state_notifier.dart';
+import '../../../../core/program/program_type.dart';
+import '../../program_event_detail/program_event_detail_screen.widget.dart';
 import 'di/program_providers.dart';
 import 'program_list/program_list.widget.dart';
 import 'program_presenter.dart';
@@ -43,7 +47,28 @@ class _ProgramViewScreenState extends ConsumerState<ProgramViewScreen>
 
   @override
   void navigateTo(ProgramViewModel program) {
-    // TODO: implement navigateTo
+    when(program.programType, {
+      ProgramType.WITH_REGISTRATION.name: () {
+        // Intent(activity, SearchTEActivity::class.java).apply {
+        //     putExtras(bundle)
+        //     getActivityContent.launch(this)
+        // }
+      },
+      ProgramType.WITHOUT_REGISTRATION.name: () {
+        ref
+            .read(appStateNotifierProvider.notifier)
+            .navigateToScreen(const ProgramEventDetailScreen());
+        // Intent(activity, ProgramEventDetailActivity::class.java).apply {
+        //     putExtras(ProgramEventDetailActivity.getBundle(program.uid))
+        //     getActivityContent.launch(this)
+        // }
+      }
+    }).orElse(() {
+      // Intent(activity, DataSetDetailActivity::class.java).apply {
+      //               putExtras(bundle)
+      //               getActivityContent.launch(this)
+      //           }
+    });
   }
 
   @override

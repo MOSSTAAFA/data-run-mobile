@@ -10,6 +10,7 @@ import 'main.reflectable.dart';
 import 'main/di.dart' as di;
 import 'main/l10n/app_localizations.dart';
 import 'main/usescases/events_without_registration/event_initial/di/event_initial_module.dart';
+import 'main/usescases/splash/splash_screen.widget.dart';
 import 'main_app.dart';
 import 'dart:async';
 
@@ -94,9 +95,7 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MainApp(
-        title: 'Title',
-      ),
+      home: const SplashScreen(),
       getPages: [
         // GetPage(
         //   name: EventCaptureScreen.route,
