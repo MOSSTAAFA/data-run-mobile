@@ -1,7 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:get/get.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../commons/constants.dart';
 import '../../../commons/extensions/string_extension.dart';
 import '../../../commons/helpers/collections.dart';
 
@@ -11,6 +13,10 @@ part 'login_view_model.g.dart';
 class LoginModel extends _$LoginModel {
   @override
   LoginViewModel build() {
+    printInfo(info: 'LoginModel created ######################');
+
+    ref.onDispose(
+        () => printInfo(info: 'dispose: LoginModel ######################'));
     return LoginViewModel();
   }
 
@@ -26,14 +32,14 @@ class LoginModel extends _$LoginModel {
 
   void onUserChanged(String userName) {
     if (userName != state.userName) {
-      state.copyWith(userName: userName);
+      state = state.copyWith(userName: userName);
       _checkData();
     }
   }
 
   void onPassChanged(String password) {
     if (password != state.password) {
-      state.copyWith(password: password);
+      state = state.copyWith(password: password);
       _checkData();
     }
   }
@@ -43,14 +49,14 @@ class LoginModel extends _$LoginModel {
         !state.userName.isNullOrEmpty &&
         !state.password.isNullOrEmpty;
     if (state.isDataComplete == null || state.isDataComplete != newValue) {
-      state.copyWith(isDataComplete: newValue);
+      state = state.copyWith(isDataComplete: newValue);
     }
   }
 
   void _checkTestingEnvironment(String serverUrl) {
     if (state.testingCredentials?.containsKey(serverUrl) == true &&
         state.testingCredentials!.get(serverUrl) != null) {
-      state.copyWith(
+      state = state.copyWith(
           isTestingEnvironment: Trio<String, String, String>(
               serverUrl,
               state.testingCredentials!.get(serverUrl)!.username,
@@ -59,7 +65,7 @@ class LoginModel extends _$LoginModel {
   }
 
   void setTestingCredentials(List<TestingCredential> testingCredentials) {
-    state.copyWith(
+    state = state.copyWith(
         testingCredentials:
             IMap.fromIterable<String, TestingCredential?, TestingCredential>(
       testingCredentials,
@@ -69,13 +75,13 @@ class LoginModel extends _$LoginModel {
   }
 
   void setAccountInfo(String? serverUrl, String? userName) {
-    state.copyWith(serverUrl: serverUrl, userName: userName);
+    state = state.copyWith(serverUrl: serverUrl, userName: userName);
   }
 }
 
 class LoginViewModel with EquatableMixin {
   LoginViewModel(
-      {this.serverUrl,
+      {this.serverUrl = kApiBaseUrl,
       this.userName,
       this.password,
       this.isDataComplete,

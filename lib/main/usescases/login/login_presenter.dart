@@ -18,6 +18,21 @@ import 'login_view.dart';
 import 'sync_is_performed_interactor.dart';
 part 'login_presenter.g.dart';
 
+// final showLoginProgressProvider =
+//     StateProvider.autoDispose<bool>((ref) => false);
+
+@riverpod
+class ShowLoginProgress extends _$ShowLoginProgress {
+  @override
+  bool build() {
+    return false;
+  }
+
+  void update(bool Function(bool state) value) {
+    state = value.call(state);
+  }
+}
+
 @riverpod
 LoginScreenPresenter loginScreenPresenter(
     LoginScreenPresenterRef ref, LoginView view) {
@@ -87,11 +102,11 @@ class LoginScreenPresenter {
   void onButtonClick() {
     view.hideKeyboard();
     // analyticsHelper.setEvent(LOGIN, CLICK, LOGIN);
-    if (!preferenceProvider.getBoolean(USER_ASKED_CRASHLYTICS, false)) {
-      view.showCrashlyticsDialog();
-    } else {
-      view.showLoginProgress(true);
-    }
+    // if (!preferenceProvider.getBoolean(USER_ASKED_CRASHLYTICS, false)) {
+    //   view.showCrashlyticsDialog();
+    // } else {
+    view.showLoginProgress(true);
+    // }
   }
 
   void logIn(String serverUrl, String userName, String pass) {
@@ -101,7 +116,7 @@ class LoginScreenPresenter {
     //             .userManager()
     //     )
     //         .flatMap { userManager ->
-    preferenceProvider.setValue(SERVER, '$serverUrl/api');
+    preferenceProvider.setValue(SERVER, serverUrl);
     // this.userManager = userManager
     // userName.trim { it <= ' ' }, pass, serverUrl
     userManager?.logIn(userName.trim(), pass, serverUrl).then((it) async {
@@ -171,13 +186,11 @@ class LoginScreenPresenter {
 
   Future<void> _handleError(Exception throwable, String serverUrl,
       String userName, String pass) async {
-    print('Timber.e($throwable)');
-    if (throwable is D2Error) {
-      throwable.errorCode;
-      if (throwable.errorCode == D2ErrorCode.ALREADY_AUTHENTICATED) {
-        await userManager?.logOut();
-        logIn(serverUrl, userName, pass);
-      }
+    print('Timber.e(${throwable.toString()})');
+    if (throwable is D2Error &&
+        throwable.errorCode == D2ErrorCode.ALREADY_AUTHENTICATED) {
+      await userManager?.logOut();
+      logIn(serverUrl, userName, pass);
     } else {
       view.renderError(throwable);
     }

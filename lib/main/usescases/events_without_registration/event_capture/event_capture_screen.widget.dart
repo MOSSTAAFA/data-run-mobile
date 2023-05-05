@@ -15,6 +15,7 @@ import '../../../../form/ui/form_view_model.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../utils/event_mode.dart';
 import '../../bundle/bundle.dart';
+import '../../general/view_base.dart';
 import '../../program_event_detail/di/program_event_detail_providers.dart';
 import '../../program_event_detail/program_event_detail_view_model.dart';
 import '../event_details/ui/event_details.widget.dart';
@@ -37,7 +38,7 @@ class EventCaptureScreen extends ConsumerStatefulWidget {
 }
 
 class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
-    with EventCaptureView {
+    with EventCaptureView, ViewBase {
   late final EventMode? eventMode;
   late final String? activityUid;
   late final String? programUid;

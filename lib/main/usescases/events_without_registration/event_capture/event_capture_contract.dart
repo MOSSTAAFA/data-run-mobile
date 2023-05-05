@@ -54,7 +54,7 @@ abstract class EventCapturePresenter {
   Future<void> showOrHideSaveButton();
 }
 
-abstract class EventCaptureView extends ViewBase {
+mixin EventCaptureView implements ViewBase {
   void renderInitialInfo(
       {String? stageName,
       String? eventDate,

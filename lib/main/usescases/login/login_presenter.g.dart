@@ -111,4 +111,21 @@ class LoginScreenPresenterProvider
     return _SystemHash.finish(hash);
   }
 }
+
+String _$showLoginProgressHash() => r'7c6f17a2fcc2273167dfe985e343df182196d35f';
+
+/// See also [ShowLoginProgress].
+@ProviderFor(ShowLoginProgress)
+final showLoginProgressProvider =
+    AutoDisposeNotifierProvider<ShowLoginProgress, bool>.internal(
+  ShowLoginProgress.new,
+  name: r'showLoginProgressProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$showLoginProgressHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$ShowLoginProgress = AutoDisposeNotifier<bool>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

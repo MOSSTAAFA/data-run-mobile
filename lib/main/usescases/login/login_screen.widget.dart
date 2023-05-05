@@ -14,6 +14,7 @@ import '../../../commons/extensions/string_extension.dart';
 import '../../../commons/resources/resource_manager.dart';
 import '../../../commons/state/app_state_notifier.dart';
 import '../../../form/di/injector.dart';
+import '../../../riverpod/use_on_init_hook.dart';
 import '../../l10n/app_localizations.dart';
 import '../general/view_base.dart';
 import '../main/main_screen.widget.dart';
@@ -42,7 +43,7 @@ class LoginScreen extends ConsumerStatefulWidget {
 }
 
 class _LoginScreenState extends ConsumerState<LoginScreen>
-    with LoginView, KeyboardManager {
+    with LoginView, ViewBase, KeyboardManager {
   late final LoginScreenPresenter presenter;
 
   final GlobalKey<FormState> _formKey =
@@ -85,9 +86,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                   return Column(
                                     children: <Widget>[
                                       DecoratedFormField(
-                                        // icon: Icon(Icons.person,
-                                        //     color: Theme.of(context)
-                                        //         .primaryColorLight),
+                                        onChanged: (value) => ref
+                                            .read(loginModelProvider.notifier)
+                                            .onUserChanged(value),
                                         controller: _userController,
                                         label: localization.lookup('username'),
                                         keyboardType: TextInputType.name,
@@ -108,6 +109,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                             presenter.onButtonClick(),
                                       ),
                                       PasswordFormField(
+                                        onChanged: (value) => ref
+                                            .read(loginModelProvider.notifier)
+                                            .onPassChanged(value),
                                         readOnly: ref
                                             .watch(showLoginProgressProvider),
                                         controller: _passwordController,
@@ -128,9 +132,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                         width: 430,
                                         controller: _buttonController,
                                         onPressed: ref.watch(loginModelProvider
-                                                .select((value) =>
-                                                    value.isDataComplete ??
-                                                    false))
+                                                    .select((value) => value
+                                                        .isDataComplete)) ==
+                                                true
                                             ? () => presenter.onButtonClick()
                                             : null,
                                         child: Row(
@@ -166,51 +170,23 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
   /// LifeCycle methods
   @override
   void initState() {
-    super.initState();
     presenter = ref.read(loginScreenPresenterProvider(this));
-    _urlController.addListener(() => ref
-        .read(loginModelProvider.notifier)
-        .onServerChanged(_urlController.text));
-
-    _userController.addListener(() => ref
-        .read(loginModelProvider.notifier)
-        .onUserChanged(_userController.text));
-    _passwordController.addListener(() => ref
-        .read(loginModelProvider.notifier)
-        .onPassChanged(_passwordController.text));
-    // _setListeners();
+    presenter.init();
+    super.initState();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    presenter.init();
-    _urlController.text = kApiBaseUrl;
   }
 
   @override
   void dispose() {
-    _urlController.removeListener(() => ref
-        .read(loginModelProvider.notifier)
-        .onServerChanged(_urlController.text));
-    _userController.removeListener(() => ref
-        .read(loginModelProvider.notifier)
-        .onUserChanged(_userController.text));
-    _passwordController.removeListener(() => ref
-        .read(loginModelProvider.notifier)
-        .onPassChanged(_passwordController.text));
-
     _userController.dispose();
     _passwordController.dispose();
     _urlController.dispose();
     super.dispose();
   }
-
-  // void _setListeners() {
-  //   ref.listenManual<bool>(
-  //       loginModelProvider.select((value) => value.isDataComplete ?? false),
-  //       (previous, next) => !next ? _buttonController.reset() : null);
-  // }
 
   /// Custom methods
   @override
@@ -240,11 +216,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
 
   @override
   void renderError(Exception throwable) {
-    Get.dialog(
-        SelectableError(
-          errorMessage: AppLocalization.of(context)!.lookup('login_error'),
-        ),
-        name: ref.read(resourceManagerProvider).parseD2Error(throwable));
+    showInfoDialog(
+        title: 'Error',
+        prefix: AppLocalization.of(context)!.lookup('login_error'),
+        message: ref.read(resourceManagerProvider).parseD2Error(throwable));
+    // Get.dialog(
+    //     SelectableError(
+    //       errorMessage: AppLocalization.of(context)!.lookup('login_error'),
+    //     ),
+    //     name: ref.read(resourceManagerProvider).parseD2Error(throwable));
   }
 
   @override
@@ -400,5 +380,5 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
   }
 }
 
-final showLoginProgressProvider =
-    StateProvider.autoDispose<bool>((ref) => false);
+// final showLoginProgressProvider =
+//     StateProvider.autoDispose<bool>((ref) => false);

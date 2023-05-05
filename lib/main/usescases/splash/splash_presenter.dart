@@ -81,7 +81,11 @@ class SplashPresenter {
     // crashReportController.trackUser(username, server);
   }
 
-  Future<int> getAccounts() async {
-    return await D2Remote.userModule.user.count();
+  Future getAccounts() async {
+    final databaseName = await D2Remote.getDatabaseName();
+    if (databaseName == null) {
+      return 0;
+    }
+    return D2Remote.userModule.user.count();
   }
 }

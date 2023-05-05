@@ -12,6 +12,7 @@ class PasswordFormField extends StatefulWidget {
       this.validate = true,
       this.onSavePressed,
       this.labelText,
+      this.onChanged,
       this.readOnly = false});
 
   final TextEditingController? controller;
@@ -21,6 +22,7 @@ class PasswordFormField extends StatefulWidget {
   final bool validate;
   final bool readOnly;
   final String? labelText;
+  final ValueChanged<String>? onChanged;
 
   @override
   _PasswordFormFieldState createState() => _PasswordFormFieldState();
@@ -91,6 +93,7 @@ class _PasswordFormFieldState extends State<PasswordFormField> {
       },
       obscureText: _isPasswordObscured,
       keyboardType: TextInputType.visiblePassword,
+      onChanged: widget.onChanged,
       autofillHints: widget.validate
           ? [
               widget.newPassword

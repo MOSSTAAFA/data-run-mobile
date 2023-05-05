@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../commons/constants.dart';
 import '../../bundle/bundle.dart';
+import '../../general/view_base.dart';
 import '../event_details/models/event_details.dart';
 import 'event_initial_view_base.dart';
 
@@ -46,7 +47,7 @@ class EventInitialScreen extends StatefulWidget {
 }
 
 class _EventInitialScreenState extends State<EventInitialScreen>
-    with EventInitialViewBase {
+    with EventInitialViewBase, ViewBase {
   final EventDetails _eventDetails = const EventDetails();
 
   @override

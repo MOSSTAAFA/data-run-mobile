@@ -43,7 +43,6 @@ EventFieldMapper fieldMapper(FieldMapperRef ref) {
 
 @riverpod
 EventInitialRepository eventInitialRepository(EventInitialRepositoryRef ref) {
-  final BuildContext context = navigatorKey.currentContext!;
   final Bundle eventBundle = ref.read(bundleObjectProvider);
 
   return EventInitialRepositoryImpl(ref,
@@ -61,7 +60,7 @@ EventInitialPresenter eventInitialPresenter(
 
 @Riverpod(keepAlive: true)
 PreferenceProvider preferencesInstance(PreferencesInstanceRef ref) {
-  throw UnimplementedError();
+  return PreferenceProvider();
 }
 
 // class EventInitialModule {

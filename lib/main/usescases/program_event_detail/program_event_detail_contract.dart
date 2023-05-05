@@ -5,7 +5,7 @@ import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart'
 import '../general/presenter.dart';
 import '../general/view_abstract.dart';
 
-abstract class ProgramEventDetailView extends ViewAbstract {
+mixin ProgramEventDetailView implements ViewAbstract {
   void setProgram(Program programModel);
 
   void renderError(String message);

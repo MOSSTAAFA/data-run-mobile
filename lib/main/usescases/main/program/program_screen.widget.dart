@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../commons/extensions/standard_extensions.dart';
 import '../../../../commons/state/app_state_notifier.dart';
 import '../../../../core/program/program_type.dart';
+import '../../general/view_base.dart';
 import '../../program_event_detail/program_event_detail_screen.widget.dart';
 import 'di/program_providers.dart';
 import 'program_list/program_list.widget.dart';
@@ -20,7 +21,7 @@ class ProgramViewScreen extends ConsumerStatefulWidget {
 }
 
 class _ProgramViewScreenState extends ConsumerState<ProgramViewScreen>
-    with ProgramView {
+    with ProgramView, ViewBase {
   late final ProgramPresenter presenter;
   @override
   Widget build(BuildContext context) {

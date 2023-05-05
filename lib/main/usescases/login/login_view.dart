@@ -1,6 +1,6 @@
 import '../general/view_base.dart';
 
-abstract class LoginView extends ViewBase {
+mixin LoginView implements ViewBase {
   void showUnlockButton();
 
   void onUnlockClick(ViewBase android);

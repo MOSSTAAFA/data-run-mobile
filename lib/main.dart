@@ -6,13 +6,13 @@ import 'package:get/get.dart';
 
 import 'commons/constants.dart';
 import 'commons/prefs/preference_provider.dart';
+import 'riverpod/provider_logger.dart';
 import 'main.reflectable.dart';
 import 'main/di.dart' as di;
 import 'main/l10n/app_localizations.dart';
-import 'main/usescases/events_without_registration/event_initial/di/event_initial_module.dart';
-import 'main/usescases/splash/splash_screen.widget.dart';
-import 'main_app.dart';
 import 'dart:async';
+
+import 'main_app.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -28,21 +28,19 @@ Future<void> main() async {
 
   await PreferenceProvider.initialize();
 
-  D2Remote.initialize();
+  await D2Remote.initialize();
   di.init();
 
   // wrap the entire app with a ProviderScope so that widgets
   // will be able to read providers
   runApp(ProviderScope(
-    overrides: [
-      preferencesInstanceProvider.overrideWith((ref) => PreferenceProvider())
-    ],
+    observers: [ProviderLogger()],
     child: const App(),
   ));
 }
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +93,9 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const SplashScreen(),
+      home: const MainApp(
+        title: 'Title1',
+      ),
       getPages: [
         // GetPage(
         //   name: EventCaptureScreen.route,

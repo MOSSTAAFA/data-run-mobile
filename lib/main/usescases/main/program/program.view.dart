@@ -3,7 +3,7 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import '../../general/view_base.dart';
 import 'program_view.model.dart';
 
-abstract class ProgramView with ViewBase {
+mixin ProgramView implements ViewBase {
   void swapProgramModelData(IList<ProgramViewModel> programs);
 
   void showFilterProgress();

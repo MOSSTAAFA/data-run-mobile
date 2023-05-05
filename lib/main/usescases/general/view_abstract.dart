@@ -1,5 +1,5 @@
 /// AbstractActivityContracts.View interface
-abstract class ViewAbstract {
+mixin ViewAbstract {
   void back();
 
   void displayMessage(String? message);

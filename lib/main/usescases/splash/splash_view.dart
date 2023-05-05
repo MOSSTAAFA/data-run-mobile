@@ -1,6 +1,6 @@
 import '../general/view_base.dart';
 
-abstract class SplashView extends ViewBase {
+mixin SplashView implements ViewBase {
   void renderFlag(String flagName);
   void goToNextScreen(
       {required bool isUserLogged,

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
+import 'package:mass_pro/main/usescases/general/view_abstract.dart';
 import '../../../commons/custom_widgets/copy_to_clipboard.dart';
 
 import '../../../commons/utils/view_actions.dart';
 import '../../../main.dart';
 import '../../l10n/app_localizations.dart';
-import 'view_abstract.dart';
 
 /// any screen ActivityGlobalAbstract
-class ViewBase implements ViewAbstract {
+mixin ViewBase implements ViewAbstract {
   // final PinDialog pinDialog;
   void onCreate() {
     // ServerComponent serverComponent = ((App) getApplicationContext()).getServerComponent();

@@ -1,7 +1,7 @@
 import 'dart:io';
 import '../general/view_base.dart';
 
-abstract class MainView extends ViewBase {
+mixin MainView implements ViewBase {
   void renderUsername(String username);
 
   void openDrawer(int gravity);

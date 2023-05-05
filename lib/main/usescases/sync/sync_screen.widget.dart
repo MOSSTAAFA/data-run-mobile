@@ -3,10 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../../../commons/state/app_state_notifier.dart';
+import '../../../riverpod/use_on_init_hook.dart';
 import '../../../utils/mass_utils/colors.dart';
 import '../../data/service/work_manager/nmc_worker/work_info.dart';
 import '../../data/service/work_manager/work_manager_controller_impl.dart';
 import '../../l10n/app_localizations.dart';
+import '../general/view_base.dart';
 import '../login/login_screen.widget.dart';
 import '../main/main_screen.widget.dart';
 import 'sync_screen_presenter.dart';
@@ -19,7 +21,8 @@ class SyncScreen extends ConsumerStatefulWidget {
   ConsumerState<SyncScreen> createState() => _SyncScreenState();
 }
 
-class _SyncScreenState extends ConsumerState<SyncScreen> with SyncView {
+class _SyncScreenState extends ConsumerState<SyncScreen>
+    with SyncView, ViewBase {
   late final SyncScreenPresenter presenter;
 
   @override
@@ -104,7 +107,8 @@ class _SyncScreenState extends ConsumerState<SyncScreen> with SyncView {
 
   @override
   void didChangeDependencies() {
-    presenter.init();
+    useOnInit(() => presenter.init());
+    // presenter.init();
     super.didChangeDependencies();
   }
 

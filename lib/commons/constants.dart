@@ -32,7 +32,7 @@ const String kReports = 'reports';
 // Paths
 const String kGooglePlayUrl = '';
 const String kGitHubUrl = 'https://github.com/Hamza-ye/flutter_examples';
-const String kApiBaseUrl = 'https://mis.nmcpye.org/mis';
+const String kApiBaseUrl = 'https://mis.nmcpye.org/staging';
 const String kCoverageReportsPath = 'coverage-reports';
 const String kCoverageDataItemsPath = 'coverage-data_items';
 const String kTeamsPath = 'teams';

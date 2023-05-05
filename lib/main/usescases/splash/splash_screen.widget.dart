@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../commons/state/app_state_notifier.dart';
+import '../general/view_base.dart';
 import '../login/login_screen.widget.dart';
 import '../main/main_screen.widget.dart';
 import '../sync/sync_screen.widget.dart';
@@ -15,7 +16,8 @@ class SplashScreen extends ConsumerStatefulWidget {
   ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends ConsumerState<SplashScreen> with SplashView {
+class _SplashScreenState extends ConsumerState<SplashScreen>
+    with SplashView, ViewBase {
   late final SplashPresenter presenter;
   @override
   Widget build(BuildContext context) {
@@ -53,7 +55,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SplashView {
           .read(appStateNotifierProvider.notifier)
           .gotToNextScreenPopAll(const SyncScreen());
     } else {
-      presenter.getAccounts().then((int count) {
+      presenter.getAccounts().then((count) {
         ref
             .read(appStateNotifierProvider.notifier)
             .gotToNextScreenPopAll(LoginScreen(accountsCount: count));

@@ -66,7 +66,7 @@ class ResourceManager {
         Theme.of(navigatorKey.currentContext!).colorScheme.primary;
   }
 
-  String? parseD2Error(Exception throwable) {
+  String parseD2Error(Exception throwable) {
     return ref.read(d2ErrorUtilsProvider).getErrorMessage(throwable);
   }
 

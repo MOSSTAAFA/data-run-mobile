@@ -1,6 +1,6 @@
 import '../general/view_base.dart';
 
-abstract class SyncView extends ViewBase {
+mixin SyncView implements ViewBase {
   void setServerTheme(int themeId);
   void setFlag(String? flagName);
   void goToLogin();
