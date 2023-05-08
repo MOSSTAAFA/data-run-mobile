@@ -10,6 +10,15 @@ final DioAdapter dioAdapter =
     DioAdapter(dio: dio, matcher: const UrlRequestMatcher());
 
 Future<void> setUpTes() async {
+  /// Activity
+  final String activitiesJsonString =
+  await rootBundle.loadString('lib/sample/dhis/activities.json');
+  final Map<String, dynamic> activityDate = json.decode(activitiesJsonString);
+  dioAdapter.onGet(
+    'https://mis.nmcpye.org/staging/api/activities.json?fields=id,name,lastName,langKey,login,created,lastUpdated,birthday,gender,displayName,jobTitle,surname,employer,email,firstName,phoneNumber,nationality,code,lastLogin,username,userRoles[id,name,code],organisationUnits[id,code,name],teams[id,name],dataViewOrganisationUnits[id,code,name],userGroups[id,name],authorities,programs,dataSets',
+        (server) => server.reply(200, activityDate),
+  );
+
   /// user
   final String userJsonString =
       await rootBundle.loadString('lib/sample/dhis/me.json');

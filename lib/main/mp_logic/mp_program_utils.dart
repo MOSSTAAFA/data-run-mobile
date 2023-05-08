@@ -10,6 +10,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../commons/extensions/standard_extensions.dart';
 import '../../core/common/state.dart';
 import '../../core/program/program_type.dart';
+
 part 'mp_program_utils.g.dart';
 
 @Riverpod(keepAlive: true)
@@ -21,7 +22,8 @@ class MpProgramUtils {
   MpProgramUtils(this.eventQuery);
   final EventQuery eventQuery;
   Future<State> getProgramState(Program? program) {
-    return when(program?.programType.toProgramType, {
+    final programType = program?.programType.toProgramType;
+    return when(programType, {
       ProgramType.WITH_REGISTRATION: () {
         // TODO(NMC): implement getTrackerProgramState
         // getTrackerProgramState(program);

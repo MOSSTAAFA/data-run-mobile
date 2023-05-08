@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/user/internal/log_in_exceptions.dart';
 import '../../usescases/bundle/bundle.dart';
 import 'user_manager.dart';
+
 part 'user_manager_impl.g.dart';
 
 @riverpod

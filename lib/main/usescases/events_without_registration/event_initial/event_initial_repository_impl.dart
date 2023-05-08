@@ -16,6 +16,7 @@ import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart'
 import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_stage_data_element.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_stage_section.entity.dart';
+
 import '../../../../commons/extensions/standard_extensions.dart';
 import '../../../../commons/extensions/value_extensions.dart';
 import '../../../../core/di/providers.dart';
@@ -164,13 +165,15 @@ class EventInitialRepositoryImpl implements EventInitialRepository {
   }
 
   @override
-  Future<ProgramStage?> programStage(String programUid) async {
-    return D2Remote.programModule.programStage.byProgram(programUid).getOne();
+  Future<ProgramStage?> programStage(String? programUid) async {
+    return programUid?.aLet((it) =>
+        D2Remote.programModule.programStage.byProgram(programUid).getOne());
+    // return D2Remote.programModule.programStage.byProgram(programUid).getOne();
   }
 
   @override
   Future<ProgramStage?> programStageWithId(String? programStageUid) async {
-    return await programStageUid
+    return programStageUid
         ?.aLet((it) => D2Remote.programModule.programStage.byId(it).getOne());
   }
 

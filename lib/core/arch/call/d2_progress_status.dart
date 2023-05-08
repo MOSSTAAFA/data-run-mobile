@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 import '../../../commons/extensions/standard_extensions.dart';
 
 /// Data class
@@ -43,10 +44,11 @@ enum D2ProgressSyncStatus { SUCCESS, ERROR, PARTIAL_ERROR }
 extension ToD2ProgressSyncStatusExtension on String? {
   D2ProgressSyncStatus? get toD2ProgressSyncStatus {
     try {
-      return D2ProgressSyncStatus.values.firstWhere(
-          (status) => status.name == this,
-          orElse: throw ArgumentError(
-              'The D2ProgressSyncStatus $this does not match any D2ProgressSyncStatus'));
+      return D2ProgressSyncStatus.values.byName(this ?? '');
+      // return D2ProgressSyncStatus.values.firstWhere(
+      //     (status) => status.name == this,
+      //     orElse: throw ArgumentError(
+      //         'The D2ProgressSyncStatus $this does not match any D2ProgressSyncStatus'));
     } catch (e) {
       return null;
     }

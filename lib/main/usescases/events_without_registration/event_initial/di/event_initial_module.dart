@@ -11,7 +11,7 @@ import '../../event_capture/event_field_mapper.dart';
 import '../event_initial_presenter.dart';
 import '../event_initial_repository.dart';
 import '../event_initial_repository_impl.dart';
-import '../event_initial_view_base.dart';
+import '../event_initial_view.dart';
 
 part 'event_initial_module.g.dart';
 
@@ -53,7 +53,7 @@ EventInitialRepository eventInitialRepository(EventInitialRepositoryRef ref) {
 
 @riverpod
 EventInitialPresenter eventInitialPresenter(
-    EventInitialPresenterRef ref, EventInitialViewBase view) {
+    EventInitialPresenterRef ref, EventInitialView view) {
   return EventInitialPresenter(
       ref, view, ref.read(eventInitialRepositoryProvider));
 }
@@ -79,78 +79,78 @@ PreferenceProvider preferencesInstance(PreferencesInstanceRef ref) {
 //   final String? _eventUid;
 //   final BuildContext _activityContext;
 
-  // EventInitialPresenter providesPresenter(
-  //     // RulesUtilsProvider rulesUtilsProvider,
-  //     EventInitialRepository eventInitialRepository,
-  //     PreferenceProvider preferenceProvider,
-  //     // AnalyticsHelper analyticsHelper,
-  //     // MatomoAnalyticsController matomoAnalyticsController,
-  //     EventFieldMapper eventFieldMapper) {
-  //   return EventInitialPresenter(
-  //       view,
-  //       rulesUtilsProvider,
-  //       /// injected from (eventDetailRepository)
-  //       eventInitialRepository,
-  //       schedulerProvider,
-  //       preferenceProvider,
-  //       analyticsHelper,
-  //       matomoAnalyticsController,
-  //       eventFieldMapper);
-  // }
+// EventInitialPresenter providesPresenter(
+//     // RulesUtilsProvider rulesUtilsProvider,
+//     EventInitialRepository eventInitialRepository,
+//     PreferenceProvider preferenceProvider,
+//     // AnalyticsHelper analyticsHelper,
+//     // MatomoAnalyticsController matomoAnalyticsController,
+//     EventFieldMapper eventFieldMapper) {
+//   return EventInitialPresenter(
+//       view,
+//       rulesUtilsProvider,
+//       /// injected from (eventDetailRepository)
+//       eventInitialRepository,
+//       schedulerProvider,
+//       preferenceProvider,
+//       analyticsHelper,
+//       matomoAnalyticsController,
+//       eventFieldMapper);
+// }
 
-  // EventFieldMapper provideFieldMapper(
-  //     BuildContext context,
+// EventFieldMapper provideFieldMapper(
+//     BuildContext context,
 
-  //     /// injected from [fieldFactory()]
-  //     FieldViewModelFactory fieldFactory) {
-  //   return EventFieldMapper(
-  //       fieldFactory: fieldFactory,
-  //       mandatoryFieldWarning:
-  //           AppLocalization.of(context)!.lookup('field_is_mandatory'));
-  // }
+//     /// injected from [fieldFactory()]
+//     FieldViewModelFactory fieldFactory) {
+//   return EventFieldMapper(
+//       fieldFactory: fieldFactory,
+//       mandatoryFieldWarning:
+//           AppLocalization.of(context)!.lookup('field_is_mandatory'));
+// }
 
-  // FieldViewModelFactory fieldFactory(
-  //     BuildContext context,
+// FieldViewModelFactory fieldFactory(
+//     BuildContext context,
 
-  //     /// injected from global appModule [resources()]
-  //     ResourceManager resourceManager) {
-  //   return FieldViewModelFactoryImpl(
-  //     noMandatoryFields: false,
-  //     uiStyleProvider: UiStyleProviderImpl(
-  //         colorFactory: FormUiModelColorFactoryImpl(
-  //             context: _activityContext, isBackgroundTransparent: true),
-  //         longTextColorFactory: LongTextUiColorFactoryImpl(
-  //             context: _activityContext, isBackgroundTransparent: true)),
-  //     layoutProvider: const LayoutProviderImpl(),
-  //     hintProvider: HintProviderImpl(context),
-  //     displayNameProvider: const DisplayNameProviderImpl(
-  //         OptionSetConfiguration(), OrgUnitConfiguration()),
-  //     uiEventTypesProvider: const UiEventTypesProviderImpl(),
-  //     keyboardActionProvider: const KeyboardActionProviderImpl(),
-  //     // legendValueProvider: LegendValueProviderImpl(resourceManager)
-  //   );
-  // }
+//     /// injected from global appModule [resources()]
+//     ResourceManager resourceManager) {
+//   return FieldViewModelFactoryImpl(
+//     noMandatoryFields: false,
+//     uiStyleProvider: UiStyleProviderImpl(
+//         colorFactory: FormUiModelColorFactoryImpl(
+//             context: _activityContext, isBackgroundTransparent: true),
+//         longTextColorFactory: LongTextUiColorFactoryImpl(
+//             context: _activityContext, isBackgroundTransparent: true)),
+//     layoutProvider: const LayoutProviderImpl(),
+//     hintProvider: HintProviderImpl(context),
+//     displayNameProvider: const DisplayNameProviderImpl(
+//         OptionSetConfiguration(), OrgUnitConfiguration()),
+//     uiEventTypesProvider: const UiEventTypesProviderImpl(),
+//     keyboardActionProvider: const KeyboardActionProviderImpl(),
+//     // legendValueProvider: LegendValueProviderImpl(resourceManager)
+//   );
+// }
 
-  // FormRepository formRepository(RulesRepository rulesRepository) {
-  //   return EventRepository(rulesRepository, eventUid, d2);
-  // }
+// FormRepository formRepository(RulesRepository rulesRepository) {
+//   return EventRepository(rulesRepository, eventUid, d2);
+// }
 
-  // RulesRepository rulesRepository() {
-  //   return RulesRepository();
-  // }
+// RulesRepository rulesRepository() {
+//   return RulesRepository();
+// }
 
-  // EventInitialRepository eventDetailRepository(
-  //     FieldViewModelFactory
+// EventInitialRepository eventDetailRepository(
+//     FieldViewModelFactory
 
-  //         /// injected from [fieldFactory()]
-  //         fieldViewModelFactory /*,
-  //     RuleEngineRepository ruleEngineRepository*/
-  //     ) {
-  //   return EventInitialRepositoryImpl(
-  //       eventUid: _eventUid,
-  //       stageUid: _stageUid,
-  //       fieldFactory: fieldViewModelFactory /*, ruleEngineRepository*/);
-  // }
+//         /// injected from [fieldFactory()]
+//         fieldViewModelFactory /*,
+//     RuleEngineRepository ruleEngineRepository*/
+//     ) {
+//   return EventInitialRepositoryImpl(
+//       eventUid: _eventUid,
+//       stageUid: _stageUid,
+//       fieldFactory: fieldViewModelFactory /*, ruleEngineRepository*/);
+// }
 
 // RuleEngineRepository ruleEngineRepository(FormRepository formRepository) {
 //   return EventRuleEngineRepository(d2, formRepository, eventUid);

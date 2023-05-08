@@ -1,7 +1,7 @@
+import 'package:d2_remote/core/mp/helpers/result.dart';
 import 'package:d2_remote/modules/data/tracker/entities/event.entity.dart';
 
 import '../../../../../commons/extensions/standard_extensions.dart';
-import 'package:d2_remote/core/mp/helpers/result.dart';
 import '../../../../../core/event/event_editable_status.dart';
 import '../data/event_details_repository.dart';
 import '../providers/event_detail_resources_provider.dart';

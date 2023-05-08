@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../main/l10n/app_localizations.dart';
-import '../../../main/usescases/program_event_detail/di/program_event_detail_providers.dart';
+import '../../../main/usescases/program_event_detail/program_event_page_configurator.dart';
 import '../../../utils/mass_utils/platforms.dart';
 import '../../extensions/standard_extensions.dart';
 import '../../state/app_state.dart';
@@ -43,14 +44,17 @@ class NavigationTabBarView extends ConsumerStatefulWidget {
   // final NavigationItemBuilder tabBuilder;
   final ViewActionWidgetBuilder? tabBuilder;
   final ViewActionWidgetBuilder pageBuilder;
+
   // final void Function(ViewAction viewAction)? onPressedActionButton;
   final Widget? stub;
   final ValueChanged<ViewAction>? onPositionChange;
   final ValueChanged<double>? onScroll;
   final int initPosition;
   final bool isBottom;
+
   // final FloatingActionButton? floatingActionButton;
   final FloatingActionButtonBuilder? actionButtonBuilder;
+
   // final bool Function(ViewAction viewAction)? actionButtonVisiblity;
   final List<Widget>? appBarActions;
   final List<Widget>? appBarLeadingActions;
@@ -113,7 +117,7 @@ class NavigationTabBarViewState extends ConsumerState<NavigationTabBarView>
     return WillPopScope(
         onWillPop: () async {
           // ref.read(appStateNotifierProvider.notifier).viewDashboard();
-          return false;
+          return true;
         },
         child: FocusTraversalGroup(
           child: Scaffold(
@@ -121,7 +125,17 @@ class NavigationTabBarViewState extends ConsumerState<NavigationTabBarView>
             appBar: AppBar(
               centerTitle: false,
               automaticallyImplyLeading: false,
-              leading: leadingActions,
+              leading: leadingActions ??
+                  IconButton(
+                    color: Colors.white,
+                    icon: const Icon(Icons.arrow_back),
+                    iconSize: 20.0,
+                    onPressed: () {
+                      ref
+                          .read(appStateNotifierProvider.notifier)
+                          .navigateBack();
+                    },
+                  ),
               leadingWidth: kMinInteractiveDimension *
                   (widget.appBarLeadingActions?.length ??
                       0 + (isMobile(context) ? 1 : 2)),

@@ -1,5 +1,3 @@
-import '../../../commons/data/program_event_view_model.dart';
-
 class ProgramEventMapData {
   // ProgramEventMapData(
   //     {required this.events,

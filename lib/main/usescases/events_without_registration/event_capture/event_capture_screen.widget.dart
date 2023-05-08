@@ -16,8 +16,8 @@ import '../../../l10n/app_localizations.dart';
 import '../../../utils/event_mode.dart';
 import '../../bundle/bundle.dart';
 import '../../general/view_base.dart';
-import '../../program_event_detail/di/program_event_detail_providers.dart';
 import '../../program_event_detail/program_event_detail_view_model.dart';
+import '../../program_event_detail/program_event_page_configurator.dart';
 import '../event_details/ui/event_details.widget.dart';
 import 'di/event_capture_module.dart';
 import 'di/event_capture_providers.dart';
@@ -33,6 +33,8 @@ class EventCaptureScreen extends ConsumerStatefulWidget {
     super.key,
   });
 
+  static const String route = 'eventcapturescreen';
+
   @override
   ConsumerState<EventCaptureScreen> createState() => _EventCaptureScreenState();
 }
@@ -45,6 +47,7 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
   late final String? eventUid;
   late final EventCapturePresenter presenter;
   bool isEventCompleted = false;
+
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context)!;
@@ -63,74 +66,77 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
                   .select((value) => value.progress)),
             ),
           ),
-          NavigationTabBarView(
-            onPositionChange: (position) {
-              if (position == ViewAction.details &&
-                  eventMode != EventMode.NEW) {
-                _showSyncButton();
-              } else {
-                _hideSyncButton();
-              }
-            },
-            appBarTitle: Text(ref.watch(eventDataStringProvider)),
-            appBarActions: [
-              Consumer(
-                builder: (context, ref, child) {
-                  return ref.watch(syncButtonVisibilityProvider)
-                      ? IconButton(
-                          icon: const Icon(Icons.sync),
-                          tooltip: localization.lookup('sync'),
-                          onPressed: () => showSyncDialog(),
-                        )
-                      : const SizedBox();
-                },
+          Expanded(
+            child: NavigationTabBarView(
+              onPositionChange: (position) {
+                if (position == ViewAction.details &&
+                    eventMode != EventMode.NEW) {
+                  _showSyncButton();
+                } else {
+                  _hideSyncButton();
+                }
+              },
+              appBarTitle: Text(ref.watch(eventDataStringProvider)),
+              appBarActions: [
+                Consumer(
+                  builder: (context, ref, child) {
+                    return ref.watch(syncButtonVisibilityProvider)
+                        ? IconButton(
+                            icon: const Icon(Icons.sync),
+                            tooltip: localization.lookup('sync'),
+                            onPressed: () => showSyncDialog(),
+                          )
+                        : const SizedBox();
+                  },
+                ),
+              ],
+              actionButtonBuilder: (context, viewAction) =>
+                  FloatingActionButton(
+                heroTag: ViewAction.data_entry.name,
+                tooltip: localization.lookup('save'),
+                onPressed: () {},
+                child: const Icon(Icons.save),
               ),
-            ],
-            actionButtonBuilder: (context, viewAction) => FloatingActionButton(
-              heroTag: ViewAction.data_entry.name,
-              tooltip: localization.lookup('save'),
-              onPressed: () {},
-              child: const Icon(Icons.save),
+              tabBuilder: (context, viewAction) {
+                final name = localization.lookup(viewAction.name);
+                return when(viewAction, {
+                  ViewAction.details: () => Tab(text: name),
+                  ViewAction.data_entry: () => Tab(text: name),
+                  ViewAction.notes: () => Tab(text: name),
+                  ViewAction.analytics: () => Tab(text: name),
+                  ViewAction.relationships: () => Tab(text: name),
+                })!;
+              },
+              pageBuilder: (context, viewAction) =>
+                  when<ViewAction, Widget>(viewAction, {
+                ViewAction.details: () => const EventDetailsView(),
+                ViewAction.data_entry: () => FormView(
+                      // needToForceUpdate: needToForceUpdate,
+                      records: EventRecords(
+                          ref.read(bundleObjectProvider).getString(EVENT_UID)!),
+                      // onItemChangeListener: onItemChangeListener,
+                      onLoadingListener: (loading) {
+                        if (loading) {
+                          showProgress();
+                        } else {
+                          hideProgress();
+                        }
+                      },
+                      onFocused: () => hideNavigationBar(),
+                      // onFinishDataEntry: onFinishDataEntry,
+                      // onActivityForResult: onActivityForResult,
+                      onPercentageUpdate: (percentage) =>
+                          updatePercentage(percentage),
+                      onDataIntegrityCheck: (result) =>
+                          presenter.handleDataIntegrityResult(result),
+                      // onFieldItemsRendered: onFieldItemsRendered,
+                      // onSavePicture: onSavePicture,
+                      // resultDialogUiProvider: resultDialogUiProvider
+                    ),
+              }).orElse(() => const Center(
+                        child: Text('Unimplemented Screen!'),
+                      )),
             ),
-            tabBuilder: (context, viewAction) {
-              final name = localization.lookup(viewAction.name);
-              return when(viewAction, {
-                ViewAction.details: () => Tab(text: name),
-                ViewAction.data_entry: () => Tab(text: name),
-                ViewAction.notes: () => Tab(text: name),
-                ViewAction.analytics: () => Tab(text: name),
-                ViewAction.relationships: () => Tab(text: name),
-              })!;
-            },
-            pageBuilder: (context, viewAction) =>
-                when<ViewAction, Widget>(viewAction, {
-              ViewAction.details: () => const EventDetailsView(),
-              ViewAction.data_entry: () => FormView(
-                    // needToForceUpdate: needToForceUpdate,
-                    records: EventRecords(
-                        ref.read(bundleObjectProvider).getString(EVENT_UID)!),
-                    // onItemChangeListener: onItemChangeListener,
-                    onLoadingListener: (loading) {
-                      if (loading) {
-                        showProgress();
-                      } else {
-                        hideProgress();
-                      }
-                    },
-                    onFocused: () => hideNavigationBar(),
-                    // onFinishDataEntry: onFinishDataEntry,
-                    // onActivityForResult: onActivityForResult,
-                    onPercentageUpdate: (percentage) =>
-                        updatePercentage(percentage),
-                    onDataIntegrityCheck: (result) =>
-                        presenter.handleDataIntegrityResult(result),
-                    // onFieldItemsRendered: onFieldItemsRendered,
-                    // onSavePicture: onSavePicture,
-                    // resultDialogUiProvider: resultDialogUiProvider
-                  ),
-            }).orElse(() => const Center(
-                      child: Text('Unimplemented Screen!'),
-                    )),
           ),
         ],
       ),

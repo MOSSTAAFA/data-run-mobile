@@ -3,7 +3,7 @@ import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity
 
 import '../../general/view_base.dart';
 
-mixin EventInitialViewBase implements ViewBase {
+mixin EventInitialView implements ViewBase {
   void setProgram(Program? program);
 
   void renderError(String message);

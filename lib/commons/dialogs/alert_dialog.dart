@@ -1,11 +1,9 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-
-// Package imports:
-import 'package:pointer_interceptor/pointer_interceptor.dart';
-
 // Project imports:
 import 'package:mass_pro/main/l10n/app_localizations.dart';
+// Package imports:
+import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 class MessageDialog extends StatelessWidget {
   @deprecated

@@ -1,0 +1,23 @@
+{
+  "activities": [
+    {
+      "lastUpdated": "2014-08-18T12:39:16.000",
+      "project": "ProLwhy5VDY",
+      "code": "activity1 Code",
+      "created": "2014-08-18T12:39:16.000",
+      "startDate": "1994-01-01T00:00:00.000",
+      "endDate": "1994-01-01T00:00:00.000",
+      "inactive": false,
+      "name": "ICCM Activity N",
+      "id": "ActLwhy5VDY",
+      "displayName": "ICCM Activity DM",
+      "shortName": "ICCM Activity SM",
+      "programs": [
+        { "id": "EfUf1hzOESb" }
+      ],
+      "organisationUnits": [],
+      "assignments": [],
+      "teams": []
+    }
+  ]
+}

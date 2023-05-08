@@ -4,12 +4,7 @@ import 'dart:async';
 // Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
-import 'package:flutter_styled_toast/flutter_styled_toast.dart';
-
 import '../../commons/constants.dart';
-import '../../commons/dialogs/dialogs.dart';
-import '../../main.dart';
 
 // Project imports:
 

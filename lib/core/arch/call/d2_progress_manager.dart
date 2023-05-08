@@ -1,6 +1,3 @@
-import 'package:d2_remote/shared/models/request_progress.model.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
 import 'd2_progress.dart';
 
 // part 'd2_progress_manager.g.dart';

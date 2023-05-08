@@ -5,7 +5,9 @@ import 'program_view.model.dart';
 
 abstract class ProgramRepository {
   Future<IList<ProgramViewModel>> homeItems(SyncStatusData syncStatusData);
+
   Future<IList<ProgramViewModel>> programModels(SyncStatusData syncStatusData);
+
   Future<IList<ProgramViewModel>> aggregatesModels(
       SyncStatusData syncStatusData);
 }

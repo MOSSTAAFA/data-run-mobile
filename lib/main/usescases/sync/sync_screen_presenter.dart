@@ -8,6 +8,7 @@ import '../../data/service/work_manager/work_manager_controller.dart';
 import '../../data/service/work_manager/work_manager_controller_impl.dart';
 import '../events_without_registration/event_initial/di/event_initial_module.dart';
 import 'sync_view.dart';
+
 part 'sync_presenter.g.dart';
 
 const String WAS_INITIAL_SYNC_DONE = 'WasInitialSyncDone';
@@ -24,7 +25,9 @@ SyncScreenPresenter syncScreenPresenter(
 
 class SyncScreenPresenter {
   SyncScreenPresenter(this.view, this.userManager, this.preferences,
-      this.workManagerController); /*  {
+      this.workManagerController);
+
+  /*  {
     workManagerController.syncMetaDataForWorker(META_NOW, INITIAL_SYNC);
   } */
 

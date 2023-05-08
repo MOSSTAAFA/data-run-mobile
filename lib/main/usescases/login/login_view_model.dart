@@ -1,9 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:get/get.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../commons/constants.dart';
+import '../../../commons/extensions/dynamic_extensions.dart';
 import '../../../commons/extensions/string_extension.dart';
 import '../../../commons/helpers/collections.dart';
 
@@ -13,16 +12,15 @@ part 'login_view_model.g.dart';
 class LoginModel extends _$LoginModel {
   @override
   LoginViewModel build() {
-    printInfo(info: 'LoginModel created ######################');
+    logInfo(info: 'LoginModel created');
 
-    ref.onDispose(
-        () => printInfo(info: 'dispose: LoginModel ######################'));
+    ref.onDispose(() => logInfo(info: 'dispose: LoginModel'));
     return LoginViewModel();
   }
 
   void onServerChanged(String serverUrl) {
     if (serverUrl != state.serverUrl) {
-      state.copyWith(serverUrl: serverUrl);
+      state = state.copyWith(serverUrl: serverUrl);
       _checkData();
       if (state.serverUrl != null) {
         _checkTestingEnvironment(state.serverUrl!);
@@ -81,7 +79,7 @@ class LoginModel extends _$LoginModel {
 
 class LoginViewModel with EquatableMixin {
   LoginViewModel(
-      {this.serverUrl = kApiBaseUrl,
+      {this.serverUrl,
       this.userName,
       this.password,
       this.isDataComplete,

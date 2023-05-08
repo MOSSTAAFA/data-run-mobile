@@ -8,10 +8,10 @@ import '../domain/configure_event_temp.dart';
 import '../domain/configure_org_unit.dart';
 import '../domain/create_or_update_event_details.dart';
 import '../providers/event_detail_resources_provider.dart';
-import 'event_details_view_model.dart';
+import 'event_details_view_model_controller.dart';
 
 class EventDetailsViewModelFactory
-    implements ViewModelFactory<EventDetailsViewModel> {
+    implements ViewModelFactory<EventDetailsViewModelController> {
   const EventDetailsViewModelFactory(
       {required ConfigureEventDetails configureEventDetails,
       required ConfigureEventReportDate configureEventReportDate,
@@ -46,8 +46,8 @@ class EventDetailsViewModelFactory
   final EventDetailResourcesProvider _eventDetailResourcesProvider;
 
   @override
-  EventDetailsViewModel create() {
-    return EventDetailsViewModel(
+  EventDetailsViewModelController create() {
+    return EventDetailsViewModelController(
         configureEventDetails: _configureEventDetails,
         configureEventReportDate: _configureEventReportDate,
         configureOrgUnit: _configureOrgUnit,
@@ -61,5 +61,5 @@ class EventDetailsViewModelFactory
   }
 
   @override
-  Type get type => EventDetailsViewModel;
+  Type get type => EventDetailsViewModelController;
 }

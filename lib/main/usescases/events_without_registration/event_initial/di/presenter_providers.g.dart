@@ -22,6 +22,7 @@ final onEventCreatedProvider =
 );
 
 typedef _$OnEventCreated = AutoDisposeNotifier<String?>;
+
 String _$errorRenderHash() => r'e544d2a759a6eee33dc95fc0f737bc8940613a6e';
 
 /// See also [ErrorRender].
@@ -37,6 +38,7 @@ final errorRenderProvider =
 );
 
 typedef _$ErrorRender = AutoDisposeNotifier<String?>;
+
 String _$percentageUpdaterHash() => r'ad9ca84db506cf5e319c3df31cfe38ba97e6cced';
 
 /// See also [PercentageUpdater].

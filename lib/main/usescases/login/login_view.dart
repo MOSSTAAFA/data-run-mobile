@@ -15,7 +15,7 @@ mixin LoginView implements ViewBase {
 
   void setLoginVisibility(bool isVisible);
 
-  void showLoginProgress(bool showLogin);
+  Future<void> showLoginProgress(bool showLogin);
 
   void goToNextScreen();
 
@@ -36,13 +36,19 @@ mixin LoginView implements ViewBase {
   void openAccountRecovery();
 
   void alreadyAuthenticated();
+
   // void showCredentialsData(Goldfinger.Type type, List<String> args);
   void showEmptyCredentialsMessage();
+
   void setTestingCredentials();
+
   String getDefaultServerProtocol();
+
   // Goldfinger.PromptParams getPromptParams();
   bool isNetworkAvailable();
+
   // void openOpenIDActivity(IntentWithRequestCode? it);
   void openAccountsActivity();
+
   void showNoConnectionDialog();
 }

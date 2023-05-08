@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/get.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 import '../../../commons/constants.dart';
@@ -10,6 +9,7 @@ import '../../../commons/custom_widgets/fields/decorated_form_field.dart';
 import '../../../commons/custom_widgets/fields/password_field.dart';
 import '../../../commons/custom_widgets/form_card.dart';
 import '../../../commons/custom_widgets/mixins/keyboard_manager.dart';
+import '../../../commons/extensions/dynamic_extensions.dart';
 import '../../../commons/extensions/string_extension.dart';
 import '../../../commons/resources/resource_manager.dart';
 import '../../../commons/state/app_state_notifier.dart';
@@ -24,7 +24,6 @@ import 'login_view.dart';
 import 'login_view_model.dart';
 import 'widgets/headline1.dart';
 import 'widgets/login_header.dart';
-import 'widgets/selectable_error.widget.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen(
@@ -33,9 +32,12 @@ class LoginScreen extends ConsumerStatefulWidget {
       this.accountsCount = -1,
       this.isDeletion = false});
 
+  static const String route = '/loginscreen';
+
   final bool skipSync;
   final int accountsCount;
   final bool isDeletion;
+
   // final OpenIdSession.LogOutReason? logOutReason;
 
   @override
@@ -114,7 +116,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                             .onPassChanged(value),
                                         readOnly: ref
                                             .watch(showLoginProgressProvider),
-                                        controller: _passwordController,
+                                        // controller: _passwordController,
                                         onSavePressed: (_) =>
                                             presenter.onButtonClick(),
                                       ),
@@ -170,13 +172,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
   /// LifeCycle methods
   @override
   void initState() {
-    presenter = ref.read(loginScreenPresenterProvider(this));
-    presenter.init();
     super.initState();
+    presenter = ref.read(loginScreenPresenterProvider(this));
   }
 
   @override
   void didChangeDependencies() {
+    useOnInit(() => presenter.init());
+    // presenter.init();
     super.didChangeDependencies();
   }
 
@@ -202,12 +205,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
   }
 
   @override
-  void showLoginProgress(bool showLogin) {
+  Future<void> showLoginProgress(bool showLogin) async {
     if (showLogin) {
       ref.read(showLoginProgressProvider.notifier).update((state) => true);
       _buttonController.start();
-      presenter.logIn(
-          kApiBaseUrl, _userController.text, _passwordController.text);
+      await presenter.logIn(kApiBaseUrl, ref.read(loginModelProvider).userName!,
+          ref.read(loginModelProvider).password!);
     } else {
       ref.read(showLoginProgressProvider.notifier).update((state) => false);
       _buttonController.reset();
@@ -229,22 +232,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
 
   @override
   void setUrl(String url) {
+    ref.read(loginModelProvider.notifier).onServerChanged(url);
     _urlController.text = url;
   }
 
   @override
   void setUser(String user) {
+    ref.read(loginModelProvider.notifier).onUserChanged(user);
     _userController.text = user;
   }
 
   @override
-  void alreadyAuthenticated() {
-    // TODO: implement alreadyAuthenticated
-  }
-
-  @override
   String getDefaultServerProtocol() {
-    return 'https://';
+    return kApiBaseUrl;
+    // return 'https://';
   }
 
   @override
@@ -252,17 +253,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
     if (isNetworkAvailable() && !widget.skipSync) {
       ref
           .read(appStateNotifierProvider.notifier)
-          .navigateToScreen(const SyncScreen());
+          .gotToNextScreen(const SyncScreen());
     } else {
       ref
           .read(appStateNotifierProvider.notifier)
-          .navigateToScreen(const MainScreen());
+          .gotToNextScreen(const MainScreen());
     }
-  }
-
-  @override
-  void handleLogout() {
-    // TODO: implement handleLogout
   }
 
   @override
@@ -271,35 +267,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
   }
 
   @override
-  void navigateToQRActivity() {
-    // TODO: implement navigateToQRActivity
-  }
-
-  @override
   void onLogoutClick(ViewBase android) {
     presenter.logOut();
   }
 
   @override
-  void onUnlockClick(ViewBase android) {
-    // TODO: implement onUnlockClick
-  }
-
-  @override
-  void openAccountRecovery() {
-    // TODO: implement openAccountRecovery
-  }
-
-  @override
-  void openAccountsActivity() {
-    // TODO: implement openAccountsActivity
-  }
-
-  @override
   void saveUsersData(bool isInitialSyncDone) {
+    logInfo(info: '''saveUsersData, isInitialSyncDone: $isInitialSyncDone, 
+            ${isInitialSyncDone ? 'so will skipSync' : 'so will start ync'}''');
+
     skipSync = isInitialSyncDone;
     if (!presenter.areSameCredentials(
-        _urlController.text, _userController.text, _passwordController.text)) {
+        ref.read(loginModelProvider).serverUrl,
+        ref.read(loginModelProvider).userName,
+        ref.read(loginModelProvider).password)) {
       // This is commented until fingerprint login for multiuser is supported
       /* if (presenter.canHandleBiometrics() == true) {
                 showInfoDialog(
@@ -329,12 +310,59 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                 )
                 goToNextScreen()
             } */
-      presenter.saveUserCredentials(
-          _urlController.text, _userController.text, '');
+      presenter.saveUserCredentials(ref.read(loginModelProvider).serverUrl!,
+          ref.read(loginModelProvider).userName!, '');
       goToNextScreen();
     } else {
       goToNextScreen();
     }
+  }
+
+  @override
+  void showEmptyCredentialsMessage() {
+    final localization = AppLocalization.of(context)!;
+    showInfoDialog(
+        title: localization.lookup('R.biometrics_dialog_title'),
+        message: localization.lookup('R.biometrics_first_use_text'));
+  }
+
+  @override
+  void showNoConnectionDialog() {
+    final localization = AppLocalization.of(context)!;
+    showInfoDialog(
+        title: localization.lookup('R.network_unavailable'),
+        message: localization.lookup('R.no_network_to_recover_account'),
+        positiveButtonText: localization.lookup('ok'));
+  }
+
+  @override
+  void navigateToQRActivity() {
+    // TODO: implement navigateToQRActivity
+  }
+
+  @override
+  void handleLogout() {
+    // TODO: implement handleLogout
+  }
+
+  @override
+  void alreadyAuthenticated() {
+    // TODO: implement alreadyAuthenticated
+  }
+
+  @override
+  void onUnlockClick(ViewBase android) {
+    // TODO: implement onUnlockClick
+  }
+
+  @override
+  void openAccountRecovery() {
+    // TODO: implement openAccountRecovery
+  }
+
+  @override
+  void openAccountsActivity() {
+    // TODO: implement openAccountsActivity
   }
 
   @override
@@ -355,23 +383,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
   @override
   void showCrashlyticsDialog() {
     // TODO: implement showCrashlyticsDialog
-  }
-
-  @override
-  void showEmptyCredentialsMessage() {
-    final localization = AppLocalization.of(context)!;
-    showInfoDialog(
-        title: localization.lookup('R.biometrics_dialog_title'),
-        message: localization.lookup('R.biometrics_first_use_text'));
-  }
-
-  @override
-  void showNoConnectionDialog() {
-    final localization = AppLocalization.of(context)!;
-    showInfoDialog(
-        title: localization.lookup('R.network_unavailable'),
-        message: localization.lookup('R.no_network_to_recover_account'),
-        positiveButtonText: localization.lookup('ok'));
   }
 
   @override

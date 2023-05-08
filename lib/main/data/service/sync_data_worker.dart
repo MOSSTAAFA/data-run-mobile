@@ -1,17 +1,15 @@
 import 'dart:async';
 
-import 'package:d2_remote/core/mp/helpers/result.dart';
 import 'package:dio/dio.dart';
 
 import '../../../commons/constants.dart';
 import '../../../commons/date/date_utils.dart';
-import '../../../commons/helpers/collections.dart';
+import '../../../commons/extensions/dynamic_extensions.dart';
 import '../../../commons/network/network_utils.dart';
+import '../../../commons/prefs/preference_provider.dart';
 import '../../../commons/resources/resource_manager.dart';
-import '../../usescases/bundle/bundle.dart';
 import 'sync_metadata_worker.dart';
 import 'sync_presenter.dart';
-import '../../../commons/prefs/preference_provider.dart';
 import 'sync_result.dart';
 import 'work_manager/nmc_worker/work_info.dart';
 import 'work_manager/nmc_worker/worker.dart';
@@ -30,7 +28,7 @@ class SyncDataWorker extends Worker {
   final ResourceManager resourceManager;
 
   @override
-  FutureOr<WorkInfo> call(
+  Future<WorkInfo> doWork(
       {OnProgressUpdate? onProgressUpdate, Dio? dioTestClient}) async {
     await presenter.initSyncControllerMap();
 
@@ -53,7 +51,7 @@ class SyncDataWorker extends Worker {
       if (!ref.read(networkUtilsProvider).isOnline()) {
         presenter.setNetworkUnavailable();
       }
-      print('Timber.e($e)');
+      logError(info: 'Timber.e($e)');
       isEventOk = false;
     }
 
@@ -63,7 +61,7 @@ class SyncDataWorker extends Worker {
       if (!ref.read(networkUtilsProvider).isOnline()) {
         presenter.setNetworkUnavailable();
       }
-      print('Timber.e($e)');
+      logError(info: 'Timber.e($e)');
       isTeiOk = false;
     }
 
@@ -77,7 +75,7 @@ class SyncDataWorker extends Worker {
       if (!ref.read(networkUtilsProvider).isOnline()) {
         presenter.setNetworkUnavailable();
       }
-      print('Timber.e($e)');
+      logError(info: 'Timber.e($e)');
       isDataValue = false;
     }
 
@@ -88,7 +86,7 @@ class SyncDataWorker extends Worker {
     try {
       await presenter.downloadResources();
     } catch (e) {
-      print('Timber.e($e)');
+      logError(info: 'Timber.e($e)');
     }
 
     onProgressUpdate?.call(100);

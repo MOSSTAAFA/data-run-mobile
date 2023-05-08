@@ -1,5 +1,6 @@
 import 'package:d2_remote/modules/activity_management/activity/entities/activity.entity.dart';
 import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisation_unit.entity.dart';
+
 import '../../../../commons/date/field_with_issue.dart';
 import '../../../../commons/prefs/preference.dart';
 import '../../../../commons/prefs/preference_provider.dart';
@@ -28,8 +29,10 @@ class EventCapturePresenterImpl implements EventCapturePresenter {
 
   final EventCaptureRepository eventCaptureRepository;
   final String eventUid;
+
   // final SchedulerProvider schedulerProvider;
   final EventCaptureView view;
+
   // bool isExpired;
   // final PublishProcessor<Unit> notesCounterProcessor;
   final PreferenceProvider preferences;

@@ -1,24 +1,29 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:d2_remote/core/arch/helpers/uids_helper.dart';
+import 'package:d2_remote/core/mp/helpers/result.dart';
 import 'package:d2_remote/modules/data/tracker/queries/event.query.dart';
 import 'package:d2_remote/modules/data/tracker/queries/tracked_entity_instance.query.dart';
 import 'package:d2_remote/modules/metadata/dataset/queries/data_set.query.dart';
 import 'package:d2_remote/modules/metadata/program/queries/program.query.dart';
 import 'package:dio/dio.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:get/get.dart';
-import '../../../core/sync/sync_metadata.dart';
-import 'sync_metadata_worker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../../core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
-import 'package:d2_remote/core/mp/helpers/result.dart';
+
+import '../../../commons/extensions/dynamic_extensions.dart';
 import '../../../core/arch/call/d2_progress.dart';
 import '../../../core/arch/call/d2_progress_status.dart';
+import '../../../core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
+import '../../../core/d2_remote_extensions/tracker/queries/event_query_download_extension.dart';
+import '../../../core/d2_remote_extensions/tracker/queries/event_query_upload_extension.dart';
+import '../../../core/d2_remote_extensions/tracker/queries/tei_upload_extension.dart';
+import '../../../core/sync/sync_metadata.dart';
 import '../../../core/tracker/tracker_d2_progress.dart';
+import 'sync_metadata_worker.dart';
 import 'sync_presenter.dart';
 import 'sync_result.dart';
 import 'sync_status_controller.dart';
+
 part 'sync_presenter_impl.g.dart';
 
 @riverpod
@@ -36,11 +41,13 @@ class SyncPresenterImpl implements SyncPresenter {
   final ProgramQuery programQuery;
   final TrackedEntityInstanceQuery teisQuery;
   final DataSetQuery dataSet;
+
   // : preferences = ref.read(preferencesInstanceProvider),
   // syncStatusController = ref.read(syncStatusControllerInstanceProvider),
   // syncRepository = ref.read(syncRepositoryProvider);
 
   final SyncPresenterRef ref;
+
   // final PreferenceProvider preferences;
   // final WorkManagerController workManagerController;
   // final AnalyticsHelper analyticsHelper;
@@ -94,13 +101,15 @@ class SyncPresenterImpl implements SyncPresenter {
     // upload unSynced
     // TODO(NMC): make service to do that and handle errors inside it
     // await D2Remote.trackerModule.event
+    eventQuery.resetFilters();
     await eventQuery
-        .resetFilters()
+        // .resetFilters()
         .uploadProgress(_postProgress, dioTestClient: dioTestClient);
     // download
     // await D2Remote.trackerModule.event
+    eventQuery.resetFilters();
     await eventQuery
-        .resetFilters()
+        // .resetFilters()
         .downloadWithProgress(_postProgress, dioTestClient: dioTestClient);
   }
 
@@ -108,13 +117,15 @@ class SyncPresenterImpl implements SyncPresenter {
   @override
   Future<void> syncAndDownloadTeis({Dio? dioTestClient}) async {
     // await D2Remote.trackerModule.trackedEntityInstance
+    teisQuery.resetFilters();
     await teisQuery
-        .resetFilters()
+        // .resetFilters()
         .uploadWithProgress(_postProgress, dioTestClient: dioTestClient);
     // download teis
     // await D2Remote.trackerModule.trackedEntityInstance
+    teisQuery.resetFilters();
     await teisQuery
-        .resetFilters()
+        // .resetFilters()
         .downloadWithProgress(_postProgress, dioTestClient: dioTestClient);
   }
 
@@ -131,7 +142,7 @@ class SyncPresenterImpl implements SyncPresenter {
     // final d2ProgressManager = D2ProgressManager(totalCalls: 4);
     return ref.read(syncMetadataProvider).download(
       callback: (progress) {
-        print(progress?.message ?? '');
+        logInfo(info: 'syncMetadata progress: ${progress?.message}');
         onProgressUpdate?.call((progress?.percentage ?? 0.0).ceil());
       },
     );
@@ -172,14 +183,16 @@ class SyncPresenterImpl implements SyncPresenter {
     // TODO(NMC): make service to do that and handle errors inside it
     // await D2Remote.trackerModule.event
     // await EventQuery()
+    eventQuery.resetFilters();
     await eventQuery
-        .resetFilters()
+        // .resetFilters()
         .byProgram(programUid)
         .uploadProgress(_postProgress, dioTestClient: dioTestClient);
     // download
     // return D2Remote.trackerModule.event
+    eventQuery.resetFilters();
     return eventQuery
-        .resetFilters()
+        // .resetFilters()
         .byProgram(programUid)
         .downloadWithProgress(_postProgress, dioTestClient: dioTestClient)
         .then((value) => Result.success(''))
@@ -194,14 +207,16 @@ class SyncPresenterImpl implements SyncPresenter {
     // upload unSynced
     // TODO(NMC): make service to do that and handle errors inside it
     // await D2Remote.trackerModule.event
+    eventQuery.resetFilters();
     await eventQuery
-        .resetFilters()
+        // .resetFilters()
         .byActivity(activityUid)
         .uploadProgress(_postProgress, dioTestClient: dioTestClient);
     // download
     // return D2Remote.trackerModule.event
+    eventQuery.resetFilters();
     return eventQuery
-        .resetFilters()
+        // .resetFilters()
         .byActivity(activityUid)
         .downloadWithProgress(_postProgress, dioTestClient: dioTestClient)
         .then((value) => Result.success(''))

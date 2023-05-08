@@ -3,6 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../commons/helpers/collections.dart';
 import '../../../core/event/event_status.dart';
+
 part 'program_event_detail_view_model.g.dart';
 
 @riverpod
@@ -60,7 +61,7 @@ enum EventProgramScreen {
 
 class ProgramEventDetailViewModel with EquatableMixin {
   ProgramEventDetailViewModel(
-      {this.progress = true,
+      {this.progress = false,
       this.writePermission = false,
       this.eventSyncClicked,
       this.eventClicked,

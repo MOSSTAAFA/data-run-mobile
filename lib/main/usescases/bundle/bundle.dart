@@ -1,12 +1,29 @@
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../../../commons/extensions/dynamic_extensions.dart';
+
 part 'bundle.g.dart';
 
 @riverpod
 class BundleObject extends _$BundleObject {
   @override
   Bundle build() {
+    logInfo(info: '######## BundleObject is Created');
+
+    ref.onDispose(() {
+      logInfo(info: '######## BundleObject is disposed');
+    });
+
+    ref.onCancel(() =>  logInfo(info: 'cancel: $state'));
+    ref.onResume(() =>  logInfo(info: 'resume: $state'));
+    ref.onDispose(() =>  logInfo(info: 'dispose: $state'));
+
+    // get the [KeepAliveLink]
+    // final link = ref.keepAlive();
+
+
     return Bundle();
   }
 
@@ -33,7 +50,7 @@ class BundleObject extends _$BundleObject {
 
 class Bundle with EquatableMixin {
   Bundle([IMap<String, dynamic>? map])
-      : bundleMap = map ?? IMap<String, dynamic>();
+      : bundleMap = IMap.orNull(map?.unlock) ?? IMap<String, dynamic>();
   IMap<String, dynamic> bundleMap;
 
   Bundle putString(String key, String? value) {

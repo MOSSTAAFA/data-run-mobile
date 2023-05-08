@@ -1,9 +1,12 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../sync_data_worker.dart';
+import '../sync_metadata_worker.dart';
 import 'nmc_worker/work_info.dart';
 import 'nmc_worker/worker.dart';
 import 'work_manager_controller.dart';
 import 'worker_item.dart';
+
 part 'work_manager_controller_impl.g.dart';
 
 @riverpod
@@ -53,7 +56,7 @@ class WorkManagerControllerImpl implements WorkManagerController {
   @override
   Future<void> syncMetaDataForWorker(
       String metadataWorkerTag, String workName) async {
-    final Worker worker = ref.read(syncMetadataWorkerProvider);
+    final SyncMetadataWorker worker = ref.read(syncMetadataWorkerProvider);
     // TODO(NMC): Implement android_alarm_manager_plus
     // https://stackoverflow.com/questions/51706265/how-to-schedule-background-tasks-in-flutter#:~:text=14-,SOLUTION,-1%3A%20android_alarm_manager_plus
 
@@ -63,7 +66,7 @@ class WorkManagerControllerImpl implements WorkManagerController {
         .updateWorkInfoState(WorkInfoState.RUNNING);
 
     /// update progress
-    final finalResult = await worker(
+    final finalResult = await worker.doWork(
       onProgressUpdate: (progress) {
         ref.read(syncProgressProvider.notifier).updateProgress(progress);
       },
@@ -89,10 +92,10 @@ class WorkManagerControllerImpl implements WorkManagerController {
   @override
   Future<void> syncDataForWorker(
       String metadataWorkerTag, String workName) async {
-    final Worker worker = ref.read(syncDataWorkerProvider);
+    final SyncDataWorker worker = ref.read(syncDataWorkerProvider);
     // TODO(NMC): Implement android_alarm_manager_plus
     // https://stackoverflow.com/questions/51706265/how-to-schedule-background-tasks-in-flutter#:~:text=14-,SOLUTION,-1%3A%20android_alarm_manager_plus
-    await worker();
+    await worker.doWork();
   }
 
   @override

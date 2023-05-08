@@ -9,6 +9,7 @@ import 'event_list.widget.dart';
 /// EventListFragment
 class EventListScreen extends ConsumerWidget {
   const EventListScreen({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final program = ref.watch(eventListProgramProvider).value;

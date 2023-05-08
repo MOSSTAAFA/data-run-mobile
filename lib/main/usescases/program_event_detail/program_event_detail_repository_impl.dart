@@ -1,30 +1,43 @@
-import 'package:d2_remote/d2_remote.dart';
-import 'package:d2_remote/modules/data/tracker/entities/event.entity.dart';
-import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity.dart';
-
-import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart';
-
-import 'package:d2_remote/modules/activity_management/activity/entities/activity.entity.dart';
-
 import 'package:d2_remote/core/common/feature_type.dart';
-import '../../../commons/data/event_view_model.dart';
-import '../../../core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
-import 'di/program_event_detail_providers.dart';
-import 'program_event_mapper.dart';
+import 'package:d2_remote/d2_remote.dart';
+import 'package:d2_remote/modules/activity_management/activity/entities/activity.entity.dart';
+import 'package:d2_remote/modules/data/tracker/entities/event.entity.dart';
+import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart';
+import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:get/get.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../commons/data/event_view_model.dart';
 import '../../../commons/data/program_event_view_model.dart';
 import '../../../commons/extensions/feature_type_extension.dart';
+import '../../../core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
+import '../bundle/bundle.dart';
 import 'program_event_detail_repository.dart';
+import 'program_event_detail_screen.widget.dart';
 import 'program_event_map_data.dart';
+import 'program_event_mapper.dart';
+
+part 'program_event_detail_repository_impl.g.dart';
+
+/// ProgramEventDetailPresenter
+@riverpod
+ProgramEventDetailRepository programEventDetailRepository(
+    ProgramEventDetailRepositoryRef ref) {
+  return ProgramEventDetailRepositoryImpl(ref);
+}
 
 class ProgramEventDetailRepositoryImpl implements ProgramEventDetailRepository {
-  ProgramEventDetailRepositoryImpl(this.programUid, this.ref, this.mapper);
+  ProgramEventDetailRepositoryImpl(this.ref)
+      : programUid = (Get.arguments as Bundle).getString(EXTRA_PROGRAM_UID)!,
+        mapper = ref.read(programEventMapperProvider);
+
   ProgramEventDetailRepositoryRef ref;
   final String programUid;
   final ProgramEventMapper mapper;
 
   @override
-  Future<List<EventModel>> programEvents() async {
+  Future<IList<EventModel>> programEvents() async {
     final List<Event> events = await D2Remote.trackerModule.event
         .resetFilters()
         .byProgram(programUid)
@@ -34,7 +47,7 @@ class ProgramEventDetailRepositoryImpl implements ProgramEventDetailRepository {
         events,
         (Event it) async =>
             eventsModels.add(await mapper.eventToEventViewModel(it)));
-    return eventsModels;
+    return eventsModels.lock;
   }
 
   @override
@@ -83,7 +96,7 @@ class ProgramEventDetailRepositoryImpl implements ProgramEventDetailRepository {
 
   @override
   Future<Program> program() async {
-    return (await D2Remote.programModule.program.byId(programUid).getOne())!;
+    return (await D2Remote.programModule.program.byId(programUid!).getOne())!;
   }
 
   @override
@@ -93,20 +106,23 @@ class ProgramEventDetailRepositoryImpl implements ProgramEventDetailRepository {
   }
 
   @override
-  Future<bool> hasAccessToAllCatOptions() {
+  Future<bool> hasAccessToAllCatOptions() async {
     // TODO: implement hasAccessToAllCatOptions
-    throw UnimplementedError();
+    return true;
+    // throw UnimplementedError();
   }
 
   @override
   Future<bool> programHasAnalytics() {
     // TODO: implement programHasAnalytics
-    throw UnimplementedError();
+    return Future.value(false);
+    // throw UnimplementedError();
   }
 
   @override
   Future<bool> programHasCoordinates() {
     // TODO: implement programHasCoordinates
-    throw UnimplementedError();
+    return Future.value(false);
+    // throw UnimplementedError();
   }
 }

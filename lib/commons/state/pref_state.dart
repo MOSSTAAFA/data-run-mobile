@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
 import '../constants.dart';
 import '../utils/color_theme_model.dart';
 import '../utils/module_layout.dart';

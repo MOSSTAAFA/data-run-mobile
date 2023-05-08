@@ -1,9 +1,7 @@
 import 'package:d2_remote/core/common/value_type.dart';
 import 'package:d2_remote/core/common/value_type_rendering_type.dart';
 import 'package:d2_remote/core/program/section_rendering_type.dart';
-import 'package:flutter/material.dart';
-import '../../commons/custom_widgets/fields/form_edit_text.widget.dart';
-import '../../commons/custom_widgets/form_card.dart';
+
 import 'provider/layout_provider.dart';
 
 // NMCP maybe inject

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
-import 'package:mass_pro/main/usescases/general/view_abstract.dart';
-import '../../../commons/custom_widgets/copy_to_clipboard.dart';
 
+import '../../../commons/custom_widgets/copy_to_clipboard.dart';
 import '../../../commons/utils/view_actions.dart';
 import '../../../main.dart';
 import '../../l10n/app_localizations.dart';
+import 'view_abstract.dart';
 
 /// any screen ActivityGlobalAbstract
 mixin ViewBase implements ViewAbstract {
@@ -72,8 +72,11 @@ mixin ViewBase implements ViewAbstract {
   Future<void> showDescription(String description) {
     final localization = AppLocalization.of(navigatorKey.currentContext!)!;
     return Get.defaultDialog(
+      radius: 10,
       title: localization.lookup('description'),
-      content: Text(description),
+      content: SingleChildScrollView(
+        child: Text(description),
+      ),
       textCancel: localization.lookup('close'),
       onCancel: () {
         Get.back();
@@ -118,7 +121,9 @@ mixin ViewBase implements ViewAbstract {
       content: CopyToClipboard(
         prefix: prefix,
         value: message,
-        child: Text(message),
+        child: SingleChildScrollView(
+          child: Text(message),
+        ),
       ),
       textConfirm: positiveButtonText ?? localization.lookup('ok'),
       textCancel: negativeButtonText ?? localization.lookup('cancel'),

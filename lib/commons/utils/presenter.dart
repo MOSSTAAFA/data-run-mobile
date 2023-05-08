@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 // Project imports:
 import '../../main/l10n/app_localizations.dart';
-
 import '../../utils/mass_utils/formatting.dart';
 import '../extensions/standard_extensions.dart';
 import 'entity_base_fields.dart';

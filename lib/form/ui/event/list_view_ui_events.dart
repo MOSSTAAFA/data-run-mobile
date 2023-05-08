@@ -1,6 +1,7 @@
 import 'package:d2_remote/core/common/feature_type.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
 import '../../model/Ui_render_type.dart';
 import '../../model/field_ui_model.dart';
 

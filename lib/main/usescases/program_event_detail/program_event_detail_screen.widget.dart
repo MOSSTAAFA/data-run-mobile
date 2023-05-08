@@ -1,28 +1,30 @@
 import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
+
 import '../../../commons/constants.dart';
+import '../../../commons/custom_widgets/navigationbar/navigation_tab_bar_view.widget.dart';
 import '../../../commons/data/event_creation_type.dart';
+import '../../../commons/extensions/standard_extensions.dart';
 import '../../../commons/helpers/collections.dart';
 import '../../../commons/state/app_state_notifier.dart';
+import '../../../commons/utils/view_actions.dart';
+import '../../../form/ui/components/linear_loading_indicator.dart';
+import '../../../riverpod/use_on_init_hook.dart';
+import '../../l10n/app_localizations.dart';
 import '../../utils/event_mode.dart';
 import '../bundle/bundle.dart';
 import '../events_without_registration/event_capture/event_capture_screen.widget.dart';
 import '../events_without_registration/event_initial/event_initial_screen.widget.dart';
+import '../general/view_base.dart';
 import 'event_list/event_list_screen.widget.dart';
-import 'program_event_detail_view_model.dart';
-import 'program_event_page_configurator.dart';
-import '../../../commons/custom_widgets/navigationbar/navigation_tab_bar_view.widget.dart';
-import '../../../commons/extensions/standard_extensions.dart';
-import '../../../commons/utils/view_actions.dart';
-import '../../../form/ui/components/linear_loading_indicator.dart';
-import '../../l10n/app_localizations.dart';
-import 'di/program_event_detail_providers.dart';
 import 'event_map/event_map.widget.dart';
 import 'event_table/event_table.widget.dart';
 import 'program_event_detail_contract.dart';
-
-import '../general/view_base.dart';
+import 'program_event_detail_presenter.dart';
+import 'program_event_detail_view_model.dart';
+import 'program_event_page_configurator.dart';
 
 /// ProgramEventDetailActivity
 
@@ -30,6 +32,8 @@ const String EXTRA_PROGRAM_UID = 'PROGRAM_UID';
 
 class ProgramEventDetailScreen extends ConsumerStatefulWidget {
   const ProgramEventDetailScreen({super.key});
+
+  static const String route = '/programeventdetailscreen';
 
   @override
   ConsumerState<ProgramEventDetailScreen> createState() =>
@@ -62,29 +66,32 @@ class _ProgramEventDetailScreenState
                   .select((value) => value.progress)),
             ),
           ),
-          NavigationTabBarView(
-            actionButtonBuilder: (context, viewAction) => FloatingActionButton(
-              heroTag: ViewAction.list_view.name,
-              child: const Icon(Icons.add),
-              onPressed: () => startNewEvent(),
+          Expanded(
+            child: NavigationTabBarView(
+              appBarTitle: Text(ref.watch(programNameProvider)),
+              actionButtonBuilder: (context, viewAction) => FloatingActionButton(
+                heroTag: ViewAction.list_view.name,
+                child: const Icon(Icons.add),
+                onPressed: () => startNewEvent(),
+              ),
+              tabBuilder: (context, viewAction) {
+                final name = localization.lookup(viewAction.name);
+                return when(viewAction, {
+                  ViewAction.list_view: () => Tab(text: name),
+                  ViewAction.table_view: () => Tab(text: name),
+                  ViewAction.map_view: () => Tab(text: name),
+                  ViewAction.analytics: () => Tab(text: name),
+                })!;
+              },
+              pageBuilder: (context, viewAction) =>
+                  when<ViewAction, Widget>(viewAction, {
+                ViewAction.list_view: () => const EventListScreen(),
+                ViewAction.table_view: () => const EventTable(),
+                ViewAction.map_view: () => const EventMap(),
+              }).orElse(() => const Center(
+                        child: Text('Unimplemented Screen!'),
+                      )),
             ),
-            tabBuilder: (context, viewAction) {
-              final name = localization.lookup(viewAction.name);
-              return when(viewAction, {
-                ViewAction.list_view: () => Tab(text: name),
-                ViewAction.table_view: () => Tab(text: name),
-                ViewAction.map_view: () => Tab(text: name),
-                ViewAction.analytics: () => Tab(text: name),
-              })!;
-            },
-            pageBuilder: (context, viewAction) =>
-                when<ViewAction, Widget>(viewAction, {
-              ViewAction.list_view: () => const EventListScreen(),
-              ViewAction.table_view: () => const EventTable(),
-              ViewAction.map_view: () => const EventMap(),
-            }).orElse(() => const Center(
-                      child: Text('Unimplemented Screen!'),
-                    )),
           ),
         ],
       ),
@@ -93,13 +100,22 @@ class _ProgramEventDetailScreenState
 
   @override
   void initState() {
-    presenter = ref.read(programEventDetailPresenterProvider(this));
-    // programUid = (Get.arguments as Bundle).getString(EXTRA_PROGRAM_UID);
-    programUid = ref.read(bundleObjectProvider).getString(EXTRA_PROGRAM_UID)!;
-    activityUid = ref.read(bundleObjectProvider).getString(ACTIVITY_UID);
-    _setObservers();
     super.initState();
+    presenter = ref.read(programEventDetailPresenterProvider(this));
+    presenter.init();
+    programUid = (Get.arguments as Bundle).getString(EXTRA_PROGRAM_UID)!;
+    activityUid = (Get.arguments as Bundle).getString(ACTIVITY_UID);
+    // programUid = ref.read(bundleObjectProvider).getString(EXTRA_PROGRAM_UID)!;
+    // programUid = ref.read(bundleObjectProvider).getString(EXTRA_PROGRAM_UID)!;
+    // activityUid = ref.read(bundleObjectProvider).getString(ACTIVITY_UID);
+    _setObservers();
   }
+
+  // @override
+  // void didChangeDependencies() {
+  //   presenter.init();
+  //   super.didChangeDependencies();
+  // }
 
   void _setObservers() {
     ref.listenManual<String?>(
@@ -125,8 +141,8 @@ class _ProgramEventDetailScreenState
     ref.read(programEventDetailModelProvider.notifier).setUpdateEvent(eventId);
     // programEventsViewModel.setUpdateEvent(eventId);
 
-    // final Bundle bundle = Bundle();
-    Bundle bundle = ref.read(bundleObjectProvider);
+    Bundle bundle = Bundle();
+    // Bundle bundle = ref.read(bundleObjectProvider);
 
     bundle = bundle.putString(PROGRAM_UID, programUid);
 
@@ -137,7 +153,7 @@ class _ProgramEventDetailScreenState
     bundle = bundle.putString(ACTIVITY_UID, activityUid);
 
     // set to the  Bundle activityUid
-    ref.read(bundleObjectProvider.notifier).setValue(bundle);
+    // ref.read(bundleObjectProvider.notifier).setValue(bundle);
 
     ref
         .read(appStateNotifierProvider.notifier)
@@ -156,9 +172,12 @@ class _ProgramEventDetailScreenState
 
   @override
   void setProgram(Program program) {
-    Future(() => ref
+    useOnInit(() => ref
         .read(programNameProvider.notifier)
         .update((state) => program.displayName ?? program.name ?? ''));
+    // Future(() => ref
+    //     .read(programNameProvider.notifier)
+    //     .update((state) => program.displayName ?? program.name ?? ''));
   }
 
   @override
@@ -189,7 +208,8 @@ class _ProgramEventDetailScreenState
     //             null, null, null, presenter.getStageUid(), null,
     //             0, null);
     //     startActivity(EventInitialActivity.class, bundle, false, false, null);
-    Bundle bundle = ref.read(bundleObjectProvider);
+    // Bundle bundle = ref.read(bundleObjectProvider);
+    Bundle bundle = Bundle();
 
     bundle = bundle.putString(ACTIVITY_UID, activityUid);
 
@@ -207,7 +227,7 @@ class _ProgramEventDetailScreenState
     // bundle.putSerializable(ENROLLMENT_STATUS, enrollmentStatus?.name);
     // bundle = bundle.putString(ENROLLMENT_STATUS, null);
     // set to the  Bundle activityUid
-    ref.read(bundleObjectProvider.notifier).setValue(bundle);
+    // ref.read(bundleObjectProvider.notifier).setValue(bundle);
 
     ref
         .read(appStateNotifierProvider.notifier)
@@ -217,6 +237,12 @@ class _ProgramEventDetailScreenState
   @override
   void updateFilters(int totalFilters) {
     // TODO: implement updateFilters
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 }
 

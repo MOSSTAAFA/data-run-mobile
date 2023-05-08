@@ -18,14 +18,15 @@ import 'package:d2_remote/modules/metadata/program/entities/program_tracked_enti
 import 'package:d2_remote/modules/metadata/program/entities/tracked_entity_attribute.entity.dart';
 import 'package:d2_remote/shared/utilities/sort_order.util.dart';
 import 'package:flutter/foundation.dart';
+
 import '../../commons/extensions/string_extension.dart';
 import '../../commons/extensions/value_extensions.dart';
-import 'data_entry_base_repository.dart';
 import '../model/enrollment_mode.dart';
 import '../model/field_ui_model.dart';
 import '../model/option_set_configuration.dart';
 import '../ui/field_view_model_factory.dart';
 import '../ui/provider/enrollment_form_labels_provider.dart';
+import 'data_entry_base_repository.dart';
 
 class EnrollmentRepository extends DataEntryBaseRepository {
   static const String ENROLLMENT_DATA_SECTION_UID =

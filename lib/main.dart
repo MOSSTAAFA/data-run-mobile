@@ -1,18 +1,25 @@
+import 'dart:async';
+
 import 'package:d2_remote/d2_remote.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 
+import 'activity_test_setup.dart';
 import 'commons/constants.dart';
 import 'commons/prefs/preference_provider.dart';
-import 'riverpod/provider_logger.dart';
 import 'main.reflectable.dart';
 import 'main/di.dart' as di;
 import 'main/l10n/app_localizations.dart';
-import 'dart:async';
-
+import 'main/usescases/events_without_registration/event_initial/event_initial_screen.widget.dart';
+import 'main/usescases/login/login_screen.widget.dart';
+import 'main/usescases/main/main_screen.widget.dart';
+import 'main/usescases/program_event_detail/program_event_detail_screen.widget.dart';
+import 'main/usescases/splash/splash_screen.widget.dart';
 import 'main_app.dart';
+import 'riverpod/provider_logger.dart';
+import 'package:stack_trace/stack_trace.dart' as stack_trace;
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -29,7 +36,19 @@ Future<void> main() async {
   await PreferenceProvider.initialize();
 
   await D2Remote.initialize();
+  await setUpActivityManagementMocks();
+
   di.init();
+
+  FlutterError.demangleStackTrace = (StackTrace stack) {
+    if (stack is stack_trace.Trace) {
+      return stack.vmTrace;
+    }
+    if (stack is stack_trace.Chain) {
+      return stack.toTrace().vmTrace;
+    }
+    return stack;
+  };
 
   // wrap the entire app with a ProviderScope so that widgets
   // will be able to read providers
@@ -48,18 +67,18 @@ class App extends StatelessWidget {
     final locale = AppLocalization.createLocale('en');
 
     return GetMaterialApp(
-      builder: (BuildContext context, Widget? child) {
-        final MediaQueryData data = MediaQuery.of(context);
-        return MediaQuery(
-          data:
-              data /* .copyWith(
-                textScaleFactor: context.select(
-                    (AppBloc bloc) => bloc.state.prefState.textScaleFactor),
-              ) */
-          ,
-          child: child!,
-        );
-      },
+      // builder: (BuildContext context, Widget? child) {
+      //   final MediaQueryData data = MediaQuery.of(context);
+      //   return MediaQuery(
+      //     data:
+      //         data /* .copyWith(
+      //           textScaleFactor: context.select(
+      //               (AppBloc bloc) => bloc.state.prefState.textScaleFactor),
+      //         ) */
+      //     ,
+      //     child: child!,
+      //   );
+      // },
       title: 'Flutter Demo',
       navigatorKey: navigatorKey,
       navigatorObservers: [routeObserver],
@@ -93,16 +112,42 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MainApp(
-        title: 'Title1',
-      ),
+      home: const SplashScreen(),
       getPages: [
+        GetPage(
+          name: LoginScreen.route,
+          page: () => const LoginScreen(),
+          transition: Transition.fade,
+        ),
+
+        GetPage(
+          name: MainScreen.route,
+          page: () => const MainScreen(),
+          transition: Transition.fade,
+        ),
+        GetPage(
+          name: ProgramEventDetailScreen.route,
+          page: () => const ProgramEventDetailScreen(),
+          transition: Transition.fade,
+        ),
+        // TEI
         // GetPage(
-        //   name: EventCaptureScreen.route,
-        //   page: () => EventCaptureScreen(),
+        //   name: ProgramEventDetailScreen.route,
+        //   page: () => const ProgramEventDetailScreen(),
         //   transition: Transition.fade,
-        //   // binding: SplashBinding()
         // ),
+        // DATA_SET
+        // GetPage(
+        //   name: ProgramEventDetailScreen.route,
+        //   page: () => const ProgramEventDetailScreen(),
+        //   transition: Transition.fade,
+        // ),
+
+        GetPage(
+          name: EventInitialScreen.route,
+          page: () => const EventInitialScreen(),
+          transition: Transition.fade,
+        ),
       ],
     );
   }

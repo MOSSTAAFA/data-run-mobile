@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_function_literals_in_foreach_calls
 
 import 'package:d2_remote/core/common/value_type.dart';
+
 import '../../../../commons/extensions/standard_extensions.dart';
 import '../../../../commons/extensions/string_extension.dart';
 import '../../../../commons/helpers/collections.dart';

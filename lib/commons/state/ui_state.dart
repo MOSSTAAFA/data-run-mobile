@@ -3,6 +3,7 @@ import 'package:d2_remote/shared/queries/base.query.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../main/usescases/login/login_screen.widget.dart';
 import '../constants.dart';
 
 part 'ui_state.freezed.dart';
@@ -37,7 +38,7 @@ abstract class UIState with _$UIState {
         // selectedCompanyIndex: 0,
         filterClearedAt: filterClearedAt ?? 0,
         lastActivityAt: lastActivityAt ?? 0,
-        currentRoute: currentRoute ?? 'LoginScreen.route',
+        currentRoute: currentRoute ?? LoginScreen.route,
         previousRoute: previousRoute ?? '',
         previewStack: previewStack ?? <BaseQuery<IdentifiableEntity>>[],
         filterStack: filterStack ?? <IdentifiableEntity>[],

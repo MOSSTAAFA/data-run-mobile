@@ -53,14 +53,14 @@ abstract class SearchTEScreenState {
 
   R when<R extends Object?>({
     required R Function(
-        SearchScreenState listType,
-        SearchScreenState previousSate,
-        bool displayFrontPageList,
-        bool canCreateWithoutSearch,
-        bool isSearching,
-        SearchForm searchForm,
-        SearchFilters searchFilters)
-    searchList,
+            SearchScreenState listType,
+            SearchScreenState previousSate,
+            bool displayFrontPageList,
+            bool canCreateWithoutSearch,
+            bool isSearching,
+            SearchForm searchForm,
+            SearchFilters searchFilters)
+        searchList,
     required R Function(SearchScreenState previousSate) searchAnalytics,
   }) {
     final searchTEScreenState = this;
@@ -82,14 +82,14 @@ abstract class SearchTEScreenState {
 
   R maybeWhen<R extends Object?>({
     R Function(
-        SearchScreenState listType,
-        SearchScreenState previousSate,
-        bool displayFrontPageList,
-        bool canCreateWithoutSearch,
-        bool isSearching,
-        SearchForm searchForm,
-        SearchFilters searchFilters)?
-    searchList,
+            SearchScreenState listType,
+            SearchScreenState previousSate,
+            bool displayFrontPageList,
+            bool canCreateWithoutSearch,
+            bool isSearching,
+            SearchForm searchForm,
+            SearchFilters searchFilters)?
+        searchList,
     R Function(SearchScreenState previousSate)? searchAnalytics,
     required R Function(SearchTEScreenState searchTEScreenState) orElse,
   }) {
@@ -97,13 +97,13 @@ abstract class SearchTEScreenState {
     if (searchTEScreenState is SearchList) {
       return searchList != null
           ? searchList(
-          searchTEScreenState.listType,
-          searchTEScreenState.previousSate,
-          searchTEScreenState.displayFrontPageList,
-          searchTEScreenState.canCreateWithoutSearch,
-          searchTEScreenState.isSearching,
-          searchTEScreenState.searchForm,
-          searchTEScreenState.searchFilters)
+              searchTEScreenState.listType,
+              searchTEScreenState.previousSate,
+              searchTEScreenState.displayFrontPageList,
+              searchTEScreenState.canCreateWithoutSearch,
+              searchTEScreenState.isSearching,
+              searchTEScreenState.searchForm,
+              searchTEScreenState.searchFilters)
           : orElse(searchTEScreenState);
     } else if (searchTEScreenState is SearchAnalytics) {
       return searchAnalytics != null
@@ -116,14 +116,14 @@ abstract class SearchTEScreenState {
 
   R? whenOrNull<R extends Object?>({
     R Function(
-        SearchScreenState listType,
-        SearchScreenState previousSate,
-        bool displayFrontPageList,
-        bool canCreateWithoutSearch,
-        bool isSearching,
-        SearchForm searchForm,
-        SearchFilters searchFilters)?
-    searchList,
+            SearchScreenState listType,
+            SearchScreenState previousSate,
+            bool displayFrontPageList,
+            bool canCreateWithoutSearch,
+            bool isSearching,
+            SearchForm searchForm,
+            SearchFilters searchFilters)?
+        searchList,
     R Function(SearchScreenState previousSate)? searchAnalytics,
     R Function(SearchTEScreenState searchTEScreenState)? orElse,
   }) {
@@ -131,13 +131,13 @@ abstract class SearchTEScreenState {
     if (searchTEScreenState is SearchList) {
       return searchList != null
           ? searchList(
-          searchTEScreenState.listType,
-          searchTEScreenState.previousSate,
-          searchTEScreenState.displayFrontPageList,
-          searchTEScreenState.canCreateWithoutSearch,
-          searchTEScreenState.isSearching,
-          searchTEScreenState.searchForm,
-          searchTEScreenState.searchFilters)
+              searchTEScreenState.listType,
+              searchTEScreenState.previousSate,
+              searchTEScreenState.displayFrontPageList,
+              searchTEScreenState.canCreateWithoutSearch,
+              searchTEScreenState.isSearching,
+              searchTEScreenState.searchForm,
+              searchTEScreenState.searchFilters)
           : orElse?.call(searchTEScreenState);
     } else if (searchTEScreenState is SearchAnalytics) {
       return searchAnalytics != null
@@ -231,14 +231,14 @@ class SearchList extends SearchTEScreenState with EquatableMixin {
 
   @override
   List<Object?> get props => [
-    previousSate,
-    listType,
-    displayFrontPageList,
-    canCreateWithoutSearch,
-    isSearching,
-    searchForm,
-    searchFilters,
-  ];
+        previousSate,
+        listType,
+        displayFrontPageList,
+        canCreateWithoutSearch,
+        isSearching,
+        searchForm,
+        searchFilters,
+      ];
 }
 
 /// (([SearchAnalytics] : [SearchTEScreenState]) searchAnalytics){[SearchScreenState] screenState, [SearchScreenState] previousSate}
@@ -258,7 +258,7 @@ class SearchAnalytics extends SearchTEScreenState with EquatableMixin {
 
   @override
   List<Object?> get props => [
-    screenState,
-    previousSate,
-  ];
+        screenState,
+        previousSate,
+      ];
 }

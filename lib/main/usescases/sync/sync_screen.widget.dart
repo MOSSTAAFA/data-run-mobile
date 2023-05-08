@@ -17,6 +17,8 @@ import 'sync_view.dart';
 class SyncScreen extends ConsumerStatefulWidget {
   const SyncScreen({super.key});
 
+  static const String route = '/syncscreen';
+
   @override
   ConsumerState<SyncScreen> createState() => _SyncScreenState();
 }
@@ -87,9 +89,9 @@ class _SyncScreenState extends ConsumerState<SyncScreen>
             (progressInfo) => progressInfo.state == WorkInfoState.SUCCEEDED),
         (previous, next) {
       if (next ?? false) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          setMetadataSyncSucceed();
-        });
+        // WidgetsBinding.instance.addPostFrameCallback((_) {
+        setMetadataSyncSucceed();
+        // });
       }
     });
 
@@ -98,9 +100,9 @@ class _SyncScreenState extends ConsumerState<SyncScreen>
             (progressInfo) => progressInfo.state == WorkInfoState.FAILED),
         (previous, next) {
       if (next ?? false) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          showMetadataFailedMessage(ref.read(syncProgressProvider).message);
-        });
+        // WidgetsBinding.instance.addPostFrameCallback((_) {
+        showMetadataFailedMessage(ref.read(syncProgressProvider).message);
+        // });
       }
     });
   }
@@ -135,14 +137,14 @@ class _SyncScreenState extends ConsumerState<SyncScreen>
   void goToLogin() {
     ref
         .read(appStateNotifierProvider.notifier)
-        .gotToNextScreenPopAll(const LoginScreen());
+        .gotToNextScreen(const LoginScreen());
   }
 
   @override
   void goToMain() {
     ref
         .read(appStateNotifierProvider.notifier)
-        .gotToNextScreenPopAll(const MainScreen(launchDataSync: true));
+        .gotToNextScreen(const MainScreen(launchDataSync: true));
   }
 
   @override

@@ -12,6 +12,8 @@ import 'splash_view.dart';
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
+  static const String route = '/';
+
   @override
   ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
@@ -19,6 +21,7 @@ class SplashScreen extends ConsumerStatefulWidget {
 class _SplashScreenState extends ConsumerState<SplashScreen>
     with SplashView, ViewBase {
   late final SplashPresenter presenter;
+
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
@@ -48,17 +51,20 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
       required bool initialSyncDone,
       required bool initialDataSyncDone}) {
     if (isUserLogged && initialSyncDone && !sessionLocked) {
-      ref.read(appStateNotifierProvider.notifier).gotToNextScreenPopAll(
-          MainScreen(launchDataSync: initialDataSyncDone));
+      ref
+          .read(appStateNotifierProvider.notifier)
+          .gotToNextScreen(MainScreen(launchDataSync: initialDataSyncDone));
     } else if (isUserLogged && !initialSyncDone) {
       ref
           .read(appStateNotifierProvider.notifier)
-          .gotToNextScreenPopAll(const SyncScreen());
+          // .gotToNextRoute(SyncScreen.route);
+          .gotToNextScreen(const SyncScreen());
     } else {
       presenter.getAccounts().then((count) {
         ref
             .read(appStateNotifierProvider.notifier)
-            .gotToNextScreenPopAll(LoginScreen(accountsCount: count));
+            // .gotToNextRoute(LoginScreen.route, arguments: count);
+            .gotToNextScreen(LoginScreen(accountsCount: count));
       });
     }
   }

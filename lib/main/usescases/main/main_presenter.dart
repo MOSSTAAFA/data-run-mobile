@@ -14,6 +14,7 @@ import '../sync/sync_screen_presenter.dart';
 import 'home_repository.dart';
 import 'home_repository_impl.dart';
 import 'main_view.dart';
+
 part 'main_presenter.g.dart';
 
 @Riverpod(keepAlive: true)
@@ -40,6 +41,7 @@ class MainPresenter {
   final HomeRepository repository;
   final PreferenceProvider preferencesProvider;
   final WorkManagerController workManagerController;
+
   // final FilterManager filterManager;
   // final FilterRepository filterRepository;
   // final MatomoAnalyticsController matomoAnalyticsController;

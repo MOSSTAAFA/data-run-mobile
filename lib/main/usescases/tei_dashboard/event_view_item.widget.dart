@@ -20,6 +20,7 @@ class EventViewItem extends ConsumerStatefulWidget {
   const EventViewItem({super.key, required this.program});
 
   final Program? program;
+
   // final void Function(String?) onSyncClick;
   // final void Function(String?) onScheduleClick;
   // final Function(String?, String?, String?, EventStatus?) onEventSelected;
@@ -31,7 +32,6 @@ class EventViewItem extends ConsumerStatefulWidget {
 class _EventViewItemState extends ConsumerState<EventViewItem> {
   @override
   Widget build(BuildContext context) {
-    // final AsyncValue<EventModel> item = ref.watch(eventModelItemProvider);
     final EventModel? eventModel = ref.watch(eventModelItemProvider).value;
 
     // final Program? program = ref.watch(eventListProgramProvider).valueOrNull;
@@ -46,27 +46,13 @@ class _EventViewItemState extends ConsumerState<EventViewItem> {
     //     );
 
     final Event? event = eventModel?.event;
-    // ref.watch(eventModelItemProvider.select((AsyncValue<EventModel> eventModel) => eventModel.event));
     final String? activityName = eventModel?.activityName;
-    // ref.watch(eventViewModelProvider
-    //     .select((EventModel eventModel) => eventModel.activityName));
     final String? orgUnitName = eventModel?.orgUnitName;
-    // ref.watch(eventViewModelProvider
-    //     .select((EventModel eventModel) => eventModel.orgUnitName));
     final List<Pair<String, String?>>? dataValues =
         eventModel?.dataElementValues;
-    // ref.watch(eventViewModelProvider
-    //     .select((EventModel eventModel) => eventModel.dataElementValues));
     final String? displayDate = eventModel?.displayDate;
-    // ref.watch(eventViewModelProvider
-    //     .select((EventModel eventModel) => eventModel.displayDate));
     final ProgramStage? stage = eventModel?.stage;
-    // ref.watch(
-    //     eventViewModelProvider.select((EventModel eventModel) => eventModel.stage));
     final bool groupedByStage = eventModel?.groupedByStage ?? false;
-    // ref.watch(eventViewModelProvider
-    //     .select((EventModel eventModel) => eventModel.groupedByStage));
-
     final Color? cardColor = widget.program?.programType.toProgramType ==
             ProgramType.WITH_REGISTRATION
         ? convertHexStringToColor('#FAFAFA')

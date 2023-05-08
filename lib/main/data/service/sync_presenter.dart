@@ -1,7 +1,8 @@
-import 'package:dio/dio.dart';
-import 'sync_metadata_worker.dart';
 import 'package:d2_remote/core/mp/helpers/result.dart';
+import 'package:dio/dio.dart';
+
 import '../../../core/arch/call/d2_progress.dart';
+import 'sync_metadata_worker.dart';
 import 'sync_result.dart';
 
 abstract class SyncPresenter {

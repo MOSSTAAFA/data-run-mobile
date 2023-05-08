@@ -1,5 +1,6 @@
 import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisation_unit.entity.dart';
 import 'package:flutter/material.dart';
+
 import 'business_logic/ou_tree_node.model.dart';
 
 class OuTreeNode extends StatelessWidget {

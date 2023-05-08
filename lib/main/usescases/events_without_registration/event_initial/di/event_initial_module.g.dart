@@ -76,7 +76,7 @@ class EventInitialPresenterFamily extends Family<EventInitialPresenter> {
 
   /// See also [eventInitialPresenter].
   EventInitialPresenterProvider call(
-    EventInitialViewBase view,
+    EventInitialView view,
   ) {
     return EventInitialPresenterProvider(
       view,
@@ -129,7 +129,7 @@ class EventInitialPresenterProvider
               EventInitialPresenterFamily._allTransitiveDependencies,
         );
 
-  final EventInitialViewBase view;
+  final EventInitialView view;
 
   @override
   bool operator ==(Object other) {

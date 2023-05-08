@@ -3,9 +3,9 @@ import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisati
 import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart';
 
 import '../general/presenter.dart';
-import '../general/view_abstract.dart';
+import '../general/view_base.dart';
 
-mixin ProgramEventDetailView implements ViewAbstract {
+mixin ProgramEventDetailView implements ViewBase {
   void setProgram(Program programModel);
 
   void renderError(String message);

@@ -1,7 +1,6 @@
 import 'package:dartx/dartx_io.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../constants.dart';
 import '../date/date_utils.dart';
 import '../extensions/standard_extensions.dart';
 import 'preference.dart';
@@ -137,7 +136,7 @@ class PreferenceProvider {
     return _sharedPreferences!.getBool(SECURE_CREDENTIALS) ?? false;
   }
 
-  bool areSameCredentials(String serverUrl, String userName, String pass) {
+  bool areSameCredentials(String? serverUrl, String? userName, String? pass) {
     assert(_sharedPreferences != null, 'PreferenceProvider is not initialized');
     return getString(SECURE_SERVER_URL, '') == serverUrl &&
         getString(SECURE_USER_NAME, '') == userName &&

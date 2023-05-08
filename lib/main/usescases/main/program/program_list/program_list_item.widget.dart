@@ -1,26 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../program_view.model.dart';
 import 'program_list_item_providers.dart';
 
-class ProgramListItem extends ConsumerWidget {
+class ProgramListItem extends ConsumerStatefulWidget {
   const ProgramListItem({
     super.key,
     required this.onItemClick,
     required this.onGranularSyncClick,
     this.onDescriptionClick,
   });
+
   final void Function(ProgramViewModel? programViewModel)? onItemClick;
   final void Function(ProgramViewModel? programViewModel)? onGranularSyncClick;
   final void Function(ProgramViewModel? programViewModel)? onDescriptionClick;
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final item = ref.watch(programViewModelItemProvider).value;
-    // return asyncItem.map(data: (AsyncData<ProgramViewModel> item) {
+  ConsumerState<ProgramListItem> createState() => _ProgramListItemState();
+}
+
+class _ProgramListItemState extends ConsumerState<ProgramListItem> {
+  @override
+  Widget build(BuildContext context) {
+    final item = ref.watch(programViewModelItemProvider);
     return Card(
-      color: item?.metadataIconData?.programColor,
+      // color: item?.metadataIconData?.programColor,
       child: ListTile(
-        onTap: () => onItemClick?.call(item),
+        onTap: () => widget.onItemClick?.call(item),
         leading: item?.metadataIconData?.iconResource ??
             const Icon(Icons.event_note_sharp),
         title: Row(children: [
@@ -28,7 +35,7 @@ class ProgramListItem extends ConsumerWidget {
             child: Text(item?.title ?? ''),
           ),
           IconButton(
-              onPressed: () => onDescriptionClick?.call(item),
+              onPressed: () => widget.onDescriptionClick?.call(item),
               icon: const Icon(Icons.description))
         ]),
         // subtitle: Text('Trailing expansion arrow icon'),
@@ -37,7 +44,7 @@ class ProgramListItem extends ConsumerWidget {
                 label: const Icon(
                   Icons.sync,
                 ),
-                onPressed: () => onGranularSyncClick?.call(item),
+                onPressed: () => widget.onGranularSyncClick?.call(item),
               )
             : Icon(
                 Icons.check,

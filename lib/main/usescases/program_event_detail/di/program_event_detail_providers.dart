@@ -1,14 +1,6 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../../../commons/custom_widgets/navigationbar/navigation_page_configurator.dart';
-import '../../bundle/bundle.dart';
-import '../program_event_detail_contract.dart';
-import '../program_event_detail_presenter.dart';
-import '../program_event_detail_repository.dart';
-import '../program_event_detail_repository_impl.dart';
-import '../program_event_detail_screen.widget.dart';
-import '../program_event_mapper.dart';
 
-part 'program_event_detail_providers.g.dart';
+
+// part 'program_event_detail_providers.g.dart';
 
 // @riverpod
 // class ProgramUid extends _$ProgramUid {
@@ -22,29 +14,30 @@ part 'program_event_detail_providers.g.dart';
 //   }
 // }
 
-@riverpod
-ProgramEventMapper programEventMapper(ProgramEventMapperRef ref) {
-  return ProgramEventMapper(ref);
-}
+// @riverpod
+// ProgramEventMapper programEventMapper(ProgramEventMapperRef ref) {
+//   return ProgramEventMapper(ref);
+// }
 
-/// ProgramEventDetailPresenter
-@riverpod
-ProgramEventDetailRepository programEventDetailRepository(
-    ProgramEventDetailRepositoryRef ref) {
-  //ProgramUid
-  return ProgramEventDetailRepositoryImpl(
-      ref.read(bundleObjectProvider).getString(EXTRA_PROGRAM_UID)!,
-      ref,
-      ref.read(programEventMapperProvider));
-}
+// /// ProgramEventDetailPresenter
+// @riverpod
+// ProgramEventDetailRepository programEventDetailRepository(
+//     ProgramEventDetailRepositoryRef ref) {
+//   //ProgramUid
+//   return ProgramEventDetailRepositoryImpl(
+//       ref.read(bundleObjectProvider).getString(EXTRA_PROGRAM_UID)!,
+//       ref,
+//       ref.read(programEventMapperProvider));
+// }
 
-@riverpod
-ProgramEventDetailPresenter programEventDetailPresenter(
-    ProgramEventDetailPresenterRef ref, ProgramEventDetailView view) {
-  return ProgramEventDetailPresenterImpl(ref, view);
-}
+// @riverpod
+// ProgramEventDetailPresenter programEventDetailPresenter(
+//     ProgramEventDetailPresenterRef ref, ProgramEventDetailView view) {
+//   return ProgramEventDetailPresenterImpl(
+//       ref, view, ref.read(programEventDetailRepositoryProvider));
+// }
 
-@riverpod
-NavigationPageConfigurator pageConfigurator(PageConfiguratorRef ref) {
-  throw UnimplementedError();
-}
+// @riverpod
+// NavigationPageConfigurator pageConfigurator(PageConfiguratorRef ref) {
+//   throw UnimplementedError();
+// }

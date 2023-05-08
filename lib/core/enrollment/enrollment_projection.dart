@@ -1,4 +1,5 @@
 import 'package:d2_remote/modules/data/tracker/entities/enrollment.entity.dart';
+
 import '../arch/handlers/transformer.dart';
 
 EnrollmentProjectionBuilder get _enrollmentProjectionBuilder =>

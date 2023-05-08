@@ -6,9 +6,19 @@ part of 'app_state_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$appStateNotifierHash() => r'25bd75dde3064ce7a68a220606ebb372a77de5b6';
+String _$appStateNotifierHash() => r'1432def3b8eeabb8f8e016bcf1a527b0dc55f3c1';
 
-/// See also [AppStateNotifier].
+/// Get.back()	Navigator.pop(context)
+/// Get.off()	Navigator.pushReplacement()
+/// Get.offNamed()	Navigator.pushReplacementNamed()
+/// Get.offUntil()	Navigator.pushAndRemoveUntil()
+/// Get.offNamedUntil()	Navigator.pushNamedAndRemoveUntil()
+/// Get.offAndToNamed()	Navigator.popAndPushNamed()
+/// Get.removeRoute()	Navigator.removeRoutes()
+/// Get.offAllNamed()	Navigator.pushNamedAndRemoveUntil()
+/// Get.close()	Navigator.popUntil()
+///
+/// Copied from [AppStateNotifier].
 @ProviderFor(AppStateNotifier)
 final appStateNotifierProvider =
     NotifierProvider<AppStateNotifier, AppState>.internal(

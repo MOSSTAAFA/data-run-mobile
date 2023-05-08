@@ -4,8 +4,10 @@ import 'package:d2_remote/modules/data/tracker/entities/event_data_value.entity.
 import 'package:d2_remote/modules/data/tracker/entities/tracked_entity_attribute_value.entity.dart';
 import 'package:d2_remote/modules/metadata/data_element/entities/data_element.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/tracked_entity_attribute.entity.dart';
+
 import 'dynamic_value_extensions.dart';
 import 'string_extension.dart';
+import '../../commons/extensions/dynamic_extensions.dart';
 
 /// UserFriendlyTrackedEntityAttributeValueExtension
 extension UserFriendlyTrackedEntityAttributeValueExtension
@@ -76,10 +78,12 @@ extension UserFriendlyEventDataValueExtension on EventDataValue? {
 extension ToValueType on String? {
   ValueType? get toValueType {
     try {
-      return ValueType.values.firstWhere((valueType) => valueType.name == this,
-          orElse: throw ArgumentError(
-              'The ValueType $this does not match any Value type'));
+      return ValueType.values.byName(this ?? '');
+      // return ValueType.values.firstWhere((valueType) => valueType.name == this,
+      //     orElse: throw ArgumentError(
+      //         'The ValueType $this does not match any Value type'));
     } catch (e) {
+      logInfo(info: 'The ValueType $this does not match any Enum Value');
       return null;
     }
   }

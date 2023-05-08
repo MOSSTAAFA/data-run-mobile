@@ -3,6 +3,7 @@ import 'package:d2_remote/modules/auth/user/entities/user.entity.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'home_repository.dart';
+
 part 'home_repository_impl.g.dart';
 
 @Riverpod(keepAlive: true)

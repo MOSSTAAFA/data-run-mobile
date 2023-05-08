@@ -34,7 +34,7 @@ abstract class EventInitialRepository {
       Geometry coordinates);
 
   /// Observable
-  Future<ProgramStage?> programStage(String programUid);
+  Future<ProgramStage?> programStage(String? programUid);
 
   /// Observable
   Future<ProgramStage?> programStageWithId(String? programStageUid);

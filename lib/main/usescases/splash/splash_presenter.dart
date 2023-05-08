@@ -8,6 +8,7 @@ import '../../data/server/user_manager.dart';
 import '../../data/server/user_manager_impl.dart';
 import '../events_without_registration/event_initial/di/event_initial_module.dart';
 import 'splash_view.dart';
+
 part 'splash_presenter.g.dart';
 
 @riverpod
@@ -18,9 +19,11 @@ SplashPresenter splashPresenter(SplashPresenterRef ref, SplashView view) {
 
 class SplashPresenter {
   SplashPresenter(this.view, this.preferenceProvider, this.userManager);
+
   final SplashView view;
   UserManager? userManager;
   final PreferenceProvider preferenceProvider;
+
   // final CrashReportController crashReportController;
 
   void init() {

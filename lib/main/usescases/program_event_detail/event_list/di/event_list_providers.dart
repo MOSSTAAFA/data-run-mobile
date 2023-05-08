@@ -1,9 +1,11 @@
 import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../../commons/data/event_view_model.dart';
 import '../../di/program_event_detail_providers.dart';
 import '../../program_event_detail_repository.dart';
+import '../../program_event_detail_repository_impl.dart';
 
 part 'event_list_providers.g.dart';
 
@@ -31,7 +33,7 @@ Future<Program> eventListProgram(EventListProgramRef ref) async {
 @riverpod
 class ProgramEvents extends _$ProgramEvents {
   @override
-  Future<List<EventModel>> build() {
+  Future<IList<EventModel>> build() {
     final eventRepository = ref.read(programEventDetailRepositoryProvider);
 
     return eventRepository.programEvents();
@@ -41,13 +43,13 @@ class ProgramEvents extends _$ProgramEvents {
 /// LiveData<PagedList<EventViewModel>> filteredProgramEvents()
 /// in ProgramEventDetailRepositoryImpl
 @riverpod
-Future<List<EventModel>> filteredProgramEvents(
+Future<IList<EventModel>> filteredProgramEvents(
     FilteredProgramEventsRef ref) async {
   // TODO(NMC): implement Filtering of events
-  final List<EventModel> events = await ref.watch(programEventsProvider.future);
+  final IList<EventModel>? events = ref.watch(programEventsProvider).value;
 
   /// Filter events
-  final List<EventModel> filteredEvents = events;
+  final IList<EventModel> filteredEvents = events ?? IList<EventModel>();
 
   /// the list filtering is now cached
   /// the list of filtered events will not be recomputed until events
@@ -57,15 +59,30 @@ Future<List<EventModel>> filteredProgramEvents(
 }
 
 @riverpod
+Future<int> filteredProgramEventsListLength(
+    FilteredProgramEventsListLengthRef ref) {
+  return ref.watch(filteredProgramEventsProvider
+      .selectAsync((IList<EventModel> list) => list.length));
+}
+
+@riverpod
 int eventModelItemIndex(EventModelItemIndexRef ref) {
   throw UnimplementedError();
 }
 
-@riverpod
-Future<EventModel> eventModelItem(EventModelItemRef ref) async {
-  final int index = ref.read(eventModelItemIndexProvider);
-  final EventModel item = await ref.watch(filteredProgramEventsProvider
-      .selectAsync((List<EventModel> e) => e[index]));
+@Riverpod(dependencies: [eventModelItemIndex])
+Future<EventModel?> eventModelItem(EventModelItemRef ref) async {
+  // final int index = ref.read(eventModelItemIndexProvider);
+  // final EventModel item = await ref.watch(filteredProgramEventsProvider
+  //     .selectAsync((IList<EventModel> e) => e[index]));
+  // return item;
 
-  return item;
+  final IList<EventModel>? items =
+      ref.watch(filteredProgramEventsProvider).value;
+  if (items != null && items.isNotEmpty) {
+    final int index = ref.watch(eventModelItemIndexProvider);
+    return items[index];
+  }
+
+  return null;
 }

@@ -1,10 +1,12 @@
 import 'package:d2_remote/core/mp/enrollment/enrollment_status.dart';
+import 'package:d2_remote/core/mp/helpers/result.dart';
 import 'package:d2_remote/modules/data/tracker/entities/event.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity.dart';
+
 import '../../../../../commons/data/event_creation_type.dart';
 import '../../../../../commons/extensions/standard_extensions.dart' as alet;
+import '../../../../../commons/extensions/standard_extensions.dart';
 import '../../../../../commons/extensions/string_extension.dart';
-import 'package:d2_remote/core/mp/helpers/result.dart';
 import '../../../../../core/event/event_editable_status.dart';
 import '../../../../../core/event/event_extensions.dart';
 import '../../../../../core/event/event_status.dart';

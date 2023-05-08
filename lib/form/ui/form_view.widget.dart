@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
+
 import '../../commons/custom_widgets/mixins/keyboard_manager.dart';
 import '../../commons/extensions/standard_extensions.dart';
 import '../data/data_integrity_check_result.dart';
@@ -11,7 +12,6 @@ import '../model/form_repository_records.dart';
 import '../model/info_ui_model.dart';
 import '../model/row_action.dart';
 import '../model/section_ui_model_impl.dart';
-import 'components/linear_loading_indicator.dart';
 import 'data_entry_list.widget.dart';
 import 'event/list_view_ui_events.dart';
 import 'form_view_model.dart';

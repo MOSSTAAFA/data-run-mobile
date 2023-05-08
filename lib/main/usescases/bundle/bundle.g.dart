@@ -6,7 +6,7 @@ part of 'bundle.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$bundleObjectHash() => r'75fb962d6fb382ac79525a5ec9e30c517a791f12';
+String _$bundleObjectHash() => r'd5258b5b310f59d2269f795ab375ab624c097dff';
 
 /// See also [BundleObject].
 @ProviderFor(BundleObject)

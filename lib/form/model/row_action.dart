@@ -1,5 +1,6 @@
 import 'package:d2_remote/core/common/value_type.dart';
 import 'package:equatable/equatable.dart';
+
 import 'action_type.dart';
 
 class RowAction with EquatableMixin {

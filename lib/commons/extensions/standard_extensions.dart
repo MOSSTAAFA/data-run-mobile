@@ -1,9 +1,9 @@
-extension StandardAsyncExt<T> on Future<T> {
-  /// Async calls the specified function [block] with `this` value as its argument and returns its result as Future.
-  Future<R> aaLet<R>(Future<R> Function(T it) block) {
-    return then((T value) => block(value));
-  }
-}
+// extension StandardAsyncExt<T> on Future<T> {
+//   /// Async calls the specified function [block] with `this` value as its argument and returns its result as Future.
+//   Future<R> aaLet<R>(Future<R> Function(T it) block) {
+//     return then((T value) => block(value));
+//   }
+// }
 
 typedef _WhenCheck = bool Function<T>(T value);
 
@@ -19,13 +19,13 @@ extension StandardExt<T> on T {
   }
 
   /// Calls the specified function [block] with `this` value as its argument and returns `this` value.
-  T also(void Function(T) block) {
+  T also(void Function(T it) block) {
     block(this);
     return this;
   }
 
   /// Returns `this` value if it satisfies the given [predicate] or `null`, if it doesn't.
-  T? takeIf(bool Function(T) predicate) {
+  T? takeIf(bool Function(T it) predicate) {
     if (predicate(this)) {
       return this;
     }
@@ -33,24 +33,8 @@ extension StandardExt<T> on T {
   }
 
   /// Returns `this` value if it _does not_ satisfy the given [predicate] or `null`, if it does.
-  T? takeUnless(bool Function(T) predicate) {
+  T? takeUnless(bool Function(T it) predicate) {
     if (!predicate(this)) return this;
-    return null;
-  }
-
-  V? when<T, V>(T value, Map<T, V Function()> branches) {
-    assert(branches.isNotEmpty);
-
-    for (var key in branches.keys) {
-      if ((key == value) ||
-          (key is List && key.contains(value)) ||
-          (key is _WhenCheck && key(value))) {
-        final branch = branches[key];
-        if (branch != null) {
-          return branch();
-        }
-      }
-    }
     return null;
   }
 
@@ -71,4 +55,20 @@ extension OrElse<T> on T? {
   T orElse(T Function() branch) {
     return this ?? branch();
   }
+}
+
+V? when<T, V>(T value, Map<T, V Function()> branches) {
+  assert(branches.isNotEmpty);
+
+  for (var key in branches.keys) {
+    if ((key == value) ||
+        (key is List && key.contains(value)) ||
+        (key is _WhenCheck && key(value))) {
+      final branch = branches[key];
+      if (branch != null) {
+        return branch();
+      }
+    }
+  }
+  return null;
 }

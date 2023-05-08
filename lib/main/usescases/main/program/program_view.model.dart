@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 import '../../../../commons/ui/metadata_icon_data.dart';
 
 class ProgramViewModel with EquatableMixin {
@@ -23,6 +24,7 @@ class ProgramViewModel with EquatableMixin {
 
   final String uid;
   final String title;
+
   // final MetadataIconData metadataIconData;
   final MetadataIconData? metadataIconData;
 
@@ -33,6 +35,7 @@ class ProgramViewModel with EquatableMixin {
   final String? description;
   final bool onlyEnrollOnce;
   final bool accessDataWrite;
+
   // final State state;
   final bool dirty;
   final bool hasOverdueEvent;

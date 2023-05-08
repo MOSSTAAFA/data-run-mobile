@@ -6,7 +6,7 @@ part of 'program_list_item_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$programViewModelsHash() => r'42d24028bbfb447aec12fc8e53493aa1167d3884';
+String _$programViewModelsHash() => r'e6c13ada89c2bd9f7f568aa08dd04d8914e4d917';
 
 /// See also [programViewModels].
 @ProviderFor(programViewModels)
@@ -23,6 +23,23 @@ final programViewModelsProvider =
 
 typedef ProgramViewModelsRef
     = AutoDisposeFutureProviderRef<IList<ProgramViewModel>>;
+String _$programModelItemsListLengthHash() =>
+    r'c7ad451a34ddf465a7d895b798f4f9355abb256d';
+
+/// See also [programModelItemsListLength].
+@ProviderFor(programModelItemsListLength)
+final programModelItemsListLengthProvider =
+    AutoDisposeFutureProvider<int>.internal(
+  programModelItemsListLength,
+  name: r'programModelItemsListLengthProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$programModelItemsListLengthHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef ProgramModelItemsListLengthRef = AutoDisposeFutureProviderRef<int>;
 String _$programModelItemIndexHash() =>
     r'd60cb3737adc7a2934f9fdd1b8a3bc9db1587c12';
 
@@ -40,21 +57,20 @@ final programModelItemIndexProvider = AutoDisposeProvider<int>.internal(
 
 typedef ProgramModelItemIndexRef = AutoDisposeProviderRef<int>;
 String _$programViewModelItemHash() =>
-    r'276d27ede0c984a8ed76972b01f6d7336efec7ef';
+    r'48769441e5cd573b0d9c65a121fca05f12c5488e';
 
 /// See also [programViewModelItem].
 @ProviderFor(programViewModelItem)
 final programViewModelItemProvider =
-    AutoDisposeFutureProvider<ProgramViewModel>.internal(
+    AutoDisposeProvider<ProgramViewModel?>.internal(
   programViewModelItem,
   name: r'programViewModelItemProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
       : _$programViewModelItemHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
+  dependencies: <ProviderOrFamily>[programModelItemIndexProvider],
+  allTransitiveDependencies: <ProviderOrFamily>[programModelItemIndexProvider],
 );
 
-typedef ProgramViewModelItemRef
-    = AutoDisposeFutureProviderRef<ProgramViewModel>;
+typedef ProgramViewModelItemRef = AutoDisposeProviderRef<ProgramViewModel?>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

@@ -5,7 +5,9 @@ import '../../../l10n/app_localizations.dart';
 
 class SelectableError extends StatelessWidget {
   const SelectableError({super.key, this.errorMessage = ''});
+
   final String errorMessage;
+
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context)!.localized!;

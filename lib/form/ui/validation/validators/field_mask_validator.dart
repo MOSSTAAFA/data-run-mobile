@@ -1,6 +1,5 @@
 import 'package:d2_remote/core/common/value_type/validators/value_type_validator.dart';
 import 'package:d2_remote/core/mp/helpers/result.dart';
-import 'package:dartz/dartz.dart';
 import 'package:mass_pro/form/ui/validation/failures/field_mask_failure.dart';
 
 class FieldMaskValidator extends ValueTypeValidator<FieldMaskFailure> {

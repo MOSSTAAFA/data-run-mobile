@@ -1,5 +1,7 @@
 import 'dart:ui';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
+
 import '../../utils/mass_utils/colors.dart';
 import '../constants.dart';
 import 'pref_state.dart';

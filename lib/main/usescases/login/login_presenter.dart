@@ -5,6 +5,7 @@ import 'package:d2_remote/modules/auth/user/models/login-response.model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../commons/constants.dart';
+import '../../../commons/extensions/dynamic_extensions.dart';
 import '../../../commons/extensions/string_extension.dart';
 import '../../../commons/network/network_utils.dart';
 import '../../../commons/prefs/preference.dart';
@@ -16,6 +17,7 @@ import '../events_without_registration/event_initial/di/event_initial_module.dar
 import '../main/main_screen.widget.dart';
 import 'login_view.dart';
 import 'sync_is_performed_interactor.dart';
+
 part 'login_presenter.g.dart';
 
 // final showLoginProgressProvider =
@@ -44,13 +46,16 @@ LoginScreenPresenter loginScreenPresenter(
 class LoginScreenPresenter {
   LoginScreenPresenter(
       this.ref, this.view, this.preferenceProvider, this.network,
-      {this.userManager}); /* {
+      {this.userManager});
+
+  /* {
     init();
   } */
 
   final LoginScreenPresenterRef ref;
 
   final LoginView view;
+
   // final FingerPrintController fingerPrintController;
   final PreferenceProvider preferenceProvider;
 
@@ -109,32 +114,34 @@ class LoginScreenPresenter {
     // }
   }
 
-  void logIn(String serverUrl, String userName, String pass) {
+  Future<void> logIn(String serverUrl, String userName, String pass) async {
     // disposable.add(
     //     Observable.just(
     //         (view.abstracContext.applicationContext as App).createServerComponent()
     //             .userManager()
     //     )
     //         .flatMap { userManager ->
-    preferenceProvider.setValue(SERVER, serverUrl);
+    await preferenceProvider.setValue(SERVER, serverUrl);
     // this.userManager = userManager
     // userName.trim { it <= ' ' }, pass, serverUrl
-    userManager?.logIn(userName.trim(), pass, serverUrl).then((it) async {
-      preferenceProvider.setValue(
+    return userManager
+        ?.logIn(userName.trim(), pass, serverUrl)
+        .then((it) async {
+      await preferenceProvider.setValue(
         USER,
         await userManager?.userName(),
       );
-      preferenceProvider.setValue(SESSION_LOCKED, false);
-      preferenceProvider.setValue(PIN, null);
+      await preferenceProvider.setValue(SESSION_LOCKED, false);
+      await preferenceProvider.setValue(PIN, null);
       _trackUserInfo();
       // Response.success<Any>(null)
-      handleResponse(it, userName, serverUrl);
-    }).catchError((Object error, StackTrace stackTrace) {
+      await handleResponse(it, userName, serverUrl);
+    }).catchError((Object error, StackTrace stackTrace) async {
       if (error is ThrowableException) {
         error.cause != null
-            ? _handleError(
+            ? await _handleError(
                 error.cause! as ThrowableException, serverUrl, userName, pass)
-            : _handleError(error, serverUrl, userName, pass);
+            : await _handleError(error, serverUrl, userName, pass);
       }
     });
   }
@@ -147,23 +154,23 @@ class LoginScreenPresenter {
     // crashReportController.trackUser(username, server);
   }
 
-  void logOut() {
+  Future<void> logOut() async {
     if (userManager != null) {
-      userManager!.logOut().then((value) async {
-        await preferenceProvider.setValue(SESSION_LOCKED, false);
+      logInfo(info: 'logging out...');
+      userManager!.logOut().catchError((error, stackTrace) {
+        logInfo(info: 'Error logging out...');
+        logError(info: '$error, StackTrace: $stackTrace');
         view.handleLogout();
-        return true;
-      }).onError((error, stackTrace) {
-        view.handleLogout();
-        return false;
       });
+      await preferenceProvider.setValue(SESSION_LOCKED, false);
+      view.handleLogout();
     }
   }
 
   Future<void> handleResponse(
       LoginResponseStatus userResponse, String userName, String server) async {
+    logInfo(info: 'Login Response: $userResponse');
     view.showLoginProgress(false);
-
     if (userResponse == LoginResponseStatus.ONLINE_LOGIN_SUCCESS ||
         userResponse == LoginResponseStatus.OFFLINE_LOGIN_SUCCESS) {
       // _trackServerVersion();
@@ -186,7 +193,7 @@ class LoginScreenPresenter {
 
   Future<void> _handleError(Exception throwable, String serverUrl,
       String userName, String pass) async {
-    print('Timber.e(${throwable.toString()})');
+    logError(info: 'Timber.e($throwable)');
     if (throwable is D2Error &&
         throwable.errorCode == D2ErrorCode.ALREADY_AUTHENTICATED) {
       await userManager?.logOut();
@@ -197,7 +204,7 @@ class LoginScreenPresenter {
     view.showLoginProgress(false);
   }
 
-  bool areSameCredentials(String serverUrl, String userName, String pass) {
+  bool areSameCredentials(String? serverUrl, String? userName, String? pass) {
     return preferenceProvider.areCredentialsSet() &&
         preferenceProvider.areSameCredentials(serverUrl, userName, pass);
   }

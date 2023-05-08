@@ -1,5 +1,6 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 import '../../../../data/service/sync_status_controller.dart';
 import '../di/program_providers.dart';
 import '../program_view.model.dart';
@@ -37,7 +38,14 @@ part 'program_list_item_providers.g.dart';
 Future<IList<ProgramViewModel>> programViewModels(ProgramViewModelsRef ref) {
   final syncStatusData = ref.watch(syncStatusControllerInstanceProvider
       .select((value) => value.syncStatusData));
-  return ref.read(programRepositoryProvider).homeItems(syncStatusData);
+  final items = ref.read(programRepositoryProvider).homeItems(syncStatusData);
+  return items;
+}
+
+@riverpod
+Future<int> programModelItemsListLength(ProgramModelItemsListLengthRef ref) {
+  return ref.watch(programViewModelsProvider
+      .selectAsync((IList<ProgramViewModel> list) => list.length));
 }
 
 @riverpod
@@ -45,11 +53,13 @@ int programModelItemIndex(ProgramModelItemIndexRef ref) {
   throw UnimplementedError();
 }
 
-@riverpod
-Future<ProgramViewModel> programViewModelItem(ProgramViewModelItemRef ref) {
-  final int index = ref.read(programModelItemIndexProvider);
-  final item = ref.watch(programViewModelsProvider
-      .selectAsync((IList<ProgramViewModel> e) => e[index]));
-
-  return item;
+@Riverpod(dependencies: [programModelItemIndex])
+ProgramViewModel? programViewModelItem(ProgramViewModelItemRef ref) {
+  final IList<ProgramViewModel>? items =
+      ref.watch(programViewModelsProvider).value;
+  if (items != null && items.isNotEmpty) {
+    final int index = ref.watch(programModelItemIndexProvider);
+    return items[index];
+  }
+  return null;
 }

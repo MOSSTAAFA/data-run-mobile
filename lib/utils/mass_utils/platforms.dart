@@ -4,12 +4,10 @@ import 'dart:io';
 // Flutter imports:
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
-// Package imports:
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
 // Project imports:
 import 'package:mass_pro/main/l10n/app_localizations.dart';
+// Package imports:
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../../commons/constants.dart';
 import '../../commons/utils/module_layout.dart';

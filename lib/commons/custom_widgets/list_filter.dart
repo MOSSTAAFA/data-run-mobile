@@ -1,5 +1,6 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+
 import '../../utils/mass_utils/colors.dart';
 import '../../utils/mass_utils/completers.dart';
 import '../../utils/mass_utils/formatting.dart';

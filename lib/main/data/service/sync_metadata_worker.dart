@@ -4,18 +4,14 @@ import 'package:d2_remote/core/common/exception/exception.dart';
 import 'package:d2_remote/core/maintenance/d2_error.dart';
 import 'package:d2_remote/d2_remote.dart';
 import 'package:dio/dio.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../commons/constants.dart';
 import '../../../commons/date/date_utils.dart';
-import '../../../commons/helpers/collections.dart';
+import '../../../commons/extensions/dynamic_extensions.dart';
 import '../../../commons/network/network_utils.dart';
-import '../../../core/arch/call/d2_progress.dart';
-import 'sync_presenter.dart';
-
-import 'package:d2_remote/core/mp/helpers/result.dart';
 import '../../../commons/prefs/preference_provider.dart';
 import '../../../commons/resources/resource_manager.dart';
+import 'sync_presenter.dart';
 import 'work_manager/nmc_worker/work_info.dart';
 import 'work_manager/nmc_worker/worker.dart';
 
@@ -34,7 +30,7 @@ class SyncMetadataWorker extends Worker {
   final ResourceManager resourceManager;
 
   @override
-  FutureOr<WorkInfo> call(
+  Future<WorkInfo> doWork(
       {OnProgressUpdate? onProgressUpdate, Dio? dioTestClient}) async {
     if (await D2Remote.isAuthenticated()) {
       _triggerNotification(resourceManager.getString('R_app_name'),
@@ -54,7 +50,7 @@ class SyncMetadataWorker extends Worker {
           },
         );
       } catch (e) {
-        print('Timber.e($e)');
+        logError(info: 'Timber.e($e)');
         isMetaOk = false;
         if (!ref.read(networkUtilsProvider).isOnline()) {
           noNetwork = true;
@@ -63,8 +59,8 @@ class SyncMetadataWorker extends Worker {
           if (e is D2Error) {
             final D2Error error = e;
             message.write(_composeErrorMessageInfo(error));
-          } else if (e.cause is D2Error) {
-            final D2Error error = e.cause as D2Error;
+          } else if (e.cause != null && e.cause is D2Error) {
+            final D2Error error = e.cause! as D2Error;
             message.write(_composeErrorMessageInfo(error));
           }
         } else {
@@ -84,10 +80,11 @@ class SyncMetadataWorker extends Worker {
 
       _cancelNotification();
 
-      if (!isMetaOk)
-        // return Result.failure(_createOutputData(false, message.toString()));
+      if (!isMetaOk) {
         return WorkInfo(
             state: WorkInfoState.FAILED, message: message.toString());
+      }
+        // return Result.failure(_createOutputData(false, message.toString()));
 
       presenter.startPeriodicMetaWork();
 

@@ -1,13 +1,15 @@
 import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart';
 import 'package:flutter/material.dart' show Icons;
+
 import '../../../../commons/resources/resource_manager.dart';
+import '../../../../commons/ui/metadata_icon_data.dart';
 import '../../../../core/common/state.dart';
 import 'program_view.model.dart';
-import '../../../../commons/ui/metadata_icon_data.dart';
 
 /// TODO(NMC): maybe implement in programModelProvider instead
 class ProgramViewModelMapper {
   ProgramViewModelMapper(this.resourceManager);
+
   // final ProgramViewModelMapperRef ref;
   final ResourceManager resourceManager;
 
@@ -27,7 +29,9 @@ class ProgramViewModelMapper {
             programColor: resourceManager
                 .getColorOrDefaultFrom(/* program.style?.color */ null),
             iconResource: resourceManager.getObjectStyleDrawableResource(
-                /* program.style()?.icon() */ null, Icons.question_mark)),
+                /* program.style()?.icon() */
+                null,
+                Icons.question_mark)),
         count: recordCount,
         type: program.trackedEntityType != null
             ? program.trackedEntityType!
@@ -37,7 +41,8 @@ class ProgramViewModelMapper {
         description: program.description,
         onlyEnrollOnce: program.onlyEnrollOnce ?? false,
         // accessDataWrite:program.access().data().write(),
-        dirty: program.dirty, // State.valueOf(state.name),
+        dirty: program.dirty,
+        // State.valueOf(state.name),
         hasOverdueEvent: hasOverdue,
         filtersAreActive: filtersAreActive,
         downloadState: ProgramDownloadState.NONE);

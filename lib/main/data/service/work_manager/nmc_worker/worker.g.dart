@@ -7,11 +7,12 @@ part of 'worker.dart';
 // **************************************************************************
 
 String _$syncMetadataWorkerHash() =>
-    r'357d311d1776a2fc39be5b1ce6706229423f519d';
+    r'f3d8febded9271a755775be811cc9bd868387dd7';
 
 /// See also [syncMetadataWorker].
 @ProviderFor(syncMetadataWorker)
-final syncMetadataWorkerProvider = AutoDisposeProvider<Worker>.internal(
+final syncMetadataWorkerProvider =
+    AutoDisposeProvider<SyncMetadataWorker>.internal(
   syncMetadataWorker,
   name: r'syncMetadataWorkerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -21,12 +22,12 @@ final syncMetadataWorkerProvider = AutoDisposeProvider<Worker>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef SyncMetadataWorkerRef = AutoDisposeProviderRef<Worker>;
-String _$syncDataWorkerHash() => r'085fc92436e88e28544c669ea3b4456c176af045';
+typedef SyncMetadataWorkerRef = AutoDisposeProviderRef<SyncMetadataWorker>;
+String _$syncDataWorkerHash() => r'73ddd00e950a20ae578c049d1f80aa797387bdda';
 
 /// See also [syncDataWorker].
 @ProviderFor(syncDataWorker)
-final syncDataWorkerProvider = AutoDisposeProvider<Worker>.internal(
+final syncDataWorkerProvider = AutoDisposeProvider<SyncDataWorker>.internal(
   syncDataWorker,
   name: r'syncDataWorkerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -36,5 +37,5 @@ final syncDataWorkerProvider = AutoDisposeProvider<Worker>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef SyncDataWorkerRef = AutoDisposeProviderRef<Worker>;
+typedef SyncDataWorkerRef = AutoDisposeProviderRef<SyncDataWorker>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

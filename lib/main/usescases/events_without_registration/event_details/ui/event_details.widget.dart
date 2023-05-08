@@ -2,6 +2,7 @@ import 'package:d2_remote/core/mp/enrollment/enrollment_status.dart';
 import 'package:d2_remote/core/mp/period/period_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 
 import '../../../../../commons/constants.dart';
 import '../../../../../commons/data/event_creation_type.dart';
@@ -51,7 +52,8 @@ class _EventDetailsViewState extends ConsumerState<EventDetailsView> {
   void initState() {
     super.initState();
     // final Bundle bundle = Get.arguments as Bundle;
-    final Bundle bundle = ref.read(bundleObjectProvider);
+    // final Bundle bundle = ref.read(bundleObjectProvider);
+    final Bundle bundle = Get.arguments as Bundle;
 
     activityUid = bundle.getString(ACTIVITY_UID);
     initialOrgUnitUid = bundle.getString(ORG_UNIT);

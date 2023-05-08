@@ -1,17 +1,29 @@
-import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart';
-import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisation_unit.entity.dart';
 import 'package:d2_remote/core/common/feature_type.dart';
+import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisation_unit.entity.dart';
+import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 import 'di/program_event_detail_providers.dart';
-import 'program_event_detail_repository.dart';
 import 'program_event_detail_contract.dart';
+import 'program_event_detail_repository.dart';
+import 'program_event_detail_repository_impl.dart';
+
+part 'program_event_detail_presenter.g.dart';
+
+@riverpod
+ProgramEventDetailPresenter programEventDetailPresenter(
+    ProgramEventDetailPresenterRef ref, ProgramEventDetailView view) {
+  return ProgramEventDetailPresenterImpl(
+      ref, view, ref.read(programEventDetailRepositoryProvider));
+}
 
 class ProgramEventDetailPresenterImpl implements ProgramEventDetailPresenter {
-  ProgramEventDetailPresenterImpl(this.ref, this.view) {
-    init();
-  }
+  ProgramEventDetailPresenterImpl(this.ref, this.view, this.eventRepository);
+
   final ProgramEventDetailPresenterRef ref;
   ProgramEventDetailView view;
-  late final ProgramEventDetailRepository eventRepository;
+  final ProgramEventDetailRepository eventRepository;
+
   // final SchedulerProvider schedulerProvider;
   // final FilterManager filterManager;
   // final FilterRepository filterRepository;
@@ -24,7 +36,6 @@ class ProgramEventDetailPresenterImpl implements ProgramEventDetailPresenter {
 
   @override
   void init() {
-    eventRepository = ref.read(programEventDetailRepositoryProvider);
     eventRepository.hasAccessToAllCatOptions().then(view.setWritePermission);
     eventRepository.program().then(view.setProgram);
   }

@@ -9,7 +9,7 @@ import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity
 import 'package:d2_remote/modules/metadata/program/entities/program_stage_data_element.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_stage_section.entity.dart';
 import 'package:d2_remote/shared/utilities/sort_order.util.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../commons/data/event_view_model.dart';
 import '../../../commons/data/program_event_view_model.dart';
@@ -22,10 +22,18 @@ import '../../../core/di/providers.dart';
 import '../../../core/event/event_extensions.dart';
 import 'di/program_event_detail_providers.dart';
 
+part 'program_event_mapper.g.dart';
+
+@riverpod
+ProgramEventMapper programEventMapper(ProgramEventMapperRef ref) {
+  return ProgramEventMapper(ref);
+}
+
 class ProgramEventMapper {
   // final DhisPeriodUtils periodUtils;
   // final CrashReportController crashReportController;
   ProgramEventMapper(this.ref);
+
   final ProgramEventMapperRef ref;
 
   Future<EventModel> eventToEventViewModel(Event event) async {
@@ -41,8 +49,8 @@ class ProgramEventMapper {
     // final DateTime? eventDate = event.eventDate.toDate() ?? event.dueDate.toDate();
 
     final String? eventDate =
-        (event.eventDate.toDate() ?? event.dueDate.toDate())
-            ?.let((it) => DateUtils.uiDateFormat().format(it));
+    (event.eventDate.toDate() ?? event.dueDate.toDate())
+        ?.let((it) => DateUtils.uiDateFormat().format(it));
 
     return EventModel(
         type: EventViewModelType.EVENT,
@@ -53,30 +61,30 @@ class ProgramEventMapper {
         isSelected: false,
         canAddNewEvent: true,
         orgUnitName: (await D2Remote.organisationUnitModule.organisationUnit
-                    .byId(event.orgUnit)
-                    .getOne())
-                ?.displayName ??
+            .byId(event.orgUnit)
+            .getOne())
+            ?.displayName ??
             '-',
         activityName: await _getActivityName(event.activity),
         dataElementValues:
-            await _getEventValues(event.id!, event.programStage!),
+        await _getEventValues(event.id!, event.programStage!),
         groupedByStage: true,
         displayDate: eventDate
-        // {
-        //     periodUtils.getPeriodUIString(
-        //         programStage.periodType() ?: PeriodType.Daily,
-        //         it,
-        //         Locale.getDefault()
-        //     )
-        // }
-        );
+      // {
+      //     periodUtils.getPeriodUIString(
+      //         programStage.periodType() ?: PeriodType.Daily,
+      //         it,
+      //         Locale.getDefault()
+      //     )
+      // }
+    );
   }
 
   Future<ProgramEventViewModel> eventToProgramEvent(Event event) async {
     final String orgUnitName = await _getOrgUnitName(event.orgUnit) ?? '';
     final List<String> showInReportsDataElements = [];
     final List<ProgramStageDataElement> programStageDataElements =
-        await _getProgramStageDataElements(event.programStage);
+    await _getProgramStageDataElements(event.programStage);
     programStageDataElements.forEach((it) {
       if (it.displayInReports ?? false) {
         showInReportsDataElements.add(it.dataElementId);
@@ -113,13 +121,13 @@ class ProgramEventMapper {
         activityName: activityName,
         geometry: event.geometry,
         canBeEdited:
-            await ref.read(eventServiceProvider).isEditable(event.id!));
+        await ref.read(eventServiceProvider).isEditable(event.id!));
   }
 
   Future<List<ProgramEventViewModel>> eventsToProgramEvents(
       List<Event> events) async {
     return await Future.forEach(events.where((Event it) => it.geometry != null),
-        (Event event) => eventToProgramEvent(event));
+            (Event event) => eventToProgramEvent(event));
   }
 
   Future<List<Pair<String, String>>> _getData(List<EventDataValue>? dataValues,
@@ -128,13 +136,13 @@ class ProgramEventMapper {
 
     await dataValues?.aLet((it) async {
       final List<ProgramStageSection> stageSections =
-          await _getStageSections(programStage);
+      await _getStageSections(programStage);
       stageSections.sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
       // stageSections.sortBy { it.sortOrder() }
       final List<String> dataElementsOrder = [];
       if (stageSections.isEmpty) {
         final List<ProgramStageDataElement> programStageDataElements =
-            await _getProgramStageDataElements(programStage);
+        await _getProgramStageDataElements(programStage);
         programStageDataElements.forEach((stage) {
           dataElementsOrder.add(stage.dataElementId);
         });
@@ -194,16 +202,18 @@ class ProgramEventMapper {
           D2Remote.organisationUnitModule.organisationUnit.byId(it).getOne());
 
   Future<List<ProgramStageSection>> _getStageSections(
-          String? programStage) async =>
-      (await programStage?.aLet((String it) => D2Remote
-          .programModule.programStageSection
-          .byId(it)
-          .withDataElements()
-          .get())) ??
-      [];
+      String? programStage) async =>
+      (await programStage?.aLet((String it) =>
+          D2Remote
+              .programModule.programStageSection
+              .byId(it)
+              .withDataElements()
+              .get())) ??
+          [];
 
   Future<String?> _getOrgUnitName(String? orgUnitUid) async =>
-      (await orgUnitUid?.aLet((String it) => D2Remote
+      (await orgUnitUid?.aLet((String it) =>
+          D2Remote
               .organisationUnitModule.organisationUnit
               .byId(it)
               .getOne()))
@@ -211,24 +221,25 @@ class ProgramEventMapper {
 
   Future<String?> _getActivityName(String? activityUid) async =>
       (await activityUid?.aLet((String it) =>
-              D2Remote.activityModule.activity.byId(it).getOne()))
+          D2Remote.activityModule.activity.byId(it).getOne()))
           ?.displayName;
 
   Future<List<ProgramStageDataElement>> _getProgramStageDataElements(
-          String? programStageUid) async =>
-      (await programStageUid?.aLet((String it) => D2Remote
-          .programModule.programStageDataElement
-          .byProgramStage(it)
-          .orderBy(attribute: 'sortOrder', order: SortOrder.ASC)
-          .get())) ??
-      [];
+      String? programStageUid) async =>
+      (await programStageUid?.aLet((String it) =>
+          D2Remote
+              .programModule.programStageDataElement
+              .byProgramStage(it)
+              .orderBy(attribute: 'sortOrder', order: SortOrder.ASC)
+              .get())) ??
+          [];
 
-  Future<List<Pair<String, String?>>> _getEventValues(
-      String eventUid, String stageUid) async {
+  Future<List<Pair<String, String?>>> _getEventValues(String eventUid,
+      String stageUid) async {
     final List<String> displayInListDataElements =
-        (await D2Remote.programModule.programStageDataElement.get())
-            .map((it) => it.dataElementId)
-            .toList();
+    (await D2Remote.programModule.programStageDataElement.get())
+        .map((it) => it.dataElementId)
+        .toList();
     // d2.programModule().programStageDataElements()
     //     .byProgramStage().eq(stageUid)
     //     .byDisplayInReports().isTrue
@@ -244,7 +255,7 @@ class ProgramEventMapper {
             .byDataElement(it);
 
         final DataElement de =
-            (await D2Remote.dataElementModule.dataElement.getOne())!;
+        (await D2Remote.dataElementModule.dataElement.getOne())!;
         list.add(Pair<String, String?>(
             de.displayName ?? '',
             (await valueRepo.count() as int) > 0

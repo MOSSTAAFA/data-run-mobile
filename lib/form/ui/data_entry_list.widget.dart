@@ -4,9 +4,9 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import '../../commons/extensions/standard_extensions.dart';
 
 import '../../commons/custom_widgets/mixins/keyboard_manager.dart';
+import '../../commons/extensions/standard_extensions.dart';
 import '../model/field_ui_model.dart';
 import 'data_entry_item.widget.dart';
 import 'form_view_model.dart';
