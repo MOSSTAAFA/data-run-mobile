@@ -112,7 +112,7 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MainApp(), //const SplashScreen(),
+      home: /* const MainApp(), */ const SplashScreen(),
       getPages: [
         GetPage(
           name: LoginScreen.route,
