@@ -1,26 +1,24 @@
 import 'package:d2_remote/core/common/feature_type.dart';
 import 'package:d2_remote/core/mp/helpers/result.dart';
 import 'package:d2_remote/core/mp/period/period_type.dart';
-import 'package:get/get.dart';
 
 import '../../../../../commons/extensions/list_extensions.dart';
 import '../../../../../commons/extensions/standard_extensions.dart';
+import '../di/event_details_module.dart';
 import '../domain/configure_event_coordinates.dart';
 import '../domain/configure_event_details.dart';
 import '../domain/configure_event_report_date.dart';
 import '../domain/configure_event_temp.dart';
 import '../domain/configure_org_unit.dart';
 import '../domain/create_or_update_event_details.dart';
-import '../models/event_coordinates.dart';
-import '../models/event_date.dart';
-import '../models/event_details.dart';
-import '../models/event_org_unit.dart';
 import '../models/event_temp.dart';
 import '../models/event_temp_status.dart';
 import '../providers/event_detail_resources_provider.dart';
+import 'event_details_view.dart';
 
+/// EventDetailsViewModel
 class EventDetailsViewModelController {
-  EventDetailsViewModelController(
+  EventDetailsViewModelController(this.ref, this.view,
       {required ConfigureEventDetails configureEventDetails,
       required ConfigureEventReportDate configureEventReportDate,
       required ConfigureOrgUnit configureOrgUnit,
@@ -42,6 +40,7 @@ class EventDetailsViewModelController {
         _createOrUpdateEventDetails = createOrUpdateEventDetails,
         _resourcesProvider = resourcesProvider;
 
+  final EventDetailsViewModelControllerRef ref;
   final ConfigureEventDetails _configureEventDetails;
   final ConfigureEventReportDate _configureEventReportDate;
   final ConfigureOrgUnit _configureOrgUnit;
@@ -54,39 +53,41 @@ class EventDetailsViewModelController {
   final CreateOrUpdateEventDetails _createOrUpdateEventDetails;
   final EventDetailResourcesProvider _resourcesProvider;
 
-  void Function()? showCalendar;
-  void Function()? showPeriods;
-  void Function()? showOrgUnits;
-  void Function()? showNoOrgUnits;
-  void Function()? requestLocationPermissions;
-  void Function()? showEnableLocationMessage;
-  void Function(String featureType, String? initCoordinate)?
-      requestLocationByMap;
-  void Function()? onButtonClickCallback;
-  void Function(String result)? showEventUpdateStatus;
-  void Function(String message)? onReopenError;
-  void Function(String message)? onReopenSuccess;
+  final EventDetailsView view;
 
-  final Rx<EventDetails> _eventDetails = Rx<EventDetails>(const EventDetails());
+  // void Function()? showCalendar;
+  // void Function()? showPeriods;
+  // void Function()? showOrgUnits;
+  // void Function()? showNoOrgUnits;
+  // void Function()? requestLocationPermissions;
+  // void Function()? showEnableLocationMessage;
+  // void Function(String featureType, String? initCoordinate)?
+  //     requestLocationByMap;
+  // void Function()? onButtonClickCallback;
+  // void Function(String result)? showEventUpdateStatus;
+  // void Function(String message)? onReopenError;
+  // void Function(String message)? onReopenSuccess;
 
-  Stream<EventDetails> get eventDetails => _eventDetails.stream;
+  // final Rx<EventDetails> _eventDetails = Rx<EventDetails>(const EventDetails());
 
-  final Rx<EventDate> _eventDate = Rx<EventDate>(const EventDate());
+  // Stream<EventDetails> get eventDetails => _eventDetails.stream;
 
-  Stream<EventDate> get eventDate => _eventDate.stream;
+  // final Rx<EventDate> _eventDate = Rx<EventDate>(const EventDate());
 
-  final Rx<EventOrgUnit> _eventOrgUnit = Rx<EventOrgUnit>(const EventOrgUnit());
+  // Stream<EventDate> get eventDate => _eventDate.stream;
 
-  Stream<EventOrgUnit> get eventOrgUnit => _eventOrgUnit.stream;
+  // final Rx<EventOrgUnit> _eventOrgUnit = Rx<EventOrgUnit>(const EventOrgUnit());
 
-  final Rx<EventCoordinates> _eventCoordinates =
-      Rx<EventCoordinates>(const EventCoordinates());
+  // Stream<EventOrgUnit> get eventOrgUnit => _eventOrgUnit.stream;
 
-  Stream<EventCoordinates> get eventCoordinates => _eventCoordinates.stream;
+  // final Rx<EventCoordinates> _eventCoordinates =
+  //     Rx<EventCoordinates>(const EventCoordinates());
 
-  final Rx<EventTemp> _eventTemp = Rx<EventTemp>(const EventTemp());
+  // Stream<EventCoordinates> get eventCoordinates => _eventCoordinates.stream;
 
-  Stream<EventTemp> get eventTemp => _eventTemp.stream;
+  // final Rx<EventTemp> _eventTemp = Rx<EventTemp>(const EventTemp());
+
+  // Stream<EventTemp> get eventTemp => _eventTemp.stream;
 
   Future<void> _loadEventDetails() async {
     await _setUpEventDetails();
@@ -96,24 +97,30 @@ class EventDetailsViewModelController {
   }
 
   Future<void> _setUpEventDetails() async {
-    _eventDetails.value = await _configureEventDetails(
-        selectedDate: _eventDate.value.currentDate,
-        selectedOrgUnit: _eventOrgUnit.value.selectedOrgUnit?.id,
-        coordinates: _eventCoordinates.value.model?.value,
-        tempCreate: _eventTemp.value.status?.name);
+    final currentModel = ref.read(eventDetailsModelProvider);
+
+    ref.read(eventDetailsModelProvider.notifier).updateWith(
+        eventDetails: await _configureEventDetails(
+            selectedDate: currentModel.eventDate.currentDate,
+            selectedOrgUnit: currentModel.eventOrgUnit.selectedOrgUnit?.id,
+            coordinates: currentModel.eventCoordinates.model?.value,
+            tempCreate: currentModel.eventTemp.status?.name));
   }
 
   Future<void> setUpEventReportDate({DateTime? selectedDate}) async {
-    _eventDate.value = await _configureEventReportDate(selectedDate);
+    final currentModel = ref.read(eventDetailsModelProvider);
+    ref
+        .read(eventDetailsModelProvider.notifier)
+        .updateWith(eventDate: await _configureEventReportDate(selectedDate));
 
     await _setUpEventDetails();
-    await setUpOrgUnit(selectedDate: _eventDate.value.currentDate);
+    await setUpOrgUnit(selectedDate: currentModel.eventDate.currentDate);
   }
 
   Future<void> setUpOrgUnit(
       {DateTime? selectedDate, String? selectedOrgUnit}) async {
-    _eventOrgUnit.value =
-        await _configureOrgUnit(selectedDate, selectedOrgUnit);
+    ref.read(eventDetailsModelProvider.notifier).updateWith(
+        eventOrgUnit: await _configureOrgUnit(selectedDate, selectedOrgUnit));
     await _setUpEventDetails();
   }
 
@@ -136,14 +143,16 @@ class EventDetailsViewModelController {
       {EventTempStatus? status, bool isChecked = true}) async {
     if (isChecked) {
       _configureEventTemp(status).apply((EventTemp value) {
-        _eventTemp.value = value;
+        ref
+            .read(eventDetailsModelProvider.notifier)
+            .updateWith(eventTemp: value);
       });
       await _setUpEventDetails();
     }
   }
 
   void onDateClick() {
-    _periodType != null ? showPeriods?.call() : showCalendar?.call();
+    _periodType != null ? view.showPeriods() : view.showDateDialog();
   }
 
   Future<void> onDateSet(int year, int month, int day) async {
@@ -152,11 +161,12 @@ class EventDetailsViewModelController {
   }
 
   void onOrgUnitClick() {
-    if (!_eventOrgUnit.value.fixed) {
-      if (_eventOrgUnit.value.orgUnits.isNullOrEmpty) {
-        showNoOrgUnits?.call();
+    final currentModel = ref.read(eventDetailsModelProvider);
+    if (!currentModel.eventOrgUnit.fixed) {
+      if (currentModel.eventOrgUnit.orgUnits.isNullOrEmpty) {
+        view.showNoOrgUnitsDialog();
       } else {
-        showOrgUnits?.call();
+        view.showOrgUnitDialog();
       }
     }
   }
@@ -170,20 +180,20 @@ class EventDetailsViewModelController {
   }
 
   void onButtonClick() {
-    onButtonClickCallback?.call();
+    view.onButtonClickCallback();
   }
 
   Future<void> onActionButtonClick() async {
-    await _eventDetails.value.selectedDate?.aLet((DateTime date) =>
+    final currentModel = ref.read(eventDetailsModelProvider);
+    await currentModel.eventDetails.selectedDate?.aLet((DateTime date) =>
         _createOrUpdateEventDetails(
                 selectedDate: date,
-                selectedOrgUnit: _eventDetails.value.selectedOrgUnit,
-                coordinates: _eventDetails.value.coordinates)
+                selectedOrgUnit: currentModel.eventDetails.selectedOrgUnit,
+                coordinates: currentModel.eventDetails.coordinates)
             .then((Result<String, dynamic> result) {
           result.fold(
-            (dynamic failure) =>
-                showEventUpdateStatus?.call(failure.toString()),
-            (String message) => showEventUpdateStatus?.call(message),
+            (dynamic failure) => view.showEventUpdateStatus(failure.toString()),
+            (String message) => view.showEventUpdateStatus(message),
           );
         }));
   }
@@ -193,11 +203,11 @@ class EventDetailsViewModelController {
         await _configureEventDetails.reopenEvent();
     if (result.isSuccess) {
       await _loadEventDetails();
-      onReopenSuccess?.call(_resourcesProvider.provideReOpened());
+      view.onReopenSuccess(_resourcesProvider.provideReOpened());
     }
 
     if (result.isFailure) {
-      result.error?.let((Exception it) => onReopenError?.call(it.toString()));
+      result.error?.let((Exception it) => view.onReopenError(it.toString()));
     }
   }
 

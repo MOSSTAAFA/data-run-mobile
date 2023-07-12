@@ -9,7 +9,7 @@ import '../../../../../commons/resources/d2_error_utils.dart';
 import '../../../../../commons/resources/resource_manager.dart';
 import '../../../../../core/di/providers.dart';
 import '../../../../../form/di/injector.dart';
-import '../../../../../form/ui/view_model/view_model_provider.dart';
+import '../../../../mp_logic/mp_period_utils.dart';
 import '../../../bundle/bundle.dart';
 import '../../event_initial/di/event_initial_module.dart';
 import '../data/event_details_repository.dart';
@@ -19,8 +19,15 @@ import '../domain/configure_event_report_date.dart';
 import '../domain/configure_event_temp.dart';
 import '../domain/configure_org_unit.dart';
 import '../domain/create_or_update_event_details.dart';
+import '../models/event_coordinates.dart';
+import '../models/event_date.dart';
+import '../models/event_details.dart';
+import '../models/event_org_unit.dart';
+import '../models/event_temp.dart';
 import '../providers/event_detail_resources_provider.dart';
-import '../ui/event_details_view_model_factory.dart';
+import '../ui/event_details_view.dart';
+import '../ui/event_details_view_model.dart';
+import '../ui/event_details_view_model_controller.dart';
 
 part 'event_details_module.g.dart';
 
@@ -37,18 +44,41 @@ EventDetailsRepository eventDetailsRepository(EventDetailsRepositoryRef ref) {
 
   return EventDetailsRepository(
       programUid: eventBundle.getString(PROGRAM_UID)!,
+      eventUid: eventBundle.getString(EVENT_UID),
+      programStageUid: eventBundle.getString(PROGRAM_STAGE_UID),
       fieldFactory: ref.read(fieldViewModelFactoryProvider(false, true)),
       d2ErrorMapper: ref.read(d2ErrorUtilsProvider),
       eventService: ref.read(eventServiceProvider));
 }
 
 @riverpod
-EventDetailsViewModelFactory eventDetailsViewModelFactory(
-    EventDetailsViewModelFactoryRef ref) {
+class EventDetailsModel extends _$EventDetailsModel {
+  @override
+  EventDetailsViewModel build() {
+    return const EventDetailsViewModel();
+  }
+
+  void updateWith(
+      {EventDetails? eventDetails,
+      EventDate? eventDate,
+      EventOrgUnit? eventOrgUnit,
+      EventCoordinates? eventCoordinates,
+      EventTemp? eventTemp}) {
+    state = state.copyWith(
+        eventDetails: eventDetails,
+        eventOrgUnit: eventOrgUnit,
+        eventCoordinates: eventCoordinates,
+        eventTemp: eventTemp);
+  }
+}
+
+@riverpod
+EventDetailsViewModelController eventDetailsViewModelController(
+    EventDetailsViewModelControllerRef ref, EventDetailsView view) {
   // final Bundle bundle = ref.read(bundleObjectProvider);
   final Bundle bundle = Get.arguments as Bundle;
 
-  return EventDetailsViewModelFactory(
+  return EventDetailsViewModelController(ref, view,
       configureEventDetails: ConfigureEventDetails(
           repository: ref.read(eventDetailsRepositoryProvider),
           resourcesProvider: ref.read(eventDetailResourcesProvider),
@@ -58,6 +88,7 @@ EventDetailsViewModelFactory eventDetailsViewModelFactory(
           enrollmentStatus:
               bundle.getString(ENROLLMENT_STATUS).toEnrollmentStatus),
       configureEventReportDate: ConfigureEventReportDate(
+          periodUtils: ref.read(amPeriodUtilsProvider),
           creationType:
               bundle.getString(EVENT_CREATION_TYPE).toEventCreationType ??
                   EventCreationType.DEFAULT,
@@ -82,13 +113,61 @@ EventDetailsViewModelFactory eventDetailsViewModelFactory(
               bundle.getString(EVENT_CREATION_TYPE).toEventCreationType ??
                   EventCreationType.DEFAULT),
       periodType: bundle.getString(EVENT_PERIOD_TYPE).toPeriodType,
-      // geometryController: geometryController,
-      // locationProvider: locationProvider,
+      // geometryController: _geometryController,
+      // locationProvider: _locationProvider,
       createOrUpdateEventDetails: CreateOrUpdateEventDetails(
           repository: ref.read(eventDetailsRepositoryProvider),
           resourcesProvider: ref.read(eventDetailResourcesProvider)),
-      eventDetailResourcesProvider: ref.read(eventDetailResourcesProvider));
+      resourcesProvider: ref.read(eventDetailResourcesProvider));
 }
+
+// @riverpod
+// EventDetailsViewModelFactory eventDetailsViewModelFactory(
+//     EventDetailsViewModelFactoryRef ref) {
+//   // final Bundle bundle = ref.read(bundleObjectProvider);
+//   final Bundle bundle = Get.arguments as Bundle;
+
+//   return EventDetailsViewModelFactory(
+//       configureEventDetails: ConfigureEventDetails(
+//           repository: ref.read(eventDetailsRepositoryProvider),
+//           resourcesProvider: ref.read(eventDetailResourcesProvider),
+//           creationType:
+//               bundle.getString(EVENT_CREATION_TYPE).toEventCreationType ??
+//                   EventCreationType.DEFAULT,
+//           enrollmentStatus:
+//               bundle.getString(ENROLLMENT_STATUS).toEnrollmentStatus),
+//       configureEventReportDate: ConfigureEventReportDate(
+//           creationType:
+//               bundle.getString(EVENT_CREATION_TYPE).toEventCreationType ??
+//                   EventCreationType.DEFAULT,
+//           resourceProvider: ref.read(eventDetailResourcesProvider),
+//           repository: ref.read(eventDetailsRepositoryProvider),
+//           periodType: bundle.getString(EVENT_PERIOD_TYPE).toPeriodType,
+//           // periodUtils: periodUtils,
+//           enrollmentId: bundle.getString(ENROLLMENT_UID),
+//           scheduleInterval: bundle.getInt(EVENT_SCHEDULE_INTERVAL) ?? 0),
+//       configureOrgUnit: ConfigureOrgUnit(
+//           creationType:
+//               bundle.getString(EVENT_CREATION_TYPE).toEventCreationType ??
+//                   EventCreationType.DEFAULT,
+//           repository: ref.read(eventDetailsRepositoryProvider),
+//           preferencesProvider: ref.read(preferencesInstanceProvider),
+//           programUid: bundle.getString(PROGRAM_UID)!,
+//           initialOrgUnitUid: bundle.getString(ORG_UNIT)),
+//       configureEventCoordinates: ConfigureEventCoordinates(
+//           repository: ref.read(eventDetailsRepositoryProvider)),
+//       configureEventTemp: ConfigureEventTemp(
+//           creationType:
+//               bundle.getString(EVENT_CREATION_TYPE).toEventCreationType ??
+//                   EventCreationType.DEFAULT),
+//       periodType: bundle.getString(EVENT_PERIOD_TYPE).toPeriodType,
+//       // geometryController: geometryController,
+//       // locationProvider: locationProvider,
+//       createOrUpdateEventDetails: CreateOrUpdateEventDetails(
+//           repository: ref.read(eventDetailsRepositoryProvider),
+//           resourcesProvider: ref.read(eventDetailResourcesProvider)),
+//       eventDetailResourcesProvider: ref.read(eventDetailResourcesProvider));
+// }
 
 //EventDetailResourcesProvider
 // class EventDetailsModule {

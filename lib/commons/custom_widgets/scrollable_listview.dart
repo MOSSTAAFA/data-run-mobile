@@ -7,14 +7,16 @@ class ScrollableListView extends StatefulWidget {
     required this.children,
     this.scrollController,
     this.padding,
+    this.scrollDirection = Axis.vertical,
   });
 
   final List<Widget> children;
   final ScrollController? scrollController;
   final EdgeInsetsGeometry? padding;
+  final Axis scrollDirection;
 
   @override
-  _ScrollableListViewState createState() => _ScrollableListViewState();
+  State<ScrollableListView> createState() => _ScrollableListViewState();
 }
 
 class _ScrollableListViewState extends State<ScrollableListView> {
@@ -51,6 +53,7 @@ class ScrollableListViewBuilder extends StatefulWidget {
     this.separatorBuilder,
     this.scrollController,
     this.padding,
+    this.scrollDirection = Axis.vertical,
   });
 
   final IndexedWidgetBuilder itemBuilder;
@@ -58,9 +61,10 @@ class ScrollableListViewBuilder extends StatefulWidget {
   final int itemCount;
   final ScrollController? scrollController;
   final EdgeInsetsGeometry? padding;
+  final Axis scrollDirection;
 
   @override
-  _ScrollableListViewBuilderState createState() =>
+  State<ScrollableListViewBuilder> createState() =>
       _ScrollableListViewBuilderState();
 }
 
@@ -83,6 +87,7 @@ class _ScrollableListViewBuilderState extends State<ScrollableListViewBuilder> {
   Widget build(BuildContext context) {
     return widget.separatorBuilder != null
         ? ListView.separated(
+            scrollDirection: widget.scrollDirection,
             separatorBuilder: widget.separatorBuilder!,
             padding: widget.padding,
             itemBuilder: widget.itemBuilder,
@@ -91,6 +96,7 @@ class _ScrollableListViewBuilderState extends State<ScrollableListViewBuilder> {
             shrinkWrap: true,
           )
         : ListView.builder(
+            scrollDirection: widget.scrollDirection,
             padding: widget.padding,
             itemBuilder: widget.itemBuilder,
             itemCount: widget.itemCount,

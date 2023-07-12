@@ -70,11 +70,9 @@ class EventDetailsRepository {
     return Future<EventEditableStatus?>.value();
   }
 
-  Future<Event?> getEvent() {
-    if (eventUid != null) {
-      return D2Remote.trackerModule.event.byId(eventUid!).getOne();
-    }
-    return Future<Event?>.value();
+  Future<Event?> getEvent() async {
+    return await eventUid
+        ?.aLet((it) => D2Remote.trackerModule.event.byId(eventUid!).getOne());
   }
 
   Future<Program?> getProgram() {
@@ -99,14 +97,20 @@ class EventDetailsRepository {
           .byProgramStage(programStageUid!)
           .get();
       activeEvents = activeEvents.sortedByDescending((Event event) =>
-          DateUtils.databaseDateFormat().parse(event.eventDate!));
+          event.eventDate
+              ?.let((it) => DateUtils.databaseDateFormat().parse(it)) ??
+          DateTime.now());
 
       scheduleEvents = await D2Remote.trackerModule.event
           .byEnrollment(enrollmentUid)
           .byProgramStage(programStageUid!)
           .get();
+      ;
+
       scheduleEvents = activeEvents.sortedByDescending((Event event) =>
-          DateUtils.databaseDateFormat().parse(event.dueDate!));
+          event.dueDate
+              ?.let((it) => DateUtils.databaseDateFormat().parse(it)) ??
+          DateTime.now());
     }
 
     DateTime? activeDate;

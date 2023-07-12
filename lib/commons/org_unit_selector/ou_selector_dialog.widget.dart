@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import '../../main/l10n/app_localizations.dart';
 import '../custom_widgets/buttons/app_text_button.dart';
 import '../custom_widgets/list_filter.dart';
+import '../custom_widgets/responsive_padding.dart';
 import 'business_logic/org_unit_item.dart';
 import 'chips_row.widget.dart';
 import 'ou_selector_dialog.presenter.dart';
@@ -49,91 +50,225 @@ class _OuSelectorDialogState extends State<OuSelectorDialog> {
   Widget build(BuildContext context) {
     presenter.loadOrgUnitItems(widget.ouSelectionType);
 
-    return LayoutBuilder(
-      // height: MediaQuery.of(context).size.height,
-      // width: MediaQuery.of(context).size.width,
-      builder: (BuildContext context, BoxConstraints constraints) {
-        return Container(
-          // height: constraints.maxHeight - 100,
-          // width: constraints.maxWidth -100,
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10)
-              .copyWith(right: 32),
-          child: SingleChildScrollView(
-            physics: const NeverScrollableScrollPhysics(),
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.9,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(widget.title),
-                  const SizedBox(width: 10),
-                  ListFilter(
-                    filter: presenter.orgUnitSearchText.value,
-                    onFilterChanged: (String? value) {
-                      if (value != null) {
-                        presenter.lookUpOrgUnits(value);
-                      }
-                    },
-                  ),
-                  const SizedBox(width: 10),
-                  const Divider(height: 1),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: StreamBuilder<List<OrganisationUnit>>(
-                        stream: presenter.orgUnitsStream,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasError) {
-                            return Text(
-                                'orgUnitsStream snapshot Error: ${snapshot.error}');
-                          }
-                          if (!snapshot.hasData) {
-                            return const SizedBox();
-                          }
-                          return ChipsRow(
-                              orgUnits: snapshot.data!,
-                              clickedItem: (OrganisationUnit ou) {
-                                widget.textChangedConsumer
-                                    .call(ou.id!, ou.displayName!);
-                                dismiss();
-                              });
-                        }),
-                  ),
-                  const Divider(height: 1),
-                  const SizedBox(width: 10),
-                  StreamBuilder<List<OrgUnitItem>>(
-                      stream: presenter.orgUnitItemsStream,
-                      builder: (BuildContext context,
-                          AsyncSnapshot<List<OrgUnitItem>> snapshot) {
-                        if (snapshot.hasError) {
-                          return Text(
-                              'orgUnitItemsStream Error: ${snapshot.error}');
-                        }
-                        if (!snapshot.hasData) {
-                          return const SizedBox();
-                        }
-                        return OuSelectorList(
-                          selectedOrgUnit: widget.selectedOrgUnit,
-                          items: snapshot.data!,
-                          selectionType: widget.ouSelectionType,
-                          onNewLevelSelected: (bool canBeSelected) {
-                            if (canBeSelected) {
-                              presenter.acceptButtonEnabled.value = true;
-                            } else {
-                              presenter.acceptButtonEnabled.value = false;
-                            }
-                          },
-                        );
-                      }),
-                  const SizedBox(width: 20),
-                  _bottomBtnsRow(context)
-                ],
-              ),
+    return ResponsivePadding(
+      child: Material(
+        elevation: 4.0,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(widget.title),
+            const SizedBox(width: 10),
+            ListFilter(
+              filter: presenter.orgUnitSearchText.value,
+              onFilterChanged: (String? value) {
+                if (value != null) {
+                  presenter.lookUpOrgUnits(value);
+                }
+              },
             ),
-          ),
-        );
-      },
+            const SizedBox(width: 10),
+            const Divider(height: 1),
+            StreamBuilder<List<OrganisationUnit>>(
+                stream: presenter.orgUnitsStream,
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Text(
+                        'orgUnitsStream snapshot Error: ${snapshot.error}');
+                  }
+                  if (!snapshot.hasData) {
+                    return const SizedBox();
+                  }
+                  return ChipsRow(
+                      orgUnits: snapshot.data!,
+                      clickedItem: (OrganisationUnit ou) {
+                        widget.textChangedConsumer
+                            .call(ou.id!, ou.displayName!);
+                        dismiss();
+                      });
+                }),
+            // SingleChildScrollView(
+            //   scrollDirection: Axis.horizontal,
+            //   child: StreamBuilder<List<OrganisationUnit>>(
+            //       stream: presenter.orgUnitsStream,
+            //       builder: (context, snapshot) {
+            //         if (snapshot.hasError) {
+            //           return Text(
+            //               'orgUnitsStream snapshot Error: ${snapshot.error}');
+            //         }
+            //         if (!snapshot.hasData) {
+            //           return const SizedBox();
+            //         }
+            //         return ChipsRow(
+            //             orgUnits: snapshot.data!,
+            //             clickedItem: (OrganisationUnit ou) {
+            //               widget.textChangedConsumer
+            //                   .call(ou.id!, ou.displayName!);
+            //               dismiss();
+            //             });
+            //       }),
+            // ),
+            const Divider(height: 1),
+            const SizedBox(width: 10),
+            Expanded(
+              child: StreamBuilder<List<OrgUnitItem>>(
+                  stream: presenter.orgUnitItemsStream,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<OrgUnitItem>> snapshot) {
+                    if (snapshot.hasError) {
+                      return Text(
+                          'orgUnitItemsStream Error: ${snapshot.error}');
+                    }
+                    if (!snapshot.hasData) {
+                      return const SizedBox();
+                    }
+                    return OuSelectorList(
+                      selectedOrgUnit: widget.selectedOrgUnit,
+                      items: snapshot.data!,
+                      selectionType: widget.ouSelectionType,
+                      onNewLevelSelected: (bool canBeSelected) {
+                        if (canBeSelected) {
+                          presenter.acceptButtonEnabled.value = true;
+                        } else {
+                          presenter.acceptButtonEnabled.value = false;
+                        }
+                      },
+                    );
+                    // return OuSelectorList(
+                    //   selectedOrgUnit: widget.selectedOrgUnit,
+                    //   items: snapshot.data!,
+                    //   selectionType: widget.ouSelectionType,
+                    //   onNewLevelSelected: (bool canBeSelected) {
+                    //     if (canBeSelected) {
+                    //       presenter.acceptButtonEnabled.value = true;
+                    //     } else {
+                    //       presenter.acceptButtonEnabled.value = false;
+                    //     }
+                    //   },
+                    // );
+                  }),
+            ),
+            const SizedBox(width: 20),
+            _bottomBtnsRow(context)
+          ],
+        ),
+      ),
     );
+
+    // return LayoutBuilder(
+    //   // height: MediaQuery.of(context).size.height,
+    //   // width: MediaQuery.of(context).size.width,
+    //   builder: (BuildContext context, BoxConstraints constraints) {
+    //     return Container(
+    //       // height: constraints.maxHeight - 100,
+    //       // width: constraints.maxWidth -100,
+    //       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10)
+    //           .copyWith(right: 32),
+    //       child: SingleChildScrollView(
+    //         physics: const NeverScrollableScrollPhysics(),
+    //         child: SizedBox(
+    //           width: MediaQuery.of(context).size.width,
+    //           height: MediaQuery.of(context).size.height * 0.9,
+    //           child: Column(
+    //             mainAxisSize: MainAxisSize.min,
+    //             children: [
+    //               Text(widget.title),
+    //               const SizedBox(width: 10),
+    //               ListFilter(
+    //                 filter: presenter.orgUnitSearchText.value,
+    //                 onFilterChanged: (String? value) {
+    //                   if (value != null) {
+    //                     presenter.lookUpOrgUnits(value);
+    //                   }
+    //                 },
+    //               ),
+    //               const SizedBox(width: 10),
+    //               const Divider(height: 1),
+    //               StreamBuilder<List<OrganisationUnit>>(
+    //                   stream: presenter.orgUnitsStream,
+    //                   builder: (context, snapshot) {
+    //                     if (snapshot.hasError) {
+    //                       return Text(
+    //                           'orgUnitsStream snapshot Error: ${snapshot.error}');
+    //                     }
+    //                     if (!snapshot.hasData) {
+    //                       return const SizedBox();
+    //                     }
+    //                     return ChipsRow(
+    //                         orgUnits: snapshot.data!,
+    //                         clickedItem: (OrganisationUnit ou) {
+    //                           widget.textChangedConsumer
+    //                               .call(ou.id!, ou.displayName!);
+    //                           dismiss();
+    //                         });
+    //                   }),
+    //               // SingleChildScrollView(
+    //               //   scrollDirection: Axis.horizontal,
+    //               //   child: StreamBuilder<List<OrganisationUnit>>(
+    //               //       stream: presenter.orgUnitsStream,
+    //               //       builder: (context, snapshot) {
+    //               //         if (snapshot.hasError) {
+    //               //           return Text(
+    //               //               'orgUnitsStream snapshot Error: ${snapshot.error}');
+    //               //         }
+    //               //         if (!snapshot.hasData) {
+    //               //           return const SizedBox();
+    //               //         }
+    //               //         return ChipsRow(
+    //               //             orgUnits: snapshot.data!,
+    //               //             clickedItem: (OrganisationUnit ou) {
+    //               //               widget.textChangedConsumer
+    //               //                   .call(ou.id!, ou.displayName!);
+    //               //               dismiss();
+    //               //             });
+    //               //       }),
+    //               // ),
+    //               const Divider(height: 1),
+    //               const SizedBox(width: 10),
+    //               StreamBuilder<List<OrgUnitItem>>(
+    //                   stream: presenter.orgUnitItemsStream,
+    //                   builder: (BuildContext context,
+    //                       AsyncSnapshot<List<OrgUnitItem>> snapshot) {
+    //                     if (snapshot.hasError) {
+    //                       return Text(
+    //                           'orgUnitItemsStream Error: ${snapshot.error}');
+    //                     }
+    //                     if (!snapshot.hasData) {
+    //                       return const SizedBox();
+    //                     }
+    //                     return Expanded(child: OuSelectorList(
+    //                       selectedOrgUnit: widget.selectedOrgUnit,
+    //                       items: snapshot.data!,
+    //                       selectionType: widget.ouSelectionType,
+    //                       onNewLevelSelected: (bool canBeSelected) {
+    //                         if (canBeSelected) {
+    //                           presenter.acceptButtonEnabled.value = true;
+    //                         } else {
+    //                           presenter.acceptButtonEnabled.value = false;
+    //                         }
+    //                       },
+    //                     ));
+    //                     // return OuSelectorList(
+    //                     //   selectedOrgUnit: widget.selectedOrgUnit,
+    //                     //   items: snapshot.data!,
+    //                     //   selectionType: widget.ouSelectionType,
+    //                     //   onNewLevelSelected: (bool canBeSelected) {
+    //                     //     if (canBeSelected) {
+    //                     //       presenter.acceptButtonEnabled.value = true;
+    //                     //     } else {
+    //                     //       presenter.acceptButtonEnabled.value = false;
+    //                     //     }
+    //                     //   },
+    //                     // );
+    //                   }),
+    //               const SizedBox(width: 20),
+    //               _bottomBtnsRow(context)
+    //             ],
+    //           ),
+    //         ),
+    //       ),
+    //     );
+    //   },
+    // );
   }
 
   Widget _bottomBtnsRow(BuildContext context) {

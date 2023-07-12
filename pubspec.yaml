@@ -47,7 +47,8 @@ dependencies:
   dio: ^4.0.4
   http_mock_adapter: ^0.3.2
   equatable: ^2.0.5
-  fast_immutable_collections: ^9.0.0
+  fast_immutable_collections: ^9.1.1
+  flutter_treeview: ^1.0.7+1
 #  sealed_annotations: ^1.13.0
 
 dev_dependencies:

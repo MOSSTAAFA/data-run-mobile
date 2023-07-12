@@ -25,7 +25,7 @@ final eventDetailResourcesProvider =
 typedef EventDetailResourcesRef
     = AutoDisposeProviderRef<EventDetailResourcesProvider>;
 String _$eventDetailsRepositoryHash() =>
-    r'a826b950566943f6e17aa6e7448295726dd7f099';
+    r'b1120b9df736bcd3745cc99b9c595b90b7eb3dcb';
 
 /// See also [eventDetailsRepository].
 @ProviderFor(eventDetailsRepository)
@@ -42,22 +42,130 @@ final eventDetailsRepositoryProvider =
 
 typedef EventDetailsRepositoryRef
     = AutoDisposeProviderRef<EventDetailsRepository>;
-String _$eventDetailsViewModelFactoryHash() =>
-    r'eb332757d72311a0bcb87c5a258e5bb6a586bbab';
+String _$eventDetailsViewModelControllerHash() =>
+    r'7128207b12471607f78d148512c2fdead6f08fe6';
 
-/// See also [eventDetailsViewModelFactory].
-@ProviderFor(eventDetailsViewModelFactory)
-final eventDetailsViewModelFactoryProvider =
-    AutoDisposeProvider<EventDetailsViewModelFactory>.internal(
-  eventDetailsViewModelFactory,
-  name: r'eventDetailsViewModelFactoryProvider',
+/// Copied from Dart SDK
+class _SystemHash {
+  _SystemHash._();
+
+  static int combine(int hash, int value) {
+    // ignore: parameter_assignments
+    hash = 0x1fffffff & (hash + value);
+    // ignore: parameter_assignments
+    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
+    return hash ^ (hash >> 6);
+  }
+
+  static int finish(int hash) {
+    // ignore: parameter_assignments
+    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
+    // ignore: parameter_assignments
+    hash = hash ^ (hash >> 11);
+    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
+  }
+}
+
+typedef EventDetailsViewModelControllerRef
+    = AutoDisposeProviderRef<EventDetailsViewModelController>;
+
+/// See also [eventDetailsViewModelController].
+@ProviderFor(eventDetailsViewModelController)
+const eventDetailsViewModelControllerProvider =
+    EventDetailsViewModelControllerFamily();
+
+/// See also [eventDetailsViewModelController].
+class EventDetailsViewModelControllerFamily
+    extends Family<EventDetailsViewModelController> {
+  /// See also [eventDetailsViewModelController].
+  const EventDetailsViewModelControllerFamily();
+
+  /// See also [eventDetailsViewModelController].
+  EventDetailsViewModelControllerProvider call(
+    EventDetailsView view,
+  ) {
+    return EventDetailsViewModelControllerProvider(
+      view,
+    );
+  }
+
+  @override
+  EventDetailsViewModelControllerProvider getProviderOverride(
+    covariant EventDetailsViewModelControllerProvider provider,
+  ) {
+    return call(
+      provider.view,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'eventDetailsViewModelControllerProvider';
+}
+
+/// See also [eventDetailsViewModelController].
+class EventDetailsViewModelControllerProvider
+    extends AutoDisposeProvider<EventDetailsViewModelController> {
+  /// See also [eventDetailsViewModelController].
+  EventDetailsViewModelControllerProvider(
+    this.view,
+  ) : super.internal(
+          (ref) => eventDetailsViewModelController(
+            ref,
+            view,
+          ),
+          from: eventDetailsViewModelControllerProvider,
+          name: r'eventDetailsViewModelControllerProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$eventDetailsViewModelControllerHash,
+          dependencies: EventDetailsViewModelControllerFamily._dependencies,
+          allTransitiveDependencies:
+              EventDetailsViewModelControllerFamily._allTransitiveDependencies,
+        );
+
+  final EventDetailsView view;
+
+  @override
+  bool operator ==(Object other) {
+    return other is EventDetailsViewModelControllerProvider &&
+        other.view == view;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, view.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+String _$eventDetailsModelHash() => r'beeceea3330c916f3c224afc7fe2691124753ce9';
+
+/// See also [EventDetailsModel].
+@ProviderFor(EventDetailsModel)
+final eventDetailsModelProvider = AutoDisposeNotifierProvider<EventDetailsModel,
+    EventDetailsViewModel>.internal(
+  EventDetailsModel.new,
+  name: r'eventDetailsModelProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$eventDetailsViewModelFactoryHash,
+      : _$eventDetailsModelHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef EventDetailsViewModelFactoryRef
-    = AutoDisposeProviderRef<EventDetailsViewModelFactory>;
+typedef _$EventDetailsModel = AutoDisposeNotifier<EventDetailsViewModel>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

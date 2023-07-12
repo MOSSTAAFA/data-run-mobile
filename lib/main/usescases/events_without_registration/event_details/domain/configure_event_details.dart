@@ -108,7 +108,7 @@ class ConfigureEventDetails {
 
   Future<bool> _isEnable(Event? storedEvent) async {
     return await storedEvent?.aLet((Event it) async =>
-            await _repository.getEditableStatus() is Editable) ??
+            (await _repository.getEditableStatus()) is Editable) ??
         true;
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../core/organisation_unit/organisation_unit_display_path_generator.dart';
+import '../custom_widgets/scrollable_listview.dart';
 import '../extensions/string_extension.dart';
 import 'business_logic/org_unit_item.dart';
 import 'ou_selector_dialog.presenter.dart';
@@ -47,13 +48,9 @@ class _OuSelectorListState extends State<OuSelectorList> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      // padding: widget.padding,
-      // itemCount: widget.items.length,
+    return ScrollableListViewBuilder(
       itemCount: presenter.orgUnitItems.length,
-      // controller: widget.scrollController ?? _scrollController,
-      itemBuilder: (context, index) {
-        // widget.items[index].parentUid = presenter.selectedParent[index];
+      itemBuilder: (BuildContext context, int index) {
         presenter.orgUnitItems[index].parentUid =
             presenter.selectedParent[index];
         return OuSelectorItem(
@@ -94,8 +91,57 @@ class _OuSelectorListState extends State<OuSelectorList> {
           index: index,
         );
       },
-      shrinkWrap: true,
     );
+
+    // return ListView.builder(
+    //   // padding: widget.padding,
+    //   // itemCount: widget.items.length,
+    //   itemCount: presenter.orgUnitItems.length,
+    //   // controller: widget.scrollController ?? _scrollController,
+    //   itemBuilder: (context, index) {
+    //     // widget.items[index].parentUid = presenter.selectedParent[index];
+    //     presenter.orgUnitItems[index].parentUid =
+    //         presenter.selectedParent[index];
+    //     return OuSelectorItem(
+    //       selectionType: widget.selectionType,
+    //       // ouItem: widget.items[index],
+    //       ouItem: presenter.orgUnitItems[index],
+    //       setSelectedLevel: (String? selectedUid, bool canBeSelected) {
+    //         // TODO(NMC): this is moved from OuSelectorItem when clear button is pressed
+    //         // it still in OuSelectorItem
+    //         // if no change remove from OuSelectorItem and enable this
+    //         // Or make as a call back from item
+    //         // if(selectedUid == null) {
+    //         //   widget.items[index].name = null;
+    //         //   widget.items[index].uid = null;
+    //         // }
+    //         if (selectedUid == null) {
+    //           presenter.orgUnitItems[index].name = null;
+    //           presenter.orgUnitItems[index].uid = null;
+    //         }
+
+    //         presenter.selectedParent.putIfAbsent(
+    //             index, () => selectedUid); //Set selected orgUnit for level
+    //         reorderSelectedParent(index);
+    //         presenter.level.value = index;
+    //         widget.onNewLevelSelected?.call(canBeSelected);
+
+    //         // notifyDataSetChanged();
+    //         // presenter.selectedParent.assignAll(widget.selectedParent);
+    //         // presenter.orgUnitItems.assignAll(widget.items);
+    //         presenter.orgUnitItems.refresh();
+    //       },
+    //       setSelectedParent: (String selectedUid) {
+    //         //Set selected orgUnit for level
+    //         presenter.selectedParent.putIfAbsent(index, () => selectedUid);
+    //         // this.level.set(level);
+    //         presenter.level.value = index;
+    //       },
+    //       index: index,
+    //     );
+    //   },
+    //   shrinkWrap: true,
+    // );
   }
 
   @override

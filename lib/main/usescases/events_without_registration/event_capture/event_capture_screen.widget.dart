@@ -18,7 +18,7 @@ import '../../bundle/bundle.dart';
 import '../../general/view_base.dart';
 import '../../program_event_detail/program_event_detail_view_model.dart';
 import '../../program_event_detail/program_event_page_configurator.dart';
-import '../event_details/ui/event_details.widget.dart';
+import '../event_details/ui/event_details_screen.widget.dart';
 import 'di/event_capture_module.dart';
 import 'di/event_capture_providers.dart';
 import 'event_capture_contract.dart';
@@ -109,7 +109,7 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
               },
               pageBuilder: (context, viewAction) =>
                   when<ViewAction, Widget>(viewAction, {
-                ViewAction.details: () => const EventDetailsView(),
+                ViewAction.details: () => const EventDetailsScreen(),
                 ViewAction.data_entry: () => FormView(
                       // needToForceUpdate: needToForceUpdate,
                       records: EventRecords(

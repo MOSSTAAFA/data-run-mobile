@@ -39,7 +39,7 @@ final eventInitialRepositoryProvider =
 typedef EventInitialRepositoryRef
     = AutoDisposeProviderRef<EventInitialRepository>;
 String _$eventInitialPresenterHash() =>
-    r'0e44c908028c457cf419bdf5364157455d11ffbb';
+    r'a5843cc9fea3853e05b99345a5697d73159afce8';
 
 /// Copied from Dart SDK
 class _SystemHash {

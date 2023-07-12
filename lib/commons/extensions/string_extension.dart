@@ -1,4 +1,5 @@
 import '../date/date_utils.dart';
+import 'dynamic_extensions.dart';
 
 extension StringNullExtension on String? {
   DateTime? toDate() {
@@ -6,20 +7,20 @@ extension StringNullExtension on String? {
     try {
       date = DateUtils.databaseDateFormat().parse(this ?? '');
     } catch (e) {
-      print('wrong format');
+      logError(info: 'wrong DateTime format');
     }
     if (date == null) {
       try {
         date = DateUtils.dateTimeFormat().parse(this ?? '');
       } catch (e) {
-        print('wrong format');
+        logError(info: 'wrong DateTime format');
       }
     }
     if (date == null) {
       try {
         date = DateUtils.uiDateFormat().parse(this ?? '');
       } catch (e) {
-        print('wrong format');
+        logError(info: 'wrong DateTime format');
       }
     }
 
@@ -27,7 +28,7 @@ extension StringNullExtension on String? {
       try {
         date = DateUtils.oldUiDateFormat().parse(this ?? '');
       } catch (e) {
-        print('wrong format');
+        logError(info: 'wrong DateTime format');
       }
     }
 
