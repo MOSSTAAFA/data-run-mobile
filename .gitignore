@@ -49,4 +49,3 @@ app.*.map.json
 
 # Secret keys
 secrets.properties
-/d2-remote/
