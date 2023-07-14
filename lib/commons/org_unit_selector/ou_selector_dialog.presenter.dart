@@ -96,13 +96,11 @@ class OuSelectorDialogPresenter extends GetxController implements Listenable {
 
   @override
   void onClose() {
-    print('OuSelectorDialogPresenter Closed ##################');
     super.onClose();
   }
 
   @override
   void onInit() {
     super.onInit();
-    print('OuSelectorDialogPresenter Init ##################');
   }
 }

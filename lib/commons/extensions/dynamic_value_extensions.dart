@@ -13,11 +13,11 @@ extension CheckValueDynamicExtension on dynamic {
     if (optionSetUid != null) {
       final Option? optionByCode = await D2Remote.optionModule.option
           .byOptionSet(optionSetUid)
-          .where(attribute: 'code', value: value);
+          .where(attribute: 'code', value: value).getOne();
 
       final Option? optionByName = await D2Remote.optionModule.option
           .byOptionSet(optionSetUid)
-          .where(attribute: 'name', value: value);
+          .where(attribute: 'name', value: value).getOne();
       return optionByCode != null || optionByName != null;
     }
 
@@ -56,11 +56,10 @@ extension CheckValueDynamicExtension on dynamic {
 
 extension CheckOptionSetValueDynamicExtension on dynamic {
   Future<String?> checkOptionSetValue(String optionSetUid, String code) async {
-    return await D2Remote.optionModule.option
+    return (await D2Remote.optionModule.option
         .byOptionSet(optionSetUid)
         .where(attribute: 'code', value: code)
-        .getOne()
-        .displayName;
+        .getOne())?.displayName;
   }
 }
 

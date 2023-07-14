@@ -5,31 +5,32 @@ extension StringNullExtension on String? {
   DateTime? toDate() {
     DateTime? date;
     try {
-      date = DateUtils.databaseDateFormat().parse(this ?? '');
+      return DateUtils.databaseDateFormatNoZone().parse(this ?? '');
     } catch (e) {
       logError(info: 'wrong DateTime format');
     }
-    if (date == null) {
-      try {
-        date = DateUtils.dateTimeFormat().parse(this ?? '');
-      } catch (e) {
-        logError(info: 'wrong DateTime format');
-      }
+
+    try {
+      return DateUtils.databaseDateFormat().parse(this ?? '');
+    } catch (e) {
+      logError(info: 'wrong DateTime format');
     }
-    if (date == null) {
-      try {
-        date = DateUtils.uiDateFormat().parse(this ?? '');
-      } catch (e) {
-        logError(info: 'wrong DateTime format');
-      }
+    try {
+      return DateUtils.dateTimeFormat().parse(this ?? '');
+    } catch (e) {
+      logError(info: 'wrong DateTime format');
     }
 
-    if (date == null) {
-      try {
-        date = DateUtils.oldUiDateFormat().parse(this ?? '');
-      } catch (e) {
-        logError(info: 'wrong DateTime format');
-      }
+    try {
+      return DateUtils.uiDateFormat().parse(this ?? '');
+    } catch (e) {
+      logError(info: 'wrong DateTime format');
+    }
+
+    try {
+      return DateUtils.oldUiDateFormat().parse(this ?? '');
+    } catch (e) {
+      logError(info: 'wrong DateTime format');
     }
 
     return date;

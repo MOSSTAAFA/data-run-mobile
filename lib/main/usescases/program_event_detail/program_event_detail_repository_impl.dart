@@ -40,24 +40,12 @@ class ProgramEventDetailRepositoryImpl implements ProgramEventDetailRepository {
   @override
   Future<IList<EventModel>> programEvents() async {
     final List<Event> events = await D2Remote.trackerModule.event
-        // .resetFilters()
+        .resetFilters()
         .byProgram(programUid)
         .get();
 
-    final List<Event> allEvents = await D2Remote.trackerModule.event
-        // .resetFilters()
-        // .byProgram(programUid)
-        .get();
-
-    logInfo(
-        info: 'Events count in Program ${programUid} is : ${events.length}');
-    logInfo(info: 'Events in Program ${programUid} is : ${events}');
-
-    logInfo(info: 'All Events is : ${allEvents.length}');
-    // logInfo(info: 'Events in Program ${programUid} is : ${allEvents}');
-
     final List<EventModel> eventsModels = [];
-    Future.forEach(
+    await Future.forEach(
         events,
         (Event it) async =>
             eventsModels.add(await mapper.eventToEventViewModel(it)));

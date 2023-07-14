@@ -80,9 +80,10 @@ class EventCaptureRepositoryImpl implements EventCaptureRepository {
   @override
   Future<OrganisationUnit> orgUnit() async {
     final Event currentEvent = await _getCurrentEvent();
-    return (await D2Remote.organisationUnitModule.organisationUnit
+    final orgUnit = await D2Remote.organisationUnitModule.organisationUnit
         .byId(currentEvent.orgUnit)
-        .getOne())!;
+        .getOne();
+    return orgUnit;
   }
 
   @override

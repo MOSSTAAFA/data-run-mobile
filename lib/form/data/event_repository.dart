@@ -27,7 +27,7 @@ class EventRepository extends DataEntryBaseRepository {
     required FieldViewModelFactory fieldFactory,
     required this.eventUid,
   }) : super(fieldFactory) {
-    _event = D2Remote.trackerModule.event.byId(eventUid).getOne();
+    _event = D2Remote.trackerModule.event.byId(eventUid ?? '').getOne();
     _programStageSections = _event!.then((event) => D2Remote
         .programModule.programStageSection
         .withDataElements()
@@ -38,7 +38,7 @@ class EventRepository extends DataEntryBaseRepository {
         {for (ProgramStageSection section in sections) section.id!: section});
   }
 
-  final String eventUid;
+  final String? eventUid;
 
   Future<Event?>? _event;
   Future<List<ProgramStageSection>> _programStageSections =
@@ -127,7 +127,7 @@ class EventRepository extends DataEntryBaseRepository {
 
     final EventDataValueQuery valueRepository = D2Remote
         .trackerModule.eventDataValue
-        .byEvent(eventUid)
+        .byEvent(eventUid!)
         .byDataElement(de.id!);
 
     ProgramStageSection? programStageSection;

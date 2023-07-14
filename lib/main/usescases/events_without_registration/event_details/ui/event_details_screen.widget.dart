@@ -18,6 +18,7 @@ import 'event_details_view.dart';
 import 'event_details_view_model_controller.dart';
 
 /// EventDetailsFragment
+/// display a clicked event in a events lists of a program
 class EventDetailsScreen extends ConsumerStatefulWidget {
   const EventDetailsScreen({
     super.key,

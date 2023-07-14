@@ -18,6 +18,7 @@ class FormRepositoryRecords {
       this.entryMode,
       this.allowMandatoryFields = true,
       this.isBackgroundTransparent = true});
+
   final String? recordUid;
   final EntryMode? entryMode;
   final bool allowMandatoryFields;
@@ -34,7 +35,7 @@ class EnrollmentRecords extends FormRepositoryRecords {
 class EventRecords extends FormRepositoryRecords {
   const EventRecords(this.eventUid)
       : super._(recordUid: eventUid, entryMode: EntryMode.DE);
-  final String eventUid;
+  final String? eventUid;
 }
 
 class SearchRecords extends FormRepositoryRecords {
@@ -44,7 +45,7 @@ class SearchRecords extends FormRepositoryRecords {
             recordUid: programUid,
             allowMandatoryFields: false,
             isBackgroundTransparent: false);
-  final String programUid;
+  final String? programUid;
   final String teiTypeUid;
   final Map<String, String> currentSearchValues;
 }

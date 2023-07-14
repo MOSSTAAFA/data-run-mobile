@@ -3,6 +3,9 @@ import 'package:intl/intl.dart';
 class DateUtils {
   static const String DATABASE_FORMAT_EXPRESSION =
       "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+
+  static const String DATABASE_FORMAT_EXPRESSION_No_Zone =
+      "yyyy-MM-dd'T'HH:mm:ss.SSS";
   static const String DATABASE_FORMAT_EXPRESSION_NO_MILLIS =
       "yyyy-MM-dd'T'HH:mm:ss";
   static const String DATABASE_FORMAT_EXPRESSION_NO_SECONDS =
@@ -16,7 +19,8 @@ class DateUtils {
   static const String TIME_12H_EXPRESSION = 'hh:mm a';
 
   static DateFormat uiDateFormat() {
-    return DateFormat(SIMPLE_DATE_FORMAT, 'en_US');
+    // return DateFormat(SIMPLE_DATE_FORMAT, 'en_US');
+    return DateFormat(DATE_FORMAT_EXPRESSION, 'en_US');
   }
 
   static DateFormat oldUiDateFormat() {
@@ -33,6 +37,10 @@ class DateUtils {
 
   static DateFormat databaseDateFormat() {
     return DateFormat(DATABASE_FORMAT_EXPRESSION, 'en_US');
+  }
+
+  static DateFormat databaseDateFormatNoZone() {
+    return DateFormat(DATABASE_FORMAT_EXPRESSION_No_Zone, 'en_US');
   }
 
   static DateFormat databaseDateFormatNoMillis() {

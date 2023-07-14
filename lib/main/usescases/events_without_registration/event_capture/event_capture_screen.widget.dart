@@ -33,7 +33,7 @@ class EventCaptureScreen extends ConsumerStatefulWidget {
     super.key,
   });
 
-  static const String route = 'eventcapturescreen';
+  static const String route = '/eventcapturescreen';
 
   @override
   ConsumerState<EventCaptureScreen> createState() => _EventCaptureScreenState();
@@ -112,8 +112,7 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
                 ViewAction.details: () => const EventDetailsScreen(),
                 ViewAction.data_entry: () => FormView(
                       // needToForceUpdate: needToForceUpdate,
-                      records: EventRecords(
-                          ref.read(bundleObjectProvider).getString(EVENT_UID)!),
+                      records: EventRecords(eventUid),
                       // onItemChangeListener: onItemChangeListener,
                       onLoadingListener: (loading) {
                         if (loading) {
@@ -146,14 +145,17 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
   @override
   void initState() {
     showProgress();
-    super.initState();
     // final Bundle bundle = Get.arguments as Bundle;
-    presenter = ref.read(eventCapturePresenterProvider(this));
-    final Bundle bundle = ref.read(bundleObjectProvider);
+    // presenter = ref.read(eventCapturePresenterProvider(this));
+    // final Bundle bundle = ref.read(bundleObjectProvider);
+    final Bundle bundle = Get.arguments as Bundle;
     eventMode = bundle.getString(EVENT_MODE)?.toEventMode;
     activityUid = bundle.getString(ACTIVITY_UID);
     programUid = bundle.getString(PROGRAM_UID);
     eventUid = bundle.getString(EVENT_UID);
+
+    presenter = ref.read(eventCapturePresenterProvider(this));
+    super.initState();
   }
 
   @override

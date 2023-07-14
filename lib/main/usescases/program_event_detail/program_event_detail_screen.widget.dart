@@ -27,13 +27,15 @@ import 'program_event_detail_view_model.dart';
 import 'program_event_page_configurator.dart';
 
 /// ProgramEventDetailActivity
+/// the screen that list the events of a particular program, navigated to from
+/// Program list in the main page
 
 const String EXTRA_PROGRAM_UID = 'PROGRAM_UID';
 
 class ProgramEventDetailScreen extends ConsumerStatefulWidget {
   const ProgramEventDetailScreen({super.key});
 
-  static const String route = '/programeventdetailscreen';
+  static const String route = '/ProgramEventDetailScreen';
 
   @override
   ConsumerState<ProgramEventDetailScreen> createState() =>

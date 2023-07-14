@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../../commons/constants.dart';
@@ -14,20 +15,18 @@ part 'event_capture_module.g.dart';
 
 @riverpod
 EventCaptureRepository eventCaptureRepository(EventCaptureRepositoryRef ref) {
-  return EventCaptureRepositoryImpl(
-      ref,
-      ref.watch(bundleObjectProvider
-          .select((bundle) => bundle.getString(EVENT_UID))));
+  final Bundle bundle = Get.arguments as Bundle;
+  return EventCaptureRepositoryImpl(ref, bundle.getString(EVENT_UID));
 }
 
 @riverpod
 EventCapturePresenter eventCapturePresenter(
     EventCapturePresenterRef ref, EventCaptureView view) {
+  final Bundle bundle = Get.arguments as Bundle;
   return EventCapturePresenterImpl(
     ref,
     eventCaptureRepository: ref.watch(eventCaptureRepositoryProvider),
-    eventUid: ref.watch(
-        bundleObjectProvider.select((bundle) => bundle.getString(EVENT_UID)!)),
+    eventUid: bundle.getString(EVENT_UID)!,
     view: view,
     preferences: ref.watch(preferencesInstanceProvider),
     configureEventCompletionDialog:
