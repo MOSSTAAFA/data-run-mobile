@@ -1,5 +1,15 @@
 import 'package:d2_remote/core/mp/enrollment/enrollment_status.dart';
 import 'package:get/get.dart';
+import 'package:mass_pro/form/data/metadata/option_set_configuration.dart';
+import 'package:mass_pro/form/data/metadata/org_unit_configuration.dart';
+import 'package:mass_pro/form/ui/field_view_model_factory_impl.dart';
+import 'package:mass_pro/form/ui/layout_provider_impl.dart';
+import 'package:mass_pro/form/ui/provider/display_name_provider_impl.dart';
+import 'package:mass_pro/form/ui/provider/hint_provider_impl.dart';
+import 'package:mass_pro/form/ui/provider/keyboard_action_provider_impl.dart';
+import 'package:mass_pro/form/ui/provider/ui_style_provider_impl.dart';
+import 'package:mass_pro/form/ui/style/form_ui_model_color_factory_impl.dart';
+import 'package:mass_pro/form/ui/style/long_text_ui_color_factory_impl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../../commons/constants.dart';
@@ -9,6 +19,7 @@ import '../../../../../commons/resources/d2_error_utils.dart';
 import '../../../../../commons/resources/resource_manager.dart';
 import '../../../../../core/di/providers.dart';
 import '../../../../../form/di/injector.dart';
+import '../../../../../form/ui/provider/ui_event_types_provider_impl.dart';
 import '../../../../mp_logic/mp_period_utils.dart';
 import '../../../bundle/bundle.dart';
 import '../../event_initial/di/event_initial_module.dart';
@@ -42,11 +53,34 @@ EventDetailsRepository eventDetailsRepository(EventDetailsRepositoryRef ref) {
   // final Bundle eventBundle = ref.read(bundleObjectProvider);
   final Bundle eventBundle = Get.arguments as Bundle;
 
+  // required this.noMandatoryFields,
+  // required this.uiStyleProvider,
+  // required this.layoutProvider,
+  // required this.hintProvider,
+  // required this.displayNameProvider,
+  // required this.uiEventTypesProvider,
+  // required this.keyboardActionProvider,
   return EventDetailsRepository(
       programUid: eventBundle.getString(PROGRAM_UID)!,
       eventUid: eventBundle.getString(EVENT_UID),
       programStageUid: eventBundle.getString(PROGRAM_STAGE_UID),
-      fieldFactory: ref.read(fieldViewModelFactoryProvider(false, true)),
+      fieldFactory: FieldViewModelFactoryImpl(
+          noMandatoryFields: false,
+          uiStyleProvider: UiStyleProviderImpl(
+              colorFactory: FormUiModelColorFactoryImpl(isBackgroundTransparent: true),
+              longTextColorFactory: LongTextUiColorFactoryImpl(isBackgroundTransparent: true)
+          ),
+          layoutProvider: const LayoutProviderImpl(),
+          hintProvider: const HintProviderImpl(),
+          displayNameProvider: const DisplayNameProviderImpl(
+              OptionSetConfiguration(),
+              OrgUnitConfiguration()
+          ),
+          uiEventTypesProvider: const UiEventTypesProviderImpl(),
+          keyboardActionProvider: const KeyboardActionProviderImpl(),
+          // LegendValueProviderImpl(d2, resourceManager)
+      ),
+      // fieldFactory: ref.read(fieldViewModelFactoryProvider(false, true)),
       d2ErrorMapper: ref.read(d2ErrorUtilsProvider),
       eventService: ref.read(eventServiceProvider));
 }

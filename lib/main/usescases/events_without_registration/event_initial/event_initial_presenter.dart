@@ -2,6 +2,7 @@ import 'package:d2_remote/modules/data/tracker/models/geometry.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity.dart';
 import 'package:flutter/material.dart';
+import '../../../../form/ui/form_view_providers.dart';
 
 import '../../../../commons/extensions/string_extension.dart';
 import '../../../../commons/helpers/collections.dart';
@@ -9,12 +10,10 @@ import '../../../../commons/prefs/preference.dart';
 import '../../../../core/event/event_editable_status.dart';
 import '../../../../form/data/form_section_view_model.dart';
 import '../../../../form/model/field_ui_model.dart';
-import '../../../../form/ui/form_view_model.dart';
 import '../../../../main.dart';
 import '../../../l10n/app_localizations.dart';
 import '../event_capture/event_section_model.dart';
 import 'di/event_initial_module.dart';
-import 'di/presenter_providers.dart';
 import 'event_initial_repository.dart';
 import 'event_initial_view.dart';
 

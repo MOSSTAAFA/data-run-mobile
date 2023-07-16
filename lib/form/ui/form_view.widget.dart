@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
+import 'package:mass_pro/form/ui/form_view_providers.dart';
 
 import '../../commons/custom_widgets/mixins/keyboard_manager.dart';
 import '../../commons/extensions/standard_extensions.dart';
@@ -12,7 +13,7 @@ import '../model/form_repository_records.dart';
 import '../model/info_ui_model.dart';
 import '../model/row_action.dart';
 import '../model/section_ui_model_impl.dart';
-import 'data_entry_list.widget.dart';
+import 'data_entry_items_list.widget.dart';
 import 'event/list_view_ui_events.dart';
 import 'form_view_model.dart';
 import 'intent/form_intent.dart';
@@ -24,7 +25,7 @@ class FormView extends ConsumerStatefulWidget {
       this.needToForceUpdate = false,
 
       /// Sent ser. through
-      this.records,
+      // this.records,
       this.onItemChangeListener,
       this.onLoadingListener,
       this.onFocused,
@@ -45,7 +46,7 @@ class FormView extends ConsumerStatefulWidget {
 
   /// Sent ser. through
   // Will be comming from event or Enrollment Widgets
-  final FormRepositoryRecords? records;
+  // final FormRepositoryRecords? records;
 
   final void Function(RowAction rowAction)? onItemChangeListener;
   final void Function(bool loading)? onLoadingListener;
@@ -69,20 +70,11 @@ class FormView extends ConsumerStatefulWidget {
 class _FormViewState extends ConsumerState<FormView> with KeyboardManager {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: <Widget>[
-          // Consumer(
-          //   builder: (context, ref, child) => LinearLoadingIndicator(
-          //     isLoading: ref.watch(loadingProvider),
-          //   ),
-          // ),
-          const DataEntryList(
-              // searchStyle: widget.needToForceUpdate,
-              ),
-        ],
-      ),
+    return const Padding(
+      padding: EdgeInsets.all(8.0),
+      child: DataEntryItemsList(
+          // searchStyle: widget.needToForceUpdate,
+          ),
     );
     // return StreamBuilder<List<FieldUiModel>>(
     //     stream: widget.viewModel.items,

@@ -3,14 +3,11 @@ import 'package:d2_remote/core/common/feature_type.dart';
 import 'package:d2_remote/core/common/value_type.dart';
 import 'package:d2_remote/core/mp/helpers/result.dart';
 import 'package:dartx/dartx_io.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'form_view_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../commons/extensions/standard_extensions.dart';
-import '../data/data_integrity_check_result.dart';
-import '../data/form_repository.dart';
 import '../di/injector.dart';
 import '../model/Ui_render_type.dart';
 import '../model/action_type.dart';
@@ -19,229 +16,24 @@ import '../model/info_ui_model.dart';
 import '../model/row_action.dart';
 import '../model/store_result.dart';
 import '../model/value_store_result.dart';
-import 'event/list_view_ui_events.dart';
 import 'intent/form_intent.dart';
 import 'validation/validators/field_mask_validator.dart';
 
 part 'form_view_model.g.dart';
 
 @riverpod
-class Loading extends _$Loading {
-  @override
-  bool build() {
-    return true;
-  }
-
-  void setValue(bool value) {
-    state = value;
-  }
-}
-
-@Riverpod(keepAlive: true)
-class ShowToast extends _$ShowToast {
-  @override
-  String? build() {
-    return null;
-  }
-
-  void setValue(String value) {
-    state = value;
-  }
-}
-
-@riverpod
-class Focused extends _$Focused {
-  @override
-  bool? build() {
-    return null;
-  }
-
-  void setValue(bool value) {
-    state = value;
-  }
-}
-
-@riverpod
-class ShowInfo extends _$ShowInfo {
-  @override
-  InfoUiModel? build() {
-    return null;
-  }
-
-  void setValue(InfoUiModel value) {
-    state = value;
-  }
-}
-
-@riverpod
-class Items extends _$Items {
-  @override
-  FutureOr<IList<FieldUiModel>> build() {
-    return IList();
-  }
-
-  Future<void> loadData() async {
-    ref.read(loadingProvider.notifier).setValue(true);
-    final FormRepository repository = ref.read(formRepositoryProvider);
-    state = await AsyncValue.guard(repository.fetchFormItems);
-    ref.read(loadingProvider.notifier).setValue(false);
-  }
-
-  Future<void> processCalculatedItems() async {
-    final FormRepository repository = ref.read(formRepositoryProvider);
-    state = await AsyncValue.guard(repository.composeList);
-  }
-
-  Future<void> runDataIntegrityCheck({bool? allowDiscard}) async {
-    final AsyncValue<DataIntegrityCheckResult> result =
-        await AsyncValue.guard(() async {
-      return ref
-          .read(formRepositoryProvider)
-          .runDataIntegrityCheck(allowDiscard: allowDiscard ?? false);
-    });
-
-    ref
-        .read(dataIntegrityResultValueProvider.notifier)
-        .setValue(result.requireValue);
-    final FormRepository repository = ref.read(formRepositoryProvider);
-    state = await AsyncValue.guard(repository.composeList);
-  }
-}
-
-@riverpod
-Future<double> completionPercentageValue(CompletionPercentageValueRef ref) {
-  final IList<FieldUiModel>? items = ref.watch(itemsProvider).value;
-  return ref
-      .read(formRepositoryProvider)
-      .completedFieldsPercentage(items ?? IList());
-}
-
-@riverpod
-class SavedValue extends _$SavedValue {
-  @override
-  RowAction? build() {
-    return null;
-  }
-
-  void setValue(RowAction value) {
-    state = value;
-  }
-}
-
-@riverpod
-class QueryData extends _$QueryData {
-  @override
-  RowAction? build() {
-    return null;
-  }
-
-  void setValue(RowAction value) {
-    state = value;
-  }
-}
-
-@riverpod
-class CalculationLoopValue extends _$CalculationLoopValue {
-  @override
-  FutureOr<bool> build() {
-    return false;
-  }
-
-  Future<void> displayLoopWarningIfNeeded() async {
-    state = await AsyncValue.guard(
-        ref.read(formRepositoryProvider).calculationLoopOverLimit);
-  }
-}
-
-@riverpod
-class DataIntegrityResultValue extends _$DataIntegrityResultValue {
-  @override
-  DataIntegrityCheckResult? build() {
-    return null;
-  }
-
-  void setValue(DataIntegrityCheckResult value) {
-    state = value;
-  }
-}
-
-@riverpod
-class PendingIntents extends _$PendingIntents {
-  @override
-  FormIntent? build() {
-    return null;
-  }
-
-  void submitIntent(FormIntent intent) {
-    state = intent;
-  }
-}
-
-@riverpod
 FormViewModel formViewModel(FormViewModelRef ref) {
   return FormViewModel(ref);
 }
 
-@riverpod
-int index(IndexRef ref) {
-  throw UnimplementedError();
-}
-
-@riverpod
-class FieldItem extends _$FieldItem {
-  @override
-  FutureOr<FieldUiModel> build(Callback callback) async {
-    final int index = ref.read(indexProvider);
-    final FieldUiModel item = await ref
-        .watch(itemsProvider.selectAsync((IList<FieldUiModel> e) => e[index]));
-    return item.setCallback(callback);
-  }
-}
-
-// @riverpod
-// Future<FieldUiModel> item(ItemRef ref, Callback callback) async {
-//   final int index = ref.read(indexProvider);
-//   final FieldUiModel item = await ref
-//       .watch(itemsProvider.selectAsync((List<FieldUiModel> e) => e[index]));
-
-//   return item.setCallback(callback);
-// }
-
-@riverpod
-FieldUiModel? fieldRow(FieldRowRef ref) {
-  throw UnimplementedError();
-}
-
-@riverpod
-class UiEvent extends _$UiEvent {
-  @override
-  ListViewUiEvents? build() {
-    return null;
-  }
-
-  void setValue(ListViewUiEvents value) {
-    state = value;
-  }
-}
-
-@riverpod
-class UiIntent extends _$UiIntent {
-  @override
-  FormIntent? build() {
-    return null;
-  }
-
-  void setValue(FormIntent value) {
-    state = value;
-  }
-}
-
-class FormViewModel extends GetxController implements Listenable {
+class FormViewModel {
   // 1. Pass a Ref argument to the constructor
   FormViewModel(this.ref) {
     _init();
   }
+
   final FormViewModelRef ref;
+
   // AutoDisposeRef
   // GeometryController _geometryController = GeometryController(GeometryParserImpl());
 
@@ -255,8 +47,6 @@ class FormViewModel extends GetxController implements Listenable {
             (Pair<RowAction, StoreResult> event) => _displayResult(event));
       }
     });
-
-    ref.read(itemsProvider.notifier).loadData();
   }
 
   void _displayResult(Pair<RowAction, StoreResult> result) {

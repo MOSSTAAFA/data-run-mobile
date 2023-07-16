@@ -1,7 +1,9 @@
+import 'package:equatable/equatable.dart';
+
 import '../../commons/date/entry_mode.dart';
 import 'enrollment_mode.dart';
 
-class FormRepositoryRecords {
+class FormRepositoryRecords with EquatableMixin {
   const factory FormRepositoryRecords.searchRecords(
       String programUid,
       String teiTypeUid,
@@ -23,6 +25,10 @@ class FormRepositoryRecords {
   final EntryMode? entryMode;
   final bool allowMandatoryFields;
   final bool isBackgroundTransparent;
+
+  @override
+  List<Object?> get props =>
+      [recordUid, entryMode, allowMandatoryFields, isBackgroundTransparent];
 }
 
 class EnrollmentRecords extends FormRepositoryRecords {

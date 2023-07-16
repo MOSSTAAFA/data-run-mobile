@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mass_pro/form/ui/form_view_providers.dart';
 
 import '../../commons/custom_widgets/fields/factory/field_widget_factory_impl.dart';
 import '../model/field_ui_model.dart';
 import 'event/list_view_ui_events.dart';
-import 'form_view_model.dart';
 import 'intent/form_intent.dart';
 
 final AutoDisposeProvider<FieldWidgetFactoryImpl> fieldWidgetFactoryProvider =
@@ -16,27 +16,20 @@ class DataEntryItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final item = ref
-        .read(fieldItemProvider(Callback(
-            intent: (intent) => _intentCallback(intent, ref),
-            listViewUiEvents: (uiEvent) =>
-                _listViewEventCallback(uiEvent, ref))))
-        .value;
+    final item = ref.watch(fieldItemProvider(Callback(
+        intent: (intent) => _intentCallback(intent, ref),
+        listViewUiEvents: (uiEvent) => _listViewEventCallback(uiEvent, ref))));
 
-    // .watch(itemProvider(Callback(
-    //     intent: (intent) => _intentCallback(intent, ref),
-    //     listViewUiEvents: (uiEvent) =>
-    //         _listViewEventCallback(uiEvent, ref))))
-    // .value;
-
-    return ProviderScope(
-      overrides: [fieldRowProvider.overrideWith((_) => item)],
-      child: ref.read(fieldWidgetFactoryProvider).createWidgetByType(
-          valueType: item?.valueType,
-          renderingType: null,
-          optionSet: item?.optionSet,
-          sectionRenderingType: null),
-    );
+    return item != null
+        ? ProviderScope(
+            overrides: [fieldRowProvider.overrideWith((_) => item)],
+            child: ref.read(fieldWidgetFactoryProvider).createWidgetByType(
+                valueType: item.valueType,
+                renderingType: null,
+                optionSet: item.optionSet,
+                sectionRenderingType: null),
+          )
+        : const SizedBox.shrink();
   }
 
   void _listViewEventCallback(ListViewUiEvents uiEvent, WidgetRef ref) =>

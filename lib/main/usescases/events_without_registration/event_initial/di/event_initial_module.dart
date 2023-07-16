@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:mass_pro/form/ui/field_view_model_factory_impl.dart';
+import 'package:mass_pro/form/ui/provider/ui_style_provider_impl.dart';
+import 'package:mass_pro/form/ui/style/form_ui_model_color_factory_impl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../../commons/constants.dart';
 import '../../../../../commons/prefs/preference_provider.dart';
-import '../../../../../form/di/injector.dart';
+import '../../../../../form/data/metadata/option_set_configuration.dart';
+import '../../../../../form/data/metadata/org_unit_configuration.dart';
+import '../../../../../form/ui/layout_provider_impl.dart';
+import '../../../../../form/ui/provider/display_name_provider_impl.dart';
+import '../../../../../form/ui/provider/hint_provider_impl.dart';
+import '../../../../../form/ui/provider/keyboard_action_provider_impl.dart';
+import '../../../../../form/ui/provider/ui_event_types_provider_impl.dart';
+import '../../../../../form/ui/style/long_text_ui_color_factory_impl.dart';
 import '../../../../../main.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../bundle/bundle.dart';
@@ -36,7 +46,21 @@ part 'event_initial_module.g.dart';
 EventFieldMapper fieldMapper(FieldMapperRef ref) {
   final BuildContext context = navigatorKey.currentContext!;
   return EventFieldMapper(
-      fieldFactory: ref.read(fieldViewModelFactoryProvider(true, true)),
+      fieldFactory: FieldViewModelFactoryImpl(
+        noMandatoryFields: false,
+        uiStyleProvider: UiStyleProviderImpl(
+            colorFactory:
+                FormUiModelColorFactoryImpl(isBackgroundTransparent: true),
+            longTextColorFactory:
+                LongTextUiColorFactoryImpl(isBackgroundTransparent: true)),
+        layoutProvider: const LayoutProviderImpl(),
+        hintProvider: const HintProviderImpl(),
+        displayNameProvider: const DisplayNameProviderImpl(
+            OptionSetConfiguration(), OrgUnitConfiguration()),
+        uiEventTypesProvider: const UiEventTypesProviderImpl(),
+        keyboardActionProvider: const KeyboardActionProviderImpl(),
+        // LegendValueProviderImpl(d2, resourceManager)
+      ),
       mandatoryFieldWarning:
           AppLocalization.of(context)!.lookup('field_is_mandatory'));
 }
@@ -46,7 +70,21 @@ EventInitialRepository eventInitialRepository(EventInitialRepositoryRef ref) {
   final Bundle eventBundle = ref.read(bundleObjectProvider);
 
   return EventInitialRepositoryImpl(ref,
-      fieldFactory: ref.read(fieldViewModelFactoryProvider(true, true)),
+      fieldFactory: FieldViewModelFactoryImpl(
+        noMandatoryFields: false,
+        uiStyleProvider: UiStyleProviderImpl(
+            colorFactory:
+                FormUiModelColorFactoryImpl(isBackgroundTransparent: true),
+            longTextColorFactory:
+                LongTextUiColorFactoryImpl(isBackgroundTransparent: true)),
+        layoutProvider: const LayoutProviderImpl(),
+        hintProvider: const HintProviderImpl(),
+        displayNameProvider: const DisplayNameProviderImpl(
+            OptionSetConfiguration(), OrgUnitConfiguration()),
+        uiEventTypesProvider: const UiEventTypesProviderImpl(),
+        keyboardActionProvider: const KeyboardActionProviderImpl(),
+        // LegendValueProviderImpl(d2, resourceManager)
+      ),
       eventUid: eventBundle.getString(EVENT_UID),
       stageUid: eventBundle.getString(PROGRAM_STAGE_UID));
 }

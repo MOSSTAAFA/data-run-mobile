@@ -7,14 +7,14 @@ part of 'injector.dart';
 // **************************************************************************
 
 String _$formRepositoryRecordsHash() =>
-    r'9a3120d831c80fd25293cfa369832874d55a7a4a';
+    r'ad7ee31e4f44db31f355050d1964ab857485bedd';
 
-/// See also [formRepositoryRecords].
-@ProviderFor(formRepositoryRecords)
-final formRepositoryRecordsProvider =
+/// See also [_formRepositoryRecords].
+@ProviderFor(_formRepositoryRecords)
+final _formRepositoryRecordsProvider =
     AutoDisposeProvider<FormRepositoryRecords>.internal(
-  formRepositoryRecords,
-  name: r'formRepositoryRecordsProvider',
+  _formRepositoryRecords,
+  name: r'_formRepositoryRecordsProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
       : _$formRepositoryRecordsHash,
@@ -22,25 +22,10 @@ final formRepositoryRecordsProvider =
   allTransitiveDependencies: null,
 );
 
-typedef FormRepositoryRecordsRef
+typedef _FormRepositoryRecordsRef
     = AutoDisposeProviderRef<FormRepositoryRecords>;
-String _$formRepositoryHash() => r'aa42c44ce8a918d4929e48a4bf800c7704df2467';
-
-/// See also [formRepository].
-@ProviderFor(formRepository)
-final formRepositoryProvider = AutoDisposeProvider<FormRepository>.internal(
-  formRepository,
-  name: r'formRepositoryProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$formRepositoryHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef FormRepositoryRef = AutoDisposeProviderRef<FormRepository>;
-String _$enrollmentObjectRepositoryHash() =>
-    r'4919d65e95bf99a17cf66735ecada85fbe6fa545';
+String _$dataEntryRepositoryHash() =>
+    r'e06c74fe0b4e2b07b44d8569a899ef7046f62813';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -63,39 +48,492 @@ class _SystemHash {
   }
 }
 
-typedef EnrollmentObjectRepositoryRef
+typedef _DataEntryRepositoryRef = AutoDisposeProviderRef<DataEntryRepository>;
+
+/// See also [_dataEntryRepository].
+@ProviderFor(_dataEntryRepository)
+const _dataEntryRepositoryProvider = _DataEntryRepositoryFamily();
+
+/// See also [_dataEntryRepository].
+class _DataEntryRepositoryFamily extends Family<DataEntryRepository> {
+  /// See also [_dataEntryRepository].
+  const _DataEntryRepositoryFamily();
+
+  /// See also [_dataEntryRepository].
+  _DataEntryRepositoryProvider call({
+    EntryMode? entryMode,
+    required FormRepositoryRecords repositoryRecords,
+  }) {
+    return _DataEntryRepositoryProvider(
+      entryMode: entryMode,
+      repositoryRecords: repositoryRecords,
+    );
+  }
+
+  @override
+  _DataEntryRepositoryProvider getProviderOverride(
+    covariant _DataEntryRepositoryProvider provider,
+  ) {
+    return call(
+      entryMode: provider.entryMode,
+      repositoryRecords: provider.repositoryRecords,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'_dataEntryRepositoryProvider';
+}
+
+/// See also [_dataEntryRepository].
+class _DataEntryRepositoryProvider
+    extends AutoDisposeProvider<DataEntryRepository> {
+  /// See also [_dataEntryRepository].
+  _DataEntryRepositoryProvider({
+    this.entryMode,
+    required this.repositoryRecords,
+  }) : super.internal(
+          (ref) => _dataEntryRepository(
+            ref,
+            entryMode: entryMode,
+            repositoryRecords: repositoryRecords,
+          ),
+          from: _dataEntryRepositoryProvider,
+          name: r'_dataEntryRepositoryProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$dataEntryRepositoryHash,
+          dependencies: _DataEntryRepositoryFamily._dependencies,
+          allTransitiveDependencies:
+              _DataEntryRepositoryFamily._allTransitiveDependencies,
+        );
+
+  final EntryMode? entryMode;
+  final FormRepositoryRecords repositoryRecords;
+
+  @override
+  bool operator ==(Object other) {
+    return other is _DataEntryRepositoryProvider &&
+        other.entryMode == entryMode &&
+        other.repositoryRecords == repositoryRecords;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, entryMode.hashCode);
+    hash = _SystemHash.combine(hash, repositoryRecords.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+String _$formRepositoryHash() => r'4d4aaf256cf4b6f593a119bda09de6d56a58016b';
+
+/// See also [formRepository].
+@ProviderFor(formRepository)
+final formRepositoryProvider = AutoDisposeProvider<FormRepository>.internal(
+  formRepository,
+  name: r'formRepositoryProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$formRepositoryHash,
+  dependencies: <ProviderOrFamily>[_formRepositoryRecordsProvider],
+  allTransitiveDependencies: <ProviderOrFamily>[_formRepositoryRecordsProvider],
+);
+
+typedef FormRepositoryRef = AutoDisposeProviderRef<FormRepository>;
+String _$searchRepositoryHash() => r'554f0e3c5923bf00b4bd2c4985694df29b191338';
+typedef _SearchRepositoryRef = AutoDisposeProviderRef<SearchRepository>;
+
+/// See also [_searchRepository].
+@ProviderFor(_searchRepository)
+const _searchRepositoryProvider = _SearchRepositoryFamily();
+
+/// See also [_searchRepository].
+class _SearchRepositoryFamily extends Family<SearchRepository> {
+  /// See also [_searchRepository].
+  const _SearchRepositoryFamily();
+
+  /// See also [_searchRepository].
+  _SearchRepositoryProvider call(
+    SearchRecords searchRecords,
+  ) {
+    return _SearchRepositoryProvider(
+      searchRecords,
+    );
+  }
+
+  @override
+  _SearchRepositoryProvider getProviderOverride(
+    covariant _SearchRepositoryProvider provider,
+  ) {
+    return call(
+      provider.searchRecords,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'_searchRepositoryProvider';
+}
+
+/// See also [_searchRepository].
+class _SearchRepositoryProvider extends AutoDisposeProvider<SearchRepository> {
+  /// See also [_searchRepository].
+  _SearchRepositoryProvider(
+    this.searchRecords,
+  ) : super.internal(
+          (ref) => _searchRepository(
+            ref,
+            searchRecords,
+          ),
+          from: _searchRepositoryProvider,
+          name: r'_searchRepositoryProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$searchRepositoryHash,
+          dependencies: _SearchRepositoryFamily._dependencies,
+          allTransitiveDependencies:
+              _SearchRepositoryFamily._allTransitiveDependencies,
+        );
+
+  final SearchRecords searchRecords;
+
+  @override
+  bool operator ==(Object other) {
+    return other is _SearchRepositoryProvider &&
+        other.searchRecords == searchRecords;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, searchRecords.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+String _$enrollmentRepositoryHash() =>
+    r'31fbb2f1622589f9d27d3bd4e6dc766fceaea0bd';
+typedef _EnrollmentRepositoryRef = AutoDisposeProviderRef<EnrollmentRepository>;
+
+/// See also [_enrollmentRepository].
+@ProviderFor(_enrollmentRepository)
+const _enrollmentRepositoryProvider = _EnrollmentRepositoryFamily();
+
+/// See also [_enrollmentRepository].
+class _EnrollmentRepositoryFamily extends Family<EnrollmentRepository> {
+  /// See also [_enrollmentRepository].
+  const _EnrollmentRepositoryFamily();
+
+  /// See also [_enrollmentRepository].
+  _EnrollmentRepositoryProvider call(
+    EnrollmentRecords enrollmentRecords,
+  ) {
+    return _EnrollmentRepositoryProvider(
+      enrollmentRecords,
+    );
+  }
+
+  @override
+  _EnrollmentRepositoryProvider getProviderOverride(
+    covariant _EnrollmentRepositoryProvider provider,
+  ) {
+    return call(
+      provider.enrollmentRecords,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'_enrollmentRepositoryProvider';
+}
+
+/// See also [_enrollmentRepository].
+class _EnrollmentRepositoryProvider
+    extends AutoDisposeProvider<EnrollmentRepository> {
+  /// See also [_enrollmentRepository].
+  _EnrollmentRepositoryProvider(
+    this.enrollmentRecords,
+  ) : super.internal(
+          (ref) => _enrollmentRepository(
+            ref,
+            enrollmentRecords,
+          ),
+          from: _enrollmentRepositoryProvider,
+          name: r'_enrollmentRepositoryProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$enrollmentRepositoryHash,
+          dependencies: _EnrollmentRepositoryFamily._dependencies,
+          allTransitiveDependencies:
+              _EnrollmentRepositoryFamily._allTransitiveDependencies,
+        );
+
+  final EnrollmentRecords enrollmentRecords;
+
+  @override
+  bool operator ==(Object other) {
+    return other is _EnrollmentRepositoryProvider &&
+        other.enrollmentRecords == enrollmentRecords;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, enrollmentRecords.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+String _$eventRepositoryHash() => r'3a4eeb7d443acfbe23a5919562052e293bb170fb';
+typedef _EventRepositoryRef = AutoDisposeProviderRef<EventRepository>;
+
+/// See also [_eventRepository].
+@ProviderFor(_eventRepository)
+const _eventRepositoryProvider = _EventRepositoryFamily();
+
+/// See also [_eventRepository].
+class _EventRepositoryFamily extends Family<EventRepository> {
+  /// See also [_eventRepository].
+  const _EventRepositoryFamily();
+
+  /// See also [_eventRepository].
+  _EventRepositoryProvider call(
+    EventRecords eventRecords,
+  ) {
+    return _EventRepositoryProvider(
+      eventRecords,
+    );
+  }
+
+  @override
+  _EventRepositoryProvider getProviderOverride(
+    covariant _EventRepositoryProvider provider,
+  ) {
+    return call(
+      provider.eventRecords,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'_eventRepositoryProvider';
+}
+
+/// See also [_eventRepository].
+class _EventRepositoryProvider extends AutoDisposeProvider<EventRepository> {
+  /// See also [_eventRepository].
+  _EventRepositoryProvider(
+    this.eventRecords,
+  ) : super.internal(
+          (ref) => _eventRepository(
+            ref,
+            eventRecords,
+          ),
+          from: _eventRepositoryProvider,
+          name: r'_eventRepositoryProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$eventRepositoryHash,
+          dependencies: _EventRepositoryFamily._dependencies,
+          allTransitiveDependencies:
+              _EventRepositoryFamily._allTransitiveDependencies,
+        );
+
+  final EventRecords eventRecords;
+
+  @override
+  bool operator ==(Object other) {
+    return other is _EventRepositoryProvider &&
+        other.eventRecords == eventRecords;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, eventRecords.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+String _$fieldViewModelFactoryHash() =>
+    r'ac618219bb56c86488a3c86896d2d5ef25271f0f';
+typedef _FieldViewModelFactoryRef
+    = AutoDisposeProviderRef<FieldViewModelFactory>;
+
+/// See also [_fieldViewModelFactory].
+@ProviderFor(_fieldViewModelFactory)
+const _fieldViewModelFactoryProvider = _FieldViewModelFactoryFamily();
+
+/// See also [_fieldViewModelFactory].
+class _FieldViewModelFactoryFamily extends Family<FieldViewModelFactory> {
+  /// See also [_fieldViewModelFactory].
+  const _FieldViewModelFactoryFamily();
+
+  /// See also [_fieldViewModelFactory].
+  _FieldViewModelFactoryProvider call(
+    bool allowMandatoryFields,
+    bool isBackgroundTransparent,
+  ) {
+    return _FieldViewModelFactoryProvider(
+      allowMandatoryFields,
+      isBackgroundTransparent,
+    );
+  }
+
+  @override
+  _FieldViewModelFactoryProvider getProviderOverride(
+    covariant _FieldViewModelFactoryProvider provider,
+  ) {
+    return call(
+      provider.allowMandatoryFields,
+      provider.isBackgroundTransparent,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'_fieldViewModelFactoryProvider';
+}
+
+/// See also [_fieldViewModelFactory].
+class _FieldViewModelFactoryProvider
+    extends AutoDisposeProvider<FieldViewModelFactory> {
+  /// See also [_fieldViewModelFactory].
+  _FieldViewModelFactoryProvider(
+    this.allowMandatoryFields,
+    this.isBackgroundTransparent,
+  ) : super.internal(
+          (ref) => _fieldViewModelFactory(
+            ref,
+            allowMandatoryFields,
+            isBackgroundTransparent,
+          ),
+          from: _fieldViewModelFactoryProvider,
+          name: r'_fieldViewModelFactoryProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$fieldViewModelFactoryHash,
+          dependencies: _FieldViewModelFactoryFamily._dependencies,
+          allTransitiveDependencies:
+              _FieldViewModelFactoryFamily._allTransitiveDependencies,
+        );
+
+  final bool allowMandatoryFields;
+  final bool isBackgroundTransparent;
+
+  @override
+  bool operator ==(Object other) {
+    return other is _FieldViewModelFactoryProvider &&
+        other.allowMandatoryFields == allowMandatoryFields &&
+        other.isBackgroundTransparent == isBackgroundTransparent;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, allowMandatoryFields.hashCode);
+    hash = _SystemHash.combine(hash, isBackgroundTransparent.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+String _$enrollmentObjectRepositoryHash() =>
+    r'cc02474cbf3723f1ef51349b0ac3c379c9cff3ea';
+typedef _EnrollmentObjectRepositoryRef
     = AutoDisposeProviderRef<EnrollmentObjectRepository>;
 
 /// _provideEnrollmentObjectRepository(uid)
 ///
-/// Copied from [enrollmentObjectRepository].
-@ProviderFor(enrollmentObjectRepository)
-const enrollmentObjectRepositoryProvider = EnrollmentObjectRepositoryFamily();
+/// Copied from [_enrollmentObjectRepository].
+@ProviderFor(_enrollmentObjectRepository)
+const _enrollmentObjectRepositoryProvider = _EnrollmentObjectRepositoryFamily();
 
 /// _provideEnrollmentObjectRepository(uid)
 ///
-/// Copied from [enrollmentObjectRepository].
-class EnrollmentObjectRepositoryFamily
+/// Copied from [_enrollmentObjectRepository].
+class _EnrollmentObjectRepositoryFamily
     extends Family<EnrollmentObjectRepository> {
   /// _provideEnrollmentObjectRepository(uid)
   ///
-  /// Copied from [enrollmentObjectRepository].
-  const EnrollmentObjectRepositoryFamily();
+  /// Copied from [_enrollmentObjectRepository].
+  const _EnrollmentObjectRepositoryFamily();
 
   /// _provideEnrollmentObjectRepository(uid)
   ///
-  /// Copied from [enrollmentObjectRepository].
-  EnrollmentObjectRepositoryProvider call(
+  /// Copied from [_enrollmentObjectRepository].
+  _EnrollmentObjectRepositoryProvider call(
     String enrollmentUid,
   ) {
-    return EnrollmentObjectRepositoryProvider(
+    return _EnrollmentObjectRepositoryProvider(
       enrollmentUid,
     );
   }
 
   @override
-  EnrollmentObjectRepositoryProvider getProviderOverride(
-    covariant EnrollmentObjectRepositoryProvider provider,
+  _EnrollmentObjectRepositoryProvider getProviderOverride(
+    covariant _EnrollmentObjectRepositoryProvider provider,
   ) {
     return call(
       provider.enrollmentUid,
@@ -114,40 +552,40 @@ class EnrollmentObjectRepositoryFamily
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'enrollmentObjectRepositoryProvider';
+  String? get name => r'_enrollmentObjectRepositoryProvider';
 }
 
 /// _provideEnrollmentObjectRepository(uid)
 ///
-/// Copied from [enrollmentObjectRepository].
-class EnrollmentObjectRepositoryProvider
+/// Copied from [_enrollmentObjectRepository].
+class _EnrollmentObjectRepositoryProvider
     extends AutoDisposeProvider<EnrollmentObjectRepository> {
   /// _provideEnrollmentObjectRepository(uid)
   ///
-  /// Copied from [enrollmentObjectRepository].
-  EnrollmentObjectRepositoryProvider(
+  /// Copied from [_enrollmentObjectRepository].
+  _EnrollmentObjectRepositoryProvider(
     this.enrollmentUid,
   ) : super.internal(
-          (ref) => enrollmentObjectRepository(
+          (ref) => _enrollmentObjectRepository(
             ref,
             enrollmentUid,
           ),
-          from: enrollmentObjectRepositoryProvider,
-          name: r'enrollmentObjectRepositoryProvider',
+          from: _enrollmentObjectRepositoryProvider,
+          name: r'_enrollmentObjectRepositoryProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
                   : _$enrollmentObjectRepositoryHash,
-          dependencies: EnrollmentObjectRepositoryFamily._dependencies,
+          dependencies: _EnrollmentObjectRepositoryFamily._dependencies,
           allTransitiveDependencies:
-              EnrollmentObjectRepositoryFamily._allTransitiveDependencies,
+              _EnrollmentObjectRepositoryFamily._allTransitiveDependencies,
         );
 
   final String enrollmentUid;
 
   @override
   bool operator ==(Object other) {
-    return other is EnrollmentObjectRepositoryProvider &&
+    return other is _EnrollmentObjectRepositoryProvider &&
         other.enrollmentUid == enrollmentUid;
   }
 
@@ -160,25 +598,25 @@ class EnrollmentObjectRepositoryProvider
   }
 }
 
-String _$formValueStoreHash() => r'b5ddf273362a5ba94e679283a0551e18bc59ec76';
-typedef FormValueStoreRef = AutoDisposeProviderRef<FormValueStore?>;
+String _$formValueStoreHash() => r'cc50b90279ec3e015bb54f71ebb3ba2ee13df22b';
+typedef _FormValueStoreRef = AutoDisposeProviderRef<FormValueStore?>;
 
-/// See also [formValueStore].
-@ProviderFor(formValueStore)
-const formValueStoreProvider = FormValueStoreFamily();
+/// See also [_formValueStore].
+@ProviderFor(_formValueStore)
+const _formValueStoreProvider = _FormValueStoreFamily();
 
-/// See also [formValueStore].
-class FormValueStoreFamily extends Family<FormValueStore?> {
-  /// See also [formValueStore].
-  const FormValueStoreFamily();
+/// See also [_formValueStore].
+class _FormValueStoreFamily extends Family<FormValueStore?> {
+  /// See also [_formValueStore].
+  const _FormValueStoreFamily();
 
-  /// See also [formValueStore].
-  FormValueStoreProvider call(
+  /// See also [_formValueStore].
+  _FormValueStoreProvider call(
     String? recordUid,
     EntryMode? entryMode, [
     EnrollmentObjectRepository? repository,
   ]) {
-    return FormValueStoreProvider(
+    return _FormValueStoreProvider(
       recordUid,
       entryMode,
       repository,
@@ -186,8 +624,8 @@ class FormValueStoreFamily extends Family<FormValueStore?> {
   }
 
   @override
-  FormValueStoreProvider getProviderOverride(
-    covariant FormValueStoreProvider provider,
+  _FormValueStoreProvider getProviderOverride(
+    covariant _FormValueStoreProvider provider,
   ) {
     return call(
       provider.recordUid,
@@ -208,32 +646,32 @@ class FormValueStoreFamily extends Family<FormValueStore?> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'formValueStoreProvider';
+  String? get name => r'_formValueStoreProvider';
 }
 
-/// See also [formValueStore].
-class FormValueStoreProvider extends AutoDisposeProvider<FormValueStore?> {
-  /// See also [formValueStore].
-  FormValueStoreProvider(
+/// See also [_formValueStore].
+class _FormValueStoreProvider extends AutoDisposeProvider<FormValueStore?> {
+  /// See also [_formValueStore].
+  _FormValueStoreProvider(
     this.recordUid,
     this.entryMode, [
     this.repository,
   ]) : super.internal(
-          (ref) => formValueStore(
+          (ref) => _formValueStore(
             ref,
             recordUid,
             entryMode,
             repository,
           ),
-          from: formValueStoreProvider,
-          name: r'formValueStoreProvider',
+          from: _formValueStoreProvider,
+          name: r'_formValueStoreProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
                   : _$formValueStoreHash,
-          dependencies: FormValueStoreFamily._dependencies,
+          dependencies: _FormValueStoreFamily._dependencies,
           allTransitiveDependencies:
-              FormValueStoreFamily._allTransitiveDependencies,
+              _FormValueStoreFamily._allTransitiveDependencies,
         );
 
   final String? recordUid;
@@ -242,7 +680,7 @@ class FormValueStoreProvider extends AutoDisposeProvider<FormValueStore?> {
 
   @override
   bool operator ==(Object other) {
-    return other is FormValueStoreProvider &&
+    return other is _FormValueStoreProvider &&
         other.recordUid == recordUid &&
         other.entryMode == entryMode &&
         other.repository == repository;
@@ -259,29 +697,29 @@ class FormValueStoreProvider extends AutoDisposeProvider<FormValueStore?> {
   }
 }
 
-String _$networkUtilsHash() => r'536cfd3bfc12b51db1953e2689f637b9fb80df7a';
+String _$networkUtilsHash() => r'b42719faa3e0a1b8f5825206a379060f69f8dd55';
 
-/// See also [networkUtils].
-@ProviderFor(networkUtils)
-final networkUtilsProvider = AutoDisposeProvider<NetworkUtils>.internal(
-  networkUtils,
-  name: r'networkUtilsProvider',
+/// See also [_networkUtils].
+@ProviderFor(_networkUtils)
+final _networkUtilsProvider = AutoDisposeProvider<NetworkUtils>.internal(
+  _networkUtils,
+  name: r'_networkUtilsProvider',
   debugGetCreateSourceHash:
       const bool.fromEnvironment('dart.vm.product') ? null : _$networkUtilsHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef NetworkUtilsRef = AutoDisposeProviderRef<NetworkUtils>;
+typedef _NetworkUtilsRef = AutoDisposeProviderRef<NetworkUtils>;
 String _$fieldErrorMessageProviderHash() =>
-    r'736b9ff87eb263423b1e96b2d64ec7d447b1294c';
+    r'fa69b6ee68cd210315767469581362716420f302';
 
-/// See also [fieldErrorMessageProvider].
-@ProviderFor(fieldErrorMessageProvider)
-final fieldErrorMessageProviderProvider =
+/// See also [_fieldErrorMessageProvider].
+@ProviderFor(_fieldErrorMessageProvider)
+final _fieldErrorMessageProviderProvider =
     AutoDisposeProvider<FieldErrorMessageProvider>.internal(
-  fieldErrorMessageProvider,
-  name: r'fieldErrorMessageProviderProvider',
+  _fieldErrorMessageProvider,
+  name: r'_fieldErrorMessageProviderProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
       : _$fieldErrorMessageProviderHash,
@@ -289,268 +727,17 @@ final fieldErrorMessageProviderProvider =
   allTransitiveDependencies: null,
 );
 
-typedef FieldErrorMessageProviderRef
+typedef _FieldErrorMessageProviderRef
     = AutoDisposeProviderRef<FieldErrorMessageProvider>;
-String _$enrollmentRepositoryHash() =>
-    r'9e4288f89c8cefc360ce928617f79639fddd4754';
-typedef EnrollmentRepositoryRef = AutoDisposeProviderRef<EnrollmentRepository>;
-
-/// See also [enrollmentRepository].
-@ProviderFor(enrollmentRepository)
-const enrollmentRepositoryProvider = EnrollmentRepositoryFamily();
-
-/// See also [enrollmentRepository].
-class EnrollmentRepositoryFamily extends Family<EnrollmentRepository> {
-  /// See also [enrollmentRepository].
-  const EnrollmentRepositoryFamily();
-
-  /// See also [enrollmentRepository].
-  EnrollmentRepositoryProvider call(
-    EnrollmentRecords enrollmentRecords,
-  ) {
-    return EnrollmentRepositoryProvider(
-      enrollmentRecords,
-    );
-  }
-
-  @override
-  EnrollmentRepositoryProvider getProviderOverride(
-    covariant EnrollmentRepositoryProvider provider,
-  ) {
-    return call(
-      provider.enrollmentRecords,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'enrollmentRepositoryProvider';
-}
-
-/// See also [enrollmentRepository].
-class EnrollmentRepositoryProvider
-    extends AutoDisposeProvider<EnrollmentRepository> {
-  /// See also [enrollmentRepository].
-  EnrollmentRepositoryProvider(
-    this.enrollmentRecords,
-  ) : super.internal(
-          (ref) => enrollmentRepository(
-            ref,
-            enrollmentRecords,
-          ),
-          from: enrollmentRepositoryProvider,
-          name: r'enrollmentRepositoryProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$enrollmentRepositoryHash,
-          dependencies: EnrollmentRepositoryFamily._dependencies,
-          allTransitiveDependencies:
-              EnrollmentRepositoryFamily._allTransitiveDependencies,
-        );
-
-  final EnrollmentRecords enrollmentRecords;
-
-  @override
-  bool operator ==(Object other) {
-    return other is EnrollmentRepositoryProvider &&
-        other.enrollmentRecords == enrollmentRecords;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, enrollmentRecords.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-String _$eventRepositoryHash() => r'376067aa3bfcf77ddbf65d2a42d19539546570d3';
-typedef EventRepositoryRef = AutoDisposeProviderRef<EventRepository>;
-
-/// See also [eventRepository].
-@ProviderFor(eventRepository)
-const eventRepositoryProvider = EventRepositoryFamily();
-
-/// See also [eventRepository].
-class EventRepositoryFamily extends Family<EventRepository> {
-  /// See also [eventRepository].
-  const EventRepositoryFamily();
-
-  /// See also [eventRepository].
-  EventRepositoryProvider call(
-    EventRecords eventRecords,
-  ) {
-    return EventRepositoryProvider(
-      eventRecords,
-    );
-  }
-
-  @override
-  EventRepositoryProvider getProviderOverride(
-    covariant EventRepositoryProvider provider,
-  ) {
-    return call(
-      provider.eventRecords,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'eventRepositoryProvider';
-}
-
-/// See also [eventRepository].
-class EventRepositoryProvider extends AutoDisposeProvider<EventRepository> {
-  /// See also [eventRepository].
-  EventRepositoryProvider(
-    this.eventRecords,
-  ) : super.internal(
-          (ref) => eventRepository(
-            ref,
-            eventRecords,
-          ),
-          from: eventRepositoryProvider,
-          name: r'eventRepositoryProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$eventRepositoryHash,
-          dependencies: EventRepositoryFamily._dependencies,
-          allTransitiveDependencies:
-              EventRepositoryFamily._allTransitiveDependencies,
-        );
-
-  final EventRecords eventRecords;
-
-  @override
-  bool operator ==(Object other) {
-    return other is EventRepositoryProvider &&
-        other.eventRecords == eventRecords;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, eventRecords.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-String _$searchRepositoryHash() => r'9890909d1c9a5b032be96cf2670a66ee07321912';
-typedef SearchRepositoryRef = AutoDisposeProviderRef<SearchRepository>;
-
-/// See also [searchRepository].
-@ProviderFor(searchRepository)
-const searchRepositoryProvider = SearchRepositoryFamily();
-
-/// See also [searchRepository].
-class SearchRepositoryFamily extends Family<SearchRepository> {
-  /// See also [searchRepository].
-  const SearchRepositoryFamily();
-
-  /// See also [searchRepository].
-  SearchRepositoryProvider call(
-    SearchRecords searchRecords,
-  ) {
-    return SearchRepositoryProvider(
-      searchRecords,
-    );
-  }
-
-  @override
-  SearchRepositoryProvider getProviderOverride(
-    covariant SearchRepositoryProvider provider,
-  ) {
-    return call(
-      provider.searchRecords,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'searchRepositoryProvider';
-}
-
-/// See also [searchRepository].
-class SearchRepositoryProvider extends AutoDisposeProvider<SearchRepository> {
-  /// See also [searchRepository].
-  SearchRepositoryProvider(
-    this.searchRecords,
-  ) : super.internal(
-          (ref) => searchRepository(
-            ref,
-            searchRecords,
-          ),
-          from: searchRepositoryProvider,
-          name: r'searchRepositoryProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$searchRepositoryHash,
-          dependencies: SearchRepositoryFamily._dependencies,
-          allTransitiveDependencies:
-              SearchRepositoryFamily._allTransitiveDependencies,
-        );
-
-  final SearchRecords searchRecords;
-
-  @override
-  bool operator ==(Object other) {
-    return other is SearchRepositoryProvider &&
-        other.searchRecords == searchRecords;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, searchRecords.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
 String _$enrollmentFormLabelsProviderHash() =>
-    r'ba3eb7fa1326c6bc894995e0dba238d981be723d';
+    r'485fb30f9324971556b2009f585e98b4c2ccdb82';
 
-/// See also [enrollmentFormLabelsProvider].
-@ProviderFor(enrollmentFormLabelsProvider)
-final enrollmentFormLabelsProviderProvider =
+/// See also [_enrollmentFormLabelsProvider].
+@ProviderFor(_enrollmentFormLabelsProvider)
+final _enrollmentFormLabelsProviderProvider =
     AutoDisposeProvider<EnrollmentFormLabelsProvider>.internal(
-  enrollmentFormLabelsProvider,
-  name: r'enrollmentFormLabelsProviderProvider',
+  _enrollmentFormLabelsProvider,
+  name: r'_enrollmentFormLabelsProviderProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
       : _$enrollmentFormLabelsProviderHash,
@@ -558,204 +745,17 @@ final enrollmentFormLabelsProviderProvider =
   allTransitiveDependencies: null,
 );
 
-typedef EnrollmentFormLabelsProviderRef
+typedef _EnrollmentFormLabelsProviderRef
     = AutoDisposeProviderRef<EnrollmentFormLabelsProvider>;
-String _$dataEntryRepositoryHash() =>
-    r'ebc5aa68a873d842cce188db6952b872a0bff427';
-typedef DataEntryRepositoryRef = AutoDisposeProviderRef<DataEntryRepository>;
-
-/// See also [dataEntryRepository].
-@ProviderFor(dataEntryRepository)
-const dataEntryRepositoryProvider = DataEntryRepositoryFamily();
-
-/// See also [dataEntryRepository].
-class DataEntryRepositoryFamily extends Family<DataEntryRepository> {
-  /// See also [dataEntryRepository].
-  const DataEntryRepositoryFamily();
-
-  /// See also [dataEntryRepository].
-  DataEntryRepositoryProvider call({
-    EntryMode? entryMode,
-    required FormRepositoryRecords repositoryRecords,
-  }) {
-    return DataEntryRepositoryProvider(
-      entryMode: entryMode,
-      repositoryRecords: repositoryRecords,
-    );
-  }
-
-  @override
-  DataEntryRepositoryProvider getProviderOverride(
-    covariant DataEntryRepositoryProvider provider,
-  ) {
-    return call(
-      entryMode: provider.entryMode,
-      repositoryRecords: provider.repositoryRecords,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'dataEntryRepositoryProvider';
-}
-
-/// See also [dataEntryRepository].
-class DataEntryRepositoryProvider
-    extends AutoDisposeProvider<DataEntryRepository> {
-  /// See also [dataEntryRepository].
-  DataEntryRepositoryProvider({
-    this.entryMode,
-    required this.repositoryRecords,
-  }) : super.internal(
-          (ref) => dataEntryRepository(
-            ref,
-            entryMode: entryMode,
-            repositoryRecords: repositoryRecords,
-          ),
-          from: dataEntryRepositoryProvider,
-          name: r'dataEntryRepositoryProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$dataEntryRepositoryHash,
-          dependencies: DataEntryRepositoryFamily._dependencies,
-          allTransitiveDependencies:
-              DataEntryRepositoryFamily._allTransitiveDependencies,
-        );
-
-  final EntryMode? entryMode;
-  final FormRepositoryRecords repositoryRecords;
-
-  @override
-  bool operator ==(Object other) {
-    return other is DataEntryRepositoryProvider &&
-        other.entryMode == entryMode &&
-        other.repositoryRecords == repositoryRecords;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, entryMode.hashCode);
-    hash = _SystemHash.combine(hash, repositoryRecords.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-String _$fieldViewModelFactoryHash() =>
-    r'88ca3cc50ab2bbd97ab6a9fc1d945838e68b2abb';
-typedef FieldViewModelFactoryRef
-    = AutoDisposeProviderRef<FieldViewModelFactory>;
-
-/// See also [fieldViewModelFactory].
-@ProviderFor(fieldViewModelFactory)
-const fieldViewModelFactoryProvider = FieldViewModelFactoryFamily();
-
-/// See also [fieldViewModelFactory].
-class FieldViewModelFactoryFamily extends Family<FieldViewModelFactory> {
-  /// See also [fieldViewModelFactory].
-  const FieldViewModelFactoryFamily();
-
-  /// See also [fieldViewModelFactory].
-  FieldViewModelFactoryProvider call(
-    bool allowMandatoryFields,
-    bool isBackgroundTransparent,
-  ) {
-    return FieldViewModelFactoryProvider(
-      allowMandatoryFields,
-      isBackgroundTransparent,
-    );
-  }
-
-  @override
-  FieldViewModelFactoryProvider getProviderOverride(
-    covariant FieldViewModelFactoryProvider provider,
-  ) {
-    return call(
-      provider.allowMandatoryFields,
-      provider.isBackgroundTransparent,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'fieldViewModelFactoryProvider';
-}
-
-/// See also [fieldViewModelFactory].
-class FieldViewModelFactoryProvider
-    extends AutoDisposeProvider<FieldViewModelFactory> {
-  /// See also [fieldViewModelFactory].
-  FieldViewModelFactoryProvider(
-    this.allowMandatoryFields,
-    this.isBackgroundTransparent,
-  ) : super.internal(
-          (ref) => fieldViewModelFactory(
-            ref,
-            allowMandatoryFields,
-            isBackgroundTransparent,
-          ),
-          from: fieldViewModelFactoryProvider,
-          name: r'fieldViewModelFactoryProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$fieldViewModelFactoryHash,
-          dependencies: FieldViewModelFactoryFamily._dependencies,
-          allTransitiveDependencies:
-              FieldViewModelFactoryFamily._allTransitiveDependencies,
-        );
-
-  final bool allowMandatoryFields;
-  final bool isBackgroundTransparent;
-
-  @override
-  bool operator ==(Object other) {
-    return other is FieldViewModelFactoryProvider &&
-        other.allowMandatoryFields == allowMandatoryFields &&
-        other.isBackgroundTransparent == isBackgroundTransparent;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, allowMandatoryFields.hashCode);
-    hash = _SystemHash.combine(hash, isBackgroundTransparent.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
 String _$displayNameProviderHash() =>
-    r'26363eae505b09df003ce9976655a76d6c344e7d';
+    r'07e81200b5d5e74f4a789a907a26c465351bd53c';
 
-/// See also [displayNameProvider].
-@ProviderFor(displayNameProvider)
-final displayNameProviderProvider =
+/// See also [_displayNameProvider].
+@ProviderFor(_displayNameProvider)
+final _displayNameProviderProvider =
     AutoDisposeProvider<DisplayNameProvider>.internal(
-  displayNameProvider,
-  name: r'displayNameProviderProvider',
+  _displayNameProvider,
+  name: r'_displayNameProviderProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
       : _$displayNameProviderHash,
@@ -763,16 +763,16 @@ final displayNameProviderProvider =
   allTransitiveDependencies: null,
 );
 
-typedef DisplayNameProviderRef = AutoDisposeProviderRef<DisplayNameProvider>;
+typedef _DisplayNameProviderRef = AutoDisposeProviderRef<DisplayNameProvider>;
 String _$keyboardActionProviderHash() =>
-    r'4128ad924924503bff3919a7fdb496bc371f822f';
+    r'82b77d283045021f9b668aa7c86c1aba9024ce4c';
 
-/// See also [keyboardActionProvider].
-@ProviderFor(keyboardActionProvider)
-final keyboardActionProviderProvider =
+/// See also [_keyboardActionProvider].
+@ProviderFor(_keyboardActionProvider)
+final _keyboardActionProviderProvider =
     AutoDisposeProvider<KeyboardActionProvider>.internal(
-  keyboardActionProvider,
-  name: r'keyboardActionProviderProvider',
+  _keyboardActionProvider,
+  name: r'_keyboardActionProviderProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
       : _$keyboardActionProviderHash,
@@ -780,17 +780,17 @@ final keyboardActionProviderProvider =
   allTransitiveDependencies: null,
 );
 
-typedef KeyboardActionProviderRef
+typedef _KeyboardActionProviderRef
     = AutoDisposeProviderRef<KeyboardActionProvider>;
 String _$uiEventTypesProviderHash() =>
-    r'df39471c76d4ad7ef28bcee13a9642624bdc756d';
+    r'489de6576326082be13beff297f8f2c12d93c36d';
 
-/// See also [uiEventTypesProvider].
-@ProviderFor(uiEventTypesProvider)
-final uiEventTypesProviderProvider =
+/// See also [_uiEventTypesProvider].
+@ProviderFor(_uiEventTypesProvider)
+final _uiEventTypesProviderProvider =
     AutoDisposeProvider<UiEventTypesProvider>.internal(
-  uiEventTypesProvider,
-  name: r'uiEventTypesProviderProvider',
+  _uiEventTypesProvider,
+  name: r'_uiEventTypesProviderProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
       : _$uiEventTypesProviderHash,
@@ -798,28 +798,28 @@ final uiEventTypesProviderProvider =
   allTransitiveDependencies: null,
 );
 
-typedef UiEventTypesProviderRef = AutoDisposeProviderRef<UiEventTypesProvider>;
-String _$hintProviderHash() => r'e776cc0b3d1930e6482c052f222e1059e07926ca';
+typedef _UiEventTypesProviderRef = AutoDisposeProviderRef<UiEventTypesProvider>;
+String _$hintProviderHash() => r'bfcb9525edffd8a66f8c820f137401493f633230';
 
-/// See also [hintProvider].
-@ProviderFor(hintProvider)
-final hintProviderProvider = AutoDisposeProvider<HintProvider>.internal(
-  hintProvider,
-  name: r'hintProviderProvider',
+/// See also [_hintProvider].
+@ProviderFor(_hintProvider)
+final _hintProviderProvider = AutoDisposeProvider<HintProvider>.internal(
+  _hintProvider,
+  name: r'_hintProviderProvider',
   debugGetCreateSourceHash:
       const bool.fromEnvironment('dart.vm.product') ? null : _$hintProviderHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef HintProviderRef = AutoDisposeProviderRef<HintProvider>;
-String _$layoutProviderHash() => r'62a05ae0de3c8aebe885eee3eed6b11cc00f72e7';
+typedef _HintProviderRef = AutoDisposeProviderRef<HintProvider>;
+String _$layoutProviderHash() => r'2b55a06e9020aeba73fb76e8f0571e723c9ed272';
 
-/// See also [layoutProvider].
-@ProviderFor(layoutProvider)
-final layoutProviderProvider = AutoDisposeProvider<LayoutProvider>.internal(
-  layoutProvider,
-  name: r'layoutProviderProvider',
+/// See also [_layoutProvider].
+@ProviderFor(_layoutProvider)
+final _layoutProviderProvider = AutoDisposeProvider<LayoutProvider>.internal(
+  _layoutProvider,
+  name: r'_layoutProviderProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
       : _$layoutProviderHash,
@@ -827,31 +827,31 @@ final layoutProviderProvider = AutoDisposeProvider<LayoutProvider>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef LayoutProviderRef = AutoDisposeProviderRef<LayoutProvider>;
-String _$uiStyleProviderHash() => r'27f9751e8b6848b249be8c91488785e3d2eea4a0';
-typedef UiStyleProviderRef = AutoDisposeProviderRef<UiStyleProvider>;
+typedef _LayoutProviderRef = AutoDisposeProviderRef<LayoutProvider>;
+String _$uiStyleProviderHash() => r'ceb06436acaab32d95e684b6d928ab565206a7ed';
+typedef _UiStyleProviderRef = AutoDisposeProviderRef<UiStyleProvider>;
 
-/// See also [uiStyleProvider].
-@ProviderFor(uiStyleProvider)
-const uiStyleProviderProvider = UiStyleProviderFamily();
+/// See also [_uiStyleProvider].
+@ProviderFor(_uiStyleProvider)
+const _uiStyleProviderProvider = _UiStyleProviderFamily();
 
-/// See also [uiStyleProvider].
-class UiStyleProviderFamily extends Family<UiStyleProvider> {
-  /// See also [uiStyleProvider].
-  const UiStyleProviderFamily();
+/// See also [_uiStyleProvider].
+class _UiStyleProviderFamily extends Family<UiStyleProvider> {
+  /// See also [_uiStyleProvider].
+  const _UiStyleProviderFamily();
 
-  /// See also [uiStyleProvider].
-  UiStyleProviderProvider call(
+  /// See also [_uiStyleProvider].
+  _UiStyleProviderProvider call(
     bool isBackgroundTransparent,
   ) {
-    return UiStyleProviderProvider(
+    return _UiStyleProviderProvider(
       isBackgroundTransparent,
     );
   }
 
   @override
-  UiStyleProviderProvider getProviderOverride(
-    covariant UiStyleProviderProvider provider,
+  _UiStyleProviderProvider getProviderOverride(
+    covariant _UiStyleProviderProvider provider,
   ) {
     return call(
       provider.isBackgroundTransparent,
@@ -870,35 +870,35 @@ class UiStyleProviderFamily extends Family<UiStyleProvider> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'uiStyleProviderProvider';
+  String? get name => r'_uiStyleProviderProvider';
 }
 
-/// See also [uiStyleProvider].
-class UiStyleProviderProvider extends AutoDisposeProvider<UiStyleProvider> {
-  /// See also [uiStyleProvider].
-  UiStyleProviderProvider(
+/// See also [_uiStyleProvider].
+class _UiStyleProviderProvider extends AutoDisposeProvider<UiStyleProvider> {
+  /// See also [_uiStyleProvider].
+  _UiStyleProviderProvider(
     this.isBackgroundTransparent,
   ) : super.internal(
-          (ref) => uiStyleProvider(
+          (ref) => _uiStyleProvider(
             ref,
             isBackgroundTransparent,
           ),
-          from: uiStyleProviderProvider,
-          name: r'uiStyleProviderProvider',
+          from: _uiStyleProviderProvider,
+          name: r'_uiStyleProviderProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
                   : _$uiStyleProviderHash,
-          dependencies: UiStyleProviderFamily._dependencies,
+          dependencies: _UiStyleProviderFamily._dependencies,
           allTransitiveDependencies:
-              UiStyleProviderFamily._allTransitiveDependencies,
+              _UiStyleProviderFamily._allTransitiveDependencies,
         );
 
   final bool isBackgroundTransparent;
 
   @override
   bool operator ==(Object other) {
-    return other is UiStyleProviderProvider &&
+    return other is _UiStyleProviderProvider &&
         other.isBackgroundTransparent == isBackgroundTransparent;
   }
 
@@ -912,14 +912,14 @@ class UiStyleProviderProvider extends AutoDisposeProvider<UiStyleProvider> {
 }
 
 String _$searchOptionSetOptionHash() =>
-    r'b52c0b160deb4050a2ca7c26c503ab0b9f47ff5b';
+    r'0b5dc4c026f29a55460a9c58a08a5d5748079e03';
 
-/// See also [searchOptionSetOption].
-@ProviderFor(searchOptionSetOption)
-final searchOptionSetOptionProvider =
+/// See also [_searchOptionSetOption].
+@ProviderFor(_searchOptionSetOption)
+final _searchOptionSetOptionProvider =
     AutoDisposeProvider<SearchOptionSetOption>.internal(
-  searchOptionSetOption,
-  name: r'searchOptionSetOptionProvider',
+  _searchOptionSetOption,
+  name: r'_searchOptionSetOptionProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
       : _$searchOptionSetOptionHash,
@@ -927,6 +927,6 @@ final searchOptionSetOptionProvider =
   allTransitiveDependencies: null,
 );
 
-typedef SearchOptionSetOptionRef
+typedef _SearchOptionSetOptionRef
     = AutoDisposeProviderRef<SearchOptionSetOption>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

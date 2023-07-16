@@ -3,6 +3,7 @@ import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisati
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
+import 'package:mass_pro/form/di/injector.dart';
 
 import '../../../../commons/constants.dart';
 import '../../../../commons/custom_widgets/navigationbar/navigation_tab_bar_view.widget.dart';
@@ -54,7 +55,8 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
 
     return ProviderScope(
       overrides: [
-        pageConfiguratorProvider.overrideWith((_) => EventPageConfigurator())
+        // formRepositoryRecordsProvider.overrideWith((_) => EventRecords(eventUid)),
+        pageConfiguratorProvider.overrideWith((_) => EventPageConfigurator()),
       ],
       child: Column(
         children: [
@@ -112,7 +114,7 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
                 ViewAction.details: () => const EventDetailsScreen(),
                 ViewAction.data_entry: () => FormView(
                       // needToForceUpdate: needToForceUpdate,
-                      records: EventRecords(eventUid),
+                      // records: EventRecords(eventUid),
                       // onItemChangeListener: onItemChangeListener,
                       onLoadingListener: (loading) {
                         if (loading) {
@@ -153,7 +155,6 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
     activityUid = bundle.getString(ACTIVITY_UID);
     programUid = bundle.getString(PROGRAM_UID);
     eventUid = bundle.getString(EVENT_UID);
-
     presenter = ref.read(eventCapturePresenterProvider(this));
     super.initState();
   }
@@ -338,7 +339,7 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
   void onReopen() {
     // TODO: implement onReopen
     // formView.reload();
-    ref.read(itemsProvider.notifier).loadData();
+    // ref.read(itemsProvider.notifier).loadData();
   }
 
   @override

@@ -3,6 +3,7 @@ import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mass_pro/form/ui/form_view_providers.dart';
 
 import '../../../form/model/field_ui_model.dart';
 import '../../../form/model/key_board_action_type.dart';
@@ -50,74 +51,69 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
     //   _focusNode.requestFocus();
     // }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: TextFormField(
-            initialValue: fieldRowItem?.value,
-            textInputAction: _inputAction,
-            keyboardType: _inputType,
-            controller: _fieldController,
-            onChanged: (String value) {
-              // _debouncer.run(() {
-              fieldRowItem?.onTextChange(value);
-              // });
-            },
-            focusNode: _focusNode,
-            enabled: fieldRowItem?.editable,
-            maxLength: _maxLength,
-            maxLengthEnforcement: _maxLengthEnforcement,
-            decoration: InputDecoration(
-                label: Row(
-                  children: [
-                    Expanded(
-                        child: Text(
-                      fieldRowItem?.formattedLabel ?? '',
-                      style: _labelStyle,
-                    )),
-                    if (_info != null)
-                      IconButton(
-                        icon:
-                            Icon(Icons.info_outline, color: _labelStyle?.color),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+      child: TextFormField(
+        initialValue: fieldRowItem?.value,
+        textInputAction: _inputAction,
+        keyboardType: _inputType,
+        controller: _fieldController,
+        onChanged: (String value) {
+          // _debouncer.run(() {
+          fieldRowItem?.onTextChange(value);
+          // });
+        },
+        focusNode: _focusNode,
+        enabled: fieldRowItem?.editable,
+        maxLength: _maxLength,
+        maxLengthEnforcement: _maxLengthEnforcement,
+        decoration: InputDecoration(
+            label: Row(
+              children: [
+                Expanded(
+                    child: Text(
+                  fieldRowItem?.formattedLabel ?? '',
+                  style: _labelStyle,
+                )),
+                if (_info != null)
+                  IconButton(
+                    icon:
+                        Icon(Icons.info_outline, color: _labelStyle?.color),
+                    onPressed: () {
+                      fieldRowItem
+                          ?.invokeUiEvent(UiEventType.SHOW_DESCRIPTION);
+                    },
+                  )
+              ],
+            ),
+            border: const UnderlineInputBorder(),
+            suffixIcon:
+                _fieldController.text.isNotEmpty || _focusNode.hasFocus
+                    ? IconButton(
+                        icon: Icon(
+                          Icons.clear,
+                          color: _labelStyle?.color,
+                        ),
                         onPressed: () {
-                          fieldRowItem
-                              ?.invokeUiEvent(UiEventType.SHOW_DESCRIPTION);
+                          _fieldController.text = '';
+                          // _focusNode.unfocus(
+                          //     disposition:
+                          //         UnfocusDisposition.previouslyFocusedChild);
+                          fieldRowItem?.onTextChange(null);
                         },
                       )
-                  ],
-                ),
-                border: const UnderlineInputBorder(),
-                suffixIcon:
-                    _fieldController.text.isNotEmpty || _focusNode.hasFocus
-                        ? IconButton(
-                            icon: Icon(
-                              Icons.clear,
-                              color: _labelStyle?.color,
-                            ),
-                            onPressed: () {
-                              _fieldController.text = '';
-                              // _focusNode.unfocus(
-                              //     disposition:
-                              //         UnfocusDisposition.previouslyFocusedChild);
-                              fieldRowItem?.onTextChange(null);
-                            },
-                          )
-                        : _descIcon != null
-                            ? Icon(_descIcon, color: _labelStyle?.color)
-                            : null,
-                hintText: fieldRowItem?.hint,
-                hintStyle: _hintStyle,
-                errorText: fieldRowItem?.error,
-                errorStyle: fieldRowItem?.error != null
-                    ? TextStyle(
-                        fontSize: 10, color: convertHexStringToColor('#FF9800'))
-                    : null,
-                focusColor: _focusColor),
-          ),
-        ),
-      ],
+                    : _descIcon != null
+                        ? Icon(_descIcon, color: _labelStyle?.color)
+                        : null,
+            hintText: fieldRowItem?.hint,
+            hintStyle: _hintStyle,
+            errorText: fieldRowItem?.error,
+            errorStyle: fieldRowItem?.error != null
+                ? TextStyle(
+                    fontSize: 10, color: convertHexStringToColor('#FF9800'))
+                : null,
+            focusColor: _focusColor),
+      ),
     );
   }
 

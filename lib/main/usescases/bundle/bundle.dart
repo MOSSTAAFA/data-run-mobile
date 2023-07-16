@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:mass_pro/form/model/form_repository_records.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../commons/extensions/dynamic_extensions.dart';
@@ -16,13 +17,12 @@ class BundleObject extends _$BundleObject {
       logInfo(info: '######## BundleObject is disposed');
     });
 
-    ref.onCancel(() =>  logInfo(info: 'cancel: $state'));
-    ref.onResume(() =>  logInfo(info: 'resume: $state'));
-    ref.onDispose(() =>  logInfo(info: 'dispose: $state'));
+    ref.onCancel(() => logInfo(info: 'cancel: $state'));
+    ref.onResume(() => logInfo(info: 'resume: $state'));
+    ref.onDispose(() => logInfo(info: 'dispose: $state'));
 
     // get the [KeepAliveLink]
     // final link = ref.keepAlive();
-
 
     return Bundle();
   }
@@ -49,9 +49,11 @@ class BundleObject extends _$BundleObject {
 }
 
 class Bundle with EquatableMixin {
-  Bundle([IMap<String, dynamic>? map])
-      : bundleMap = IMap.orNull(map?.unlock) ?? IMap<String, dynamic>();
+  Bundle([IMap<String, dynamic>? map, FormRepositoryRecords? repositoryRecords])
+      : bundleMap = IMap.orNull(map?.unlock) ?? IMap<String, dynamic>(),
+        formRepositoryRecords = repositoryRecords;
   IMap<String, dynamic> bundleMap;
+  FormRepositoryRecords? formRepositoryRecords;
 
   Bundle putString(String key, String? value) {
     bundleMap = bundleMap.add(key, value);
@@ -80,6 +82,10 @@ class Bundle with EquatableMixin {
     return bundleMap[key];
   }
 
+  FormRepositoryRecords? getRepositoryRecords() {
+    return formRepositoryRecords;
+  }
+
   @override
-  List<Object?> get props => [bundleMap];
+  List<Object?> get props => [bundleMap, formRepositoryRecords];
 }

@@ -14,26 +14,33 @@ class LongTextDecorator extends FormUiModelStyle {
 
   @override
   Map<FormUiColorType, Color> getColors() {
-    // TODO: implement getColors
-    throw UnimplementedError();
+    return longTextFactory.getBasicColors();
   }
 
   @override
   IconData? getDescriptionIcon() {
-    // TODO: implement getDescriptionIcon
-    throw UnimplementedError();
+    return null;
+    // throw UnimplementedError();
   }
 
   @override
   Color? textColor([String? error, String? warning]) {
+    FormUiColorType colorType = FormUiColorType.TEXT_PRIMARY;
+    if (warning != null) colorType = FormUiColorType.WARNING;
+    if (error != null) colorType = FormUiColorType.ERROR;
+    return longTextFactory.getBasicColors()[colorType];
     // TODO: implement textColor
-    throw UnimplementedError();
+    // throw UnimplementedError();
   }
 
   @override
   Pair<List<int>, Color> backgroundColor(
       ValueType? valueType, String? error, String? warning) {
+    FormUiColorType colorType = FormUiColorType.TEXT_PRIMARY;
+    if (warning != null) colorType = FormUiColorType.WARNING;
+    if (error != null) colorType = FormUiColorType.ERROR;
+    return Pair([], longTextFactory.getBasicColors()[colorType]!);
     // TODO: implement backgroundColor
-    throw UnimplementedError();
+    // throw UnimplementedError();
   }
 }

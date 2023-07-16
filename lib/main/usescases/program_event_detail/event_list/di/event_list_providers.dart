@@ -3,7 +3,6 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../../commons/data/event_view_model.dart';
-import '../../di/program_event_detail_providers.dart';
 import '../../program_event_detail_repository.dart';
 import '../../program_event_detail_repository_impl.dart';
 
