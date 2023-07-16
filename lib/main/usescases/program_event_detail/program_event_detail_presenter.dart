@@ -3,7 +3,6 @@ import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisati
 import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'di/program_event_detail_providers.dart';
 import 'program_event_detail_contract.dart';
 import 'program_event_detail_repository.dart';
 import 'program_event_detail_repository_impl.dart';

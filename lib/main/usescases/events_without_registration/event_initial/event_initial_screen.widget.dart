@@ -1,4 +1,3 @@
-import 'package:d2_remote/core/mp/enrollment/enrollment_status.dart';
 import 'package:d2_remote/core/mp/period/period_type.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity.dart';
@@ -105,6 +104,7 @@ class _EventInitialScreenState extends ConsumerState<EventInitialScreen>
     presenter.init(programUid, eventUid, orgUnit, stageUid);
     super.didChangeDependencies();
   }
+
   @override
   void onEventCreated(String eventUid) {
     // TODO: implement onEventCreated

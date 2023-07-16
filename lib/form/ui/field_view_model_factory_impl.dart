@@ -24,7 +24,6 @@ import 'provider/ui_event_types_provider.dart';
 import 'provider/ui_style_provider.dart';
 
 class FieldViewModelFactoryImpl implements FieldViewModelFactory {
-
   // LegendValueProvider legendValueProvider;
 
   FieldViewModelFactoryImpl({

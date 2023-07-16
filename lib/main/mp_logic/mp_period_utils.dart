@@ -3,6 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../main.dart';
 import '../l10n/app_localizations.dart';
+
 part 'mp_period_utils.g.dart';
 
 const String DATE_FORMAT_EXPRESSION = 'yyyy-MM-dd';

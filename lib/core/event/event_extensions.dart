@@ -1,5 +1,5 @@
-import 'event_status.dart';
 import '../../commons/extensions/dynamic_extensions.dart';
+import 'event_status.dart';
 
 extension ToEventStatusExtension on String? {
   EventStatus? get toEventStatus {

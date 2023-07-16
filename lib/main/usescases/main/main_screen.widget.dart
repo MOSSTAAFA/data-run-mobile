@@ -12,7 +12,6 @@ import '../../data/service/sync_status_controller.dart';
 import '../../l10n/app_localizations.dart';
 import '../general/view_base.dart';
 import '../login/login_screen.widget.dart';
-import '../program_event_detail/di/program_event_detail_providers.dart';
 import '../program_event_detail/program_event_detail_view_model.dart';
 import '../program_event_detail/program_event_page_configurator.dart';
 import 'home_page_configurator.dart';

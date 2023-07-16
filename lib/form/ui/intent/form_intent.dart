@@ -11,8 +11,8 @@ class FormIntent with _$FormIntent {
 
   const factory FormIntent.onFocus(String uid, String? value) = OnFocus;
 
-  const factory FormIntent.onNext({required String uid, String? value, int? position}) =
-      OnNext;
+  const factory FormIntent.onNext(
+      {required String uid, String? value, int? position}) = OnNext;
 
   const factory FormIntent.onSave(
       {required String uid,

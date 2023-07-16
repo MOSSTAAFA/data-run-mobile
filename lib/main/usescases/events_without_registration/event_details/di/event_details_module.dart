@@ -18,7 +18,6 @@ import '../../../../../commons/period/period_extensions.dart';
 import '../../../../../commons/resources/d2_error_utils.dart';
 import '../../../../../commons/resources/resource_manager.dart';
 import '../../../../../core/di/providers.dart';
-import '../../../../../form/di/injector.dart';
 import '../../../../../form/ui/provider/ui_event_types_provider_impl.dart';
 import '../../../../mp_logic/mp_period_utils.dart';
 import '../../../bundle/bundle.dart';
@@ -65,20 +64,19 @@ EventDetailsRepository eventDetailsRepository(EventDetailsRepositoryRef ref) {
       eventUid: eventBundle.getString(EVENT_UID),
       programStageUid: eventBundle.getString(PROGRAM_STAGE_UID),
       fieldFactory: FieldViewModelFactoryImpl(
-          noMandatoryFields: false,
-          uiStyleProvider: UiStyleProviderImpl(
-              colorFactory: FormUiModelColorFactoryImpl(isBackgroundTransparent: true),
-              longTextColorFactory: LongTextUiColorFactoryImpl(isBackgroundTransparent: true)
-          ),
-          layoutProvider: const LayoutProviderImpl(),
-          hintProvider: const HintProviderImpl(),
-          displayNameProvider: const DisplayNameProviderImpl(
-              OptionSetConfiguration(),
-              OrgUnitConfiguration()
-          ),
-          uiEventTypesProvider: const UiEventTypesProviderImpl(),
-          keyboardActionProvider: const KeyboardActionProviderImpl(),
-          // LegendValueProviderImpl(d2, resourceManager)
+        noMandatoryFields: false,
+        uiStyleProvider: UiStyleProviderImpl(
+            colorFactory:
+                FormUiModelColorFactoryImpl(isBackgroundTransparent: true),
+            longTextColorFactory:
+                LongTextUiColorFactoryImpl(isBackgroundTransparent: true)),
+        layoutProvider: const LayoutProviderImpl(),
+        hintProvider: const HintProviderImpl(),
+        displayNameProvider: const DisplayNameProviderImpl(
+            OptionSetConfiguration(), OrgUnitConfiguration()),
+        uiEventTypesProvider: const UiEventTypesProviderImpl(),
+        keyboardActionProvider: const KeyboardActionProviderImpl(),
+        // LegendValueProviderImpl(d2, resourceManager)
       ),
       // fieldFactory: ref.read(fieldViewModelFactoryProvider(false, true)),
       d2ErrorMapper: ref.read(d2ErrorUtilsProvider),

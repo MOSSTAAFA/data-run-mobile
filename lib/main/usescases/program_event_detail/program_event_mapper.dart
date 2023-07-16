@@ -263,7 +263,8 @@ class ProgramEventMapper {
           userFriendlyValue = await dataValue.userFriendlyValue();
         }
 
-        final pair =  Pair<String, String?>(de.displayName ?? '', userFriendlyValue);
+        final pair =
+            Pair<String, String?>(de.displayName ?? '', userFriendlyValue);
         list.add(pair);
       });
       return list;

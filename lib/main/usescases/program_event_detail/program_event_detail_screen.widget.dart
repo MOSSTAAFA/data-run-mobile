@@ -71,7 +71,8 @@ class _ProgramEventDetailScreenState
           Expanded(
             child: NavigationTabBarView(
               appBarTitle: Text(ref.watch(programNameProvider)),
-              actionButtonBuilder: (context, viewAction) => FloatingActionButton(
+              actionButtonBuilder: (context, viewAction) =>
+                  FloatingActionButton(
                 heroTag: ViewAction.list_view.name,
                 child: const Icon(Icons.add),
                 onPressed: () => startNewEvent(),

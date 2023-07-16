@@ -66,21 +66,22 @@ DataEntryRepository _dataEntryRepository(_DataEntryRepositoryRef ref,
     {EntryMode? entryMode, required FormRepositoryRecords repositoryRecords}) {
   switch (entryMode) {
     case EntryMode.ATTR:
-      return ref.read(
-          _enrollmentRepositoryProvider(repositoryRecords as EnrollmentRecords));
+      return ref.read(_enrollmentRepositoryProvider(
+          repositoryRecords as EnrollmentRecords));
     case EntryMode.DE:
       return ref
           .read(_eventRepositoryProvider(repositoryRecords as EventRecords));
     default:
   }
-  return ref.read(_searchRepositoryProvider(repositoryRecords as SearchRecords));
+  return ref
+      .read(_searchRepositoryProvider(repositoryRecords as SearchRecords));
 }
 
 @riverpod
 SearchRepository _searchRepository(
     _SearchRepositoryRef ref, SearchRecords searchRecords) {
   return SearchRepository(
-    // d2: _provideD2(),
+      // d2: _provideD2(),
       fieldViewModelFactory: ref.read(_fieldViewModelFactoryProvider(
           searchRecords.allowMandatoryFields,
           searchRecords.isBackgroundTransparent)),
@@ -100,7 +101,7 @@ EnrollmentRepository _enrollmentRepository(
       // d2: _provideD2(),
       enrollmentMode: enrollmentRecords.enrollmentMode,
       enrollmentFormLabelsProvider:
-      ref.read(_enrollmentFormLabelsProviderProvider));
+          ref.read(_enrollmentFormLabelsProviderProvider));
 }
 
 @riverpod
@@ -118,7 +119,8 @@ FieldViewModelFactory _fieldViewModelFactory(_FieldViewModelFactoryRef ref,
     bool allowMandatoryFields, bool isBackgroundTransparent) {
   return FieldViewModelFactoryImpl(
     noMandatoryFields: !allowMandatoryFields,
-    uiStyleProvider: ref.read(_uiStyleProviderProvider(isBackgroundTransparent)),
+    uiStyleProvider:
+        ref.read(_uiStyleProviderProvider(isBackgroundTransparent)),
     layoutProvider: ref.read(_layoutProviderProvider),
     hintProvider: ref.read(_hintProviderProvider),
     displayNameProvider: ref.read(_displayNameProviderProvider),

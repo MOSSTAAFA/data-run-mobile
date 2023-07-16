@@ -19,7 +19,6 @@ part 'section_ui_model_impl.freezed.dart';
 
 @unfreezed
 class SectionUiModelImpl with _$SectionUiModelImpl implements FieldUiModel {
-
   factory SectionUiModelImpl(
       {required final String uid,
       required final int layoutId,
@@ -153,8 +152,8 @@ class SectionUiModelImpl with _$SectionUiModelImpl implements FieldUiModel {
 
   @override
   onDescriptionClick() {
-    callback?.listViewUiEvents?.call(
-        ListViewUiEvents.showDescriptionLabelDialog(label, description));
+    callback?.listViewUiEvents
+        ?.call(ListViewUiEvents.showDescriptionLabelDialog(label, description));
   }
 
   @override

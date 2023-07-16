@@ -28,19 +28,21 @@ class DataEntryListState extends ConsumerState<DataEntryItemsList>
   @override
   Widget build(BuildContext context) {
     // final itemCount = ref.watch(itemsListLengthProvider).value;
-    return Consumer(builder: (context, ref, _) {
-      final itemCount = ref.watch(itemsListLengthProvider).value;
-      return ScrollablePositionedList.builder(
-        shrinkWrap: true,
-        itemCount: itemCount ?? 0,
-        itemBuilder: (BuildContext context, int index) => ProviderScope(
-          overrides: [indexProvider.overrideWith((_) => index)],
-          child: const DataEntryItem(),
-        ),
-        itemScrollController: itemScrollController,
-        // itemPositionsListener: itemPositionsListener,
-      );
-    },);
+    return Consumer(
+      builder: (context, ref, _) {
+        final itemCount = ref.watch(itemsListLengthProvider).value;
+        return ScrollablePositionedList.builder(
+          shrinkWrap: true,
+          itemCount: itemCount ?? 0,
+          itemBuilder: (BuildContext context, int index) => ProviderScope(
+            overrides: [indexProvider.overrideWith((_) => index)],
+            child: const DataEntryItem(),
+          ),
+          itemScrollController: itemScrollController,
+          // itemPositionsListener: itemPositionsListener,
+        );
+      },
+    );
     // return itemCount != null
     //     ? ScrollablePositionedList.builder(
     //         shrinkWrap: true,

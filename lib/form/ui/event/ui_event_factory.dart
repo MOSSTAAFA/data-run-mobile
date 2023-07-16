@@ -4,9 +4,6 @@ import '../../model/ui_event_type.dart';
 import 'list_view_ui_events.dart';
 
 abstract class UiEventFactory {
-  ListViewUiEvents? generateEvent(
-      String? value,
-      UiEventType? uiEventType,
-      UiRenderType? renderingType,
-      FieldUiModel fieldUiModel);
+  ListViewUiEvents? generateEvent(String? value, UiEventType? uiEventType,
+      UiRenderType? renderingType, FieldUiModel fieldUiModel);
 }

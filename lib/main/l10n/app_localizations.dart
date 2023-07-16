@@ -17,7 +17,7 @@ class AppLocalization {
   AppLocalization();
 
   static const LocalizationsDelegate<AppLocalization> delegate =
-  _AppLocalizationsDelegate();
+      _AppLocalizationsDelegate();
 
   // Helper method to keep the code in the widgets concise
   // Localizations are accessed using an InheritedWidget "of" syntax
@@ -46,7 +46,7 @@ class AppLocalization {
     localized = lookupAppLocalizations(locale);
 
     String defaultJsonString =
-    await rootBundle.loadString('lib/main/l10n/locales_strings/app_en.arb');
+        await rootBundle.loadString('lib/main/l10n/locales_strings/app_en.arb');
     Map<String, dynamic> defaultJsonMap = json.decode(defaultJsonString);
 
     _defaultLocalizedStrings = defaultJsonMap.map((key, value) {
@@ -54,8 +54,8 @@ class AppLocalization {
     });
 
     // Load the language JSON file from the "strings" folder
-    String jsonString =
-    await rootBundle.loadString('lib/main/l10n/locales_strings/app_${locale.languageCode}.arb');
+    String jsonString = await rootBundle.loadString(
+        'lib/main/l10n/locales_strings/app_${locale.languageCode}.arb');
     Map<String, dynamic> jsonMap = json.decode(jsonString);
 
     _localizedStrings = jsonMap.map((key, value) {
@@ -79,7 +79,7 @@ class AppLocalization {
       return key;
     }
 
-    if(_localizedStrings == null) {
+    if (_localizedStrings == null) {
       print('## ERROR: NMCP _localizedStrings not initialized');
       return key;
     }
@@ -102,8 +102,7 @@ class AppLocalization {
 
 // LocalizationsDelegate is a factory for a set of localized resources
 // In this case, the localized strings will be gotten in an AppLocalizations object
-class _AppLocalizationsDelegate
-    extends LocalizationsDelegate<AppLocalization> {
+class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalization> {
   // This delegate instance will never change (it doesn't even have fields!)
   // It can provide a constant constructor.
   const _AppLocalizationsDelegate();

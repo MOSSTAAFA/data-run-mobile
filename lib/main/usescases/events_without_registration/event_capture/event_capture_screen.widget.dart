@@ -3,16 +3,13 @@ import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisati
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
-import 'package:mass_pro/form/di/injector.dart';
 
 import '../../../../commons/constants.dart';
 import '../../../../commons/custom_widgets/navigationbar/navigation_tab_bar_view.widget.dart';
 import '../../../../commons/extensions/standard_extensions.dart';
 import '../../../../commons/utils/view_actions.dart';
-import '../../../../form/model/form_repository_records.dart';
 import '../../../../form/ui/components/linear_loading_indicator.dart';
 import '../../../../form/ui/form_view.widget.dart';
-import '../../../../form/ui/form_view_model.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../utils/event_mode.dart';
 import '../../bundle/bundle.dart';

@@ -12,6 +12,5 @@ class StoreResult with _$StoreResult {
     String? valueStoreResultMessage,
   }) = _StoreResult;
 
-
   const StoreResult._();
 }

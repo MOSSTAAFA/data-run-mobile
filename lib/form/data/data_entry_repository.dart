@@ -3,7 +3,6 @@ import 'dart:async';
 import '../model/field_ui_model.dart';
 
 abstract class DataEntryRepository {
-
   Future<List<FieldUiModel>> list();
 
   Future<List<String>> sectionUids();

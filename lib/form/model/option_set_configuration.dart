@@ -18,8 +18,8 @@ class OptionSetConfiguration with _$OptionSetConfiguration {
 
   const OptionSetConfiguration._();
 
-  static OptionSetConfiguration config(int optionCount,
-      List<Option> Function() optionRequestCallback) {
+  static OptionSetConfiguration config(
+      int optionCount, List<Option> Function() optionRequestCallback) {
     return optionCount > 15
         ? BigOptionSet()
         : OptionSetConfiguration.defaultOptionSet(

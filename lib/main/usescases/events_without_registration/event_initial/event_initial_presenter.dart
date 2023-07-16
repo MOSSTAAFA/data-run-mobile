@@ -2,7 +2,6 @@ import 'package:d2_remote/modules/data/tracker/models/geometry.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity.dart';
 import 'package:flutter/material.dart';
-import '../../../../form/ui/form_view_providers.dart';
 
 import '../../../../commons/extensions/string_extension.dart';
 import '../../../../commons/helpers/collections.dart';
@@ -10,6 +9,7 @@ import '../../../../commons/prefs/preference.dart';
 import '../../../../core/event/event_editable_status.dart';
 import '../../../../form/data/form_section_view_model.dart';
 import '../../../../form/model/field_ui_model.dart';
+import '../../../../form/ui/form_view_providers.dart';
 import '../../../../main.dart';
 import '../../../l10n/app_localizations.dart';
 import '../event_capture/event_section_model.dart';
@@ -160,11 +160,13 @@ class EventInitialPresenter {
       eventInitialRepository
           .createEvent(enrollmentUid, trackedEntityInstance, program!.id!,
               programStageModel, date, orgUnitUid, activityUid, geometry)
-          .then((String value) => view.onEventCreated(value)
-              /*ref.read(onEventCreatedProvider.notifier).setValue(value)*/)
-          .onError((error, stackTrace) => view.renderError(error.toString())/*ref
+          .then((String value) => view.onEventCreated(
+              value) /*ref.read(onEventCreatedProvider.notifier).setValue(value)*/)
+          .onError((error, stackTrace) => view.renderError(error
+                  .toString()) /*ref
               .read(errorRenderProvider.notifier)
-              .setValue(error.toString())*/);
+              .setValue(error.toString())*/
+              );
     }
   }
 
@@ -190,11 +192,13 @@ class EventInitialPresenter {
               orgUnitUid,
               activityUid,
               geometry)
-          .then((String value) => view.onEventCreated(value)
-              /*ref.read(onEventCreatedProvider.notifier).setValue(value)*/)
-          .onError((error, stackTrace) => view.renderError(error.toString())/*ref
+          .then((String value) => view.onEventCreated(
+              value) /*ref.read(onEventCreatedProvider.notifier).setValue(value)*/)
+          .onError((error, stackTrace) => view.renderError(error
+                  .toString()) /*ref
               .read(errorRenderProvider.notifier)
-              .setValue(error.toString())*/);
+              .setValue(error.toString())*/
+              );
     }
   }
 
@@ -212,11 +216,13 @@ class EventInitialPresenter {
       eventInitialRepository
           .scheduleEvent(enrollmentUid, null, program!.id!, programStageModel,
               dueDate, orgUnitUid, activityUid, geometry)
-          .then((String value) => view.onEventCreated(value)
-              /*ref.read(onEventCreatedProvider.notifier).setValue(value)*/)
-          .onError((error, stackTrace) => view.renderError(error.toString())/*ref
+          .then((String value) => view.onEventCreated(
+              value) /*ref.read(onEventCreatedProvider.notifier).setValue(value)*/)
+          .onError((error, stackTrace) => view.renderError(error
+                  .toString()) /*ref
               .read(errorRenderProvider.notifier)
-              .setValue(error.toString())*/);
+              .setValue(error.toString())*/
+              );
     }
   }
 
@@ -238,10 +244,13 @@ class EventInitialPresenter {
         return ref.read(fieldMapperProvider).map(fields, sectionList, '', {},
             {}, {}, const Pair<bool, bool>(false, false));
       });
-    }).then((Pair<List<EventSectionModel>, List<FieldUiModel>> value) => view.updatePercentage(
-        ref.read(fieldMapperProvider).completedFieldsPercentage())/*ref
+    }).then((Pair<List<EventSectionModel>, List<FieldUiModel>> value) =>
+            view.updatePercentage(ref
+                .read(fieldMapperProvider)
+                .completedFieldsPercentage()) /*ref
         .read(percentageUpdaterProvider.notifier)
-        .setValue(ref.read(fieldMapperProvider).completedFieldsPercentage())*/);
+        .setValue(ref.read(fieldMapperProvider).completedFieldsPercentage())*/
+        );
   }
 
   void setChangingCoordinates(bool changingCoordinates) {

@@ -10,7 +10,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../commons/data/event_view_model.dart';
 import '../../../commons/data/program_event_view_model.dart';
-import '../../../commons/extensions/dynamic_extensions.dart';
 import '../../../commons/extensions/feature_type_extension.dart';
 import '../../../core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
 import '../bundle/bundle.dart';

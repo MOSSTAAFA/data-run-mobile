@@ -1,13 +1,14 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../data/data_integrity_check_result.dart';
+import '../data/form_repository.dart';
 import '../di/injector.dart';
 import '../model/field_ui_model.dart';
 import '../model/info_ui_model.dart';
 import '../model/row_action.dart';
-import 'intent/form_intent.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../data/data_integrity_check_result.dart';
-import '../data/form_repository.dart';
 import 'event/list_view_ui_events.dart';
+import 'intent/form_intent.dart';
 
 part 'form_view_providers.g.dart';
 
@@ -81,7 +82,7 @@ class Items extends _$Items {
 
   Future<void> runDataIntegrityCheck({bool? allowDiscard}) async {
     final AsyncValue<DataIntegrityCheckResult> result =
-    await AsyncValue.guard(() async {
+        await AsyncValue.guard(() async {
       return ref
           .read(formRepositoryProvider)
           .runDataIntegrityCheck(allowDiscard: allowDiscard ?? false);
@@ -102,8 +103,8 @@ int index(IndexRef ref) {
 
 @riverpod
 Future<int> itemsListLength(ItemsListLengthRef ref) {
-  return ref.watch(itemsProvider
-      .selectAsync((IList<FieldUiModel> list) => list.length));
+  return ref.watch(
+      itemsProvider.selectAsync((IList<FieldUiModel> list) => list.length));
 }
 
 @Riverpod(dependencies: [index])
@@ -115,8 +116,7 @@ class FieldItem extends _$FieldItem {
     //     .watch(itemsProvider.selectAsync((IList<FieldUiModel> e) => e[index]));
     // return item.setCallback(callback);
 
-    final IList<FieldUiModel>? items =
-        ref.watch(itemsProvider).value;
+    final IList<FieldUiModel>? items = ref.watch(itemsProvider).value;
     if (items != null && items.isNotEmpty) {
       final int index = ref.watch(indexProvider);
       return items[index].setCallback(callback);

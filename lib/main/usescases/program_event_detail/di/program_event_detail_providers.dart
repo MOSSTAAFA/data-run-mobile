@@ -1,5 +1,3 @@
-
-
 // part 'program_event_detail_providers.g.dart';
 
 // @riverpod

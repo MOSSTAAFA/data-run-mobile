@@ -84,7 +84,7 @@ class SyncMetadataWorker extends Worker {
         return WorkInfo(
             state: WorkInfoState.FAILED, message: message.toString());
       }
-        // return Result.failure(_createOutputData(false, message.toString()));
+      // return Result.failure(_createOutputData(false, message.toString()));
 
       presenter.startPeriodicMetaWork();
 

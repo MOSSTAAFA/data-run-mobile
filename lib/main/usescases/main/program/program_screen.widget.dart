@@ -7,7 +7,6 @@ import '../../../../commons/extensions/dynamic_extensions.dart';
 import '../../../../commons/extensions/standard_extensions.dart';
 import '../../../../commons/state/app_state_notifier.dart';
 import '../../../../core/program/program_type.dart';
-import '../../../../main.dart';
 import '../../bundle/bundle.dart';
 import '../../general/view_base.dart';
 import '../../program_event_detail/program_event_detail_screen.widget.dart';
@@ -76,9 +75,9 @@ class _ProgramViewScreenState extends ConsumerState<ProgramViewScreen>
         bundle = bundle.putString(EXTRA_PROGRAM_UID, program.uid);
         logInfo(info: 'EXTRA_PROGRAM_UID, ${program.uid}');
         // navigatorKey.currentState!.pushNamed(ProgramEventDetailScreen.route);
-        ref.read(appStateNotifierProvider.notifier).navigateToRoute(
-            ProgramEventDetailScreen.route,
-            arguments: bundle);
+        ref
+            .read(appStateNotifierProvider.notifier)
+            .navigateToRoute(ProgramEventDetailScreen.route, arguments: bundle);
         // Intent(activity, ProgramEventDetailActivity::class.java).apply {
         //     putExtras(ProgramEventDetailActivity.getBundle(program.uid))
         //     getActivityContent.launch(this)

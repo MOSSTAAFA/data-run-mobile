@@ -7,9 +7,9 @@ abstract class LayoutProvider {
 
   int getLayoutByType(
       [ValueType? valueType,
-        ValueTypeRenderingType? renderingType,
-        String? optionSet,
-        SectionRenderingType? sectionRenderingType]);
+      ValueTypeRenderingType? renderingType,
+      String? optionSet,
+      SectionRenderingType? sectionRenderingType]);
 
   int getLayoutForSection();
 }
