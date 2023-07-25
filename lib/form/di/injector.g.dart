@@ -6,26 +6,7 @@ part of 'injector.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$formRepositoryRecordsHash() =>
-    r'ad7ee31e4f44db31f355050d1964ab857485bedd';
-
-/// See also [_formRepositoryRecords].
-@ProviderFor(_formRepositoryRecords)
-final _formRepositoryRecordsProvider =
-    AutoDisposeProvider<FormRepositoryRecords>.internal(
-  _formRepositoryRecords,
-  name: r'_formRepositoryRecordsProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$formRepositoryRecordsHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _FormRepositoryRecordsRef
-    = AutoDisposeProviderRef<FormRepositoryRecords>;
-String _$dataEntryRepositoryHash() =>
-    r'e06c74fe0b4e2b07b44d8569a899ef7046f62813';
+String _$formRepositoryHash() => r'428cfced822ebd18a3a7473722fac2e3fa9dbe8e';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -48,6 +29,90 @@ class _SystemHash {
   }
 }
 
+typedef FormRepositoryRef = AutoDisposeProviderRef<FormRepository>;
+
+/// See also [formRepository].
+@ProviderFor(formRepository)
+const formRepositoryProvider = FormRepositoryFamily();
+
+/// See also [formRepository].
+class FormRepositoryFamily extends Family<FormRepository> {
+  /// See also [formRepository].
+  const FormRepositoryFamily();
+
+  /// See also [formRepository].
+  FormRepositoryProvider call(
+    FormRepositoryRecords repositoryRecords,
+  ) {
+    return FormRepositoryProvider(
+      repositoryRecords,
+    );
+  }
+
+  @override
+  FormRepositoryProvider getProviderOverride(
+    covariant FormRepositoryProvider provider,
+  ) {
+    return call(
+      provider.repositoryRecords,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'formRepositoryProvider';
+}
+
+/// See also [formRepository].
+class FormRepositoryProvider extends AutoDisposeProvider<FormRepository> {
+  /// See also [formRepository].
+  FormRepositoryProvider(
+    this.repositoryRecords,
+  ) : super.internal(
+          (ref) => formRepository(
+            ref,
+            repositoryRecords,
+          ),
+          from: formRepositoryProvider,
+          name: r'formRepositoryProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$formRepositoryHash,
+          dependencies: FormRepositoryFamily._dependencies,
+          allTransitiveDependencies:
+              FormRepositoryFamily._allTransitiveDependencies,
+        );
+
+  final FormRepositoryRecords repositoryRecords;
+
+  @override
+  bool operator ==(Object other) {
+    return other is FormRepositoryProvider &&
+        other.repositoryRecords == repositoryRecords;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, repositoryRecords.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+String _$dataEntryRepositoryHash() =>
+    r'e06c74fe0b4e2b07b44d8569a899ef7046f62813';
 typedef _DataEntryRepositoryRef = AutoDisposeProviderRef<DataEntryRepository>;
 
 /// See also [_dataEntryRepository].
@@ -139,21 +204,6 @@ class _DataEntryRepositoryProvider
   }
 }
 
-String _$formRepositoryHash() => r'4d4aaf256cf4b6f593a119bda09de6d56a58016b';
-
-/// See also [formRepository].
-@ProviderFor(formRepository)
-final formRepositoryProvider = AutoDisposeProvider<FormRepository>.internal(
-  formRepository,
-  name: r'formRepositoryProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$formRepositoryHash,
-  dependencies: <ProviderOrFamily>[_formRepositoryRecordsProvider],
-  allTransitiveDependencies: <ProviderOrFamily>[_formRepositoryRecordsProvider],
-);
-
-typedef FormRepositoryRef = AutoDisposeProviderRef<FormRepository>;
 String _$searchRepositoryHash() => r'554f0e3c5923bf00b4bd2c4985694df29b191338';
 typedef _SearchRepositoryRef = AutoDisposeProviderRef<SearchRepository>;
 
@@ -697,7 +747,7 @@ class _FormValueStoreProvider extends AutoDisposeProvider<FormValueStore?> {
   }
 }
 
-String _$networkUtilsHash() => r'b42719faa3e0a1b8f5825206a379060f69f8dd55';
+String _$networkUtilsHash() => r'fe32a0e13dc1e5fe27a6e10a51b6a0016de0a588';
 
 /// See also [_networkUtils].
 @ProviderFor(_networkUtils)

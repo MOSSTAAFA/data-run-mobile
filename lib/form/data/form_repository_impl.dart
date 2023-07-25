@@ -275,7 +275,7 @@ class FormRepositoryImpl implements FormRepository {
 
   Future<IList<FieldUiModel>> _setOpenedSection(
       IList<FieldUiModel> list) async {
-    final List<FieldUiModel> fields = List.empty();
+    final List<FieldUiModel> fields = [];
     for (final FieldUiModel field in list) {
       if (field.isSection()) {
         fields.add(_updateSection(field, list));

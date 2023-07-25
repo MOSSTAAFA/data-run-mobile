@@ -3,42 +3,51 @@ import 'package:d2_remote/core/common/feature_type.dart';
 import 'package:d2_remote/core/common/value_type.dart';
 import 'package:d2_remote/core/mp/helpers/result.dart';
 import 'package:dartx/dartx_io.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../commons/extensions/standard_extensions.dart';
+import '../data/form_repository.dart';
 import '../di/injector.dart';
 import '../model/Ui_render_type.dart';
 import '../model/action_type.dart';
 import '../model/field_ui_model.dart';
+import '../model/form_repository_records.dart';
 import '../model/info_ui_model.dart';
 import '../model/row_action.dart';
 import '../model/store_result.dart';
 import '../model/value_store_result.dart';
-import 'form_view_providers.dart';
+import 'event/list_view_ui_events.dart';
+import 'form_model.dart';
 import 'intent/form_intent.dart';
 import 'validation/validators/field_mask_validator.dart';
 
 part 'form_view_model.g.dart';
 
 @riverpod
-FormViewModel formViewModel(FormViewModelRef ref) {
-  return FormViewModel(ref);
+FormViewModel formViewModel(
+    FormViewModelRef ref, FormRepositoryRecords repositoryRecords) {
+  return FormViewModel(
+      ref, ref.read(formRepositoryProvider(repositoryRecords)));
 }
 
 class FormViewModel {
   // 1. Pass a Ref argument to the constructor
-  FormViewModel(this.ref) {
+  FormViewModel(this.ref, this.repository) {
     _init();
   }
 
   final FormViewModelRef ref;
 
-  // AutoDisposeRef
+  final FormRepository repository;
+
   // GeometryController _geometryController = GeometryController(GeometryParserImpl());
 
   void _init() {
-    ref.listen<FormIntent?>(pendingIntentsProvider,
+    ref.listen<FormIntent?>(
+        formModelInstanceProvider
+            .select((FormModel formModel) => formModel.pendingIntents),
         (FormIntent? oldI, FormIntent? newI) {
       // 4. Implement the event handling code
       if (oldI is! OnFinish && newI is! OnFinish && newI != null) {
@@ -47,18 +56,19 @@ class FormViewModel {
             (Pair<RowAction, StoreResult> event) => _displayResult(event));
       }
     });
+    // loadData();
   }
 
   void _displayResult(Pair<RowAction, StoreResult> result) {
     switch (result.second.valueStoreResult) {
       case ValueStoreResult.VALUE_CHANGED:
-        ref.read(savedValueProvider.notifier).setValue(result.first);
+        ref.read(formModelInstanceProvider.notifier).updateValue(
+            (current) => current.copyWith(savedValue: result.first));
         _processCalculatedItems();
         break;
       case ValueStoreResult.ERROR_UPDATING_VALUE:
-        ref
-            .read(showToastProvider.notifier)
-            .setValue('string.update_field_error');
+        ref.read(formModelInstanceProvider.notifier).updateValue((current) =>
+            current.copyWith(showToast: 'string.update_field_error'));
         break;
       case ValueStoreResult.UID_IS_NOT_DE_OR_ATTR:
         debugPrint(
@@ -66,8 +76,10 @@ class FormViewModel {
         _processCalculatedItems();
         break;
       case ValueStoreResult.VALUE_NOT_UNIQUE:
-        ref.read(showInfoProvider.notifier).setValue(
-            const InfoUiModel('string.error', 'string.unique_warning'));
+        ref.read(formModelInstanceProvider.notifier).updateValue((current) =>
+            current.copyWith(
+                showInfo: const InfoUiModel(
+                    'string.error', 'string.unique_warning')));
         _processCalculatedItems();
         break;
       case ValueStoreResult.VALUE_HAS_NOT_CHANGED:
@@ -75,7 +87,8 @@ class FormViewModel {
         break;
       case ValueStoreResult.TEXT_CHANGING:
         debugPrint('Timber.d("${result.first.id} is changing its value")');
-        ref.read(queryDataProvider.notifier).setValue(result.first);
+        ref.read(formModelInstanceProvider.notifier).updateValue(
+            (current) => current.copyWith(queryData: result.first));
         break;
       case ValueStoreResult.FINISH:
         _processCalculatedItems();
@@ -91,10 +104,14 @@ class FormViewModel {
 
     if (rowAction.type == ActionType.ON_FOCUS) {
       // focused.postValue(true);
-      ref.read(focusedProvider.notifier).setValue(true);
+      ref
+          .read(formModelInstanceProvider.notifier)
+          .updateValue((current) => current.copyWith(focused: true));
     } else if (rowAction.type == ActionType.ON_SAVE) {
+      ref
+          .read(formModelInstanceProvider.notifier)
+          .updateValue((current) => current.copyWith(loading: true));
       // loading.postValue(true);
-      // ref.read(loadingProvider.notifier).setValue(true);
     }
 
     final StoreResult result = await _processUserAction(rowAction);
@@ -105,22 +122,18 @@ class FormViewModel {
     switch (action.type) {
       case ActionType.ON_SAVE:
         if (action.valueType == ValueType.COORDINATE) {
-          ref
-              .read(formRepositoryProvider)
-              .setFieldRequestingCoordinates(action.id, false);
+          repository.setFieldRequestingCoordinates(action.id, false);
         }
-        ref.read(formRepositoryProvider).updateErrorList(action);
+        repository.updateErrorList(action);
         if (action.error != null) {
           return StoreResult(
               uid: action.id,
               valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);
         } else {
-          final StoreResult? saveResult = await ref
-              .read(formRepositoryProvider)
-              .save(action.id, action.value, action.extraData);
-          await ref
-              .read(formRepositoryProvider)
-              .updateValueOnList(action.id, action.value, action.valueType);
+          final StoreResult? saveResult =
+              await repository.save(action.id, action.value, action.extraData);
+          await repository.updateValueOnList(
+              action.id, action.value, action.valueType);
           return saveResult ??
               StoreResult(
                   uid: action.id,
@@ -130,43 +143,38 @@ class FormViewModel {
       case ActionType.ON_FOCUS:
       case ActionType.ON_NEXT:
         final StoreResult storeResult = await _saveLastFocusedItem(action);
-        ref.read(formRepositoryProvider).setFocusedItem(action);
+        repository.setFocusedItem(action);
         return storeResult;
 
       case ActionType.ON_TEXT_CHANGE:
-        await ref
-            .read(formRepositoryProvider)
-            .updateValueOnList(action.id, action.value, action.valueType);
+        await repository.updateValueOnList(
+            action.id, action.value, action.valueType);
         return StoreResult(
             uid: action.id, valueStoreResult: ValueStoreResult.TEXT_CHANGING);
       case ActionType.ON_SECTION_CHANGE:
-        ref.read(formRepositoryProvider).updateSectionOpened(action);
+        repository.updateSectionOpened(action);
         return StoreResult(
             uid: action.id,
             valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);
 
       case ActionType.ON_CLEAR:
-        ref.read(formRepositoryProvider).removeAllValues();
+        repository.removeAllValues();
         return StoreResult(
             uid: action.id, valueStoreResult: ValueStoreResult.VALUE_CHANGED);
 
       case ActionType.ON_FINISH:
-        ref.read(formRepositoryProvider).setFocusedItem(action);
+        repository.setFocusedItem(action);
         return const StoreResult(
             uid: '', valueStoreResult: ValueStoreResult.FINISH);
 
       case ActionType.ON_REQUEST_COORDINATES:
-        ref
-            .read(formRepositoryProvider)
-            .setFieldRequestingCoordinates(action.id, true);
+        repository.setFieldRequestingCoordinates(action.id, true);
         return StoreResult(
             uid: action.id,
             valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);
 
       case ActionType.ON_CANCELL_REQUEST_COORDINATES:
-        ref
-            .read(formRepositoryProvider)
-            .setFieldRequestingCoordinates(action.id, false);
+        repository.setFieldRequestingCoordinates(action.id, false);
         return StoreResult(
             uid: action.id,
             valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);
@@ -184,20 +192,18 @@ class FormViewModel {
             value: field.value,
             valueType: field.valueType,
             fieldMask: field.fieldMask));
-        ref.read(formRepositoryProvider).updateErrorList(action);
+        repository.updateErrorList(action);
         return StoreResult(
             uid: rowAction.id,
             valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);
       } else {
         final FormIntent intent = _getSaveIntent(field);
         final RowAction action = _rowActionFromIntent(intent);
-        final StoreResult? result = await ref
-            .read(formRepositoryProvider)
-            .save(field.uid, field.value, action.extraData);
-        await ref
-            .read(formRepositoryProvider)
-            .updateValueOnList(field.uid, field.value, field.valueType);
-        ref.read(formRepositoryProvider).updateErrorList(action);
+        final StoreResult? result =
+            await repository.save(field.uid, field.value, action.extraData);
+        await repository.updateValueOnList(
+            field.uid, field.value, field.valueType);
+        repository.updateErrorList(action);
         if (result != null) {
           return result;
         }
@@ -217,11 +223,10 @@ class FormViewModel {
   }
 
   FieldUiModel? _getLastFocusedTextItem() {
-    return ref.read(formRepositoryProvider).currentFocusedItem()?.takeIf(
-        (FieldUiModel item) =>
-            item.valueType?.let((ValueType valueType) =>
-                valueTypeIsTextField(valueType, item.renderingType)) ??
-            false);
+    return repository.currentFocusedItem()?.takeIf((FieldUiModel item) =>
+        item.valueType?.let((ValueType valueType) =>
+            valueTypeIsTextField(valueType, item.renderingType)) ??
+        false);
   }
 
   FormIntent _getSaveIntent(FieldUiModel field) {
@@ -378,7 +383,8 @@ class FormViewModel {
   }
 
   void _processCalculatedItems() {
-    ref.read(itemsProvider.notifier).processCalculatedItems();
+    repository.composeList().then(
+        (items) => ref.read(itemsProvider.notifier).updateValue((_) => items));
   }
 
   /////////////////////////////////////////////////
@@ -386,16 +392,19 @@ class FormViewModel {
   /////////////////////////////////////////////////
 
   void onItemsRendered() {
-    ref.read(loadingProvider.notifier).setValue(false);
-    // loading.value = false;
+    ref
+        .read(formModelInstanceProvider.notifier)
+        .updateValue((current) => current.copyWith(loading: false));
   }
 
   void submitIntent(FormIntent intent) {
-    ref.read(pendingIntentsProvider.notifier).submitIntent(intent);
+    ref
+        .read(formModelInstanceProvider.notifier)
+        .updateValue((current) => current.copyWith(pendingIntents: intent));
   }
 
   String? getFocusedItemUid() {
-    return ref.read(itemsProvider).asData?.valueOrNull?.first.uid;
+    return ref.read(itemsProvider).firstOrNullWhere((it) => it.focused)?.uid;
   }
 
   // void updateConfigurationErrors() {
@@ -406,30 +415,36 @@ class FormViewModel {
   // }
 
   void runDataIntegrityCheck({bool? backButtonPressed}) {
-    ref
-        .read(itemsProvider.notifier)
-        .runDataIntegrityCheck(allowDiscard: backButtonPressed ?? false);
+    repository
+        .runDataIntegrityCheck(allowDiscard: backButtonPressed ?? false)
+        .then((result) => ref
+            .read(formModelInstanceProvider.notifier)
+            .updateValue(
+                (state) => state.copyWith(dataIntegrityResult: result)))
+        .whenComplete(() => repository.composeList().then((itemsList) =>
+            ref.read(itemsProvider.notifier).updateValue((_) => itemsList)));
   }
 
-  // void calculateCompletedFields() {
-  // ref.read(completionPercentageValueProvider).calculateCompletedFields();
-  // .copyWithPrevious(previous)
-  // .completedFieldsPercentage(_items.value ?? [])
-  // .then((double result) => _completionPercentage.value = result)
-  // .catchError((e) => debugPrint(e) /*Timber.e(e)*/);
-  // }
+  void calculateCompletedFields() {
+    repository.completedFieldsPercentage(ref.read(itemsProvider)).then(
+        (percentage) => ref
+            .read(formModelInstanceProvider.notifier)
+            .updateValue(
+                (state) => state.copyWith(completionPercentage: percentage)));
+    //.catchError((e) => debugPrint(e) /*Timber.e(e)*/);
+  }
 
-  // void displayLoopWarningIfNeeded() {
-  //   ref
-  //       .read(formRepositoryProvider)
-  //       .calculationLoopOverLimit()
-  //       .then((bool result) => _calculationLoop.value = result)
-  //       .catchError((e) => debugPrint(e) /*Timber.e(e)*/);
-  // }
+  void displayLoopWarningIfNeeded() {
+    repository.calculationLoopOverLimit().then((bool result) => ref
+        .read(formModelInstanceProvider.notifier)
+        .updateValue((current) => current.copyWith(
+            calculationLoop:
+                result))); //.catchError((e) => debugPrint(e) /*Timber.e(e)*/);
+  }
 
   void discardChanges() {
-    ref.read(formRepositoryProvider).backupOfChangedItems().forEach(
-        (FieldUiModel item) => submitIntent(FormIntent.onSave(
+    repository.backupOfChangedItems().forEach((FieldUiModel item) =>
+        submitIntent(FormIntent.onSave(
             uid: item.uid,
             value: item.value,
             valueType: item.valueType,
@@ -442,20 +457,273 @@ class FormViewModel {
     submitIntent(const FormIntent.onFinish());
   }
 
-  // void loadData() {
-  //   loading.value = true;
-  //   ref
-  //       .read(formRepositoryProvider)
-  //       .fetchFormItems()
-  //       .then((List<FieldUiModel> result) => _items.value = result)
-  //       // finally
-  //       .catchError((e) {
-  //     debugPrint('Timber.e($e)');
-  //     _items.value = [];
-  //   });
-  // }
+  Future<void> loadData() async {
+    ref
+        .read(formModelInstanceProvider.notifier)
+        .updateValue((current) => current.copyWith(loading: true));
+    try {
+      final items = await repository
+          .fetchFormItems();
+      ref.read(itemsProvider.notifier).updateValue((_) => items);
+    } catch (e) {
+      debugPrint(e.toString()) /*Timber.e(e)*/;
+      ref.read(itemsProvider.notifier).updateValue((_) => IList());
+    } finally {
+      ref
+          .read(formModelInstanceProvider.notifier)
+          .updateValue((current) => current.copyWith(loading: false));
+    }
+
+    // repository
+    //     .fetchFormItems()
+    //     .then((itemsList) =>
+    //         ref.read(itemsProvider.notifier).updateValue((_) => itemsList))
+    //     .catchError((e) {
+    //   debugPrint(e) /*Timber.e(e)*/;
+    //   ref.read(itemsProvider.notifier).updateValue((_) => IList());
+    // }).whenComplete(() => ref
+    //         .read(formModelInstanceProvider.notifier)
+    //         .updateValue((current) => current.copyWith(loading: false)));
+  }
 
   void clearFocus() {
-    ref.read(formRepositoryProvider).clearFocusItem();
+    repository.clearFocusItem();
+  }
+}
+
+////////////////////////////////
+////////////////////////////////
+////////////////////////////////
+////////////////////////////////
+////////////////////////////////
+////////////////////////////////
+////////////////////////////////
+////////////////////////////////
+////////////////////////////////
+
+// @riverpod
+// class Loading extends _$Loading {
+//   @override
+//   bool build() {
+//     return true;
+//   }
+//
+//   void setValue(bool value) {
+//     state = value;
+//   }
+// }
+//
+// @Riverpod(keepAlive: true)
+// class ShowToast extends _$ShowToast {
+//   @override
+//   String? build() {
+//     return null;
+//   }
+//
+//   void setValue(String value) {
+//     state = value;
+//   }
+// }
+//
+// @riverpod
+// class Focused extends _$Focused {
+//   @override
+//   bool? build() {
+//     return null;
+//   }
+//
+//   void setValue(bool value) {
+//     state = value;
+//   }
+// }
+//
+// @riverpod
+// class ShowInfo extends _$ShowInfo {
+//   @override
+//   InfoUiModel? build() {
+//     return null;
+//   }
+//
+//   void setValue(InfoUiModel value) {
+//     state = value;
+//   }
+// }
+
+@riverpod
+class FormModelInstance extends _$FormModelInstance {
+  @override
+  FormModel build() {
+    return FormModel();
+  }
+
+  void updateValue(FormModel Function(FormModel state) progress) {
+    state = progress.call(state);
+  }
+}
+
+@riverpod
+class Items extends _$Items {
+  @override
+  IList<FieldUiModel> build() {
+    return IList<FieldUiModel>();
+  }
+
+  void updateValue(
+      IList<FieldUiModel> Function(IList<FieldUiModel> state) progress) {
+    state = progress.call(state);
+  }
+
+// Future<void> loadData() async {
+//   ref.read(loadingProvider.notifier).setValue(true);
+//   final FormRepository repository = ref.read(formRepositoryProvider);
+//   state = await AsyncValue.guard(repository.fetchFormItems);
+//   ref.read(loadingProvider.notifier).setValue(false);
+// }
+//
+// Future<void> processCalculatedItems() async {
+//   final FormRepository repository = ref.read(formRepositoryProvider);
+//   state = await AsyncValue.guard(repository.composeList);
+// }
+//
+// Future<void> runDataIntegrityCheck({bool? allowDiscard}) async {
+//   final AsyncValue<DataIntegrityCheckResult> result =
+//       await AsyncValue.guard(() async {
+//     return ref
+//         .read(formRepositoryProvider)
+//         .runDataIntegrityCheck(allowDiscard: allowDiscard ?? false);
+//   });
+//
+//   ref
+//       .read(dataIntegrityResultValueProvider.notifier)
+//       .setValue(result.requireValue);
+//   final FormRepository repository = ref.read(formRepositoryProvider);
+//   state = await AsyncValue.guard(repository.composeList);
+// }
+}
+
+@riverpod
+int index(IndexRef ref) {
+  throw UnimplementedError();
+}
+
+// @riverpod
+// Future<int> itemsListLength(ItemsListLengthRef ref) {
+//   return ref.watch(
+//       itemsProvider.selectAsync((IList<FieldUiModel> list) => list.length));
+// }
+
+@Riverpod(dependencies: [index])
+class FieldItem extends _$FieldItem {
+  @override
+  FieldUiModel? build() {
+    // final int index = ref.read(indexProvider);
+    // final FieldUiModel item = await ref
+    //     .watch(itemsProvider.selectAsync((IList<FieldUiModel> e) => e[index]));
+    // return item.setCallback(callback);
+
+    final IList<FieldUiModel> items = ref.watch(itemsProvider);
+    if (items.isNotEmpty) {
+      final int index = ref.watch(indexProvider);
+      return items[index].setCallback(callback);
+    }
+    return null;
+  }
+}
+
+@riverpod
+FieldUiModel? fieldRow(FieldRowRef ref) {
+  throw UnimplementedError();
+}
+
+// @riverpod
+// Future<double> completionPercentageValue(CompletionPercentageValueRef ref) {
+//   final IList<FieldUiModel>? items = ref.watch(itemsProvider).value;
+//   return ref
+//       .read(formRepositoryProvider)
+//       .completedFieldsPercentage(items ?? IList());
+// }
+//
+// @riverpod
+// class SavedValue extends _$SavedValue {
+//   @override
+//   RowAction? build() {
+//     return null;
+//   }
+//
+//   void setValue(RowAction value) {
+//     state = value;
+//   }
+// }
+//
+// @riverpod
+// class QueryData extends _$QueryData {
+//   @override
+//   RowAction? build() {
+//     return null;
+//   }
+//
+//   void setValue(RowAction value) {
+//     state = value;
+//   }
+// }
+//
+// @riverpod
+// class CalculationLoopValue extends _$CalculationLoopValue {
+//   @override
+//   FutureOr<bool> build() {
+//     return false;
+//   }
+//
+//   Future<void> displayLoopWarningIfNeeded() async {
+//     state = await AsyncValue.guard(
+//         ref.read(formRepositoryProvider).calculationLoopOverLimit);
+//   }
+// }
+//
+// @riverpod
+// class DataIntegrityResultValue extends _$DataIntegrityResultValue {
+//   @override
+//   DataIntegrityCheckResult? build() {
+//     return null;
+//   }
+//
+//   void setValue(DataIntegrityCheckResult value) {
+//     state = value;
+//   }
+// }
+//
+// @riverpod
+// class PendingIntents extends _$PendingIntents {
+//   @override
+//   FormIntent? build() {
+//     return null;
+//   }
+//
+//   void submitIntent(FormIntent intent) {
+//     state = intent;
+//   }
+// }
+
+@riverpod
+class UiEvent extends _$UiEvent {
+  @override
+  ListViewUiEvents? build() {
+    return null;
+  }
+
+  void setValue(ListViewUiEvents value) {
+    state = value;
+  }
+}
+
+@riverpod
+class UiIntent extends _$UiIntent {
+  @override
+  FormIntent? build() {
+    return null;
+  }
+
+  void setValue(FormIntent value) {
+    state = value;
   }
 }

@@ -1,14 +1,15 @@
 import 'package:d2_remote/core/common/value_type.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
-import 'package:get/get.dart';
-import 'package:mass_pro/form/ui/form_view_providers.dart';
 
 import '../../commons/custom_widgets/mixins/keyboard_manager.dart';
 import '../../commons/extensions/standard_extensions.dart';
+import '../../commons/helpers/iterable.dart';
 import '../data/data_integrity_check_result.dart';
 import '../model/field_ui_model.dart';
+import '../model/form_repository_records.dart';
 import '../model/info_ui_model.dart';
 import '../model/row_action.dart';
 import '../model/section_ui_model_impl.dart';
@@ -24,7 +25,7 @@ class FormView extends ConsumerStatefulWidget {
       this.needToForceUpdate = false,
 
       /// Sent ser. through
-      // this.records,
+      required this.records,
       this.onItemChangeListener,
       this.onLoadingListener,
       this.onFocused,
@@ -45,7 +46,7 @@ class FormView extends ConsumerStatefulWidget {
 
   /// Sent ser. through
   // Will be comming from event or Enrollment Widgets
-  // final FormRepositoryRecords? records;
+  final FormRepositoryRecords records;
 
   final void Function(RowAction rowAction)? onItemChangeListener;
   final void Function(bool loading)? onLoadingListener;
@@ -67,8 +68,11 @@ class FormView extends ConsumerStatefulWidget {
 }
 
 class _FormViewState extends ConsumerState<FormView> with KeyboardManager {
+  late final FormViewModel viewModel;
+
   @override
   Widget build(BuildContext context) {
+    final items = ref.watch(itemsProvider);
     return const Padding(
       padding: EdgeInsets.all(8.0),
       child: DataEntryItemsList(
@@ -114,67 +118,63 @@ class _FormViewState extends ConsumerState<FormView> with KeyboardManager {
 
   @override
   void initState() {
+    viewModel = ref.read(formViewModelProvider(widget.records));
+    Future(() => viewModel.loadData());
     _setObservers();
     super.initState();
   }
 
   void _setObservers() {
-    ref.listenManual<bool>(loadingProvider,
+    ref.listenManual<bool>(
+        formModelInstanceProvider.select((formModel) => formModel.loading),
         (previous, next) => widget.onLoadingListener?.call(next));
 
     ref.listenManual<RowAction?>(
-        savedValueProvider,
+        formModelInstanceProvider.select((formModel) => formModel.savedValue),
         (previous, next) => next
             ?.let((rowAction) => widget.onItemChangeListener?.call(rowAction)));
 
     ref.listenManual<RowAction?>(
-        queryDataProvider,
+        formModelInstanceProvider.select((formModel) => formModel.queryData),
         (previous, next) => next?.let((rowAction) {
               if (widget.needToForceUpdate) {
                 widget.onItemChangeListener?.let((it) => it(rowAction));
               }
             }));
 
-    // ref
-    //     .watch(itemsProvider)
-    //     .let((AsyncValue<List<FieldUiModel>> items) => items.when(
-    //           loading: () {},
-    //           data: (List<FieldUiModel>? data) => _render(data ?? []),
-    //           error: (Object error, StackTrace stackTrace) =>
-    //               _error = error.toString(),
-    //         ));
-
-    // ref.watch(loadingProvider).let((bool it) => _loading = it);
-
-    // viewModel.confError.listen((confErrors) {
-    //   displayConfigurationErrors(confErrors);
-    // });
-
-    ref.listenManual<String?>(showToastProvider,
+    ref.listenManual<String?>(
+        formModelInstanceProvider
+            .select((formModel) => formModel.showToast),
         (previous, next) => next?.let((it) => showToast(it)));
 
-    ref.listenManual<bool?>(focusedProvider,
+    ref.listenManual<bool?>(
+        formModelInstanceProvider
+            .select((formModel) => formModel.focused),
         (previous, next) => next.let((it) => widget.onFocused?.call()));
 
     ref.listenManual<InfoUiModel?>(
-        showInfoProvider,
+        formModelInstanceProvider
+            .select((formModel) => formModel.showInfo),
         (previous, next) =>
             next?.let((infoUiModel) => _showInfoDialog(infoUiModel)));
 
     ref.listenManual<DataIntegrityCheckResult?>(
-        dataIntegrityResultValueProvider,
+        formModelInstanceProvider
+            .select((formModel) => formModel.dataIntegrityResult),
         (previous, next) =>
             next?.let((result) => _handleDataIntegrityResult(result)));
 
-    ref.listenManual<AsyncValue<double>>(
-        completionPercentageValueProvider,
-        (previous, next) => next.let((percentage) =>
-            widget.onPercentageUpdate?.call(percentage.value ?? 0)));
+    ref.listenManual<double>(
+        formModelInstanceProvider
+            .select((formModel) => formModel.completionPercentage),
+        (previous, next) => next
+            .let((percentage) => widget.onPercentageUpdate?.call(percentage)));
 
-    ref.listenManual<AsyncValue<bool>>(
-        calculationLoopValueProvider,
+    ref.listenManual<bool>(
+        formModelInstanceProvider
+            .select((formModel) => formModel.calculationLoop),
         (previous, next) => next.let((displayLoopWarning) =>
-            displayLoopWarning.value ?? false ? _showLoopWarning() : null));
+            displayLoopWarning ? _showLoopWarning() : null));
 
     ref.listenManual<FormIntent?>(uiIntentProvider,
         (previous, next) => next?.let((it) => _intentHandler(it)));
@@ -260,22 +260,11 @@ class _FormViewState extends ConsumerState<FormView> with KeyboardManager {
     //     ).show(childFragmentManager, AlertBottomDialog::class.java.simpleName)
     // }
   }
+
   _showLoopWarning() {}
 
-  void _handleKeyBoardOnFocusChange(List<FieldUiModel> items) {
-    items.firstWhereOrNull((FieldUiModel it) => it.focused)?.let(
-        (FieldUiModel fieldUiModel) =>
-            fieldUiModel.valueType?.let((ValueType valueType) {
-              if (!ref
-                  .read(formViewModelProvider)
-                  .valueTypeIsTextField(valueType)) {
-                hideTheKeyboard(context);
-              }
-            }));
-  }
-
   void _intentHandler(FormIntent intent) {
-    ref.read(formViewModelProvider).submitIntent(intent);
+    viewModel.submitIntent(intent);
   }
 
   void _swap(List<FieldUiModel> updates, void Function() commitCallback) {
@@ -305,21 +294,39 @@ class _FormViewState extends ConsumerState<FormView> with KeyboardManager {
   }
 
   void clearValues() {
-    _intentHandler(FormIntent.onClear());
+    _intentHandler(const FormIntent.onClear());
   }
 
   void onBackPressed() {
-    ref
-        .read(formViewModelProvider)
-        .runDataIntegrityCheck(backButtonPressed: true);
+    viewModel.runDataIntegrityCheck(backButtonPressed: true);
   }
 
   void onSaveClick() {
     onEditionFinish();
-    ref.read(formViewModelProvider).saveDataEntry();
+    viewModel.saveDataEntry();
   }
 
   void reload() {
-    ref.read(itemsProvider.notifier).loadData();
+    viewModel.loadData();
+  }
+
+  void _render(IList<FieldUiModel> items) {
+    viewModel.calculateCompletedFields();
+    // TODO(NMC): implementing Rules
+    // viewModel.updateConfigurationErrors();
+    viewModel.displayLoopWarningIfNeeded();
+    viewModel.displayLoopWarningIfNeeded();
+
+    _handleKeyBoardOnFocusChange(items);
+  }
+
+  void _handleKeyBoardOnFocusChange(IList<FieldUiModel> items) {
+    items.firstOrNullWhere((FieldUiModel it) => it.focused)?.let(
+        (FieldUiModel fieldUiModel) =>
+            fieldUiModel.valueType?.let((ValueType valueType) {
+              if (!viewModel.valueTypeIsTextField(valueType)) {
+                hideTheKeyboard(context);
+              }
+            }));
   }
 }

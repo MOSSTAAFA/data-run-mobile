@@ -3,7 +3,6 @@ import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/form/ui/form_view_providers.dart';
 
 import '../../../form/model/field_ui_model.dart';
 import '../../../form/model/key_board_action_type.dart';

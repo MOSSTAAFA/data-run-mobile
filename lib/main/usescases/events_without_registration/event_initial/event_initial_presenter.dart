@@ -9,7 +9,6 @@ import '../../../../commons/prefs/preference.dart';
 import '../../../../core/event/event_editable_status.dart';
 import '../../../../form/data/form_section_view_model.dart';
 import '../../../../form/model/field_ui_model.dart';
-import '../../../../form/ui/form_view_providers.dart';
 import '../../../../main.dart';
 import '../../../l10n/app_localizations.dart';
 import '../event_capture/event_section_model.dart';
@@ -89,13 +88,9 @@ class EventInitialPresenter {
     final BuildContext context = navigatorKey.currentContext!;
     if (eventId != null) {
       eventInitialRepository.deleteEvent(eventId!, trackedEntityInstance);
-      ref
-          .read(showToastProvider.notifier)
-          .setValue(AppLocalization.of(context)!.lookup('event_was_deleted'));
+      view.showEventWasDeleted();
     } else {
-      ref
-          .read(showToastProvider.notifier)
-          .setValue(AppLocalization.of(context)!.lookup('delete_event_error'));
+      view.displayMessage(AppLocalization.of(context)!.lookup('delete_event_error'));
     }
   }
 

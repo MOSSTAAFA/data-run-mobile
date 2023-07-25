@@ -3,10 +3,12 @@ import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart'
 import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
 
 import '../../../../commons/constants.dart';
 import '../../../../commons/period/period_extensions.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../bundle/bundle.dart';
 import '../../general/view_base.dart';
 import '../event_details/models/event_details.dart';
@@ -137,7 +139,7 @@ class _EventInitialScreenState extends ConsumerState<EventInitialScreen>
 
   @override
   void showEventWasDeleted() {
-    // TODO: implement showEventWasDeleted
+    showToast(AppLocalization.of(context)!.lookup('event_was_deleted'));
   }
 
   @override

@@ -17,7 +17,8 @@ abstract class DataEntryBaseRepository implements DataEntryRepository {
   FieldUiModel updateSection(FieldUiModel sectionToUpdate, bool isSectionOpen,
       int totalFields, int fieldsWithValue, int errorCount, int warningCount) {
     // TODO: implement updateSection
-    throw UnimplementedError();
+    // throw UnimplementedError();
+    return sectionToUpdate;
   }
 
   @override

@@ -6,7 +6,7 @@ part of 'event_initial_module.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$fieldMapperHash() => r'1ac597c34bc9ef15bcbd065e6d9981c121141adb';
+String _$fieldMapperHash() => r'65bf8e9892ada0a1d16db472a3a94596742ec3be';
 
 /// See also [fieldMapper].
 @ProviderFor(fieldMapper)
@@ -21,7 +21,7 @@ final fieldMapperProvider = AutoDisposeProvider<EventFieldMapper>.internal(
 
 typedef FieldMapperRef = AutoDisposeProviderRef<EventFieldMapper>;
 String _$eventInitialRepositoryHash() =>
-    r'54caadc9475578245e8f470bdf0f4fc102b381a8';
+    r'5de55fbbca27da9aac12bcd56e2b21198bd4d111';
 
 /// See also [eventInitialRepository].
 @ProviderFor(eventInitialRepository)

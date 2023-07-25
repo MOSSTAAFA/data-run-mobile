@@ -25,7 +25,7 @@ final eventDetailResourcesProvider =
 typedef EventDetailResourcesRef
     = AutoDisposeProviderRef<EventDetailResourcesProvider>;
 String _$eventDetailsRepositoryHash() =>
-    r'b1120b9df736bcd3745cc99b9c595b90b7eb3dcb';
+    r'a2539fdaa6ad03a0570e2ecd8c521cf8f3fa6d14';
 
 /// See also [eventDetailsRepository].
 @ProviderFor(eventDetailsRepository)

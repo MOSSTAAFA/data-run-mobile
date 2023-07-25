@@ -39,21 +39,16 @@ import '../ui/validation/field_error_message_provider.dart';
 part 'injector.g.dart';
 
 @riverpod
-FormRepositoryRecords _formRepositoryRecords(_FormRepositoryRecordsRef ref) {
-  throw UnimplementedError();
-}
-
-@Riverpod(dependencies: [_formRepositoryRecords])
-FormRepository formRepository(FormRepositoryRef ref) {
+FormRepository formRepository(FormRepositoryRef ref, FormRepositoryRecords repositoryRecords) {
   return FormRepositoryImpl(
     formValueStore: ref.read(_formValueStoreProvider(
-        ref.read(_formRepositoryRecordsProvider).recordUid,
-        ref.read(_formRepositoryRecordsProvider).entryMode)),
+        repositoryRecords.recordUid,
+        repositoryRecords.entryMode)),
     fieldErrorMessageProvider: ref.read(_fieldErrorMessageProviderProvider),
     displayNameProvider: ref.read(_displayNameProviderProvider),
     dataEntryRepository: ref.read(_dataEntryRepositoryProvider(
-        entryMode: ref.read(_formRepositoryRecordsProvider).entryMode,
-        repositoryRecords: ref.read(_formRepositoryRecordsProvider))),
+        entryMode: repositoryRecords.entryMode,
+        repositoryRecords: repositoryRecords)),
     /*ruleEngineRepository: _provideRuleEngineRepository(
             repositoryRecords.entryMode, repositoryRecords.recordUid),
         rulesUtilsProvider: _provideRulesUtilsProvider(),

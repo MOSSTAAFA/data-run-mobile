@@ -8,6 +8,7 @@ import '../../../../commons/constants.dart';
 import '../../../../commons/custom_widgets/navigationbar/navigation_tab_bar_view.widget.dart';
 import '../../../../commons/extensions/standard_extensions.dart';
 import '../../../../commons/utils/view_actions.dart';
+import '../../../../form/model/form_repository_records.dart';
 import '../../../../form/ui/components/linear_loading_indicator.dart';
 import '../../../../form/ui/form_view.widget.dart';
 import '../../../l10n/app_localizations.dart';
@@ -44,6 +45,7 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
   late final String? programUid;
   late final String? eventUid;
   late final EventCapturePresenter presenter;
+  late final FormRepositoryRecords eventRecords;
   bool isEventCompleted = false;
 
   @override
@@ -111,7 +113,7 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
                 ViewAction.details: () => const EventDetailsScreen(),
                 ViewAction.data_entry: () => FormView(
                       // needToForceUpdate: needToForceUpdate,
-                      // records: EventRecords(eventUid),
+                      records: eventRecords,
                       // onItemChangeListener: onItemChangeListener,
                       onLoadingListener: (loading) {
                         if (loading) {
@@ -152,6 +154,7 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
     activityUid = bundle.getString(ACTIVITY_UID);
     programUid = bundle.getString(PROGRAM_UID);
     eventUid = bundle.getString(EVENT_UID);
+    eventRecords = EventRecords(eventUid);
     presenter = ref.read(eventCapturePresenterProvider(this));
     super.initState();
   }

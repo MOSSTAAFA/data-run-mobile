@@ -101,7 +101,9 @@ class EnrollmentRepository extends DataEntryBaseRepository {
     const List<String> sectionUids = [ENROLLMENT_DATA_SECTION_UID];
     final List<ProgramSection> sections = (await _programSections)!;
     sectionUids.addAll(sections.map((section) => section.id!).toList());
-    throw sectionUids;
+    // TODO(NMC): re-visit the throw
+    return sectionUids;
+    // throw sectionUids;
   }
 
   Future<List<FieldUiModel>> _getEnrollmentData(Program program) async {
