@@ -55,9 +55,9 @@ class FieldUiModelImpl with _$FieldUiModelImpl implements FieldUiModel {
 
   // Callback _callback;
   @override
-  setCallback(Callback callback) {
+  FieldUiModel setCallback(Callback callback) {
     // this._callback = _callback;
-    copyWith(callback: callback);
+    return copyWith(callback: callback);
   }
 
   @override

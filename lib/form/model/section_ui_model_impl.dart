@@ -17,7 +17,7 @@ import 'ui_event_type.dart';
 
 part 'section_ui_model_impl.freezed.dart';
 
-@unfreezed
+@freezed
 class SectionUiModelImpl with _$SectionUiModelImpl implements FieldUiModel {
   factory SectionUiModelImpl(
       {required final String uid,
@@ -52,7 +52,8 @@ class SectionUiModelImpl with _$SectionUiModelImpl implements FieldUiModel {
       /// NMCP can't define a default value
       /// here we have to provide initial value Rx<String?>(null)
       /// whenever we create an object of SectionUiModelImpl
-      /*@Default(Rx<String?>(null))*/ required Rx<String?> selectedField,
+      //   /*@Default(Rx<String?>(null))*/ required Rx<String?> selectedField,
+        /*@Default(Rx<String?>(null))*/ String? selectedField,
       @Default(false) final bool isLoadingData,
       OptionSetConfiguration? optionSetConfiguration,
       @Default(0) int sectionNumber,
@@ -84,32 +85,35 @@ class SectionUiModelImpl with _$SectionUiModelImpl implements FieldUiModel {
 
   bool get areAllFieldsCompleted => completedFields == totalFields;
 
-  void setSelected() {
+  FieldUiModel setSelected() {
     onItemClick();
-    if (selectedField.value != null) {
+    if (selectedField != null) {
       String sectionToOpen = uid;
-      if (selectedField.value == uid) {
+      if (selectedField == uid) {
         sectionToOpen = '';
       }
-      selectedField.value = sectionToOpen;
+      // selectedField = sectionToOpen;
       callback?.intent?.call(FormIntent.onSection(sectionToOpen));
+      return copyWith(selectedField: sectionToOpen);
     }
+
+    return this;
   }
 
-  bool get isSelected => selectedField.value == uid;
+  bool get isSelected => selectedField == uid;
 
-  void setSectionNumber(int sectionNumber) {
-    this.sectionNumber = sectionNumber;
-    // copyWith(sectionNumber: sectionNumber);
+  FieldUiModel setSectionNumber(int sectionNumber) {
+    // this.sectionNumber = sectionNumber;
+    return copyWith(sectionNumber: sectionNumber);
   }
 
   int getSectionNumber() {
     return sectionNumber;
   }
 
-  void setShowBottomShadow(bool showBottomShadow) {
-    this.showBottomShadow = showBottomShadow;
-    // copyWith(showBottomShadow: showBottomShadow);
+  FieldUiModel setShowBottomShadow(bool showBottomShadow) {
+    // this.showBottomShadow = showBottomShadow;
+    return copyWith(showBottomShadow: showBottomShadow);
   }
 
   // bool showBottomShadow() {
@@ -120,9 +124,9 @@ class SectionUiModelImpl with _$SectionUiModelImpl implements FieldUiModel {
     return showBottomShadow && !isClosingSection;
   }
 
-  void setLastSectionHeight(bool lastPositionShouldChangeHeight) {
-    this.lastPositionShouldChangeHeight = lastPositionShouldChangeHeight;
-    // copyWith(lastPositionShouldChangeHeight: lastPositionShouldChangeHeight);
+  FieldUiModel setLastSectionHeight(bool lastPositionShouldChangeHeight) {
+    // this.lastPositionShouldChangeHeight = lastPositionShouldChangeHeight;
+    return copyWith(lastPositionShouldChangeHeight: lastPositionShouldChangeHeight);
   }
 
   // bool lastPositionShouldChangeHeight() {
@@ -131,9 +135,9 @@ class SectionUiModelImpl with _$SectionUiModelImpl implements FieldUiModel {
 
 // Callback _callback;
   @override
-  setCallback(Callback callback) {
-    this.callback = callback;
-    // copyWith(callback: callback);
+  FieldUiModel setCallback(Callback callback) {
+    // this.callback = callback;
+    return copyWith(callback: callback);
   }
 
   @override

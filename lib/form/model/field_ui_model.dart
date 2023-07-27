@@ -75,7 +75,7 @@ abstract class FieldUiModel {
 
   // Callback? get callback;
 
-  setCallback(Callback callback);
+  FieldUiModel setCallback(Callback callback);
 
   bool equals(FieldUiModel item);
 

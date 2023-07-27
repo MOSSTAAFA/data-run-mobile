@@ -82,15 +82,20 @@ class EventFieldMapper {
             (index) => errorCounter++);
       }
       _finalFieldList[_finalFieldList.indexOf(section)] = section.apply((it) {
+        late SectionUiModelImpl sm;
         if (errorCounter != 0) {
-          it.errors = errorCounter;
+          // it.errors = errorCounter;
+          sm = it.copyWith(errors: errorCounter);
         } else {
-          it.errors = 0;
+          // it.errors = 0;
+          sm = it.copyWith(errors: 0);
         }
         if (mandatoryCounter != 0) {
-          it.warnings = mandatoryCounter;
+          // it.warnings = mandatoryCounter;
+          sm = sm.copyWith(warnings: mandatoryCounter);
         } else {
-          it.warnings = 0;
+          // it.warnings = 0;
+          sm = sm.copyWith(warnings: 0);
         }
       });
     });

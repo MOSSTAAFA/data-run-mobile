@@ -40,43 +40,25 @@ mixin _$SectionUiModelImpl {
       throw _privateConstructorUsedError;
   String? get fieldMask => throw _privateConstructorUsedError;
   bool get isOpen => throw _privateConstructorUsedError;
-  set isOpen(bool value) => throw _privateConstructorUsedError;
   int get totalFields => throw _privateConstructorUsedError;
-  set totalFields(int value) => throw _privateConstructorUsedError;
   int get completedFields => throw _privateConstructorUsedError;
-  set completedFields(int value) => throw _privateConstructorUsedError;
   int get errors => throw _privateConstructorUsedError;
-  set errors(int value) => throw _privateConstructorUsedError;
   int get warnings => throw _privateConstructorUsedError;
-  set warnings(int value) => throw _privateConstructorUsedError;
   String? get rendering => throw _privateConstructorUsedError;
-  set rendering(String? value) => throw _privateConstructorUsedError;
 
   /// NMCP can't define a default value
   /// here we have to provide initial value Rx<String?>(null)
   /// whenever we create an object of SectionUiModelImpl
+//   /*@Default(Rx<String?>(null))*/ required Rx<String?> selectedField,
 /*@Default(Rx<String?>(null))*/
-  Rx<String?> get selectedField => throw _privateConstructorUsedError;
-
-  /// NMCP can't define a default value
-  /// here we have to provide initial value Rx<String?>(null)
-  /// whenever we create an object of SectionUiModelImpl
-/*@Default(Rx<String?>(null))*/
-  set selectedField(Rx<String?> value) => throw _privateConstructorUsedError;
+  String? get selectedField => throw _privateConstructorUsedError;
   bool get isLoadingData => throw _privateConstructorUsedError;
   OptionSetConfiguration? get optionSetConfiguration =>
       throw _privateConstructorUsedError;
-  set optionSetConfiguration(OptionSetConfiguration? value) =>
-      throw _privateConstructorUsedError;
   int get sectionNumber => throw _privateConstructorUsedError;
-  set sectionNumber(int value) => throw _privateConstructorUsedError;
   bool get showBottomShadow => throw _privateConstructorUsedError;
-  set showBottomShadow(bool value) => throw _privateConstructorUsedError;
   bool get lastPositionShouldChangeHeight => throw _privateConstructorUsedError;
-  set lastPositionShouldChangeHeight(bool value) =>
-      throw _privateConstructorUsedError;
   Callback? get callback => throw _privateConstructorUsedError;
-  set callback(Callback? value) => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SectionUiModelImplCopyWith<SectionUiModelImpl> get copyWith =>
@@ -117,7 +99,7 @@ abstract class $SectionUiModelImplCopyWith<$Res> {
       int errors,
       int warnings,
       String? rendering,
-      Rx<String?> selectedField,
+      String? selectedField,
       bool isLoadingData,
       OptionSetConfiguration? optionSetConfiguration,
       int sectionNumber,
@@ -168,7 +150,7 @@ class _$SectionUiModelImplCopyWithImpl<$Res, $Val extends SectionUiModelImpl>
     Object? errors = null,
     Object? warnings = null,
     Object? rendering = freezed,
-    Object? selectedField = null,
+    Object? selectedField = freezed,
     Object? isLoadingData = null,
     Object? optionSetConfiguration = freezed,
     Object? sectionNumber = null,
@@ -285,10 +267,10 @@ class _$SectionUiModelImplCopyWithImpl<$Res, $Val extends SectionUiModelImpl>
           ? _value.rendering
           : rendering // ignore: cast_nullable_to_non_nullable
               as String?,
-      selectedField: null == selectedField
+      selectedField: freezed == selectedField
           ? _value.selectedField
           : selectedField // ignore: cast_nullable_to_non_nullable
-              as Rx<String?>,
+              as String?,
       isLoadingData: null == isLoadingData
           ? _value.isLoadingData
           : isLoadingData // ignore: cast_nullable_to_non_nullable
@@ -366,7 +348,7 @@ abstract class _$$_SectionUiModelImplCopyWith<$Res>
       int errors,
       int warnings,
       String? rendering,
-      Rx<String?> selectedField,
+      String? selectedField,
       bool isLoadingData,
       OptionSetConfiguration? optionSetConfiguration,
       int sectionNumber,
@@ -416,7 +398,7 @@ class __$$_SectionUiModelImplCopyWithImpl<$Res>
     Object? errors = null,
     Object? warnings = null,
     Object? rendering = freezed,
-    Object? selectedField = null,
+    Object? selectedField = freezed,
     Object? isLoadingData = null,
     Object? optionSetConfiguration = freezed,
     Object? sectionNumber = null,
@@ -533,10 +515,10 @@ class __$$_SectionUiModelImplCopyWithImpl<$Res>
           ? _value.rendering
           : rendering // ignore: cast_nullable_to_non_nullable
               as String?,
-      selectedField: null == selectedField
+      selectedField: freezed == selectedField
           ? _value.selectedField
           : selectedField // ignore: cast_nullable_to_non_nullable
-              as Rx<String?>,
+              as String?,
       isLoadingData: null == isLoadingData
           ? _value.isLoadingData
           : isLoadingData // ignore: cast_nullable_to_non_nullable
@@ -596,7 +578,7 @@ class _$_SectionUiModelImpl extends _SectionUiModelImpl {
       this.errors = 0,
       this.warnings = 0,
       this.rendering,
-      required this.selectedField,
+      this.selectedField,
       this.isLoadingData = false,
       this.optionSetConfiguration,
       this.sectionNumber = 0,
@@ -650,44 +632,45 @@ class _$_SectionUiModelImpl extends _SectionUiModelImpl {
   final String? fieldMask;
   @override
   @JsonKey()
-  bool isOpen;
+  final bool isOpen;
   @override
   @JsonKey()
-  int totalFields;
+  final int totalFields;
   @override
   @JsonKey()
-  int completedFields;
+  final int completedFields;
   @override
   @JsonKey()
-  int errors;
+  final int errors;
   @override
   @JsonKey()
-  int warnings;
+  final int warnings;
   @override
-  String? rendering;
+  final String? rendering;
 
   /// NMCP can't define a default value
   /// here we have to provide initial value Rx<String?>(null)
   /// whenever we create an object of SectionUiModelImpl
+//   /*@Default(Rx<String?>(null))*/ required Rx<String?> selectedField,
 /*@Default(Rx<String?>(null))*/
   @override
-  Rx<String?> selectedField;
+  final String? selectedField;
   @override
   @JsonKey()
   final bool isLoadingData;
   @override
-  OptionSetConfiguration? optionSetConfiguration;
+  final OptionSetConfiguration? optionSetConfiguration;
   @override
   @JsonKey()
-  int sectionNumber;
+  final int sectionNumber;
   @override
   @JsonKey()
-  bool showBottomShadow;
+  final bool showBottomShadow;
   @override
   @JsonKey()
-  bool lastPositionShouldChangeHeight;
+  final bool lastPositionShouldChangeHeight;
   @override
-  Callback? callback;
+  final Callback? callback;
 
   @override
   String toString() {
@@ -725,19 +708,19 @@ abstract class _SectionUiModelImpl extends SectionUiModelImpl {
       final UiRenderType? renderingType,
       final KeyboardActionType? keyboardActionType,
       final String? fieldMask,
-      bool isOpen,
-      int totalFields,
-      int completedFields,
-      int errors,
-      int warnings,
-      String? rendering,
-      required Rx<String?> selectedField,
+      final bool isOpen,
+      final int totalFields,
+      final int completedFields,
+      final int errors,
+      final int warnings,
+      final String? rendering,
+      final String? selectedField,
       final bool isLoadingData,
-      OptionSetConfiguration? optionSetConfiguration,
-      int sectionNumber,
-      bool showBottomShadow,
-      bool lastPositionShouldChangeHeight,
-      Callback? callback}) = _$_SectionUiModelImpl;
+      final OptionSetConfiguration? optionSetConfiguration,
+      final int sectionNumber,
+      final bool showBottomShadow,
+      final bool lastPositionShouldChangeHeight,
+      final Callback? callback}) = _$_SectionUiModelImpl;
   _SectionUiModelImpl._() : super._();
 
   @override
@@ -784,52 +767,36 @@ abstract class _SectionUiModelImpl extends SectionUiModelImpl {
   String? get fieldMask;
   @override
   bool get isOpen;
-  set isOpen(bool value);
   @override
   int get totalFields;
-  set totalFields(int value);
   @override
   int get completedFields;
-  set completedFields(int value);
   @override
   int get errors;
-  set errors(int value);
   @override
   int get warnings;
-  set warnings(int value);
   @override
   String? get rendering;
-  set rendering(String? value);
   @override
 
   /// NMCP can't define a default value
   /// here we have to provide initial value Rx<String?>(null)
   /// whenever we create an object of SectionUiModelImpl
+//   /*@Default(Rx<String?>(null))*/ required Rx<String?> selectedField,
 /*@Default(Rx<String?>(null))*/
-  Rx<String?> get selectedField;
-
-  /// NMCP can't define a default value
-  /// here we have to provide initial value Rx<String?>(null)
-  /// whenever we create an object of SectionUiModelImpl
-/*@Default(Rx<String?>(null))*/
-  set selectedField(Rx<String?> value);
+  String? get selectedField;
   @override
   bool get isLoadingData;
   @override
   OptionSetConfiguration? get optionSetConfiguration;
-  set optionSetConfiguration(OptionSetConfiguration? value);
   @override
   int get sectionNumber;
-  set sectionNumber(int value);
   @override
   bool get showBottomShadow;
-  set showBottomShadow(bool value);
   @override
   bool get lastPositionShouldChangeHeight;
-  set lastPositionShouldChangeHeight(bool value);
   @override
   Callback? get callback;
-  set callback(Callback? value);
   @override
   @JsonKey(ignore: true)
   _$$_SectionUiModelImplCopyWith<_$_SectionUiModelImpl> get copyWith =>
