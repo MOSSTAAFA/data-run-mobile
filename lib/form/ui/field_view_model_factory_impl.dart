@@ -44,7 +44,7 @@ class FieldViewModelFactoryImpl implements FieldViewModelFactory {
   final UiEventTypesProvider uiEventTypesProvider;
   final KeyboardActionProvider keyboardActionProvider;
 
-  final Rx<String> _currentSection = Rx<String>('');
+  final String _currentSection = '';
 
   @override
   Future<FieldUiModel> create(
