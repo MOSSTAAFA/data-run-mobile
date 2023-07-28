@@ -53,7 +53,7 @@ Future<void> main() async {
   // wrap the entire app with a ProviderScope so that widgets
   // will be able to read providers
   runApp(ProviderScope(
-    observers: [ProviderLogger()],
+    // observers: [ProviderLogger()],
     child: const App(),
   ));
 }

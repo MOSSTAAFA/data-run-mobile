@@ -21,14 +21,20 @@ class DataEntryItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final item = ref.watch(fieldItemProvider(Callback(
-        intent: (intent) => _intentCallback(intent, ref),
-        listViewUiEvents: (uiEvent) => _listViewEventCallback(uiEvent, ref))));
+    // final itemr = ref.watch(fieldItemProvider(Callback(
+    //     intent: (intent) => _intentCallback(intent, ref),
+    //     listViewUiEvents: (uiEvent) => _listViewEventCallback(uiEvent, ref))));
+    final item = ref.watch(itemsProvider.select((list) => list.isNotEmpty
+        ? list[ref.watch(indexProvider)].setCallback(Callback(
+            intent: (intent) => _intentCallback(intent, ref),
+            listViewUiEvents: (uiEvent) =>
+                _listViewEventCallback(uiEvent, ref)))
+        : null));
 
     return ProviderScope(
-            overrides: [fieldRowProvider.overrideWith((_) => item)],
-            child: item != null ? FormEditText()
-        : const SizedBox.shrink());
+        overrides: [fieldRowProvider.overrideWith((_) => item)],
+        child: FormEditText());
+    // : const SizedBox.shrink();
   }
 
   void _listViewEventCallback(ListViewUiEvents uiEvent, WidgetRef ref) =>

@@ -46,14 +46,14 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
 
     final bool? focused = fieldRowItem?.focused;
 
-    // if (focused) {
-    //   _focusNode.requestFocus();
-    // }
+    if (focused ?? false) {
+      _focusNode.requestFocus();
+    }
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
       child: TextFormField(
-        initialValue: fieldRowItem?.value,
+        // initialValue: fieldRowItem?.value ?? '',
         textInputAction: _inputAction,
         keyboardType: _inputType,
         controller: _fieldController,
@@ -76,34 +76,44 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
                 )),
                 if (_info != null)
                   IconButton(
-                    icon:
-                        Icon(Icons.info_outline, color: _labelStyle?.color),
+                    icon: Icon(Icons.info_outline, color: _labelStyle?.color),
                     onPressed: () {
-                      fieldRowItem
-                          ?.invokeUiEvent(UiEventType.SHOW_DESCRIPTION);
+                      fieldRowItem?.invokeUiEvent(UiEventType.SHOW_DESCRIPTION);
                     },
                   )
               ],
             ),
             border: const UnderlineInputBorder(),
-            suffixIcon:
-                _fieldController.text.isNotEmpty || _focusNode.hasFocus
-                    ? IconButton(
-                        icon: Icon(
-                          Icons.clear,
-                          color: _labelStyle?.color,
-                        ),
-                        onPressed: () {
-                          _fieldController.text = '';
-                          // _focusNode.unfocus(
-                          //     disposition:
-                          //         UnfocusDisposition.previouslyFocusedChild);
-                          fieldRowItem?.onTextChange(null);
-                        },
-                      )
-                    : _descIcon != null
-                        ? Icon(_descIcon, color: _labelStyle?.color)
-                        : null,
+            suffixIcon: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (_fieldController.text.isNotEmpty)
+                  IconButton(
+                    icon: Icon(
+                      Icons.clear,
+                      color: _labelStyle?.color,
+                    ),
+                    onPressed: () {
+                      _fieldController.text = '';
+                      _focusNode.unfocus(
+                          disposition:
+                              UnfocusDisposition.previouslyFocusedChild);
+                      fieldRowItem?.onTextChange(null);
+                    },
+                  ),
+                if (_descIcon != null)
+                  IconButton(
+                    icon: Icon(
+                      _descIcon,
+                      color: _labelStyle?.color,
+                    ),
+                    onPressed: () {
+                      _fieldController.text = '';
+                      // show description
+                    },
+                  )
+              ],
+            ),
             hintText: fieldRowItem?.hint,
             hintStyle: _hintStyle,
             errorText: fieldRowItem?.error,
@@ -119,17 +129,31 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final fieldRowItem = ref.watch(fieldRowProvider);
+    _fieldController.text = ref.read(fieldRowProvider)?.value ?? '';
+  }
+
+  @override
+  void initState() {
+    final fieldRowItem = ref.read(fieldRowProvider);
+    _fieldController = TextEditingController(text: fieldRowItem?.value);
+    _focusNode = FocusNode();
+
     switch (fieldRowItem?.valueType) {
       case ValueType.TEXT:
-        _maxLength = 50000;
+        _maxLength = 500;
         _maxLengthEnforcement = MaxLengthEnforcement.enforced;
         break;
       case ValueType.LETTER:
         _maxLength = 1;
         _maxLengthEnforcement = MaxLengthEnforcement.enforced;
         break;
+      case ValueType.LONG_TEXT:
+        _maxLength = 50000;
+        _maxLengthEnforcement = MaxLengthEnforcement.enforced;
+        break;
       default:
+        _maxLength = 250;
+        _maxLengthEnforcement = MaxLengthEnforcement.none;
         break;
     }
 
@@ -140,13 +164,7 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
     _labelStyle = _getLabelTextColor(fieldRowItem?.style);
     _hintStyle = _getHintStyle(fieldRowItem);
     _focusColor = _getFocusColor(fieldRowItem);
-  }
-
-  @override
-  void initState() {
     super.initState();
-    _fieldController = TextEditingController();
-    _focusNode = FocusNode();
   }
 
   @override

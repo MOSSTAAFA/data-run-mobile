@@ -179,21 +179,6 @@ final itemsProvider =
 );
 
 typedef _$Items = AutoDisposeNotifier<IList<FieldUiModel>>;
-String _$fieldItemHash() => r'af6315dd68b1fb35f720d685c603f539a9209816';
-
-/// See also [FieldItem].
-@ProviderFor(FieldItem)
-final fieldItemProvider =
-    AutoDisposeNotifierProvider<FieldItem, FieldUiModel?>.internal(
-  FieldItem.new,
-  name: r'fieldItemProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$fieldItemHash,
-  dependencies: <ProviderOrFamily>[indexProvider],
-  allTransitiveDependencies: <ProviderOrFamily>[indexProvider],
-);
-
-typedef _$FieldItem = AutoDisposeNotifier<FieldUiModel?>;
 String _$uiEventHash() => r'0f088847f34e14c22d3667864349a3b0776a9824';
 
 /// See also [UiEvent].

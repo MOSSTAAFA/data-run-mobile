@@ -612,24 +612,23 @@ int index(IndexRef ref) {
 //       itemsProvider.selectAsync((IList<FieldUiModel> list) => list.length));
 // }
 
-@Riverpod(dependencies: [index])
-class FieldItem extends _$FieldItem {
-  @override
-  FieldUiModel? build() {
-    // final int index = ref.read(indexProvider);
-    // final FieldUiModel item = await ref
-    //     .watch(itemsProvider.selectAsync((IList<FieldUiModel> e) => e[index]));
-    // return item.setCallback(callback);
-
-    final IList<FieldUiModel> items = ref.watch(itemsProvider);
-    if (items.isNotEmpty) {
-      final int index = ref.watch(indexProvider);
-      return items[index].setCallback(callback);
-    }
-    return null;
-  }
-}
-
+// @Riverpod(dependencies: [index])
+// class FieldItem extends _$FieldItem {
+//   @override
+//   FieldUiModel? build() {
+//     final IList<FieldUiModel> items = ref.watch(itemsProvider);
+//     if (items.isNotEmpty) {
+//       final int index = ref.watch(indexProvider);
+//       return items[index];
+//     }
+//     return null;
+//   }
+//
+//   void setCallback(Callback callback) {
+//     state = state?.setCallback(callback);
+//   }
+// }
+//
 @riverpod
 FieldUiModel? fieldRow(FieldRowRef ref) {
   throw UnimplementedError();

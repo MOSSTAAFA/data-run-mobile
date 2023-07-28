@@ -7,6 +7,7 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import '../../commons/custom_widgets/mixins/keyboard_manager.dart';
 import '../../commons/extensions/standard_extensions.dart';
 import '../../commons/helpers/iterable.dart';
+import '../../riverpod/provider_logger.dart';
 import '../data/data_integrity_check_result.dart';
 import '../model/field_ui_model.dart';
 import '../model/form_repository_records.dart';
@@ -72,12 +73,12 @@ class _FormViewState extends ConsumerState<FormView> with KeyboardManager {
 
   @override
   Widget build(BuildContext context) {
-    final items = ref.watch(itemsProvider);
-    return const Padding(
-      padding: EdgeInsets.all(8.0),
-      child: DataEntryItemsList(
-          // searchStyle: widget.needToForceUpdate,
-          ),
+    // final items = ref.watch(itemsProvider);
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ProviderScope(
+          observers: [ProviderLogger()],
+          child: const DataEntryItemsList()) ,
     );
     // return StreamBuilder<List<FieldUiModel>>(
     //     stream: widget.viewModel.items,
