@@ -3,7 +3,6 @@ import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dar
 import 'package:dartx/dartx_io.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
 import '../ui/event/list_view_ui_events.dart';
 import '../ui/event/ui_event_factory.dart';
@@ -186,7 +185,7 @@ class SectionUiModelImpl with _$SectionUiModelImpl implements FieldUiModel {
   Color? get textColor => style?.textColor(error, warning);
 
   @override
-  Pair<List<int>, Color>? get backGroundColor =>
+  Pair<List<int>, Color?>? get backGroundColor =>
       style?.backgroundColor(valueType, error, warning);
 
   @override

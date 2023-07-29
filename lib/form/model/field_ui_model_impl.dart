@@ -141,7 +141,7 @@ class FieldUiModelImpl with _$FieldUiModelImpl implements FieldUiModel {
   Color? get textColor => style?.textColor(error, warning);
 
   @override
-  Pair<List<int>, Color>? get backGroundColor =>
+  Pair<List<int>, Color?>? get backGroundColor =>
       style?.backgroundColor(valueType, error, warning);
 
   @override

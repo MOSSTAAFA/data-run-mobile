@@ -55,7 +55,7 @@ abstract class FieldUiModel {
 
   Color? get textColor;
 
-  Pair<List<int>, Color>? get backGroundColor;
+  Pair<List<int>, Color?>? get backGroundColor;
 
   UiRenderType? get renderingType;
 

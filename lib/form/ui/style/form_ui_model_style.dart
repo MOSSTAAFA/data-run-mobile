@@ -12,6 +12,6 @@ abstract class FormUiModelStyle {
 
   Color? textColor([String? error, String? warning]);
 
-  Pair<List<int>, Color> backgroundColor(
+  Pair<List<int>, Color?> backgroundColor(
       ValueType? valueType, String? error, String? warning);
 }
