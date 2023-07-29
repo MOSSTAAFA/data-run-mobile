@@ -29,13 +29,6 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
   late final MaxLengthEnforcement? _maxLengthEnforcement;
   late final TextEditingController _fieldController;
   late final FocusNode _focusNode;
-  late final TextInputType? _inputType;
-  late final TextInputAction? _inputAction;
-  late final TextStyle? _labelStyle;
-  late final TextStyle? _hintStyle;
-  late final IconData? _descIcon;
-  late final String? _info;
-  late final Color? _focusColor;
 
   // final _debouncer = Debouncer();
 
@@ -51,11 +44,12 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
     }
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+      // padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+      padding: EdgeInsets.zero,
       child: TextFormField(
         // initialValue: fieldRowItem?.value ?? '',
-        textInputAction: _inputAction,
-        keyboardType: _inputType,
+        textInputAction: _getInputAction(fieldRowItem?.keyboardActionType),
+        keyboardType:  _getInputType(fieldRowItem?.valueType),
         controller: _fieldController,
         onChanged: (String value) {
           // _debouncer.run(() {
@@ -66,32 +60,15 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
         enabled: fieldRowItem?.editable,
         maxLength: _maxLength,
         maxLengthEnforcement: _maxLengthEnforcement,
+        style: _getInputStyle(fieldRowItem),
         decoration: InputDecoration(
-            label: Row(
-              children: [
-                Expanded(
-                    child: Text(
-                  fieldRowItem?.formattedLabel ?? '',
-                  style: _labelStyle,
-                )),
-                if (_info != null)
-                  IconButton(
-                    icon: Icon(Icons.info_outline, color: _labelStyle?.color),
-                    onPressed: () {
-                      fieldRowItem?.invokeUiEvent(UiEventType.SHOW_DESCRIPTION);
-                    },
-                  )
-              ],
-            ),
-            border: const UnderlineInputBorder(),
-            suffixIcon: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (_fieldController.text.isNotEmpty)
-                  IconButton(
+            floatingLabelBehavior: FloatingLabelBehavior.always,
+            labelText: fieldRowItem?.formattedLabel ?? '',
+            suffix: _fieldController.text.isNotEmpty
+                ? IconButton(
                     icon: Icon(
                       Icons.clear,
-                      color: _labelStyle?.color,
+                      color: _getLabelTextColor(fieldRowItem?.style)?.color,
                     ),
                     onPressed: () {
                       _fieldController.text = '';
@@ -100,28 +77,37 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
                               UnfocusDisposition.previouslyFocusedChild);
                       fieldRowItem?.onTextChange(null);
                     },
-                  ),
-                if (_descIcon != null)
-                  IconButton(
+                  )
+                : null,
+            icon: fieldRowItem?.style?.getDescriptionIcon() != null
+                ? IconButton(
                     icon: Icon(
-                      _descIcon,
-                      color: _labelStyle?.color,
+                      fieldRowItem?.style?.getDescriptionIcon(),
+                      color: _getLabelTextColor(fieldRowItem?.style)?.color,
                     ),
                     onPressed: () {
                       _fieldController.text = '';
                       // show description
                     },
                   )
-              ],
-            ),
+                : null,
+            border: const UnderlineInputBorder(),
+            suffixIcon: fieldRowItem?.description != null
+                ? IconButton(
+                    icon: Icon(Icons.info_outline, color: _getLabelTextColor(fieldRowItem?.style)?.color),
+                    onPressed: () {
+                      fieldRowItem?.invokeUiEvent(UiEventType.SHOW_DESCRIPTION);
+                    },
+                  )
+                : null,
             hintText: fieldRowItem?.hint,
-            hintStyle: _hintStyle,
+            hintStyle:  _getHintStyle(fieldRowItem),
             errorText: fieldRowItem?.error,
             errorStyle: fieldRowItem?.error != null
                 ? TextStyle(
                     fontSize: 10, color: convertHexStringToColor('#FF9800'))
                 : null,
-            focusColor: _focusColor),
+            focusColor: _getFocusColor(fieldRowItem)),
       ),
     );
   }
@@ -157,13 +143,13 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
         break;
     }
 
-    _descIcon = fieldRowItem?.style?.getDescriptionIcon();
-    _info = fieldRowItem?.description;
-    _inputType = _getInputType(fieldRowItem?.valueType);
-    _inputAction = _getInputAction(fieldRowItem?.keyboardActionType);
-    _labelStyle = _getLabelTextColor(fieldRowItem?.style);
-    _hintStyle = _getHintStyle(fieldRowItem);
-    _focusColor = _getFocusColor(fieldRowItem);
+    // _descIcon = fieldRowItem?.style?.getDescriptionIcon();
+    // _info = fieldRowItem?.description;
+    // _inputType = _getInputType(fieldRowItem?.valueType);
+    // _inputAction = _getInputAction(fieldRowItem?.keyboardActionType);
+    // _labelStyle = _getLabelTextColor(fieldRowItem?.style);
+    // _hintStyle = _getHintStyle(fieldRowItem);
+    // _focusColor = _getFocusColor(fieldRowItem);
     super.initState();
   }
 
@@ -187,7 +173,7 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
     TextStyle? style;
     styleItem?.let((FieldUiModel uiModel) {
       uiModel.textColor?.let((Color it) => style = TextStyle(color: it));
-      uiModel.backGroundColor?.let((Pair<List<int>, Color> it) =>
+      uiModel.backGroundColor?.let((Pair<List<int>, Color?> it) =>
           style = style?.copyWith(backgroundColor: it.second));
     });
 
