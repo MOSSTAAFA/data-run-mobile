@@ -8,6 +8,7 @@ import '../../commons/custom_widgets/fields/factory/field_widget_factory_impl.da
 import '../../commons/custom_widgets/fields/form_edit_text.widget.dart';
 import '../../commons/custom_widgets/form_card.dart';
 import '../model/field_ui_model.dart';
+import 'data_entry_item_controller.dart';
 import 'event/list_view_ui_events.dart';
 import 'form_view_model.dart';
 import 'intent/form_intent.dart';
@@ -16,8 +17,8 @@ final AutoDisposeProvider<FieldWidgetFactoryImpl> fieldWidgetFactoryProvider =
     Provider.autoDispose<FieldWidgetFactoryImpl>(
         (_) => FieldWidgetFactoryImpl());
 
-class DataEntryItem extends ConsumerWidget {
-  const DataEntryItem({super.key});
+class DataEntryItemWidget extends ConsumerWidget {
+  const DataEntryItemWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -32,7 +33,8 @@ class DataEntryItem extends ConsumerWidget {
         : null));
 
     return ProviderScope(
-        overrides: [fieldRowProvider.overrideWith((_) => item)],
+        overrides: [dataEntryItemControllerProvider.overrideWith((_) => item)],
+        // overrides: [dataEntryItemControllerProvider.],
         child: FormEditText());
     // : const SizedBox.shrink();
   }

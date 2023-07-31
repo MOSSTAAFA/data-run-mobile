@@ -6,16 +6,16 @@ import '../../commons/custom_widgets/mixins/keyboard_manager.dart';
 import 'data_entry_item.widget.dart';
 import 'form_view_model.dart';
 
-class DataEntryItemsList extends ConsumerStatefulWidget {
-  const DataEntryItemsList({super.key, this.searchStyle = false});
+class DataEntryItemListWidget extends ConsumerStatefulWidget {
+  const DataEntryItemListWidget({super.key, this.searchStyle = false});
 
   final bool searchStyle;
 
   @override
-  ConsumerState<DataEntryItemsList> createState() => DataEntryListState();
+  ConsumerState<DataEntryItemListWidget> createState() => DataEntryItemListWidgetState();
 }
 
-class DataEntryListState extends ConsumerState<DataEntryItemsList>
+class DataEntryItemListWidgetState extends ConsumerState<DataEntryItemListWidget>
     with KeyboardManager {
   final ItemScrollController itemScrollController = ItemScrollController();
 
@@ -31,7 +31,7 @@ class DataEntryListState extends ConsumerState<DataEntryItemsList>
       itemCount: itemCount,
       itemBuilder: (BuildContext context, int index) => ProviderScope(
         overrides: [indexProvider.overrideWith((_) => index)],
-        child: const DataEntryItem(),
+        child: const DataEntryItemWidget(),
       ),
       itemScrollController: itemScrollController,
       // itemPositionsListener: itemPositionsListener,

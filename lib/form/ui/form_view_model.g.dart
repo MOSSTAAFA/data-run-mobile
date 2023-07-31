@@ -6,111 +6,45 @@ part of 'form_view_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$formViewModelHash() => r'48eb9f648b20c354b104ef7b859f9e971cebfcad';
-
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
-
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
-  }
-
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
-  }
-}
-
-typedef FormViewModelRef = AutoDisposeProviderRef<FormViewModel>;
+String _$formViewModelHash() => r'cfe85a53b29799605626cfd2c4f779ada3c13cc5';
 
 /// See also [formViewModel].
 @ProviderFor(formViewModel)
-const formViewModelProvider = FormViewModelFamily();
+final formViewModelProvider = AutoDisposeProvider<FormViewModel>.internal(
+  formViewModel,
+  name: r'formViewModelProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$formViewModelHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
-/// See also [formViewModel].
-class FormViewModelFamily extends Family<FormViewModel> {
-  /// See also [formViewModel].
-  const FormViewModelFamily();
+typedef FormViewModelRef = AutoDisposeProviderRef<FormViewModel>;
+String _$itemsFetchHash() =>
+    r'c0531a736d3f1bb596f890f24e39e6428905c747'; ////////////////////////////////
+////////////////////////////////
+////////////////////////////////
+////////////////////////////////
+////////////////////////////////
+////////////////////////////////
+////////////////////////////////
+////////////////////////////////
+////////////////////////////////
+///
+/// Copied from [itemsFetch].
+@ProviderFor(itemsFetch)
+final itemsFetchProvider =
+    AutoDisposeFutureProvider<IList<FieldUiModel>>.internal(
+  itemsFetch,
+  name: r'itemsFetchProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$itemsFetchHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
-  /// See also [formViewModel].
-  FormViewModelProvider call(
-    FormRepositoryRecords repositoryRecords,
-  ) {
-    return FormViewModelProvider(
-      repositoryRecords,
-    );
-  }
-
-  @override
-  FormViewModelProvider getProviderOverride(
-    covariant FormViewModelProvider provider,
-  ) {
-    return call(
-      provider.repositoryRecords,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'formViewModelProvider';
-}
-
-/// See also [formViewModel].
-class FormViewModelProvider extends AutoDisposeProvider<FormViewModel> {
-  /// See also [formViewModel].
-  FormViewModelProvider(
-    this.repositoryRecords,
-  ) : super.internal(
-          (ref) => formViewModel(
-            ref,
-            repositoryRecords,
-          ),
-          from: formViewModelProvider,
-          name: r'formViewModelProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$formViewModelHash,
-          dependencies: FormViewModelFamily._dependencies,
-          allTransitiveDependencies:
-              FormViewModelFamily._allTransitiveDependencies,
-        );
-
-  final FormRepositoryRecords repositoryRecords;
-
-  @override
-  bool operator ==(Object other) {
-    return other is FormViewModelProvider &&
-        other.repositoryRecords == repositoryRecords;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, repositoryRecords.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
+typedef ItemsFetchRef = AutoDisposeFutureProviderRef<IList<FieldUiModel>>;
 String _$indexHash() => r'0860d4852b5c4278c17554156493538148336c3c';
 
 /// See also [index].
@@ -125,51 +59,30 @@ final indexProvider = AutoDisposeProvider<int>.internal(
 );
 
 typedef IndexRef = AutoDisposeProviderRef<int>;
-String _$fieldRowHash() => r'443059f2aead91de2105341a8b39f3a28d5273d7';
+String _$formRepositoryRecordsInstanceHash() =>
+    r'a828604e9f8c9b5fd8ac769c1b954125fd04f38a';
 
-/// See also [fieldRow].
-@ProviderFor(fieldRow)
-final fieldRowProvider = AutoDisposeProvider<FieldUiModel?>.internal(
-  fieldRow,
-  name: r'fieldRowProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$fieldRowHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef FieldRowRef = AutoDisposeProviderRef<FieldUiModel?>;
-String _$formModelInstanceHash() =>
-    r'237afb43c8388b134264300b175d715209d22ae9'; ////////////////////////////////
-////////////////////////////////
-////////////////////////////////
-////////////////////////////////
-////////////////////////////////
-////////////////////////////////
-////////////////////////////////
-////////////////////////////////
-////////////////////////////////
-///
-/// Copied from [FormModelInstance].
-@ProviderFor(FormModelInstance)
-final formModelInstanceProvider =
-    AutoDisposeNotifierProvider<FormModelInstance, FormModel>.internal(
-  FormModelInstance.new,
-  name: r'formModelInstanceProvider',
+/// See also [FormRepositoryRecordsInstance].
+@ProviderFor(FormRepositoryRecordsInstance)
+final formRepositoryRecordsInstanceProvider = AutoDisposeNotifierProvider<
+    FormRepositoryRecordsInstance, FormRepositoryRecords>.internal(
+  FormRepositoryRecordsInstance.new,
+  name: r'formRepositoryRecordsInstanceProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$formModelInstanceHash,
+      : _$formRepositoryRecordsInstanceHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$FormModelInstance = AutoDisposeNotifier<FormModel>;
-String _$itemsHash() => r'cd67bdffac462f0692951b49f72dc752573d6f40';
+typedef _$FormRepositoryRecordsInstance
+    = AutoDisposeNotifier<FormRepositoryRecords>;
+String _$itemsHash() => r'983bd900534ddb4d9e076bda1c69422f3d673ae4';
 
 /// See also [Items].
 @ProviderFor(Items)
 final itemsProvider =
-    AutoDisposeNotifierProvider<Items, IList<FieldUiModel>>.internal(
+    AutoDisposeAsyncNotifierProvider<Items, IList<FieldUiModel>>.internal(
   Items.new,
   name: r'itemsProvider',
   debugGetCreateSourceHash:
@@ -178,7 +91,7 @@ final itemsProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$Items = AutoDisposeNotifier<IList<FieldUiModel>>;
+typedef _$Items = AutoDisposeAsyncNotifier<IList<FieldUiModel>>;
 String _$uiEventHash() => r'0f088847f34e14c22d3667864349a3b0776a9824';
 
 /// See also [UiEvent].
@@ -209,4 +122,5 @@ final uiIntentProvider =
 );
 
 typedef _$UiIntent = AutoDisposeNotifier<FormIntent?>;
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member

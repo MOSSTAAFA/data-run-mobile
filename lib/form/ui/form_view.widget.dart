@@ -20,8 +20,8 @@ import 'form_view_model.dart';
 import 'intent/form_intent.dart';
 import 'provider/enrollment_result_dialog_ui_provider.dart';
 
-class FormView extends ConsumerStatefulWidget {
-  FormView(
+class FormViewWidget extends ConsumerStatefulWidget {
+  FormViewWidget(
       {super.key,
       this.needToForceUpdate = false,
 
@@ -62,13 +62,13 @@ class FormView extends ConsumerStatefulWidget {
   final void Function(String)? onSavePicture;
 
   //// in DataEntryAdapter
-  Map<String, int> sectionPositions = {};
+  final Map<String, int> sectionPositions = {};
 
   @override
-  ConsumerState<FormView> createState() => _FormViewState();
+  ConsumerState<FormViewWidget> createState() => _FormViewWidgetState();
 }
 
-class _FormViewState extends ConsumerState<FormView> with KeyboardManager {
+class _FormViewWidgetState extends ConsumerState<FormViewWidget> with KeyboardManager {
   late final FormViewModel viewModel;
 
   @override
@@ -78,7 +78,7 @@ class _FormViewState extends ConsumerState<FormView> with KeyboardManager {
       padding: const EdgeInsets.all(8.0),
       child: ProviderScope(
           observers: [ProviderLogger()],
-          child: const DataEntryItemsList()) ,
+          child: const DataEntryItemListWidget()) ,
     );
     // return StreamBuilder<List<FieldUiModel>>(
     //     stream: widget.viewModel.items,
@@ -269,7 +269,7 @@ class _FormViewState extends ConsumerState<FormView> with KeyboardManager {
   }
 
   void _swap(List<FieldUiModel> updates, void Function() commitCallback) {
-    widget.sectionPositions = {};
+    widget.sectionPositions.clear();
     for (final FieldUiModel fieldViewModel in updates) {
       if (fieldViewModel is SectionUiModelImpl) {
         widget.sectionPositions[fieldViewModel.uid] =
