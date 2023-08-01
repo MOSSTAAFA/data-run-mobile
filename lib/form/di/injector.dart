@@ -17,6 +17,7 @@ import '../data/metadata/org_unit_configuration.dart';
 import '../data/search_option_set_option.dart';
 import '../data/search_repository.dart';
 import '../model/form_repository_records.dart';
+import '../ui/di/form_view_controllers.dart';
 import '../ui/field_view_model_factory.dart';
 import '../ui/field_view_model_factory_impl.dart';
 import '../ui/form_view_model.dart';
@@ -41,18 +42,15 @@ part 'injector.g.dart';
 
 @riverpod
 FormRepository formRepository(FormRepositoryRef ref) {
+  final repositoryRecords = ref.read(formRepositoryRecordsInstanceProvider);
   return FormRepositoryImpl(
     formValueStore: ref.read(_formValueStoreProvider(
-        ref.read(formRepositoryRecordsInstanceProvider).recordUid,
-        ref.read(formRepositoryRecordsInstanceProvider).entryMode)),
+        repositoryRecords.recordUid, repositoryRecords.entryMode)),
     fieldErrorMessageProvider: ref.read(_fieldErrorMessageProviderProvider),
     displayNameProvider: ref.read(_displayNameProviderProvider),
-    // dataEntryRepository: ref.read(_dataEntryRepositoryProvider(
-    //     entryMode: repositoryRecords.entryMode,
-    //     repositoryRecords: repositoryRecords)),
     dataEntryRepository: ref.read(_dataEntryRepositoryProvider(
-        entryMode: ref.read(formRepositoryRecordsInstanceProvider).entryMode,
-        repositoryRecords: ref.read(formRepositoryRecordsInstanceProvider))),
+        entryMode: repositoryRecords.entryMode,
+        repositoryRecords: repositoryRecords)),
     /*ruleEngineRepository: _provideRuleEngineRepository(
             repositoryRecords.entryMode, repositoryRecords.recordUid),
         rulesUtilsProvider: _provideRulesUtilsProvider(),

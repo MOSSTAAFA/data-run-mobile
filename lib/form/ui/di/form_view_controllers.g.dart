@@ -6,6 +6,7 @@ part of 'form_view_controllers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+typedef FormViewModelRef = AutoDisposeProviderRef<dynamic>;
 String _$formViewRepositoryHash() =>
     r'23ddafb9a488d07c4766179a4d996585ea66dd4d';
 
@@ -24,7 +25,7 @@ final _formViewRepositoryProvider =
 
 typedef _FormViewRepositoryRef = AutoDisposeProviderRef<FormViewRepository>;
 String _$rowActionFromIntentHash() =>
-    r'b533e566bdf44deb11afeff24d7a7cae85a6bffc';
+    r'a03283137e88b5b6b863e71be8eca87eb9079c22';
 
 /// See also [_rowActionFromIntent].
 @ProviderFor(_rowActionFromIntent)
@@ -39,36 +40,38 @@ final _rowActionFromIntentProvider = AutoDisposeProvider<RowAction>.internal(
 );
 
 typedef _RowActionFromIntentRef = AutoDisposeProviderRef<RowAction>;
-String _$focusedHash() => r'37d684c8929d3a3abea9ab104021301354455620';
+String _$formViewFocusedHash() => r'30241bfff9d84a7c99c8d0721700fbb58cc7f457';
 
-/// See also [focused].
-@ProviderFor(focused)
-final focusedProvider = AutoDisposeProvider<bool>.internal(
-  focused,
-  name: r'focusedProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$focusedHash,
+/// See also [formViewFocused].
+@ProviderFor(formViewFocused)
+final formViewFocusedProvider = AutoDisposeProvider<bool>.internal(
+  formViewFocused,
+  name: r'formViewFocusedProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$formViewFocusedHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef FocusedRef = AutoDisposeProviderRef<bool>;
-String _$loadingHash() => r'57640624bf9adcbfba0ae7c4c3db523dba81e7b5';
+typedef FormViewFocusedRef = AutoDisposeProviderRef<bool>;
+String _$formViewLoadingHash() => r'397547542ff9e0e2c5eaf6c229eae3c947bd5f34';
 
-/// See also [loading].
-@ProviderFor(loading)
-final loadingProvider = AutoDisposeProvider<bool>.internal(
-  loading,
-  name: r'loadingProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$loadingHash,
+/// See also [formViewLoading].
+@ProviderFor(formViewLoading)
+final formViewLoadingProvider = AutoDisposeProvider<bool>.internal(
+  formViewLoading,
+  name: r'formViewLoadingProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$formViewLoadingHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef LoadingRef = AutoDisposeProviderRef<bool>;
+typedef FormViewLoadingRef = AutoDisposeProviderRef<bool>;
 String _$completionPercentageHash() =>
-    r'273bdcab64d6cda0e95289d61edfb547a153fd54';
+    r'ca4c44477bea197ddfdbfa32c505e1a76e2fca60';
 
 /// See also [completionPercentage].
 @ProviderFor(completionPercentage)
@@ -83,7 +86,7 @@ final completionPercentageProvider = AutoDisposeProvider<double>.internal(
 );
 
 typedef CompletionPercentageRef = AutoDisposeProviderRef<double>;
-String _$calculationLoopHash() => r'a3442af77f8c82d9e7c82ff0ab5672e01694a7ad';
+String _$calculationLoopHash() => r'6be959974f34bc45e666cfbdbb5e019a3c7fa4b2';
 
 /// See also [calculationLoop].
 @ProviderFor(calculationLoop)
@@ -115,15 +118,48 @@ final _rowActionStoreProvider =
 
 typedef _RowActionStoreRef
     = AutoDisposeFutureProviderRef<Pair<RowAction, StoreResult>>;
-String _$formPendingIntentsHash() =>
-    r'8962c1fab21ca825739b85d0d7b3d78c94ad0196';
+String _$formViewIndexHash() => r'596950527a2473b48fcd73cf67b3157da93fc787';
 
-/// See also [_FormPendingIntents].
-@ProviderFor(_FormPendingIntents)
-final _formPendingIntentsProvider =
-    AutoDisposeNotifierProvider<_FormPendingIntents, FormIntent>.internal(
-  _FormPendingIntents.new,
-  name: r'_formPendingIntentsProvider',
+/// See also [formViewIndex].
+@ProviderFor(formViewIndex)
+final formViewIndexProvider = AutoDisposeProvider<int>.internal(
+  formViewIndex,
+  name: r'formViewIndexProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$formViewIndexHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef FormViewIndexRef = AutoDisposeProviderRef<int>;
+String _$formRepositoryRecordsInstanceHash() =>
+    r'a828604e9f8c9b5fd8ac769c1b954125fd04f38a';
+
+/// See also [FormRepositoryRecordsInstance].
+@ProviderFor(FormRepositoryRecordsInstance)
+final formRepositoryRecordsInstanceProvider = AutoDisposeNotifierProvider<
+    FormRepositoryRecordsInstance, FormRepositoryRecords>.internal(
+  FormRepositoryRecordsInstance.new,
+  name: r'formRepositoryRecordsInstanceProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$formRepositoryRecordsInstanceHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$FormRepositoryRecordsInstance
+    = AutoDisposeNotifier<FormRepositoryRecords>;
+String _$formPendingIntentsHash() =>
+    r'3bf8ab1219cff61eeaa853961f211c6936debc56';
+
+/// See also [FormPendingIntents].
+@ProviderFor(FormPendingIntents)
+final formPendingIntentsProvider =
+    AutoDisposeNotifierProvider<FormPendingIntents, FormIntent>.internal(
+  FormPendingIntents.new,
+  name: r'formPendingIntentsProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
       : _$formPendingIntentsHash,
@@ -132,7 +168,7 @@ final _formPendingIntentsProvider =
 );
 
 typedef _$FormPendingIntents = AutoDisposeNotifier<FormIntent>;
-String _$itemsResultHash() => r'adec57ea1be10e2d8d16b86e630789ed8fe6f7cc';
+String _$itemsResultHash() => r'f004d98f2c6b6214099e8aefe37e7de9ff3742f1';
 
 /// See also [ItemsResult].
 @ProviderFor(ItemsResult)

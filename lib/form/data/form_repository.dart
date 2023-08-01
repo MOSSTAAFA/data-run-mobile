@@ -16,9 +16,9 @@ abstract class FormRepository {
       {required bool allowDiscard});
 
   // Currently no need to return Future
-  Future<double> completedFieldsPercentage(IList<FieldUiModel> value);
+  double completedFieldsPercentage(IList<FieldUiModel> value);
 
-  Future<bool> calculationLoopOverLimit();
+  bool calculationLoopOverLimit();
 
   IList<FieldUiModel> backupOfChangedItems();
 

@@ -12,7 +12,14 @@ import 'key_board_action_type.dart';
 import 'option_set_configuration.dart';
 import 'ui_event_type.dart';
 
+typedef IntentCallback = void Function(FormIntent intent);
+typedef ListViewUiEventsCallback = void Function(ListViewUiEvents uiEvent);
+
 abstract class FieldUiModel {
+  IntentCallback? get intentCallback;
+
+  ListViewUiEventsCallback? get listViewUiEventsCallback;
+
   String get uid;
 
   int get layoutId;
@@ -75,7 +82,9 @@ abstract class FieldUiModel {
 
   // Callback? get callback;
 
-  FieldUiModel setCallback(Callback callback);
+  FieldUiModel setCallback(
+      {IntentCallback? intentCallback,
+      ListViewUiEventsCallback? listViewUiEventsCallback});
 
   bool equals(FieldUiModel item);
 
@@ -128,14 +137,57 @@ abstract class FieldUiModel {
   bool isSection() => valueType == null;
 
   bool isSectionWithFields();
+
+  // Callback? get callback;
+
+  FieldUiModel copyWith({
+    String? uid,
+    int? layoutId,
+    String? value,
+    bool? focused,
+    String? error,
+    bool? editable,
+    String? warning,
+    bool? mandatory,
+    String? label,
+    String? programStageSection,
+    FormUiModelStyle? style,
+    String? hint,
+    String? description,
+    ValueType? valueType,
+    // LegendValue? legend,
+    String? optionSet,
+    bool? allowFutureDates,
+    UiEventFactory? uiEventFactory,
+    String? displayName,
+    UiRenderType? renderingType,
+    KeyboardActionType? keyboardActionType,
+    String? fieldMask,
+    bool? isOpen,
+    int? totalFields,
+    int? completedFields,
+    int? errors,
+    int? warnings,
+    String? rendering,
+    String? selectedField,
+    bool? isLoadingData,
+    OptionSetConfiguration? optionSetConfiguration,
+    int? sectionNumber,
+    bool? showBottomShadow,
+    bool? lastPositionShouldChangeHeight,
+    // Callback? callback,
+    IntentCallback? intentCallback,
+    ListViewUiEventsCallback? listViewUiEventsCallback,
+  });
 }
 
 class Callback {
   const Callback({this.intent, this.listViewUiEvents});
+
   final void Function(FormIntent intent)? intent;
   final void Function(ListViewUiEvents uiEvent)? listViewUiEvents;
 
-  // intent(FormIntent intent);
-  //
-  // listViewUiEvents(ListViewUiEvents uiEvent);
+// intent(FormIntent intent);
+//
+// listViewUiEvents(ListViewUiEvents uiEvent);
 }

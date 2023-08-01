@@ -7,8 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../commons/custom_widgets/fields/factory/field_widget_factory_impl.dart';
 import '../../commons/custom_widgets/fields/form_edit_text.widget.dart';
 import '../../commons/custom_widgets/form_card.dart';
-import '../model/field_ui_model.dart';
-import 'data_entry_item_controller.dart';
+import 'di/form_view_controllers.dart';
 import 'event/list_view_ui_events.dart';
 import 'form_view_model.dart';
 import 'intent/form_intent.dart';
@@ -18,45 +17,69 @@ final AutoDisposeProvider<FieldWidgetFactoryImpl> fieldWidgetFactoryProvider =
         (_) => FieldWidgetFactoryImpl());
 
 class DataEntryItemWidget extends ConsumerWidget {
-  const DataEntryItemWidget({super.key});
+  const DataEntryItemWidget(
+      {super.key, this.onIntent, this.onListViewUiEvents});
+
+  final void Function(FormIntent intent)? onIntent;
+  final void Function(ListViewUiEvents uiEvent)? onListViewUiEvents;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final itemr = ref.watch(fieldItemProvider(Callback(
-    //     intent: (intent) => _intentCallback(intent, ref),
-    //     listViewUiEvents: (uiEvent) => _listViewEventCallback(uiEvent, ref))));
-    final item = ref.watch(itemsProvider.select((list) => list.isNotEmpty
-        ? list[ref.watch(indexProvider)].setCallback(Callback(
-            intent: (intent) => _intentCallback(intent, ref),
-            listViewUiEvents: (uiEvent) =>
-                _listViewEventCallback(uiEvent, ref)))
-        : null));
+    // final item = ref.watch(itemsResultProvider.select((list) =>
+    //     list.value?.isNotEmpty ?? false
+    //         ? list.value![ref.watch(formViewIndexProvider)].setCallback(
+    //             intentCallback: (intent) {
+    //             FormIntent formIntent = intent;
+    //             if (intent is OnNext) {
+    //               formIntent = intent.copyWith(
+    //                   position: ref.read(formViewIndexProvider) + 1);
+    //             }
+    //             onIntent?.call(formIntent);
+    //             ref.read(uiIntentProvider.notifier).setValue(formIntent);
+    //           }, listViewUiEventsCallback: (uiEvent) {
+    //             onListViewUiEvents?.call(uiEvent);
+    //             ref.read(uiEventProvider.notifier).setValue(uiEvent);
+    //           })
+    //         : null));
+    final item = ref.watch(itemsResultProvider.select((list) =>
+        list.value?.isNotEmpty ?? false
+            ? list.value![ref.watch(formViewIndexProvider)]
+            : null));
 
-    return ProviderScope(
-        overrides: [dataEntryItemControllerProvider.overrideWith((_) => item)],
-        // overrides: [dataEntryItemControllerProvider.],
-        child: FormEditText());
-    // : const SizedBox.shrink();
+    return FormEditText(
+      item: item?.copyWith(intentCallback: (intent) {
+        FormIntent formIntent = intent;
+        if (intent is OnNext) {
+          formIntent =
+              intent.copyWith(position: ref.read(formViewIndexProvider) + 1);
+        }
+        onIntent?.call(formIntent);
+      }, listViewUiEventsCallback: (uiEvent) {
+        onListViewUiEvents?.call(uiEvent);
+      }),
+    );
   }
 
-  void _listViewEventCallback(ListViewUiEvents uiEvent, WidgetRef ref) =>
-      ref.read(uiEventProvider.notifier).setValue(uiEvent);
-
-  void _intentCallback(FormIntent intent, WidgetRef ref) {
-    FormIntent formIntent = intent;
-    if (intent is OnNext) {
-      // scrollToPosition(intent.position!);
-      formIntent = intent.copyWith(position: ref.read(indexProvider) + 1);
-      Future(() => ref.read(uiIntentProvider.notifier).setValue(formIntent));
-
-      //   itemScrollController.scrollTo(
-      //       index: intent.position!,
-      //       duration: const Duration(milliseconds: 700),
-      //       curve: Curves.easeInOutCubic);
-      //   // itemScrollController.jumpTo(index: intent.position!);
-      // }
-    }
-  }
+  // void _listViewEventCallback(ListViewUiEvents uiEvent, WidgetRef ref) =>
+  //     ref.read(uiEventProvider.notifier).setValue(uiEvent);
+  //
+  // void _intentCallback(FormIntent intent, WidgetRef ref) {
+  //   FormIntent formIntent = intent;
+  //   if (intent is OnNext) {
+  //     // scrollToPosition(intent.position!);
+  //     formIntent =
+  //         intent.copyWith(position: ref.read(formViewIndexProvider) + 1);
+  //     ref.read(uiIntentProvider.notifier).setValue(formIntent);
+  //     // Future(() => ref.read(uiIntentProvider.notifier).setValue(formIntent));
+  //
+  //     //   itemScrollController.scrollTo(
+  //     //       index: intent.position!,
+  //     //       duration: const Duration(milliseconds: 700),
+  //     //       curve: Curves.easeInOutCubic);
+  //     //   // itemScrollController.jumpTo(index: intent.position!);
+  //     // }
+  //   }
+  // }
 
   Widget createWidgetByType(
       {Key? key,

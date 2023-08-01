@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../form/model/field_ui_model.dart';
 import '../../../form/model/key_board_action_type.dart';
 import '../../../form/model/ui_event_type.dart';
-import '../../../form/ui/form_view_model.dart';
 import '../../../form/ui/style/form_ui_color_type.dart';
 import '../../../form/ui/style/form_ui_model_style.dart';
 import '../../../utils/mass_utils/colors.dart';
@@ -18,7 +17,9 @@ import '../../extensions/standard_extensions.dart';
 /// form_number, form_percentage, form_phone_number,
 /// form_unit_interval, form_url.xml
 class FormEditText extends ConsumerStatefulWidget {
-  const FormEditText({super.key});
+  const FormEditText({super.key, this.item});
+
+  final FieldUiModel? item;
 
   @override
   ConsumerState<FormEditText> createState() => _FormEditTextState();
@@ -34,10 +35,10 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
 
   @override
   Widget build(BuildContext context) {
-    final fieldRowItem = ref.watch(fieldRowProvider);
+    // final fieldRowItem = ref.watch(fieldRowProvider);
     // final String? error = fieldItem?.error;
 
-    final bool? focused = fieldRowItem?.focused;
+    final bool? focused = widget.item?.focused;
 
     if (focused ?? false) {
       _focusNode.requestFocus();
@@ -47,43 +48,43 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
       // padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
       padding: EdgeInsets.zero,
       child: TextFormField(
-        // initialValue: fieldRowItem?.value ?? '',
-        textInputAction: _getInputAction(fieldRowItem?.keyboardActionType),
-        keyboardType:  _getInputType(fieldRowItem?.valueType),
+        // initialValue: widget.item?.value ?? '',
+        textInputAction: _getInputAction(widget.item?.keyboardActionType),
+        keyboardType: _getInputType(widget.item?.valueType),
         controller: _fieldController,
         onChanged: (String value) {
           // _debouncer.run(() {
-          fieldRowItem?.onTextChange(value);
+          widget.item?.onTextChange(value);
           // });
         },
         focusNode: _focusNode,
-        enabled: fieldRowItem?.editable,
+        enabled: widget.item?.editable,
         maxLength: _maxLength,
         maxLengthEnforcement: _maxLengthEnforcement,
-        style: _getInputStyle(fieldRowItem),
+        style: _getInputStyle(widget.item),
         decoration: InputDecoration(
             floatingLabelBehavior: FloatingLabelBehavior.always,
-            labelText: fieldRowItem?.formattedLabel ?? '',
+            labelText: widget.item?.formattedLabel ?? '',
             suffix: _fieldController.text.isNotEmpty
                 ? IconButton(
                     icon: Icon(
                       Icons.clear,
-                      color: _getLabelTextColor(fieldRowItem?.style)?.color,
+                      color: _getLabelTextColor(widget.item?.style)?.color,
                     ),
                     onPressed: () {
                       _fieldController.text = '';
                       _focusNode.unfocus(
                           disposition:
                               UnfocusDisposition.previouslyFocusedChild);
-                      fieldRowItem?.onTextChange(null);
+                      widget.item?.onTextChange(null);
                     },
                   )
                 : null,
-            icon: fieldRowItem?.style?.getDescriptionIcon() != null
+            icon: widget.item?.style?.getDescriptionIcon() != null
                 ? IconButton(
                     icon: Icon(
-                      fieldRowItem?.style?.getDescriptionIcon(),
-                      color: _getLabelTextColor(fieldRowItem?.style)?.color,
+                      widget.item?.style?.getDescriptionIcon(),
+                      color: _getLabelTextColor(widget.item?.style)?.color,
                     ),
                     onPressed: () {
                       _fieldController.text = '';
@@ -92,22 +93,23 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
                   )
                 : null,
             border: const UnderlineInputBorder(),
-            suffixIcon: fieldRowItem?.description != null
+            suffixIcon: widget.item?.description != null
                 ? IconButton(
-                    icon: Icon(Icons.info_outline, color: _getLabelTextColor(fieldRowItem?.style)?.color),
+                    icon: Icon(Icons.info_outline,
+                        color: _getLabelTextColor(widget.item?.style)?.color),
                     onPressed: () {
-                      fieldRowItem?.invokeUiEvent(UiEventType.SHOW_DESCRIPTION);
+                      widget.item?.invokeUiEvent(UiEventType.SHOW_DESCRIPTION);
                     },
                   )
                 : null,
-            hintText: fieldRowItem?.hint,
-            hintStyle:  _getHintStyle(fieldRowItem),
-            errorText: fieldRowItem?.error,
-            errorStyle: fieldRowItem?.error != null
+            hintText: widget.item?.hint,
+            hintStyle: _getHintStyle(widget.item),
+            errorText: widget.item?.error,
+            errorStyle: widget.item?.error != null
                 ? TextStyle(
                     fontSize: 10, color: convertHexStringToColor('#FF9800'))
                 : null,
-            focusColor: _getFocusColor(fieldRowItem)),
+            focusColor: _getFocusColor(widget.item)),
       ),
     );
   }
@@ -115,16 +117,15 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _fieldController.text = ref.read(fieldRowProvider)?.value ?? '';
+    _fieldController.text = widget.item?.value ?? '';
   }
 
   @override
   void initState() {
-    final fieldRowItem = ref.read(fieldRowProvider);
-    _fieldController = TextEditingController(text: fieldRowItem?.value);
+    _fieldController = TextEditingController(text: widget.item?.value);
     _focusNode = FocusNode();
 
-    switch (fieldRowItem?.valueType) {
+    switch (widget.item?.valueType) {
       case ValueType.TEXT:
         _maxLength = 500;
         _maxLengthEnforcement = MaxLengthEnforcement.enforced;
@@ -143,13 +144,13 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
         break;
     }
 
-    // _descIcon = fieldRowItem?.style?.getDescriptionIcon();
-    // _info = fieldRowItem?.description;
-    // _inputType = _getInputType(fieldRowItem?.valueType);
-    // _inputAction = _getInputAction(fieldRowItem?.keyboardActionType);
-    // _labelStyle = _getLabelTextColor(fieldRowItem?.style);
-    // _hintStyle = _getHintStyle(fieldRowItem);
-    // _focusColor = _getFocusColor(fieldRowItem);
+    // _descIcon = widget.item?.style?.getDescriptionIcon();
+    // _info = widget.item?.description;
+    // _inputType = _getInputType(widget.item?.valueType);
+    // _inputAction = _getInputAction(widget.item?.keyboardActionType);
+    // _labelStyle = _getLabelTextColor(widget.item?.style);
+    // _hintStyle = _getHintStyle(widget.item);
+    // _focusColor = _getFocusColor(widget.item);
     super.initState();
   }
 

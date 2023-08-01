@@ -2,7 +2,6 @@ import 'package:d2_remote/core/common/value_type.dart';
 import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dart';
 import 'package:dartx/dartx_io.dart';
 import 'package:flutter/material.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../ui/event/list_view_ui_events.dart';
 import '../ui/event/ui_event_factory.dart';
@@ -14,53 +13,98 @@ import 'key_board_action_type.dart';
 import 'option_set_configuration.dart';
 import 'ui_event_type.dart';
 
-part 'section_ui_model_impl.freezed.dart';
-
-@freezed
-class SectionUiModelImpl with _$SectionUiModelImpl implements FieldUiModel {
-  factory SectionUiModelImpl(
-      {required final String uid,
-      required final int layoutId,
-      final String? value,
-      required final bool focused,
-      final String? error,
-      required final bool editable,
-      final String? warning,
-      required final bool mandatory,
-      required final String label,
-      final String? programStageSection,
-      final FormUiModelStyle? style,
-      final String? hint,
-      final String? description,
-      final ValueType? valueType,
+// part 'section_ui_model_impl.freezed.dart';
+//
+// @freezed
+@immutable
+class SectionUiModelImpl /*with _$SectionUiModelImpl,*/
+    implements
+        FieldUiModel {
+  SectionUiModelImpl(
+      {required this.uid,
+      required this.layoutId,
+      this.value,
+      required this.focused,
+      this.error,
+      required this.editable,
+      this.warning,
+      required this.mandatory,
+      required this.label,
+      this.programStageSection,
+      this.style,
+      this.hint,
+      this.description,
+      this.valueType,
       // LegendValue? legend,
-      final String? optionSet,
-      final bool? allowFutureDates,
-      final UiEventFactory? uiEventFactory,
-      final String? displayName,
-      final UiRenderType? renderingType,
-      final KeyboardActionType? keyboardActionType,
-      final String? fieldMask,
-      @Default(false) bool isOpen,
-      @Default(0) int totalFields,
-      @Default(0) int completedFields,
-      @Default(0) int errors,
-      @Default(0) int warnings,
-      String? rendering,
+      this.optionSet,
+      this.allowFutureDates,
+      this.uiEventFactory,
+      this.displayName,
+      this.renderingType,
+      this.keyboardActionType,
+      this.fieldMask,
+      this.isOpen = false,
+      this.totalFields = 0,
+      this.completedFields = 0,
+      this.errors = 0,
+      this.warnings = 0,
+      this.rendering,
 
       /// NMCP can't define a default value
       /// here we have to provide initial value Rx<String?>(null)
       /// whenever we create an object of SectionUiModelImpl
       //   /*@Default(Rx<String?>(null))*/ required Rx<String?> selectedField,
-        /*@Default(Rx<String?>(null))*/ String? selectedField,
-      @Default(false) final bool isLoadingData,
-      OptionSetConfiguration? optionSetConfiguration,
-      @Default(0) int sectionNumber,
-      @Default(false) bool showBottomShadow,
-      @Default(false) bool lastPositionShouldChangeHeight,
-      Callback? callback}) = _SectionUiModelImpl;
+      /*@Default(Rx<String?>(null))*/ this.selectedField,
+      this.isLoadingData = false,
+      this.optionSetConfiguration,
+      this.sectionNumber = 0,
+      this.showBottomShadow = false,
+      this.lastPositionShouldChangeHeight = false,
+      // this.callback,
+      this.intentCallback,
+      this.listViewUiEventsCallback});
 
-  SectionUiModelImpl._();
+  final String uid;
+  final int layoutId;
+  final String? value;
+  final bool focused;
+  final String? error;
+  final bool editable;
+  final String? warning;
+  final bool mandatory;
+  final String label;
+  final String? programStageSection;
+  final FormUiModelStyle? style;
+  final String? hint;
+  final String? description;
+  final ValueType? valueType;
+
+  // final LegendValue? legend;
+  final String? optionSet;
+  final bool? allowFutureDates;
+  final UiEventFactory? uiEventFactory;
+  final String? displayName;
+  final UiRenderType? renderingType;
+  final KeyboardActionType? keyboardActionType;
+  final String? fieldMask;
+  final bool isOpen;
+  final int totalFields;
+  final int completedFields;
+  final int errors;
+  final int warnings;
+  final String? rendering;
+
+  final String? selectedField;
+  final bool isLoadingData;
+  OptionSetConfiguration? optionSetConfiguration;
+  final int sectionNumber;
+  final bool showBottomShadow;
+  final bool lastPositionShouldChangeHeight;
+
+  // final Callback? callback;
+  final IntentCallback? intentCallback;
+  final ListViewUiEventsCallback? listViewUiEventsCallback;
+
   @override
   String get formattedLabel => label;
 
@@ -92,7 +136,7 @@ class SectionUiModelImpl with _$SectionUiModelImpl implements FieldUiModel {
         sectionToOpen = '';
       }
       // selectedField = sectionToOpen;
-      callback?.intent?.call(FormIntent.onSection(sectionToOpen));
+      intentCallback?.call(FormIntent.onSection(sectionToOpen));
       return copyWith(selectedField: sectionToOpen);
     }
 
@@ -125,7 +169,8 @@ class SectionUiModelImpl with _$SectionUiModelImpl implements FieldUiModel {
 
   FieldUiModel setLastSectionHeight(bool lastPositionShouldChangeHeight) {
     // this.lastPositionShouldChangeHeight = lastPositionShouldChangeHeight;
-    return copyWith(lastPositionShouldChangeHeight: lastPositionShouldChangeHeight);
+    return copyWith(
+        lastPositionShouldChangeHeight: lastPositionShouldChangeHeight);
   }
 
   // bool lastPositionShouldChangeHeight() {
@@ -134,14 +179,18 @@ class SectionUiModelImpl with _$SectionUiModelImpl implements FieldUiModel {
 
 // Callback _callback;
   @override
-  FieldUiModel setCallback(Callback callback) {
-    // this.callback = callback;
-    return copyWith(callback: callback);
+  FieldUiModel setCallback(
+      {IntentCallback? intentCallback,
+      ListViewUiEventsCallback? listViewUiEventsCallback}) {
+    // this._callback = _callback;
+    return copyWith(
+        intentCallback: intentCallback,
+        listViewUiEventsCallback: listViewUiEventsCallback);
   }
 
   @override
   onItemClick() {
-    callback?.intent?.call(FormIntent.onFocus(uid, value));
+    intentCallback?.call(FormIntent.onFocus(uid, value));
   }
 
   @override
@@ -155,7 +204,7 @@ class SectionUiModelImpl with _$SectionUiModelImpl implements FieldUiModel {
 
   @override
   onDescriptionClick() {
-    callback?.listViewUiEvents
+    listViewUiEventsCallback
         ?.call(ListViewUiEvents.showDescriptionLabelDialog(label, description));
   }
 
@@ -178,7 +227,7 @@ class SectionUiModelImpl with _$SectionUiModelImpl implements FieldUiModel {
 
   @override
   invokeIntent(FormIntent intent) {
-    callback?.intent?.call(intent);
+    intentCallback?.call(intent);
   }
 
   @override
@@ -231,8 +280,88 @@ class SectionUiModelImpl with _$SectionUiModelImpl implements FieldUiModel {
   @override
   bool isSectionWithFields() => totalFields > 0;
 
-  @override
-  bool isSection() => valueType == null;
+  FieldUiModel copyWith({
+    String? uid,
+    int? layoutId,
+    String? value,
+    bool? focused,
+    String? error,
+    bool? editable,
+    String? warning,
+    bool? mandatory,
+    String? label,
+    String? programStageSection,
+    FormUiModelStyle? style,
+    String? hint,
+    String? description,
+    ValueType? valueType,
+    // LegendValue? legend,
+    String? optionSet,
+    bool? allowFutureDates,
+    UiEventFactory? uiEventFactory,
+    String? displayName,
+    UiRenderType? renderingType,
+    KeyboardActionType? keyboardActionType,
+    String? fieldMask,
+    bool? isOpen,
+    int? totalFields,
+    int? completedFields,
+    int? errors,
+    int? warnings,
+    String? rendering,
+    String? selectedField,
+    bool? isLoadingData,
+    OptionSetConfiguration? optionSetConfiguration,
+    int? sectionNumber,
+    bool? showBottomShadow,
+    bool? lastPositionShouldChangeHeight,
+    // Callback? callback,
+    IntentCallback? intentCallback,
+    ListViewUiEventsCallback? listViewUiEventsCallback,
+  }) {
+    return SectionUiModelImpl(
+      uid: uid ?? this.uid,
+      layoutId: layoutId ?? this.layoutId,
+      value: value ?? this.value,
+      focused: focused ?? this.focused,
+      error: error ?? this.error,
+      editable: editable ?? this.editable,
+      warning: warning ?? this.warning,
+      mandatory: mandatory ?? this.mandatory,
+      label: label ?? this.label,
+      programStageSection: programStageSection ?? this.programStageSection,
+      style: style ?? this.style,
+      hint: hint ?? this.hint,
+      description: description ?? this.description,
+      valueType: valueType ?? this.valueType,
+      // LegendValue? legend: legend ?? this.legend,
+      optionSet: optionSet ?? this.optionSet,
+      allowFutureDates: allowFutureDates ?? this.allowFutureDates,
+      uiEventFactory: uiEventFactory ?? this.uiEventFactory,
+      displayName: displayName ?? this.displayName,
+      renderingType: renderingType ?? this.renderingType,
+      keyboardActionType: keyboardActionType ?? this.keyboardActionType,
+      fieldMask: fieldMask ?? this.fieldMask,
+      isOpen: isOpen ?? this.isOpen,
+      totalFields: totalFields ?? this.totalFields,
+      completedFields: completedFields ?? this.completedFields,
+      errors: errors ?? this.errors,
+      warnings: warnings ?? this.warnings,
+      rendering: rendering ?? this.rendering,
+      selectedField: selectedField ?? this.selectedField,
+      isLoadingData: isLoadingData ?? this.isLoadingData,
+      optionSetConfiguration:
+          optionSetConfiguration ?? this.optionSetConfiguration,
+      sectionNumber: sectionNumber ?? this.sectionNumber,
+      showBottomShadow: showBottomShadow ?? this.showBottomShadow,
+      lastPositionShouldChangeHeight:
+          lastPositionShouldChangeHeight ?? this.lastPositionShouldChangeHeight,
+      // callback: callback ?? this.callback,
+      intentCallback: intentCallback ?? this.intentCallback,
+      listViewUiEventsCallback:
+          listViewUiEventsCallback ?? this.listViewUiEventsCallback,
+    );
+  }
 
   /// NMC: this is @unfreezed class Freeze will not define a == and hashCode
   /// functions for @unfreezed classes, we here are just overrising the
@@ -282,4 +411,7 @@ class SectionUiModelImpl with _$SectionUiModelImpl implements FieldUiModel {
         warnings == item.warnings &&
         sectionNumber == item.sectionNumber;
   }
+
+  @override
+  bool isSection() => true;
 }

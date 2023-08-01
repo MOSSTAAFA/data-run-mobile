@@ -4,7 +4,6 @@ import 'package:d2_remote/core/common/value_type.dart';
 import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dart';
 import 'package:dartx/dartx_io.dart';
 import 'package:flutter/material.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../commons/extensions/string_extension.dart';
 import '../ui/event/list_view_ui_events.dart';
@@ -17,81 +16,116 @@ import 'key_board_action_type.dart';
 import 'option_set_configuration.dart';
 import 'ui_event_type.dart';
 
-part 'field_ui_model_impl.freezed.dart';
+// part 'field_ui_model_impl.freezed.dart';
+//
+// @freezed
+@immutable
+class FieldUiModelImpl implements FieldUiModel /*with _$FieldUiModelImpl*/ {
+  const FieldUiModelImpl(
+      {required this.uid,
+      required this.layoutId,
+      this.value,
+      required this.focused,
+      this.error,
+      required this.editable,
+      this.warning,
+      required this.mandatory,
+      required this.label,
+      this.programStageSection,
+      this.style,
+      this.hint,
+      this.description,
+      // LegendValue? legend,
+      this.valueType,
+      this.optionSet,
+      this.allowFutureDates,
+      this.uiEventFactory,
+      this.displayName,
+      this.renderingType,
+      this.optionSetConfiguration,
+      this.keyboardActionType,
+      this.fieldMask,
+      this.isLoadingData = false,
+      // this.callback
+      this.intentCallback,
+      this.listViewUiEventsCallback});
 
-@freezed
-class FieldUiModelImpl with _$FieldUiModelImpl implements FieldUiModel {
+  final String uid;
+  final int layoutId;
+  final String? value;
+  final bool focused;
+  final String? error;
+  final bool editable;
+  final String? warning;
+  final bool mandatory;
+  final String label;
+  final String? programStageSection;
+  final FormUiModelStyle? style;
+  final String? hint;
+  final String? description;
+
+  //final  LegendValue? legend;
+  final ValueType? valueType;
+  final String? optionSet;
+  final bool? allowFutureDates;
+  final UiEventFactory? uiEventFactory;
+  final String? displayName;
+  final UiRenderType? renderingType;
+  final OptionSetConfiguration? optionSetConfiguration;
+  final KeyboardActionType? keyboardActionType;
+  final String? fieldMask;
+  final bool isLoadingData;
+
+  // final Callback? callback;
+  final IntentCallback? intentCallback;
+  final ListViewUiEventsCallback? listViewUiEventsCallback;
+
   @override
   String get formattedLabel => mandatory ? '$label *' : label;
 
-  const factory FieldUiModelImpl(
-      {required String uid,
-      required int layoutId,
-      String? value,
-      required bool focused,
-      String? error,
-      required bool editable,
-      String? warning,
-      required bool mandatory,
-      required String label,
-      String? programStageSection,
-      FormUiModelStyle? style,
-      String? hint,
-      String? description,
-      // LegendValue? legend,
-      ValueType? valueType,
-      String? optionSet,
-      bool? allowFutureDates,
-      UiEventFactory? uiEventFactory,
-      String? displayName,
-      UiRenderType? renderingType,
-      OptionSetConfiguration? optionSetConfiguration,
-      KeyboardActionType? keyboardActionType,
-      String? fieldMask,
-      @Default(false) bool isLoadingData,
-      Callback? callback}) = _FieldUiModelImpl;
-
-  const FieldUiModelImpl._();
-
   // Callback _callback;
   @override
-  FieldUiModel setCallback(Callback callback) {
+  FieldUiModel setCallback(
+      {IntentCallback? intentCallback,
+      ListViewUiEventsCallback? listViewUiEventsCallback}) {
     // this._callback = _callback;
-    return copyWith(callback: callback);
+    return copyWith(
+        intentCallback: intentCallback,
+        listViewUiEventsCallback: listViewUiEventsCallback);
   }
 
   @override
   onItemClick() {
-    callback?.intent?.call(FormIntent.onFocus(uid, value));
+    intentCallback?.call(FormIntent.onFocus(uid, value));
   }
 
   @override
   onNext() {
-    callback?.intent?.call(FormIntent.onNext(uid: uid, value: value));
+    intentCallback?.call(FormIntent.onNext(uid: uid, value: value));
   }
 
   @override
   onTextChange(String? value) {
-    callback?.intent?.call(FormIntent.onTextChange(
+    intentCallback?.call(FormIntent.onTextChange(
         uid, (value ?? '').isEmpty == true ? null : value));
   }
 
   @override
   onDescriptionClick() {
-    callback?.listViewUiEvents
+    listViewUiEventsCallback
         ?.call(ListViewUiEvents.showDescriptionLabelDialog(label, description));
   }
 
   @override
   onClear() {
     onItemClick();
-    callback?.intent?.call(FormIntent.clearValue(uid));
+    intentCallback?.call(FormIntent.clearValue(uid));
   }
 
   @override
   onSave(String? value) {
     onItemClick();
-    callback?.intent
+    intentCallback
         ?.call(FormIntent.onSave(uid: uid, value: value, valueType: valueType));
   }
 
@@ -101,7 +135,7 @@ class FieldUiModelImpl with _$FieldUiModelImpl implements FieldUiModel {
     var result = value == null || value != boolean.toString()
         ? boolean.toString()
         : null;
-    callback?.intent?.call(
+    intentCallback?.call(
         FormIntent.onSave(uid: uid, value: result, valueType: valueType));
   }
 
@@ -113,13 +147,13 @@ class FieldUiModelImpl with _$FieldUiModelImpl implements FieldUiModel {
     } else {
       nextValue = option.code;
     }
-    callback?.intent?.call(
+    intentCallback?.call(
         FormIntent.onSave(uid: uid, value: nextValue, valueType: valueType));
   }
 
   @override
   invokeUiEvent(UiEventType uiEventType) {
-    callback?.intent?.call(FormIntent.onRequestCoordinates(uid));
+    intentCallback?.call(FormIntent.onRequestCoordinates(uid));
     if (uiEventType != UiEventType.QR_CODE && !focused) {
       onItemClick();
     }
@@ -128,13 +162,13 @@ class FieldUiModelImpl with _$FieldUiModelImpl implements FieldUiModel {
         uiEventFactory?.generateEvent(value, uiEventType, renderingType, this);
 
     if (listViewUiEvents != null) {
-      callback?.listViewUiEvents?.call(listViewUiEvents);
+      listViewUiEventsCallback?.call(listViewUiEvents);
     }
   }
 
   @override
   invokeIntent(FormIntent intent) {
-    callback?.intent?.call(intent);
+    intentCallback?.call(intent);
   }
 
   @override
@@ -146,7 +180,7 @@ class FieldUiModelImpl with _$FieldUiModelImpl implements FieldUiModel {
 
   @override
   bool get hasImage {
-    return value != null ? File(value ?? '').existsSync() : false;
+    return value != null && File(value ?? '').existsSync();
   }
 
   @override
@@ -193,7 +227,79 @@ class FieldUiModelImpl with _$FieldUiModelImpl implements FieldUiModel {
   bool isSectionWithFields() => false;
 
   @override
-  bool isSection() => valueType == null;
+  FieldUiModel copyWith({
+    String? uid,
+    int? layoutId,
+    String? value,
+    bool? focused,
+    String? error,
+    bool? editable,
+    String? warning,
+    bool? mandatory,
+    String? label,
+    String? programStageSection,
+    FormUiModelStyle? style,
+    String? hint,
+    String? description,
+    ValueType? valueType,
+    // LegendValue? legend,
+    String? optionSet,
+    bool? allowFutureDates,
+    UiEventFactory? uiEventFactory,
+    String? displayName,
+    UiRenderType? renderingType,
+    KeyboardActionType? keyboardActionType,
+    String? fieldMask,
+    bool? isOpen,
+    int? totalFields,
+    int? completedFields,
+    int? errors,
+    int? warnings,
+    String? rendering,
+    String? selectedField,
+    bool? isLoadingData,
+    OptionSetConfiguration? optionSetConfiguration,
+    int? sectionNumber,
+    bool? showBottomShadow,
+    bool? lastPositionShouldChangeHeight,
+    // Callback? callback,
+    IntentCallback? intentCallback,
+    ListViewUiEventsCallback? listViewUiEventsCallback,
+  }) =>
+      FieldUiModelImpl(
+        uid: uid ?? this.uid,
+        layoutId: layoutId ?? this.layoutId,
+        value: value ?? this.value,
+        focused: focused ?? this.focused,
+        error: error ?? this.error,
+        editable: editable ?? this.editable,
+        warning: warning ?? this.warning,
+        mandatory: mandatory ?? this.mandatory,
+        label: label ?? this.label,
+        programStageSection: programStageSection ?? this.programStageSection,
+        style: style ?? this.style,
+        hint: hint ?? this.hint,
+        description: description ?? this.description,
+        valueType: valueType ?? this.valueType,
+        // LegendValue? legend: legend ?? this.legend,
+        optionSet: optionSet ?? this.optionSet,
+        allowFutureDates: allowFutureDates ?? this.allowFutureDates,
+        uiEventFactory: uiEventFactory ?? this.uiEventFactory,
+        displayName: displayName ?? this.displayName,
+        renderingType: renderingType ?? this.renderingType,
+        keyboardActionType: keyboardActionType ?? this.keyboardActionType,
+        fieldMask: fieldMask ?? this.fieldMask,
+        isLoadingData: isLoadingData ?? this.isLoadingData,
+        optionSetConfiguration:
+            optionSetConfiguration ?? this.optionSetConfiguration,
+        // callback: callback ?? this.callback,
+        intentCallback: intentCallback ?? this.intentCallback,
+        listViewUiEventsCallback:
+            listViewUiEventsCallback ?? this.listViewUiEventsCallback,
+      );
+
+  @override
+  bool isSection() => false;
 
   @override
   bool operator ==(dynamic other) {
@@ -250,7 +356,9 @@ class FieldUiModelImpl with _$FieldUiModelImpl implements FieldUiModel {
         // legend,
         optionSet,
         allowFutureDates,
-        callback
+        // callback
+        intentCallback,
+        listViewUiEventsCallback,
       ]);
 
   @override
@@ -279,7 +387,9 @@ class FieldUiModelImpl with _$FieldUiModelImpl implements FieldUiModel {
     // if (legend != item.legend) return false;
     if (optionSet != item.optionSet) return false;
     if (allowFutureDates != item.allowFutureDates) return false;
-    if (callback != item.callback) return false;
+    // if (callback != item.callback) return false;
+    if (intentCallback != item.intentCallback) return false;
+    if (listViewUiEventsCallback != item.listViewUiEventsCallback) return false;
 
     return true;
   }

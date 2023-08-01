@@ -10,7 +10,9 @@ import '../../../../commons/extensions/standard_extensions.dart';
 import '../../../../commons/utils/view_actions.dart';
 import '../../../../form/model/form_repository_records.dart';
 import '../../../../form/ui/components/linear_loading_indicator.dart';
+import '../../../../form/ui/di/form_view_controllers.dart';
 import '../../../../form/ui/form_view.widget.dart';
+import '../../../../form/ui/form_view_model.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../utils/event_mode.dart';
 import '../../bundle/bundle.dart';
@@ -54,7 +56,7 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
 
     return ProviderScope(
       overrides: [
-        // formRepositoryRecordsProvider.overrideWith((_) => EventRecords(eventUid)),
+        formRepositoryRecordsInstanceProvider.overrideWith(() => FormRepositoryRecordsInstance()..state = eventRecords),
         pageConfiguratorProvider.overrideWith((_) => EventPageConfigurator()),
       ],
       child: Column(
@@ -111,7 +113,7 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
               pageBuilder: (context, viewAction) =>
                   when<ViewAction, Widget>(viewAction, {
                 ViewAction.details: () => const EventDetailsScreen(),
-                ViewAction.data_entry: () => FormView(
+                ViewAction.data_entry: () => FormViewWidget(
                       // needToForceUpdate: needToForceUpdate,
                       records: eventRecords,
                       // onItemChangeListener: onItemChangeListener,
@@ -155,6 +157,9 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
     programUid = bundle.getString(PROGRAM_UID);
     eventUid = bundle.getString(EVENT_UID);
     eventRecords = EventRecords(eventUid);
+    // ref
+    //     .read(formRepositoryRecordsInstanceProvider.notifier)
+    //     .updateValue((current) => EventRecords(eventUid));
     presenter = ref.read(eventCapturePresenterProvider(this));
     super.initState();
   }

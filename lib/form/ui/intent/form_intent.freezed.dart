@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$FormIntent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() init,
     required TResult Function(String? extraData) onFinish,
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
@@ -41,6 +42,7 @@ mixin _$FormIntent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? init,
     TResult? Function(String? extraData)? onFinish,
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
@@ -63,6 +65,7 @@ mixin _$FormIntent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? init,
     TResult Function(String? extraData)? onFinish,
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
@@ -86,6 +89,7 @@ mixin _$FormIntent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Init value) init,
     required TResult Function(OnFinish value) onFinish,
     required TResult Function(OnClear value) onClear,
     required TResult Function(OnFocus value) onFocus,
@@ -106,6 +110,7 @@ mixin _$FormIntent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Init value)? init,
     TResult? Function(OnFinish value)? onFinish,
     TResult? Function(OnClear value)? onClear,
     TResult? Function(OnFocus value)? onFocus,
@@ -125,6 +130,7 @@ mixin _$FormIntent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Init value)? init,
     TResult Function(OnFinish value)? onFinish,
     TResult Function(OnClear value)? onClear,
     TResult Function(OnFocus value)? onFocus,
@@ -161,6 +167,201 @@ class _$FormIntentCopyWithImpl<$Res, $Val extends FormIntent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$InitCopyWith<$Res> {
+  factory _$$InitCopyWith(_$Init value, $Res Function(_$Init) then) =
+      __$$InitCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$InitCopyWithImpl<$Res> extends _$FormIntentCopyWithImpl<$Res, _$Init>
+    implements _$$InitCopyWith<$Res> {
+  __$$InitCopyWithImpl(_$Init _value, $Res Function(_$Init) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$Init extends Init {
+  const _$Init() : super._();
+
+  @override
+  String toString() {
+    return 'FormIntent.init()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$Init);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() init,
+    required TResult Function(String? extraData) onFinish,
+    required TResult Function(String? extraData) onClear,
+    required TResult Function(String uid, String? value) onFocus,
+    required TResult Function(String uid, String? value, int? position) onNext,
+    required TResult Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)
+        onSave,
+    required TResult Function(String uid, String? value) onTextChange,
+    required TResult Function(String uid) clearValue,
+    required TResult Function(String uid, String? coordinates, String extraData)
+        selectLocationFromCoordinates,
+    required TResult Function(
+            String uid, String featureType, String? coordinates)
+        selectLocationFromMap,
+    required TResult Function(String uid, String? value, String featureType)
+        saveCurrentLocation,
+    required TResult Function(String sectionUid) onSection,
+    required TResult Function(String uid) onRequestCoordinates,
+    required TResult Function(String uid) onCancelRequestCoordinates,
+  }) {
+    return init();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? init,
+    TResult? Function(String? extraData)? onFinish,
+    TResult? Function(String? extraData)? onClear,
+    TResult? Function(String uid, String? value)? onFocus,
+    TResult? Function(String uid, String? value, int? position)? onNext,
+    TResult? Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)?
+        onSave,
+    TResult? Function(String uid, String? value)? onTextChange,
+    TResult? Function(String uid)? clearValue,
+    TResult? Function(String uid, String? coordinates, String extraData)?
+        selectLocationFromCoordinates,
+    TResult? Function(String uid, String featureType, String? coordinates)?
+        selectLocationFromMap,
+    TResult? Function(String uid, String? value, String featureType)?
+        saveCurrentLocation,
+    TResult? Function(String sectionUid)? onSection,
+    TResult? Function(String uid)? onRequestCoordinates,
+    TResult? Function(String uid)? onCancelRequestCoordinates,
+  }) {
+    return init?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? init,
+    TResult Function(String? extraData)? onFinish,
+    TResult Function(String? extraData)? onClear,
+    TResult Function(String uid, String? value)? onFocus,
+    TResult Function(String uid, String? value, int? position)? onNext,
+    TResult Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)?
+        onSave,
+    TResult Function(String uid, String? value)? onTextChange,
+    TResult Function(String uid)? clearValue,
+    TResult Function(String uid, String? coordinates, String extraData)?
+        selectLocationFromCoordinates,
+    TResult Function(String uid, String featureType, String? coordinates)?
+        selectLocationFromMap,
+    TResult Function(String uid, String? value, String featureType)?
+        saveCurrentLocation,
+    TResult Function(String sectionUid)? onSection,
+    TResult Function(String uid)? onRequestCoordinates,
+    TResult Function(String uid)? onCancelRequestCoordinates,
+    required TResult orElse(),
+  }) {
+    if (init != null) {
+      return init();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Init value) init,
+    required TResult Function(OnFinish value) onFinish,
+    required TResult Function(OnClear value) onClear,
+    required TResult Function(OnFocus value) onFocus,
+    required TResult Function(OnNext value) onNext,
+    required TResult Function(OnSave value) onSave,
+    required TResult Function(OnTextChange value) onTextChange,
+    required TResult Function(ClearValue value) clearValue,
+    required TResult Function(SelectLocationFromCoordinates value)
+        selectLocationFromCoordinates,
+    required TResult Function(SelectLocationFromMap value)
+        selectLocationFromMap,
+    required TResult Function(SaveCurrentLocation value) saveCurrentLocation,
+    required TResult Function(OnSection value) onSection,
+    required TResult Function(OnRequestCoordinates value) onRequestCoordinates,
+    required TResult Function(OnCancelRequestCoordinates value)
+        onCancelRequestCoordinates,
+  }) {
+    return init(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Init value)? init,
+    TResult? Function(OnFinish value)? onFinish,
+    TResult? Function(OnClear value)? onClear,
+    TResult? Function(OnFocus value)? onFocus,
+    TResult? Function(OnNext value)? onNext,
+    TResult? Function(OnSave value)? onSave,
+    TResult? Function(OnTextChange value)? onTextChange,
+    TResult? Function(ClearValue value)? clearValue,
+    TResult? Function(SelectLocationFromCoordinates value)?
+        selectLocationFromCoordinates,
+    TResult? Function(SelectLocationFromMap value)? selectLocationFromMap,
+    TResult? Function(SaveCurrentLocation value)? saveCurrentLocation,
+    TResult? Function(OnSection value)? onSection,
+    TResult? Function(OnRequestCoordinates value)? onRequestCoordinates,
+    TResult? Function(OnCancelRequestCoordinates value)?
+        onCancelRequestCoordinates,
+  }) {
+    return init?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Init value)? init,
+    TResult Function(OnFinish value)? onFinish,
+    TResult Function(OnClear value)? onClear,
+    TResult Function(OnFocus value)? onFocus,
+    TResult Function(OnNext value)? onNext,
+    TResult Function(OnSave value)? onSave,
+    TResult Function(OnTextChange value)? onTextChange,
+    TResult Function(ClearValue value)? clearValue,
+    TResult Function(SelectLocationFromCoordinates value)?
+        selectLocationFromCoordinates,
+    TResult Function(SelectLocationFromMap value)? selectLocationFromMap,
+    TResult Function(SaveCurrentLocation value)? saveCurrentLocation,
+    TResult Function(OnSection value)? onSection,
+    TResult Function(OnRequestCoordinates value)? onRequestCoordinates,
+    TResult Function(OnCancelRequestCoordinates value)?
+        onCancelRequestCoordinates,
+    required TResult orElse(),
+  }) {
+    if (init != null) {
+      return init(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Init extends FormIntent {
+  const factory Init() = _$Init;
+  const Init._() : super._();
 }
 
 /// @nodoc
@@ -227,6 +428,7 @@ class _$OnFinish extends OnFinish {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() init,
     required TResult Function(String? extraData) onFinish,
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
@@ -253,6 +455,7 @@ class _$OnFinish extends OnFinish {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? init,
     TResult? Function(String? extraData)? onFinish,
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
@@ -278,6 +481,7 @@ class _$OnFinish extends OnFinish {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? init,
     TResult Function(String? extraData)? onFinish,
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
@@ -307,6 +511,7 @@ class _$OnFinish extends OnFinish {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Init value) init,
     required TResult Function(OnFinish value) onFinish,
     required TResult Function(OnClear value) onClear,
     required TResult Function(OnFocus value) onFocus,
@@ -330,6 +535,7 @@ class _$OnFinish extends OnFinish {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Init value)? init,
     TResult? Function(OnFinish value)? onFinish,
     TResult? Function(OnClear value)? onClear,
     TResult? Function(OnFocus value)? onFocus,
@@ -352,6 +558,7 @@ class _$OnFinish extends OnFinish {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Init value)? init,
     TResult Function(OnFinish value)? onFinish,
     TResult Function(OnClear value)? onClear,
     TResult Function(OnFocus value)? onFocus,
@@ -449,6 +656,7 @@ class _$OnClear extends OnClear {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() init,
     required TResult Function(String? extraData) onFinish,
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
@@ -475,6 +683,7 @@ class _$OnClear extends OnClear {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? init,
     TResult? Function(String? extraData)? onFinish,
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
@@ -500,6 +709,7 @@ class _$OnClear extends OnClear {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? init,
     TResult Function(String? extraData)? onFinish,
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
@@ -529,6 +739,7 @@ class _$OnClear extends OnClear {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Init value) init,
     required TResult Function(OnFinish value) onFinish,
     required TResult Function(OnClear value) onClear,
     required TResult Function(OnFocus value) onFocus,
@@ -552,6 +763,7 @@ class _$OnClear extends OnClear {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Init value)? init,
     TResult? Function(OnFinish value)? onFinish,
     TResult? Function(OnClear value)? onClear,
     TResult? Function(OnFocus value)? onFocus,
@@ -574,6 +786,7 @@ class _$OnClear extends OnClear {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Init value)? init,
     TResult Function(OnFinish value)? onFinish,
     TResult Function(OnClear value)? onClear,
     TResult Function(OnFocus value)? onFocus,
@@ -678,6 +891,7 @@ class _$OnFocus extends OnFocus {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() init,
     required TResult Function(String? extraData) onFinish,
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
@@ -704,6 +918,7 @@ class _$OnFocus extends OnFocus {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? init,
     TResult? Function(String? extraData)? onFinish,
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
@@ -729,6 +944,7 @@ class _$OnFocus extends OnFocus {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? init,
     TResult Function(String? extraData)? onFinish,
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
@@ -758,6 +974,7 @@ class _$OnFocus extends OnFocus {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Init value) init,
     required TResult Function(OnFinish value) onFinish,
     required TResult Function(OnClear value) onClear,
     required TResult Function(OnFocus value) onFocus,
@@ -781,6 +998,7 @@ class _$OnFocus extends OnFocus {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Init value)? init,
     TResult? Function(OnFinish value)? onFinish,
     TResult? Function(OnClear value)? onClear,
     TResult? Function(OnFocus value)? onFocus,
@@ -803,6 +1021,7 @@ class _$OnFocus extends OnFocus {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Init value)? init,
     TResult Function(OnFinish value)? onFinish,
     TResult Function(OnClear value)? onClear,
     TResult Function(OnFocus value)? onFocus,
@@ -917,6 +1136,7 @@ class _$OnNext extends OnNext {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() init,
     required TResult Function(String? extraData) onFinish,
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
@@ -943,6 +1163,7 @@ class _$OnNext extends OnNext {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? init,
     TResult? Function(String? extraData)? onFinish,
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
@@ -968,6 +1189,7 @@ class _$OnNext extends OnNext {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? init,
     TResult Function(String? extraData)? onFinish,
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
@@ -997,6 +1219,7 @@ class _$OnNext extends OnNext {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Init value) init,
     required TResult Function(OnFinish value) onFinish,
     required TResult Function(OnClear value) onClear,
     required TResult Function(OnFocus value) onFocus,
@@ -1020,6 +1243,7 @@ class _$OnNext extends OnNext {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Init value)? init,
     TResult? Function(OnFinish value)? onFinish,
     TResult? Function(OnClear value)? onClear,
     TResult? Function(OnFocus value)? onFocus,
@@ -1042,6 +1266,7 @@ class _$OnNext extends OnNext {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Init value)? init,
     TResult Function(OnFinish value)? onFinish,
     TResult Function(OnClear value)? onClear,
     TResult Function(OnFocus value)? onFocus,
@@ -1173,6 +1398,7 @@ class _$OnSave extends OnSave {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() init,
     required TResult Function(String? extraData) onFinish,
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
@@ -1199,6 +1425,7 @@ class _$OnSave extends OnSave {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? init,
     TResult? Function(String? extraData)? onFinish,
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
@@ -1224,6 +1451,7 @@ class _$OnSave extends OnSave {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? init,
     TResult Function(String? extraData)? onFinish,
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
@@ -1253,6 +1481,7 @@ class _$OnSave extends OnSave {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Init value) init,
     required TResult Function(OnFinish value) onFinish,
     required TResult Function(OnClear value) onClear,
     required TResult Function(OnFocus value) onFocus,
@@ -1276,6 +1505,7 @@ class _$OnSave extends OnSave {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Init value)? init,
     TResult? Function(OnFinish value)? onFinish,
     TResult? Function(OnClear value)? onClear,
     TResult? Function(OnFocus value)? onFocus,
@@ -1298,6 +1528,7 @@ class _$OnSave extends OnSave {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Init value)? init,
     TResult Function(OnFinish value)? onFinish,
     TResult Function(OnClear value)? onClear,
     TResult Function(OnFocus value)? onFocus,
@@ -1411,6 +1642,7 @@ class _$OnTextChange extends OnTextChange {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() init,
     required TResult Function(String? extraData) onFinish,
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
@@ -1437,6 +1669,7 @@ class _$OnTextChange extends OnTextChange {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? init,
     TResult? Function(String? extraData)? onFinish,
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
@@ -1462,6 +1695,7 @@ class _$OnTextChange extends OnTextChange {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? init,
     TResult Function(String? extraData)? onFinish,
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
@@ -1491,6 +1725,7 @@ class _$OnTextChange extends OnTextChange {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Init value) init,
     required TResult Function(OnFinish value) onFinish,
     required TResult Function(OnClear value) onClear,
     required TResult Function(OnFocus value) onFocus,
@@ -1514,6 +1749,7 @@ class _$OnTextChange extends OnTextChange {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Init value)? init,
     TResult? Function(OnFinish value)? onFinish,
     TResult? Function(OnClear value)? onClear,
     TResult? Function(OnFocus value)? onFocus,
@@ -1536,6 +1772,7 @@ class _$OnTextChange extends OnTextChange {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Init value)? init,
     TResult Function(OnFinish value)? onFinish,
     TResult Function(OnClear value)? onClear,
     TResult Function(OnFocus value)? onFocus,
@@ -1636,6 +1873,7 @@ class _$ClearValue extends ClearValue {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() init,
     required TResult Function(String? extraData) onFinish,
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
@@ -1662,6 +1900,7 @@ class _$ClearValue extends ClearValue {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? init,
     TResult? Function(String? extraData)? onFinish,
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
@@ -1687,6 +1926,7 @@ class _$ClearValue extends ClearValue {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? init,
     TResult Function(String? extraData)? onFinish,
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
@@ -1716,6 +1956,7 @@ class _$ClearValue extends ClearValue {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Init value) init,
     required TResult Function(OnFinish value) onFinish,
     required TResult Function(OnClear value) onClear,
     required TResult Function(OnFocus value) onFocus,
@@ -1739,6 +1980,7 @@ class _$ClearValue extends ClearValue {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Init value)? init,
     TResult? Function(OnFinish value)? onFinish,
     TResult? Function(OnClear value)? onClear,
     TResult? Function(OnFocus value)? onFocus,
@@ -1761,6 +2003,7 @@ class _$ClearValue extends ClearValue {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Init value)? init,
     TResult Function(OnFinish value)? onFinish,
     TResult Function(OnClear value)? onClear,
     TResult Function(OnFocus value)? onFocus,
@@ -1882,6 +2125,7 @@ class _$SelectLocationFromCoordinates extends SelectLocationFromCoordinates {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() init,
     required TResult Function(String? extraData) onFinish,
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
@@ -1908,6 +2152,7 @@ class _$SelectLocationFromCoordinates extends SelectLocationFromCoordinates {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? init,
     TResult? Function(String? extraData)? onFinish,
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
@@ -1933,6 +2178,7 @@ class _$SelectLocationFromCoordinates extends SelectLocationFromCoordinates {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? init,
     TResult Function(String? extraData)? onFinish,
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
@@ -1962,6 +2208,7 @@ class _$SelectLocationFromCoordinates extends SelectLocationFromCoordinates {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Init value) init,
     required TResult Function(OnFinish value) onFinish,
     required TResult Function(OnClear value) onClear,
     required TResult Function(OnFocus value) onFocus,
@@ -1985,6 +2232,7 @@ class _$SelectLocationFromCoordinates extends SelectLocationFromCoordinates {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Init value)? init,
     TResult? Function(OnFinish value)? onFinish,
     TResult? Function(OnClear value)? onClear,
     TResult? Function(OnFocus value)? onFocus,
@@ -2007,6 +2255,7 @@ class _$SelectLocationFromCoordinates extends SelectLocationFromCoordinates {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Init value)? init,
     TResult Function(OnFinish value)? onFinish,
     TResult Function(OnClear value)? onClear,
     TResult Function(OnFocus value)? onFocus,
@@ -2131,6 +2380,7 @@ class _$SelectLocationFromMap extends SelectLocationFromMap {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() init,
     required TResult Function(String? extraData) onFinish,
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
@@ -2157,6 +2407,7 @@ class _$SelectLocationFromMap extends SelectLocationFromMap {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? init,
     TResult? Function(String? extraData)? onFinish,
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
@@ -2182,6 +2433,7 @@ class _$SelectLocationFromMap extends SelectLocationFromMap {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? init,
     TResult Function(String? extraData)? onFinish,
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
@@ -2211,6 +2463,7 @@ class _$SelectLocationFromMap extends SelectLocationFromMap {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Init value) init,
     required TResult Function(OnFinish value) onFinish,
     required TResult Function(OnClear value) onClear,
     required TResult Function(OnFocus value) onFocus,
@@ -2234,6 +2487,7 @@ class _$SelectLocationFromMap extends SelectLocationFromMap {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Init value)? init,
     TResult? Function(OnFinish value)? onFinish,
     TResult? Function(OnClear value)? onClear,
     TResult? Function(OnFocus value)? onFocus,
@@ -2256,6 +2510,7 @@ class _$SelectLocationFromMap extends SelectLocationFromMap {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Init value)? init,
     TResult Function(OnFinish value)? onFinish,
     TResult Function(OnClear value)? onClear,
     TResult Function(OnFocus value)? onFocus,
@@ -2379,6 +2634,7 @@ class _$SaveCurrentLocation extends SaveCurrentLocation {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() init,
     required TResult Function(String? extraData) onFinish,
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
@@ -2405,6 +2661,7 @@ class _$SaveCurrentLocation extends SaveCurrentLocation {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? init,
     TResult? Function(String? extraData)? onFinish,
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
@@ -2430,6 +2687,7 @@ class _$SaveCurrentLocation extends SaveCurrentLocation {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? init,
     TResult Function(String? extraData)? onFinish,
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
@@ -2459,6 +2717,7 @@ class _$SaveCurrentLocation extends SaveCurrentLocation {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Init value) init,
     required TResult Function(OnFinish value) onFinish,
     required TResult Function(OnClear value) onClear,
     required TResult Function(OnFocus value) onFocus,
@@ -2482,6 +2741,7 @@ class _$SaveCurrentLocation extends SaveCurrentLocation {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Init value)? init,
     TResult? Function(OnFinish value)? onFinish,
     TResult? Function(OnClear value)? onClear,
     TResult? Function(OnFocus value)? onFocus,
@@ -2504,6 +2764,7 @@ class _$SaveCurrentLocation extends SaveCurrentLocation {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Init value)? init,
     TResult Function(OnFinish value)? onFinish,
     TResult Function(OnClear value)? onClear,
     TResult Function(OnFocus value)? onFocus,
@@ -2608,6 +2869,7 @@ class _$OnSection extends OnSection {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() init,
     required TResult Function(String? extraData) onFinish,
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
@@ -2634,6 +2896,7 @@ class _$OnSection extends OnSection {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? init,
     TResult? Function(String? extraData)? onFinish,
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
@@ -2659,6 +2922,7 @@ class _$OnSection extends OnSection {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? init,
     TResult Function(String? extraData)? onFinish,
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
@@ -2688,6 +2952,7 @@ class _$OnSection extends OnSection {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Init value) init,
     required TResult Function(OnFinish value) onFinish,
     required TResult Function(OnClear value) onClear,
     required TResult Function(OnFocus value) onFocus,
@@ -2711,6 +2976,7 @@ class _$OnSection extends OnSection {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Init value)? init,
     TResult? Function(OnFinish value)? onFinish,
     TResult? Function(OnClear value)? onClear,
     TResult? Function(OnFocus value)? onFocus,
@@ -2733,6 +2999,7 @@ class _$OnSection extends OnSection {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Init value)? init,
     TResult Function(OnFinish value)? onFinish,
     TResult Function(OnClear value)? onClear,
     TResult Function(OnFocus value)? onFocus,
@@ -2832,6 +3099,7 @@ class _$OnRequestCoordinates extends OnRequestCoordinates {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() init,
     required TResult Function(String? extraData) onFinish,
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
@@ -2858,6 +3126,7 @@ class _$OnRequestCoordinates extends OnRequestCoordinates {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? init,
     TResult? Function(String? extraData)? onFinish,
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
@@ -2883,6 +3152,7 @@ class _$OnRequestCoordinates extends OnRequestCoordinates {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? init,
     TResult Function(String? extraData)? onFinish,
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
@@ -2912,6 +3182,7 @@ class _$OnRequestCoordinates extends OnRequestCoordinates {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Init value) init,
     required TResult Function(OnFinish value) onFinish,
     required TResult Function(OnClear value) onClear,
     required TResult Function(OnFocus value) onFocus,
@@ -2935,6 +3206,7 @@ class _$OnRequestCoordinates extends OnRequestCoordinates {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Init value)? init,
     TResult? Function(OnFinish value)? onFinish,
     TResult? Function(OnClear value)? onClear,
     TResult? Function(OnFocus value)? onFocus,
@@ -2957,6 +3229,7 @@ class _$OnRequestCoordinates extends OnRequestCoordinates {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Init value)? init,
     TResult Function(OnFinish value)? onFinish,
     TResult Function(OnClear value)? onClear,
     TResult Function(OnFocus value)? onFocus,
@@ -3058,6 +3331,7 @@ class _$OnCancelRequestCoordinates extends OnCancelRequestCoordinates {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() init,
     required TResult Function(String? extraData) onFinish,
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
@@ -3084,6 +3358,7 @@ class _$OnCancelRequestCoordinates extends OnCancelRequestCoordinates {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? init,
     TResult? Function(String? extraData)? onFinish,
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
@@ -3109,6 +3384,7 @@ class _$OnCancelRequestCoordinates extends OnCancelRequestCoordinates {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? init,
     TResult Function(String? extraData)? onFinish,
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
@@ -3138,6 +3414,7 @@ class _$OnCancelRequestCoordinates extends OnCancelRequestCoordinates {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(Init value) init,
     required TResult Function(OnFinish value) onFinish,
     required TResult Function(OnClear value) onClear,
     required TResult Function(OnFocus value) onFocus,
@@ -3161,6 +3438,7 @@ class _$OnCancelRequestCoordinates extends OnCancelRequestCoordinates {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Init value)? init,
     TResult? Function(OnFinish value)? onFinish,
     TResult? Function(OnClear value)? onClear,
     TResult? Function(OnFocus value)? onFocus,
@@ -3183,6 +3461,7 @@ class _$OnCancelRequestCoordinates extends OnCancelRequestCoordinates {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(Init value)? init,
     TResult Function(OnFinish value)? onFinish,
     TResult Function(OnClear value)? onClear,
     TResult Function(OnFocus value)? onFocus,

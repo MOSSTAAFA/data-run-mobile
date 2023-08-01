@@ -4,6 +4,12 @@ import '../../commons/date/entry_mode.dart';
 import 'enrollment_mode.dart';
 
 class FormRepositoryRecords with EquatableMixin {
+  const FormRepositoryRecords(
+      {this.recordUid,
+      this.entryMode,
+      this.allowMandatoryFields = true,
+      this.isBackgroundTransparent = true});
+
   const factory FormRepositoryRecords.searchRecords(
       String programUid,
       String teiTypeUid,
@@ -14,12 +20,6 @@ class FormRepositoryRecords with EquatableMixin {
 
   const factory FormRepositoryRecords.enrollmentRecords(
       String enrollmentUid, EnrollmentMode enrollmentMode) = EnrollmentRecords;
-
-  const FormRepositoryRecords._(
-      {this.recordUid,
-      this.entryMode,
-      this.allowMandatoryFields = true,
-      this.isBackgroundTransparent = true});
 
   final String? recordUid;
   final EntryMode? entryMode;
@@ -33,21 +33,21 @@ class FormRepositoryRecords with EquatableMixin {
 
 class EnrollmentRecords extends FormRepositoryRecords {
   const EnrollmentRecords(this.enrollmentUid, this.enrollmentMode)
-      : super._(recordUid: enrollmentUid, entryMode: EntryMode.ATTR);
+      : super(recordUid: enrollmentUid, entryMode: EntryMode.ATTR);
   final String enrollmentUid;
   final EnrollmentMode enrollmentMode;
 }
 
 class EventRecords extends FormRepositoryRecords {
   const EventRecords(this.eventUid)
-      : super._(recordUid: eventUid, entryMode: EntryMode.DE);
+      : super(recordUid: eventUid, entryMode: EntryMode.DE);
   final String? eventUid;
 }
 
 class SearchRecords extends FormRepositoryRecords {
   const SearchRecords(
       this.programUid, this.teiTypeUid, this.currentSearchValues)
-      : super._(
+      : super(
             recordUid: programUid,
             allowMandatoryFields: false,
             isBackgroundTransparent: false);

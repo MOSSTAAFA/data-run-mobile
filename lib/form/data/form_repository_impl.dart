@@ -135,8 +135,8 @@ class FormRepositoryImpl implements FormRepository {
   }
 
   @override
-  Future<bool> calculationLoopOverLimit() {
-    return Future.value(_calculationLoop == _loopThreshold);
+  bool calculationLoopOverLimit() {
+    return _calculationLoop == _loopThreshold;
   }
 
   @override
@@ -145,8 +145,8 @@ class FormRepositoryImpl implements FormRepository {
   }
 
   @override
-  Future<double> completedFieldsPercentage(IList<FieldUiModel> value) {
-    return Future.value(_completionPercentage);
+  double completedFieldsPercentage(IList<FieldUiModel> value) {
+    return _completionPercentage;
   }
 
   @override
@@ -164,8 +164,9 @@ class FormRepositoryImpl implements FormRepository {
   }
 
   @override
-  Future<StoreResult?> save(String id, String? value, String? extraData) async {
-    return await formValueStore?.save(id, value, extraData);
+  Future<StoreResult?> save(String id, String? value, String? extraData) {
+    return formValueStore?.save(id, value, extraData) ??
+        Future<StoreResult?>.value();
   }
 
   @override

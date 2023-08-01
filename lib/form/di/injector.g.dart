@@ -6,7 +6,7 @@ part of 'injector.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$formRepositoryHash() => r'b96512827118102d74c445101b60a1d319d2a2f1';
+String _$formRepositoryHash() => r'ab1bb8c4db4390e75840aa622b4d286578dae296';
 
 /// See also [formRepository].
 @ProviderFor(formRepository)

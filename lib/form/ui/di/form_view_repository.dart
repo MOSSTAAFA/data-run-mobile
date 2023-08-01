@@ -2,19 +2,22 @@ import 'package:d2_remote/core/common/exception/exception.dart';
 import 'package:d2_remote/core/common/feature_type.dart';
 import 'package:d2_remote/core/common/value_type.dart';
 import 'package:d2_remote/core/mp/helpers/result.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../commons/extensions/standard_extensions.dart';
-import '../../commons/extensions/string_extension.dart';
-import '../data/form_repository.dart';
-import '../model/Ui_render_type.dart';
-import '../model/action_type.dart';
-import '../model/field_ui_model.dart';
-import '../model/row_action.dart';
-import '../model/store_result.dart';
-import '../model/value_store_result.dart';
-import '../ui/intent/form_intent.dart';
-import '../ui/validation/validators/field_mask_validator.dart';
+import '../../../commons/extensions/standard_extensions.dart';
+import '../../../commons/extensions/string_extension.dart';
+import '../../data/data_integrity_check_result.dart';
+import '../../data/form_repository.dart';
+import '../../model/Ui_render_type.dart';
+import '../../model/action_type.dart';
+import '../../model/field_ui_model.dart';
+import '../../model/row_action.dart';
+import '../../model/store_result.dart';
+import '../../model/value_store_result.dart';
+import '../intent/form_intent.dart';
+import '../validation/validators/field_mask_validator.dart';
+import 'form_view_controllers.dart';
 
 class FormViewRepository {
   FormViewRepository(this.ref, this.repository);
@@ -290,5 +293,50 @@ class FormViewRepository {
       });
       return error;
     });
+  }
+
+  void discardChanges() {
+    repository.backupOfChangedItems().forEach((FieldUiModel item) => ref
+        .read(formPendingIntentsProvider.notifier)
+        .submitIntent((_) => FormIntent.onSave(
+            uid: item.uid,
+            value: item.value,
+            valueType: item.valueType,
+            fieldMask: item.fieldMask)));
+  }
+
+  void saveDataEntry() {
+    _getLastFocusedTextItem()?.let((FieldUiModel it) => ref
+        .read(formPendingIntentsProvider.notifier)
+        .submitIntent((_) => _getSaveIntent(it)));
+
+    ref
+        .read(formPendingIntentsProvider.notifier)
+        .submitIntent((_) => const FormIntent.onFinish());
+  }
+
+  void clearFocus() {
+    repository.clearFocusItem();
+  }
+
+  Future<IList<FieldUiModel>> fetchFormItems() {
+    return repository.fetchFormItems();
+  }
+
+  bool calculationLoopOverLimit() {
+    return repository.calculationLoopOverLimit();
+  }
+
+  double completedFieldsPercentage(IList<FieldUiModel> value) {
+    return repository.completedFieldsPercentage(value);
+  }
+
+  Future<DataIntegrityCheckResult> runDataIntegrityCheck(
+      {required bool allowDiscard}) {
+    return repository.runDataIntegrityCheck(allowDiscard: allowDiscard);
+  }
+
+  Future<IList<FieldUiModel>> composeList() {
+    return repository.composeList();
   }
 }
