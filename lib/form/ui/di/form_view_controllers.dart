@@ -18,26 +18,20 @@ import 'form_view_repository.dart';
 
 part 'form_view_controllers.g.dart';
 
-// @riverpod
-// FormRepositoryRecords formRepositoryRecords(FormRepositoryRecordsRef ref) {
-//   logInfo(info: 'FormRepositoryRecords formRepositoryRecords');
-//   ref.onDispose(() {logInfo(info: 'FormRepositoryRecords onDispose'); });
-//   throw UnimplementedError();
-// }
 @riverpod
-class FormRepositoryRecordsInstance extends _$FormRepositoryRecordsInstance {
-  @override
-  FormRepositoryRecords build() {
-    return const FormRepositoryRecords();
-  }
-
-  void updateValue(
-      FormRepositoryRecords Function(FormRepositoryRecords current) updateCallback) =>
-      state = updateCallback.call(state);
+FormRepositoryRecords formRepositoryRecordsInstance(
+    FormRepositoryRecordsInstanceRef ref) {
+  logInfo(info: 'FormRepositoryRecords formRepositoryRecords');
+  ref.onDispose(() {
+    logInfo(info: 'FormRepositoryRecords onDispose');
+  });
+  ref.keepAlive();
+  throw UnimplementedError();
 }
 
-@riverpod
+@Riverpod(dependencies: [formRepository])
 FormViewRepository _formViewRepository(_FormViewRepositoryRef ref) {
+  // final records = ref.watch(formRepositoryRecordsInstanceProvider);
   return FormViewRepository(ref, ref.watch(formRepositoryProvider));
 }
 
@@ -50,32 +44,37 @@ class FormPendingIntents extends _$FormPendingIntents {
 
   @override
   bool updateShouldNotify(FormIntent oldI, FormIntent newI) {
-    if (newI is Init || (oldI is OnFinish && newI is OnFinish)) {
+    logInfo(
+        info:
+            'FormPendingIntents: updateShouldNotify(oldI,newI): oldI: $oldI, newI: $newI');
+    if (oldI is OnFinish && newI is OnFinish) {
       return false;
     } else {
-      return oldI == newI;
+      return oldI != newI;
     }
   }
 
   void submitIntent(FormIntent Function(FormIntent current) updateCallback) {
+    logInfo(info: 'FormPendingIntents: submitIntent(), current: $state');
     state = updateCallback.call(state);
   }
 }
 
-@riverpod
+@Riverpod(dependencies: [_formViewRepository])
 RowAction _rowActionFromIntent(_RowActionFromIntentRef ref) {
   final pendingIntents = ref.watch(formPendingIntentsProvider);
-  final formViewRepo = ref.read(_formViewRepositoryProvider);
+  final formViewRepo = ref.watch(_formViewRepositoryProvider);
+  logInfo(info: '_rowActionFromIntent');
   return formViewRepo.rowActionFromIntent(pendingIntents);
 }
 
-@riverpod
+@Riverpod(dependencies: [_rowActionFromIntent])
 bool formViewFocused(FormViewFocusedRef ref) {
   return ref.watch(_rowActionFromIntentProvider
       .select((rowAction) => rowAction.type == ActionType.ON_FOCUS));
 }
 
-@riverpod
+@Riverpod(dependencies: [_rowActionFromIntent, ItemsResult])
 bool formViewLoading(FormViewLoadingRef ref) {
   final onSaveRowActionType = ref.watch(_rowActionFromIntentProvider
       .select((rowAction) => rowAction.type == ActionType.ON_SAVE));
@@ -86,17 +85,20 @@ bool formViewLoading(FormViewLoadingRef ref) {
 }
 
 // _completionPercentage
-@riverpod
+@Riverpod(dependencies: [_formViewRepository, ItemsResult])
 double completionPercentage(CompletionPercentageRef ref) {
   final repository = ref.watch(_formViewRepositoryProvider);
   final IList<FieldUiModel>? itemsResult = ref.watch(itemsResultProvider
       .select((itemsResultAsyncValue) => itemsResultAsyncValue.value));
   final percentage = repository.completedFieldsPercentage(
       itemsResult ?? const IListConst<FieldUiModel>([]));
+  logInfo(
+      info:
+      'completionPercentage: percentage $percentage');
   return percentage;
 }
 
-@riverpod
+@Riverpod(dependencies: [_formViewRepository, ItemsResult])
 bool calculationLoop(CalculationLoopRef ref) {
   final repository = ref.watch(_formViewRepositoryProvider);
   final IList<FieldUiModel>? itemsResult = ref.watch(itemsResultProvider
@@ -107,16 +109,20 @@ bool calculationLoop(CalculationLoopRef ref) {
   return displayLoopWarningIfNeeded;
 }
 
-@riverpod
+@Riverpod(dependencies: [_rowActionFromIntent, _formViewRepository])
 Future<Pair<RowAction, StoreResult>> _rowActionStore(
     _RowActionStoreRef ref) async {
   final rowAction = ref.watch(_rowActionFromIntentProvider);
-  final formViewRepo = ref.read(_formViewRepositoryProvider);
+  final formViewRepo = ref.watch(_formViewRepositoryProvider);
   final result = await formViewRepo.processUserAction(rowAction);
+  logInfo(
+      info:
+          '_rowActionStore: processing rowActionFromIntent, '
+              'rowActionType: ${rowAction.type}, StoreResult: ${result.valueStoreResult}');
   return Pair<RowAction, StoreResult>(rowAction, result);
 }
 
-@riverpod
+@Riverpod(dependencies: [_formViewRepository, _rowActionStore])
 class ItemsResult extends _$ItemsResult {
   @override
   FutureOr<IList<FieldUiModel>> build() {
@@ -131,11 +137,11 @@ class ItemsResult extends _$ItemsResult {
     }
   }
 
-  // Future<void> _fetchFormItems() async {
-  //   logInfo(info: 'itemsProvider: fetchFormItems()');
-  //   final repository = ref.watch(_formViewRepositoryProvider);
-  //   state = await AsyncValue.guard(repository.fetchFormItems);
-  // }
+  Future<void> loadData() async {
+    logInfo(info: 'itemsProvider: fetchFormItems()');
+    final repository = ref.read(_formViewRepositoryProvider);
+    state = await AsyncValue.guard(repository.fetchFormItems);
+  }
 
   Future<void> _processCalculatedItems() async {
     logInfo(info: 'itemsProvider: processCalculatedItems()');
@@ -151,6 +157,12 @@ class ItemsResult extends _$ItemsResult {
       ref.read(formModelNotifierProvider.notifier).updateValue(
           (current) => current.copyWith(dataIntegrityResult: integrityResult));
     }).then((_) => _processCalculatedItems());
+  }
+
+  void saveDataEntry() {
+    final repository = ref.read(_formViewRepositoryProvider);
+    repository
+        .saveDataEntry();
   }
 
   void setUpListener() {

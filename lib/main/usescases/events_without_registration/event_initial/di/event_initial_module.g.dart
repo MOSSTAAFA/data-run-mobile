@@ -21,7 +21,7 @@ final fieldMapperProvider = AutoDisposeProvider<EventFieldMapper>.internal(
 
 typedef FieldMapperRef = AutoDisposeProviderRef<EventFieldMapper>;
 String _$eventInitialRepositoryHash() =>
-    r'5de55fbbca27da9aac12bcd56e2b21198bd4d111';
+    r'ecefd820496f55e0016b5422a7ad530831ba95ab';
 
 /// See also [eventInitialRepository].
 @ProviderFor(eventInitialRepository)

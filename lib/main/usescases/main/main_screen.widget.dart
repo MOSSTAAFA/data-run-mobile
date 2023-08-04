@@ -27,7 +27,7 @@ class MainScreen extends ConsumerStatefulWidget {
       this.launchDataSync = false,
       this.forceToNotSynced = false});
 
-  static const String route = '/mainscreen';
+  static const String route = '/MainScreen';
 
   final bool forceToNotSynced;
 
@@ -48,68 +48,63 @@ class _MainScreenState extends ConsumerState<MainScreen>
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context)!;
 
-    return WillPopScope(
-      onWillPop: () async => true,
-      child: ProviderScope(
-        overrides: [
-          pageConfiguratorProvider.overrideWith((_) => HomePageConfigurator()),
-        ],
-        child: Material(
-          child: Column(
-            children: [
-              Consumer(
-                // This builder will only get called when the
-                // programEventDetailModelProvider.progress is updated.
-                builder: (context, ref, child) => LinearLoadingIndicator(
-                  isLoading: ref.watch(programEventDetailModelProvider
-                      .select((value) => value.progress)),
-                ),
-              ),
-              Expanded(
-                child: NavigationTabBarView(
-                  // actionButtonBuilder: (context, viewAction) => FloatingActionButton(
-                  //   heroTag: ViewAction.list_view.name,
-                  //   child: const Icon(Icons.add),
-                  //   onPressed: () => startNewEvent(),
-                  // ),
-                  // appBarTitle: Text(ref.watch(eventDataStringProvider)),
-                  // appBarActions: [
-                  //   Consumer(
-                  //     builder: (context, ref, child) {
-                  //       return ref.watch(syncButtonVisibilityProvider)
-                  //           ? IconButton(
-                  //               icon: const Icon(Icons.sync),
-                  //               tooltip: localization.lookup('sync'),
-                  //               onPressed: () => showSyncDialog(),
-                  //             )
-                  //           : const SizedBox();
-                  //     },
-                  //   ),
-                  // ],
-                  tabBuilder: (context, viewAction) {
-                    final name = localization.lookup(viewAction.name);
-                    return when(viewAction, {
-                      ViewAction.list_view: () => Tab(text: name),
-                      ViewAction.programs: () => Tab(text: name),
-                      ViewAction.table_view: () => Tab(text: name),
-                      ViewAction.map_view: () => Tab(text: name),
-                      ViewAction.analytics: () => Tab(text: name),
-                    })!;
-                  },
-                  pageBuilder: (context, viewAction) =>
-                      when<ViewAction, Widget>(viewAction, {
-                    ViewAction.programs: () => const ProgramViewScreen(),
-                    // ViewAction.list_view: () => const ProgramViewScreen(),
-                    // ViewAction.table_view: () => const EventTable(),
-                    // ViewAction.map_view: () => const EventMap(),
-                  }).orElse(() => const Center(
-                            child: Text('Unimplemented Screen!'),
-                          )),
-                ),
-              ),
-            ],
+    return ProviderScope(
+      overrides: [
+        pageConfiguratorProvider.overrideWith((_) => HomePageConfigurator()),
+      ],
+      child: Column(
+        children: [
+          Consumer(
+            // This builder will only get called when the
+            // programEventDetailModelProvider.progress is updated.
+            builder: (context, ref, child) => LinearLoadingIndicator(
+              isLoading: ref.watch(programEventDetailModelProvider
+                  .select((value) => value.progress)),
+            ),
           ),
-        ),
+          Expanded(
+            child: NavigationTabBarView(
+              // actionButtonBuilder: (context, viewAction) => FloatingActionButton(
+              //   heroTag: ViewAction.list_view.name,
+              //   child: const Icon(Icons.add),
+              //   onPressed: () => startNewEvent(),
+              // ),
+              // appBarTitle: Text(ref.watch(eventDataStringProvider)),
+              // appBarActions: [
+              //   Consumer(
+              //     builder: (context, ref, child) {
+              //       return ref.watch(syncButtonVisibilityProvider)
+              //           ? IconButton(
+              //               icon: const Icon(Icons.sync),
+              //               tooltip: localization.lookup('sync'),
+              //               onPressed: () => showSyncDialog(),
+              //             )
+              //           : const SizedBox();
+              //     },
+              //   ),
+              // ],
+              tabBuilder: (context, viewAction) {
+                final name = localization.lookup(viewAction.name);
+                return when(viewAction, {
+                  ViewAction.list_view: () => Tab(text: name),
+                  ViewAction.programs: () => Tab(text: name),
+                  ViewAction.table_view: () => Tab(text: name),
+                  ViewAction.map_view: () => Tab(text: name),
+                  ViewAction.analytics: () => Tab(text: name),
+                })!;
+              },
+              pageBuilder: (context, viewAction) =>
+                  when<ViewAction, Widget>(viewAction, {
+                ViewAction.programs: () => const ProgramViewScreen(),
+                // ViewAction.list_view: () => const ProgramViewScreen(),
+                // ViewAction.table_view: () => const EventTable(),
+                // ViewAction.map_view: () => const EventMap(),
+              }).orElse(() => const Center(
+                        child: Text('Unimplemented Screen!'),
+                      )),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -4,8 +4,6 @@ import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisati
 import '../../../../commons/date/field_with_issue.dart';
 import '../../../../commons/prefs/preference.dart';
 import '../../../../commons/prefs/preference_provider.dart';
-import '../../../../core/di/providers.dart';
-import '../../../../core/event/event_editable_status.dart';
 import '../../../../core/event/event_status.dart';
 import '../../../../form/data/data_integrity_check_result.dart';
 import 'di/event_capture_module.dart';
@@ -266,15 +264,15 @@ class EventCapturePresenterImpl implements EventCapturePresenter {
     );
   }
 
-  /// By NMC: From EventCaptureFormPresenter
-  @override
-  Future<void> showOrHideSaveButton() async {
-    final EventEditableStatus isEditable =
-        await ref.read(eventServiceProvider).getEditableStatus(eventUid);
-    if (isEditable is Editable) {
-      view.showSaveButton();
-    } else {
-      view.hideSaveButton();
-    }
-  }
+// /// By NMC: From EventCaptureFormPresenter
+// @override
+// Future<void> showOrHideSaveButton() async {
+//   final EventEditableStatus isEditable =
+//       await ref.read(eventServiceProvider).getEditableStatus(eventUid);
+//   if (isEditable is Editable) {
+//     view.showSaveButton();
+//   } else {
+//     view.hideSaveButton();
+//   }
+// }
 }

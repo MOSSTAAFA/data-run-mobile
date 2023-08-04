@@ -11,6 +11,7 @@ import '../../../commons/helpers/collections.dart';
 import '../../../commons/state/app_state_notifier.dart';
 import '../../../commons/utils/view_actions.dart';
 import '../../../form/ui/components/linear_loading_indicator.dart';
+import '../../../riverpod/provider_logger.dart';
 import '../../../riverpod/use_on_init_hook.dart';
 import '../../l10n/app_localizations.dart';
 import '../../utils/event_mode.dart';
@@ -29,7 +30,9 @@ import 'program_event_page_configurator.dart';
 /// ProgramEventDetailActivity
 /// the screen that list the events of a particular program, navigated to from
 /// Program list in the main page
-
+///
+/// ProgramStage selection screen has no layout and calls individual items layout for each program stage using
+/// [ProgramStageSelectionAdapter] in [ProgramStageSelectionActivity]
 const String EXTRA_PROGRAM_UID = 'PROGRAM_UID';
 
 class ProgramEventDetailScreen extends ConsumerStatefulWidget {
@@ -54,6 +57,7 @@ class _ProgramEventDetailScreenState
     final localization = AppLocalization.of(context)!;
 
     return ProviderScope(
+      // observers: [ProviderLogger()],
       overrides: [
         pageConfiguratorProvider
             .overrideWith((_) => ProgramEventPageConfigurator()),
@@ -158,9 +162,12 @@ class _ProgramEventDetailScreenState
     // set to the  Bundle activityUid
     // ref.read(bundleObjectProvider.notifier).setValue(bundle);
 
+    // ref
+    //     .read(appStateNotifierProvider.notifier)
+    //     .navigateToScreen(const EventCaptureScreen(), bundle: bundle);
     ref
         .read(appStateNotifierProvider.notifier)
-        .navigateToScreen(const EventCaptureScreen(), bundle: bundle);
+        .navigateToRoute(EventCaptureScreen.route, arguments: bundle);
   }
 
   @override
@@ -234,7 +241,7 @@ class _ProgramEventDetailScreenState
 
     ref
         .read(appStateNotifierProvider.notifier)
-        .navigateToScreen(const EventInitialScreen(), bundle: bundle);
+        .navigateToRoute(EventInitialScreen.route, arguments: bundle);
   }
 
   @override

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
+import 'package:stack_trace/stack_trace.dart' as stack_trace;
 
 import 'activity_test_setup.dart';
 import 'commons/constants.dart';
@@ -12,14 +13,13 @@ import 'commons/prefs/preference_provider.dart';
 import 'main.reflectable.dart';
 import 'main/di.dart' as di;
 import 'main/l10n/app_localizations.dart';
+import 'main/usescases/events_without_registration/event_capture/event_capture_screen.widget.dart';
 import 'main/usescases/events_without_registration/event_initial/event_initial_screen.widget.dart';
 import 'main/usescases/login/login_screen.widget.dart';
 import 'main/usescases/main/main_screen.widget.dart';
 import 'main/usescases/program_event_detail/program_event_detail_screen.widget.dart';
 import 'main/usescases/splash/splash_screen.widget.dart';
-import 'main_app.dart';
 import 'riverpod/provider_logger.dart';
-import 'package:stack_trace/stack_trace.dart' as stack_trace;
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -53,7 +53,10 @@ Future<void> main() async {
   // wrap the entire app with a ProviderScope so that widgets
   // will be able to read providers
   runApp(ProviderScope(
-    // observers: [ProviderLogger()],
+    /// log specific provider
+    // observers: [ProviderLogger(providerNameToLog: 'programViewModelItemProvider')],
+    /// log all providers
+    observers: [ProviderLogger(providerNameToLog: '')],
     child: const App(),
   ));
 }
@@ -112,40 +115,33 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: /* const MainApp(), */ const SplashScreen(),
+      // home: /* const MainApp(), */ const SplashScreen(),
+      initialRoute: SplashScreen.route,
       getPages: [
         GetPage(
-          name: LoginScreen.route,
-          page: () => const LoginScreen(),
+          name: SplashScreen.route,
+          page: () => const SplashScreen(),
           transition: Transition.fade,
         ),
-
-        GetPage(
-          name: MainScreen.route,
-          page: () => const MainScreen(),
-          transition: Transition.fade,
-        ),
+        // GetPage(
+        //   name: MainScreen.route,
+        //   page: () => const MainScreen(),
+        //   transition: Transition.fade,
+        // ),
         GetPage(
           name: ProgramEventDetailScreen.route,
           page: () => const ProgramEventDetailScreen(),
           transition: Transition.fade,
         ),
-        // TEI
-        // GetPage(
-        //   name: ProgramEventDetailScreen.route,
-        //   page: () => const ProgramEventDetailScreen(),
-        //   transition: Transition.fade,
-        // ),
-        // DATA_SET
-        // GetPage(
-        //   name: ProgramEventDetailScreen.route,
-        //   page: () => const ProgramEventDetailScreen(),
-        //   transition: Transition.fade,
-        // ),
-
         GetPage(
           name: EventInitialScreen.route,
           page: () => const EventInitialScreen(),
+          transition: Transition.fade,
+        ),
+
+        GetPage(
+          name: EventCaptureScreen.route,
+          page: () => const EventCaptureScreen(),
           transition: Transition.fade,
         ),
       ],

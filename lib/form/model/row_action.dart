@@ -37,4 +37,7 @@ class RowAction with EquatableMixin {
         type,
         valueType
       ];
+
+  @override
+  bool? get stringify => true;
 }

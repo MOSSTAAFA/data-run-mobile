@@ -87,21 +87,14 @@ class _FormViewWidgetState extends ConsumerState<FormViewWidget>
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // _setObservers();
-  }
-  @override
   void initState() {
-    final records = ref.read(formRepositoryRecordsInstanceProvider);
-    // final repo = ref.read(formRepositoryProvider);
-    // viewModel = ref.read(formViewModelProvider(widget.records));
-    // Future(() => viewModel.loadData());
     _setObservers();
+    // ref.read(itemsResultProvider.notifier).loadData();
     super.initState();
   }
 
   void _setObservers() {
+    // TODO(NMC): create loadingBar for this and initiate it when widget.onLoadingListener = null or call widget.onLoadingListener
     ref.listenManual<bool>(formViewLoadingProvider,
         (previous, next) => widget.onLoadingListener?.call(next));
 
@@ -254,6 +247,7 @@ class _FormViewWidgetState extends ConsumerState<FormViewWidget>
   }
 
   void onEditionFinish() {
+    // TODO(NMC): implement onEditionFinish
     // binding.recyclerView.requestFocus();
   }
 
@@ -277,6 +271,7 @@ class _FormViewWidgetState extends ConsumerState<FormViewWidget>
 
   void onSaveClick() {
     onEditionFinish();
+    ref.read(itemsResultProvider.notifier).saveDataEntry();
     // viewModel.saveDataEntry();
   }
 

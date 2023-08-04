@@ -5,176 +5,262 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 
 import '../../../../commons/constants.dart';
-import '../../../../commons/custom_widgets/navigationbar/navigation_tab_bar_view.widget.dart';
-import '../../../../commons/extensions/standard_extensions.dart';
-import '../../../../commons/utils/view_actions.dart';
-import '../../../../form/model/form_repository_records.dart';
+import '../../../../commons/custom_widgets/mixins/keyboard_manager.dart';
+import '../../../../commons/custom_widgets/nav_bar/fab_bottom_app_bar.dart';
+import '../../../../commons/custom_widgets/nav_bar/nav_info_notifier.dart';
+import '../../../../commons/extensions/dynamic_extensions.dart';
 import '../../../../form/ui/components/linear_loading_indicator.dart';
-import '../../../../form/ui/di/form_view_controllers.dart';
-import '../../../../form/ui/form_view.widget.dart';
-import '../../../../form/ui/form_view_model.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../../utils/custom_views/form_bottom_dialog.dart';
 import '../../../utils/event_mode.dart';
 import '../../bundle/bundle.dart';
 import '../../general/view_base.dart';
 import '../../program_event_detail/program_event_detail_view_model.dart';
-import '../../program_event_detail/program_event_page_configurator.dart';
 import '../event_details/ui/event_details_screen.widget.dart';
 import 'di/event_capture_module.dart';
-import 'di/event_capture_providers.dart';
 import 'event_capture_contract.dart';
-import 'event_capture_form/on_edition_listener.dart';
-import 'event_page_configurator.dart';
+import 'event_capture_form/event_capture_form.widget.dart';
 import 'model/event_completion_dialog.dart';
 
 /// EventCaptureActivity && EventCapturePagerAdapter
 /// && EventCaptureFormFragment
+///
+/// ProgramStage selection screen has no layout and calls individual items layout for each program stage using
+/// [ProgramStageSelectionAdapter] in [ProgramStageSelectionActivity]
 class EventCaptureScreen extends ConsumerStatefulWidget {
   const EventCaptureScreen({
     super.key,
   });
 
-  static const String route = '/eventcapturescreen';
+  static const String route = '/EventCaptureScreen';
 
   @override
   ConsumerState<EventCaptureScreen> createState() => _EventCaptureScreenState();
 }
 
 class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
-    with EventCaptureView, ViewBase {
+    with EventCaptureView, ViewBase, KeyboardManager {
   late final EventMode? eventMode;
   late final String? activityUid;
   late final String? programUid;
   late final String? eventUid;
   late final EventCapturePresenter presenter;
-  late final FormRepositoryRecords eventRecords;
   bool isEventCompleted = false;
+
+  void _selectedTab(int index) {
+    // setState(() {
+    //   _lastSelected = 'TAB: $index';
+    // });
+  }
 
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context)!;
 
-    return ProviderScope(
-      overrides: [
-        formRepositoryRecordsInstanceProvider.overrideWith(() => FormRepositoryRecordsInstance()..state = eventRecords),
-        pageConfiguratorProvider.overrideWith((_) => EventPageConfigurator()),
-      ],
-      child: Column(
-        children: [
-          Consumer(
-            // This builder will only get called when the
-            // programEventDetailModelProvider.progress is updated.
-            builder: (context, ref, child) => LinearLoadingIndicator(
-              isLoading: ref.watch(programEventDetailModelProvider
-                  .select((value) => value.progress)),
+    final List<Widget> _widgets = <Widget>[
+      const EventDetailsScreen(),
+      EventCaptureForm(
+        showProgress: showProgress,
+        hideProgress: hideProgress,
+        hideNavigationBar: hideNavigationBar,
+        updatePercentage: updatePercentage,
+        handleDataIntegrityResult: presenter.handleDataIntegrityResult,
+      ),
+      const Text('Unimplemented Screen!'),
+    ];
+
+    final syncIsVisible = ref.watch(navInfoNotifierProvider(/*widget.key*/)
+        .select((value) => value.index == 0 && eventMode != EventMode.NEW));
+    // return index == 0 && eventMode != EventMode.NEW
+    // final actions = [
+    //   Consumer(
+    //     builder: (context, ref, child) {
+    //       final index = ref.read(navInfoNotifierProvider(widget.key)
+    //           .select((value) => value.index));
+    //       return index == 0 && eventMode != EventMode.NEW
+    //           ? IconButton(
+    //         icon: const Icon(Icons.sync),
+    //         tooltip: localization.lookup('sync'),
+    //         onPressed: () => showSyncDialog(),
+    //       )
+    //           : const SizedBox.shrink();
+    //     },
+    //   ),
+    // ];
+
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: false,
+        automaticallyImplyLeading: false,
+        title: Row(
+          children: [
+            Expanded(
+              child: Text(ref.watch(eventDataStringProvider)),
             ),
-          ),
-          Expanded(
-            child: NavigationTabBarView(
-              onPositionChange: (position) {
-                if (position == ViewAction.details &&
-                    eventMode != EventMode.NEW) {
-                  _showSyncButton();
-                } else {
-                  _hideSyncButton();
-                }
-              },
-              appBarTitle: Text(ref.watch(eventDataStringProvider)),
-              appBarActions: [
+          ],
+        ),
+        actions: syncIsVisible
+            ? [
+                IconButton(
+                  icon: const Icon(Icons.sync),
+                  tooltip: localization.lookup('sync'),
+                  onPressed: () => showSyncDialog(),
+                ),
+              ]
+            : null,
+      ),
+      body: Consumer(
+        builder: (context, ref, child) {
+          final selectedIndex = ref.watch(
+              navInfoNotifierProvider(/*widget.key*/)
+                  .select((value) => value.index));
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
                 Consumer(
-                  builder: (context, ref, child) {
-                    return ref.watch(syncButtonVisibilityProvider)
-                        ? IconButton(
-                            icon: const Icon(Icons.sync),
-                            tooltip: localization.lookup('sync'),
-                            onPressed: () => showSyncDialog(),
-                          )
-                        : const SizedBox();
-                  },
+                  // This builder will only get called when the
+                  // programEventDetailModelProvider.progress is updated.
+                  builder: (context, ref, child) => LinearLoadingIndicator(
+                    isLoading: ref.watch(programEventDetailModelProvider
+                        .select((value) => value.progress)),
+                  ),
+                ),
+                Expanded(
+                  child: _widgets.elementAt(selectedIndex),
                 ),
               ],
-              actionButtonBuilder: (context, viewAction) =>
-                  FloatingActionButton(
-                heroTag: ViewAction.data_entry.name,
-                tooltip: localization.lookup('save'),
-                onPressed: () {},
-                child: const Icon(Icons.save),
-              ),
-              tabBuilder: (context, viewAction) {
-                final name = localization.lookup(viewAction.name);
-                return when(viewAction, {
-                  ViewAction.details: () => Tab(text: name),
-                  ViewAction.data_entry: () => Tab(text: name),
-                  ViewAction.notes: () => Tab(text: name),
-                  ViewAction.analytics: () => Tab(text: name),
-                  ViewAction.relationships: () => Tab(text: name),
-                })!;
-              },
-              pageBuilder: (context, viewAction) =>
-                  when<ViewAction, Widget>(viewAction, {
-                ViewAction.details: () => const EventDetailsScreen(),
-                ViewAction.data_entry: () => FormViewWidget(
-                      // needToForceUpdate: needToForceUpdate,
-                      records: eventRecords,
-                      // onItemChangeListener: onItemChangeListener,
-                      onLoadingListener: (loading) {
-                        if (loading) {
-                          showProgress();
-                        } else {
-                          hideProgress();
-                        }
-                      },
-                      onFocused: () => hideNavigationBar(),
-                      // onFinishDataEntry: onFinishDataEntry,
-                      // onActivityForResult: onActivityForResult,
-                      onPercentageUpdate: (percentage) =>
-                          updatePercentage(percentage),
-                      onDataIntegrityCheck: (result) =>
-                          presenter.handleDataIntegrityResult(result),
-                      // onFieldItemsRendered: onFieldItemsRendered,
-                      // onSavePicture: onSavePicture,
-                      // resultDialogUiProvider: resultDialogUiProvider
-                    ),
-              }).orElse(() => const Center(
-                        child: Text('Unimplemented Screen!'),
-                      )),
             ),
-          ),
+          );
+        },
+      ),
+      bottomNavigationBar: FABBottomAppBar(
+        centerItemText: 'A',
+        notchedShape: const CircularNotchedRectangle(),
+        onTabSelected: (index) => ref
+            .read(navInfoNotifierProvider(/*widget.key*/).notifier)
+            .selectTabIndex(index),
+        items: [
+          MenuItem(iconData: Icons.menu, text: 'This'),
+          MenuItem(iconData: Icons.layers, text: 'Is'),
+          MenuItem(iconData: Icons.dashboard, text: 'Bottom'),
+          MenuItem(iconData: Icons.info, text: 'Bar'),
         ],
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        tooltip: 'Save',
+        elevation: 2.0,
+        child: const Icon(Icons.save),
+      ),
     );
+    // return ProviderScope(
+    //   overrides: [
+    //     pageConfiguratorProvider.overrideWith((_) => EventPageConfigurator()),
+    //   ],
+    //   child: Column(
+    //     children: [
+    //       Consumer(
+    //         // This builder will only get called when the
+    //         // programEventDetailModelProvider.progress is updated.
+    //         builder: (context, ref, child) => LinearLoadingIndicator(
+    //           isLoading: ref.watch(programEventDetailModelProvider
+    //               .select((value) => value.progress)),
+    //         ),
+    //       ),
+    //       Expanded(
+    //         child: NavigationTabBarView(
+    //           onPositionChange: (position) {
+    //             if (position == ViewAction.details &&
+    //                 eventMode != EventMode.NEW) {
+    //               _showSyncButton();
+    //             } else {
+    //               _hideSyncButton();
+    //             }
+    //           },
+    //           appBarTitle: Text(ref.watch(eventDataStringProvider)),
+    //           appBarActions: [
+    //             Consumer(
+    //               builder: (context, ref, child) {
+    //                 return ref.watch(syncButtonVisibilityProvider)
+    //                     ? IconButton(
+    //                         icon: const Icon(Icons.sync),
+    //                         tooltip: localization.lookup('sync'),
+    //                         onPressed: () => showSyncDialog(),
+    //                       )
+    //                     : const SizedBox();
+    //               },
+    //             ),
+    //           ],
+    //           actionButtonBuilder: (context, viewAction) =>
+    //               FloatingActionButton(
+    //             heroTag: ViewAction.data_entry.name,
+    //             tooltip: localization.lookup('save'),
+    //             onPressed: () {},
+    //             child: const Icon(Icons.save),
+    //           ),
+    //           tabBuilder: (context, viewAction) {
+    //             final name = localization.lookup(viewAction.name);
+    //             return when(viewAction, {
+    //               ViewAction.details: () => Tab(text: name),
+    //               ViewAction.data_entry: () => Tab(text: name),
+    //               ViewAction.notes: () => Tab(text: name),
+    //               ViewAction.analytics: () => Tab(text: name),
+    //               ViewAction.relationships: () => Tab(text: name),
+    //             })!;
+    //           },
+    //           pageBuilder: (context, viewAction) =>
+    //               when<ViewAction, Widget>(viewAction, {
+    //             ViewAction.details: () => const EventDetailsScreen(),
+    //             ViewAction.data_entry: () => EventCaptureForm(
+    //                   showProgress: showProgress,
+    //                   hideProgress: hideProgress,
+    //                   hideNavigationBar: hideNavigationBar,
+    //                   updatePercentage: updatePercentage,
+    //                   handleDataIntegrityResult:
+    //                       presenter.handleDataIntegrityResult,
+    //                 ),
+    //           }).orElse(() => const Center(
+    //                     child: Text('Unimplemented Screen!'),
+    //                   )),
+    //         ),
+    //       ),
+    //     ],
+    //   ),
+    // );
   }
+
+  // Widget _buildFab() {
+  //   return FloatingActionButton(
+  //     onPressed: () {},
+  //     tooltip: 'Save',
+  //     elevation: 2.0,
+  //     child: const Icon(Icons.save),
+  //   );
+  // }
 
   @override
   void initState() {
     showProgress();
-    // final Bundle bundle = Get.arguments as Bundle;
-    // presenter = ref.read(eventCapturePresenterProvider(this));
-    // final Bundle bundle = ref.read(bundleObjectProvider);
     final Bundle bundle = Get.arguments as Bundle;
     eventMode = bundle.getString(EVENT_MODE)?.toEventMode;
     activityUid = bundle.getString(ACTIVITY_UID);
     programUid = bundle.getString(PROGRAM_UID);
     eventUid = bundle.getString(EVENT_UID);
-    eventRecords = EventRecords(eventUid);
-    // ref
-    //     .read(formRepositoryRecordsInstanceProvider.notifier)
-    //     .updateValue((current) => EventRecords(eventUid));
     presenter = ref.read(eventCapturePresenterProvider(this));
     super.initState();
   }
 
   @override
   void goBack() {
-    final OnEditionListener? onEditionListener =
-        ref.read(onEditionEventCaptureListenerProvider);
-    if (onEditionListener != null) {
-      onEditionListener.onEditionListener?.call();
-    }
+    // widget.onEditionListener?.call();
+    logInfo(info: 'goBack()');
     _finishEditMode();
   }
 
   void _finishEditMode() {
+    logInfo(info: '_finishEditMode()');
     if (ref.read(navigationBarVisibilityProvider)) {
       showNavigationBar();
     } else {
@@ -188,6 +274,7 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
   }
 
   void _attemptFinish() {
+    logInfo(info: '_attemptFinish()');
     // TODO: implement _attemptFinish
     // if (eventMode == EventMode.NEW) {
     //     BottomSheetDialogUiModel bottomSheetDialogUiModel = new BottomSheetDialogUiModel(
@@ -214,6 +301,7 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
 
   @override
   void finishDataEntry() {
+    logInfo(info: 'finishDataEntry()');
     // TODO: implement finishDataEntry
     // Intent intent = new Intent();
     //     if (isEventCompleted)
@@ -224,27 +312,59 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
 
   @override
   void attemptToReschedule() {
+    logInfo(info: 'attemptToReschedule()');
     // TODO: implement attemptToReschedule
   }
 
   @override
   void attemptToSkip() {
+    logInfo(info: 'attemptToSkip()');
     // TODO: implement attemptToSkip
   }
 
   @override
   void hideNavigationBar() {
+    logInfo(info: 'hideNavigationBar()');
     // TODO: implement hideNavigationBar
   }
 
   @override
   void restartDataEntry() {
+    logInfo(info: 'restartDataEntry()');
     // TODO: implement restartDataEntry
   }
 
   @override
   void saveAndFinish() {
-    // TODO: implement saveAndFinish
+    logInfo(info: 'saveAndFinish()');
+    displayMessage('string.saved');
+    _setAction(ActionType.FINISH);
+  }
+
+  void _setAction(ActionType actionType) {
+    switch (actionType) {
+      case ActionType.COMPLETE:
+        isEventCompleted = true;
+        presenter.completeEvent(false);
+        break;
+      case ActionType.COMPLETE_ADD_NEW:
+        presenter.completeEvent(true);
+        break;
+      case ActionType.FINISH_ADD_NEW:
+        restartDataEntry();
+        break;
+      case ActionType.SKIP:
+        presenter.skipEvent();
+        break;
+      case ActionType.RESCHEDULE:
+        break;
+      case ActionType.CHECK_FIELDS:
+        break;
+      case ActionType.FINISH:
+      default:
+        finishDataEntry();
+        break;
+    }
   }
 
   @override
@@ -252,6 +372,7 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
       bool canComplete,
       Map<String, String> emptyMandatoryFields,
       EventCompletionDialog eventCompletionDialog) {
+    logInfo(info: 'showCompleteActions()');
     // TODO: implement showCompleteActions
   }
 
@@ -270,18 +391,21 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
 
   @override
   void showEventIntegrityAlert() {
+    logInfo(info: 'showEventIntegrityAlert()');
     Future(() => null);
     // TODO: implement showEventIntegrityAlert
   }
 
   @override
   void showProgress() {
+    logInfo(info: 'showProgress()');
     Future(() =>
         ref.read(progressVisibilityProvider.notifier).update((_) => true));
   }
 
   @override
   void hideProgress() {
+    logInfo(info: 'hideProgress()');
     Future(() =>
         ref.read(progressVisibilityProvider.notifier).update((_) => false));
   }
@@ -307,6 +431,7 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
 
   @override
   void updatePercentage(double primaryValue) {
+    logInfo(info: 'updatePercentage()');
     Future(() =>
         ref.read(percentageProvider.notifier).update((_) => primaryValue));
   }
@@ -328,39 +453,6 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
     ref
         .read(orgUnitNameProvider.notifier)
         .update((_) => orgUnit?.displayName ?? orgUnit?.name ?? '');
-  }
-
-  @override
-  void hideSaveButton() {
-    ref.read(saveButtonVisibilityProvider.notifier).update((state) => false);
-  }
-
-  @override
-  void showSaveButton() {
-    ref.read(saveButtonVisibilityProvider.notifier).update((state) => true);
-  }
-
-  @override
-  void onReopen() {
-    // TODO: implement onReopen
-    // formView.reload();
-    // ref.read(itemsProvider.notifier).loadData();
-  }
-
-  @override
-  void performSaveClick() {
-    // TODO: implement performSaveClick
-    // formView.onSaveClick()
-    /// in form View it's just:
-    /// onEditionFinish()
-    /// viewModel.saveDataEntry()
-  }
-
-  @override
-  void onEditionListener() {
-    // TODO: implement performSaveClick
-    // formView.onEditionFinish();
-    // in form View it's just: binding.recyclerView.requestFocus();
   }
 
   void _showSyncButton() {

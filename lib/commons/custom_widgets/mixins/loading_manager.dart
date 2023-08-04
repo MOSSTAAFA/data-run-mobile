@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import '../components/spinner_dialog.dart';
+import '../../../form/ui/components/spinner_dialog.dart';
 
 mixin LoadingManager {
   void handleLoading(BuildContext context, Stream<bool> stream) {

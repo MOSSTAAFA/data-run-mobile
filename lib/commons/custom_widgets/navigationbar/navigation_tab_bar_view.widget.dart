@@ -125,7 +125,7 @@ class NavigationTabBarViewState extends ConsumerState<NavigationTabBarView>
             appBar: AppBar(
               centerTitle: false,
               automaticallyImplyLeading: false,
-              leading: leadingActions ??
+              leading: leadingActions /*??
                   IconButton(
                     color: Colors.white,
                     icon: const Icon(Icons.arrow_back),
@@ -135,7 +135,7 @@ class NavigationTabBarViewState extends ConsumerState<NavigationTabBarView>
                           .read(appStateNotifierProvider.notifier)
                           .navigateBack();
                     },
-                  ),
+                  )*/,
               leadingWidth: kMinInteractiveDimension *
                   (widget.appBarLeadingActions?.length ??
                       0 + (isMobile(context) ? 1 : 2)),

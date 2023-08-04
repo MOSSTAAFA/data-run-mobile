@@ -40,9 +40,9 @@ import '../ui/validation/field_error_message_provider.dart';
 
 part 'injector.g.dart';
 
-@riverpod
+@Riverpod(dependencies: [formRepositoryRecordsInstance])
 FormRepository formRepository(FormRepositoryRef ref) {
-  final repositoryRecords = ref.read(formRepositoryRecordsInstanceProvider);
+  final FormRepositoryRecords repositoryRecords = ref.watch(formRepositoryRecordsInstanceProvider);
   return FormRepositoryImpl(
     formValueStore: ref.read(_formValueStoreProvider(
         repositoryRecords.recordUid, repositoryRecords.entryMode)),

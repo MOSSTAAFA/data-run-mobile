@@ -50,8 +50,8 @@ abstract class EventCapturePresenter {
   /// By NMC: From EventCaptureFormPresenter
   void handleDataIntegrityResult(DataIntegrityCheckResult result);
 
-  /// By NMC: From EventCaptureFormPresenter
-  Future<void> showOrHideSaveButton();
+  // /// By NMC: From EventCaptureFormPresenter
+  // Future<void> showOrHideSaveButton();
 }
 
 mixin EventCaptureView implements ViewBase {
@@ -96,20 +96,20 @@ mixin EventCaptureView implements ViewBase {
 
   void hideNavigationBar();
 
-  /// By NMC: From EventCaptureFormPresenter
-  void showSaveButton();
-
-  /// By NMC: From EventCaptureFormPresenter
-  void hideSaveButton();
-
-  /// By NMC: From EventCaptureFormPresenter
-  void performSaveClick();
-
-  /// By NMC: From EventCaptureFormPresenter
-  void onReopen();
-
-  /// By NMC: From EventCaptureFormPresenter
-  void onEditionListener();
+  // /// By NMC: From EventCaptureFormPresenter
+  // void showSaveButton();
+  //
+  // /// By NMC: From EventCaptureFormPresenter
+  // void hideSaveButton();
+  //
+  // /// By NMC: From EventCaptureFormPresenter
+  // void performSaveClick();
+  //
+  // /// By NMC: From EventCaptureFormPresenter
+  // void onReopen();
+  //
+  // /// By NMC: From EventCaptureFormPresenter
+  // void onEditionListener();
 }
 
 abstract class EventCaptureRepository {

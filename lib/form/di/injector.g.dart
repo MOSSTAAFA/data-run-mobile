@@ -6,7 +6,7 @@ part of 'injector.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$formRepositoryHash() => r'ab1bb8c4db4390e75840aa622b4d286578dae296';
+String _$formRepositoryHash() => r'449118b521bf28d38d9fe0ef062feb2b62bc6204';
 
 /// See also [formRepository].
 @ProviderFor(formRepository)
@@ -16,8 +16,11 @@ final formRepositoryProvider = AutoDisposeProvider<FormRepository>.internal(
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
       : _$formRepositoryHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
+  dependencies: <ProviderOrFamily>[formRepositoryRecordsInstanceProvider],
+  allTransitiveDependencies: <ProviderOrFamily>{
+    formRepositoryRecordsInstanceProvider,
+    ...?formRepositoryRecordsInstanceProvider.allTransitiveDependencies
+  },
 );
 
 typedef FormRepositoryRef = AutoDisposeProviderRef<FormRepository>;

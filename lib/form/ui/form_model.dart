@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+import '../../commons/global_functions/global_functions.dart';
 import '../data/data_integrity_check_result.dart';
 import '../model/info_ui_model.dart';
 import '../model/row_action.dart';
@@ -75,4 +76,18 @@ class FormModel with EquatableMixin {
         // calculationLoop,
         // pendingIntents
       ];
+
+  @override
+  bool? get stringify => true;
+
+  @override
+  String toString() {
+    return mapPropsToString(runtimeType, [
+      'showToast: $showToast',
+      'showInfo: $showInfo',
+      'savedValue: ${savedValue?.value}, ${savedValue?.type}',
+      'queryData:  ${queryData?.value}, ${queryData?.type}',
+      'dataIntegrityResult: ${dataIntegrityResult.runtimeType}',
+    ]);
+  }
 }
