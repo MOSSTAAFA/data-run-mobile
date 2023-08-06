@@ -41,7 +41,7 @@ class _FABBottomAppBarState extends ConsumerState<FABBottomAppBar> {
   void _updateIndex(int index) {
     widget.onTabSelected?.call(index);
     ref
-        .read(navInfoNotifierProvider(widget.key).notifier)
+        .read(navInfoNotifierProvider/*(widget.key)*/.notifier)
         .selectTabIndex(index);
   }
 
@@ -54,8 +54,10 @@ class _FABBottomAppBarState extends ConsumerState<FABBottomAppBar> {
         onPressed: _updateIndex,
       );
     });
-    items.insert(items.length >> 1, _buildMiddleTabItem());
+    // items.insert(items.length >> 1, _buildMiddleTabItem());
+    items.add(_buildMiddleTabItem());
 
+    // BottomNavigationBar();
     return BottomAppBar(
       shape: widget.notchedShape,
       color: widget.backgroundColor,
@@ -66,6 +68,7 @@ class _FABBottomAppBarState extends ConsumerState<FABBottomAppBar> {
     );
   }
 
+  // final TabController tabBar;
   Widget _buildMiddleTabItem() {
     return Expanded(
       child: SizedBox(
@@ -91,7 +94,7 @@ class _FABBottomAppBarState extends ConsumerState<FABBottomAppBar> {
     ValueChanged<int>? onPressed,
   }) {
     final Color color =
-        ref.watch(navInfoNotifierProvider(widget.key)).index == index
+        ref.watch(navInfoNotifierProvider/*(widget.key)*/).index == index
             ? widget.selectedColor
             : widget.color;
     return Expanded(

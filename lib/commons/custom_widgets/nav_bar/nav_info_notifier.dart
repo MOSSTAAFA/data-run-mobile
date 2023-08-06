@@ -9,11 +9,11 @@ part 'nav_info_notifier.g.dart';
 
 @riverpod
 class NavInfoNotifier extends _$NavInfoNotifier {
-  Object? key;
+  // Object? key;
 
   @override
-  NavigationInfo build([Object? key]) {
-    this.key = key;
+  NavigationInfo build() {
+    // this.key = key;
     return const NavigationInfo();
   }
 
