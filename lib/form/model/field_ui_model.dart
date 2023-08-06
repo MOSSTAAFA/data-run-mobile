@@ -88,26 +88,26 @@ abstract class FieldUiModel {
 
   bool equals(FieldUiModel item);
 
-  onItemClick();
+  void onItemClick();
 
-  onNext();
+  void onNext();
 
   // onTextChange(value: CharSequence?);
-  onTextChange(String? value);
+  void onTextChange(String? value);
 
-  onDescriptionClick();
+  void onDescriptionClick();
 
-  onClear();
+  void onClear();
 
-  onSave(String? value);
+  void onSave(String? value);
 
-  onSaveBoolean(bool boolean);
+  void onSaveBoolean(bool boolean);
 
-  onSaveOption(Option option);
+  void onSaveOption(Option option);
 
-  invokeUiEvent(UiEventType uiEventType);
+  void invokeUiEvent(UiEventType uiEventType);
 
-  invokeIntent(FormIntent intent);
+  void invokeIntent(FormIntent intent);
 
   FieldUiModel setValue(String? value);
 

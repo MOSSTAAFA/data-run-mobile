@@ -20,7 +20,7 @@ import 'ui_event_type.dart';
 class SectionUiModelImpl /*with _$SectionUiModelImpl,*/
     implements
         FieldUiModel {
-  SectionUiModelImpl(
+  const SectionUiModelImpl(
       {required this.uid,
       required this.layoutId,
       this.value,
@@ -96,7 +96,7 @@ class SectionUiModelImpl /*with _$SectionUiModelImpl,*/
 
   final String? selectedField;
   final bool isLoadingData;
-  OptionSetConfiguration? optionSetConfiguration;
+  final OptionSetConfiguration? optionSetConfiguration;
   final int sectionNumber;
   final bool showBottomShadow;
   final bool lastPositionShouldChangeHeight;
@@ -189,7 +189,7 @@ class SectionUiModelImpl /*with _$SectionUiModelImpl,*/
   }
 
   @override
-  onItemClick() {
+  void onItemClick() {
     intentCallback?.call(FormIntent.onFocus(uid, value));
   }
 
@@ -197,36 +197,36 @@ class SectionUiModelImpl /*with _$SectionUiModelImpl,*/
   bool get isNegativeChecked => false;
 
   @override
-  onNext() {}
+  void onNext() {}
 
   @override
-  onTextChange(String? value) {}
+  void onTextChange(String? value) {}
 
   @override
-  onDescriptionClick() {
+  void onDescriptionClick() {
     listViewUiEventsCallback
         ?.call(ListViewUiEvents.showDescriptionLabelDialog(label, description));
   }
 
   @override
-  onClear() {}
+  void onClear() {}
 
   @override
-  onSave(String? value) {}
+  void onSave(String? value) {}
 
   @override
-  onSaveBoolean(bool boolean) {}
+  void onSaveBoolean(bool boolean) {}
 
   @override
-  onSaveOption(Option option) {}
+  void onSaveOption(Option option) {}
 
   @override
-  invokeUiEvent(UiEventType uiEventType) {
+  void invokeUiEvent(UiEventType uiEventType) {
     onItemClick();
   }
 
   @override
-  invokeIntent(FormIntent intent) {
+  void invokeIntent(FormIntent intent) {
     intentCallback?.call(intent);
   }
 
@@ -280,6 +280,7 @@ class SectionUiModelImpl /*with _$SectionUiModelImpl,*/
   @override
   bool isSectionWithFields() => totalFields > 0;
 
+  @override
   FieldUiModel copyWith({
     String? uid,
     int? layoutId,

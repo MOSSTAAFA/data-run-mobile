@@ -1,3 +1,5 @@
+// ignore_for_file: always_specify_types
+
 import 'dart:io';
 
 import 'package:d2_remote/core/common/value_type.dart';
@@ -95,44 +97,44 @@ class FieldUiModelImpl implements FieldUiModel /*with _$FieldUiModelImpl*/ {
   }
 
   @override
-  onItemClick() {
+  void onItemClick() {
     intentCallback?.call(FormIntent.onFocus(uid, value));
   }
 
   @override
-  onNext() {
+  void onNext() {
     intentCallback?.call(FormIntent.onNext(uid: uid, value: value));
   }
 
   @override
-  onTextChange(String? value) {
+  void onTextChange(String? value) {
     intentCallback?.call(FormIntent.onTextChange(
         uid, (value ?? '').isEmpty == true ? null : value));
   }
 
   @override
-  onDescriptionClick() {
+  void onDescriptionClick() {
     listViewUiEventsCallback
         ?.call(ListViewUiEvents.showDescriptionLabelDialog(label, description));
   }
 
   @override
-  onClear() {
+  void onClear() {
     onItemClick();
     intentCallback?.call(FormIntent.clearValue(uid));
   }
 
   @override
-  onSave(String? value) {
+  void onSave(String? value) {
     onItemClick();
     intentCallback
         ?.call(FormIntent.onSave(uid: uid, value: value, valueType: valueType));
   }
 
   @override
-  onSaveBoolean(bool boolean) {
+  void onSaveBoolean(bool boolean) {
     onItemClick();
-    var result = value == null || value != boolean.toString()
+    final result = value == null || value != boolean.toString()
         ? boolean.toString()
         : null;
     intentCallback?.call(
@@ -140,7 +142,7 @@ class FieldUiModelImpl implements FieldUiModel /*with _$FieldUiModelImpl*/ {
   }
 
   @override
-  onSaveOption(Option option) {
+  void onSaveOption(Option option) {
     String? nextValue;
     if (displayName == option.displayName) {
       nextValue = null;
@@ -152,7 +154,7 @@ class FieldUiModelImpl implements FieldUiModel /*with _$FieldUiModelImpl*/ {
   }
 
   @override
-  invokeUiEvent(UiEventType uiEventType) {
+  void invokeUiEvent(UiEventType uiEventType) {
     intentCallback?.call(FormIntent.onRequestCoordinates(uid));
     if (uiEventType != UiEventType.QR_CODE && !focused) {
       onItemClick();
@@ -167,7 +169,7 @@ class FieldUiModelImpl implements FieldUiModel /*with _$FieldUiModelImpl*/ {
   }
 
   @override
-  invokeIntent(FormIntent intent) {
+  void invokeIntent(FormIntent intent) {
     intentCallback?.call(intent);
   }
 
