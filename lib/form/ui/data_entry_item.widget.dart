@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../commons/custom_widgets/fields/factory/field_widget_factory_impl.dart';
 import '../../commons/custom_widgets/fields/form_edit_text.widget.dart';
 import '../../commons/custom_widgets/form_card.dart';
-import 'di/form_view_controllers.dart';
+import 'di/form_view_notifier.dart';
 import 'event/list_view_ui_events.dart';
 import 'form_view_model.dart';
 import 'intent/form_intent.dart';
@@ -41,7 +41,7 @@ class DataEntryItemWidget extends ConsumerWidget {
     //             ref.read(uiEventProvider.notifier).setValue(uiEvent);
     //           })
     //         : null));
-    final item = ref.watch(itemsResultProvider.select((list) =>
+    final item = ref.watch(formViewItemsProvider.select((list) =>
         list.value?.isNotEmpty ?? false
             ? list.value![ref.watch(formViewIndexProvider)]
             : null));
@@ -51,7 +51,7 @@ class DataEntryItemWidget extends ConsumerWidget {
         FormIntent formIntent = intent;
         if (intent is OnNext) {
           formIntent =
-              intent.copyWith(position: ref.read(formViewIndexProvider) + 1);
+              intent.copyWith(position: ref.read(formViewIndexProvider));
         }
         onIntent?.call(formIntent);
       }, listViewUiEventsCallback: (uiEvent) {

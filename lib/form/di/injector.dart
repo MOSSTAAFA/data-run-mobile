@@ -17,7 +17,7 @@ import '../data/metadata/org_unit_configuration.dart';
 import '../data/search_option_set_option.dart';
 import '../data/search_repository.dart';
 import '../model/form_repository_records.dart';
-import '../ui/di/form_view_controllers.dart';
+import '../ui/di/form_view_notifier.dart';
 import '../ui/field_view_model_factory.dart';
 import '../ui/field_view_model_factory_impl.dart';
 import '../ui/form_view_model.dart';

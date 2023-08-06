@@ -6,9 +6,10 @@ import '../../../../../commons/constants.dart';
 import '../../../../../commons/extensions/dynamic_extensions.dart';
 import '../../../../../form/data/data_integrity_check_result.dart';
 import '../../../../../form/model/form_repository_records.dart';
-import '../../../../../form/ui/di/form_view_controllers.dart';
+import '../../../../../form/ui/di/form_view_notifier.dart';
 import '../../../../../form/ui/form_view.widget.dart';
 import '../../../bundle/bundle.dart';
+import '../di/event_capture_screen_state_notifier.dart';
 import '../event_capture_screen.widget.dart';
 import 'event_capture_form.presenter.dart';
 import 'event_capture_form_view.dart';
@@ -20,10 +21,10 @@ import 'event_capture_form_view.dart';
 class EventCaptureForm extends ConsumerStatefulWidget {
   const EventCaptureForm({
     super.key,
-    this.showProgress,
-    this.hideProgress,
-    this.hideNavigationBar,
-    this.updatePercentage,
+    // this.showProgress,
+    // this.hideProgress,
+    // this.hideNavigationBar,
+    // this.updatePercentage,
     this.handleDataIntegrityResult,
     // required this.formView,
   });
@@ -32,12 +33,13 @@ class EventCaptureForm extends ConsumerStatefulWidget {
 
   /// replacing EventCapture Activity -> EventCaptureScreen the container of
   /// Taps screen
-  final VoidCallback? showProgress;
-  final VoidCallback? hideProgress;
-  final VoidCallback? hideNavigationBar;
-  final void Function(double percentage)? updatePercentage;
+  // final VoidCallback? showProgress;
+  // final VoidCallback? hideProgress;
+  // final VoidCallback? hideNavigationBar;
+  // final void Function(double percentage)? updatePercentage;
 
-  // to call on Activity -> EventCaptureScreen
+  /// to call on Activity -> EventCaptureScreen.
+  /// Temporarily Moved to [EventCapturePagerWidget]
   final void Function(DataIntegrityCheckResult result)?
       handleDataIntegrityResult;
 
@@ -60,14 +62,14 @@ class _EventCaptureFormState extends ConsumerState<EventCaptureForm>
         records: eventRecords,
         onLoadingListener: (loading) {
           if (loading) {
-            widget.showProgress?.call();
+            ref.read(eventCaptureScreenStateNotifierProvider.notifier).showProgress();
           } else {
-            widget.hideProgress?.call();
+            // handleDataIntegrityResult?.call(result)
           }
         },
-        onFocused: () => widget.hideNavigationBar?.call(),
+        onFocused: () => ref.read(eventCaptureScreenStateNotifierProvider.notifier).hideNavigationBar(),
         onPercentageUpdate: (percentage) =>
-            widget.updatePercentage?.call(percentage),
+            ref.read(eventCaptureScreenStateNotifierProvider.notifier).updatePercentage(percentage),
         onDataIntegrityCheck: (result) =>
             widget.handleDataIntegrityResult?.call(result),
       ),

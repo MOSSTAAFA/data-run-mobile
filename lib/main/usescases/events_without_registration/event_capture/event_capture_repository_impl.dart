@@ -38,7 +38,7 @@ class EventCaptureRepositoryImpl implements EventCaptureRepository {
   Future<bool> isEnrollmentOpen() async {
     final Event currentEvent = await _getCurrentEvent();
     final enrollmentService = ref.read(enrollmentServiceProvider);
-    return currentEvent.enrollment() == null ||
+    return currentEvent.enrollment == null ||
         (await enrollmentService.isOpen(currentEvent.enrollment));
   }
 

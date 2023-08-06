@@ -4,7 +4,7 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../commons/custom_widgets/mixins/keyboard_manager.dart';
 import 'data_entry_item.widget.dart';
-import 'di/form_view_controllers.dart';
+import 'di/form_view_notifier.dart';
 import 'event/list_view_ui_events.dart';
 import 'intent/form_intent.dart';
 
@@ -32,7 +32,7 @@ class DataEntryItemListWidgetState
   @override
   Widget build(BuildContext context) {
     final itemCount = ref
-        .watch(itemsResultProvider.select((list) => list.value?.length ?? 0));
+        .watch(formViewItemsProvider.select((list) => list.value?.length ?? 0));
 
     return itemCount > 0
         ? ScrollablePositionedList.builder(

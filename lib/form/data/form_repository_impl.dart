@@ -82,6 +82,7 @@ class FormRepositoryImpl implements FormRepository {
         .then((IList<FieldUiModel> listOfItems) => _setLastItem(listOfItems));
   }
 
+  /// pure function doesn't effect this class variables
   @override
   Future<DataIntegrityCheckResult> runDataIntegrityCheck(
       {required bool allowDiscard}) {

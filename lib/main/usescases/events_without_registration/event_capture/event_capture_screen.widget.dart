@@ -7,8 +7,10 @@ import 'package:get/get.dart';
 import '../../../../commons/constants.dart';
 import '../../../../commons/custom_widgets/mixins/keyboard_manager.dart';
 import '../../../../commons/custom_widgets/nav_bar/fab_bottom_app_bar.dart';
-import '../../../../commons/custom_widgets/nav_bar/nav_info_notifier.dart';
+import '../../../../commons/custom_widgets/navigationbar/navigation_tab_bar_view.widget.dart';
 import '../../../../commons/extensions/dynamic_extensions.dart';
+import '../../../../commons/extensions/standard_extensions.dart';
+import '../../../../commons/utils/view_actions.dart';
 import '../../../../form/ui/components/linear_loading_indicator.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../utils/custom_views/form_bottom_dialog.dart';
@@ -16,10 +18,12 @@ import '../../../utils/event_mode.dart';
 import '../../bundle/bundle.dart';
 import '../../general/view_base.dart';
 import '../../program_event_detail/program_event_detail_view_model.dart';
+import '../../program_event_detail/program_event_page_configurator.dart';
 import '../event_details/ui/event_details_screen.widget.dart';
 import 'di/event_capture_module.dart';
 import 'event_capture_contract.dart';
 import 'event_capture_form/event_capture_form.widget.dart';
+import 'event_page_configurator.dart';
 import 'model/event_completion_dialog.dart';
 
 /// EventCaptureActivity && EventCapturePagerAdapter
@@ -47,112 +51,127 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
   late final EventCapturePresenter presenter;
   bool isEventCompleted = false;
 
+  int _selectedIndex = 0;
+
   void _selectedTab(int index) {
-    // setState(() {
-    //   _lastSelected = 'TAB: $index';
-    // });
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context)!;
 
-    final List<Widget> _widgets = <Widget>[
-      const EventDetailsScreen(),
-      EventCaptureForm(
-        showProgress: showProgress,
-        hideProgress: hideProgress,
-        hideNavigationBar: hideNavigationBar,
-        updatePercentage: updatePercentage,
-        handleDataIntegrityResult: presenter.handleDataIntegrityResult,
-      ),
-      const Text('Unimplemented Screen!'),
-    ];
-
-    final syncIsVisible = ref.watch(navInfoNotifierProvider(/*widget.key*/)
-        .select((value) => value.index == 0 && eventMode != EventMode.NEW));
-    // return index == 0 && eventMode != EventMode.NEW
-    // final actions = [
-    //   Consumer(
-    //     builder: (context, ref, child) {
-    //       final index = ref.read(navInfoNotifierProvider(widget.key)
-    //           .select((value) => value.index));
-    //       return index == 0 && eventMode != EventMode.NEW
-    //           ? IconButton(
-    //         icon: const Icon(Icons.sync),
-    //         tooltip: localization.lookup('sync'),
-    //         onPressed: () => showSyncDialog(),
-    //       )
-    //           : const SizedBox.shrink();
-    //     },
+    // final List<Widget> _widgets = <Widget>[
+    //   const EventDetailsScreen(),
+    //   EventCaptureForm(
+    //     showProgress: showProgress,
+    //     hideProgress: hideProgress,
+    //     hideNavigationBar: hideNavigationBar,
+    //     updatePercentage: updatePercentage,
+    //     handleDataIntegrityResult: presenter.handleDataIntegrityResult,
     //   ),
+    //   const Text('Unimplemented Screen!'),
     // ];
 
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        automaticallyImplyLeading: false,
-        title: Row(
-          children: [
-            Expanded(
-              child: Text(ref.watch(eventDataStringProvider)),
-            ),
+    return Material(
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: false,
+          title: Row(
+            children: [
+              Expanded(
+                child: Text(ref.watch(eventDataStringProvider)),
+              ),
+            ],
+          ),
+          actions: /*ref.watch(navInfoNotifierProvider.select(
+                  (value) => value.index == 0 && eventMode != EventMode.NEW))*/
+              _selectedIndex == 0 && eventMode != EventMode.NEW
+                  ? [
+                      IconButton(
+                        icon: const Icon(Icons.sync),
+                        tooltip: localization.lookup('sync'),
+                        onPressed: () => showSyncDialog(),
+                      ),
+                    ]
+                  : null,
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Consumer(
+                // This builder will only get called when the
+                // programEventDetailModelProvider.progress is updated.
+                builder: (context, ref, child) => LinearLoadingIndicator(
+                  isLoading: ref.watch(programEventDetailModelProvider
+                      .select((value) => value.progress)),
+                  backgroundColor: Colors.grey,
+                ),
+              ),
+              Expanded(
+                child: IndexedStack(
+                  index: _selectedIndex,
+                  children: [
+                    const EventDetailsScreen(),
+                    EventCaptureForm(
+                      // showProgress: showProgress,
+                      // hideProgress: hideProgress,
+                      // hideNavigationBar: hideNavigationBar,
+                      // updatePercentage: updatePercentage,
+                      handleDataIntegrityResult: (result) =>
+                          presenter.handleDataIntegrityResult(result),
+                    ),
+                    const Text('Unimplemented Screen!')
+                  ],
+                ),
+              ),
+              // Consumer(
+              //   builder: (context, ref, child) {
+              //     // final selectedIndex = ref.watch(
+              //     //     navInfoNotifierProvider.select((value) => value.index));
+              //     return Expanded(
+              //       child: when<int, Widget>(_selectedIndex, {
+              //         0: () => const EventDetailsScreen(),
+              //         1: () => EventCaptureForm(
+              //               // showProgress: showProgress,
+              //               // hideProgress: hideProgress,
+              //               // hideNavigationBar: hideNavigationBar,
+              //               // updatePercentage: updatePercentage,
+              //               handleDataIntegrityResult: (result) =>
+              //                   presenter.handleDataIntegrityResult(result),
+              //             ),
+              //       }).orElse(() => const Text('Unimplemented Screen!')),
+              //     );
+              //   },
+              // ),
+            ],
+          ),
+        ),
+        bottomNavigationBar: FABBottomAppBar(
+          // centerItemText: 'A',
+          notchedShape: const CircularNotchedRectangle(),
+          onTabSelected:
+              (index) => /* ref
+              .read(navInfoNotifierProvider.notifier)
+              .selectTabIndex(index)*/
+                  _selectedTab(index),
+          items: [
+            MenuItem(iconData: Icons.menu, text: 'This'),
+            MenuItem(iconData: Icons.layers, text: 'Is'),
+            MenuItem(iconData: Icons.dashboard, text: 'Bottom'),
+            // MenuItem(iconData: Icons.info, text: 'Bar'),
           ],
         ),
-        actions: syncIsVisible
-            ? [
-                IconButton(
-                  icon: const Icon(Icons.sync),
-                  tooltip: localization.lookup('sync'),
-                  onPressed: () => showSyncDialog(),
-                ),
-              ]
-            : null,
-      ),
-      body: Consumer(
-        builder: (context, ref, child) {
-          final selectedIndex = ref.watch(
-              navInfoNotifierProvider(/*widget.key*/)
-                  .select((value) => value.index));
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Consumer(
-                  // This builder will only get called when the
-                  // programEventDetailModelProvider.progress is updated.
-                  builder: (context, ref, child) => LinearLoadingIndicator(
-                    isLoading: ref.watch(programEventDetailModelProvider
-                        .select((value) => value.progress)),
-                  ),
-                ),
-                Expanded(
-                  child: _widgets.elementAt(selectedIndex),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
-      bottomNavigationBar: FABBottomAppBar(
-        centerItemText: 'A',
-        notchedShape: const CircularNotchedRectangle(),
-        onTabSelected: (index) => ref
-            .read(navInfoNotifierProvider(/*widget.key*/).notifier)
-            .selectTabIndex(index),
-        items: [
-          MenuItem(iconData: Icons.menu, text: 'This'),
-          MenuItem(iconData: Icons.layers, text: 'Is'),
-          MenuItem(iconData: Icons.dashboard, text: 'Bottom'),
-          MenuItem(iconData: Icons.info, text: 'Bar'),
-        ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        tooltip: 'Save',
-        elevation: 2.0,
-        child: const Icon(Icons.save),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: () {},
+        //   tooltip: 'Save',
+        //   elevation: 2.0,
+        //   child: const Icon(Icons.save),
+        // ),
       ),
     );
     // return ProviderScope(
@@ -214,10 +233,10 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
     //               when<ViewAction, Widget>(viewAction, {
     //             ViewAction.details: () => const EventDetailsScreen(),
     //             ViewAction.data_entry: () => EventCaptureForm(
-    //                   showProgress: showProgress,
-    //                   hideProgress: hideProgress,
-    //                   hideNavigationBar: hideNavigationBar,
-    //                   updatePercentage: updatePercentage,
+    //                   // showProgress: showProgress,
+    //                   // hideProgress: hideProgress,
+    //                   // hideNavigationBar: hideNavigationBar,
+    //                   // updatePercentage: updatePercentage,
     //                   handleDataIntegrityResult:
     //                       presenter.handleDataIntegrityResult,
     //                 ),

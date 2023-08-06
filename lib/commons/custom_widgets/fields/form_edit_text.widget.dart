@@ -50,6 +50,9 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
       child: TextFormField(
         // initialValue: widget.item?.value ?? '',
         textInputAction: _getInputAction(widget.item?.keyboardActionType),
+        onEditingComplete: () {
+
+        },
         keyboardType: _getInputType(widget.item?.valueType),
         controller: _fieldController,
         onChanged: (String value) {
@@ -72,11 +75,12 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
                       color: _getLabelTextColor(widget.item?.style)?.color,
                     ),
                     onPressed: () {
-                      _fieldController.text = '';
+                      _fieldController.clear();
                       _focusNode.unfocus(
                           disposition:
                               UnfocusDisposition.previouslyFocusedChild);
                       widget.item?.onTextChange(null);
+                      widget.item?.onClear();
                     },
                   )
                 : null,
@@ -87,7 +91,7 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
                       color: _getLabelTextColor(widget.item?.style)?.color,
                     ),
                     onPressed: () {
-                      _fieldController.text = '';
+                      // _fieldController.text = '';
                       // show description
                     },
                   )
@@ -120,10 +124,18 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
     _fieldController.text = widget.item?.value ?? '';
   }
 
+  void _focusListener(){
+    if(_focusNode.hasFocus){
+      widget.item?.onItemClick();
+    }else{
+      // keyboard dismissed
+    }
+  }
+
   @override
   void initState() {
     _fieldController = TextEditingController(text: widget.item?.value);
-    _focusNode = FocusNode();
+    _focusNode = FocusNode()..addListener(_focusListener);
 
     switch (widget.item?.valueType) {
       case ValueType.TEXT:
@@ -159,7 +171,7 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
     // Clean up the controller when the widget is removed from the
     // widget tree.
     _fieldController.dispose();
-    // _focusNode.removeListener(onFocusChanged);
+    _focusNode.removeListener(_focusListener);
     _focusNode.dispose();
     super.dispose();
   }

@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'form_view_controllers.dart';
+part of 'form_view_notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
 String _$formRepositoryRecordsInstanceHash() =>
-    r'ad5c0aa2319f7b0932b1c3b3af8bb96d6782386f';
+    r'bbda3275f13de15e657162d51b7700b6ce1a1bb0';
 
 /// See also [formRepositoryRecordsInstance].
 @ProviderFor(formRepositoryRecordsInstance)
@@ -24,28 +24,8 @@ final formRepositoryRecordsInstanceProvider =
 
 typedef FormRepositoryRecordsInstanceRef
     = AutoDisposeProviderRef<FormRepositoryRecords>;
-String _$formViewRepositoryHash() =>
-    r'8ced87607b5e7682ea930189af4b1cf199077d23';
-
-/// See also [_formViewRepository].
-@ProviderFor(_formViewRepository)
-final _formViewRepositoryProvider =
-    AutoDisposeProvider<FormViewRepository>.internal(
-  _formViewRepository,
-  name: r'_formViewRepositoryProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$formViewRepositoryHash,
-  dependencies: <ProviderOrFamily>[formRepositoryProvider],
-  allTransitiveDependencies: <ProviderOrFamily>{
-    formRepositoryProvider,
-    ...?formRepositoryProvider.allTransitiveDependencies
-  },
-);
-
-typedef _FormViewRepositoryRef = AutoDisposeProviderRef<FormViewRepository>;
 String _$rowActionFromIntentHash() =>
-    r'a123a0f7c3790124163b50288ce7003d437898b0';
+    r'160fe9543decb3cba6b0c55c365bed36614e2427';
 
 /// See also [_rowActionFromIntent].
 @ProviderFor(_rowActionFromIntent)
@@ -55,15 +35,32 @@ final _rowActionFromIntentProvider = AutoDisposeProvider<RowAction>.internal(
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
       : _$rowActionFromIntentHash,
-  dependencies: <ProviderOrFamily>[_formViewRepositoryProvider],
-  allTransitiveDependencies: <ProviderOrFamily>{
-    _formViewRepositoryProvider,
-    ...?_formViewRepositoryProvider.allTransitiveDependencies
-  },
+  dependencies: null,
+  allTransitiveDependencies: null,
 );
 
 typedef _RowActionFromIntentRef = AutoDisposeProviderRef<RowAction>;
-String _$formViewFocusedHash() => r'91e590f97ecf5e0f4ce04ab10785f4fd865af554';
+String _$rowActionStoreHash() => r'40b1128b2c402086c25ade7fdea4b648825f41c6';
+
+/// See also [rowActionStore].
+@ProviderFor(rowActionStore)
+final rowActionStoreProvider =
+    AutoDisposeFutureProvider<Pair<RowAction, StoreResult>>.internal(
+  rowActionStore,
+  name: r'rowActionStoreProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$rowActionStoreHash,
+  dependencies: <ProviderOrFamily>[formViewItemsProvider],
+  allTransitiveDependencies: <ProviderOrFamily>{
+    formViewItemsProvider,
+    ...?formViewItemsProvider.allTransitiveDependencies
+  },
+);
+
+typedef RowActionStoreRef
+    = AutoDisposeFutureProviderRef<Pair<RowAction, StoreResult>>;
+String _$formViewFocusedHash() => r'30241bfff9d84a7c99c8d0721700fbb58cc7f457';
 
 /// See also [formViewFocused].
 @ProviderFor(formViewFocused)
@@ -73,15 +70,12 @@ final formViewFocusedProvider = AutoDisposeProvider<bool>.internal(
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
       : _$formViewFocusedHash,
-  dependencies: <ProviderOrFamily>[_rowActionFromIntentProvider],
-  allTransitiveDependencies: <ProviderOrFamily>{
-    _rowActionFromIntentProvider,
-    ...?_rowActionFromIntentProvider.allTransitiveDependencies
-  },
+  dependencies: null,
+  allTransitiveDependencies: null,
 );
 
 typedef FormViewFocusedRef = AutoDisposeProviderRef<bool>;
-String _$formViewLoadingHash() => r'fbbf2c23307ef371c453ec61dbbfe01a1b9c40c0';
+String _$formViewLoadingHash() => r'0ab33256580512f9922fb26bc8db31b5198718ee';
 
 /// See also [formViewLoading].
 @ProviderFor(formViewLoading)
@@ -91,21 +85,16 @@ final formViewLoadingProvider = AutoDisposeProvider<bool>.internal(
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
       : _$formViewLoadingHash,
-  dependencies: <ProviderOrFamily>[
-    _rowActionFromIntentProvider,
-    itemsResultProvider
-  ],
+  dependencies: <ProviderOrFamily>[formViewItemsProvider],
   allTransitiveDependencies: <ProviderOrFamily>{
-    _rowActionFromIntentProvider,
-    ...?_rowActionFromIntentProvider.allTransitiveDependencies,
-    itemsResultProvider,
-    ...?itemsResultProvider.allTransitiveDependencies
+    formViewItemsProvider,
+    ...?formViewItemsProvider.allTransitiveDependencies
   },
 );
 
 typedef FormViewLoadingRef = AutoDisposeProviderRef<bool>;
 String _$completionPercentageHash() =>
-    r'f35adf3ea0c30b28bc11cab1cbb492ed91b8a7e3';
+    r'd239e2ab1d18cb330cdee10c27e3786a3b9904fd';
 
 /// See also [completionPercentage].
 @ProviderFor(completionPercentage)
@@ -115,20 +104,15 @@ final completionPercentageProvider = AutoDisposeProvider<double>.internal(
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
       : _$completionPercentageHash,
-  dependencies: <ProviderOrFamily>[
-    _formViewRepositoryProvider,
-    itemsResultProvider
-  ],
+  dependencies: <ProviderOrFamily>[formViewItemsProvider],
   allTransitiveDependencies: <ProviderOrFamily>{
-    _formViewRepositoryProvider,
-    ...?_formViewRepositoryProvider.allTransitiveDependencies,
-    itemsResultProvider,
-    ...?itemsResultProvider.allTransitiveDependencies
+    formViewItemsProvider,
+    ...?formViewItemsProvider.allTransitiveDependencies
   },
 );
 
 typedef CompletionPercentageRef = AutoDisposeProviderRef<double>;
-String _$calculationLoopHash() => r'a6b782a2799716fb93698b3591d4c0079b0e0098';
+String _$calculationLoopHash() => r'c4a0b2be21a9ab3e967b996c7f9920f821823439';
 
 /// See also [calculationLoop].
 @ProviderFor(calculationLoop)
@@ -138,44 +122,14 @@ final calculationLoopProvider = AutoDisposeProvider<bool>.internal(
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
       : _$calculationLoopHash,
-  dependencies: <ProviderOrFamily>[
-    _formViewRepositoryProvider,
-    itemsResultProvider
-  ],
+  dependencies: <ProviderOrFamily>[formViewItemsProvider],
   allTransitiveDependencies: <ProviderOrFamily>{
-    _formViewRepositoryProvider,
-    ...?_formViewRepositoryProvider.allTransitiveDependencies,
-    itemsResultProvider,
-    ...?itemsResultProvider.allTransitiveDependencies
+    formViewItemsProvider,
+    ...?formViewItemsProvider.allTransitiveDependencies
   },
 );
 
 typedef CalculationLoopRef = AutoDisposeProviderRef<bool>;
-String _$rowActionStoreHash() => r'3e7415bb73a047273f461a5205dba6552cd09135';
-
-/// See also [_rowActionStore].
-@ProviderFor(_rowActionStore)
-final _rowActionStoreProvider =
-    AutoDisposeFutureProvider<Pair<RowAction, StoreResult>>.internal(
-  _rowActionStore,
-  name: r'_rowActionStoreProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$rowActionStoreHash,
-  dependencies: <ProviderOrFamily>[
-    _rowActionFromIntentProvider,
-    _formViewRepositoryProvider
-  ],
-  allTransitiveDependencies: <ProviderOrFamily>{
-    _rowActionFromIntentProvider,
-    ...?_rowActionFromIntentProvider.allTransitiveDependencies,
-    _formViewRepositoryProvider,
-    ...?_formViewRepositoryProvider.allTransitiveDependencies
-  },
-);
-
-typedef _RowActionStoreRef
-    = AutoDisposeFutureProviderRef<Pair<RowAction, StoreResult>>;
 String _$formViewIndexHash() => r'596950527a2473b48fcd73cf67b3157da93fc787';
 
 /// See also [formViewIndex].
@@ -192,7 +146,7 @@ final formViewIndexProvider = AutoDisposeProvider<int>.internal(
 
 typedef FormViewIndexRef = AutoDisposeProviderRef<int>;
 String _$formPendingIntentsHash() =>
-    r'2d00cbd9c08541bc485b4f65d1e1a0d385ad4e42';
+    r'731d423ab2aec3ae9dfae7c2806e5c79361ba679';
 
 /// See also [FormPendingIntents].
 @ProviderFor(FormPendingIntents)
@@ -208,29 +162,25 @@ final formPendingIntentsProvider =
 );
 
 typedef _$FormPendingIntents = AutoDisposeNotifier<FormIntent>;
-String _$itemsResultHash() => r'187ee0e2fe9af5d15bb0318f0b0f5a047d816470';
+String _$formViewItemsHash() => r'91626ef9743dbbcf27bb816aa2c278bb21c6fe99';
 
-/// See also [ItemsResult].
-@ProviderFor(ItemsResult)
-final itemsResultProvider =
-    AutoDisposeAsyncNotifierProvider<ItemsResult, IList<FieldUiModel>>.internal(
-  ItemsResult.new,
-  name: r'itemsResultProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$itemsResultHash,
-  dependencies: <ProviderOrFamily>[
-    _formViewRepositoryProvider,
-    _rowActionStoreProvider
-  ],
+/// See also [FormViewItems].
+@ProviderFor(FormViewItems)
+final formViewItemsProvider = AutoDisposeAsyncNotifierProvider<FormViewItems,
+    IList<FieldUiModel>>.internal(
+  FormViewItems.new,
+  name: r'formViewItemsProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$formViewItemsHash,
+  dependencies: <ProviderOrFamily>[formRepositoryProvider],
   allTransitiveDependencies: <ProviderOrFamily>{
-    _formViewRepositoryProvider,
-    ...?_formViewRepositoryProvider.allTransitiveDependencies,
-    _rowActionStoreProvider,
-    ...?_rowActionStoreProvider.allTransitiveDependencies
+    formRepositoryProvider,
+    ...?formRepositoryProvider.allTransitiveDependencies
   },
 );
 
-typedef _$ItemsResult = AutoDisposeAsyncNotifier<IList<FieldUiModel>>;
+typedef _$FormViewItems = AutoDisposeAsyncNotifier<IList<FieldUiModel>>;
 String _$formModelNotifierHash() => r'ef08c968b114c59e1a047106e8e0d96d687c9b5d';
 
 /// See also [FormModelNotifier].
