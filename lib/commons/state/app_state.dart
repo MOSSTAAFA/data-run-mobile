@@ -10,7 +10,7 @@ import 'ui_state.dart';
 part 'app_state.freezed.dart';
 
 @freezed
-abstract class AppState with _$AppState {
+class AppState with _$AppState {
   const factory AppState({
     required PrefState prefState,
     required bool reportErrors,

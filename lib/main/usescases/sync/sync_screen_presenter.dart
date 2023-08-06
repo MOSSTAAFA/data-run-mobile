@@ -9,7 +9,7 @@ import '../../data/service/work_manager/work_manager_controller_impl.dart';
 import '../events_without_registration/event_initial/di/event_initial_module.dart';
 import 'sync_view.dart';
 
-part 'sync_presenter.g.dart';
+part 'sync_screen_presenter.g.dart';
 
 const String WAS_INITIAL_SYNC_DONE = 'WasInitialSyncDone';
 
