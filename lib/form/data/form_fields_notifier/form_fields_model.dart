@@ -13,7 +13,7 @@ class FormFieldsModel with EquatableMixin {
     this.focusedItemId,
     this.completionPercentage = 0.0,
     this.itemsWithError = const IListConst([]),
-    this.mandatoryItemsWithoutValue = const {},
+    this.mandatoryItemsWithoutValue = const IMapConst({}),
     this.itemList = const IListConst([]),
     this.runDataIntegrity = false,
     this.calculationLoop = 0,
@@ -29,7 +29,8 @@ class FormFieldsModel with EquatableMixin {
   final IList<RowAction> itemsWithError;
 
   // private
-  final Map<String, String> mandatoryItemsWithoutValue;
+  // final Map<String, String> mandatoryItemsWithoutValue;
+  final IMap<String, String> mandatoryItemsWithoutValue;
 
   // private
   final String? openedSectionUid;
@@ -53,7 +54,7 @@ class FormFieldsModel with EquatableMixin {
   FormFieldsModel copyWith({
     double? completionPercentage,
     IList<RowAction>? itemsWithError,
-    Map<String, String>? mandatoryItemsWithoutValue,
+    IMap<String, String>? mandatoryItemsWithoutValue,
     String? openedSectionUid,
     IList<FieldUiModel>? itemList,
     String? focusedItemId,
@@ -86,7 +87,7 @@ class FormFieldsModel with EquatableMixin {
       focusedItemId,
       runDataIntegrity,
       calculationLoop,
-      backupList,
+      // backupList,
     ];
   }
 
