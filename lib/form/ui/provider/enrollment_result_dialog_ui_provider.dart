@@ -1,3 +1,4 @@
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -23,7 +24,7 @@ class EnrollmentResultDialogUiProvider {
                 null, Icons.date_range_outlined),
             fieldsWithIssues: _getFieldsWithIssues(
                 errorFields: result.fieldUidErrorList,
-                mandatoryFields: result.mandatoryFields.keys.toList(),
+                mandatoryFields: result.mandatoryFields.toKeyIList(),
                 warningFields: result.warningFields),
             mainButton: const DialogButtonStyle.mainButton(
                 textResource: 'string.review'),
@@ -45,7 +46,7 @@ class EnrollmentResultDialogUiProvider {
               iconResource: resourceManager.getObjectStyleDrawableResource(
                   null, Icons.error),
               fieldsWithIssues: _getFieldsWithIssues(
-                  mandatoryFields: result.mandatoryFields.keys.toList(),
+                  mandatoryFields: result.mandatoryFields.toKeyIList(),
                   warningFields: result.warningFields),
               mainButton: DialogButtonStyle.mainButton(
                   textResource: result.allowDiscard
@@ -65,21 +66,19 @@ class EnrollmentResultDialogUiProvider {
             secondaryButton: DialogButtonStyle.discardButton()));
   }
 
-  List<FieldWithIssue> _getFieldsWithIssues(
-      {List<FieldWithIssue>? errorFields,
-      List<String>? mandatoryFields,
-      List<FieldWithIssue>? warningFields}) {
-    errorFields = errorFields ?? [];
-    mandatoryFields = mandatoryFields ?? [];
-    warningFields = warningFields ?? [];
+  IList<FieldWithIssue> _getFieldsWithIssues(
+      {IList<FieldWithIssue>? errorFields,
+      IList<String>? mandatoryFields,
+      IList<FieldWithIssue>? warningFields}) {
+    errorFields = errorFields ?? IList([]);
+    mandatoryFields = mandatoryFields ?? IList([]);
+    warningFields = warningFields ?? IList([]);
     return errorFields +
-        mandatoryFields
-            .map((item) => FieldWithIssue(
-                fieldUid: 'uid',
-                fieldName: item,
-                issueType: IssueType.MANDATORY,
-                message: resourceManager.getString('string.mandatory_field')))
-            .toList() +
+        mandatoryFields.map((item) => FieldWithIssue(
+            fieldUid: 'uid',
+            fieldName: item,
+            issueType: IssueType.MANDATORY,
+            message: resourceManager.getString('string.mandatory_field'))) +
         warningFields;
   }
 

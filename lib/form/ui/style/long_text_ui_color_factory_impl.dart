@@ -9,6 +9,7 @@ import 'form_ui_color_type.dart';
 
 class LongTextUiColorFactoryImpl implements FormUiColorFactory {
   LongTextUiColorFactoryImpl({this.isBackgroundTransparent = false});
+
   bool isBackgroundTransparent;
 
   // TODO NMC, same as FormUiModelColorFactoryImpl, change to it's Colors

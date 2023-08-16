@@ -9,22 +9,23 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import '../../commons/custom_widgets/mixins/keyboard_manager.dart';
 import '../../commons/extensions/dynamic_extensions.dart';
 import '../../commons/extensions/standard_extensions.dart';
-import '../../commons/helpers/collections.dart';
 import '../../commons/helpers/iterable.dart';
 import '../data/data_integrity_check_result.dart';
+import '../data/form_repository.dart';
+import '../di/injector.dart';
 import '../model/Ui_render_type.dart';
 import '../model/field_ui_model.dart';
 import '../model/form_repository_records.dart';
 import '../model/info_ui_model.dart';
 import '../model/row_action.dart';
 import '../model/section_ui_model_impl.dart';
-import '../model/store_result.dart';
-import '../model/value_store_result.dart';
 import 'data_entry_items_list.widget.dart';
-import 'di/form_view_notifier.dart';
 import 'event/list_view_ui_events.dart';
 import 'intent/form_intent.dart';
 import 'provider/enrollment_result_dialog_ui_provider.dart';
+import 'view_model/form_model_notifier.dart';
+import 'view_model/form_pending_intents.dart';
+import 'view_model/form_view_model_notifier.dart';
 
 class FormViewWidget extends ConsumerStatefulWidget {
   FormViewWidget(
@@ -77,16 +78,25 @@ class FormViewWidget extends ConsumerStatefulWidget {
 class _FormViewWidgetState extends ConsumerState<FormViewWidget>
     with KeyboardManager {
   // late final FormViewModel viewModel;
+  late final FormViewModelNotifier formViewModelNotifier;
+  late final FormRepository formRepository;
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('$runtimeType: build()');
+    debugPrint('mounted is $mounted');
+    final itemsCount = ref.watch(formViewModelNotifierProvider(formRepository)
+        .select((asyncItems) => asyncItems.value?.length));
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Stack(
         children: [
           DataEntryItemListWidget(
+            itemsCount: itemsCount ?? 0,
             onIntent: (intent) => _intentHandler(intent),
             onListViewUiEvents: (uiEvent) => _uiEventHandler(uiEvent),
+            records: widget.records,
           ),
           Positioned(
             right: 10,
@@ -106,110 +116,151 @@ class _FormViewWidgetState extends ConsumerState<FormViewWidget>
   }
 
   @override
-  void initState() {
-    _setUpRowActionStoreListener();
-    _setObservers();
-    // ref.read(itemsResultProvider.notifier).loadData();
-    super.initState();
-  }
-
-  void _setUpRowActionStoreListener() {
-    ref.listenManual<AsyncValue<Pair<RowAction, StoreResult>>>(
-        rowActionStoreProvider,
-        (AsyncValue<Pair<RowAction, StoreResult>>? previous,
-            AsyncValue<Pair<RowAction, StoreResult>> next) {
-      when(next.value?.second.valueStoreResult, {
-        ValueStoreResult.VALUE_CHANGED: () {
-          logInfo(info: 'itemsProvider: ValueStoreResult.VALUE_CHANGED');
-          ref.read(formModelNotifierProvider.notifier).updateValue(
-              (current) => current.copyWith(savedValue: next.value?.first));
-          ref.read(formViewItemsProvider.notifier).processCalculatedItems();
-        },
-        ValueStoreResult.ERROR_UPDATING_VALUE: () {
-          logInfo(info: 'itemsProvider: ValueStoreResult.ERROR_UPDATING_VALUE');
-          ref.read(formModelNotifierProvider.notifier).updateValue((current) =>
-              current.copyWith(showToast: 'string.update_field_error'));
-        },
-        ValueStoreResult.UID_IS_NOT_DE_OR_ATTR: () {
-          logInfo(
-              info:
-                  'Timber.tag(TAG).d("${next.value?.first.id} is not a data element or attribute")');
-          ref.read(formViewItemsProvider.notifier).processCalculatedItems();
-        },
-        ValueStoreResult.VALUE_NOT_UNIQUE: () {
-          logInfo(info: 'itemsProvider: ValueStoreResult.VALUE_NOT_UNIQUE');
-          ref.read(formModelNotifierProvider.notifier).updateValue((current) =>
-              current.copyWith(
-                  showInfo: const InfoUiModel(
-                      'string.error', 'string.unique_warning')));
-          ref.read(formViewItemsProvider.notifier).processCalculatedItems();
-        },
-        ValueStoreResult.VALUE_HAS_NOT_CHANGED: () =>
-            ref.read(formViewItemsProvider.notifier).processCalculatedItems(),
-        ValueStoreResult.TEXT_CHANGING: () {
-          logInfo(info: 'itemsProvider: ValueStoreResult.TEXT_CHANGING');
-          logInfo(
-              info:
-                  'Timber.d("${next.value?.first.id} is changing its value")');
-          ref.read(formModelNotifierProvider.notifier).updateValue(
-              (current) => current.copyWith(queryData: next.value?.first));
-        },
-        ValueStoreResult.FINISH: () {
-          logInfo(info: 'itemsProvider: ValueStoreResult.FINISH');
-          final itemsNotifier = ref.read(formViewItemsProvider.notifier);
-          itemsNotifier
-              .processCalculatedItems()
-              .then((_) => itemsNotifier.runDataIntegrityCheck());
-        }
-      });
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    debugPrint('$runtimeType: didChangeDependencies: didChangeDependencies()');
+    debugPrint('mounted is $mounted');
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      debugPrint('$runtimeType: didChangeDependencies, addPostFrameCallback()');
     });
   }
 
+  @override
+  void didUpdateWidget(covariant FormViewWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    debugPrint('$runtimeType: didUpdateWidget: didUpdateWidget()');
+    debugPrint('mounted is $mounted');
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    formRepository = ref.read(formRepositoryProvider(widget.records));
+    debugPrint('$runtimeType: initState: initState()');
+    debugPrint('mounted is $mounted');
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      debugPrint('$runtimeType: initState: addPostFrameCallback()');
+      // ref.read(formViewItemsProvider.notifier).loadData();
+      _setObservers();
+      // _setUpRowActionStoreListener();
+    });
+  }
+
+  // void _setUpRowActionStoreListener() {
+  //   ref.listenManual<AsyncValue<Pair<RowAction, StoreResult>>>(
+  //       rowActionStoreProvider,
+  //       (AsyncValue<Pair<RowAction, StoreResult>>? previous,
+  //           AsyncValue<Pair<RowAction, StoreResult>> next) {
+  //     when(next.value?.second.valueStoreResult, {
+  //       ///
+  //       ValueStoreResult.ERROR_UPDATING_VALUE: () {
+  //         logInfo(info: 'itemsProvider: ValueStoreResult.ERROR_UPDATING_VALUE');
+  //         ref.read(formModelNotifierProvider.notifier).updateValue((current) =>
+  //             current.copyWith(showToast: 'string.update_field_error'));
+  //       },
+  //
+  //       ///
+  //       ValueStoreResult.TEXT_CHANGING: () {
+  //         logInfo(info: 'itemsProvider: ValueStoreResult.TEXT_CHANGING');
+  //         logInfo(
+  //             info:
+  //                 'Timber.d("${next.value?.first.id} is changing its value")');
+  //         ref.read(formModelNotifierProvider.notifier).updateValue(
+  //             (current) => current.copyWith(queryData: next.value?.first));
+  //       },
+  //
+  //       ///
+  //       ValueStoreResult.VALUE_CHANGED: () {
+  //         logInfo(info: 'itemsProvider: ValueStoreResult.VALUE_CHANGED');
+  //         ref.read(formModelNotifierProvider.notifier).updateValue(
+  //             (current) => current.copyWith(savedValue: next.value?.first));
+  //         ref.read(formViewItemsProvider.notifier).processCalculatedItems();
+  //       },
+  //
+  //       ///
+  //       ValueStoreResult.UID_IS_NOT_DE_OR_ATTR: () {
+  //         logInfo(
+  //             info:
+  //                 'Timber.tag(TAG).d("${next.value?.first.id} is not a data element or attribute")');
+  //         ref.read(formViewItemsProvider.notifier).processCalculatedItems();
+  //       },
+  //
+  //       ///
+  //       ValueStoreResult.VALUE_NOT_UNIQUE: () {
+  //         logInfo(info: 'itemsProvider: ValueStoreResult.VALUE_NOT_UNIQUE');
+  //         ref.read(formModelNotifierProvider.notifier).updateValue((current) =>
+  //             current.copyWith(
+  //                 showInfo: const InfoUiModel(
+  //                     'string.error', 'string.unique_warning')));
+  //         ref.read(formViewItemsProvider.notifier).processCalculatedItems();
+  //       },
+  //
+  //       ///
+  //       ValueStoreResult.VALUE_HAS_NOT_CHANGED: () =>
+  //           ref.read(formViewItemsProvider.notifier).processCalculatedItems(),
+  //
+  //       ///
+  //       ValueStoreResult.FINISH: () {
+  //         logInfo(info: 'itemsProvider: ValueStoreResult.FINISH');
+  //         final itemsNotifier = ref.read(formViewItemsProvider.notifier);
+  //         itemsNotifier
+  //             .processCalculatedItems()
+  //             .then((_) => itemsNotifier.runDataIntegrityCheck());
+  //       },
+  //       // ValueStoreResult.INIT: () {
+  //       //   logInfo(info: 'INIT: INIT.FINISH');
+  //       // },
+  //     });
+  //   });
+  // }
+
   void _setObservers() {
     // TODO(NMC): create loadingBar for this and initiate it when widget.onLoadingListener = null or call widget.onLoadingListener
-    ref.listenManual<bool>(formViewLoadingProvider,
-            (previous, next) => widget.onLoadingListener?.call(next));
+    ref.listenManual<bool>(
+        formModelNotifierProvider.select((value) => value.loading),
+        (previous, next) => widget.onLoadingListener?.call(next));
 
     ref.listenManual<RowAction?>(
         formModelNotifierProvider.select((formModel) => formModel.savedValue),
-            (previous, next) => next
+        (previous, next) => next
             ?.let((rowAction) => widget.onItemChangeListener?.call(rowAction)));
 
     ref.listenManual<RowAction?>(
         formModelNotifierProvider.select((formModel) => formModel.queryData),
-            (previous, next) => next?.let((rowAction) {
-          if (widget.needToForceUpdate) {
-            widget.onItemChangeListener?.let((it) => it(rowAction));
-          }
-        }));
+        (previous, next) => next?.let((rowAction) {
+              if (widget.needToForceUpdate) {
+                widget.onItemChangeListener?.let((it) => it(rowAction));
+              }
+            }));
 
     ref.listenManual<String?>(
         formModelNotifierProvider.select((formModel) => formModel.showToast),
-            (previous, next) => next?.let((it) => showToast(it)));
+        (previous, next) => next?.let((it) => showToast(it)));
 
-    ref.listenManual<bool?>(formViewFocusedProvider,
-            (previous, next) => next.let((it) => widget.onFocused?.call()));
+    ref.listenManual<bool?>(
+        formModelNotifierProvider.select((value) => value.focused),
+        (previous, next) => next.let((it) => widget.onFocused?.call()));
 
     ref.listenManual<InfoUiModel?>(
         formModelNotifierProvider.select((formModel) => formModel.showInfo),
-            (previous, next) =>
+        (previous, next) =>
             next?.let((infoUiModel) => _showInfoDialog(infoUiModel)));
 
     ref.listenManual<DataIntegrityCheckResult?>(
         formModelNotifierProvider
             .select((formModel) => formModel.dataIntegrityResult),
-            (previous, next) =>
+        (previous, next) =>
             next?.let((result) => _handleDataIntegrityResult(result)));
 
     ref.listenManual<double>(
-        completionPercentageProvider,
-            (previous, next) => next
+        formModelNotifierProvider.select((value) => value.completionPercentage),
+        (previous, next) => next
             .let((percentage) => widget.onPercentageUpdate?.call(percentage)));
 
     ref.listenManual<bool>(
-        calculationLoopProvider,
-            (previous, next) => next.let((displayLoopWarning) =>
-        displayLoopWarning ? _showLoopWarning() : null));
+        formModelNotifierProvider.select((value) => value.calculationLoop),
+        (previous, next) => next.let((displayLoopWarning) =>
+            displayLoopWarning ? _showLoopWarning() : null));
 
     // ref.listenManual<FormIntent?>(uiIntentProvider,
     //     (previous, next) => next?.let((it) => _intentHandler(it)));
@@ -273,6 +324,7 @@ class _FormViewWidgetState extends ConsumerState<FormViewWidget>
   _showInfoDialog(InfoUiModel infoUiModel) {}
 
   _handleDataIntegrityResult(DataIntegrityCheckResult result) {
+    logInfo(info: '_handleDataIntegrityResult');
     if (widget.onDataIntegrityCheck != null) {
       widget.onDataIntegrityCheck?.call(result);
     } else {
@@ -336,14 +388,12 @@ class _FormViewWidgetState extends ConsumerState<FormViewWidget>
   }
 
   void onBackPressed() {
-    ref
-        .read(formViewItemsProvider.notifier)
-        .runDataIntegrityCheck(backButtonPressed: true);
+    formViewModelNotifier.runDataIntegrityCheck(backButtonPressed: true);
   }
 
   void onSaveClick() {
     onEditionFinish();
-    ref.read(formViewItemsProvider.notifier).saveDataEntry();
+    formViewModelNotifier.saveDataEntry();
     // viewModel.saveDataEntry();
   }
 
@@ -363,7 +413,7 @@ class _FormViewWidgetState extends ConsumerState<FormViewWidget>
 
   void _handleKeyBoardOnFocusChange(IList<FieldUiModel> items) {
     items.firstOrNullWhere((FieldUiModel it) => it.focused)?.let(
-            (FieldUiModel fieldUiModel) =>
+        (FieldUiModel fieldUiModel) =>
             fieldUiModel.valueType?.let((ValueType valueType) {
               if (!valueTypeIsTextField(valueType)) {
                 hideTheKeyboard(context);

@@ -6,6 +6,7 @@ import 'form_ui_color_type.dart';
 
 abstract class FormUiModelStyle {
   const FormUiModelStyle();
+
   Map<FormUiColorType, Color> getColors();
 
   IconData? getDescriptionIcon();

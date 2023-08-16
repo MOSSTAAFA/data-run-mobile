@@ -3,17 +3,23 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../commons/custom_widgets/mixins/keyboard_manager.dart';
+import '../model/form_repository_records.dart';
 import 'data_entry_item.widget.dart';
-import 'di/form_view_notifier.dart';
 import 'event/list_view_ui_events.dart';
 import 'intent/form_intent.dart';
+import 'view_model/form_view_model_notifier.dart';
 
 class DataEntryItemListWidget extends ConsumerStatefulWidget {
   const DataEntryItemListWidget(
       {super.key,
+      required this.itemsCount,
       this.onIntent,
+      required this.records,
       this.onListViewUiEvents,
       this.searchStyle = false});
+
+  final int itemsCount;
+  final FormRepositoryRecords records;
 
   final void Function(FormIntent intent)? onIntent;
   final void Function(ListViewUiEvents uiEvent)? onListViewUiEvents;
@@ -31,13 +37,15 @@ class DataEntryItemListWidgetState
 
   @override
   Widget build(BuildContext context) {
-    final itemCount = ref
-        .watch(formViewItemsProvider.select((list) => list.value?.length ?? 0));
+    // final itemCount = ref
+    //     .watch(formViewItemsProvider.select((list) => list.value?.length ?? 0));
+    // final items = ref.watch(formViewModelNotifierProvider());
+    // final itemCount = items.value?.length ?? 0;
 
-    return itemCount > 0
+    return widget.itemsCount > 0
         ? ScrollablePositionedList.builder(
             shrinkWrap: true,
-            itemCount: itemCount,
+            itemCount: widget.itemsCount,
             itemBuilder: (BuildContext context, int index) => ProviderScope(
               overrides: [formViewIndexProvider.overrideWith((_) => index)],
               child: DataEntryItemWidget(
@@ -49,6 +57,7 @@ class DataEntryItemListWidgetState
                 },
                 onListViewUiEvents: (uiEvent) =>
                     widget.onListViewUiEvents?.call(uiEvent),
+                records: widget.records,
               ),
             ),
             itemScrollController: itemScrollController,
@@ -56,9 +65,10 @@ class DataEntryItemListWidgetState
           )
         : const SizedBox.shrink();
   }
+
   @override
   void initState() {
-    final records = ref.read(formRepositoryRecordsInstanceProvider);
+    // final records = ref.read(formRepositoryRecordsInstanceProvider);
     super.initState();
   }
 }

@@ -1,28 +1,4 @@
-import 'package:d2_remote/core/common/exception/exception.dart';
-import 'package:d2_remote/core/common/feature_type.dart';
-import 'package:d2_remote/core/common/value_type.dart';
-import 'package:d2_remote/core/mp/helpers/result.dart';
-import 'package:dartx/dartx_io.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:flutter/material.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../commons/extensions/dynamic_extensions.dart';
-import '../../commons/extensions/standard_extensions.dart';
-import '../data/form_repository.dart';
-import '../di/injector.dart';
-import '../model/Ui_render_type.dart';
-import '../model/action_type.dart';
-import '../model/field_ui_model.dart';
-import '../model/form_repository_records.dart';
-import '../model/info_ui_model.dart';
-import '../model/row_action.dart';
-import '../model/store_result.dart';
-import '../model/value_store_result.dart';
-import 'event/list_view_ui_events.dart';
-import 'form_model.dart';
-import 'intent/form_intent.dart';
-import 'validation/validators/field_mask_validator.dart';
 
 // part 'form_view_model.g.dart';
 
@@ -112,7 +88,7 @@ import 'validation/validators/field_mask_validator.dart';
 //       default:
 //     }
 //   }
-//
+
 //   /// created
 //   Future<Pair<RowAction, StoreResult>> _createRowActionStore(
 //       FormIntent intent) async {
@@ -598,8 +574,6 @@ import 'validation/validators/field_mask_validator.dart';
 // //   state = await AsyncValue.guard(repository.composeList);
 // // }
 // }
-
-
 
 // @riverpod
 // Future<int> itemsListLength(ItemsListLengthRef ref) {

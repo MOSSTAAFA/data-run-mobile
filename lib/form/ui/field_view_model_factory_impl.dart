@@ -5,7 +5,6 @@ import 'package:d2_remote/core/common/value_type_rendering_type.dart';
 import 'package:d2_remote/core/program/section_rendering_type.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_tracked_entity_attribute.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/tracked_entity_attribute.entity.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
 import '../../commons/extensions/dynamic_extensions.dart';
 import '../../commons/extensions/value_extensions.dart';
@@ -36,6 +35,7 @@ class FieldViewModelFactoryImpl implements FieldViewModelFactory {
     required this.keyboardActionProvider,
     /*this.legendValueProvider*/
   });
+
   final bool noMandatoryFields;
   final UiStyleProvider uiStyleProvider;
   final LayoutProvider layoutProvider;
@@ -68,6 +68,10 @@ class FieldViewModelFactoryImpl implements FieldViewModelFactory {
 
     if (noMandatoryFields) isMandatory = false;
 
+    // TODO(NMC): avoid asynchronicity using scopes
+    /// see:
+    /// https://docs-v2.riverpod.dev/docs/concepts/scopes#initialization-of-synchronous-provider-for-async-apis
+    ///
     final String? displayName = await displayNameProvider.provideDisplayName(
         valueType, value, optionSet);
 
