@@ -19,22 +19,22 @@ mixin _$DataIntegrityCheckResult {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> errorFields,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> errorFields,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)
         missingMandatoryResult,
     required TResult Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> fieldUidErrorList,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> fieldUidErrorList,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)
         fieldsWithErrorResult,
-    required TResult Function(List<FieldWithIssue> fieldUidWarningList,
+    required TResult Function(IList<FieldWithIssue> fieldUidWarningList,
             bool canComplete, String? onCompleteMessage, bool allowDiscard)
         fieldsWithWarningResult,
     required TResult Function(String? extraData, bool canComplete,
@@ -46,22 +46,22 @@ mixin _$DataIntegrityCheckResult {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> errorFields,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> errorFields,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)?
         missingMandatoryResult,
     TResult? Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> fieldUidErrorList,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> fieldUidErrorList,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)?
         fieldsWithErrorResult,
-    TResult? Function(List<FieldWithIssue> fieldUidWarningList,
+    TResult? Function(IList<FieldWithIssue> fieldUidWarningList,
             bool canComplete, String? onCompleteMessage, bool allowDiscard)?
         fieldsWithWarningResult,
     TResult? Function(String? extraData, bool canComplete,
@@ -73,23 +73,23 @@ mixin _$DataIntegrityCheckResult {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> errorFields,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> errorFields,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)?
         missingMandatoryResult,
     TResult Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> fieldUidErrorList,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> fieldUidErrorList,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)?
         fieldsWithErrorResult,
-    TResult Function(List<FieldWithIssue> fieldUidWarningList, bool canComplete,
-            String? onCompleteMessage, bool allowDiscard)?
+    TResult Function(IList<FieldWithIssue> fieldUidWarningList,
+            bool canComplete, String? onCompleteMessage, bool allowDiscard)?
         fieldsWithWarningResult,
     TResult Function(String? extraData, bool canComplete,
             String? onCompleteMessage, bool allowDiscard)?
@@ -157,9 +157,9 @@ abstract class _$$MissingMandatoryResultCopyWith<$Res> {
       __$$MissingMandatoryResultCopyWithImpl<$Res>;
   @useResult
   $Res call(
-      {Map<String, String> mandatoryFields,
-      List<FieldWithIssue> errorFields,
-      List<FieldWithIssue> warningFields,
+      {IMap<String, String> mandatoryFields,
+      IList<FieldWithIssue> errorFields,
+      IList<FieldWithIssue> warningFields,
       bool canComplete,
       String? onCompleteMessage,
       bool allowDiscard});
@@ -186,17 +186,17 @@ class __$$MissingMandatoryResultCopyWithImpl<$Res>
   }) {
     return _then(_$MissingMandatoryResult(
       mandatoryFields: null == mandatoryFields
-          ? _value._mandatoryFields
+          ? _value.mandatoryFields
           : mandatoryFields // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
+              as IMap<String, String>,
       errorFields: null == errorFields
-          ? _value._errorFields
+          ? _value.errorFields
           : errorFields // ignore: cast_nullable_to_non_nullable
-              as List<FieldWithIssue>,
+              as IList<FieldWithIssue>,
       warningFields: null == warningFields
-          ? _value._warningFields
+          ? _value.warningFields
           : warningFields // ignore: cast_nullable_to_non_nullable
-              as List<FieldWithIssue>,
+              as IList<FieldWithIssue>,
       canComplete: null == canComplete
           ? _value.canComplete
           : canComplete // ignore: cast_nullable_to_non_nullable
@@ -219,40 +219,19 @@ class _$MissingMandatoryResult
     with DiagnosticableTreeMixin
     implements MissingMandatoryResult {
   const _$MissingMandatoryResult(
-      {required final Map<String, String> mandatoryFields,
-      required final List<FieldWithIssue> errorFields,
-      required final List<FieldWithIssue> warningFields,
+      {required this.mandatoryFields,
+      required this.errorFields,
+      required this.warningFields,
       this.canComplete = false,
       this.onCompleteMessage,
-      this.allowDiscard = false})
-      : _mandatoryFields = mandatoryFields,
-        _errorFields = errorFields,
-        _warningFields = warningFields;
+      this.allowDiscard = false});
 
-  final Map<String, String> _mandatoryFields;
   @override
-  Map<String, String> get mandatoryFields {
-    if (_mandatoryFields is EqualUnmodifiableMapView) return _mandatoryFields;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_mandatoryFields);
-  }
-
-  final List<FieldWithIssue> _errorFields;
+  final IMap<String, String> mandatoryFields;
   @override
-  List<FieldWithIssue> get errorFields {
-    if (_errorFields is EqualUnmodifiableListView) return _errorFields;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_errorFields);
-  }
-
-  final List<FieldWithIssue> _warningFields;
+  final IList<FieldWithIssue> errorFields;
   @override
-  List<FieldWithIssue> get warningFields {
-    if (_warningFields is EqualUnmodifiableListView) return _warningFields;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_warningFields);
-  }
-
+  final IList<FieldWithIssue> warningFields;
 // override
   @override
   @JsonKey()
@@ -287,12 +266,12 @@ class _$MissingMandatoryResult
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MissingMandatoryResult &&
+            (identical(other.mandatoryFields, mandatoryFields) ||
+                other.mandatoryFields == mandatoryFields) &&
             const DeepCollectionEquality()
-                .equals(other._mandatoryFields, _mandatoryFields) &&
+                .equals(other.errorFields, errorFields) &&
             const DeepCollectionEquality()
-                .equals(other._errorFields, _errorFields) &&
-            const DeepCollectionEquality()
-                .equals(other._warningFields, _warningFields) &&
+                .equals(other.warningFields, warningFields) &&
             (identical(other.canComplete, canComplete) ||
                 other.canComplete == canComplete) &&
             (identical(other.onCompleteMessage, onCompleteMessage) ||
@@ -304,9 +283,9 @@ class _$MissingMandatoryResult
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(_mandatoryFields),
-      const DeepCollectionEquality().hash(_errorFields),
-      const DeepCollectionEquality().hash(_warningFields),
+      mandatoryFields,
+      const DeepCollectionEquality().hash(errorFields),
+      const DeepCollectionEquality().hash(warningFields),
       canComplete,
       onCompleteMessage,
       allowDiscard);
@@ -322,22 +301,22 @@ class _$MissingMandatoryResult
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> errorFields,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> errorFields,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)
         missingMandatoryResult,
     required TResult Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> fieldUidErrorList,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> fieldUidErrorList,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)
         fieldsWithErrorResult,
-    required TResult Function(List<FieldWithIssue> fieldUidWarningList,
+    required TResult Function(IList<FieldWithIssue> fieldUidWarningList,
             bool canComplete, String? onCompleteMessage, bool allowDiscard)
         fieldsWithWarningResult,
     required TResult Function(String? extraData, bool canComplete,
@@ -353,22 +332,22 @@ class _$MissingMandatoryResult
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> errorFields,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> errorFields,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)?
         missingMandatoryResult,
     TResult? Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> fieldUidErrorList,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> fieldUidErrorList,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)?
         fieldsWithErrorResult,
-    TResult? Function(List<FieldWithIssue> fieldUidWarningList,
+    TResult? Function(IList<FieldWithIssue> fieldUidWarningList,
             bool canComplete, String? onCompleteMessage, bool allowDiscard)?
         fieldsWithWarningResult,
     TResult? Function(String? extraData, bool canComplete,
@@ -384,23 +363,23 @@ class _$MissingMandatoryResult
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> errorFields,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> errorFields,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)?
         missingMandatoryResult,
     TResult Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> fieldUidErrorList,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> fieldUidErrorList,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)?
         fieldsWithErrorResult,
-    TResult Function(List<FieldWithIssue> fieldUidWarningList, bool canComplete,
-            String? onCompleteMessage, bool allowDiscard)?
+    TResult Function(IList<FieldWithIssue> fieldUidWarningList,
+            bool canComplete, String? onCompleteMessage, bool allowDiscard)?
         fieldsWithWarningResult,
     TResult Function(String? extraData, bool canComplete,
             String? onCompleteMessage, bool allowDiscard)?
@@ -461,16 +440,16 @@ class _$MissingMandatoryResult
 
 abstract class MissingMandatoryResult implements DataIntegrityCheckResult {
   const factory MissingMandatoryResult(
-      {required final Map<String, String> mandatoryFields,
-      required final List<FieldWithIssue> errorFields,
-      required final List<FieldWithIssue> warningFields,
+      {required final IMap<String, String> mandatoryFields,
+      required final IList<FieldWithIssue> errorFields,
+      required final IList<FieldWithIssue> warningFields,
       final bool canComplete,
       final String? onCompleteMessage,
       final bool allowDiscard}) = _$MissingMandatoryResult;
 
-  Map<String, String> get mandatoryFields;
-  List<FieldWithIssue> get errorFields;
-  List<FieldWithIssue> get warningFields; // override
+  IMap<String, String> get mandatoryFields;
+  IList<FieldWithIssue> get errorFields;
+  IList<FieldWithIssue> get warningFields; // override
   bool get canComplete;
   String? get onCompleteMessage;
   bool get allowDiscard;
@@ -486,9 +465,9 @@ abstract class _$$FieldsWithErrorResultCopyWith<$Res> {
       __$$FieldsWithErrorResultCopyWithImpl<$Res>;
   @useResult
   $Res call(
-      {Map<String, String> mandatoryFields,
-      List<FieldWithIssue> fieldUidErrorList,
-      List<FieldWithIssue> warningFields,
+      {IMap<String, String> mandatoryFields,
+      IList<FieldWithIssue> fieldUidErrorList,
+      IList<FieldWithIssue> warningFields,
       bool canComplete,
       String? onCompleteMessage,
       bool allowDiscard});
@@ -515,17 +494,17 @@ class __$$FieldsWithErrorResultCopyWithImpl<$Res>
   }) {
     return _then(_$FieldsWithErrorResult(
       mandatoryFields: null == mandatoryFields
-          ? _value._mandatoryFields
+          ? _value.mandatoryFields
           : mandatoryFields // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
+              as IMap<String, String>,
       fieldUidErrorList: null == fieldUidErrorList
-          ? _value._fieldUidErrorList
+          ? _value.fieldUidErrorList
           : fieldUidErrorList // ignore: cast_nullable_to_non_nullable
-              as List<FieldWithIssue>,
+              as IList<FieldWithIssue>,
       warningFields: null == warningFields
-          ? _value._warningFields
+          ? _value.warningFields
           : warningFields // ignore: cast_nullable_to_non_nullable
-              as List<FieldWithIssue>,
+              as IList<FieldWithIssue>,
       canComplete: null == canComplete
           ? _value.canComplete
           : canComplete // ignore: cast_nullable_to_non_nullable
@@ -548,41 +527,19 @@ class _$FieldsWithErrorResult
     with DiagnosticableTreeMixin
     implements FieldsWithErrorResult {
   const _$FieldsWithErrorResult(
-      {required final Map<String, String> mandatoryFields,
-      required final List<FieldWithIssue> fieldUidErrorList,
-      required final List<FieldWithIssue> warningFields,
+      {required this.mandatoryFields,
+      required this.fieldUidErrorList,
+      required this.warningFields,
       this.canComplete = false,
       this.onCompleteMessage,
-      this.allowDiscard = false})
-      : _mandatoryFields = mandatoryFields,
-        _fieldUidErrorList = fieldUidErrorList,
-        _warningFields = warningFields;
+      this.allowDiscard = false});
 
-  final Map<String, String> _mandatoryFields;
   @override
-  Map<String, String> get mandatoryFields {
-    if (_mandatoryFields is EqualUnmodifiableMapView) return _mandatoryFields;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_mandatoryFields);
-  }
-
-  final List<FieldWithIssue> _fieldUidErrorList;
+  final IMap<String, String> mandatoryFields;
   @override
-  List<FieldWithIssue> get fieldUidErrorList {
-    if (_fieldUidErrorList is EqualUnmodifiableListView)
-      return _fieldUidErrorList;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_fieldUidErrorList);
-  }
-
-  final List<FieldWithIssue> _warningFields;
+  final IList<FieldWithIssue> fieldUidErrorList;
   @override
-  List<FieldWithIssue> get warningFields {
-    if (_warningFields is EqualUnmodifiableListView) return _warningFields;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_warningFields);
-  }
-
+  final IList<FieldWithIssue> warningFields;
 // override
   @override
   @JsonKey()
@@ -617,12 +574,12 @@ class _$FieldsWithErrorResult
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$FieldsWithErrorResult &&
+            (identical(other.mandatoryFields, mandatoryFields) ||
+                other.mandatoryFields == mandatoryFields) &&
             const DeepCollectionEquality()
-                .equals(other._mandatoryFields, _mandatoryFields) &&
+                .equals(other.fieldUidErrorList, fieldUidErrorList) &&
             const DeepCollectionEquality()
-                .equals(other._fieldUidErrorList, _fieldUidErrorList) &&
-            const DeepCollectionEquality()
-                .equals(other._warningFields, _warningFields) &&
+                .equals(other.warningFields, warningFields) &&
             (identical(other.canComplete, canComplete) ||
                 other.canComplete == canComplete) &&
             (identical(other.onCompleteMessage, onCompleteMessage) ||
@@ -634,9 +591,9 @@ class _$FieldsWithErrorResult
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(_mandatoryFields),
-      const DeepCollectionEquality().hash(_fieldUidErrorList),
-      const DeepCollectionEquality().hash(_warningFields),
+      mandatoryFields,
+      const DeepCollectionEquality().hash(fieldUidErrorList),
+      const DeepCollectionEquality().hash(warningFields),
       canComplete,
       onCompleteMessage,
       allowDiscard);
@@ -652,22 +609,22 @@ class _$FieldsWithErrorResult
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> errorFields,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> errorFields,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)
         missingMandatoryResult,
     required TResult Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> fieldUidErrorList,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> fieldUidErrorList,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)
         fieldsWithErrorResult,
-    required TResult Function(List<FieldWithIssue> fieldUidWarningList,
+    required TResult Function(IList<FieldWithIssue> fieldUidWarningList,
             bool canComplete, String? onCompleteMessage, bool allowDiscard)
         fieldsWithWarningResult,
     required TResult Function(String? extraData, bool canComplete,
@@ -683,22 +640,22 @@ class _$FieldsWithErrorResult
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> errorFields,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> errorFields,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)?
         missingMandatoryResult,
     TResult? Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> fieldUidErrorList,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> fieldUidErrorList,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)?
         fieldsWithErrorResult,
-    TResult? Function(List<FieldWithIssue> fieldUidWarningList,
+    TResult? Function(IList<FieldWithIssue> fieldUidWarningList,
             bool canComplete, String? onCompleteMessage, bool allowDiscard)?
         fieldsWithWarningResult,
     TResult? Function(String? extraData, bool canComplete,
@@ -714,23 +671,23 @@ class _$FieldsWithErrorResult
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> errorFields,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> errorFields,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)?
         missingMandatoryResult,
     TResult Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> fieldUidErrorList,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> fieldUidErrorList,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)?
         fieldsWithErrorResult,
-    TResult Function(List<FieldWithIssue> fieldUidWarningList, bool canComplete,
-            String? onCompleteMessage, bool allowDiscard)?
+    TResult Function(IList<FieldWithIssue> fieldUidWarningList,
+            bool canComplete, String? onCompleteMessage, bool allowDiscard)?
         fieldsWithWarningResult,
     TResult Function(String? extraData, bool canComplete,
             String? onCompleteMessage, bool allowDiscard)?
@@ -791,16 +748,16 @@ class _$FieldsWithErrorResult
 
 abstract class FieldsWithErrorResult implements DataIntegrityCheckResult {
   const factory FieldsWithErrorResult(
-      {required final Map<String, String> mandatoryFields,
-      required final List<FieldWithIssue> fieldUidErrorList,
-      required final List<FieldWithIssue> warningFields,
+      {required final IMap<String, String> mandatoryFields,
+      required final IList<FieldWithIssue> fieldUidErrorList,
+      required final IList<FieldWithIssue> warningFields,
       final bool canComplete,
       final String? onCompleteMessage,
       final bool allowDiscard}) = _$FieldsWithErrorResult;
 
-  Map<String, String> get mandatoryFields;
-  List<FieldWithIssue> get fieldUidErrorList;
-  List<FieldWithIssue> get warningFields; // override
+  IMap<String, String> get mandatoryFields;
+  IList<FieldWithIssue> get fieldUidErrorList;
+  IList<FieldWithIssue> get warningFields; // override
   bool get canComplete;
   String? get onCompleteMessage;
   bool get allowDiscard;
@@ -816,7 +773,7 @@ abstract class _$$FieldsWithWarningResultCopyWith<$Res> {
       __$$FieldsWithWarningResultCopyWithImpl<$Res>;
   @useResult
   $Res call(
-      {List<FieldWithIssue> fieldUidWarningList,
+      {IList<FieldWithIssue> fieldUidWarningList,
       bool canComplete,
       String? onCompleteMessage,
       bool allowDiscard});
@@ -841,9 +798,9 @@ class __$$FieldsWithWarningResultCopyWithImpl<$Res>
   }) {
     return _then(_$FieldsWithWarningResult(
       fieldUidWarningList: null == fieldUidWarningList
-          ? _value._fieldUidWarningList
+          ? _value.fieldUidWarningList
           : fieldUidWarningList // ignore: cast_nullable_to_non_nullable
-              as List<FieldWithIssue>,
+              as IList<FieldWithIssue>,
       canComplete: null == canComplete
           ? _value.canComplete
           : canComplete // ignore: cast_nullable_to_non_nullable
@@ -866,21 +823,13 @@ class _$FieldsWithWarningResult
     with DiagnosticableTreeMixin
     implements FieldsWithWarningResult {
   const _$FieldsWithWarningResult(
-      {required final List<FieldWithIssue> fieldUidWarningList,
+      {required this.fieldUidWarningList,
       this.canComplete = false,
       this.onCompleteMessage,
-      this.allowDiscard = false})
-      : _fieldUidWarningList = fieldUidWarningList;
+      this.allowDiscard = false});
 
-  final List<FieldWithIssue> _fieldUidWarningList;
   @override
-  List<FieldWithIssue> get fieldUidWarningList {
-    if (_fieldUidWarningList is EqualUnmodifiableListView)
-      return _fieldUidWarningList;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_fieldUidWarningList);
-  }
-
+  final IList<FieldWithIssue> fieldUidWarningList;
 // override
   @override
   @JsonKey()
@@ -914,7 +863,7 @@ class _$FieldsWithWarningResult
         (other.runtimeType == runtimeType &&
             other is _$FieldsWithWarningResult &&
             const DeepCollectionEquality()
-                .equals(other._fieldUidWarningList, _fieldUidWarningList) &&
+                .equals(other.fieldUidWarningList, fieldUidWarningList) &&
             (identical(other.canComplete, canComplete) ||
                 other.canComplete == canComplete) &&
             (identical(other.onCompleteMessage, onCompleteMessage) ||
@@ -926,7 +875,7 @@ class _$FieldsWithWarningResult
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(_fieldUidWarningList),
+      const DeepCollectionEquality().hash(fieldUidWarningList),
       canComplete,
       onCompleteMessage,
       allowDiscard);
@@ -942,22 +891,22 @@ class _$FieldsWithWarningResult
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> errorFields,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> errorFields,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)
         missingMandatoryResult,
     required TResult Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> fieldUidErrorList,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> fieldUidErrorList,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)
         fieldsWithErrorResult,
-    required TResult Function(List<FieldWithIssue> fieldUidWarningList,
+    required TResult Function(IList<FieldWithIssue> fieldUidWarningList,
             bool canComplete, String? onCompleteMessage, bool allowDiscard)
         fieldsWithWarningResult,
     required TResult Function(String? extraData, bool canComplete,
@@ -973,22 +922,22 @@ class _$FieldsWithWarningResult
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> errorFields,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> errorFields,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)?
         missingMandatoryResult,
     TResult? Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> fieldUidErrorList,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> fieldUidErrorList,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)?
         fieldsWithErrorResult,
-    TResult? Function(List<FieldWithIssue> fieldUidWarningList,
+    TResult? Function(IList<FieldWithIssue> fieldUidWarningList,
             bool canComplete, String? onCompleteMessage, bool allowDiscard)?
         fieldsWithWarningResult,
     TResult? Function(String? extraData, bool canComplete,
@@ -1004,23 +953,23 @@ class _$FieldsWithWarningResult
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> errorFields,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> errorFields,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)?
         missingMandatoryResult,
     TResult Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> fieldUidErrorList,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> fieldUidErrorList,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)?
         fieldsWithErrorResult,
-    TResult Function(List<FieldWithIssue> fieldUidWarningList, bool canComplete,
-            String? onCompleteMessage, bool allowDiscard)?
+    TResult Function(IList<FieldWithIssue> fieldUidWarningList,
+            bool canComplete, String? onCompleteMessage, bool allowDiscard)?
         fieldsWithWarningResult,
     TResult Function(String? extraData, bool canComplete,
             String? onCompleteMessage, bool allowDiscard)?
@@ -1081,12 +1030,12 @@ class _$FieldsWithWarningResult
 
 abstract class FieldsWithWarningResult implements DataIntegrityCheckResult {
   const factory FieldsWithWarningResult(
-      {required final List<FieldWithIssue> fieldUidWarningList,
+      {required final IList<FieldWithIssue> fieldUidWarningList,
       final bool canComplete,
       final String? onCompleteMessage,
       final bool allowDiscard}) = _$FieldsWithWarningResult;
 
-  List<FieldWithIssue> get fieldUidWarningList; // override
+  IList<FieldWithIssue> get fieldUidWarningList; // override
   bool get canComplete;
   String? get onCompleteMessage;
   bool get allowDiscard;
@@ -1214,22 +1163,22 @@ class _$SuccessfulResult
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> errorFields,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> errorFields,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)
         missingMandatoryResult,
     required TResult Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> fieldUidErrorList,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> fieldUidErrorList,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)
         fieldsWithErrorResult,
-    required TResult Function(List<FieldWithIssue> fieldUidWarningList,
+    required TResult Function(IList<FieldWithIssue> fieldUidWarningList,
             bool canComplete, String? onCompleteMessage, bool allowDiscard)
         fieldsWithWarningResult,
     required TResult Function(String? extraData, bool canComplete,
@@ -1245,22 +1194,22 @@ class _$SuccessfulResult
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> errorFields,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> errorFields,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)?
         missingMandatoryResult,
     TResult? Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> fieldUidErrorList,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> fieldUidErrorList,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)?
         fieldsWithErrorResult,
-    TResult? Function(List<FieldWithIssue> fieldUidWarningList,
+    TResult? Function(IList<FieldWithIssue> fieldUidWarningList,
             bool canComplete, String? onCompleteMessage, bool allowDiscard)?
         fieldsWithWarningResult,
     TResult? Function(String? extraData, bool canComplete,
@@ -1276,23 +1225,23 @@ class _$SuccessfulResult
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> errorFields,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> errorFields,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)?
         missingMandatoryResult,
     TResult Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> fieldUidErrorList,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> fieldUidErrorList,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)?
         fieldsWithErrorResult,
-    TResult Function(List<FieldWithIssue> fieldUidWarningList, bool canComplete,
-            String? onCompleteMessage, bool allowDiscard)?
+    TResult Function(IList<FieldWithIssue> fieldUidWarningList,
+            bool canComplete, String? onCompleteMessage, bool allowDiscard)?
         fieldsWithWarningResult,
     TResult Function(String? extraData, bool canComplete,
             String? onCompleteMessage, bool allowDiscard)?
@@ -1413,22 +1362,22 @@ class _$NotSavedResult with DiagnosticableTreeMixin implements NotSavedResult {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> errorFields,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> errorFields,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)
         missingMandatoryResult,
     required TResult Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> fieldUidErrorList,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> fieldUidErrorList,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)
         fieldsWithErrorResult,
-    required TResult Function(List<FieldWithIssue> fieldUidWarningList,
+    required TResult Function(IList<FieldWithIssue> fieldUidWarningList,
             bool canComplete, String? onCompleteMessage, bool allowDiscard)
         fieldsWithWarningResult,
     required TResult Function(String? extraData, bool canComplete,
@@ -1443,22 +1392,22 @@ class _$NotSavedResult with DiagnosticableTreeMixin implements NotSavedResult {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> errorFields,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> errorFields,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)?
         missingMandatoryResult,
     TResult? Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> fieldUidErrorList,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> fieldUidErrorList,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)?
         fieldsWithErrorResult,
-    TResult? Function(List<FieldWithIssue> fieldUidWarningList,
+    TResult? Function(IList<FieldWithIssue> fieldUidWarningList,
             bool canComplete, String? onCompleteMessage, bool allowDiscard)?
         fieldsWithWarningResult,
     TResult? Function(String? extraData, bool canComplete,
@@ -1473,23 +1422,23 @@ class _$NotSavedResult with DiagnosticableTreeMixin implements NotSavedResult {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> errorFields,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> errorFields,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)?
         missingMandatoryResult,
     TResult Function(
-            Map<String, String> mandatoryFields,
-            List<FieldWithIssue> fieldUidErrorList,
-            List<FieldWithIssue> warningFields,
+            IMap<String, String> mandatoryFields,
+            IList<FieldWithIssue> fieldUidErrorList,
+            IList<FieldWithIssue> warningFields,
             bool canComplete,
             String? onCompleteMessage,
             bool allowDiscard)?
         fieldsWithErrorResult,
-    TResult Function(List<FieldWithIssue> fieldUidWarningList, bool canComplete,
-            String? onCompleteMessage, bool allowDiscard)?
+    TResult Function(IList<FieldWithIssue> fieldUidWarningList,
+            bool canComplete, String? onCompleteMessage, bool allowDiscard)?
         fieldsWithWarningResult,
     TResult Function(String? extraData, bool canComplete,
             String? onCompleteMessage, bool allowDiscard)?

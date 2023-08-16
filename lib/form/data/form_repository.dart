@@ -12,7 +12,7 @@ abstract class FormRepository {
   Future<IList<FieldUiModel>> composeList();
 
   // List<RulesUtilsProviderConfigurationError>? getConfigurationErrors();
-  Future<DataIntegrityCheckResult> runDataIntegrityCheck(
+  DataIntegrityCheckResult runDataIntegrityCheck(
       {required bool allowDiscard});
 
   // Currently no need to return Future

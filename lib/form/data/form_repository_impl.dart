@@ -1,9 +1,14 @@
+// ignore_for_file: always_specify_types
+
+import 'dart:async';
+
 import 'package:d2_remote/core/common/value_type.dart';
-import 'package:dartx/dartx_io.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
 import '../../commons/date/field_with_issue.dart';
 import '../../commons/extensions/standard_extensions.dart';
+import '../../commons/extensions/string_extension.dart';
+import '../../commons/helpers/iterable.dart';
 import '../model/action_type.dart';
 import '../model/field_ui_model.dart';
 import '../model/row_action.dart';
@@ -38,9 +43,9 @@ class FormRepositoryImpl implements FormRepository {
   final DisplayNameProvider displayNameProvider;
   final DataEntryRepository? dataEntryRepository;
 
-  double _completionPercentage = 0.0;
-  final IList<RowAction> _itemsWithError = IList();
-  final Map<String, String> _mandatoryItemsWithoutValue = {};
+  double _completionPercentage = 0;
+  IList<RowAction> _itemsWithError = IList();
+  IMap<String, String> _mandatoryItemsWithoutValue = IMap({});
   String? _openedSectionUid;
   IList<FieldUiModel> _itemList = IList();
   String? _focusedItemId;
@@ -82,51 +87,80 @@ class FormRepositoryImpl implements FormRepository {
         .then((IList<FieldUiModel> listOfItems) => _setLastItem(listOfItems));
   }
 
+  Future<IList<FieldUiModel>> _mergeListWithErrorFields(
+      IList<FieldUiModel> list, IList<RowAction> fieldsWithError) async {
+    _mandatoryItemsWithoutValue.clear();
+    final List<FieldUiModel> mergedList =
+        await Future.wait<FieldUiModel>(list.map((FieldUiModel item) async {
+      if (item.mandatory && item.value == null) {
+        _mandatoryItemsWithoutValue = _mandatoryItemsWithoutValue.update(
+            item.label, (value) => item.programStageSection ?? '');
+      }
+      final RowAction? action = fieldsWithError
+          .firstOrNullWhere((RowAction action) => action.id == item.uid);
+
+      if (action != null) {
+        final String? error = action.error != null
+            ? fieldErrorMessageProvider.getFriendlyErrorMessage(action.error!)
+            : null;
+
+        final String? displayName = await displayNameProvider
+            .provideDisplayName(action.valueType, action.value);
+        return item
+            .setValue(action.value)
+            .setError(error)
+            .setDisplayName(displayName);
+      } else {
+        return item;
+      }
+    }));
+    return mergedList.lock;
+  }
+
   /// pure function doesn't effect this class variables
   @override
-  Future<DataIntegrityCheckResult> runDataIntegrityCheck(
-      {required bool allowDiscard}) {
+  DataIntegrityCheckResult runDataIntegrityCheck({required bool allowDiscard}) {
     _runDataIntegrity = true;
-    final List<FieldWithIssue> itemsWithErrors = _getFieldsWithError();
+    final IList<FieldWithIssue> itemsWithErrors = _getFieldsWithError();
     /*final*/
-    final List<FieldWithIssue> itemsWithWarning = /*ruleEffectsResult?...??*/
-        [];
+    final IList<FieldWithIssue> itemsWithWarning = /*ruleEffectsResult?...??*/
+        IList([]);
     // final DataIntegrityCheckResult result;
     if (itemsWithErrors
         .isNotEmpty /*|| ruleEffectsResult?.canComplete == false*/) {
-      return Future.value(FieldsWithErrorResult(
+      return FieldsWithErrorResult(
           mandatoryFields: _mandatoryItemsWithoutValue,
           fieldUidErrorList: itemsWithErrors,
           warningFields: itemsWithWarning,
           canComplete: /*ruleEffectsResult?.canComplete ??*/ true,
           onCompleteMessage: /*ruleEffectsResult?.messageOnComplete*/ null,
-          allowDiscard: allowDiscard));
+          allowDiscard: allowDiscard);
     }
 
     if (_mandatoryItemsWithoutValue.isNotEmpty) {
-      return Future.value(MissingMandatoryResult(
+      return MissingMandatoryResult(
           mandatoryFields: _mandatoryItemsWithoutValue,
           errorFields: itemsWithErrors,
           warningFields: itemsWithWarning,
           canComplete: /*ruleEffectsResult?.canComplete ??*/ true,
           onCompleteMessage: /*ruleEffectsResult?.messageOnComplete*/ null,
-          allowDiscard: allowDiscard));
+          allowDiscard: allowDiscard);
     }
 
     if (itemsWithWarning.isNotEmpty) {
-      return Future.value(FieldsWithWarningResult(
+      return FieldsWithWarningResult(
           fieldUidWarningList: itemsWithWarning,
           canComplete: /*ruleEffectsResult?.canComplete ??*/ true,
-          onCompleteMessage: /*ruleEffectsResult?.messageOnComplete*/ null));
+          onCompleteMessage: /*ruleEffectsResult?.messageOnComplete*/ null);
     }
 
     if (backupOfChangedItems().isNotEmpty && allowDiscard) {
-      return Future.value(const NotSavedResult());
+      return const NotSavedResult();
     }
 
-    return Future.value(const SuccessfulResult(
+    return const SuccessfulResult(
         canComplete: /*ruleEffectsResult?.canComplete ?? */ true,
-        onCompleteMessage: /*ruleEffectsResult?.messageOnComplete*/ null));
+        onCompleteMessage: /*ruleEffectsResult?.messageOnComplete*/ null);
   }
 
   @override
@@ -175,7 +209,7 @@ class FormRepositoryImpl implements FormRepository {
     // TODO(NMC): improve
     _itemList.let((IList<FieldUiModel> list) => list
         .firstOrNullWhere((FieldUiModel item) => item.uid == uid)
-        ?.let((FieldUiModel item) => list.replace(
+        ?.let((FieldUiModel item) => _itemList = list.replace(
             list.indexOf(item), item.setIsLoadingData(requestInProcess))));
   }
 
@@ -193,12 +227,13 @@ class FormRepositoryImpl implements FormRepository {
       if (_itemsWithError
               .firstOrNullWhere((RowAction item) => item.id == action.id) ==
           null) {
-        _itemsWithError.add(action);
+        _itemsWithError = _itemsWithError.add(action);
       }
     } else {
       _itemsWithError
           .firstOrNullWhere((RowAction item) => item.id == action.id)
-          ?.let((RowAction item) => _itemsWithError.remove(item));
+          ?.let((RowAction item) =>
+              _itemsWithError = _itemsWithError.remove(item));
     }
   }
 
@@ -224,36 +259,6 @@ class FormRepositoryImpl implements FormRepository {
     }
   }
 
-  Future<IList<FieldUiModel>> _mergeListWithErrorFields(
-      IList<FieldUiModel> list, IList<RowAction> fieldsWithError) async {
-    _mandatoryItemsWithoutValue.clear();
-    final List<FieldUiModel> mergedList =
-        await Future.wait<FieldUiModel>(list.map((FieldUiModel item) async {
-      if (item.mandatory && item.value == null) {
-        _mandatoryItemsWithoutValue[item.label] =
-            item.programStageSection ?? '';
-      }
-      final RowAction? action = fieldsWithError
-          .firstOrNullWhere((RowAction action) => action.id == item.uid);
-
-      if (action != null) {
-        final String? error = action.error != null
-            ? fieldErrorMessageProvider.getFriendlyErrorMessage(action.error!)
-            : null;
-
-        final String? displayName = await displayNameProvider
-            .provideDisplayName(action.valueType, action.value);
-        return item
-            .setValue(action.value)
-            .setError(error)
-            .setDisplayName(displayName);
-      } else {
-        return item;
-      }
-    }));
-    return mergedList.lock;
-  }
-
   void _calculateCompletionPercentage(IList<FieldUiModel> list) {
     const List<ValueType> unsupportedValueTypes = [
       ValueType.FILE_RESOURCE,
@@ -261,12 +266,12 @@ class FormRepositoryImpl implements FormRepository {
       ValueType.USERNAME
     ];
 
-    final Iterable<FieldUiModel> fields = list.filter((FieldUiModel it) =>
+    final Iterable<FieldUiModel> fields = list.where((FieldUiModel it) =>
         it.valueType != null && !unsupportedValueTypes.contains(it.valueType));
 
     final int totalFields = fields.length;
     final int fieldsWithValue =
-        fields.filter((FieldUiModel it) => it.value != null).length;
+        fields.where((FieldUiModel it) => it.value != null).length;
     if (totalFields == 0) {
       _completionPercentage = 0;
     } else {
@@ -288,7 +293,7 @@ class FormRepositoryImpl implements FormRepository {
     }
 
     return fields
-        .filter((FieldUiModel field) =>
+        .where((FieldUiModel field) =>
             field.isSectionWithFields() ||
             field.programStageSection == _openedSectionUid)
         .toIList();
@@ -300,7 +305,7 @@ class FormRepositoryImpl implements FormRepository {
     int values = 0;
     final bool isOpen = sectionFieldUiModel.uid == _openedSectionUid;
     fields
-        .filter((FieldUiModel item) =>
+        .where((FieldUiModel item) =>
             item.programStageSection == sectionFieldUiModel.uid &&
             item.valueType != null)
         .forEach((FieldUiModel item) {
@@ -321,62 +326,69 @@ class FormRepositoryImpl implements FormRepository {
 
     final int mandatoryCount = _runDataIntegrity
         ? _mandatoryItemsWithoutValue
-            .filter((MapEntry<String, String> mandatory) =>
-                mandatory.value == sectionFieldUiModel.uid)
+            .where((_, mandatory) => mandatory == sectionFieldUiModel.uid)
             .length
         : 0;
 
-    final int errorCount = _getFieldsWithError()
-        .associate((FieldWithIssue it) =>
-            MapEntry<String, String>(it.fieldUid, it.message))
-        .filter((MapEntry<String, String> error) =>
+    final int errorCount = IMap.fromIterable<String, String, FieldWithIssue>(
+      _getFieldsWithError(),
+      keyMapper: (it) => it.fieldUid,
+      valueMapper: (it) => it.message,
+    )
+        .where((key, value) =>
             fields.firstOrNullWhere((FieldUiModel field) =>
-                field.uid == error.key &&
+                field.uid == key &&
                 field.programStageSection == sectionFieldUiModel.uid) !=
             null)
         .length;
 
-    return dataEntryRepository?.updateSection(sectionFieldUiModel, isOpen,
-            total, values, errorCount + mandatoryCount, warningCount) ??
-        sectionFieldUiModel;
+    if (dataEntryRepository != null) {
+      return dataEntryRepository!.updateSection(sectionFieldUiModel, isOpen,
+          total, values, errorCount + mandatoryCount, warningCount);
+    }
+
+    return sectionFieldUiModel;
   }
 
-  Future<FieldUiModel> _updateField(FieldUiModel fieldUiModel) async {
+  FutureOr<FieldUiModel> _updateField(FieldUiModel fieldUiModel) {
     final bool needsMandatoryWarning =
         fieldUiModel.mandatory && fieldUiModel.value == null;
 
     if (needsMandatoryWarning) {
-      _mandatoryItemsWithoutValue[fieldUiModel.label] =
-          fieldUiModel.programStageSection ?? '';
+      _mandatoryItemsWithoutValue = _mandatoryItemsWithoutValue.update(
+          fieldUiModel.label,
+          (value) => fieldUiModel.programStageSection ?? '');
     }
 
-    return await dataEntryRepository?.updateField(
-            fieldUiModel,
-            fieldErrorMessageProvider
-                .mandatoryWarning()
-                .takeIf((_) => needsMandatoryWarning && _runDataIntegrity),
-            /*ruleEffectsResult?.optionsToHide(fieldUiModel.uid) ?:*/ [],
-            /*ruleEffectsResult?.optionGroupsToHide(fieldUiModel.uid) ?:*/ [],
-            /*ruleEffectsResult?.optionGroupsToShow(fieldUiModel.uid) ?:*/ []) ??
-        fieldUiModel;
+    if (dataEntryRepository != null) {
+      return dataEntryRepository!.updateField(
+          fieldUiModel,
+          fieldErrorMessageProvider
+              .mandatoryWarning()
+              .takeIf((_) => needsMandatoryWarning && _runDataIntegrity),
+          /*ruleEffectsResult?.optionsToHide(fieldUiModel.uid) ?:*/ [],
+          /*ruleEffectsResult?.optionGroupsToHide(fieldUiModel.uid) ?:*/ [],
+          /*ruleEffectsResult?.optionGroupsToShow(fieldUiModel.uid) ?:*/ []);
+    }
+    return fieldUiModel;
   }
 
-  List<FieldWithIssue> _getFieldsWithError() {
-    return _itemsWithError.mapNotNull((RowAction errorItem) {
+  IList<FieldWithIssue> _getFieldsWithError() {
+    return _itemsWithError.mapNotNull((RowAction? errorItem) {
       final FieldUiModel? item = _itemList
-          .firstOrNullWhere((FieldUiModel item) => item.uid == errorItem.id);
+          .firstOrNullWhere((FieldUiModel item) => item.uid == errorItem?.id);
       if (item != null) {
         return FieldWithIssue(
             fieldUid: item.uid,
             fieldName: item.label,
             issueType: IssueType.ERROR,
-            message: errorItem.error != null
+            message: errorItem?.error != null
                 ? fieldErrorMessageProvider
-                    .getFriendlyErrorMessage(errorItem.error!)
+                    .getFriendlyErrorMessage(errorItem!.error!)
                 : '');
       }
       return null;
-    }).toList();
+    }).toIList();
   }
 
   IList<FieldUiModel> _setFocusedItem(IList<FieldUiModel> list) {
@@ -394,7 +406,7 @@ class FormRepositoryImpl implements FormRepository {
     if (list.isEmpty) {
       return list;
     }
-    if (list.all((FieldUiModel it) => it is SectionUiModelImpl)) {
+    if (list.every((FieldUiModel it) => it is SectionUiModelImpl)) {
       final FieldUiModel lastItem = _getLastSectionItem(list);
       if (_usesKeyboard(lastItem.valueType) &&
           lastItem.valueType != ValueType.LONG_TEXT) {
@@ -406,7 +418,7 @@ class FormRepositoryImpl implements FormRepository {
   }
 
   FieldUiModel _getLastSectionItem(IList<FieldUiModel> list) {
-    if (list.all((FieldUiModel item) => item is SectionUiModelImpl)) {
+    if (list.every((FieldUiModel item) => item is SectionUiModelImpl)) {
       return list.reversed.first;
     }
     return list.reversed

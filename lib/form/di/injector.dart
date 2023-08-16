@@ -1,5 +1,6 @@
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/data/tracker/entities/enrollment.entity.dart';
+import 'package:flutter/widgets.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../commons/date/entry_mode.dart';
@@ -17,10 +18,8 @@ import '../data/metadata/org_unit_configuration.dart';
 import '../data/search_option_set_option.dart';
 import '../data/search_repository.dart';
 import '../model/form_repository_records.dart';
-import '../ui/di/form_view_notifier.dart';
 import '../ui/field_view_model_factory.dart';
 import '../ui/field_view_model_factory_impl.dart';
-import '../ui/form_view_model.dart';
 import '../ui/layout_provider_impl.dart';
 import '../ui/provider/display_name_provider.dart';
 import '../ui/provider/display_name_provider_impl.dart';
@@ -40,15 +39,18 @@ import '../ui/validation/field_error_message_provider.dart';
 
 part 'injector.g.dart';
 
-@Riverpod(dependencies: [formRepositoryRecordsInstance])
-FormRepository formRepository(FormRepositoryRef ref) {
-  final FormRepositoryRecords repositoryRecords = ref.watch(formRepositoryRecordsInstanceProvider);
+// @Riverpod(dependencies: [formRepositoryRecordsInstance])
+@riverpod
+FormRepository formRepository(FormRepositoryRef ref, FormRepositoryRecords repositoryRecords) {
+  // final FormRepositoryRecords repositoryRecords =
+  //     ref.watch(formRepositoryRecordsInstanceProvider);
+  debugPrint('formRepositoryL: Records.recordUid ${repositoryRecords.recordUid}');
   return FormRepositoryImpl(
-    formValueStore: ref.read(_formValueStoreProvider(
+    formValueStore: ref.watch(_formValueStoreProvider(
         repositoryRecords.recordUid, repositoryRecords.entryMode)),
-    fieldErrorMessageProvider: ref.read(_fieldErrorMessageProviderProvider),
-    displayNameProvider: ref.read(_displayNameProviderProvider),
-    dataEntryRepository: ref.read(_dataEntryRepositoryProvider(
+    fieldErrorMessageProvider: ref.watch(_fieldErrorMessageProviderProvider),
+    displayNameProvider: ref.watch(_displayNameProviderProvider),
+    dataEntryRepository: ref.watch(_dataEntryRepositoryProvider(
         entryMode: repositoryRecords.entryMode,
         repositoryRecords: repositoryRecords)),
     /*ruleEngineRepository: _provideRuleEngineRepository(
@@ -63,15 +65,15 @@ DataEntryRepository _dataEntryRepository(_DataEntryRepositoryRef ref,
     {EntryMode? entryMode, required FormRepositoryRecords repositoryRecords}) {
   switch (entryMode) {
     case EntryMode.ATTR:
-      return ref.read(_enrollmentRepositoryProvider(
+      return ref.watch(_enrollmentRepositoryProvider(
           repositoryRecords as EnrollmentRecords));
     case EntryMode.DE:
       return ref
-          .read(_eventRepositoryProvider(repositoryRecords as EventRecords));
+          .watch(_eventRepositoryProvider(repositoryRecords as EventRecords));
     default:
   }
   return ref
-      .read(_searchRepositoryProvider(repositoryRecords as SearchRecords));
+      .watch(_searchRepositoryProvider(repositoryRecords as SearchRecords));
 }
 
 @riverpod
@@ -79,7 +81,7 @@ SearchRepository _searchRepository(
     _SearchRepositoryRef ref, SearchRecords searchRecords) {
   return SearchRepository(
       // d2: _provideD2(),
-      fieldViewModelFactory: ref.read(_fieldViewModelFactoryProvider(
+      fieldViewModelFactory: ref.watch(_fieldViewModelFactoryProvider(
           searchRecords.allowMandatoryFields,
           searchRecords.isBackgroundTransparent)),
       programUid: searchRecords.programUid,
@@ -91,21 +93,21 @@ SearchRepository _searchRepository(
 EnrollmentRepository _enrollmentRepository(
     _EnrollmentRepositoryRef ref, EnrollmentRecords enrollmentRecords) {
   return EnrollmentRepository(
-      fieldFactory: ref.read(_fieldViewModelFactoryProvider(
+      fieldFactory: ref.watch(_fieldViewModelFactoryProvider(
           enrollmentRecords.allowMandatoryFields,
           enrollmentRecords.isBackgroundTransparent)),
       enrollmentUid: enrollmentRecords.enrollmentUid,
       // d2: _provideD2(),
       enrollmentMode: enrollmentRecords.enrollmentMode,
       enrollmentFormLabelsProvider:
-          ref.read(_enrollmentFormLabelsProviderProvider));
+          ref.watch(_enrollmentFormLabelsProviderProvider));
 }
 
 @riverpod
 EventRepository _eventRepository(
     _EventRepositoryRef ref, EventRecords eventRecords) {
   return EventRepository(
-      fieldFactory: ref.read(_fieldViewModelFactoryProvider(
+      fieldFactory: ref.watch(_fieldViewModelFactoryProvider(
           eventRecords.allowMandatoryFields,
           eventRecords.isBackgroundTransparent)),
       eventUid: eventRecords.eventUid);
@@ -117,12 +119,12 @@ FieldViewModelFactory _fieldViewModelFactory(_FieldViewModelFactoryRef ref,
   return FieldViewModelFactoryImpl(
     noMandatoryFields: !allowMandatoryFields,
     uiStyleProvider:
-        ref.read(_uiStyleProviderProvider(isBackgroundTransparent)),
-    layoutProvider: ref.read(_layoutProviderProvider),
-    hintProvider: ref.read(_hintProviderProvider),
-    displayNameProvider: ref.read(_displayNameProviderProvider),
-    uiEventTypesProvider: ref.read(_uiEventTypesProviderProvider),
-    keyboardActionProvider: ref.read(_keyboardActionProviderProvider),
+        ref.watch(_uiStyleProviderProvider(isBackgroundTransparent)),
+    layoutProvider: ref.watch(_layoutProviderProvider),
+    hintProvider: ref.watch(_hintProviderProvider),
+    displayNameProvider: ref.watch(_displayNameProviderProvider),
+    uiEventTypesProvider: ref.watch(_uiEventTypesProviderProvider),
+    keyboardActionProvider: ref.watch(_keyboardActionProviderProvider),
     // legendValueProvider: _provideLegendValueProvider(context)
   );
 }
@@ -154,7 +156,7 @@ FormValueStore? _formValueStore(
   if (entryMode != null) {
     if (entryMode == EntryMode.ATTR) {
       enrollmentObjectRepository =
-          ref.read(_enrollmentObjectRepositoryProvider(recordUid!));
+          ref.watch(_enrollmentObjectRepositoryProvider(recordUid!));
       uid = enrollmentObjectRepository!.getEnrollment().then<String>(
           (Enrollment? enrollment) =>
               enrollment?.trackedEntityInstance ?? recordUid);
@@ -173,8 +175,8 @@ FormValueStore? _formValueStore(
         entryMode: entryMode,
         enrollmentRepository: enrollmentObjectRepository,
         // crashReportController: _provideCrashReportController(),
-        networkUtils: ref.read(networkUtilsProvider),
-        resourceManager: ref.read(resourceManagerProvider));
+        networkUtils: ref.watch(networkUtilsProvider),
+        resourceManager: ref.watch(resourceManagerProvider));
   }
   return null;
 }
@@ -193,7 +195,7 @@ FieldErrorMessageProvider _fieldErrorMessageProvider(
 @riverpod
 EnrollmentFormLabelsProvider _enrollmentFormLabelsProvider(
     _EnrollmentFormLabelsProviderRef ref) {
-  return EnrollmentFormLabelsProvider(ref.read(resourceManagerProvider));
+  return EnrollmentFormLabelsProvider(ref.watch(resourceManagerProvider));
 }
 
 @riverpod

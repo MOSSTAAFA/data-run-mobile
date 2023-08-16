@@ -2,99 +2,121 @@
 // ignore_for_file: always_specify_types
 
 import 'package:d2_remote/core/common/value_type.dart';
-import 'package:dartx/dartx_io.dart';
+import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter/material.dart';
 
 import '../../../commons/date/field_with_issue.dart';
-import '../../../commons/extensions/dynamic_extensions.dart';
 import '../../../commons/extensions/standard_extensions.dart';
+import '../../../commons/extensions/string_extension.dart';
+import '../../../commons/helpers/iterable.dart';
 import '../../model/action_type.dart';
 import '../../model/field_ui_model.dart';
 import '../../model/row_action.dart';
 import '../../model/section_ui_model_impl.dart';
+import '../../model/store_result.dart';
 import '../../ui/provider/display_name_provider.dart';
 import '../../ui/validation/field_error_message_provider.dart';
 import '../data_entry_repository.dart';
+import '../data_integrity_check_result.dart';
+import '../form_repository.dart';
 import '../form_value_store.dart';
-import 'form_fields_model.dart';
 
-part 'form_fields_model_repository.g.dart';
+part 'form_fields_model.dart';
 
-@riverpod
-class FormFieldsModelRepository extends _$FormFieldsModelRepository {
+class FormFieldsModelRepository implements FormRepository {
+  FormFieldsModelRepository(
+      {this.formValueStore,
+      required this.fieldErrorMessageProvider,
+      required this.displayNameProvider,
+      this.dataEntryRepository})
+      : _formFieldsModel = const _FormRepositoryModel();
+
+  static const int _loopThreshold = 5;
+
+  _FormRepositoryModel _formFieldsModel;
+  final FormValueStore? formValueStore;
+  final FieldErrorMessageProvider fieldErrorMessageProvider;
+  final DisplayNameProvider displayNameProvider;
+  final DataEntryRepository? dataEntryRepository;
+
   @override
-  FormFieldsModel build({
-    FormValueStore? formValueStore,
-    required FieldErrorMessageProvider fieldErrorMessageProvider,
-    required DisplayNameProvider displayNameProvider,
-    DataEntryRepository? dataEntryRepository,
-  }) {
-    return FormFieldsModel();
-  }
-
-  @override
-  bool updateShouldNotify(FormFieldsModel previous, FormFieldsModel next) {
-    logInfo(
-        info:
-            'FormFieldsModelRepository: updateShouldNotify(previous,next): previous: $previous, next: $next');
-    return next.itemList != previous.itemList;
-  }
-
-  Future<void> fetchFormItems() async {
+  Future<IList<FieldUiModel>> fetchFormItems() async {
     final IList<String>? sectionUids =
         (await dataEntryRepository?.sectionUids())?.lock;
 
-    final openedSectionUid = sectionUids != null && sectionUids.isNotEmpty
-        ? sectionUids.first
-        : null;
-
     final IList<FieldUiModel>? items =
         (await dataEntryRepository?.list())?.lock;
-    final itemList = items ?? const IListConst([]);
+    final itemList = items ?? IList();
 
-    final backupList = itemList;
-
-    state.copyWith(
+    _formFieldsModel = _formFieldsModel.copyWith(
         itemList: itemList,
-        backupList: backupList,
-        openedSectionUid: openedSectionUid);
-
+        backupList: itemList,
+        openedSectionUid: sectionUids != null && sectionUids.isNotEmpty
+            ? sectionUids.first
+            : null);
     return composeList();
   }
 
-  Future<void> composeList() async {
-    state = (await _mergeListWithErrorFields(
-                state.itemList, state.itemsWithError)
-            .then((FormFieldsModel item) {
-              return _calculateCompletionPercentage(item.itemList);
-            })
-            .then((FormFieldsModel item) => _setOpenedSection(item.itemList))
-            .then((FormFieldsModel item) => _setFocusedItem(item.itemList))
-            .then((FormFieldsModel item) => _setLastItem(item.itemList)))
-        .copyWith(calculationLoop: 0);
+  @override
+  Future<IList<FieldUiModel>> composeList() async {
+    _formFieldsModel = _formFieldsModel.copyWith(calculationLoop: 0);
+
+    return _mergeListWithErrorFields(
+            _formFieldsModel.itemList, _formFieldsModel.itemsWithError)
+        .then((IList<FieldUiModel> listOfItems) {
+          _calculateCompletionPercentage(listOfItems);
+          return listOfItems;
+        })
+        .then(
+            (IList<FieldUiModel> listOfItems) => _setOpenedSection(listOfItems))
+        .then((IList<FieldUiModel> listOfItems) => _setFocusedItem(listOfItems))
+        .then((IList<FieldUiModel> listOfItems) => _setLastItem(listOfItems));
   }
 
-  void setFocusedItem(RowAction action) {
-    when(action.type, {
-      ActionType.ON_NEXT: () =>
-          state = state.copyWith(focusedItemId: _getNextItem(action.id)),
-      ActionType.ON_FINISH: () => state = state.copyWith(focusedItemId: null),
-    }).orElse(() => state = state.copyWith(focusedItemId: action.id));
-  }
-
+  @override
   void updateSectionOpened(RowAction action) {
-    state.copyWith(openedSectionUid: action.id);
+    _formFieldsModel = _formFieldsModel.copyWith(openedSectionUid: action.id);
+  }
+
+  @override
+  void updateErrorList(RowAction action) {
+    if (action.error != null) {
+      if (_formFieldsModel.itemsWithError
+              .firstOrNullWhere((RowAction item) => item.id == action.id) ==
+          null) {
+        _formFieldsModel = _formFieldsModel.copyWith(
+            itemsWithError: _formFieldsModel.itemsWithError.add(action));
+      }
+    } else {
+      _formFieldsModel.itemsWithError
+          .firstOrNullWhere((RowAction item) => item.id == action.id)
+          ?.let((RowAction item) => _formFieldsModel =
+              _formFieldsModel.copyWith(
+                  itemsWithError:
+                      _formFieldsModel.itemsWithError.remove(item)));
+    }
+  }
+
+  @override
+  void setFieldRequestingCoordinates(String uid, bool requestInProcess) {
+    _formFieldsModel.itemList.let((IList<FieldUiModel> list) => list
+        .firstOrNullWhere((FieldUiModel item) => item.uid == uid)
+        ?.let((FieldUiModel item) => _formFieldsModel =
+            _formFieldsModel.copyWith(
+                itemList: list.replace(list.indexOf(item),
+                    item.setIsLoadingData(requestInProcess)))));
   }
 
   /// only this methods needs to not notify sometimes
+  @override
   Future<void> updateValueOnList(
       String uid, String? value, ValueType? valueType) async {
-    final int itemIndex =
-        state.itemList.indexWhere((FieldUiModel item) => item.uid == uid);
+    final int itemIndex = _formFieldsModel.itemList
+        .indexWhere((FieldUiModel item) => item.uid == uid);
     if (itemIndex >= 0) {
       // TODO(NMC): improve
-      final FieldUiModel item = state.itemList[itemIndex];
+      final FieldUiModel item = _formFieldsModel.itemList[itemIndex];
       // _itemList = _itemList.replace(
       //     itemIndex,
       //     item.setValue(value).setDisplayName(await displayNameProvider
@@ -103,27 +125,25 @@ class FormFieldsModelRepository extends _$FormFieldsModelRepository {
       //           legendValueProvider?.provideLegendValue(item.uid, value))*/
       final displayName = await displayNameProvider.provideDisplayName(
           valueType, value, item.optionSet);
-      state.copyWith(
-          itemList: state.itemList.replace(
+      _formFieldsModel = _formFieldsModel.copyWith(
+          itemList: _formFieldsModel.itemList.replace(
               itemIndex, item.setValue(value).setDisplayName(displayName)));
     }
   }
 
-  Future<FormFieldsModel> _mergeListWithErrorFields(
+  Future<IList<FieldUiModel>> _mergeListWithErrorFields(
       IList<FieldUiModel> list, IList<RowAction> fieldsWithError) async {
-    FormFieldsModel newState = state.copyWith();
-
     /// _mandatoryItemsWithoutValue.clear();
-    newState = state.copyWith(
-        mandatoryItemsWithoutValue: state.mandatoryItemsWithoutValue.clear());
+    _formFieldsModel = _formFieldsModel.copyWith(
+        mandatoryItemsWithoutValue:
+            _formFieldsModel.mandatoryItemsWithoutValue.clear());
 
     final List<FieldUiModel> mergedList =
         await Future.wait<FieldUiModel>(list.map((FieldUiModel item) async {
       if (item.mandatory && item.value == null) {
-        /// _mandatoryItemsWithoutValue[item.label] =
-        ///     item.programStageSection ?? '';
-        newState = state.copyWith(
-            mandatoryItemsWithoutValue: state.mandatoryItemsWithoutValue
+        _formFieldsModel = _formFieldsModel.copyWith(
+            mandatoryItemsWithoutValue: _formFieldsModel
+                .mandatoryItemsWithoutValue
                 .update(item.label, (value) => item.programStageSection ?? ''));
       }
       final RowAction? action = fieldsWithError
@@ -144,34 +164,34 @@ class FormFieldsModelRepository extends _$FormFieldsModelRepository {
         return item;
       }
     }));
-    return newState.copyWith(itemList: mergedList.lock);
-    // return mergedList.lock;
+    return mergedList.lock;
   }
 
-  Future<FormFieldsModel> _setOpenedSection(IList<FieldUiModel> list) async {
-    final List<FieldUiModel> fields = [];
+  Future<IList<FieldUiModel>> _setOpenedSection(
+      IList<FieldUiModel> list) async {
+    IList<FieldUiModel> fields = IList([]);
     for (final FieldUiModel field in list) {
       if (field.isSection()) {
-        fields.add(_updateSection(field, list));
+        fields = fields.add(_updateSection(field, list));
       } else {
         final FieldUiModel item = await _updateField(field);
-        fields.add(item);
+        fields = fields.add(item);
       }
     }
 
-    return state.copyWith(
-        itemList: fields
-            .where((FieldUiModel field) =>
-                field.isSectionWithFields() ||
-                field.programStageSection == state.openedSectionUid)
-            .toIList());
+    return fields
+        .where((FieldUiModel field) =>
+            field.isSectionWithFields() ||
+            field.programStageSection == _formFieldsModel.openedSectionUid)
+        .toIList();
   }
 
   FieldUiModel _updateSection(
       FieldUiModel sectionFieldUiModel, IList<FieldUiModel> fields) {
     int total = 0;
     int values = 0;
-    final bool isOpen = sectionFieldUiModel.uid == state.openedSectionUid;
+    final bool isOpen =
+        sectionFieldUiModel.uid == _formFieldsModel.openedSectionUid;
     fields
         .where((FieldUiModel item) =>
             item.programStageSection == sectionFieldUiModel.uid &&
@@ -192,20 +212,20 @@ class FormFieldsModelRepository extends _$FormFieldsModelRepository {
         0;
     //
 
-    final int mandatoryCount = state.runDataIntegrity
-        ? state.mandatoryItemsWithoutValue
+    final int mandatoryCount = _formFieldsModel.runDataIntegrity
+        ? _formFieldsModel.mandatoryItemsWithoutValue
             .where((_, mandatory) => mandatory == sectionFieldUiModel.uid)
-            // .filter((MapEntry<String, String> mandatory) =>
-            //     mandatory.value == sectionFieldUiModel.uid)
             .length
         : 0;
 
-    final int errorCount = _getFieldsWithError()
-        .associate((FieldWithIssue it) =>
-            MapEntry<String, String>(it.fieldUid, it.message))
-        .filter((MapEntry<String, String> error) =>
+    final int errorCount = IMap.fromIterable<String, String, FieldWithIssue>(
+      _getFieldsWithError(),
+      keyMapper: (it) => it.fieldUid,
+      valueMapper: (it) => it.message,
+    )
+        .where((key, value) =>
             fields.firstOrNullWhere((FieldUiModel field) =>
-                field.uid == error.key &&
+                field.uid == key &&
                 field.programStageSection == sectionFieldUiModel.uid) !=
             null)
         .length;
@@ -225,18 +245,18 @@ class FormFieldsModelRepository extends _$FormFieldsModelRepository {
     if (needsMandatoryWarning) {
       // _mandatoryItemsWithoutValue[fieldUiModel.label] =
       //     fieldUiModel.programStageSection ?? '';
-      state.copyWith(
-          mandatoryItemsWithoutValue: state.mandatoryItemsWithoutValue.update(
-              fieldUiModel.label,
-              (value) => fieldUiModel.programStageSection ?? ''));
+      _formFieldsModel = _formFieldsModel.copyWith(
+          mandatoryItemsWithoutValue:
+              _formFieldsModel.mandatoryItemsWithoutValue.update(
+                  fieldUiModel.label,
+                  (value) => fieldUiModel.programStageSection ?? ''));
     }
 
     if (dataEntryRepository != null) {
       return dataEntryRepository!.updateField(
           fieldUiModel,
-          fieldErrorMessageProvider
-              .mandatoryWarning()
-              .takeIf((_) => needsMandatoryWarning && state.runDataIntegrity),
+          fieldErrorMessageProvider.mandatoryWarning().takeIf((_) =>
+              needsMandatoryWarning && _formFieldsModel.runDataIntegrity),
           /*ruleEffectsResult?.optionsToHide(fieldUiModel.uid) ?:*/ [],
           /*ruleEffectsResult?.optionGroupsToHide(fieldUiModel.uid) ?:*/ [],
           /*ruleEffectsResult?.optionGroupsToShow(fieldUiModel.uid) ?:*/ []);
@@ -254,11 +274,9 @@ class FormFieldsModelRepository extends _$FormFieldsModelRepository {
     //     fieldUiModel;
   }
 
-  List<FieldWithIssue> _getFieldsWithError() {
-    // state.itemsWithError.mapNotNull((e) => null);
-    return state.itemsWithError
-        .mapNotNull<FieldWithIssue>((RowAction? errorItem) {
-      final FieldUiModel? item = state.itemList
+  IList<FieldWithIssue> _getFieldsWithError() {
+    return _formFieldsModel.itemsWithError.mapNotNull((RowAction? errorItem) {
+      final FieldUiModel? item = _formFieldsModel.itemList
           .firstOrNullWhere((FieldUiModel item) => item.uid == errorItem?.id);
       if (item != null) {
         return FieldWithIssue(
@@ -271,63 +289,70 @@ class FormFieldsModelRepository extends _$FormFieldsModelRepository {
                 : '');
       }
       return null;
-    }).toList();
+    }).toIList();
   }
 
-  FormFieldsModel _setFocusedItem(IList<FieldUiModel> list) {
-    if (state.focusedItemId != null) {
+  IList<FieldUiModel> _setFocusedItem(IList<FieldUiModel> list) {
+    if (_formFieldsModel.focusedItemId != null) {
       final FieldUiModel? item = list.firstOrNullWhere(
-          (FieldUiModel item) => item.uid == state.focusedItemId);
+          (FieldUiModel item) => item.uid == _formFieldsModel.focusedItemId);
       if (item != null) {
         list = list.replace(list.indexOf(item), item.setFocus());
       }
     }
-    return state.copyWith(itemList: list);
+    return _formFieldsModel.itemList;
   }
 
-  FormFieldsModel _setLastItem(IList<FieldUiModel> list) {
+  @override
+  void setFocusedItem(RowAction action) {
+    when(action.type, {
+      ActionType.ON_NEXT: () => _formFieldsModel =
+          _formFieldsModel.copyWith(focusedItemId: _getNextItem(action.id)),
+      ActionType.ON_FINISH: () =>
+          _formFieldsModel = _formFieldsModel.copyWith(focusedItemId: null),
+    }).orElse(() =>
+        _formFieldsModel = _formFieldsModel.copyWith(focusedItemId: action.id));
+  }
+
+  IList<FieldUiModel> _setLastItem(IList<FieldUiModel> list) {
     if (list.isEmpty) {
-      return state;
+      return list;
     }
-    if (list.all((FieldUiModel it) => it is SectionUiModelImpl)) {
+    if (list.every((FieldUiModel it) => it is SectionUiModelImpl)) {
       final FieldUiModel lastItem = _getLastSectionItem(list);
       if (_usesKeyboard(lastItem.valueType) &&
           lastItem.valueType != ValueType.LONG_TEXT) {
-        return state.copyWith(
-            itemList: list.replace(
-                list.indexOf(lastItem), lastItem.setKeyBoardActionDone()));
+        return list.replace(
+            list.indexOf(lastItem), lastItem.setKeyBoardActionDone());
       }
     }
-    return state.copyWith(itemList: list);
+    return list;
   }
 
-  FormFieldsModel _calculateCompletionPercentage(IList<FieldUiModel> list) {
+  void _calculateCompletionPercentage(IList<FieldUiModel> list) {
     const List<ValueType> unsupportedValueTypes = [
       ValueType.FILE_RESOURCE,
       ValueType.TRACKER_ASSOCIATE,
       ValueType.USERNAME
     ];
 
-    final Iterable<FieldUiModel> fields = list.filter((FieldUiModel it) =>
+    final Iterable<FieldUiModel> fields = list.where((FieldUiModel it) =>
         it.valueType != null && !unsupportedValueTypes.contains(it.valueType));
 
     final int totalFields = fields.length;
     final int fieldsWithValue =
-        fields.filter((FieldUiModel it) => it.value != null).length;
+        fields.where((FieldUiModel it) => it.value != null).length;
     if (totalFields == 0) {
-      // _completionPercentage = 0;
-      return state.copyWith(completionPercentage: 0);
+      _formFieldsModel = _formFieldsModel.copyWith(completionPercentage: 0);
     } else {
-      // _completionPercentage =
-      //     fieldsWithValue.toDouble() / totalFields.toDouble();
-      return state.copyWith(
+      _formFieldsModel = _formFieldsModel.copyWith(
           completionPercentage:
               fieldsWithValue.toDouble() / totalFields.toDouble());
     }
   }
 
   FieldUiModel _getLastSectionItem(IList<FieldUiModel> list) {
-    if (list.all((FieldUiModel item) => item is SectionUiModelImpl)) {
+    if (list.every((FieldUiModel item) => item is SectionUiModelImpl)) {
       return list.reversed.first;
     }
     return list.reversed
@@ -340,7 +365,7 @@ class FormFieldsModelRepository extends _$FormFieldsModelRepository {
   }
 
   String? _getNextItem(String currentItemUid) {
-    state.itemList.let((IList<FieldUiModel> fields) {
+    _formFieldsModel.itemList.let((IList<FieldUiModel> fields) {
       // final oldItem = fields.firstOrNullWhere((item) => item.uid == currentItemUid);
       final int pos = fields
           .indexWhere((FieldUiModel oldItem) => oldItem.uid == currentItemUid);
@@ -349,5 +374,93 @@ class FormFieldsModelRepository extends _$FormFieldsModelRepository {
       }
     });
     return null;
+  }
+
+  @override
+  IList<FieldUiModel> backupOfChangedItems() {
+    // return backupList.minus(itemList.applyRuleEffects());
+    return _formFieldsModel.backupList;
+  }
+
+  @override
+  bool calculationLoopOverLimit() {
+    return _formFieldsModel.calculationLoop == _loopThreshold;
+  }
+
+  @override
+  void clearFocusItem() {
+    _formFieldsModel.copyWith(focusedItemId: null);
+  }
+
+  @override
+  double completedFieldsPercentage(IList<FieldUiModel> value) {
+    return _formFieldsModel.completionPercentage;
+  }
+
+  @override
+  FieldUiModel? currentFocusedItem() {
+    return _formFieldsModel.itemList.firstOrNullWhere(
+        (FieldUiModel item) => _formFieldsModel.focusedItemId == item.uid);
+  }
+
+  @override
+  void removeAllValues() {
+    _formFieldsModel = _formFieldsModel.copyWith(
+        itemList: _formFieldsModel.itemList
+            .map((FieldUiModel fieldUiModel) =>
+                fieldUiModel.setValue(null).setDisplayName(null))
+            .toIList());
+  }
+
+  @override
+  DataIntegrityCheckResult runDataIntegrityCheck({required bool allowDiscard}) {
+    _formFieldsModel = _formFieldsModel.copyWith(runDataIntegrity: true);
+
+    final IList<FieldWithIssue> itemsWithErrors = _getFieldsWithError();
+    /*final*/
+    final IList<FieldWithIssue> itemsWithWarning = /*ruleEffectsResult?...??*/
+        IList([]);
+    // final DataIntegrityCheckResult result;
+    if (itemsWithErrors
+        .isNotEmpty /*|| ruleEffectsResult?.canComplete == false*/) {
+      return FieldsWithErrorResult(
+          mandatoryFields: _formFieldsModel.mandatoryItemsWithoutValue,
+          fieldUidErrorList: itemsWithErrors,
+          warningFields: itemsWithWarning,
+          canComplete: /*ruleEffectsResult?.canComplete ??*/ true,
+          onCompleteMessage: /*ruleEffectsResult?.messageOnComplete*/ null,
+          allowDiscard: allowDiscard);
+    }
+
+    if (_formFieldsModel.mandatoryItemsWithoutValue.isNotEmpty) {
+      return MissingMandatoryResult(
+          mandatoryFields: _formFieldsModel.mandatoryItemsWithoutValue,
+          errorFields: itemsWithErrors,
+          warningFields: itemsWithWarning,
+          canComplete: /*ruleEffectsResult?.canComplete ??*/ true,
+          onCompleteMessage: /*ruleEffectsResult?.messageOnComplete*/ null,
+          allowDiscard: allowDiscard);
+    }
+
+    if (itemsWithWarning.isNotEmpty) {
+      return FieldsWithWarningResult(
+          fieldUidWarningList: itemsWithWarning,
+          canComplete: /*ruleEffectsResult?.canComplete ??*/ true,
+          onCompleteMessage: /*ruleEffectsResult?.messageOnComplete*/ null);
+    }
+
+    if (backupOfChangedItems().isNotEmpty && allowDiscard) {
+      return const NotSavedResult();
+    }
+
+    return const SuccessfulResult(
+        canComplete: /*ruleEffectsResult?.canComplete ?? */ true,
+        onCompleteMessage: /*ruleEffectsResult?.messageOnComplete*/ null);
+  }
+
+  @override
+  Future<StoreResult?> save(String id, String? value, String? extraData) {
+    return formValueStore?.save(id, value, extraData) ??
+        Future<StoreResult?>.value();
   }
 }

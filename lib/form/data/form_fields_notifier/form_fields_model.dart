@@ -1,14 +1,8 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:equatable/equatable.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:flutter/material.dart';
-
-import '../../model/field_ui_model.dart';
-import '../../model/row_action.dart';
+part of 'form_fields_model_repository.dart';
 
 @immutable
-class FormFieldsModel with EquatableMixin {
-  FormFieldsModel({
+class _FormRepositoryModel with EquatableMixin {
+  const _FormRepositoryModel({
     this.openedSectionUid,
     this.focusedItemId,
     this.completionPercentage = 0.0,
@@ -51,7 +45,7 @@ class FormFieldsModel with EquatableMixin {
   // private
   final IList<FieldUiModel> backupList;
 
-  FormFieldsModel copyWith({
+  _FormRepositoryModel copyWith({
     double? completionPercentage,
     IList<RowAction>? itemsWithError,
     IMap<String, String>? mandatoryItemsWithoutValue,
@@ -62,7 +56,7 @@ class FormFieldsModel with EquatableMixin {
     int? calculationLoop,
     IList<FieldUiModel>? backupList,
   }) {
-    return FormFieldsModel(
+    return _FormRepositoryModel(
       completionPercentage: completionPercentage ?? this.completionPercentage,
       itemsWithError: itemsWithError ?? this.itemsWithError,
       mandatoryItemsWithoutValue:

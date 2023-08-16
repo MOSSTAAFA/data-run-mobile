@@ -5,5 +5,6 @@ enum ValueStoreResult {
   UID_IS_NOT_DE_OR_ATTR,
   ERROR_UPDATING_VALUE,
   TEXT_CHANGING,
-  FINISH
+  FINISH,
+  INIT
 }

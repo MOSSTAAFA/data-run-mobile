@@ -45,6 +45,10 @@ class EnrollmentRepository extends DataEntryBaseRepository {
   Future<Program?>? _program;
   Future<List<ProgramSection>>? _programSections;
 
+  // TODO(NMC): avoid asynchronicity using scopes
+  /// see:
+  /// https://docs-v2.riverpod.dev/docs/concepts/scopes#initialization-of-synchronous-provider-for-async-apis
+  ///
   EnrollmentRepository(
       {required FieldViewModelFactory fieldFactory,
       required this.enrollmentUid,

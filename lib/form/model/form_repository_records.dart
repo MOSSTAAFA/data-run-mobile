@@ -36,6 +36,10 @@ class EnrollmentRecords extends FormRepositoryRecords {
       : super(recordUid: enrollmentUid, entryMode: EntryMode.ATTR);
   final String enrollmentUid;
   final EnrollmentMode enrollmentMode;
+
+  @override
+  List<Object?> get props =>
+      [recordUid, entryMode, allowMandatoryFields, isBackgroundTransparent, enrollmentMode];
 }
 
 class EventRecords extends FormRepositoryRecords {

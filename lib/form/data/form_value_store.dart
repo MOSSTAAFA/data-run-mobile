@@ -32,6 +32,10 @@ class FormValueStore {
       required this.networkUtils,
       required this.resourceManager});
 
+  // TODO(NMC): avoid asynchronicity using scopes
+  /// see:
+  /// https://docs-v2.riverpod.dev/docs/concepts/scopes#initialization-of-synchronous-provider-for-async-apis
+  ///
   // String recordUid;
   Future<String> recordUidFuture;
   late final String recordUid;

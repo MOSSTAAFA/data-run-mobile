@@ -22,6 +22,10 @@ import '../model/option_set_configuration.dart';
 import '../ui/field_view_model_factory.dart';
 import 'data_entry_base_repository.dart';
 
+// TODO(NMC): avoid asynchronicity using scopes
+/// see:
+/// https://docs-v2.riverpod.dev/docs/concepts/scopes#initialization-of-synchronous-provider-for-async-apis
+///
 class EventRepository extends DataEntryBaseRepository {
   EventRepository({
     required FieldViewModelFactory fieldFactory,
@@ -96,7 +100,7 @@ class EventRepository extends DataEntryBaseRepository {
     final Event event = (await _event)!;
 
     final ProgramStage programStage = (await D2Remote.programModule.programStage
-        .byId(event.programStage)
+        // .byId(event.programStage)
         .getOne())!;
 
     final List<ProgramStageDataElement> stageDataElements = await D2Remote
