@@ -1,3 +1,4 @@
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../commons/date/field_with_issue.dart';
@@ -14,9 +15,9 @@ class ConfigureEventCompletionDialog {
   final EventCaptureResourcesProvider provider;
 
   EventCompletionDialog call(
-      List<FieldWithIssue> errorFields,
-      Map<String, String> mandatoryFields,
-      List<FieldWithIssue> warningFields,
+      IList<FieldWithIssue> errorFields,
+      IMap<String, String> mandatoryFields,
+      IList<FieldWithIssue> warningFields,
       bool canComplete,
       String? onCompleteMessage) {
     final _DialogType dialogType = _getDialogType(errorFields, mandatoryFields,
@@ -33,7 +34,7 @@ class ConfigureEventCompletionDialog {
             iconResource: _getIcon(dialogType),
             fieldsWithIssues: _getFieldsWithIssues(
                 errorFields: errorFields,
-                mandatoryFields: mandatoryFields.keys.toList(),
+                mandatoryFields: mandatoryFields.toKeyIList(),
                 warningFields: warningFields,
                 onCompleteField:
                     _getOnCompleteMessage(canComplete, onCompleteMessage)),
@@ -78,11 +79,11 @@ class ConfigureEventCompletionDialog {
                 action: FormBottomDialogActionType.COMPLETE),
       })!;
 
-  List<FieldWithIssue> _getFieldsWithIssues(
-      {required List<FieldWithIssue> errorFields,
-      required List<String> mandatoryFields,
-      required List<FieldWithIssue> warningFields,
-      required List<FieldWithIssue> onCompleteField}) {
+  IList<FieldWithIssue> _getFieldsWithIssues(
+      {required IList<FieldWithIssue> errorFields,
+      required IList<String> mandatoryFields,
+      required IList<FieldWithIssue> warningFields,
+      required IList<FieldWithIssue> onCompleteField}) {
     return onCompleteField +
         errorFields +
         mandatoryFields
@@ -95,7 +96,7 @@ class ConfigureEventCompletionDialog {
         warningFields;
   }
 
-  List<FieldWithIssue> _getOnCompleteMessage(
+  IList<FieldWithIssue> _getOnCompleteMessage(
       bool canComplete, String? onCompleteMessage) {
     final FieldWithIssue? issueOnComplete = onCompleteMessage?.let(
         (String it) => FieldWithIssue(
@@ -106,13 +107,14 @@ class ConfigureEventCompletionDialog {
                 : IssueType.WARNING_ON_COMPLETE,
             message: ''));
 
-    return issueOnComplete?.let((FieldWithIssue it) => [it]) ?? [];
+    return issueOnComplete?.let((FieldWithIssue it) => IList([it])) ??
+        IList([]);
   }
 
   _DialogType _getDialogType(
-      List<FieldWithIssue> errorFields,
-      Map<String, String> mandatoryFields,
-      List<FieldWithIssue> warningFields,
+      IList<FieldWithIssue> errorFields,
+      IMap<String, String> mandatoryFields,
+      IList<FieldWithIssue> warningFields,
       bool errorOnComplete) {
     if (errorOnComplete) {
       return _DialogType.COMPLETE_ERROR;

@@ -1,5 +1,6 @@
 import 'package:d2_remote/modules/activity_management/activity/entities/activity.entity.dart';
 import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisation_unit.entity.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
@@ -7,23 +8,18 @@ import 'package:get/get.dart';
 import '../../../../commons/constants.dart';
 import '../../../../commons/custom_widgets/mixins/keyboard_manager.dart';
 import '../../../../commons/custom_widgets/nav_bar/fab_bottom_app_bar.dart';
-import '../../../../commons/custom_widgets/navigationbar/navigation_tab_bar_view.widget.dart';
 import '../../../../commons/extensions/dynamic_extensions.dart';
-import '../../../../commons/extensions/standard_extensions.dart';
-import '../../../../commons/utils/view_actions.dart';
 import '../../../../form/ui/components/linear_loading_indicator.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../utils/custom_views/form_bottom_dialog.dart';
 import '../../../utils/event_mode.dart';
 import '../../bundle/bundle.dart';
 import '../../general/view_base.dart';
-import '../../program_event_detail/program_event_detail_view_model.dart';
-import '../../program_event_detail/program_event_page_configurator.dart';
 import '../event_details/ui/event_details_screen.widget.dart';
 import 'di/event_capture_module.dart';
+import 'di/event_capture_screen_state_notifier.dart';
 import 'event_capture_contract.dart';
 import 'event_capture_form/event_capture_form.widget.dart';
-import 'event_page_configurator.dart';
 import 'model/event_completion_dialog.dart';
 
 /// EventCaptureActivity && EventCapturePagerAdapter
@@ -102,12 +98,14 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              /// Don't depend on a provider of a parent widget
+              /// make depending on this or children widgets' providers
               Consumer(
                 // This builder will only get called when the
                 // programEventDetailModelProvider.progress is updated.
                 builder: (context, ref, child) => LinearLoadingIndicator(
-                  isLoading: ref.watch(programEventDetailModelProvider
-                      .select((value) => value.progress)),
+                  isLoading: ref.watch(eventCaptureScreenStateNotifierProvider
+                      .select((notifier) => notifier.progress)),
                   backgroundColor: Colors.grey,
                 ),
               ),
@@ -261,7 +259,7 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
 
   @override
   void initState() {
-    showProgress();
+    // showProgress();
     final Bundle bundle = Get.arguments as Bundle;
     eventMode = bundle.getString(EVENT_MODE)?.toEventMode;
     activityUid = bundle.getString(ACTIVITY_UID);
@@ -280,16 +278,16 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
 
   void _finishEditMode() {
     logInfo(info: '_finishEditMode()');
-    if (ref.read(navigationBarVisibilityProvider)) {
-      showNavigationBar();
-    } else {
-      _attemptFinish();
-    }
+    // if (ref.read(navigationBarVisibilityProvider)) {
+    //   showNavigationBar();
+    // } else {
+    //   _attemptFinish();
+    // }
   }
 
   @override
   void showNavigationBar() {
-    ref.read(navigationBarVisibilityProvider.notifier).update((state) => true);
+    // ref.read(navigationBarVisibilityProvider.notifier).update((state) => true);
   }
 
   void _attemptFinish() {
@@ -389,7 +387,7 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
   @override
   void showCompleteActions(
       bool canComplete,
-      Map<String, String> emptyMandatoryFields,
+      IMap<String, String> emptyMandatoryFields,
       EventCompletionDialog eventCompletionDialog) {
     logInfo(info: 'showCompleteActions()');
     // TODO: implement showCompleteActions
@@ -417,16 +415,14 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
 
   @override
   void showProgress() {
-    logInfo(info: 'showProgress()');
-    Future(() =>
-        ref.read(progressVisibilityProvider.notifier).update((_) => true));
+    // logInfo(info: 'showProgress()');
+    // ref.read(progressVisibilityProvider.notifier).update((_) => true);
   }
 
   @override
   void hideProgress() {
-    logInfo(info: 'hideProgress()');
-    Future(() =>
-        ref.read(progressVisibilityProvider.notifier).update((_) => false));
+    // logInfo(info: 'hideProgress()');
+    // ref.read(progressVisibilityProvider.notifier).update((_) => false);
   }
 
   @override
@@ -444,15 +440,13 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
 
   @override
   void updateNoteBadge(int numberOfNotes) {
-    Future(() =>
-        ref.read(noteBadgeProvider.notifier).update((_) => numberOfNotes));
+    ref.read(noteBadgeProvider.notifier).update((_) => numberOfNotes);
   }
 
   @override
   void updatePercentage(double primaryValue) {
-    logInfo(info: 'updatePercentage()');
-    Future(() =>
-        ref.read(percentageProvider.notifier).update((_) => primaryValue));
+    // logInfo(info: 'updatePercentage()');
+    // ref.read(percentageProvider.notifier).update((_) => primaryValue);
   }
 
   @override
@@ -461,32 +455,32 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
       String? eventDate,
       OrganisationUnit? orgUnit,
       Activity? activity}) {
-    ref.read(programStageNameProvider.notifier).update((_) => stageName ?? '');
+    // ref.read(programStageNameProvider.notifier).update((_) => stageName ?? '');
 
-    ref
-        .read(activityNameProvider.notifier)
-        .update((_) => activity?.displayName ?? activity?.name ?? '');
+    // ref
+    //     .read(activityNameProvider.notifier)
+    //     .update((_) => activity?.displayName ?? activity?.name ?? '');
 
-    ref.read(eventDateProvider.notifier).update((_) => eventDate ?? '');
+    // ref.read(eventDateProvider.notifier).update((_) => eventDate ?? '');
 
-    ref
-        .read(orgUnitNameProvider.notifier)
-        .update((_) => orgUnit?.displayName ?? orgUnit?.name ?? '');
+    // ref
+    //     .read(orgUnitNameProvider.notifier)
+    //     .update((_) => orgUnit?.displayName ?? orgUnit?.name ?? '');
   }
 
   void _showSyncButton() {
-    ref.read(syncButtonVisibilityProvider.notifier).update((state) => true);
+    // ref.read(syncButtonVisibilityProvider.notifier).update((state) => true);
   }
 
   void _hideSyncButton() {
-    ref.read(syncButtonVisibilityProvider.notifier).update((state) => false);
+    // ref.read(syncButtonVisibilityProvider.notifier).update((state) => false);
   }
 }
 
-final progressVisibilityProvider =
-    StateProvider.autoDispose<bool>((ref) => false);
-final programStageNameProvider = StateProvider.autoDispose<String>((ref) => '');
-final activityNameProvider = StateProvider.autoDispose<String>((ref) => '');
+// final progressVisibilityProvider =
+//     StateProvider.autoDispose<bool>((ref) => false);
+// final programStageNameProvider = StateProvider.autoDispose<String>((ref) => '');
+// final activityNameProvider = StateProvider.autoDispose<String>((ref) => '');
 
 final eventDateProvider = StateProvider.autoDispose<String>((ref) => '');
 final orgUnitNameProvider = StateProvider.autoDispose<String>((ref) => '');
@@ -498,13 +492,13 @@ final eventDataStringProvider = Provider.autoDispose<String>((ref) {
 });
 
 final noteBadgeProvider = StateProvider.autoDispose<int>((ref) => 0);
-final percentageProvider = StateProvider.autoDispose<double>((ref) => 0);
+// final percentageProvider = StateProvider.autoDispose<double>((ref) => 0);
 
-final syncButtonVisibilityProvider =
-    StateProvider.autoDispose<bool>((ref) => false);
+// final syncButtonVisibilityProvider =
+//     StateProvider.autoDispose<bool>((ref) => false);
 
-final navigationBarVisibilityProvider =
-    StateProvider.autoDispose<bool>((ref) => true);
-
-final saveButtonVisibilityProvider =
-    StateProvider.autoDispose<bool>((ref) => true);
+// final navigationBarVisibilityProvider =
+//     StateProvider.autoDispose<bool>((ref) => true);
+//
+// final saveButtonVisibilityProvider =
+//     StateProvider.autoDispose<bool>((ref) => true);

@@ -7,7 +7,7 @@ part of 'event_capture_screen_state_notifier.dart';
 // **************************************************************************
 
 String _$eventCaptureScreenStateNotifierHash() =>
-    r'10f85de915cea41950d1731b3acb46cb9026b031';
+    r'8c3ae83bfdca0d6426906ba09e6e0cd386affb36';
 
 /// See also [EventCaptureScreenStateNotifier].
 @ProviderFor(EventCaptureScreenStateNotifier)

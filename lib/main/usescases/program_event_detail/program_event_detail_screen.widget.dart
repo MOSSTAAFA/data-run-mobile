@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 
 import '../../../commons/constants.dart';
+import '../../../commons/custom_widgets/navigationbar/navigation_page_configurator.dart';
 import '../../../commons/custom_widgets/navigationbar/navigation_tab_bar_view.widget.dart';
 import '../../../commons/data/event_creation_type.dart';
 import '../../../commons/extensions/standard_extensions.dart';
@@ -11,7 +12,6 @@ import '../../../commons/helpers/collections.dart';
 import '../../../commons/state/app_state_notifier.dart';
 import '../../../commons/utils/view_actions.dart';
 import '../../../form/ui/components/linear_loading_indicator.dart';
-import '../../../riverpod/provider_logger.dart';
 import '../../../riverpod/use_on_init_hook.dart';
 import '../../l10n/app_localizations.dart';
 import '../../utils/event_mode.dart';
@@ -51,57 +51,52 @@ class _ProgramEventDetailScreenState
   late final ProgramEventDetailPresenter presenter;
   late final String programUid;
   late final String? activityUid;
+  final NavigationPageConfigurator _pageConfigurator =
+      ProgramEventPageConfigurator();
 
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context)!;
 
-    return ProviderScope(
-      // observers: [ProviderLogger()],
-      overrides: [
-        pageConfiguratorProvider
-            .overrideWith((_) => ProgramEventPageConfigurator()),
+    return Column(
+      children: [
+        Consumer(
+          // This builder will only get called when the
+          // programEventDetailModelProvider.progress is updated.
+          builder: (context, ref, child) => LinearLoadingIndicator(
+            isLoading: ref.watch(programEventDetailModelProvider
+                .select((value) => value.progress)),
+          ),
+        ),
+        Expanded(
+          child: NavigationTabBarView(
+            pageConfigurator: _pageConfigurator,
+            appBarTitle: Text(ref.watch(programNameProvider)),
+            actionButtonBuilder: (context, viewAction) => FloatingActionButton(
+              heroTag: ViewAction.list_view.name,
+              child: const Icon(Icons.add),
+              onPressed: () => startNewEvent(),
+            ),
+            tabBuilder: (context, viewAction) {
+              final name = localization.lookup(viewAction.name);
+              return when(viewAction, {
+                ViewAction.list_view: () => Tab(text: name),
+                ViewAction.table_view: () => Tab(text: name),
+                ViewAction.map_view: () => Tab(text: name),
+                ViewAction.analytics: () => Tab(text: name),
+              })!;
+            },
+            pageBuilder: (context, viewAction) =>
+                when<ViewAction, Widget>(viewAction, {
+              ViewAction.list_view: () => const EventListScreen(),
+              ViewAction.table_view: () => const EventTable(),
+              ViewAction.map_view: () => const EventMap(),
+            }).orElse(() => const Center(
+                      child: Text('Unimplemented Screen!'),
+                    )),
+          ),
+        ),
       ],
-      child: Column(
-        children: [
-          Consumer(
-            // This builder will only get called when the
-            // programEventDetailModelProvider.progress is updated.
-            builder: (context, ref, child) => LinearLoadingIndicator(
-              isLoading: ref.watch(programEventDetailModelProvider
-                  .select((value) => value.progress)),
-            ),
-          ),
-          Expanded(
-            child: NavigationTabBarView(
-              appBarTitle: Text(ref.watch(programNameProvider)),
-              actionButtonBuilder: (context, viewAction) =>
-                  FloatingActionButton(
-                heroTag: ViewAction.list_view.name,
-                child: const Icon(Icons.add),
-                onPressed: () => startNewEvent(),
-              ),
-              tabBuilder: (context, viewAction) {
-                final name = localization.lookup(viewAction.name);
-                return when(viewAction, {
-                  ViewAction.list_view: () => Tab(text: name),
-                  ViewAction.table_view: () => Tab(text: name),
-                  ViewAction.map_view: () => Tab(text: name),
-                  ViewAction.analytics: () => Tab(text: name),
-                })!;
-              },
-              pageBuilder: (context, viewAction) =>
-                  when<ViewAction, Widget>(viewAction, {
-                ViewAction.list_view: () => const EventListScreen(),
-                ViewAction.table_view: () => const EventTable(),
-                ViewAction.map_view: () => const EventMap(),
-              }).orElse(() => const Center(
-                        child: Text('Unimplemented Screen!'),
-                      )),
-            ),
-          ),
-        ],
-      ),
     );
   }
 

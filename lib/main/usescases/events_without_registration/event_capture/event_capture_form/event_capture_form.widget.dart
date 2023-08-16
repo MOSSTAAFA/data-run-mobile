@@ -10,7 +10,6 @@ import '../../../../../form/ui/di/form_view_notifier.dart';
 import '../../../../../form/ui/form_view.widget.dart';
 import '../../../bundle/bundle.dart';
 import '../di/event_capture_screen_state_notifier.dart';
-import '../event_capture_screen.widget.dart';
 import 'event_capture_form.presenter.dart';
 import 'event_capture_form_view.dart';
 
@@ -21,8 +20,8 @@ import 'event_capture_form_view.dart';
 class EventCaptureForm extends ConsumerStatefulWidget {
   const EventCaptureForm({
     super.key,
-    // this.showProgress,
-    // this.hideProgress,
+    this.showProgress,
+    this.hideProgress,
     // this.hideNavigationBar,
     // this.updatePercentage,
     this.handleDataIntegrityResult,
@@ -33,8 +32,9 @@ class EventCaptureForm extends ConsumerStatefulWidget {
 
   /// replacing EventCapture Activity -> EventCaptureScreen the container of
   /// Taps screen
-  // final VoidCallback? showProgress;
-  // final VoidCallback? hideProgress;
+  final VoidCallback? showProgress;
+  final VoidCallback? hideProgress;
+
   // final VoidCallback? hideNavigationBar;
   // final void Function(double percentage)? updatePercentage;
 
@@ -54,46 +54,74 @@ class _EventCaptureFormState extends ConsumerState<EventCaptureForm>
 
   @override
   Widget build(BuildContext context) {
-    return ProviderScope(
-      overrides: [
-        formRepositoryRecordsInstanceProvider.overrideWith((ref) => eventRecords)
-      ],
-      child: FormViewWidget(
-        records: eventRecords,
-        onLoadingListener: (loading) {
-          if (loading) {
-            ref.read(eventCaptureScreenStateNotifierProvider.notifier).showProgress();
-          } else {
-            // handleDataIntegrityResult?.call(result)
-          }
-        },
-        onFocused: () => ref.read(eventCaptureScreenStateNotifierProvider.notifier).hideNavigationBar(),
-        onPercentageUpdate: (percentage) =>
-            ref.read(eventCaptureScreenStateNotifierProvider.notifier).updatePercentage(percentage),
-        onDataIntegrityCheck: (result) =>
-            widget.handleDataIntegrityResult?.call(result),
-      ),
+    debugPrint('$runtimeType: build()');
+    debugPrint('mounted is $mounted');
+    return FormViewWidget(
+      records: eventRecords,
+      onLoadingListener: (loading) {
+        if (loading) {
+          ref
+              .read(eventCaptureScreenStateNotifierProvider.notifier)
+              .showProgress();
+          // widget.showProgress?.call();
+        } else {
+          // widget.hideProgress?.call();
+          ref
+              .read(eventCaptureScreenStateNotifierProvider.notifier)
+              .hideNavigationBar();
+        }
+      },
+      onFocused: () => ref
+          .read(eventCaptureScreenStateNotifierProvider.notifier)
+          .hideNavigationBar(),
+      onPercentageUpdate: (percentage) => ref
+          .read(eventCaptureScreenStateNotifierProvider.notifier)
+          .updatePercentage(percentage),
+      onDataIntegrityCheck: (result) =>
+          widget.handleDataIntegrityResult?.call(result),
     );
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    debugPrint('$runtimeType: didChangeDependencies: didChangeDependencies()');
+    debugPrint('mounted is $mounted');
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      debugPrint('$runtimeType: didChangeDependencies: addPostFrameCallback()');
+    });
+  }
+
+  @override
+  void didUpdateWidget(covariant EventCaptureForm oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    debugPrint('$runtimeType: didUpdateWidget: didUpdateWidget()');
+    debugPrint('mounted is $mounted');
+  }
+
+  @override
   void initState() {
+    super.initState();
+    debugPrint('$runtimeType: initState: initState()');
+    debugPrint('mounted is $mounted');
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      debugPrint('$runtimeType: initState: addPostFrameCallback()');
+    });
     final Bundle bundle = Get.arguments as Bundle;
     final eventUid = bundle.getString(EVENT_UID);
     eventRecords = EventRecords(eventUid);
     presenter = ref.read(eventCaptureFormPresenterProvider(this));
     presenter.showOrHideSaveButton();
-    super.initState();
   }
 
   @override
   void hideSaveButton() {
-    ref.read(saveButtonVisibilityProvider.notifier).update((state) => false);
+    // ref.read(saveButtonVisibilityProvider.notifier).update((state) => false);
   }
 
   @override
   void showSaveButton() {
-    ref.read(saveButtonVisibilityProvider.notifier).update((state) => true);
+    // ref.read(saveButtonVisibilityProvider.notifier).update((state) => true);
   }
 
   @override

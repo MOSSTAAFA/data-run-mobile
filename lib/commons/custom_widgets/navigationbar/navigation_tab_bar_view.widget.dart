@@ -10,6 +10,7 @@ import '../../state/app_state_notifier.dart';
 import '../../state/pref_state.dart';
 import '../../utils/view_actions.dart';
 import 'navigation_page.dart';
+import 'navigation_page_configurator.dart';
 
 typedef ViewActionWidgetBuilder = Widget Function(
     BuildContext context, ViewAction viewAction);
@@ -20,7 +21,7 @@ typedef FloatingActionButtonBuilder = FloatingActionButton? Function(
 class NavigationTabBarView extends ConsumerStatefulWidget {
   const NavigationTabBarView(
       {super.key,
-      // required this.navigationPageConfigurator,
+      required this.pageConfigurator,
       required this.tabBuilder,
       required this.pageBuilder,
       // this.onPressedActionButton,
@@ -38,10 +39,10 @@ class NavigationTabBarView extends ConsumerStatefulWidget {
       this.appBarTitle,
       this.drawer});
 
-  // final NavigationPageConfigurator navigationPageConfigurator;
   // final IndexedWidgetBuilder tabBuilder;
   // final IndexedWidgetBuilder pageBuilder;
   // final NavigationItemBuilder tabBuilder;
+  final NavigationPageConfigurator pageConfigurator;
   final ViewActionWidgetBuilder? tabBuilder;
   final ViewActionWidgetBuilder pageBuilder;
 
@@ -125,7 +126,8 @@ class NavigationTabBarViewState extends ConsumerState<NavigationTabBarView>
             appBar: AppBar(
               centerTitle: false,
               automaticallyImplyLeading: false,
-              leading: leadingActions /*??
+              leading:
+                  leadingActions /*??
                   IconButton(
                     color: Colors.white,
                     icon: const Icon(Icons.arrow_back),
@@ -135,7 +137,8 @@ class NavigationTabBarViewState extends ConsumerState<NavigationTabBarView>
                           .read(appStateNotifierProvider.notifier)
                           .navigateBack();
                     },
-                  )*/,
+                  )*/
+              ,
               leadingWidth: kMinInteractiveDimension *
                   (widget.appBarLeadingActions?.length ??
                       0 + (isMobile(context) ? 1 : 2)),
@@ -195,8 +198,7 @@ class NavigationTabBarViewState extends ConsumerState<NavigationTabBarView>
 
     _currentPosition = widget.initPosition;
     _currentAction = _visibleTabs[_currentPosition].viewAction;
-    _isActionButtonVisible = ref
-        .read(pageConfiguratorProvider)
+    _isActionButtonVisible = widget.pageConfigurator
         .actionButtonVisibility(_currentAction);
 
     controller = TabController(
@@ -240,8 +242,7 @@ class NavigationTabBarViewState extends ConsumerState<NavigationTabBarView>
         );
         controller.addListener(onPositionChange);
         controller.animation!.addListener(onScroll);
-        _isActionButtonVisible = ref
-            .read(pageConfiguratorProvider)
+        _isActionButtonVisible = widget.pageConfigurator
             .actionButtonVisibility(_visibleTabs[_currentPosition].viewAction);
         _currentAction = _visibleTabs[_currentPosition].viewAction;
       });
@@ -279,7 +280,7 @@ class NavigationTabBarViewState extends ConsumerState<NavigationTabBarView>
   List<NavigationPage> getVisibleTabs() {
     final List<NavigationPage> visibleMenuItems = <NavigationPage>[];
     for (final menuItme in ViewAction.values) {
-      if (ref.read(pageConfiguratorProvider).pageVisibility(menuItme)) {
+      if (widget.pageConfigurator.pageVisibility(menuItme)) {
         NavigationPage.getMenu(menuItme)?.let((it) => visibleMenuItems.add(it));
       }
     }

@@ -19,7 +19,7 @@ mixin _$BottomSheetDialogUiModel {
   String get title => throw _privateConstructorUsedError;
   String get subtitle => throw _privateConstructorUsedError;
   Icon get iconResource => throw _privateConstructorUsedError;
-  List<FieldWithIssue> get fieldsWithIssues =>
+  IList<FieldWithIssue> get fieldsWithIssues =>
       throw _privateConstructorUsedError;
   DialogButtonStyle get mainButton => throw _privateConstructorUsedError;
   DialogButtonStyle? get secondaryButton => throw _privateConstructorUsedError;
@@ -39,7 +39,7 @@ abstract class $BottomSheetDialogUiModelCopyWith<$Res> {
       {String title,
       String subtitle,
       Icon iconResource,
-      List<FieldWithIssue> fieldsWithIssues,
+      IList<FieldWithIssue> fieldsWithIssues,
       DialogButtonStyle mainButton,
       DialogButtonStyle? secondaryButton});
 
@@ -84,7 +84,7 @@ class _$BottomSheetDialogUiModelCopyWithImpl<$Res,
       fieldsWithIssues: null == fieldsWithIssues
           ? _value.fieldsWithIssues
           : fieldsWithIssues // ignore: cast_nullable_to_non_nullable
-              as List<FieldWithIssue>,
+              as IList<FieldWithIssue>,
       mainButton: null == mainButton
           ? _value.mainButton
           : mainButton // ignore: cast_nullable_to_non_nullable
@@ -130,7 +130,7 @@ abstract class _$$_BottomSheetDialogUiModelCopyWith<$Res>
       {String title,
       String subtitle,
       Icon iconResource,
-      List<FieldWithIssue> fieldsWithIssues,
+      IList<FieldWithIssue> fieldsWithIssues,
       DialogButtonStyle mainButton,
       DialogButtonStyle? secondaryButton});
 
@@ -173,9 +173,9 @@ class __$$_BottomSheetDialogUiModelCopyWithImpl<$Res>
           : iconResource // ignore: cast_nullable_to_non_nullable
               as Icon,
       fieldsWithIssues: null == fieldsWithIssues
-          ? _value._fieldsWithIssues
+          ? _value.fieldsWithIssues
           : fieldsWithIssues // ignore: cast_nullable_to_non_nullable
-              as List<FieldWithIssue>,
+              as IList<FieldWithIssue>,
       mainButton: null == mainButton
           ? _value.mainButton
           : mainButton // ignore: cast_nullable_to_non_nullable
@@ -195,11 +195,10 @@ class _$_BottomSheetDialogUiModel extends _BottomSheetDialogUiModel {
       {required this.title,
       required this.subtitle,
       required this.iconResource,
-      final List<FieldWithIssue> fieldsWithIssues = const <FieldWithIssue>[],
+      this.fieldsWithIssues = const IListConst([]),
       required this.mainButton,
       this.secondaryButton})
-      : _fieldsWithIssues = fieldsWithIssues,
-        super._();
+      : super._();
 
   @override
   final String title;
@@ -207,16 +206,9 @@ class _$_BottomSheetDialogUiModel extends _BottomSheetDialogUiModel {
   final String subtitle;
   @override
   final Icon iconResource;
-  final List<FieldWithIssue> _fieldsWithIssues;
   @override
   @JsonKey()
-  List<FieldWithIssue> get fieldsWithIssues {
-    if (_fieldsWithIssues is EqualUnmodifiableListView)
-      return _fieldsWithIssues;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_fieldsWithIssues);
-  }
-
+  final IList<FieldWithIssue> fieldsWithIssues;
   @override
   final DialogButtonStyle mainButton;
   @override
@@ -238,7 +230,7 @@ class _$_BottomSheetDialogUiModel extends _BottomSheetDialogUiModel {
             (identical(other.iconResource, iconResource) ||
                 other.iconResource == iconResource) &&
             const DeepCollectionEquality()
-                .equals(other._fieldsWithIssues, _fieldsWithIssues) &&
+                .equals(other.fieldsWithIssues, fieldsWithIssues) &&
             (identical(other.mainButton, mainButton) ||
                 other.mainButton == mainButton) &&
             (identical(other.secondaryButton, secondaryButton) ||
@@ -251,7 +243,7 @@ class _$_BottomSheetDialogUiModel extends _BottomSheetDialogUiModel {
       title,
       subtitle,
       iconResource,
-      const DeepCollectionEquality().hash(_fieldsWithIssues),
+      const DeepCollectionEquality().hash(fieldsWithIssues),
       mainButton,
       secondaryButton);
 
@@ -268,7 +260,7 @@ abstract class _BottomSheetDialogUiModel extends BottomSheetDialogUiModel {
       {required final String title,
       required final String subtitle,
       required final Icon iconResource,
-      final List<FieldWithIssue> fieldsWithIssues,
+      final IList<FieldWithIssue> fieldsWithIssues,
       required final DialogButtonStyle mainButton,
       final DialogButtonStyle? secondaryButton}) = _$_BottomSheetDialogUiModel;
   const _BottomSheetDialogUiModel._() : super._();
@@ -280,7 +272,7 @@ abstract class _BottomSheetDialogUiModel extends BottomSheetDialogUiModel {
   @override
   Icon get iconResource;
   @override
-  List<FieldWithIssue> get fieldsWithIssues;
+  IList<FieldWithIssue> get fieldsWithIssues;
   @override
   DialogButtonStyle get mainButton;
   @override

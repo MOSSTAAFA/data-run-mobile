@@ -1,5 +1,6 @@
 import 'package:d2_remote/modules/activity_management/activity/entities/activity.entity.dart';
 import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisation_unit.entity.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
 import '../../../../commons/date/field_with_issue.dart';
 import '../../../../core/event/event_status.dart';
@@ -15,9 +16,9 @@ abstract class EventCapturePresenter {
   void attemptFinish(
       bool canComplete,
       String? onCompleteMessage,
-      List<FieldWithIssue> errorFields,
-      Map<String, String> emptyMandatoryFields,
-      List<FieldWithIssue> warningFields);
+      IList<FieldWithIssue> errorFields,
+      IMap<String, String> emptyMandatoryFields,
+      IList<FieldWithIssue> warningFields);
 
   Future<bool> isEnrollmentOpen();
 
@@ -65,7 +66,7 @@ mixin EventCaptureView implements ViewBase {
 
   void showCompleteActions(
       bool canComplete,
-      Map<String, String> emptyMandatoryFields,
+      IMap<String, String> emptyMandatoryFields,
       EventCompletionDialog eventCompletionDialog);
 
   void restartDataEntry();

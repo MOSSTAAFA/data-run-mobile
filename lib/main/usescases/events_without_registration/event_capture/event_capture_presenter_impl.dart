@@ -1,5 +1,6 @@
 import 'package:d2_remote/modules/activity_management/activity/entities/activity.entity.dart';
 import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisation_unit.entity.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
 import '../../../../commons/date/field_with_issue.dart';
 import '../../../../commons/prefs/preference.dart';
@@ -91,9 +92,9 @@ class EventCapturePresenterImpl implements EventCapturePresenter {
   Future<void> attemptFinish(
       bool canComplete,
       String? onCompleteMessage,
-      List<FieldWithIssue> errorFields,
-      Map<String, String> emptyMandatoryFields,
-      List<FieldWithIssue> warningFields) async {
+      IList<FieldWithIssue> errorFields,
+      IMap<String, String> emptyMandatoryFields,
+      IList<FieldWithIssue> warningFields) async {
     if (errorFields.isNotEmpty) {
       view.showErrorSnackBar();
     }
@@ -216,14 +217,16 @@ class EventCapturePresenterImpl implements EventCapturePresenter {
     initNoteCounter();
   }
 
+  /// Not used
   @override
   void hideProgress() {
-    view.hideProgress();
+    // view.hideProgress();
   }
 
+  /// Not used
   @override
   void showProgress() {
-    view.showProgress();
+    // view.showProgress();
   }
 
   @override
@@ -237,7 +240,7 @@ class EventCapturePresenterImpl implements EventCapturePresenter {
 
   @override
   void updatePercentage(double primaryValue) {
-    view.updatePercentage(primaryValue);
+    // view.updatePercentage(primaryValue);
   }
 
   /// By NMC: From EventCaptureFormPresenter
@@ -250,16 +253,20 @@ class EventCapturePresenterImpl implements EventCapturePresenter {
           result.fieldUidErrorList,
           result.mandatoryFields,
           result.warningFields),
-      fieldsWithWarningResult: (result) => attemptFinish(result.canComplete,
-          result.onCompleteMessage, [], {}, result.fieldUidWarningList),
+      fieldsWithWarningResult: (result) => attemptFinish(
+          result.canComplete,
+          result.onCompleteMessage,
+          IList([]),
+          IMap({}),
+          result.fieldUidWarningList),
       missingMandatoryResult: (result) => attemptFinish(
           result.canComplete,
           result.onCompleteMessage,
           result.errorFields,
           result.mandatoryFields,
           result.warningFields),
-      successfulResult: (result) => attemptFinish(
-          result.canComplete, result.onCompleteMessage, [], {}, []),
+      successfulResult: (result) => attemptFinish(result.canComplete,
+          result.onCompleteMessage, IList([]), IMap({}), IList([])),
       notSavedResult: (result) {},
     );
   }

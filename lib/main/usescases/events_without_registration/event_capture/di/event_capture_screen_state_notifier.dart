@@ -12,6 +12,11 @@ class EventCaptureScreenStateNotifier
     return const EventCaptureScreenState();
   }
 
+  @override
+  bool updateShouldNotify(EventCaptureScreenState previous, EventCaptureScreenState next) {
+    return previous != next;
+  }
+
   void showProgress() {
     state = state.copyWith(progress: true);
   }
@@ -48,7 +53,7 @@ class EventCaptureScreenState with EquatableMixin {
   const EventCaptureScreenState(
       [this.progress = true,
       this.visibleNavigationBar = false,
-      this.percentage = 0.0,
+      this.percentage = 0,
       this.hasExpired = false]);
 
   final bool progress;
