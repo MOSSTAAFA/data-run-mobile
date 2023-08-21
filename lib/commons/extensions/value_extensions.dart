@@ -75,10 +75,10 @@ extension UserFriendlyEventDataValueExtension on EventDataValue? {
   }
 }
 
-extension ToValueType on String? {
+extension ToValueType on String {
   ValueType? get toValueType {
     try {
-      return ValueType.values.byName(this ?? '');
+      return ValueType.values.byName(this);
       // return ValueType.values.firstWhere((valueType) => valueType.name == this,
       //     orElse: throw ArgumentError(
       //         'The ValueType $this does not match any Value type'));
