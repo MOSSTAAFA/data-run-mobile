@@ -11,6 +11,7 @@ import '../../../commons/extensions/standard_extensions.dart';
 import '../../../commons/helpers/collections.dart';
 import '../../../commons/state/app_state_notifier.dart';
 import '../../../commons/utils/view_actions.dart';
+import '../../../form/model/form_repository_records.dart';
 import '../../../form/ui/components/linear_loading_indicator.dart';
 import '../../../riverpod/use_on_init_hook.dart';
 import '../../l10n/app_localizations.dart';
@@ -153,6 +154,8 @@ class _ProgramEventDetailScreenState
     // NMC
     bundle = bundle.putString(EVENT_MODE, EventMode.CHECK.name);
     bundle = bundle.putString(ACTIVITY_UID, activityUid);
+
+    bundle = bundle.putObject(RECORDS, EventRecords(eventId));
 
     // set to the  Bundle activityUid
     // ref.read(bundleObjectProvider.notifier).setValue(bundle);
