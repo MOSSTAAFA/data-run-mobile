@@ -12,10 +12,8 @@ import '../../commons/extensions/standard_extensions.dart';
 import '../../commons/helpers/iterable.dart';
 import '../data/data_integrity_check_result.dart';
 import '../data/form_repository.dart';
-import '../di/injector.dart';
 import '../model/Ui_render_type.dart';
 import '../model/field_ui_model.dart';
-import '../model/form_repository_records.dart';
 import '../model/info_ui_model.dart';
 import '../model/row_action.dart';
 import '../model/section_ui_model_impl.dart';
@@ -33,7 +31,7 @@ class FormViewWidget extends ConsumerStatefulWidget {
       this.needToForceUpdate = false,
 
       /// Sent ser. through
-      required this.records,
+      // required this.records,
       this.onItemChangeListener,
       this.onLoadingListener,
       this.onFocused,
@@ -54,7 +52,7 @@ class FormViewWidget extends ConsumerStatefulWidget {
 
   /// Sent ser. through
   // Will be comming from event or Enrollment Widgets
-  final FormRepositoryRecords records;
+  // final FormRepositoryRecords records;
 
   final void Function(RowAction rowAction)? onItemChangeListener;
   final void Function(bool loading)? onLoadingListener;
@@ -85,7 +83,7 @@ class _FormViewWidgetState extends ConsumerState<FormViewWidget>
   Widget build(BuildContext context) {
     debugPrint('$runtimeType: build()');
     debugPrint('mounted is $mounted');
-    final itemsCount = ref.watch(formViewModelNotifierProvider(formRepository)
+    final itemsCount = ref.watch(formViewModelNotifierProvider
         .select((asyncItems) => asyncItems.value?.length));
 
     return Padding(
@@ -96,7 +94,7 @@ class _FormViewWidgetState extends ConsumerState<FormViewWidget>
             itemsCount: itemsCount ?? 0,
             onIntent: (intent) => _intentHandler(intent),
             onListViewUiEvents: (uiEvent) => _uiEventHandler(uiEvent),
-            records: widget.records,
+            // records: widget.records,
           ),
           Positioned(
             right: 10,
@@ -135,7 +133,6 @@ class _FormViewWidgetState extends ConsumerState<FormViewWidget>
   @override
   void initState() {
     super.initState();
-    formRepository = ref.read(formRepositoryProvider(widget.records));
     debugPrint('$runtimeType: initState: initState()');
     debugPrint('mounted is $mounted');
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -219,6 +216,15 @@ class _FormViewWidgetState extends ConsumerState<FormViewWidget>
     ref.listenManual<bool>(
         formModelNotifierProvider.select((value) => value.loading),
         (previous, next) => widget.onLoadingListener?.call(next));
+
+    ref.listenManual<AsyncValue<IList<FieldUiModel>>?>(
+        formViewModelNotifierProvider, (previous, next) {
+      if (next?.isLoading == true) {
+        widget.onLoadingListener?.call(true);
+      } else if(next?.hasValue == true){
+        widget.onLoadingListener?.call(false);
+      }
+    });
 
     ref.listenManual<RowAction?>(
         formModelNotifierProvider.select((formModel) => formModel.savedValue),

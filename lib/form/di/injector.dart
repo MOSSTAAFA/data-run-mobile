@@ -1,12 +1,15 @@
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/data/tracker/entities/enrollment.entity.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../commons/constants.dart';
 import '../../commons/date/entry_mode.dart';
 import '../../commons/network/network_utils.dart';
 import '../../commons/resources/resource_manager.dart';
 import '../../core/enrollment/enrollment_object_repository.dart';
+import '../../main/usescases/bundle/bundle.dart';
 import '../data/data_entry_repository.dart';
 import '../data/enrollment_repository.dart';
 import '../data/event_repository.dart';
@@ -41,10 +44,21 @@ part 'injector.g.dart';
 
 // @Riverpod(dependencies: [formRepositoryRecordsInstance])
 @riverpod
-FormRepository formRepository(FormRepositoryRef ref, FormRepositoryRecords repositoryRecords) {
+FormRepository formRepository(
+    FormRepositoryRef ref /*, FormRepositoryRecords repositoryRecords*/) {
   // final FormRepositoryRecords repositoryRecords =
   //     ref.watch(formRepositoryRecordsInstanceProvider);
-  debugPrint('formRepositoryL: Records.recordUid ${repositoryRecords.recordUid}');
+  final Bundle eventBundle = Get.arguments as Bundle;
+  final records = eventBundle.getObject(RECORDS);
+  if (records == null) {
+    throw Exception(
+        'You need to set record information in order to persist your data');
+  }
+  final FormRepositoryRecords repositoryRecords =
+      records as FormRepositoryRecords;
+
+  debugPrint(
+      'formRepositoryL: Records.recordUid ${repositoryRecords.recordUid}');
   return FormRepositoryImpl(
     formValueStore: ref.watch(_formValueStoreProvider(
         repositoryRecords.recordUid, repositoryRecords.entryMode)),

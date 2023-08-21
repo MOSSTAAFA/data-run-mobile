@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../commons/custom_widgets/mixins/keyboard_manager.dart';
-import '../model/form_repository_records.dart';
 import 'data_entry_item.widget.dart';
 import 'event/list_view_ui_events.dart';
 import 'intent/form_intent.dart';
@@ -14,12 +13,12 @@ class DataEntryItemListWidget extends ConsumerStatefulWidget {
       {super.key,
       required this.itemsCount,
       this.onIntent,
-      required this.records,
+      // required this.records,
       this.onListViewUiEvents,
       this.searchStyle = false});
 
   final int itemsCount;
-  final FormRepositoryRecords records;
+  // final FormRepositoryRecords records;
 
   final void Function(FormIntent intent)? onIntent;
   final void Function(ListViewUiEvents uiEvent)? onListViewUiEvents;
@@ -57,7 +56,7 @@ class DataEntryItemListWidgetState
                 },
                 onListViewUiEvents: (uiEvent) =>
                     widget.onListViewUiEvents?.call(uiEvent),
-                records: widget.records,
+                // records: widget.records,
               ),
             ),
             itemScrollController: itemScrollController,

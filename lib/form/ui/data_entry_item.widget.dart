@@ -7,8 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../commons/custom_widgets/fields/factory/field_widget_factory_impl.dart';
 import '../../commons/custom_widgets/fields/form_edit_text.widget.dart';
 import '../../commons/custom_widgets/form_card.dart';
-import '../di/injector.dart';
-import '../model/form_repository_records.dart';
 import 'event/list_view_ui_events.dart';
 import 'intent/form_intent.dart';
 import 'view_model/form_view_model_notifier.dart';
@@ -22,35 +20,18 @@ class DataEntryItemWidget extends ConsumerWidget {
     super.key,
     this.onIntent,
     this.onListViewUiEvents,
-    required this.records,
+    // required this.records,
   });
 
-  final FormRepositoryRecords records;
+  // final FormRepositoryRecords records;
 
   final void Function(FormIntent intent)? onIntent;
   final void Function(ListViewUiEvents uiEvent)? onListViewUiEvents;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final item = ref.watch(itemsResultProvider.select((list) =>
-    //     list.value?.isNotEmpty ?? false
-    //         ? list.value![ref.watch(formViewIndexProvider)].setCallback(
-    //             intentCallback: (intent) {
-    //             FormIntent formIntent = intent;
-    //             if (intent is OnNext) {
-    //               formIntent = intent.copyWith(
-    //                   position: ref.read(formViewIndexProvider) + 1);
-    //             }
-    //             onIntent?.call(formIntent);
-    //             ref.read(uiIntentProvider.notifier).setValue(formIntent);
-    //           }, listViewUiEventsCallback: (uiEvent) {
-    //             onListViewUiEvents?.call(uiEvent);
-    //             ref.read(uiEventProvider.notifier).setValue(uiEvent);
-    //           })
-    //         : null));
-
     final item = ref.watch(
-        formViewModelNotifierProvider(ref.read(formRepositoryProvider(records)))
+        formViewModelNotifierProvider
             .select((asyncList) => asyncList.value?.isNotEmpty ?? false
                 ? asyncList.value![ref.watch(formViewIndexProvider)].copyWith(
                     intentCallback: (intent) {

@@ -7,6 +7,7 @@ import 'package:d2_remote/modules/data/tracker/entities/event_data_value.entity.
 import 'package:d2_remote/modules/data/tracker/models/geometry.dart';
 import 'package:d2_remote/modules/data/tracker/queries/event_data_value.query.dart';
 import 'package:d2_remote/modules/data/tracker/queries/tracked_entity_attribute_value.query.dart';
+import 'package:d2_remote/modules/metadata/data_element/entities/data_element.entity.dart';
 import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dart';
 import 'package:d2_remote/modules/metadata/option_set/entities/option_group_option.entity.dart';
 
@@ -38,7 +39,7 @@ class FormValueStore {
   ///
   // String recordUid;
   Future<String> recordUidFuture;
-  late final String recordUid;
+  late /*final*/ String recordUid;
   EntryMode entryMode;
 
   EnrollmentObjectRepository? enrollmentRepository;
@@ -167,10 +168,9 @@ class FormValueStore {
         .byAttribute(uid)
         .byTrackedEntityInstance(teiUid);
 
-    final ValueType valueType =
-        (await D2Remote.programModule.trackedEntityAttribute.byId(uid).getOne())
-            ?.valueType
-            .toValueType();
+    final tea =
+        await D2Remote.programModule.trackedEntityAttribute.byId(uid).getOne();
+    final ValueType? valueType = tea?.valueType.toValueType;
 
     String newValue = value.withValueTypeCheck(valueType) ?? '';
 
@@ -235,10 +235,9 @@ class FormValueStore {
         .byEvent(recordUid)
         .byDataElement(uid);
 
-    final ValueType? valueType =
-        (await D2Remote.dataElementModule.dataElement.byId(uid).getOne())
-            ?.valueType
-            .toValueType;
+    final DataElement? de =
+        await D2Remote.dataElementModule.dataElement.byId(uid).getOne();
+    final ValueType? valueType = de?.valueType.toValueType;
 
     String newValue = value.withValueTypeCheck(valueType) ?? '';
     if (valueType == ValueType.IMAGE && value != null) {

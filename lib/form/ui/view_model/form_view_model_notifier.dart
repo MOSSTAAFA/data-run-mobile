@@ -1,4 +1,3 @@
-// ignore_for_file: always_specify_types
 import 'package:d2_remote/core/common/exception/exception.dart';
 import 'package:d2_remote/core/common/feature_type.dart';
 import 'package:d2_remote/core/common/value_type.dart';
@@ -12,6 +11,7 @@ import '../../../../commons/extensions/string_extension.dart';
 import '../../../../commons/logging/logging.dart';
 import '../../../commons/helpers/collections.dart';
 import '../../data/form_repository.dart';
+import '../../di/injector.dart';
 import '../../model/Ui_render_type.dart';
 import '../../model/action_type.dart';
 import '../../model/field_ui_model.dart';
@@ -28,8 +28,11 @@ part 'form_view_model_notifier.g.dart';
 
 @riverpod
 class FormViewModelNotifier extends _$FormViewModelNotifier {
+  late final FormRepository _repository;
+
   @override
-  FutureOr<IList<FieldUiModel>> build(FormRepository repository) {
+  FutureOr<IList<FieldUiModel>> build() {
+    _repository = ref.watch(formRepositoryProvider);
     logInfo(info: 'itemsProvider: got built -> build()');
     ref.listen<FormIntent>(formPendingIntentsProvider, (previous, next) {
       logInfo(info: next.toString());
@@ -38,7 +41,7 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
     });
 
     try {
-      final items = repository.fetchFormItems();
+      final items = _repository.fetchFormItems();
       return items;
     } catch (e) {
       return IList([]);
@@ -46,10 +49,16 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
     // return IList<FieldUiModel>();
   }
 
+  // @override
+  // bool updateShouldNotify(AsyncValue<IList<FieldUiModel>> previous,
+  //     AsyncValue<IList<FieldUiModel>> next) {
+  //   return previous != next;
+  // }
+
   // Future<void> loadData() async {
-  //   final repository = ref.read(formRepositoryProvider);
+  //   final _repository = ref.read(formRepositoryProvider);
   //   logInfo(info: 'itemsProvider: fetchFormItems()');
-  //   state = await AsyncValue.guard(repository.fetchFormItems);
+  //   state = await AsyncValue.guard(_repository.fetchFormItems);
   // }
 
   void _displayResult(Pair<RowAction, StoreResult> result) {
@@ -196,28 +205,29 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
   }
 
   Future<void> processCalculatedItems() async {
-    // final repository = ref.read(formRepositoryProvider);
+    // final _repository = ref.read(formRepositoryProvider);
     logInfo(info: 'itemsProvider: processCalculatedItems()');
-    state = await AsyncValue.guard(repository.composeList);
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(_repository.composeList);
   }
 
   Future<StoreResult> _processUserAction(RowAction action) async {
-    // final repository = ref.read(formRepositoryProvider);
+    // final _repository = ref.read(formRepositoryProvider);
     switch (action.type) {
       /// upon returning, need to processCalculatedItems() and update state
       case ActionType.ON_SAVE:
         if (action.valueType == ValueType.COORDINATE) {
-          repository.setFieldRequestingCoordinates(action.id, false);
+          _repository.setFieldRequestingCoordinates(action.id, false);
         }
-        repository.updateErrorList(action);
+        _repository.updateErrorList(action);
         if (action.error != null) {
           return StoreResult(
               uid: action.id,
               valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);
         } else {
           final StoreResult? saveResult =
-              await repository.save(action.id, action.value, action.extraData);
-          await repository.updateValueOnList(
+              await _repository.save(action.id, action.value, action.extraData);
+          await _repository.updateValueOnList(
               action.id, action.value, action.valueType);
           return saveResult ??
               StoreResult(
@@ -229,38 +239,38 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
       case ActionType.ON_FOCUS:
       case ActionType.ON_NEXT:
         final StoreResult storeResult = await _saveLastFocusedItem(action);
-        repository.setFocusedItem(action);
+        _repository.setFocusedItem(action);
         return storeResult;
 
       case ActionType.ON_TEXT_CHANGE:
-        await repository.updateValueOnList(
+        await _repository.updateValueOnList(
             action.id, action.value, action.valueType);
         return StoreResult(
             uid: action.id, valueStoreResult: ValueStoreResult.TEXT_CHANGING);
 
       /// upon returning, need to processCalculatedItems() and update state
       case ActionType.ON_SECTION_CHANGE:
-        repository.updateSectionOpened(action);
+        _repository.updateSectionOpened(action);
         return StoreResult(
             uid: action.id,
             valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);
 
       case ActionType.ON_CLEAR:
-        repository.removeAllValues();
+        _repository.removeAllValues();
 
         return StoreResult(
             uid: action.id, valueStoreResult: ValueStoreResult.VALUE_CHANGED);
 
       /// upon returning, need to processCalculatedItems() and update state
       case ActionType.ON_FINISH:
-        repository.setFocusedItem(action);
+        _repository.setFocusedItem(action);
 
         return const StoreResult(
             uid: '', valueStoreResult: ValueStoreResult.FINISH);
 
       /// upon returning, need to processCalculatedItems() and update state
       case ActionType.ON_REQUEST_COORDINATES:
-        repository.setFieldRequestingCoordinates(action.id, true);
+        _repository.setFieldRequestingCoordinates(action.id, true);
 
         return StoreResult(
             uid: action.id,
@@ -268,7 +278,7 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
 
       /// upon returning, need to processCalculatedItems() and update state
       case ActionType.ON_CANCELL_REQUEST_COORDINATES:
-        repository.setFieldRequestingCoordinates(action.id, false);
+        _repository.setFieldRequestingCoordinates(action.id, false);
 
         return StoreResult(
             uid: action.id,
@@ -283,7 +293,7 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
   }
 
   Future<StoreResult> _saveLastFocusedItem(RowAction rowAction) async {
-    // final repository = ref.read(formRepositoryProvider);
+    // final _repository = ref.read(formRepositoryProvider);
     final FieldUiModel? field = _getLastFocusedTextItem();
     if (field != null) {
       final Exception? error =
@@ -294,7 +304,7 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
             value: field.value,
             valueType: field.valueType,
             fieldMask: field.fieldMask));
-        repository.updateErrorList(action);
+        _repository.updateErrorList(action);
 
         /// upon returning, need to processCalculatedItems() and update state
         return StoreResult(
@@ -304,10 +314,10 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
         final FormIntent intent = _getSaveIntent(field);
         final RowAction action = _getRowActionFromIntent(intent);
         final StoreResult? result =
-            await repository.save(field.uid, field.value, action.extraData);
-        await repository.updateValueOnList(
+            await _repository.save(field.uid, field.value, action.extraData);
+        await _repository.updateValueOnList(
             field.uid, field.value, field.valueType);
-        repository.updateErrorList(action);
+        _repository.updateErrorList(action);
         if (result != null) {
           return result;
         }
@@ -345,7 +355,7 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
   /// [ActionType.ON_FINISH], which then converted to a [StoreResult] of
   /// [ValueStoreResult.FINISH]
   void runDataIntegrityCheck({bool? backButtonPressed}) {
-    final result = repository.runDataIntegrityCheck(
+    final result = _repository.runDataIntegrityCheck(
         allowDiscard: backButtonPressed ?? false);
     ref.read(formModelNotifierProvider.notifier).updateValue(
         (current) => current.copyWith(dataIntegrityResult: result));
@@ -367,8 +377,8 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
   // TODO(NMC): move to another provider so we don't have to change another notifier
   // from this notifier and directly call this function from widget tree
   void discardChanges() {
-    // final repository = ref.read(formRepositoryProvider);
-    repository.backupOfChangedItems().forEach((FieldUiModel item) => ref
+    // final _repository = ref.read(formRepositoryProvider);
+    _repository.backupOfChangedItems().forEach((FieldUiModel item) => ref
         .read(formPendingIntentsProvider.notifier)
         .submitIntent((_) => FormIntent.onSave(
             uid: item.uid,
@@ -378,8 +388,8 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
   }
 
   FieldUiModel? _getLastFocusedTextItem() {
-    // final repository = ref.read(formRepositoryProvider);
-    return repository.currentFocusedItem()?.takeIf((FieldUiModel item) =>
+    // final _repository = ref.read(formRepositoryProvider);
+    return _repository.currentFocusedItem()?.takeIf((FieldUiModel item) =>
         item.valueType?.let((ValueType valueType) =>
             valueTypeIsTextField(valueType, item.renderingType)) ??
         false);
@@ -394,15 +404,15 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
   }
 
   void clearFocus() {
-    repository.clearFocusItem();
+    _repository.clearFocusItem();
   }
 
   bool calculationLoopOverLimit() {
-    return repository.calculationLoopOverLimit();
+    return _repository.calculationLoopOverLimit();
   }
 
   double completedFieldsPercentage(IList<FieldUiModel> value) {
-    return repository.completedFieldsPercentage(value);
+    return _repository.completedFieldsPercentage(value);
   }
 
   RowAction _getRowActionFromIntent(FormIntent intent) {

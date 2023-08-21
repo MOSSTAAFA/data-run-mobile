@@ -13,6 +13,11 @@ class FormModelNotifier extends _$FormModelNotifier {
     return FormModel();
   }
 
+  @override
+  bool updateShouldNotify(FormModel previous, FormModel next) {
+    return previous != next;
+  }
+
   void updateValue(FormModel Function(FormModel current) updateCallback) {
     state = updateCallback.call(state);
   }
