@@ -172,80 +172,6 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
         // ),
       ),
     );
-    // return ProviderScope(
-    //   overrides: [
-    //     pageConfiguratorProvider.overrideWith((_) => EventPageConfigurator()),
-    //   ],
-    //   child: Column(
-    //     children: [
-    //       Consumer(
-    //         // This builder will only get called when the
-    //         // programEventDetailModelProvider.progress is updated.
-    //         builder: (context, ref, child) => LinearLoadingIndicator(
-    //           isLoading: ref.watch(programEventDetailModelProvider
-    //               .select((value) => value.progress)),
-    //         ),
-    //       ),
-    //       Expanded(
-    //         child: NavigationTabBarView(
-    //           onPositionChange: (position) {
-    //             if (position == ViewAction.details &&
-    //                 eventMode != EventMode.NEW) {
-    //               _showSyncButton();
-    //             } else {
-    //               _hideSyncButton();
-    //             }
-    //           },
-    //           appBarTitle: Text(ref.watch(eventDataStringProvider)),
-    //           appBarActions: [
-    //             Consumer(
-    //               builder: (context, ref, child) {
-    //                 return ref.watch(syncButtonVisibilityProvider)
-    //                     ? IconButton(
-    //                         icon: const Icon(Icons.sync),
-    //                         tooltip: localization.lookup('sync'),
-    //                         onPressed: () => showSyncDialog(),
-    //                       )
-    //                     : const SizedBox();
-    //               },
-    //             ),
-    //           ],
-    //           actionButtonBuilder: (context, viewAction) =>
-    //               FloatingActionButton(
-    //             heroTag: ViewAction.data_entry.name,
-    //             tooltip: localization.lookup('save'),
-    //             onPressed: () {},
-    //             child: const Icon(Icons.save),
-    //           ),
-    //           tabBuilder: (context, viewAction) {
-    //             final name = localization.lookup(viewAction.name);
-    //             return when(viewAction, {
-    //               ViewAction.details: () => Tab(text: name),
-    //               ViewAction.data_entry: () => Tab(text: name),
-    //               ViewAction.notes: () => Tab(text: name),
-    //               ViewAction.analytics: () => Tab(text: name),
-    //               ViewAction.relationships: () => Tab(text: name),
-    //             })!;
-    //           },
-    //           pageBuilder: (context, viewAction) =>
-    //               when<ViewAction, Widget>(viewAction, {
-    //             ViewAction.details: () => const EventDetailsScreen(),
-    //             ViewAction.data_entry: () => EventCaptureForm(
-    //                   // showProgress: showProgress,
-    //                   // hideProgress: hideProgress,
-    //                   // hideNavigationBar: hideNavigationBar,
-    //                   // updatePercentage: updatePercentage,
-    //                   handleDataIntegrityResult:
-    //                       presenter.handleDataIntegrityResult,
-    //                 ),
-    //           }).orElse(() => const Center(
-    //                     child: Text('Unimplemented Screen!'),
-    //                   )),
-    //         ),
-    //       ),
-    //     ],
-    //   ),
-    // );
   }
 
   // Widget _buildFab() {
@@ -259,6 +185,7 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
 
   @override
   void initState() {
+    super.initState();
     // showProgress();
     final Bundle bundle = Get.arguments as Bundle;
     eventMode = bundle.getString(EVENT_MODE)?.toEventMode;
@@ -266,7 +193,6 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
     programUid = bundle.getString(PROGRAM_UID);
     eventUid = bundle.getString(EVENT_UID);
     presenter = ref.read(eventCapturePresenterProvider(this));
-    super.initState();
   }
 
   @override
