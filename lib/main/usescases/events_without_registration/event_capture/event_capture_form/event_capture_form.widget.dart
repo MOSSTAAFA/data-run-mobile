@@ -3,10 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 
 import '../../../../../commons/constants.dart';
-import '../../../../../commons/extensions/dynamic_extensions.dart';
 import '../../../../../form/data/data_integrity_check_result.dart';
 import '../../../../../form/model/form_repository_records.dart';
-import '../../../../../form/ui/di/form_view_notifier.dart';
 import '../../../../../form/ui/form_view.widget.dart';
 import '../../../bundle/bundle.dart';
 import '../di/event_capture_screen_state_notifier.dart';
@@ -57,7 +55,7 @@ class _EventCaptureFormState extends ConsumerState<EventCaptureForm>
     debugPrint('$runtimeType: build()');
     debugPrint('mounted is $mounted');
     return FormViewWidget(
-      records: eventRecords,
+      // records: eventRecords,
       onLoadingListener: (loading) {
         if (loading) {
           ref
@@ -68,7 +66,10 @@ class _EventCaptureFormState extends ConsumerState<EventCaptureForm>
           // widget.hideProgress?.call();
           ref
               .read(eventCaptureScreenStateNotifierProvider.notifier)
-              .hideNavigationBar();
+              .hideProgress();
+          // ref
+          //     .read(eventCaptureScreenStateNotifierProvider.notifier)
+          //     .hideNavigationBar();
         }
       },
       onFocused: () => ref
