@@ -37,11 +37,11 @@ class EnrollmentResultDialogUiProvider {
                 null, MdiIcons.alertCircle),
             fieldsWithIssues: result.fieldUidWarningList,
             mainButton: const DialogButtonStyle.mainButton(
-                textResource: 'R.string.review'),
+                textResource: 'review'),
             secondaryButton: const DialogButtonStyle.secondaryButton(
-                textResource: 'R.string.not_now')),
+                textResource: 'not_now')),
         missingMandatoryResult: (result) => BottomSheetDialogUiModel(
-              title: resourceManager.getString('R.string.not_saved'),
+              title: resourceManager.getString('not_saved'),
               subtitle: _getMandatorySubtitle(result.allowDiscard),
               iconResource: resourceManager.getObjectStyleDrawableResource(
                   null, Icons.error),
@@ -57,12 +57,12 @@ class EnrollmentResultDialogUiProvider {
                   : null,
             ),
         notSavedResult: (result) => BottomSheetDialogUiModel(
-            title: resourceManager.getString('R.string.not_saved'),
-            subtitle: resourceManager.getString('R.string.discard_go_back'),
+            title: resourceManager.getString('not_saved'),
+            subtitle: resourceManager.getString('discard_go_back'),
             iconResource: resourceManager.getObjectStyleDrawableResource(
                 null, MdiIcons.alertCircle),
             mainButton: const DialogButtonStyle.mainButton(
-                textResource: 'R.string.keep_editing'),
+                textResource: 'keep_editing'),
             secondaryButton: DialogButtonStyle.discardButton()));
   }
 
