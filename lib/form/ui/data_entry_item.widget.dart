@@ -30,24 +30,43 @@ class DataEntryItemWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final item = ref.watch(
-        formViewModelNotifierProvider
-            .select((asyncList) => asyncList.value?.isNotEmpty ?? false
-                ? asyncList.value![ref.watch(formViewIndexProvider)].copyWith(
-                    intentCallback: (intent) {
-                    FormIntent formIntent = intent;
-                    if (intent is OnNext) {
-                      formIntent = intent.copyWith(
-                          position: ref.read(formViewIndexProvider));
-                    }
-                    onIntent?.call(formIntent);
-                  }, listViewUiEventsCallback: (uiEvent) {
-                    onListViewUiEvents?.call(uiEvent);
-                  })
-                : null));
+    // final item = ref.watch(
+    //     formViewModelNotifierProvider
+    //         .select((asyncList) => asyncList.value?.isNotEmpty ?? false
+    //         ? asyncList.value![ref.watch(formViewIndexProvider)].copyWith(
+    //         intentCallback: (intent) {
+    //           FormIntent formIntent = intent;
+    //           if (intent is OnNext) {
+    //             formIntent = intent.copyWith(
+    //                 position: ref.read(formViewIndexProvider));
+    //           }
+    //           onIntent?.call(formIntent);
+    //         }, listViewUiEventsCallback: (uiEvent) {
+    //       onListViewUiEvents?.call(uiEvent);
+    //     })
+    //         : null));
+
+    final itemIndex = ref.watch(formViewIndexProvider);
+    final item = ref.watch(formViewModelNotifierProvider.select((asyncList) =>
+        asyncList.value?.isNotEmpty ?? false
+            ? asyncList.value![itemIndex]
+            : null));
+    debugPrint(
+        'build(): $runtimeType, itemIndex $itemIndex, itemUid: ${item?.uid}, itemValue: ${item?.value}, '
+        'itemLabel ${item?.label}, itemMandatory ${item?.mandatory}, '
+        'itemError ${item?.error}, itemWarning ${item?.warning}');
 
     return FormEditText(
-      item: item,
+      item: item?.copyWith(intentCallback: (intent) {
+        FormIntent formIntent = intent;
+        if (intent is OnNext) {
+          formIntent =
+              intent.copyWith(position: ref.read(formViewIndexProvider));
+        }
+        onIntent?.call(formIntent);
+      }, listViewUiEventsCallback: (uiEvent) {
+        onListViewUiEvents?.call(uiEvent);
+      }),
     );
   }
 

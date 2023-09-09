@@ -40,6 +40,7 @@ class DataEntryItemListWidgetState
     //     .watch(formViewItemsProvider.select((list) => list.value?.length ?? 0));
     // final items = ref.watch(formViewModelNotifierProvider());
     // final itemCount = items.value?.length ?? 0;
+    debugPrint('build(): $runtimeType, item.count ${widget.itemsCount}');
 
     return widget.itemsCount > 0
         ? ScrollablePositionedList.builder(

@@ -76,15 +76,14 @@ class FormViewWidget extends ConsumerStatefulWidget {
 class _FormViewWidgetState extends ConsumerState<FormViewWidget>
     with KeyboardManager {
   // late final FormViewModel viewModel;
-  late final FormViewModelNotifier formViewModelNotifier;
+  // late final FormViewModelNotifier formViewModelNotifier;
   late final FormRepository formRepository;
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('$runtimeType: build()');
-    debugPrint('mounted is $mounted');
     final itemsCount = ref.watch(formViewModelNotifierProvider
         .select((asyncItems) => asyncItems.value?.length));
+    debugPrint('build(): $runtimeType, itemsCount: $itemsCount');
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -116,27 +115,24 @@ class _FormViewWidgetState extends ConsumerState<FormViewWidget>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    debugPrint('$runtimeType: didChangeDependencies: didChangeDependencies()');
-    debugPrint('mounted is $mounted');
+    // debugPrint('$runtimeType: didChangeDependencies: didChangeDependencies()');
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      debugPrint('$runtimeType: didChangeDependencies, addPostFrameCallback()');
+      // debugPrint('$runtimeType: didChangeDependencies, addPostFrameCallback()');
     });
   }
 
   @override
   void didUpdateWidget(covariant FormViewWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    debugPrint('$runtimeType: didUpdateWidget: didUpdateWidget()');
-    debugPrint('mounted is $mounted');
+    // debugPrint('$runtimeType: didUpdateWidget: didUpdateWidget()');
   }
 
   @override
   void initState() {
     super.initState();
-    debugPrint('$runtimeType: initState: initState()');
-    debugPrint('mounted is $mounted');
+    // debugPrint('$runtimeType: initState: initState()');
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      debugPrint('$runtimeType: initState: addPostFrameCallback()');
+      // debugPrint('$runtimeType: initState: addPostFrameCallback()');
       // ref.read(formViewItemsProvider.notifier).loadData();
       _setObservers();
       // _setUpRowActionStoreListener();
@@ -221,8 +217,11 @@ class _FormViewWidgetState extends ConsumerState<FormViewWidget>
         formViewModelNotifierProvider, (previous, next) {
       if (next?.isLoading == true) {
         widget.onLoadingListener?.call(true);
-      } else if(next?.hasValue == true){
+      } else if (next?.hasValue == true) {
         widget.onLoadingListener?.call(false);
+        if (next!.value != null) {
+          _render(next.value!);
+        }
       }
     });
 
@@ -394,12 +393,14 @@ class _FormViewWidgetState extends ConsumerState<FormViewWidget>
   }
 
   void onBackPressed() {
-    formViewModelNotifier.runDataIntegrityCheck(backButtonPressed: true);
+    ref
+        .read(formViewModelNotifierProvider.notifier)
+        .runDataIntegrityCheck(backButtonPressed: true);
   }
 
   void onSaveClick() {
     onEditionFinish();
-    formViewModelNotifier.saveDataEntry();
+    ref.read(formViewModelNotifierProvider.notifier).saveDataEntry();
     // viewModel.saveDataEntry();
   }
 
@@ -408,12 +409,11 @@ class _FormViewWidgetState extends ConsumerState<FormViewWidget>
   }
 
   void _render(IList<FieldUiModel> items) {
-    // viewModel.calculateCompletedFields();
+    final notifier = ref.read(formViewModelNotifierProvider.notifier);
+    notifier.calculateCompletedFields();
     // TODO(NMC): implementing Rules
-    // viewModel.updateConfigurationErrors();
-    // viewModel.displayLoopWarningIfNeeded();
-    // viewModel.displayLoopWarningIfNeeded();
-
+    // notifier.updateConfigurationErrors();
+    notifier.displayLoopWarningIfNeeded();
     _handleKeyBoardOnFocusChange(items);
   }
 
