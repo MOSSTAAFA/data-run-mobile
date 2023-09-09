@@ -33,7 +33,7 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
   @override
   FutureOr<IList<FieldUiModel>> build() {
     _repository = ref.watch(formRepositoryProvider);
-    logInfo(info: 'itemsProvider: got built -> build()');
+    logInfo(info: '$runtimeType: got built, inside build method');
     ref.listen<FormIntent>(formPendingIntentsProvider, (previous, next) {
       logInfo(info: next.toString());
       _createRowActionStore(next)
@@ -60,6 +60,21 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
   //   logInfo(info: 'itemsProvider: fetchFormItems()');
   //   state = await AsyncValue.guard(_repository.fetchFormItems);
   // }
+
+  void displayLoopWarningIfNeeded() {
+    final result = _repository.calculationLoopOverLimit();
+    ref
+        .read(formModelNotifierProvider.notifier)
+        .updateValue((current) => current.copyWith(calculationLoop: result));
+  }
+
+  void calculateCompletedFields() {
+    final result = _repository
+        .completedFieldsPercentage(state.valueOrNull ?? const IListConst([]));
+
+    ref.read(formModelNotifierProvider.notifier).updateValue(
+        (current) => current.copyWith(completionPercentage: result));
+  }
 
   void _displayResult(Pair<RowAction, StoreResult> result) {
     switch (result.second.valueStoreResult) {
@@ -292,6 +307,10 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
     }
   }
 
+  /// When change focus, if last LastFocusedTextItem is not null,
+  /// validate it for errors, when it has error in its entered item
+  /// it will _repository.updateErrorList, so on runDataIntegrity we get
+  /// notified about those validation errors
   Future<StoreResult> _saveLastFocusedItem(RowAction rowAction) async {
     // final _repository = ref.read(formRepositoryProvider);
     final FieldUiModel? field = _getLastFocusedTextItem();
@@ -330,6 +349,9 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
         valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);
   }
 
+  /// If [ValueType] is COORDINATE return
+  /// FormIntent.saveCurrentLocation(field),
+  /// otherwise return FormIntent.onSave(field...)
   FormIntent _getSaveIntent(FieldUiModel field) {
     switch (field.valueType) {
       case ValueType.COORDINATE:
@@ -389,10 +411,12 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
 
   FieldUiModel? _getLastFocusedTextItem() {
     // final _repository = ref.read(formRepositoryProvider);
-    return _repository.currentFocusedItem()?.takeIf((FieldUiModel item) =>
-        item.valueType?.let((ValueType valueType) =>
-            valueTypeIsTextField(valueType, item.renderingType)) ??
-        false);
+    final currentFocusedItem = _repository.currentFocusedItem()?.takeIf(
+        (FieldUiModel item) =>
+            item.valueType?.let((ValueType valueType) =>
+                valueTypeIsTextField(valueType, item.renderingType)) ??
+            false);
+    return currentFocusedItem;
   }
 
   bool valueTypeIsTextField(ValueType valueType, [UiRenderType? renderType]) {
@@ -409,10 +433,6 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
 
   bool calculationLoopOverLimit() {
     return _repository.calculationLoopOverLimit();
-  }
-
-  double completedFieldsPercentage(IList<FieldUiModel> value) {
-    return _repository.completedFieldsPercentage(value);
   }
 
   RowAction _getRowActionFromIntent(FormIntent intent) {
@@ -502,14 +522,16 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
           type: actionType,
           valueType: valueType);
 
-  /// _checkFieldError Global to this file function
+  /// When Field has a value it will
+  /// Validate the value against all validation rules
   ThrowableException? _checkFieldError(
       ValueType? valueType, String? fieldValue, String? fieldMask) {
     if (fieldValue.isNullOrEmpty) {
       return null;
     }
 
-    return fieldValue!.let((String value) {
+    /// for debugging or directly return it
+    final ThrowableException? checkResult = fieldValue!.let((String value) {
       ThrowableException? error;
       final Result<String, ThrowableException>? result = valueType
           ?.takeIf((ValueType item) => item != ValueType.IMAGE)
@@ -526,6 +548,8 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
       });
       return error;
     });
+
+    return checkResult;
   }
 
   RowAction _setCoordinateFieldValue(

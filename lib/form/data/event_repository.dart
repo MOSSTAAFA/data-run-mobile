@@ -100,7 +100,7 @@ class EventRepository extends DataEntryBaseRepository {
     final Event event = (await _event)!;
 
     final ProgramStage programStage = (await D2Remote.programModule.programStage
-        // .byId(event.programStage)
+        .byId(event.programStage)
         .getOne())!;
 
     final List<ProgramStageDataElement> stageDataElements = await D2Remote
@@ -123,6 +123,7 @@ class EventRepository extends DataEntryBaseRepository {
     return ff;
   }
 
+  /// transform Section Entity to [FieldUiModelImpl] for the UI
   Future<FieldUiModel> _transform(
       ProgramStageDataElement programStageDataElement) async {
     final DataElement de = await D2Remote.dataElementModule.dataElement

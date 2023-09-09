@@ -4,7 +4,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../core/arch/call/d2_progress_status.dart';
 import '../../../main.dart';
-import '../../l10n/app_localizations.dart';
 import 'sync_status_data.dart';
 
 part 'sync_status_controller.g.dart';
@@ -67,7 +66,7 @@ class SyncStatusControllerInstance extends _$SyncStatusControllerInstance {
         return MapEntry(
             entry.key,
             entry.value.copyWith(
-                message: AppLocalization.of(navigatorKey.currentContext!)!
+                message: navigatorKey.localization
                     .lookup('networkUnavailable'),
                 isComplete: true,
                 syncStatus: D2ProgressSyncStatus.ERROR));

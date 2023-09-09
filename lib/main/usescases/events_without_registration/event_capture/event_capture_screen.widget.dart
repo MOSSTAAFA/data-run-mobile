@@ -9,18 +9,20 @@ import '../../../../commons/constants.dart';
 import '../../../../commons/custom_widgets/mixins/keyboard_manager.dart';
 import '../../../../commons/custom_widgets/nav_bar/fab_bottom_app_bar.dart';
 import '../../../../commons/extensions/dynamic_extensions.dart';
+import '../../../../form/data/data_integrity_check_result.dart';
 import '../../../../form/ui/components/linear_loading_indicator.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../utils/custom_views/form_bottom_dialog.dart';
 import '../../../utils/event_mode.dart';
 import '../../bundle/bundle.dart';
 import '../../general/view_base.dart';
-import '../event_details/ui/event_details_screen.widget.dart';
 import 'di/event_capture_module.dart';
 import 'di/event_capture_screen_state_notifier.dart';
 import 'event_capture_contract.dart';
-import 'event_capture_form/event_capture_form.widget.dart';
 import 'model/event_completion_dialog.dart';
+import 'widgets/event_capture_app_bar.widget.dart';
+import 'widgets/event_capture_app_bar_notifier.dart';
+import 'widgets/event_capture_tab_views.widget.dart';
 
 /// EventCaptureActivity && EventCapturePagerAdapter
 /// && EventCaptureFormFragment
@@ -47,18 +49,10 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
   late final EventCapturePresenter presenter;
   bool isEventCompleted = false;
 
-  int _selectedIndex = 0;
-
-  void _selectedTab(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context)!;
-
+    debugPrint('build(): $runtimeType');
     // final List<Widget> _widgets = <Widget>[
     //   const EventDetailsScreen(),
     //   EventCaptureForm(
@@ -73,26 +67,8 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
 
     return Material(
       child: Scaffold(
-        appBar: AppBar(
-          centerTitle: false,
-          title: Row(
-            children: [
-              Expanded(
-                child: Text(ref.watch(eventDataStringProvider)),
-              ),
-            ],
-          ),
-          actions: /*ref.watch(navInfoNotifierProvider.select(
-                  (value) => value.index == 0 && eventMode != EventMode.NEW))*/
-              _selectedIndex == 0 && eventMode != EventMode.NEW
-                  ? [
-                      IconButton(
-                        icon: const Icon(Icons.sync),
-                        tooltip: localization.lookup('sync'),
-                        onPressed: () => showSyncDialog(),
-                      ),
-                    ]
-                  : null,
+        appBar: EventCaptureAppBar(
+          onSyncButtonPressed: showSyncDialog,
         ),
         body: Center(
           child: Column(
@@ -101,61 +77,36 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
               /// Don't depend on a provider of a parent widget
               /// make depending on this or children widgets' providers
               Consumer(
-                // This builder will only get called when the
-                // programEventDetailModelProvider.progress is updated.
-                builder: (context, ref, child) => LinearLoadingIndicator(
-                  isLoading: ref.watch(eventCaptureScreenStateNotifierProvider
-                      .select((notifier) => notifier.progress)),
-                  backgroundColor: Colors.grey,
-                ),
+                builder: (context, ref, child) {
+                  final isLoading = ref.watch(
+                      eventCaptureScreenStateNotifierProvider
+                          .select((notifier) => notifier.progress));
+
+                  return isLoading
+                      ? LinearLoadingIndicator(
+                          isLoading: isLoading,
+                        )
+                      : Container(
+                          height: 10,
+                          color: Colors.grey,
+                        );
+                },
               ),
-              Expanded(
-                child: IndexedStack(
-                  index: _selectedIndex,
-                  children: [
-                    const EventDetailsScreen(),
-                    EventCaptureForm(
-                      // showProgress: showProgress,
-                      // hideProgress: hideProgress,
-                      // hideNavigationBar: hideNavigationBar,
-                      // updatePercentage: updatePercentage,
-                      handleDataIntegrityResult: (result) =>
-                          presenter.handleDataIntegrityResult(result),
+              const Expanded(
+                child: EventCaptureTabViews(
+                    // onHandleDataIntegrityResult:
+                    //     presenter.handleDataIntegrityResult,
                     ),
-                    const Text('Unimplemented Screen!')
-                  ],
-                ),
               ),
-              // Consumer(
-              //   builder: (context, ref, child) {
-              //     // final selectedIndex = ref.watch(
-              //     //     navInfoNotifierProvider.select((value) => value.index));
-              //     return Expanded(
-              //       child: when<int, Widget>(_selectedIndex, {
-              //         0: () => const EventDetailsScreen(),
-              //         1: () => EventCaptureForm(
-              //               // showProgress: showProgress,
-              //               // hideProgress: hideProgress,
-              //               // hideNavigationBar: hideNavigationBar,
-              //               // updatePercentage: updatePercentage,
-              //               handleDataIntegrityResult: (result) =>
-              //                   presenter.handleDataIntegrityResult(result),
-              //             ),
-              //       }).orElse(() => const Text('Unimplemented Screen!')),
-              //     );
-              //   },
-              // ),
             ],
           ),
         ),
         bottomNavigationBar: FABBottomAppBar(
           // centerItemText: 'A',
           notchedShape: const CircularNotchedRectangle(),
-          onTabSelected:
-              (index) => /* ref
-              .read(navInfoNotifierProvider.notifier)
-              .selectTabIndex(index)*/
-                  _selectedTab(index),
+          onTabSelected: (index) =>
+              ref.read(selectedIndexProvider.notifier).update((state) => index),
+
           items: [
             MenuItem(iconData: Icons.menu, text: 'This'),
             MenuItem(iconData: Icons.layers, text: 'Is'),
@@ -174,15 +125,6 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
     );
   }
 
-  // Widget _buildFab() {
-  //   return FloatingActionButton(
-  //     onPressed: () {},
-  //     tooltip: 'Save',
-  //     elevation: 2.0,
-  //     child: const Icon(Icons.save),
-  //   );
-  // }
-
   @override
   void initState() {
     super.initState();
@@ -193,6 +135,13 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
     programUid = bundle.getString(PROGRAM_UID);
     eventUid = bundle.getString(EVENT_UID);
     presenter = ref.read(eventCapturePresenterProvider(this));
+    ref.listenManual<DataIntegrityCheckResult?>(
+        eventCaptureScreenStateNotifierProvider
+            .select((value) => value.dataIntegrityResult), (previous, next) {
+      if (next != null) {
+        presenter.handleDataIntegrityResult(next);
+      }
+    });
   }
 
   @override
@@ -339,16 +288,16 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
     // TODO: implement showEventIntegrityAlert
   }
 
+  /// moved to [EventCaptureTabViews]
   @override
   void showProgress() {
-    // logInfo(info: 'showProgress()');
-    // ref.read(progressVisibilityProvider.notifier).update((_) => true);
+    // ref.read(eventCaptureScreenStateNotifierProvider.notifier).showProgress();
   }
 
+  /// moved to [EventCaptureTabViews]
   @override
   void hideProgress() {
-    // logInfo(info: 'hideProgress()');
-    // ref.read(progressVisibilityProvider.notifier).update((_) => false);
+    // ref.read(eventCaptureScreenStateNotifierProvider.notifier).hideProgress();
   }
 
   @override
@@ -387,11 +336,13 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
     //     .read(activityNameProvider.notifier)
     //     .update((_) => activity?.displayName ?? activity?.name ?? '');
 
-    // ref.read(eventDateProvider.notifier).update((_) => eventDate ?? '');
-
-    // ref
-    //     .read(orgUnitNameProvider.notifier)
-    //     .update((_) => orgUnit?.displayName ?? orgUnit?.name ?? '');
+    ref
+        .read(eventCaptureAppBarNotifierProvider.notifier)
+        .update((state) => state.copyWith(
+            eventDate: eventDate,
+            orgUnitName: orgUnit?.displayName ?? orgUnit?.name ?? '',
+            // TODO(NMC): provide activity name, when adding activity
+            activityName: ''));
   }
 
   void _showSyncButton() {
@@ -403,19 +354,21 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
   }
 }
 
+final selectedIndexProvider = StateProvider.autoDispose<int>((ref) => 0);
+
 // final progressVisibilityProvider =
 //     StateProvider.autoDispose<bool>((ref) => false);
 // final programStageNameProvider = StateProvider.autoDispose<String>((ref) => '');
 // final activityNameProvider = StateProvider.autoDispose<String>((ref) => '');
 
-final eventDateProvider = StateProvider.autoDispose<String>((ref) => '');
-final orgUnitNameProvider = StateProvider.autoDispose<String>((ref) => '');
-final eventDataStringProvider = Provider.autoDispose<String>((ref) {
-  final eventDate = ref.watch(eventDateProvider);
-  final orgUnitName = ref.watch(orgUnitNameProvider);
-
-  return '$eventDate | $orgUnitName';
-});
+// final eventDateProvider = StateProvider.autoDispose<String>((ref) => '');
+// final orgUnitNameProvider = StateProvider.autoDispose<String>((ref) => '');
+// final eventDataStringProvider = Provider.autoDispose<String>((ref) {
+//   final eventDate = ref.watch(eventDateProvider);
+//   final orgUnitName = ref.watch(orgUnitNameProvider);
+//
+//   return '$eventDate | $orgUnitName';
+// });
 
 final noteBadgeProvider = StateProvider.autoDispose<int>((ref) => 0);
 // final percentageProvider = StateProvider.autoDispose<double>((ref) => 0);

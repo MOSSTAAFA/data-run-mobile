@@ -64,9 +64,9 @@ class FormRepositoryImpl implements FormRepository {
         ? sectionUids.first
         : null;
 
-    final IList<FieldUiModel>? items =
-        (await dataEntryRepository?.list())?.lock;
-    _itemList = items ?? IList();
+    final List<FieldUiModel>? items =
+        await dataEntryRepository?.list();
+    _itemList = items?.lock ?? IList();
 
     _backupList = _itemList;
     return composeList();
@@ -90,11 +90,16 @@ class FormRepositoryImpl implements FormRepository {
   Future<IList<FieldUiModel>> _mergeListWithErrorFields(
       IList<FieldUiModel> list, IList<RowAction> fieldsWithError) async {
     _mandatoryItemsWithoutValue.clear();
+    final IList<FieldUiModel> mergeList = IList<FieldUiModel>([]);
+    mergeList.map((element) {
+
+    });
+    // list
     final List<FieldUiModel> mergedList =
         await Future.wait<FieldUiModel>(list.map((FieldUiModel item) async {
       if (item.mandatory && item.value == null) {
-        _mandatoryItemsWithoutValue = _mandatoryItemsWithoutValue.update(
-            item.label, (value) => item.programStageSection ?? '');
+        _mandatoryItemsWithoutValue = _mandatoryItemsWithoutValue.add(
+            item.label, item.programStageSection ?? '');
       }
       final RowAction? action = fieldsWithError
           .firstOrNullWhere((RowAction action) => action.id == item.uid);
@@ -118,6 +123,8 @@ class FormRepositoryImpl implements FormRepository {
   }
 
   /// pure function doesn't effect this class variables
+  /// runs at finishing data entry, either by clicking back key
+  /// or save key, if there are errors it will notify in the UI
   @override
   DataIntegrityCheckResult runDataIntegrityCheck({required bool allowDiscard}) {
     _runDataIntegrity = true;
@@ -355,17 +362,16 @@ class FormRepositoryImpl implements FormRepository {
         fieldUiModel.mandatory && fieldUiModel.value == null;
 
     if (needsMandatoryWarning) {
-      _mandatoryItemsWithoutValue = _mandatoryItemsWithoutValue.update(
+      _mandatoryItemsWithoutValue = _mandatoryItemsWithoutValue.add(
           fieldUiModel.label,
-          (value) => fieldUiModel.programStageSection ?? '');
+          fieldUiModel.programStageSection ?? '');
     }
 
     if (dataEntryRepository != null) {
       return dataEntryRepository!.updateField(
           fieldUiModel,
-          fieldErrorMessageProvider
-              .mandatoryWarning()
-              .takeIf((_) => needsMandatoryWarning && _runDataIntegrity),
+          needsMandatoryWarning && _runDataIntegrity ? fieldErrorMessageProvider
+              .mandatoryWarning(): null,
           /*ruleEffectsResult?.optionsToHide(fieldUiModel.uid) ?:*/ [],
           /*ruleEffectsResult?.optionGroupsToHide(fieldUiModel.uid) ?:*/ [],
           /*ruleEffectsResult?.optionGroupsToShow(fieldUiModel.uid) ?:*/ []);

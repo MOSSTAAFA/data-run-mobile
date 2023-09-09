@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:d2_remote/core/common/value_type.dart';
 import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dart';
 import 'package:dartx/dartx_io.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 import '../../commons/extensions/string_extension.dart';
@@ -22,7 +23,9 @@ import 'ui_event_type.dart';
 //
 // @freezed
 @immutable
-class FieldUiModelImpl implements FieldUiModel /*with _$FieldUiModelImpl*/ {
+class FieldUiModelImpl
+    with EquatableMixin
+    implements FieldUiModel /*with _$FieldUiModelImpl*/ {
   const FieldUiModelImpl(
       {required this.uid,
       required this.layoutId,
@@ -303,44 +306,101 @@ class FieldUiModelImpl implements FieldUiModel /*with _$FieldUiModelImpl*/ {
   @override
   bool isSection() => false;
 
+  // @override
+  // bool operator ==(dynamic other) {
+  //   // if (this === other) return true;
+  //   if (identical(this, other)) return true;
+  //
+  //   // if (javaClass != item.javaClass) return false
+  //   if (runtimeType != other.runtimeType) return false;
+  //
+  //   // NMCP
+  //   // if (other !is FieldUiModelImpl) return false;
+  //
+  //   other = other as FieldUiModelImpl;
+  //
+  //   if (uid != other.uid) return false;
+  //   // if (layoutId != other.layoutId) return false;
+  //   if (value != other.value) return false;
+  //   if (focused != other.focused) return false;
+  //   if (error != other.error) return false;
+  //   if (editable != other.editable) return false;
+  //   if (warning != other.warning) return false;
+  //   if (mandatory != other.mandatory) return false;
+  //   if (label != other.label) return false;
+  //   if (programStageSection != other.programStageSection) return false;
+  //   if (style != other.style) return false;
+  //   if (hint != other.hint) return false;
+  //   if (description != other.description) return false;
+  //   if (valueType != other.valueType) return false;
+  //   // if (legend != item.legend) return false;
+  //   if (optionSet != other.optionSet) return false;
+  //   if (allowFutureDates != other.allowFutureDates) return false;
+  //   // if (callback != other.callback) return false;
+  //
+  //   return true;
+  // }
+
+  // @override
+  // int get hashCode => Object.hashAll([
+  //       runtimeType,
+  //       uid,
+  //       // layoutId,
+  //       value,
+  //       focused,
+  //       error,
+  //       editable,
+  //       warning,
+  //       mandatory,
+  //       label,
+  //       programStageSection,
+  //       style,
+  //       hint,
+  //       description,
+  //       valueType,
+  //       // legend,
+  //       optionSet,
+  //       allowFutureDates,
+  //       // callback
+  //       intentCallback,
+  //       listViewUiEventsCallback,
+  //     ]);
+
+  // @override
+  // bool equals(FieldUiModel item) {
+  //   // if (this === item) return true;
+  //   if (identical(this, item)) return true;
+  //   // if (javaClass != item.javaClass) return false
+  //   if (runtimeType != item.runtimeType) return false;
+  //
+  //   item = item as FieldUiModelImpl;
+  //
+  //   if (uid != item.uid) return false;
+  //   // if (layoutId != item.layoutId) return false;
+  //   if (value != item.value) return false;
+  //   if (focused != item.focused) return false;
+  //   if (error != item.error) return false;
+  //   if (editable != item.editable) return false;
+  //   if (warning != item.warning) return false;
+  //   if (mandatory != item.mandatory) return false;
+  //   if (label != item.label) return false;
+  //   if (programStageSection != item.programStageSection) return false;
+  //   if (style != item.style) return false;
+  //   if (hint != item.hint) return false;
+  //   if (description != item.description) return false;
+  //   if (valueType != item.valueType) return false;
+  //   // if (legend != item.legend) return false;
+  //   if (optionSet != item.optionSet) return false;
+  //   if (allowFutureDates != item.allowFutureDates) return false;
+  //   // if (callback != item.callback) return false;
+  //   if (intentCallback != item.intentCallback) return false;
+  //   if (listViewUiEventsCallback != item.listViewUiEventsCallback) return false;
+  //
+  //   return true;
+  // }
+
   @override
-  bool operator ==(dynamic other) {
-    // if (this === other) return true;
-    if (identical(this, other)) return true;
-
-    // if (javaClass != item.javaClass) return false
-    if (runtimeType != other.runtimeType) return false;
-
-    // NMCP
-    // if (other !is FieldUiModelImpl) return false;
-
-    other = other as FieldUiModelImpl;
-
-    if (uid != other.uid) return false;
-    // if (layoutId != other.layoutId) return false;
-    if (value != other.value) return false;
-    if (focused != other.focused) return false;
-    if (error != other.error) return false;
-    if (editable != other.editable) return false;
-    if (warning != other.warning) return false;
-    if (mandatory != other.mandatory) return false;
-    if (label != other.label) return false;
-    if (programStageSection != other.programStageSection) return false;
-    if (style != other.style) return false;
-    if (hint != other.hint) return false;
-    if (description != other.description) return false;
-    if (valueType != other.valueType) return false;
-    // if (legend != item.legend) return false;
-    if (optionSet != other.optionSet) return false;
-    if (allowFutureDates != other.allowFutureDates) return false;
-    // if (callback != other.callback) return false;
-
-    return true;
-  }
-
-  @override
-  int get hashCode => Object.hashAll([
-        runtimeType,
+  List<Object?> get props => [
         uid,
         // layoutId,
         value,
@@ -361,38 +421,5 @@ class FieldUiModelImpl implements FieldUiModel /*with _$FieldUiModelImpl*/ {
         // callback
         intentCallback,
         listViewUiEventsCallback,
-      ]);
-
-  @override
-  bool equals(FieldUiModel item) {
-    // if (this === item) return true;
-    if (identical(this, item)) return true;
-    // if (javaClass != item.javaClass) return false
-    if (runtimeType != item.runtimeType) return false;
-
-    item = item as FieldUiModelImpl;
-
-    if (uid != item.uid) return false;
-    // if (layoutId != item.layoutId) return false;
-    if (value != item.value) return false;
-    if (focused != item.focused) return false;
-    if (error != item.error) return false;
-    if (editable != item.editable) return false;
-    if (warning != item.warning) return false;
-    if (mandatory != item.mandatory) return false;
-    if (label != item.label) return false;
-    if (programStageSection != item.programStageSection) return false;
-    if (style != item.style) return false;
-    if (hint != item.hint) return false;
-    if (description != item.description) return false;
-    if (valueType != item.valueType) return false;
-    // if (legend != item.legend) return false;
-    if (optionSet != item.optionSet) return false;
-    if (allowFutureDates != item.allowFutureDates) return false;
-    // if (callback != item.callback) return false;
-    if (intentCallback != item.intentCallback) return false;
-    if (listViewUiEventsCallback != item.listViewUiEventsCallback) return false;
-
-    return true;
-  }
+      ];
 }

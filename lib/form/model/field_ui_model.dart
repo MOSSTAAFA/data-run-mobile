@@ -86,7 +86,7 @@ abstract class FieldUiModel {
       {IntentCallback? intentCallback,
       ListViewUiEventsCallback? listViewUiEventsCallback});
 
-  bool equals(FieldUiModel item);
+  // bool equals(FieldUiModel item);
 
   void onItemClick();
 

@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import '../../../commons/custom_widgets/copy_to_clipboard.dart';
 import '../../../commons/utils/view_actions.dart';
 import '../../../main.dart';
-import '../../l10n/app_localizations.dart';
 import 'view_abstract.dart';
 
 /// any screen ActivityGlobalAbstract
@@ -58,7 +57,7 @@ mixin ViewBase implements ViewAbstract {
   @override
   void displayMessage(String? message) {
     if (message != null) {
-      showToast(message, context: navigatorKey.currentContext);
+      showToast(message);
     }
   }
 
@@ -70,14 +69,16 @@ mixin ViewBase implements ViewAbstract {
 
   @override
   Future<void> showDescription(String description) {
-    final localization = AppLocalization.of(navigatorKey.currentContext!)!;
+    // final localization = AppLocalization.of(context)!;
     return Get.defaultDialog(
       radius: 10,
-      title: localization.lookup('description'),
+      // title: localization.lookup('description'),
+      title: 'description',
       content: SingleChildScrollView(
         child: Text(description),
       ),
-      textCancel: localization.lookup('close'),
+      // textCancel: localization.lookup('close'),
+      textCancel: 'close',
       onCancel: () {
         Get.back();
       },
@@ -115,7 +116,7 @@ mixin ViewBase implements ViewAbstract {
       String? negativeButtonText,
       void Function()? onPositiveClick,
       void Function()? onNegativeClick}) {
-    final localization = AppLocalization.of(navigatorKey.currentContext!)!;
+    final localization = navigatorKey.localization;
     return Get.defaultDialog(
       title: title,
       content: CopyToClipboard(

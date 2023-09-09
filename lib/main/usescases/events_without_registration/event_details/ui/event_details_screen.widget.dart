@@ -9,7 +9,6 @@ import '../../../../../commons/custom_widgets/org_unit_dialog.dart';
 import '../../../../../commons/data/event_creation_type.dart';
 import '../../../../../commons/extensions/standard_extensions.dart';
 import '../../../../../commons/period/period_extensions.dart';
-import '../../../../../form/ui/di/form_view_notifier.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../bundle/bundle.dart';
 import '../../../general/view_base.dart';
@@ -60,6 +59,7 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen>
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('build(): $runtimeType');
     return Container();
   }
 

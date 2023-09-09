@@ -1,6 +1,7 @@
 import 'package:d2_remote/core/common/value_type.dart';
 import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dart';
 import 'package:dartx/dartx_io.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 import '../ui/event/list_view_ui_events.dart';
@@ -17,7 +18,9 @@ import 'ui_event_type.dart';
 //
 // @freezed
 @immutable
-class SectionUiModelImpl /*with _$SectionUiModelImpl,*/
+class SectionUiModelImpl
+    with
+        EquatableMixin /*with _$SectionUiModelImpl,*/
     implements
         FieldUiModel {
   const SectionUiModelImpl(
@@ -367,28 +370,57 @@ class SectionUiModelImpl /*with _$SectionUiModelImpl,*/
   /// NMC: this is @unfreezed class Freeze will not define a == and hashCode
   /// functions for @unfreezed classes, we here are just overrising the
   /// super Object == function.
-  @override
-  bool operator ==(dynamic other) {
-    other = other as SectionUiModelImpl;
-    return super == other &&
-        showBottomShadow == other.showBottomShadow &&
-        lastPositionShouldChangeHeight ==
-            other.lastPositionShouldChangeHeight &&
-        isOpen == other.isOpen &&
-        totalFields == other.totalFields &&
-        completedFields == other.completedFields &&
-        errors == other.errors &&
-        warnings == other.warnings &&
-        sectionNumber == other.sectionNumber;
-  }
+  // @override
+  // bool operator ==(dynamic other) {
+  //   other = other as SectionUiModelImpl;
+  //   return super == other &&
+  //       showBottomShadow == other.showBottomShadow &&
+  //       lastPositionShouldChangeHeight ==
+  //           other.lastPositionShouldChangeHeight &&
+  //       isOpen == other.isOpen &&
+  //       totalFields == other.totalFields &&
+  //       completedFields == other.completedFields &&
+  //       errors == other.errors &&
+  //       warnings == other.warnings &&
+  //       sectionNumber == other.sectionNumber;
+  // }
 
-  /// NMC: maybe we don't need to override [hashCode] function
-  /// Freeze will not define a == and hashCode functions for @unfreezed
-  /// classes
+  // /// NMC: maybe we don't need to override [hashCode] function
+  // /// Freeze will not define a == and hashCode functions for @unfreezed
+  // /// classes
+  // @override
+  // int get hashCode =>
+  //     super.hashCode +
+  //     Object.hashAll([
+  //       showBottomShadow,
+  //       lastPositionShouldChangeHeight,
+  //       isOpen,
+  //       totalFields,
+  //       completedFields,
+  //       errors,
+  //       warnings,
+  //       sectionNumber
+  //     ]);
+
+  // @override
+  // bool equals(FieldUiModel item) {
+  //   item = item as SectionUiModelImpl;
+  //   return super == item &&
+  //       showBottomShadow == item.showBottomShadow &&
+  //       lastPositionShouldChangeHeight == item.lastPositionShouldChangeHeight &&
+  //       isOpen == item.isOpen &&
+  //       totalFields == item.totalFields &&
+  //       completedFields == item.completedFields &&
+  //       errors == item.errors &&
+  //       warnings == item.warnings &&
+  //       sectionNumber == item.sectionNumber;
+  // }
+
   @override
-  int get hashCode =>
-      super.hashCode +
-      Object.hashAll([
+  bool isSection() => true;
+
+  @override
+  List<Object?> get props => [
         showBottomShadow,
         lastPositionShouldChangeHeight,
         isOpen,
@@ -397,22 +429,5 @@ class SectionUiModelImpl /*with _$SectionUiModelImpl,*/
         errors,
         warnings,
         sectionNumber
-      ]);
-
-  @override
-  bool equals(FieldUiModel item) {
-    item = item as SectionUiModelImpl;
-    return super == item &&
-        showBottomShadow == item.showBottomShadow &&
-        lastPositionShouldChangeHeight == item.lastPositionShouldChangeHeight &&
-        isOpen == item.isOpen &&
-        totalFields == item.totalFields &&
-        completedFields == item.completedFields &&
-        errors == item.errors &&
-        warnings == item.warnings &&
-        sectionNumber == item.sectionNumber;
-  }
-
-  @override
-  bool isSection() => true;
+      ];
 }

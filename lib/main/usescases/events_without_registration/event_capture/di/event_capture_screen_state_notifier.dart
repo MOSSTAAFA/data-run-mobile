@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../../form/data/data_integrity_check_result.dart';
+
 part 'event_capture_screen_state_notifier.g.dart';
 
 @riverpod
@@ -12,10 +14,10 @@ class EventCaptureScreenStateNotifier
     return const EventCaptureScreenState();
   }
 
-  @override
-  bool updateShouldNotify(EventCaptureScreenState previous, EventCaptureScreenState next) {
-    return previous != next;
-  }
+  // @override
+  // bool updateShouldNotify(EventCaptureScreenState previous, EventCaptureScreenState next) {
+  //   return previous != next;
+  // }
 
   void showProgress() {
     state = state.copyWith(progress: true);
@@ -33,6 +35,9 @@ class EventCaptureScreenStateNotifier
     state = state.copyWith(percentage: percentage);
   }
 
+  void handleDataIntegrityResult(DataIntegrityCheckResult result) {
+    state = state.copyWith(dataIntegrityResult: result);
+  }
 // /// set index(int x)
 // void selectTabIndex(int index) {
 //   state = state.copyWith(index: index);
@@ -50,32 +55,42 @@ class EventCaptureScreenStateNotifier
 }
 
 class EventCaptureScreenState with EquatableMixin {
-  const EventCaptureScreenState(
-      [this.progress = true,
-      this.visibleNavigationBar = false,
-      this.percentage = 0,
-      this.hasExpired = false]);
+  const EventCaptureScreenState([
+    this.progress = true,
+    this.visibleNavigationBar = false,
+    this.percentage = 0,
+    this.hasExpired = false,
+    this.dataIntegrityResult,
+  ]);
 
   final bool progress;
   final bool visibleNavigationBar;
   final double percentage;
   final bool hasExpired;
+  final DataIntegrityCheckResult? dataIntegrityResult;
 
   @override
-  List<Object?> get props =>
-      [progress, visibleNavigationBar, percentage, hasExpired];
+  List<Object?> get props => [
+        progress,
+        visibleNavigationBar,
+        percentage,
+        hasExpired,
+        dataIntegrityResult
+      ];
 
   EventCaptureScreenState copyWith({
     bool? progress,
     bool? visibleNavigationBar,
     double? percentage,
     bool? hasExpired,
+    DataIntegrityCheckResult? dataIntegrityResult,
   }) {
     return EventCaptureScreenState(
       progress ?? this.progress,
       visibleNavigationBar ?? this.visibleNavigationBar,
       percentage ?? this.percentage,
       hasExpired ?? this.hasExpired,
+      dataIntegrityResult ?? this.dataIntegrityResult,
     );
   }
 

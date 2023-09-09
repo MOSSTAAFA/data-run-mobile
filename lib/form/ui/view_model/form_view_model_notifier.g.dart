@@ -22,7 +22,7 @@ final formViewIndexProvider = AutoDisposeProvider<int>.internal(
 
 typedef FormViewIndexRef = AutoDisposeProviderRef<int>;
 String _$formViewModelNotifierHash() =>
-    r'3776b0efe315730fca559beeca0e7454686c1a13';
+    r'78941c949d56a8d59fc54645058ea70eda3b026e';
 
 /// See also [FormViewModelNotifier].
 @ProviderFor(FormViewModelNotifier)

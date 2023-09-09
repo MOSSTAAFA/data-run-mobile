@@ -37,6 +37,9 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
   Widget build(BuildContext context) {
     // final fieldRowItem = ref.watch(fieldRowProvider);
     // final String? error = fieldItem?.error;
+    debugPrint('build(): $runtimeType, itemUid: ${widget.item?.uid}, itemValue: ${widget.item?.value}, '
+        'itemLabel ${widget.item?.label}, itemMandatory ${widget.item?.mandatory}, '
+        'itemError ${widget.item?.error}, itemWarning ${widget.item?.warning}');
 
     final bool? focused = widget.item?.focused;
 

@@ -28,6 +28,7 @@ import 'program_event_detail_presenter.dart';
 import 'program_event_detail_view_model.dart';
 import 'program_event_page_configurator.dart';
 
+final GlobalKey<NavigatorState> programNavigatorKey = GlobalKey<NavigatorState>();
 /// ProgramEventDetailActivity
 /// the screen that list the events of a particular program, navigated to from
 /// Program list in the main page

@@ -40,9 +40,6 @@ class FABBottomAppBar extends ConsumerStatefulWidget {
 class _FABBottomAppBarState extends ConsumerState<FABBottomAppBar> {
   void _updateIndex(int index) {
     widget.onTabSelected?.call(index);
-    ref
-        .read(navInfoNotifierProvider/*(widget.key)*/.notifier)
-        .selectTabIndex(index);
   }
 
   @override
@@ -94,7 +91,7 @@ class _FABBottomAppBarState extends ConsumerState<FABBottomAppBar> {
     ValueChanged<int>? onPressed,
   }) {
     final Color color =
-        ref.watch(navInfoNotifierProvider/*(widget.key)*/).index == index
+        ref.watch(navInfoNotifierProvider /*(widget.key)*/).index == index
             ? widget.selectedColor
             : widget.color;
     return Expanded(

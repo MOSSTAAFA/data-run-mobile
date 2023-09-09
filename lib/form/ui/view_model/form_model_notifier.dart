@@ -9,7 +9,7 @@ part 'form_model_notifier.g.dart';
 class FormModelNotifier extends _$FormModelNotifier {
   @override
   FormModel build() {
-    logInfo(info: 'FormModelNotifier: got built -> build()');
+    logInfo(info: '$runtimeType: got built, inside build method');
     return FormModel();
   }
 

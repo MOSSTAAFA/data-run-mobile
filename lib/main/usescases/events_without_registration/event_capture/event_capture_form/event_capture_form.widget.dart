@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 
 import '../../../../../commons/constants.dart';
-import '../../../../../form/data/data_integrity_check_result.dart';
 import '../../../../../form/model/form_repository_records.dart';
 import '../../../../../form/ui/form_view.widget.dart';
 import '../../../bundle/bundle.dart';
@@ -18,11 +17,11 @@ import 'event_capture_form_view.dart';
 class EventCaptureForm extends ConsumerStatefulWidget {
   const EventCaptureForm({
     super.key,
-    this.showProgress,
-    this.hideProgress,
+    // this.showProgress,
+    // this.hideProgress,
     // this.hideNavigationBar,
     // this.updatePercentage,
-    this.handleDataIntegrityResult,
+    // this.handleDataIntegrityResult,
     // required this.formView,
   });
 
@@ -30,16 +29,16 @@ class EventCaptureForm extends ConsumerStatefulWidget {
 
   /// replacing EventCapture Activity -> EventCaptureScreen the container of
   /// Taps screen
-  final VoidCallback? showProgress;
-  final VoidCallback? hideProgress;
+  // final VoidCallback? showProgress;
+  // final VoidCallback? hideProgress;
 
   // final VoidCallback? hideNavigationBar;
   // final void Function(double percentage)? updatePercentage;
 
   /// to call on Activity -> EventCaptureScreen.
   /// Temporarily Moved to [EventCapturePagerWidget]
-  final void Function(DataIntegrityCheckResult result)?
-      handleDataIntegrityResult;
+  // final void Function(DataIntegrityCheckResult result)?
+  //     handleDataIntegrityResult;
 
   @override
   ConsumerState<EventCaptureForm> createState() => _EventCaptureFormState();
@@ -52,9 +51,9 @@ class _EventCaptureFormState extends ConsumerState<EventCaptureForm>
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('$runtimeType: build()');
-    debugPrint('mounted is $mounted');
+    debugPrint('build(): $runtimeType');
     return FormViewWidget(
+      key: ValueKey(eventRecords),
       // records: eventRecords,
       onLoadingListener: (loading) {
         if (loading) {
@@ -79,38 +78,48 @@ class _EventCaptureFormState extends ConsumerState<EventCaptureForm>
           .read(eventCaptureScreenStateNotifierProvider.notifier)
           .updatePercentage(percentage),
       onDataIntegrityCheck: (result) =>
-          widget.handleDataIntegrityResult?.call(result),
+          // widget.handleDataIntegrityResult?.call(result),
+          ref
+              .read(eventCaptureScreenStateNotifierProvider.notifier)
+              .handleDataIntegrityResult(result),
     );
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    debugPrint('$runtimeType: didChangeDependencies: didChangeDependencies()');
-    debugPrint('mounted is $mounted');
+    debugPrint(
+        'lifeCycleMethod: $runtimeType: didChangeDependencies: didChangeDependencies()');
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      debugPrint('$runtimeType: didChangeDependencies: addPostFrameCallback()');
+      debugPrint(
+          'lifeCycleMethod: $runtimeType: didChangeDependencies: addPostFrameCallback()');
     });
   }
 
   @override
   void didUpdateWidget(covariant EventCaptureForm oldWidget) {
     super.didUpdateWidget(oldWidget);
-    debugPrint('$runtimeType: didUpdateWidget: didUpdateWidget()');
-    debugPrint('mounted is $mounted');
+    debugPrint(
+        'lifeCycleMethod: $runtimeType: didUpdateWidget: didUpdateWidget()');
   }
 
   @override
   void initState() {
     super.initState();
-    debugPrint('$runtimeType: initState: initState()');
-    debugPrint('mounted is $mounted');
+    debugPrint('lifeCycleMethod: $runtimeType: initState: initState()');
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      debugPrint('$runtimeType: initState: addPostFrameCallback()');
+      debugPrint(
+          'lifeCycleMethod: $runtimeType: initState: addPostFrameCallback()');
     });
     final Bundle bundle = Get.arguments as Bundle;
     final eventUid = bundle.getString(EVENT_UID);
-    eventRecords = EventRecords(eventUid);
+    final records = bundle.getObject(RECORDS);
+    if (records == null) {
+      throw Exception(
+          'You need to set record information in order to persist your data');
+    }
+    eventRecords = records as EventRecords;
+    // eventRecords = EventRecords(eventUid);
     presenter = ref.read(eventCaptureFormPresenterProvider(this));
     presenter.showOrHideSaveButton();
   }
