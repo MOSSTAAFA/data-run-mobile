@@ -85,29 +85,32 @@ class _FormViewWidgetState extends ConsumerState<FormViewWidget>
         .select((asyncItems) => asyncItems.value?.length));
     debugPrint('build(): $runtimeType, itemsCount: $itemsCount');
 
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Stack(
-        children: [
-          DataEntryItemListWidget(
-            itemsCount: itemsCount ?? 0,
-            onIntent: (intent) => _intentHandler(intent),
-            onListViewUiEvents: (uiEvent) => _uiEventHandler(uiEvent),
-            // records: widget.records,
-          ),
-          Positioned(
-            right: 10,
-            bottom: 0,
-            child: FloatingActionButton(
-              onPressed: () {
-                onSaveClick();
-              },
-              tooltip: 'Save',
-              elevation: 2.0,
-              child: const Icon(Icons.save),
+    return GestureDetector(
+      onTap: () => hideTheKeyboard(context),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Stack(
+          children: [
+            DataEntryItemListWidget(
+              itemsCount: itemsCount ?? 0,
+              onIntent: (intent) => _intentHandler(intent),
+              onListViewUiEvents: (uiEvent) => _uiEventHandler(uiEvent),
+              // records: widget.records,
             ),
-          ),
-        ],
+            Positioned(
+              right: 10,
+              bottom: 0,
+              child: FloatingActionButton(
+                onPressed: () {
+                  onSaveClick();
+                },
+                tooltip: 'Save',
+                elevation: 2.0,
+                child: const Icon(Icons.save),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

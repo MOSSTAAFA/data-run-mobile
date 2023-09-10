@@ -43,15 +43,14 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
 
     final bool? focused = widget.item?.focused;
 
-    if (focused ?? false) {
-      _focusNode.requestFocus();
-    }
+    // if (focused ?? false) {
+    //   _focusNode.requestFocus();
+    // }
 
     return Padding(
       // padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
       padding: EdgeInsets.zero,
       child: TextFormField(
-        // initialValue: widget.item?.value ?? '',
         textInputAction: _getInputAction(widget.item?.keyboardActionType),
         onEditingComplete: () {
 
@@ -114,7 +113,7 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
             errorText: widget.item?.error,
             errorStyle: widget.item?.error != null
                 ? TextStyle(
-                    fontSize: 10, color: convertHexStringToColor('#FF9800'))
+                    fontSize: 10, color: convertHexStringToColor('ff6a00'))
                 : null,
             focusColor: _getFocusColor(widget.item)),
       ),
