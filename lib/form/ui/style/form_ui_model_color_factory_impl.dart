@@ -29,7 +29,7 @@ class FormUiModelColorFactoryImpl implements FormUiColorFactory {
         FormUiColorType.WARNING:
             Theme.of(navigatorKey.currentContext!).highlightColor,
         FormUiColorType.ERROR:
-            Theme.of(navigatorKey.currentContext!).errorColor,
+            Theme.of(navigatorKey.currentContext!).hintColor,
         FormUiColorType.ACTION_ICON:
             Theme.of(navigatorKey.currentContext!).iconTheme.color ??
                 Theme.of(navigatorKey.currentContext!).accentColor,
