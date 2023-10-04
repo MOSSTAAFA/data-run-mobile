@@ -50,9 +50,11 @@ class WorkManagerControllerImpl implements WorkManagerController {
 
   @override
   Future<void> syncDataForWorkerItem(WorkerItem workerItem) async {}
+
   @override
   Future<void> syncDataForWorkers(
       String metadataWorkerTag, String dataWorkerTag, String workName) async {}
+
   @override
   Future<void> syncMetaDataForWorker(
       String metadataWorkerTag, String workName) async {
@@ -100,6 +102,7 @@ class WorkManagerControllerImpl implements WorkManagerController {
 
   @override
   void beginUniqueWork(WorkerItem workerItem) {}
+
   @override
   void enqueuePeriodicWork(WorkerItem workerItem) {}
 
@@ -109,10 +112,13 @@ class WorkManagerControllerImpl implements WorkManagerController {
 
   @override
   Future<void> cancelAllWork() async {}
+
   @override
   Future<void> cancelAllWorkByTag(String tag) async {}
+
   @override
   Future<void> cancelUniqueWork(String workName) async {}
+
   @override
   Future<void> pruneWork() async {}
 }

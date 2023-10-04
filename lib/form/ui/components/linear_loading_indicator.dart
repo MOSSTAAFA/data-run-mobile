@@ -18,7 +18,7 @@ class LinearLoadingIndicator extends ConsumerWidget {
     debugPrint('build(): $runtimeType, isLoading: $isLoading');
     return LinearProgressIndicator(
       valueColor:
-      AlwaysStoppedAnimation<Color>(convertHexStringToColor('#FF9800')!),
+          AlwaysStoppedAnimation<Color>(convertHexStringToColor('#FF9800')!),
       semanticsLabel: 'Loading progress indicator',
       minHeight: 8,
     );

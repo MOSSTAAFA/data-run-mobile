@@ -22,6 +22,7 @@ class SyncMetadataWorker extends Worker {
       {required this.presenter,
       required this.prefs,
       required this.resourceManager});
+
   final SyncMetadataWorkerRef ref;
   final SyncPresenter presenter;
 

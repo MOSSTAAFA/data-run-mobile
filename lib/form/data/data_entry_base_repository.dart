@@ -22,9 +22,7 @@ abstract class DataEntryBaseRepository implements DataEntryRepository {
         totalFields: totalFields,
         completedFields: fieldsWithValue,
         errors: errorCount,
-        warnings: warningCount
-    );
-
+        warnings: warningCount);
   }
 
   @override

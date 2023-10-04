@@ -24,8 +24,7 @@ class FieldErrorMessageProvider {
   const FieldErrorMessageProvider();
 
   String getFriendlyErrorMessage(Exception error) {
-    return navigatorKey.localization
-        .lookup(_parseErrorToMessage(error));
+    return navigatorKey.localization.lookup(_parseErrorToMessage(error));
   }
 
   String _parseErrorToMessage(Exception error) {
@@ -169,12 +168,10 @@ class FieldErrorMessageProvider {
   }
 
   String mandatoryWarning() {
-    return navigatorKey.localization
-        .lookup('field_is_mandatory');
+    return navigatorKey.localization.lookup('field_is_mandatory');
   }
 
   String defaultValidationErrorMessage() {
-    return navigatorKey.localization
-        .lookup('validation_error_message');
+    return navigatorKey.localization.lookup('validation_error_message');
   }
 }

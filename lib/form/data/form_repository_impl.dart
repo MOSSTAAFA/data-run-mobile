@@ -64,8 +64,7 @@ class FormRepositoryImpl implements FormRepository {
         ? sectionUids.first
         : null;
 
-    final List<FieldUiModel>? items =
-        await dataEntryRepository?.list();
+    final List<FieldUiModel>? items = await dataEntryRepository?.list();
     _itemList = items?.lock ?? IList();
 
     _backupList = _itemList;
@@ -91,9 +90,7 @@ class FormRepositoryImpl implements FormRepository {
       IList<FieldUiModel> list, IList<RowAction> fieldsWithError) async {
     _mandatoryItemsWithoutValue.clear();
     final IList<FieldUiModel> mergeList = IList<FieldUiModel>([]);
-    mergeList.map((element) {
-
-    });
+    mergeList.map((element) {});
     // list
     final List<FieldUiModel> mergedList =
         await Future.wait<FieldUiModel>(list.map((FieldUiModel item) async {
@@ -363,15 +360,15 @@ class FormRepositoryImpl implements FormRepository {
 
     if (needsMandatoryWarning) {
       _mandatoryItemsWithoutValue = _mandatoryItemsWithoutValue.add(
-          fieldUiModel.label,
-          fieldUiModel.programStageSection ?? '');
+          fieldUiModel.label, fieldUiModel.programStageSection ?? '');
     }
 
     if (dataEntryRepository != null) {
       return dataEntryRepository!.updateField(
           fieldUiModel,
-          needsMandatoryWarning && _runDataIntegrity ? fieldErrorMessageProvider
-              .mandatoryWarning(): null,
+          needsMandatoryWarning && _runDataIntegrity
+              ? fieldErrorMessageProvider.mandatoryWarning()
+              : null,
           /*ruleEffectsResult?.optionsToHide(fieldUiModel.uid) ?:*/ [],
           /*ruleEffectsResult?.optionGroupsToHide(fieldUiModel.uid) ?:*/ [],
           /*ruleEffectsResult?.optionGroupsToShow(fieldUiModel.uid) ?:*/ []);

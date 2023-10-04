@@ -23,7 +23,6 @@ import '../data/search_repository.dart';
 import '../model/form_repository_records.dart';
 import '../ui/field_view_model_factory.dart';
 import '../ui/field_view_model_factory_impl.dart';
-import '../ui/layout_provider_impl.dart';
 import '../ui/provider/display_name_provider.dart';
 import '../ui/provider/display_name_provider_impl.dart';
 import '../ui/provider/enrollment_form_labels_provider.dart';
@@ -31,12 +30,10 @@ import '../ui/provider/hint_provider.dart';
 import '../ui/provider/hint_provider_impl.dart';
 import '../ui/provider/keyboard_action_provider.dart';
 import '../ui/provider/keyboard_action_provider_impl.dart';
-import '../ui/provider/layout_provider.dart';
 import '../ui/provider/ui_event_types_provider.dart';
 import '../ui/provider/ui_event_types_provider_impl.dart';
 import '../ui/provider/ui_style_provider.dart';
 import '../ui/provider/ui_style_provider_impl.dart';
-import '../ui/provider/widget_provider.dart';
 import '../ui/style/form_ui_model_color_factory_impl.dart';
 import '../ui/style/long_text_ui_color_factory_impl.dart';
 import '../ui/validation/field_error_message_provider.dart';
@@ -232,11 +229,6 @@ UiEventTypesProvider _uiEventTypesProvider(_UiEventTypesProviderRef ref) {
 @riverpod
 HintProvider _hintProvider(_HintProviderRef ref) {
   return const HintProviderImpl();
-}
-
-@riverpod
-LayoutProvider _layoutProvider(_LayoutProviderRef ref) {
-  return const LayoutProviderImpl();
 }
 
 @riverpod

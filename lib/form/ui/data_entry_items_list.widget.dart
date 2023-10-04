@@ -18,6 +18,7 @@ class DataEntryItemListWidget extends ConsumerStatefulWidget {
       this.searchStyle = false});
 
   final int itemsCount;
+
   // final FormRepositoryRecords records;
 
   final void Function(FormIntent intent)? onIntent;

@@ -1,6 +1,5 @@
 // ignore_for_file: always_specify_types
 
-
 // part 'form_view_notifier.g.dart';
 
 // part 'form_view_notifiers_helpers.dart';

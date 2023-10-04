@@ -36,8 +36,8 @@ class EnrollmentResultDialogUiProvider {
             iconResource: resourceManager.getObjectStyleDrawableResource(
                 null, MdiIcons.alertCircle),
             fieldsWithIssues: result.fieldUidWarningList,
-            mainButton: const DialogButtonStyle.mainButton(
-                textResource: 'review'),
+            mainButton:
+                const DialogButtonStyle.mainButton(textResource: 'review'),
             secondaryButton: const DialogButtonStyle.secondaryButton(
                 textResource: 'not_now')),
         missingMandatoryResult: (result) => BottomSheetDialogUiModel(

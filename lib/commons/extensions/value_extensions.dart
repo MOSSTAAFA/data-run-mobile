@@ -5,9 +5,9 @@ import 'package:d2_remote/modules/data/tracker/entities/tracked_entity_attribute
 import 'package:d2_remote/modules/metadata/data_element/entities/data_element.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/tracked_entity_attribute.entity.dart';
 
+import '../../commons/extensions/dynamic_extensions.dart';
 import 'dynamic_value_extensions.dart';
 import 'string_extension.dart';
-import '../../commons/extensions/dynamic_extensions.dart';
 
 /// UserFriendlyTrackedEntityAttributeValueExtension
 extension UserFriendlyTrackedEntityAttributeValueExtension

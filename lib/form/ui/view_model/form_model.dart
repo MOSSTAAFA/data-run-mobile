@@ -6,19 +6,19 @@ import '../../model/info_ui_model.dart';
 import '../../model/row_action.dart';
 
 class FormModel with EquatableMixin {
-  FormModel(
-      {this.loading = true,
-      this.showToast,
-      // this.items = const IListConst([]),
-      this.focused,
-      this.showInfo,
-      this.savedValue,
-      this.queryData,
-      this.dataIntegrityResult,
-      this.completionPercentage = 0,
-      this.calculationLoop = false,
-      // this.pendingIntents,
-      });
+  FormModel({
+    this.loading = true,
+    this.showToast,
+    // this.items = const IListConst([]),
+    this.focused,
+    this.showInfo,
+    this.savedValue,
+    this.queryData,
+    this.dataIntegrityResult,
+    this.completionPercentage = 0,
+    this.calculationLoop = false,
+    // this.pendingIntents,
+  });
 
   // final IList<FieldUiModel> items;
 

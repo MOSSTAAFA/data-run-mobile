@@ -38,8 +38,13 @@ class EnrollmentRecords extends FormRepositoryRecords {
   final EnrollmentMode enrollmentMode;
 
   @override
-  List<Object?> get props =>
-      [recordUid, entryMode, allowMandatoryFields, isBackgroundTransparent, enrollmentMode];
+  List<Object?> get props => [
+        recordUid,
+        entryMode,
+        allowMandatoryFields,
+        isBackgroundTransparent,
+        enrollmentMode
+      ];
 }
 
 class EventRecords extends FormRepositoryRecords {

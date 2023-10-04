@@ -17,8 +17,11 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$OptionSetConfiguration {
   List<Option> get options => throw _privateConstructorUsedError;
+
   List<String> get optionsToHide => throw _privateConstructorUsedError;
+
   List<String> get optionsToShow => throw _privateConstructorUsedError;
+
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(List<Option> options, List<String> optionsToHide,
@@ -29,6 +32,7 @@ mixin _$OptionSetConfiguration {
         bigOptionSet,
   }) =>
       throw _privateConstructorUsedError;
+
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(List<Option> options, List<String> optionsToHide,
@@ -39,6 +43,7 @@ mixin _$OptionSetConfiguration {
         bigOptionSet,
   }) =>
       throw _privateConstructorUsedError;
+
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<Option> options, List<String> optionsToHide,
@@ -50,18 +55,21 @@ mixin _$OptionSetConfiguration {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(DefaultOptionSet value) defaultOptionSet,
     required TResult Function(BigOptionSet value) bigOptionSet,
   }) =>
       throw _privateConstructorUsedError;
+
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(DefaultOptionSet value)? defaultOptionSet,
     TResult? Function(BigOptionSet value)? bigOptionSet,
   }) =>
       throw _privateConstructorUsedError;
+
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(DefaultOptionSet value)? defaultOptionSet,
@@ -80,6 +88,7 @@ abstract class $OptionSetConfigurationCopyWith<$Res> {
   factory $OptionSetConfigurationCopyWith(OptionSetConfiguration value,
           $Res Function(OptionSetConfiguration) then) =
       _$OptionSetConfigurationCopyWithImpl<$Res, OptionSetConfiguration>;
+
   @useResult
   $Res call(
       {List<Option> options,
@@ -95,6 +104,7 @@ class _$OptionSetConfigurationCopyWithImpl<$Res,
 
   // ignore: unused_field
   final $Val _value;
+
   // ignore: unused_field
   final $Res Function($Val) _then;
 
@@ -128,6 +138,7 @@ abstract class _$$DefaultOptionSetCopyWith<$Res>
   factory _$$DefaultOptionSetCopyWith(
           _$DefaultOptionSet value, $Res Function(_$DefaultOptionSet) then) =
       __$$DefaultOptionSetCopyWithImpl<$Res>;
+
   @override
   @useResult
   $Res call(
@@ -181,6 +192,7 @@ class _$DefaultOptionSet extends DefaultOptionSet with DiagnosticableTreeMixin {
         super._();
 
   final List<Option> _options;
+
   @override
   List<Option> get options {
     if (_options is EqualUnmodifiableListView) return _options;
@@ -189,6 +201,7 @@ class _$DefaultOptionSet extends DefaultOptionSet with DiagnosticableTreeMixin {
   }
 
   final List<String> _optionsToHide;
+
   @override
   @JsonKey()
   List<String> get optionsToHide {
@@ -198,6 +211,7 @@ class _$DefaultOptionSet extends DefaultOptionSet with DiagnosticableTreeMixin {
   }
 
   final List<String> _optionsToShow;
+
   @override
   @JsonKey()
   List<String> get optionsToShow {
@@ -327,14 +341,18 @@ abstract class DefaultOptionSet extends OptionSetConfiguration {
       {required final List<Option> options,
       final List<String> optionsToHide,
       final List<String> optionsToShow}) = _$DefaultOptionSet;
+
   const DefaultOptionSet._() : super._();
 
   @override
   List<Option> get options;
+
   @override
   List<String> get optionsToHide;
+
   @override
   List<String> get optionsToShow;
+
   @override
   @JsonKey(ignore: true)
   _$$DefaultOptionSetCopyWith<_$DefaultOptionSet> get copyWith =>
@@ -347,6 +365,7 @@ abstract class _$$BigOptionSetCopyWith<$Res>
   factory _$$BigOptionSetCopyWith(
           _$BigOptionSet value, $Res Function(_$BigOptionSet) then) =
       __$$BigOptionSetCopyWithImpl<$Res>;
+
   @override
   @useResult
   $Res call(
@@ -400,6 +419,7 @@ class _$BigOptionSet extends BigOptionSet with DiagnosticableTreeMixin {
         super._();
 
   final List<Option> _options;
+
   @override
   @JsonKey()
   List<Option> get options {
@@ -409,6 +429,7 @@ class _$BigOptionSet extends BigOptionSet with DiagnosticableTreeMixin {
   }
 
   final List<String> _optionsToHide;
+
   @override
   @JsonKey()
   List<String> get optionsToHide {
@@ -418,6 +439,7 @@ class _$BigOptionSet extends BigOptionSet with DiagnosticableTreeMixin {
   }
 
   final List<String> _optionsToShow;
+
   @override
   @JsonKey()
   List<String> get optionsToShow {
@@ -546,14 +568,18 @@ abstract class BigOptionSet extends OptionSetConfiguration {
       {final List<Option> options,
       final List<String> optionsToHide,
       final List<String> optionsToShow}) = _$BigOptionSet;
+
   const BigOptionSet._() : super._();
 
   @override
   List<Option> get options;
+
   @override
   List<String> get optionsToHide;
+
   @override
   List<String> get optionsToShow;
+
   @override
   @JsonKey(ignore: true)
   _$$BigOptionSetCopyWith<_$BigOptionSet> get copyWith =>

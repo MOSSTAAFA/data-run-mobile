@@ -34,11 +34,11 @@ class D2ProgressManager {
     return _progress;
   }
 
-  // D2Progress increaseProgressFromRequestProgress(
-  //         RequestProgress requestProgress) =>
-  //     increaseProgress(
-  //         resourceName: requestProgress.resourceName,
-  //         message: requestProgress.message,
-  //         isComplete: requestProgress.percentage == 100,
-  //         percentage: requestProgress.percentage);
+// D2Progress increaseProgressFromRequestProgress(
+//         RequestProgress requestProgress) =>
+//     increaseProgress(
+//         resourceName: requestProgress.resourceName,
+//         message: requestProgress.message,
+//         isComplete: requestProgress.percentage == 100,
+//         percentage: requestProgress.percentage);
 }

@@ -12,8 +12,7 @@ abstract class FormRepository {
   Future<IList<FieldUiModel>> composeList();
 
   // List<RulesUtilsProviderConfigurationError>? getConfigurationErrors();
-  DataIntegrityCheckResult runDataIntegrityCheck(
-      {required bool allowDiscard});
+  DataIntegrityCheckResult runDataIntegrityCheck({required bool allowDiscard});
 
   // Currently no need to return Future
   double completedFieldsPercentage(IList<FieldUiModel> value);

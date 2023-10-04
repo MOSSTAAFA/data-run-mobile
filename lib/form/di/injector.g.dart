@@ -795,21 +795,6 @@ final _hintProviderProvider = AutoDisposeProvider<HintProvider>.internal(
 );
 
 typedef _HintProviderRef = AutoDisposeProviderRef<HintProvider>;
-String _$layoutProviderHash() => r'2b55a06e9020aeba73fb76e8f0571e723c9ed272';
-
-/// See also [_layoutProvider].
-@ProviderFor(_layoutProvider)
-final _layoutProviderProvider = AutoDisposeProvider<LayoutProvider>.internal(
-  _layoutProvider,
-  name: r'_layoutProviderProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$layoutProviderHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _LayoutProviderRef = AutoDisposeProviderRef<LayoutProvider>;
 String _$uiStyleProviderHash() => r'ceb06436acaab32d95e684b6d928ab565206a7ed';
 typedef _UiStyleProviderRef = AutoDisposeProviderRef<UiStyleProvider>;
 

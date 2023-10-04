@@ -145,7 +145,9 @@ class WidgetProviderImpl implements WidgetProvider {
   }
 
   Widget getLayoutForOptionSet(
-      FieldUiModel item, /*@LayoutRes*/ Widget defaultLayout) {
+      FieldUiModel item,
+      /*@LayoutRes*/
+      Widget defaultLayout) {
     if (shouldRenderAsMatrixImage(
         item.optionSet, item.sectionRenderingType, item.fieldRendering)) {
       return FormEditText(item: item); //R.layout.form_option_set_matrix

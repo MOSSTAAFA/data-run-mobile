@@ -1,11 +1,9 @@
-
 import 'package:equatable/equatable.dart';
 
 part 'event_editable_status.sealed.dart';
 
 // @Sealed()
 abstract class _EventEditableStatus {
-
   // @WithName('Editable')
   void editable();
 
