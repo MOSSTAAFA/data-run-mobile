@@ -11,7 +11,13 @@ class UiEventTypesProviderImpl implements UiEventTypesProvider {
   @override
   UiRenderType provideUiRenderType(
       [FeatureType? featureType,
+
+      /// from the renderType of the item's programStageDataElement,
+      /// programStageDataElement.renderType()?.mobile()
       ValueTypeRenderingType? valueTypeRenderingType,
+
+      /// from the renderType of the item's programStageSection,
+      /// programStageSection?.renderType()?.mobile()?.type()
       SectionRenderingType? sectionRenderingType]) {
     switch (featureType) {
       case FeatureType.POINT:

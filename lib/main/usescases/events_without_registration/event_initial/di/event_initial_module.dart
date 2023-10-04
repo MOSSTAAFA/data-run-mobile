@@ -7,7 +7,6 @@ import '../../../../../commons/prefs/preference_provider.dart';
 import '../../../../../form/data/metadata/option_set_configuration.dart';
 import '../../../../../form/data/metadata/org_unit_configuration.dart';
 import '../../../../../form/ui/field_view_model_factory_impl.dart';
-import '../../../../../form/ui/layout_provider_impl.dart';
 import '../../../../../form/ui/provider/display_name_provider_impl.dart';
 import '../../../../../form/ui/provider/hint_provider_impl.dart';
 import '../../../../../form/ui/provider/keyboard_action_provider_impl.dart';
@@ -37,7 +36,7 @@ EventFieldMapper fieldMapper(FieldMapperRef ref) {
                 FormUiModelColorFactoryImpl(isBackgroundTransparent: true),
             longTextColorFactory:
                 LongTextUiColorFactoryImpl(isBackgroundTransparent: true)),
-        layoutProvider: const LayoutProviderImpl(),
+        // layoutProvider: const LayoutProviderImpl(),
         hintProvider: const HintProviderImpl(),
         displayNameProvider: const DisplayNameProviderImpl(
             OptionSetConfiguration(), OrgUnitConfiguration()),
@@ -62,7 +61,7 @@ EventInitialRepository eventInitialRepository(EventInitialRepositoryRef ref) {
                 FormUiModelColorFactoryImpl(isBackgroundTransparent: true),
             longTextColorFactory:
                 LongTextUiColorFactoryImpl(isBackgroundTransparent: true)),
-        layoutProvider: const LayoutProviderImpl(),
+        // layoutProvider: const LayoutProviderImpl(),
         hintProvider: const HintProviderImpl(),
         displayNameProvider: const DisplayNameProviderImpl(
             OptionSetConfiguration(), OrgUnitConfiguration()),

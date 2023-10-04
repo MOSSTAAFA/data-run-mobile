@@ -7,7 +7,7 @@ part of 'event_capture_app_bar_notifier.dart';
 // **************************************************************************
 
 String _$eventCaptureAppBarNotifierHash() =>
-    r'3ee0e6514649d010e05d64342252295956a40293';
+    r'1199b50b98bf73bbb5f0cdc541b4a635a2fc1b85';
 
 /// See also [EventCaptureAppBarNotifier].
 @ProviderFor(EventCaptureAppBarNotifier)

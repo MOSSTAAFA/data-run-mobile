@@ -24,8 +24,14 @@ class FieldWidgetFactoryImpl {
   Widget createWidgetByType(
       {Key? key,
       ValueType? valueType,
+
+      ///from the renderType of the item's programStageDataElement,
+      ///programStageDataElement.renderType()?.mobile()
       ValueTypeRenderingType? renderingType,
       String? optionSet,
+
+      /// from the renderType of the item's programStageSection,
+      /// programStageSection?.renderType()?.mobile()?.type()
       SectionRenderingType? sectionRenderingType}) {
     switch (valueType) {
       case ValueType.AGE:
@@ -158,7 +164,13 @@ class FieldWidgetFactoryImpl {
 
   Widget getLayoutForOptionSet(
       String? optionSet,
+
+      /// from the renderType of the item's programStageSection,
+      /// programStageSection?.renderType()?.mobile()?.type()
       SectionRenderingType? sectionRenderingType,
+
+      /// from the renderType of the item's programStageDataElement,
+      /// programStageDataElement.renderType()?.mobile()
       ValueTypeRenderingType? renderingType,
       /*@LayoutRes*/ Widget defaultLayout) {
     if (shouldRenderAsMatrixImage(
@@ -225,7 +237,13 @@ class FieldWidgetFactoryImpl {
 
   bool shouldRenderAsMatrixImage(
       String? optionSet,
+
+      /// from the renderType of the item's programStageSection,
+      /// programStageSection?.renderType()?.mobile()?.type()
       SectionRenderingType? sectionRenderingType,
+
+      /// from the renderType of the item's programStageDataElement,
+      /// programStageDataElement.renderType()?.mobile()
       ValueTypeRenderingType? renderingType) {
     final bool isOptionSet = optionSet != null;
     final bool isDefaultRendering = renderingType == null ||

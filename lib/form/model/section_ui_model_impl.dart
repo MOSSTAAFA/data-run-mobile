@@ -1,4 +1,6 @@
 import 'package:d2_remote/core/common/value_type.dart';
+import 'package:d2_remote/core/common/value_type_rendering_type.dart';
+import 'package:d2_remote/core/program/section_rendering_type.dart';
 import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dart';
 import 'package:dartx/dartx_io.dart';
 import 'package:equatable/equatable.dart';
@@ -25,7 +27,7 @@ class SectionUiModelImpl
         FieldUiModel {
   const SectionUiModelImpl(
       {required this.uid,
-      required this.layoutId,
+      // required this.layoutId,
       this.value,
       required this.focused,
       this.error,
@@ -52,6 +54,8 @@ class SectionUiModelImpl
       this.errors = 0,
       this.warnings = 0,
       this.rendering,
+      this.sectionRenderingType,
+      this.fieldRendering,
 
       /// NMCP can't define a default value
       /// here we have to provide initial value Rx<String?>(null)
@@ -68,7 +72,8 @@ class SectionUiModelImpl
       this.listViewUiEventsCallback});
 
   final String uid;
-  final int layoutId;
+
+  // final int layoutId;
   final String? value;
   final bool focused;
   final String? error;
@@ -88,6 +93,17 @@ class SectionUiModelImpl
   final UiEventFactory? uiEventFactory;
   final String? displayName;
   final UiRenderType? renderingType;
+
+  /// NMC added provided here instead to providing it
+  /// to the FieldViewModelFactoryImpl
+  /// from ProgramSection of the item
+  final SectionRenderingType? sectionRenderingType;
+
+  /// NMC added provided here instead to providing it
+  /// to the FieldViewModelFactoryImpl
+  /// from ProgramStageDataElement of the item
+  final ValueTypeRenderingType? fieldRendering;
+
   final KeyboardActionType? keyboardActionType;
   final String? fieldMask;
   final bool isOpen;
@@ -325,7 +341,7 @@ class SectionUiModelImpl
   }) {
     return SectionUiModelImpl(
       uid: uid ?? this.uid,
-      layoutId: layoutId ?? this.layoutId,
+      // layoutId: layoutId ?? this.layoutId,
       value: value ?? this.value,
       focused: focused ?? this.focused,
       error: error ?? this.error,

@@ -1,4 +1,6 @@
 import 'package:d2_remote/core/common/value_type.dart';
+import 'package:d2_remote/core/common/value_type_rendering_type.dart';
+import 'package:d2_remote/core/program/section_rendering_type.dart';
 import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dart';
 import 'package:dartx/dartx_io.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +24,7 @@ abstract class FieldUiModel {
 
   String get uid;
 
-  int get layoutId;
+  // int get layoutId;
 
   String? get value;
 
@@ -64,7 +66,26 @@ abstract class FieldUiModel {
 
   Pair<List<int>, Color?>? get backGroundColor;
 
+  /// a UiRenderType
+  /// provided by UiEventTypesProviderImpl : UiEventTypesProvider
+  /// UiEventTypesProviderImpl.provideUiRenderType
+  /// switch(FeatureType)
+  /// based on
+  /// FeatureType, fieldRendering?.type() : ValueTypeRenderingType?,,
+  /// and sectionRenderingType: SectionRenderingType? coming earlier into
+  /// the factory of the item
+  /// the item switch(FeatureType)
   UiRenderType? get renderingType;
+
+  /// NMC added provided here instead to providing it
+  /// to the FieldViewModelFactoryImpl
+  /// from ProgramSection of the item
+  SectionRenderingType? get sectionRenderingType;
+
+  /// NMC added provided here instead to providing it
+  /// to the FieldViewModelFactoryImpl
+  /// from ProgramStageDataElement of the item
+  ValueTypeRenderingType? get fieldRendering;
 
   OptionSetConfiguration? get optionSetConfiguration;
 

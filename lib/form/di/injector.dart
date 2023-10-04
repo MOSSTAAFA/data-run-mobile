@@ -36,6 +36,7 @@ import '../ui/provider/ui_event_types_provider.dart';
 import '../ui/provider/ui_event_types_provider_impl.dart';
 import '../ui/provider/ui_style_provider.dart';
 import '../ui/provider/ui_style_provider_impl.dart';
+import '../ui/provider/widget_provider.dart';
 import '../ui/style/form_ui_model_color_factory_impl.dart';
 import '../ui/style/long_text_ui_color_factory_impl.dart';
 import '../ui/validation/field_error_message_provider.dart';
@@ -134,7 +135,7 @@ FieldViewModelFactory _fieldViewModelFactory(_FieldViewModelFactoryRef ref,
     noMandatoryFields: !allowMandatoryFields,
     uiStyleProvider:
         ref.watch(_uiStyleProviderProvider(isBackgroundTransparent)),
-    layoutProvider: ref.watch(_layoutProviderProvider),
+    // layoutProvider: ref.watch(_layoutProviderProvider),
     hintProvider: ref.watch(_hintProviderProvider),
     displayNameProvider: ref.watch(_displayNameProviderProvider),
     uiEventTypesProvider: ref.watch(_uiEventTypesProviderProvider),

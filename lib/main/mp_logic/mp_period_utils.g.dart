@@ -6,7 +6,7 @@ part of 'mp_period_utils.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$amPeriodUtilsHash() => r'b531ae4886965395ce609046f4af3d30fe35927d';
+String _$amPeriodUtilsHash() => r'02a23d68f05d71c000a0734f63e702d31331198e';
 
 /// See also [amPeriodUtils].
 @ProviderFor(amPeriodUtils)

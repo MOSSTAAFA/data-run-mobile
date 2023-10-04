@@ -3,6 +3,8 @@
 import 'dart:io';
 
 import 'package:d2_remote/core/common/value_type.dart';
+import 'package:d2_remote/core/common/value_type_rendering_type.dart';
+import 'package:d2_remote/core/program/section_rendering_type.dart';
 import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dart';
 import 'package:dartx/dartx_io.dart';
 import 'package:equatable/equatable.dart';
@@ -28,7 +30,7 @@ class FieldUiModelImpl
     implements FieldUiModel /*with _$FieldUiModelImpl*/ {
   const FieldUiModelImpl(
       {required this.uid,
-      required this.layoutId,
+      // required this.layoutId,
       this.value,
       required this.focused,
       this.error,
@@ -47,6 +49,8 @@ class FieldUiModelImpl
       this.uiEventFactory,
       this.displayName,
       this.renderingType,
+      this.sectionRenderingType,
+      this.fieldRendering,
       this.optionSetConfiguration,
       this.keyboardActionType,
       this.fieldMask,
@@ -56,7 +60,8 @@ class FieldUiModelImpl
       this.listViewUiEventsCallback});
 
   final String uid;
-  final int layoutId;
+
+  // final int layoutId;
   final String? value;
   final bool focused;
   final String? error;
@@ -76,6 +81,17 @@ class FieldUiModelImpl
   final UiEventFactory? uiEventFactory;
   final String? displayName;
   final UiRenderType? renderingType;
+
+  /// NMC added provided here instead to providing it
+  /// to the FieldViewModelFactoryImpl
+  /// from ProgramSection of the item
+  final SectionRenderingType? sectionRenderingType;
+
+  /// NMC added provided here instead to providing it
+  /// to the FieldViewModelFactoryImpl
+  /// from ProgramStageDataElement of the item
+  final ValueTypeRenderingType? fieldRendering;
+
   final OptionSetConfiguration? optionSetConfiguration;
   final KeyboardActionType? keyboardActionType;
   final String? fieldMask;
@@ -273,7 +289,7 @@ class FieldUiModelImpl
   }) =>
       FieldUiModelImpl(
         uid: uid ?? this.uid,
-        layoutId: layoutId ?? this.layoutId,
+        // layoutId: layoutId ?? this.layoutId,
         value: value ?? this.value,
         focused: focused ?? this.focused,
         error: error ?? this.error,

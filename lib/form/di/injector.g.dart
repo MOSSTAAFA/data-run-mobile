@@ -388,7 +388,7 @@ class _EventRepositoryProvider extends AutoDisposeProvider<EventRepository> {
 }
 
 String _$fieldViewModelFactoryHash() =>
-    r'07abd56513963d30ca59795b71f45b595088fe1f';
+    r'626abd8a21cb33bfa08cc3442a768024a6773752';
 typedef _FieldViewModelFactoryRef
     = AutoDisposeProviderRef<FieldViewModelFactory>;
 
@@ -810,6 +810,21 @@ final _layoutProviderProvider = AutoDisposeProvider<LayoutProvider>.internal(
 );
 
 typedef _LayoutProviderRef = AutoDisposeProviderRef<LayoutProvider>;
+String _$widgetProviderHash() => r'896d2e54f7c10f1e41c49d8909a4201121c397b9';
+
+/// See also [widgetProvider].
+@ProviderFor(widgetProvider)
+final widgetProviderProvider = AutoDisposeProvider<WidgetProvider>.internal(
+  widgetProvider,
+  name: r'widgetProviderProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$widgetProviderHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef WidgetProviderRef = AutoDisposeProviderRef<WidgetProvider>;
 String _$uiStyleProviderHash() => r'ceb06436acaab32d95e684b6d928ab565206a7ed';
 typedef _UiStyleProviderRef = AutoDisposeProviderRef<UiStyleProvider>;
 
