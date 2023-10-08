@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../commons/custom_widgets/fields/form_edit_text.widget.dart';
 import '../model/field_ui_model.dart';
 import 'event/list_view_ui_events.dart';
 import 'intent/form_intent.dart';
@@ -32,20 +33,7 @@ class DataEntryItemWidget extends ConsumerWidget {
         'itemLabel ${item?.label}, itemMandatory ${item?.mandatory}, '
         'itemError ${item?.error}, itemWarning ${item?.warning}');
 
-    return ItemWidget(
-      item: item?.copyWith(intentCallback: (intent) {
-        FormIntent formIntent = intent;
-        if (intent is OnNext) {
-          formIntent =
-              intent.copyWith(position: ref.read(formViewIndexProvider));
-        }
-        onIntent?.call(formIntent);
-      }, listViewUiEventsCallback: (uiEvent) {
-        onListViewUiEvents?.call(uiEvent);
-      }),
-    );
-
-    // return FormEditText(
+    // return ItemWidget(
     //   item: item?.copyWith(intentCallback: (intent) {
     //     FormIntent formIntent = intent;
     //     if (intent is OnNext) {
@@ -57,6 +45,19 @@ class DataEntryItemWidget extends ConsumerWidget {
     //     onListViewUiEvents?.call(uiEvent);
     //   }),
     // );
+
+    return FormEditText(
+      item: item?.copyWith(intentCallback: (intent) {
+        FormIntent formIntent = intent;
+        if (intent is OnNext) {
+          formIntent =
+              intent.copyWith(position: ref.read(formViewIndexProvider));
+        }
+        onIntent?.call(formIntent);
+      }, listViewUiEventsCallback: (uiEvent) {
+        onListViewUiEvents?.call(uiEvent);
+      }),
+    );
   }
 
 // void _listViewEventCallback(ListViewUiEvents uiEvent, WidgetRef ref) =>

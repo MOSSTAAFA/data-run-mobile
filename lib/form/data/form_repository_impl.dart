@@ -204,8 +204,9 @@ class FormRepositoryImpl implements FormRepository {
 
   @override
   Future<StoreResult?> save(String id, String? value, String? extraData) {
-    return formValueStore?.save(id, value, extraData) ??
+    final storeResult = formValueStore?.save(id, value, extraData) ??
         Future<StoreResult?>.value();
+    return storeResult;
   }
 
   @override
@@ -364,11 +365,12 @@ class FormRepositoryImpl implements FormRepository {
     }
 
     if (dataEntryRepository != null) {
+      final mandatoryWarning = needsMandatoryWarning && _runDataIntegrity
+          ? fieldErrorMessageProvider.mandatoryWarning()
+          : null;
       return dataEntryRepository!.updateField(
           fieldUiModel,
-          needsMandatoryWarning && _runDataIntegrity
-              ? fieldErrorMessageProvider.mandatoryWarning()
-              : null,
+          mandatoryWarning,
           /*ruleEffectsResult?.optionsToHide(fieldUiModel.uid) ?:*/ [],
           /*ruleEffectsResult?.optionGroupsToHide(fieldUiModel.uid) ?:*/ [],
           /*ruleEffectsResult?.optionGroupsToShow(fieldUiModel.uid) ?:*/ []);

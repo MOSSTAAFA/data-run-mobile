@@ -255,7 +255,8 @@ class FormValueStore {
 
     if (currentValue != newValue) {
       if (!value.isNullOrEmpty) {
-        if (await valueRepository.blockingSetCheck(uid, newValue)) {
+        final blockingSetCheck = await valueRepository.blockingSetCheck(uid, newValue);
+        if (blockingSetCheck) {
           return StoreResult(
               uid: uid, valueStoreResult: ValueStoreResult.VALUE_CHANGED);
         } else {

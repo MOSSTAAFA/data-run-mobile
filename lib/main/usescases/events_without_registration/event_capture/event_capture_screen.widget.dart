@@ -266,6 +266,15 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
       EventCompletionDialog eventCompletionDialog) {
     logInfo(info: 'showCompleteActions()');
     // TODO: implement showCompleteActions
+    Get.snackbar(
+      AppLocalization.of(context)!.lookup('showCompleteActions'),
+      AppLocalization.of(context)!.lookup('showCompleteActions'),
+      icon: const Icon(Icons.warning),
+      shouldIconPulse: true,
+      // onTap: () {},
+      // barBlur: 20,
+      isDismissible: true,
+    );
   }
 
   @override
