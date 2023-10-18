@@ -127,8 +127,13 @@ class ProgramEventMapper {
 
   Future<List<ProgramEventViewModel>> eventsToProgramEvents(
       List<Event> events) async {
-    return await Future.forEach(events.where((Event it) => it.geometry != null),
-        (Event event) => eventToProgramEvent(event));
+    // final result = await Future.forEach(events.where((Event it) => it.geometry != null),
+    //         (Event event) =>  eventToProgramEvent(event));
+    final eventsWithGeo = events.where((Event it) => it.geometry != null);
+
+    return [
+      for (final event in eventsWithGeo) await eventToProgramEvent(event)
+    ];
   }
 
   Future<List<Pair<String, String>>> _getData(List<EventDataValue>? dataValues,
