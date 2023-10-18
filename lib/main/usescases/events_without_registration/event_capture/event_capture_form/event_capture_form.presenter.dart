@@ -63,7 +63,7 @@ class EventCaptureFormPresenter {
 
   Future<void> showOrHideSaveButton() async {
     final EventEditableStatus isEditable =
-        await ref.read(eventServiceProvider).getEditableStatus(eventUid ?? '');
+        await ref.read(eventServiceProvider).getEditableStatus(eventUid);
     // d2.eventModule().eventService().getEditableStatus(eventUid = eventUid).blockingGet()
     if (isEditable is Editable) {
       view.showSaveButton();

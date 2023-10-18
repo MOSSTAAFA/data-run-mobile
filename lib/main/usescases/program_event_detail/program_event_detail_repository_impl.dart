@@ -97,7 +97,7 @@ class ProgramEventDetailRepositoryImpl implements ProgramEventDetailRepository {
 
   @override
   Future<Program> program() async {
-    return (await D2Remote.programModule.program.byId(programUid!).getOne())!;
+    return (await D2Remote.programModule.program.byId(programUid).getOne())!;
   }
 
   @override
