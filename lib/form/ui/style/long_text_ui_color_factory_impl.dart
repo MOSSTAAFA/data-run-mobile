@@ -33,7 +33,7 @@ class LongTextUiColorFactoryImpl implements FormUiColorFactory {
             Theme.of(navigatorKey.currentContext!).errorColor,
         FormUiColorType.ACTION_ICON:
             Theme.of(navigatorKey.currentContext!).iconTheme.color ??
-                Theme.of(navigatorKey.currentContext!).accentColor,
+                Theme.of(navigatorKey.currentContext!).primaryColorDark,
       });
     }
     return UnmodifiableMapView({
@@ -48,7 +48,7 @@ class LongTextUiColorFactoryImpl implements FormUiColorFactory {
       FormUiColorType.ERROR: Theme.of(navigatorKey.currentContext!).errorColor,
       FormUiColorType.ACTION_ICON:
           Theme.of(navigatorKey.currentContext!).iconTheme.color ??
-              Theme.of(navigatorKey.currentContext!).accentColor,
+              Theme.of(navigatorKey.currentContext!).primaryColorDark,
     });
   }
 }
