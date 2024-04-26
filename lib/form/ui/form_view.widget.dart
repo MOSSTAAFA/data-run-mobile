@@ -18,6 +18,7 @@ import '../model/info_ui_model.dart';
 import '../model/row_action.dart';
 import '../model/section_ui_model_impl.dart';
 import 'data_entry_items_list.widget.dart';
+import 'event/dialog_delegate.dart';
 import 'event/list_view_ui_events.dart';
 import 'intent/form_intent.dart';
 import 'provider/enrollment_result_dialog_ui_provider.dart';
@@ -303,7 +304,47 @@ class _FormViewWidgetState extends ConsumerState<FormViewWidget>
     );
   }
 
-  _showCustomCalendar(OpenCustomCalendar uiEvent) {}
+  /// This function takes a [OpenCustomCalendar] and opens a calender
+  /// when a date field is clicked.
+  ///
+  ///
+  /// Parameters:
+  ///   uiEvent: contains the date-field attributes including its value.
+  ///
+  Future<void> _showCustomCalendar(OpenCustomCalendar intent) async {
+    final DateTime firstDate = DateTime(DateTime.now().year - 50);
+    DateTime lastDate = DateTime.now();
+    final DateTime initialDate = intent.date ?? DateTime.now();
+
+    if (intent.allowFutureDates) {
+      lastDate = DateTime(DateTime.now().year + 50);
+    }
+    final DateTime? selectedDate = await showDatePicker(
+        context: context,
+        initialDate: initialDate,
+        firstDate: firstDate,
+        lastDate: lastDate,
+        // locale: const Locale('en', 'US'),
+        fieldLabelText: intent.label,
+        fieldHintText: intent.label
+        //initialEntryMode: DatePickerEntryMode.input,
+        );
+
+    if (selectedDate != null) {
+      if (intent.isDateTime ?? false) {
+        _uiEventHandler(DialogDelegate.handleDateTimeInput(
+            intent.uid,
+            intent.label,
+            intent.date,
+            selectedDate.year,
+            selectedDate.month,
+            selectedDate.day));
+      } else {
+        _intentHandler(DialogDelegate.handleDateInput(intent.uid,
+            selectedDate.year, selectedDate.month, selectedDate.day));
+      }
+    }
+  }
 
   _showYearMonthDayAgeCalendar(OpenYearMonthDayAgeCalendar uiEvent) {}
 

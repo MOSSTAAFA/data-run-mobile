@@ -6,7 +6,7 @@ import '../intent/form_intent.dart';
 import 'list_view_ui_events.dart';
 
 class DialogDelegate {
-  FormIntent handleDateInput(String uid, int year, int month, int day) {
+  static FormIntent handleDateInput(String uid, int year, int month, int day) {
     final ageDate = DateTime(year, month, day);
 
     final date = DateUtils.oldUiDateFormat().format(ageDate);
@@ -14,7 +14,7 @@ class DialogDelegate {
     return FormIntent.onSave(uid: uid, value: date, valueType: ValueType.DATE);
   }
 
-  FormIntent handleTimeInput(
+  static FormIntent handleTimeInput(
       String uid, DateTime? date, int hourOfDay, int minutes) {
     final DateTime dateTime = date?.let(
           (DateTime it) {
@@ -33,7 +33,7 @@ class DialogDelegate {
         valueType: date?.let((it) => ValueType.DATETIME) ?? ValueType.TIME);
   }
 
-  ListViewUiEvents handleDateTimeInput(
+  static ListViewUiEvents handleDateTimeInput(
     String uid,
     String label,
     DateTime? date,

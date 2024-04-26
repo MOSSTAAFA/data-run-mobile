@@ -12,28 +12,47 @@ import 'fields/decorated_form_field.dart';
 final navigatorKey = GlobalKey<NavigatorState>();
 
 class DatePicker extends StatefulWidget {
-  const DatePicker({
-    super.key,
-    required this.onSelected,
-    // this.selectedDate,
-    this.value,
-    this.labelText,
-    this.validator,
-    this.autoValidate = false,
-    this.allowClearing = false,
-    this.message,
-    this.firstDate,
-  });
+  const DatePicker(
+      {super.key,
+      required this.onSelected,
+      // this.selectedDate,
+      this.initialDate,
+      this.labelText,
+      this.validator,
+      this.autoValidate = false,
+      this.allowClearing = true,
+      this.message,
+      this.firstDate,
+      this.onIconPressed,
+
+      /// newly added
+      this.isFutureDatesAllowed = false,
+      this.isFromOtherPeriods = false,
+      this.scheduleInterval,
+      this.maxDate,
+      this.minDate,
+      this.title});
 
   final String? labelText;
+
   // final String? selectedDate;
-  final DateTime? value;
+  final DateTime? initialDate;
   final Function(String, bool) onSelected;
   final String? Function(String?)? validator;
   final bool autoValidate;
   final bool allowClearing;
   final String? message;
   final DateTime? firstDate;
+  final Function()? onIconPressed;
+
+  final String? title;
+  final DateTime? minDate;
+  final DateTime? maxDate;
+  final bool isFutureDatesAllowed;
+  final bool isFromOtherPeriods;
+
+  /// in number of days
+  final int? scheduleInterval;
 
   @override
   _DatePickerState createState() => _DatePickerState();
@@ -52,10 +71,11 @@ class _DatePickerState extends State<DatePicker> {
 
   @override
   void didChangeDependencies() {
-    if (widget.value != null) {
+    if (widget.initialDate != null) {
       // _textController.text = formatDate(widget.selectedDate, context);
       // ignore: avoid_dynamic_calls
-      _textController.text = DateUtils.oldUiDateFormat().format(widget.value!);
+      _textController.text =
+          DateUtils.oldUiDateFormat().format(widget.initialDate!);
     }
 
     super.didChangeDependencies();
@@ -64,11 +84,11 @@ class _DatePickerState extends State<DatePicker> {
   void _onFoucsChanged() {
     if (!_focusNode.hasFocus) {
       // _textController.text = formatDate(widget.selectedDate, context);
-      if (widget.value != null) {
+      if (widget.initialDate != null) {
         // _textController.text = formatDate(widget.selectedDate, context);
         // ignore: avoid_dynamic_calls
         _textController.text =
-            DateUtils.oldUiDateFormat().format(widget.value!);
+            DateUtils.oldUiDateFormat().format(widget.initialDate!);
       }
       setState(() {
         _pendingValue = null;
@@ -85,27 +105,44 @@ class _DatePickerState extends State<DatePicker> {
     super.dispose();
   }
 
-  void _showDatePicker() async {
-    DateTime? firstDate = DateTime.now();
-    final DateTime? initialDate = widget.value ?? DateTime.now();
+  Future<void> _showDatePicker() async {
+    DateTime firstDate = DateTime(DateTime.now().year - 50);
+    DateTime lastDate = DateTime.now();
+    final DateTime initialDate = widget.initialDate ?? DateTime.now();
 
-    if (widget.firstDate != null) {
-      if (initialDate?.isBefore(firstDate) == true) {
+    if (widget.minDate != null) {
+      if (initialDate.isBefore(widget.minDate!) == true) {
         firstDate = initialDate;
+      } else {
+        firstDate = widget.minDate!;
       }
     } else {
-      firstDate = DateTime(1920);
+      firstDate = DateTime(DateTime.now().year - 50);
+    }
+
+    if (widget.maxDate != null) {
+      if (initialDate.isAfter(widget.maxDate!)) {
+        lastDate = initialDate;
+      } else {
+        lastDate = widget.maxDate!;
+      }
+    }
+
+    if (widget.isFutureDatesAllowed) {
+      lastDate = DateTime(DateTime.now().year + 50);
     }
 
     // final store = StoreProvider.of<AppState>(context);
     final DateTime? selectedDate = await showDatePicker(
-      context: context,
-      initialDate: initialDate!,
-      firstDate: firstDate!,
-      lastDate: DateTime(2101),
-      locale: const Locale('en', 'US'),
-      //initialEntryMode: DatePickerEntryMode.input,
-    );
+        context: context,
+        initialDate: initialDate,
+        firstDate: firstDate,
+        lastDate: lastDate,
+        // locale: const Locale('en', 'US'),
+        fieldLabelText: widget.title,
+        fieldHintText: widget.title
+        //initialEntryMode: DatePickerEntryMode.input,
+        );
 
     if (selectedDate != null) {
       final date = convertDateTimeToSqlDate(selectedDate);
@@ -117,30 +154,26 @@ class _DatePickerState extends State<DatePicker> {
   @override
   Widget build(BuildContext context) {
     var label = widget.labelText;
-    if (widget.message != null && widget.value == null) {
+    if (widget.message != null && widget.initialDate == null) {
       label = '$label • ${widget.message}';
     }
 
-    return DecoratedFormField(
+    final field = DecoratedFormField(
       focusNode: _focusNode,
       validator: widget.validator,
       controller: _textController,
       keyboardType: TextInputType.text,
       decoration: InputDecoration(
-        labelText: _pendingValue ?? label ?? '',
-        suffixIcon: widget.allowClearing && widget.value != null
-            ? IconButton(
-                icon: const Icon(Icons.clear),
-                onPressed: () {
-                  _textController.text = '';
-                  widget.onSelected('', false);
-                },
-              )
-            : IconButton(
-                icon: const Icon(Icons.date_range),
-                onPressed: () => _showDatePicker(),
-              ),
-      ),
+          labelText: _pendingValue ?? label ?? '',
+          suffixIcon: widget.allowClearing && widget.initialDate != null
+              ? IconButton(
+                  icon: const Icon(Icons.clear),
+                  onPressed: () {
+                    _textController.text = '';
+                    widget.onSelected('', false);
+                  },
+                )
+              : null),
       onChanged: (value) {
         if (value.isEmpty) {
           widget.onSelected('', false);
@@ -260,5 +293,20 @@ class _DatePickerState extends State<DatePicker> {
         }
       },
     );
+    return widget.onIconPressed != null
+        ? Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Expanded(child: field),
+              const SizedBox(
+                height: 20.0,
+              ),
+              IconButton(
+                onPressed: widget.onIconPressed,
+                icon: const Icon(Icons.date_range),
+              ),
+            ],
+          )
+        : field;
   }
 }

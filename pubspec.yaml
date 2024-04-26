@@ -51,6 +51,7 @@ dependencies:
   equatable: ^2.0.5
   fast_immutable_collections: ^9.1.1
   flutter_treeview: ^1.0.7+1
+  table_calendar: ^3.0.9
 #  sealed_annotations: ^1.13.0
 
 dev_dependencies:
