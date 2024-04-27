@@ -17,10 +17,15 @@ import 'event_initial_presenter.dart';
 import 'event_initial_view.dart';
 
 /// EventInitialActivity
+/// Navigated to when adding new events using the startNewEvent in [ProgramEventDetailScreen]
+/// or from [ProgramStageSelectionActivity] when handling a handleProgramStages and onProgramStageClick
+///
+/// ProgramStage selection screen has no layout and calls individual items layout for each program stage using
+/// [ProgramStageSelectionAdapter] in [ProgramStageSelectionActivity]
 class EventInitialScreen extends ConsumerStatefulWidget {
   const EventInitialScreen({super.key});
 
-  static const String route = '/eventinitialscreen';
+  static const String route = '/EventInitialScreen';
 
   @override
   ConsumerState<EventInitialScreen> createState() => _EventInitialScreenState();

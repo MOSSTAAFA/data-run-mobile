@@ -1,52 +1,50 @@
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:mass_pro/form/model/form_repository_records.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../commons/extensions/dynamic_extensions.dart';
+import '../../../form/model/form_repository_records.dart';
 
-part 'bundle.g.dart';
+// part 'bundle.g.dart';
 
-@riverpod
-class BundleObject extends _$BundleObject {
-  @override
-  Bundle build() {
-    logInfo(info: '######## BundleObject is Created');
-
-    ref.onDispose(() {
-      logInfo(info: '######## BundleObject is disposed');
-    });
-
-    ref.onCancel(() => logInfo(info: 'cancel: $state'));
-    ref.onResume(() => logInfo(info: 'resume: $state'));
-    ref.onDispose(() => logInfo(info: 'dispose: $state'));
-
-    // get the [KeepAliveLink]
-    // final link = ref.keepAlive();
-
-    return Bundle();
-  }
-
-  void setValue(Bundle value) {
-    state = value;
-  }
-
-  void putString(String key, String? value) {
-    state = state.putString(key, value);
-  }
-
-  void putInt(String key, int? value) {
-    state = state.putInt(key, value);
-  }
-
-  String? getString(String key) {
-    return state.getString(key);
-  }
-
-  int? getInt(String key) {
-    return state.getInt(key);
-  }
-}
+// @riverpod
+// class BundleObject extends _$BundleObject {
+//   @override
+//   Bundle build() {
+//     logInfo(info: '######## BundleObject is Created');
+//
+//     ref.onDispose(() {
+//       logInfo(info: '######## BundleObject is disposed');
+//     });
+//
+//     ref.onCancel(() => logInfo(info: 'cancel: $state'));
+//     ref.onResume(() => logInfo(info: 'resume: $state'));
+//     ref.onDispose(() => logInfo(info: 'dispose: $state'));
+//
+//     // get the [KeepAliveLink]
+//     // final link = ref.keepAlive();
+//
+//     return Bundle();
+//   }
+//
+//   void setValue(Bundle value) {
+//     state = value;
+//   }
+//
+//   void putString(String key, String? value) {
+//     state = state.putString(key, value);
+//   }
+//
+//   void putInt(String key, int? value) {
+//     state = state.putInt(key, value);
+//   }
+//
+//   String? getString(String key) {
+//     return state.getString(key);
+//   }
+//
+//   int? getInt(String key) {
+//     return state.getInt(key);
+//   }
+// }
 
 class Bundle with EquatableMixin {
   Bundle([IMap<String, dynamic>? map, FormRepositoryRecords? repositoryRecords])
@@ -70,6 +68,11 @@ class Bundle with EquatableMixin {
     return Bundle(bundleMap);
   }
 
+  Bundle putObject(String key, Object? value) {
+    bundleMap = bundleMap.add(key, value);
+    return Bundle(bundleMap);
+  }
+
   String? getString(String key) {
     return bundleMap[key];
   }
@@ -79,6 +82,10 @@ class Bundle with EquatableMixin {
   }
 
   bool? getBool(String key) {
+    return bundleMap[key];
+  }
+
+  Object? getObject(String key) {
     return bundleMap[key];
   }
 

@@ -1,188 +1,172 @@
 import 'package:d2_remote/modules/activity_management/activity/entities/activity.entity.dart';
 import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisation_unit.entity.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 
 import '../../../../commons/constants.dart';
-import '../../../../commons/custom_widgets/navigationbar/navigation_tab_bar_view.widget.dart';
-import '../../../../commons/extensions/standard_extensions.dart';
-import '../../../../commons/utils/view_actions.dart';
-import '../../../../form/model/form_repository_records.dart';
+import '../../../../commons/custom_widgets/mixins/keyboard_manager.dart';
+import '../../../../commons/custom_widgets/nav_bar/fab_bottom_app_bar.dart';
+import '../../../../commons/extensions/dynamic_extensions.dart';
+import '../../../../form/data/data_integrity_check_result.dart';
 import '../../../../form/ui/components/linear_loading_indicator.dart';
-import '../../../../form/ui/form_view.widget.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../../utils/custom_views/form_bottom_dialog.dart';
 import '../../../utils/event_mode.dart';
 import '../../bundle/bundle.dart';
 import '../../general/view_base.dart';
-import '../../program_event_detail/program_event_detail_view_model.dart';
-import '../../program_event_detail/program_event_page_configurator.dart';
-import '../event_details/ui/event_details_screen.widget.dart';
 import 'di/event_capture_module.dart';
-import 'di/event_capture_providers.dart';
+import 'di/event_capture_screen_state_notifier.dart';
 import 'event_capture_contract.dart';
-import 'event_capture_form/on_edition_listener.dart';
-import 'event_page_configurator.dart';
 import 'model/event_completion_dialog.dart';
+import 'widgets/event_capture_app_bar.widget.dart';
+import 'widgets/event_capture_app_bar_notifier.dart';
+import 'widgets/event_capture_tab_views.widget.dart';
 
 /// EventCaptureActivity && EventCapturePagerAdapter
 /// && EventCaptureFormFragment
+///
+/// ProgramStage selection screen has no layout and calls individual items layout for each program stage using
+/// [ProgramStageSelectionAdapter] in [ProgramStageSelectionActivity]
 class EventCaptureScreen extends ConsumerStatefulWidget {
   const EventCaptureScreen({
     super.key,
   });
 
-  static const String route = '/eventcapturescreen';
+  static const String route = '/EventCaptureScreen';
 
   @override
   ConsumerState<EventCaptureScreen> createState() => _EventCaptureScreenState();
 }
 
 class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
-    with EventCaptureView, ViewBase {
+    with EventCaptureView, ViewBase, KeyboardManager {
   late final EventMode? eventMode;
   late final String? activityUid;
   late final String? programUid;
   late final String? eventUid;
   late final EventCapturePresenter presenter;
-  late final FormRepositoryRecords eventRecords;
   bool isEventCompleted = false;
 
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context)!;
+    debugPrint('build(): $runtimeType');
+    // final List<Widget> _widgets = <Widget>[
+    //   const EventDetailsScreen(),
+    //   EventCaptureForm(
+    //     showProgress: showProgress,
+    //     hideProgress: hideProgress,
+    //     hideNavigationBar: hideNavigationBar,
+    //     updatePercentage: updatePercentage,
+    //     handleDataIntegrityResult: presenter.handleDataIntegrityResult,
+    //   ),
+    //   const Text('Unimplemented Screen!'),
+    // ];
 
-    return ProviderScope(
-      overrides: [
-        // formRepositoryRecordsProvider.overrideWith((_) => EventRecords(eventUid)),
-        pageConfiguratorProvider.overrideWith((_) => EventPageConfigurator()),
-      ],
-      child: Column(
-        children: [
-          Consumer(
-            // This builder will only get called when the
-            // programEventDetailModelProvider.progress is updated.
-            builder: (context, ref, child) => LinearLoadingIndicator(
-              isLoading: ref.watch(programEventDetailModelProvider
-                  .select((value) => value.progress)),
-            ),
-          ),
-          Expanded(
-            child: NavigationTabBarView(
-              onPositionChange: (position) {
-                if (position == ViewAction.details &&
-                    eventMode != EventMode.NEW) {
-                  _showSyncButton();
-                } else {
-                  _hideSyncButton();
-                }
-              },
-              appBarTitle: Text(ref.watch(eventDataStringProvider)),
-              appBarActions: [
-                Consumer(
-                  builder: (context, ref, child) {
-                    return ref.watch(syncButtonVisibilityProvider)
-                        ? IconButton(
-                            icon: const Icon(Icons.sync),
-                            tooltip: localization.lookup('sync'),
-                            onPressed: () => showSyncDialog(),
-                          )
-                        : const SizedBox();
-                  },
-                ),
-              ],
-              actionButtonBuilder: (context, viewAction) =>
-                  FloatingActionButton(
-                heroTag: ViewAction.data_entry.name,
-                tooltip: localization.lookup('save'),
-                onPressed: () {},
-                child: const Icon(Icons.save),
+    return Material(
+      child: Scaffold(
+        appBar: EventCaptureAppBar(
+          onSyncButtonPressed: showSyncDialog,
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              /// Don't depend on a provider of a parent widget
+              /// make depending on this or children widgets' providers
+              Consumer(
+                builder: (context, ref, child) {
+                  final isLoading = ref.watch(
+                      eventCaptureScreenStateNotifierProvider
+                          .select((notifier) => notifier.progress));
+
+                  return isLoading
+                      ? LinearLoadingIndicator(
+                          isLoading: isLoading,
+                        )
+                      : Container(
+                          height: 10,
+                          color: Colors.grey,
+                        );
+                },
               ),
-              tabBuilder: (context, viewAction) {
-                final name = localization.lookup(viewAction.name);
-                return when(viewAction, {
-                  ViewAction.details: () => Tab(text: name),
-                  ViewAction.data_entry: () => Tab(text: name),
-                  ViewAction.notes: () => Tab(text: name),
-                  ViewAction.analytics: () => Tab(text: name),
-                  ViewAction.relationships: () => Tab(text: name),
-                })!;
-              },
-              pageBuilder: (context, viewAction) =>
-                  when<ViewAction, Widget>(viewAction, {
-                ViewAction.details: () => const EventDetailsScreen(),
-                ViewAction.data_entry: () => FormView(
-                      // needToForceUpdate: needToForceUpdate,
-                      records: eventRecords,
-                      // onItemChangeListener: onItemChangeListener,
-                      onLoadingListener: (loading) {
-                        if (loading) {
-                          showProgress();
-                        } else {
-                          hideProgress();
-                        }
-                      },
-                      onFocused: () => hideNavigationBar(),
-                      // onFinishDataEntry: onFinishDataEntry,
-                      // onActivityForResult: onActivityForResult,
-                      onPercentageUpdate: (percentage) =>
-                          updatePercentage(percentage),
-                      onDataIntegrityCheck: (result) =>
-                          presenter.handleDataIntegrityResult(result),
-                      // onFieldItemsRendered: onFieldItemsRendered,
-                      // onSavePicture: onSavePicture,
-                      // resultDialogUiProvider: resultDialogUiProvider
+              const Expanded(
+                child: EventCaptureTabViews(
+                    // onHandleDataIntegrityResult:
+                    //     presenter.handleDataIntegrityResult,
                     ),
-              }).orElse(() => const Center(
-                        child: Text('Unimplemented Screen!'),
-                      )),
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
+        bottomNavigationBar: FABBottomAppBar(
+          // centerItemText: 'A',
+          notchedShape: const CircularNotchedRectangle(),
+          onTabSelected: (index) =>
+              ref.read(selectedIndexProvider.notifier).update((state) => index),
+
+          items: [
+            MenuItem(iconData: Icons.menu, text: 'This'),
+            MenuItem(iconData: Icons.layers, text: 'Is'),
+            MenuItem(iconData: Icons.dashboard, text: 'Bottom'),
+            // MenuItem(iconData: Icons.info, text: 'Bar'),
+          ],
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: () {},
+        //   tooltip: 'Save',
+        //   elevation: 2.0,
+        //   child: const Icon(Icons.save),
+        // ),
       ),
     );
   }
 
   @override
   void initState() {
-    showProgress();
-    // final Bundle bundle = Get.arguments as Bundle;
-    // presenter = ref.read(eventCapturePresenterProvider(this));
-    // final Bundle bundle = ref.read(bundleObjectProvider);
+    super.initState();
+    // showProgress();
     final Bundle bundle = Get.arguments as Bundle;
     eventMode = bundle.getString(EVENT_MODE)?.toEventMode;
     activityUid = bundle.getString(ACTIVITY_UID);
     programUid = bundle.getString(PROGRAM_UID);
     eventUid = bundle.getString(EVENT_UID);
-    eventRecords = EventRecords(eventUid);
     presenter = ref.read(eventCapturePresenterProvider(this));
-    super.initState();
+    ref.listenManual<DataIntegrityCheckResult?>(
+        eventCaptureScreenStateNotifierProvider
+            .select((value) => value.dataIntegrityResult), (previous, next) {
+      if (next != null) {
+        presenter.handleDataIntegrityResult(next);
+      }
+    });
   }
 
   @override
   void goBack() {
-    final OnEditionListener? onEditionListener =
-        ref.read(onEditionEventCaptureListenerProvider);
-    if (onEditionListener != null) {
-      onEditionListener.onEditionListener?.call();
-    }
+    // widget.onEditionListener?.call();
+    logInfo(info: 'goBack()');
     _finishEditMode();
   }
 
   void _finishEditMode() {
-    if (ref.read(navigationBarVisibilityProvider)) {
-      showNavigationBar();
-    } else {
-      _attemptFinish();
-    }
+    logInfo(info: '_finishEditMode()');
+    // if (ref.read(navigationBarVisibilityProvider)) {
+    //   showNavigationBar();
+    // } else {
+    //   _attemptFinish();
+    // }
   }
 
   @override
   void showNavigationBar() {
-    ref.read(navigationBarVisibilityProvider.notifier).update((state) => true);
+    // ref.read(navigationBarVisibilityProvider.notifier).update((state) => true);
   }
 
   void _attemptFinish() {
+    logInfo(info: '_attemptFinish()');
     // TODO: implement _attemptFinish
     // if (eventMode == EventMode.NEW) {
     //     BottomSheetDialogUiModel bottomSheetDialogUiModel = new BottomSheetDialogUiModel(
@@ -209,6 +193,7 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
 
   @override
   void finishDataEntry() {
+    logInfo(info: 'finishDataEntry()');
     // TODO: implement finishDataEntry
     // Intent intent = new Intent();
     //     if (isEventCompleted)
@@ -219,35 +204,77 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
 
   @override
   void attemptToReschedule() {
+    logInfo(info: 'attemptToReschedule()');
     // TODO: implement attemptToReschedule
   }
 
   @override
   void attemptToSkip() {
+    logInfo(info: 'attemptToSkip()');
     // TODO: implement attemptToSkip
   }
 
   @override
   void hideNavigationBar() {
+    logInfo(info: 'hideNavigationBar()');
     // TODO: implement hideNavigationBar
   }
 
   @override
   void restartDataEntry() {
+    logInfo(info: 'restartDataEntry()');
     // TODO: implement restartDataEntry
   }
 
   @override
   void saveAndFinish() {
-    // TODO: implement saveAndFinish
+    logInfo(info: 'saveAndFinish()');
+    displayMessage('string.saved');
+    _setAction(ActionType.FINISH);
+  }
+
+  void _setAction(ActionType actionType) {
+    switch (actionType) {
+      case ActionType.COMPLETE:
+        isEventCompleted = true;
+        presenter.completeEvent(false);
+        break;
+      case ActionType.COMPLETE_ADD_NEW:
+        presenter.completeEvent(true);
+        break;
+      case ActionType.FINISH_ADD_NEW:
+        restartDataEntry();
+        break;
+      case ActionType.SKIP:
+        presenter.skipEvent();
+        break;
+      case ActionType.RESCHEDULE:
+        break;
+      case ActionType.CHECK_FIELDS:
+        break;
+      case ActionType.FINISH:
+      default:
+        finishDataEntry();
+        break;
+    }
   }
 
   @override
   void showCompleteActions(
       bool canComplete,
-      Map<String, String> emptyMandatoryFields,
+      IMap<String, String> emptyMandatoryFields,
       EventCompletionDialog eventCompletionDialog) {
+    logInfo(info: 'showCompleteActions()');
     // TODO: implement showCompleteActions
+    Get.snackbar(
+      AppLocalization.of(context)!.lookup('showCompleteActions'),
+      AppLocalization.of(context)!.lookup('showCompleteActions'),
+      icon: const Icon(Icons.warning),
+      shouldIconPulse: true,
+      // onTap: () {},
+      // barBlur: 20,
+      isDismissible: true,
+    );
   }
 
   @override
@@ -265,20 +292,21 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
 
   @override
   void showEventIntegrityAlert() {
+    logInfo(info: 'showEventIntegrityAlert()');
     Future(() => null);
     // TODO: implement showEventIntegrityAlert
   }
 
+  /// moved to [EventCaptureTabViews]
   @override
   void showProgress() {
-    Future(() =>
-        ref.read(progressVisibilityProvider.notifier).update((_) => true));
+    // ref.read(eventCaptureScreenStateNotifierProvider.notifier).showProgress();
   }
 
+  /// moved to [EventCaptureTabViews]
   @override
   void hideProgress() {
-    Future(() =>
-        ref.read(progressVisibilityProvider.notifier).update((_) => false));
+    // ref.read(eventCaptureScreenStateNotifierProvider.notifier).hideProgress();
   }
 
   @override
@@ -296,14 +324,13 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
 
   @override
   void updateNoteBadge(int numberOfNotes) {
-    Future(() =>
-        ref.read(noteBadgeProvider.notifier).update((_) => numberOfNotes));
+    ref.read(noteBadgeProvider.notifier).update((_) => numberOfNotes);
   }
 
   @override
   void updatePercentage(double primaryValue) {
-    Future(() =>
-        ref.read(percentageProvider.notifier).update((_) => primaryValue));
+    // logInfo(info: 'updatePercentage()');
+    // ref.read(percentageProvider.notifier).update((_) => primaryValue);
   }
 
   @override
@@ -312,83 +339,54 @@ class _EventCaptureScreenState extends ConsumerState<EventCaptureScreen>
       String? eventDate,
       OrganisationUnit? orgUnit,
       Activity? activity}) {
-    ref.read(programStageNameProvider.notifier).update((_) => stageName ?? '');
+    // ref.read(programStageNameProvider.notifier).update((_) => stageName ?? '');
+
+    // ref
+    //     .read(activityNameProvider.notifier)
+    //     .update((_) => activity?.displayName ?? activity?.name ?? '');
 
     ref
-        .read(activityNameProvider.notifier)
-        .update((_) => activity?.displayName ?? activity?.name ?? '');
-
-    ref.read(eventDateProvider.notifier).update((_) => eventDate ?? '');
-
-    ref
-        .read(orgUnitNameProvider.notifier)
-        .update((_) => orgUnit?.displayName ?? orgUnit?.name ?? '');
-  }
-
-  @override
-  void hideSaveButton() {
-    ref.read(saveButtonVisibilityProvider.notifier).update((state) => false);
-  }
-
-  @override
-  void showSaveButton() {
-    ref.read(saveButtonVisibilityProvider.notifier).update((state) => true);
-  }
-
-  @override
-  void onReopen() {
-    // TODO: implement onReopen
-    // formView.reload();
-    // ref.read(itemsProvider.notifier).loadData();
-  }
-
-  @override
-  void performSaveClick() {
-    // TODO: implement performSaveClick
-    // formView.onSaveClick()
-    /// in form View it's just:
-    /// onEditionFinish()
-    /// viewModel.saveDataEntry()
-  }
-
-  @override
-  void onEditionListener() {
-    // TODO: implement performSaveClick
-    // formView.onEditionFinish();
-    // in form View it's just: binding.recyclerView.requestFocus();
+        .read(eventCaptureAppBarNotifierProvider.notifier)
+        .update((state) => state.copyWith(
+            eventDate: eventDate,
+            orgUnitName: orgUnit?.displayName ?? orgUnit?.name ?? '',
+            // TODO(NMC): provide activity name, when adding activity
+            activityName: ''));
   }
 
   void _showSyncButton() {
-    ref.read(syncButtonVisibilityProvider.notifier).update((state) => true);
+    // ref.read(syncButtonVisibilityProvider.notifier).update((state) => true);
   }
 
   void _hideSyncButton() {
-    ref.read(syncButtonVisibilityProvider.notifier).update((state) => false);
+    // ref.read(syncButtonVisibilityProvider.notifier).update((state) => false);
   }
 }
 
-final progressVisibilityProvider =
-    StateProvider.autoDispose<bool>((ref) => false);
-final programStageNameProvider = StateProvider.autoDispose<String>((ref) => '');
-final activityNameProvider = StateProvider.autoDispose<String>((ref) => '');
+final selectedIndexProvider = StateProvider.autoDispose<int>((ref) => 0);
 
-final eventDateProvider = StateProvider.autoDispose<String>((ref) => '');
-final orgUnitNameProvider = StateProvider.autoDispose<String>((ref) => '');
-final eventDataStringProvider = Provider.autoDispose<String>((ref) {
-  final eventDate = ref.watch(eventDateProvider);
-  final orgUnitName = ref.watch(orgUnitNameProvider);
+// final progressVisibilityProvider =
+//     StateProvider.autoDispose<bool>((ref) => false);
+// final programStageNameProvider = StateProvider.autoDispose<String>((ref) => '');
+// final activityNameProvider = StateProvider.autoDispose<String>((ref) => '');
 
-  return '$eventDate | $orgUnitName';
-});
+// final eventDateProvider = StateProvider.autoDispose<String>((ref) => '');
+// final orgUnitNameProvider = StateProvider.autoDispose<String>((ref) => '');
+// final eventDataStringProvider = Provider.autoDispose<String>((ref) {
+//   final eventDate = ref.watch(eventDateProvider);
+//   final orgUnitName = ref.watch(orgUnitNameProvider);
+//
+//   return '$eventDate | $orgUnitName';
+// });
 
 final noteBadgeProvider = StateProvider.autoDispose<int>((ref) => 0);
-final percentageProvider = StateProvider.autoDispose<double>((ref) => 0);
+// final percentageProvider = StateProvider.autoDispose<double>((ref) => 0);
 
-final syncButtonVisibilityProvider =
-    StateProvider.autoDispose<bool>((ref) => false);
+// final syncButtonVisibilityProvider =
+//     StateProvider.autoDispose<bool>((ref) => false);
 
-final navigationBarVisibilityProvider =
-    StateProvider.autoDispose<bool>((ref) => true);
-
-final saveButtonVisibilityProvider =
-    StateProvider.autoDispose<bool>((ref) => true);
+// final navigationBarVisibilityProvider =
+//     StateProvider.autoDispose<bool>((ref) => true);
+//
+// final saveButtonVisibilityProvider =
+//     StateProvider.autoDispose<bool>((ref) => true);

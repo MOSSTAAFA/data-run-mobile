@@ -32,11 +32,11 @@ abstract class Worker {
   Future<WorkInfo> doWork(
       {OnProgressUpdate? onProgressUpdate, Dio? dioTestClient});
 
-  // void stop() {
-  //   onStopped();
-  // }
-  //
-  // void onStopped() {
-  //   // Do nothing by default.
-  // }
+// void stop() {
+//   onStopped();
+// }
+//
+// void onStopped() {
+//   // Do nothing by default.
+// }
 }

@@ -23,7 +23,7 @@ class ColorUtils {
     switch (colorType) {
       case ColorType.ACCENT:
         // id = R.attr.colorAccent;
-        return Theme.of(context).accentColor;
+        return Theme.of(context).primaryColorDark;
       case ColorType.PRIMARY_DARK:
         // id = R.attr.colorPrimaryDark;
         return Theme.of(context).primaryColorDark;

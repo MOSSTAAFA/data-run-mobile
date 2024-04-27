@@ -9,7 +9,7 @@ import '../constants.dart';
 part 'ui_state.freezed.dart';
 
 @freezed
-abstract class UIState with _$UIState {
+class UIState with _$UIState {
   const factory UIState({
     required String currentRoute,
     // required int selectedCompanyIndex,

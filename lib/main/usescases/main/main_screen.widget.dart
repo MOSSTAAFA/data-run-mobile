@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../commons/custom_widgets/navigationbar/navigation_page_configurator.dart';
 import '../../../commons/custom_widgets/navigationbar/navigation_tab_bar_view.widget.dart';
 import '../../../commons/extensions/standard_extensions.dart';
 import '../../../commons/state/app_state_notifier.dart';
@@ -13,7 +14,6 @@ import '../../l10n/app_localizations.dart';
 import '../general/view_base.dart';
 import '../login/login_screen.widget.dart';
 import '../program_event_detail/program_event_detail_view_model.dart';
-import '../program_event_detail/program_event_page_configurator.dart';
 import 'home_page_configurator.dart';
 import 'main_navigator.dart';
 import 'main_presenter.dart';
@@ -27,7 +27,7 @@ class MainScreen extends ConsumerStatefulWidget {
       this.launchDataSync = false,
       this.forceToNotSynced = false});
 
-  static const String route = '/mainscreen';
+  static const String route = '/MainScreen';
 
   final bool forceToNotSynced;
 
@@ -43,74 +43,66 @@ class MainScreen extends ConsumerStatefulWidget {
 class _MainScreenState extends ConsumerState<MainScreen>
     with MainView, ViewBase {
   late final MainPresenter presenter;
+  final NavigationPageConfigurator _pageConfigurator = HomePageConfigurator();
 
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context)!;
 
-    return WillPopScope(
-      onWillPop: () async => true,
-      child: ProviderScope(
-        overrides: [
-          pageConfiguratorProvider.overrideWith((_) => HomePageConfigurator()),
-        ],
-        child: Material(
-          child: Column(
-            children: [
-              Consumer(
-                // This builder will only get called when the
-                // programEventDetailModelProvider.progress is updated.
-                builder: (context, ref, child) => LinearLoadingIndicator(
-                  isLoading: ref.watch(programEventDetailModelProvider
-                      .select((value) => value.progress)),
-                ),
-              ),
-              Expanded(
-                child: NavigationTabBarView(
-                  // actionButtonBuilder: (context, viewAction) => FloatingActionButton(
-                  //   heroTag: ViewAction.list_view.name,
-                  //   child: const Icon(Icons.add),
-                  //   onPressed: () => startNewEvent(),
-                  // ),
-                  // appBarTitle: Text(ref.watch(eventDataStringProvider)),
-                  // appBarActions: [
-                  //   Consumer(
-                  //     builder: (context, ref, child) {
-                  //       return ref.watch(syncButtonVisibilityProvider)
-                  //           ? IconButton(
-                  //               icon: const Icon(Icons.sync),
-                  //               tooltip: localization.lookup('sync'),
-                  //               onPressed: () => showSyncDialog(),
-                  //             )
-                  //           : const SizedBox();
-                  //     },
-                  //   ),
-                  // ],
-                  tabBuilder: (context, viewAction) {
-                    final name = localization.lookup(viewAction.name);
-                    return when(viewAction, {
-                      ViewAction.list_view: () => Tab(text: name),
-                      ViewAction.programs: () => Tab(text: name),
-                      ViewAction.table_view: () => Tab(text: name),
-                      ViewAction.map_view: () => Tab(text: name),
-                      ViewAction.analytics: () => Tab(text: name),
-                    })!;
-                  },
-                  pageBuilder: (context, viewAction) =>
-                      when<ViewAction, Widget>(viewAction, {
-                    ViewAction.programs: () => const ProgramViewScreen(),
-                    // ViewAction.list_view: () => const ProgramViewScreen(),
-                    // ViewAction.table_view: () => const EventTable(),
-                    // ViewAction.map_view: () => const EventMap(),
-                  }).orElse(() => const Center(
-                            child: Text('Unimplemented Screen!'),
-                          )),
-                ),
-              ),
-            ],
+    return Column(
+      children: [
+        Consumer(
+          // This builder will only get called when the
+          // programEventDetailModelProvider.progress is updated.
+          builder: (context, ref, child) => LinearLoadingIndicator(
+            isLoading: ref.watch(programEventDetailModelProvider
+                .select((value) => value.progress)),
           ),
         ),
-      ),
+        Expanded(
+          child: NavigationTabBarView(
+            pageConfigurator: _pageConfigurator,
+            // actionButtonBuilder: (context, viewAction) => FloatingActionButton(
+            //   heroTag: ViewAction.list_view.name,
+            //   child: const Icon(Icons.add),
+            //   onPressed: () => startNewEvent(),
+            // ),
+            // appBarTitle: Text(ref.watch(eventDataStringProvider)),
+            // appBarActions: [
+            //   Consumer(
+            //     builder: (context, ref, child) {
+            //       return ref.watch(syncButtonVisibilityProvider)
+            //           ? IconButton(
+            //               icon: const Icon(Icons.sync),
+            //               tooltip: localization.lookup('sync'),
+            //               onPressed: () => showSyncDialog(),
+            //             )
+            //           : const SizedBox();
+            //     },
+            //   ),
+            // ],
+            tabBuilder: (context, viewAction) {
+              final name = localization.lookup(viewAction.name);
+              return when(viewAction, {
+                ViewAction.list_view: () => Tab(text: name),
+                ViewAction.programs: () => Tab(text: name),
+                ViewAction.table_view: () => Tab(text: name),
+                ViewAction.map_view: () => Tab(text: name),
+                ViewAction.analytics: () => Tab(text: name),
+              })!;
+            },
+            pageBuilder: (context, viewAction) =>
+                when<ViewAction, Widget>(viewAction, {
+              ViewAction.programs: () => const ProgramViewScreen(),
+              // ViewAction.list_view: () => const ProgramViewScreen(),
+              // ViewAction.table_view: () => const EventTable(),
+              // ViewAction.map_view: () => const EventMap(),
+            }).orElse(() => const Center(
+                      child: Text('Unimplemented Screen!'),
+                    )),
+          ),
+        ),
+      ],
     );
   }
 

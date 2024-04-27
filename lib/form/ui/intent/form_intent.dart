@@ -5,6 +5,9 @@ part 'form_intent.freezed.dart';
 
 @freezed
 class FormIntent with _$FormIntent {
+  // NMC
+  const factory FormIntent.init() = Init;
+
   const factory FormIntent.onFinish([String? extraData]) = OnFinish;
 
   const factory FormIntent.onClear([String? extraData]) = OnClear;

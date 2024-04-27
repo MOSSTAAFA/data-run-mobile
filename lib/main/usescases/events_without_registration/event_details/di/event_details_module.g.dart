@@ -25,7 +25,7 @@ final eventDetailResourcesProvider =
 typedef EventDetailResourcesRef
     = AutoDisposeProviderRef<EventDetailResourcesProvider>;
 String _$eventDetailsRepositoryHash() =>
-    r'a2539fdaa6ad03a0570e2ecd8c521cf8f3fa6d14';
+    r'd405466a750c67f3df81d7ecb3dd3a9f20a9d485';
 
 /// See also [eventDetailsRepository].
 @ProviderFor(eventDetailsRepository)
@@ -168,4 +168,5 @@ final eventDetailsModelProvider = AutoDisposeNotifierProvider<EventDetailsModel,
 );
 
 typedef _$EventDetailsModel = AutoDisposeNotifier<EventDetailsViewModel>;
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member

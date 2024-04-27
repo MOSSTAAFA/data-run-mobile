@@ -6,7 +6,7 @@ part of 'mp_period_utils.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$amPeriodUtilsHash() => r'b531ae4886965395ce609046f4af3d30fe35927d';
+String _$amPeriodUtilsHash() => r'02a23d68f05d71c000a0734f63e702d31331198e';
 
 /// See also [amPeriodUtils].
 @ProviderFor(amPeriodUtils)
@@ -21,4 +21,5 @@ final amPeriodUtilsProvider = Provider<AmPeriodUtils>.internal(
 );
 
 typedef AmPeriodUtilsRef = ProviderRef<AmPeriodUtils>;
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member

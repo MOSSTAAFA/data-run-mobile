@@ -6,6 +6,7 @@ import 'provider/layout_provider.dart';
 
 // NMCP maybe inject
 // private val layouts = mapOf<KClass<*>, Int>()
+@Deprecated('replaced by WidgetProviderImpl')
 class LayoutProviderImpl implements LayoutProvider {
   const LayoutProviderImpl();
 
@@ -18,36 +19,47 @@ class LayoutProviderImpl implements LayoutProvider {
   @override
   int getLayoutByType(
       [ValueType? valueType,
+
+      ///from the renderType of the item's programStageDataElement,
+      ///programStageDataElement.renderType()?.mobile()
       ValueTypeRenderingType? renderingType,
       String? optionSet,
+
+      /// from the renderType of the item's programStageSection,
+      /// programStageSection?.renderType()?.mobile()?.type()
       SectionRenderingType? sectionRenderingType]) {
     switch (valueType) {
       case ValueType.AGE:
-        return 0; /*Text(
+        return 0;
+      /*Text(
           '$valueType Field',
           style: const TextStyle(fontSize: 20),
         ); */ //R.layout.form_age_custom
       case ValueType.DATE:
       case ValueType.TIME:
       case ValueType.DATETIME:
-        return 0; /*Text(
+        return 0;
+      /*Text(
           '$valueType Field',
           style: const TextStyle(fontSize: 20),
         ); */ //R.layout.form_date_time
       case ValueType.LONG_TEXT:
         return 0; //FormEditText(); //R.layout.form_long_text_custom
       case ValueType.ORGANISATION_UNIT:
-        return 0; /*Text(
+        return 0;
+      /*Text(
           '$valueType Field',
           style: const TextStyle(fontSize: 20),
         );*/ //R.layout.form_org_unit
       case ValueType.COORDINATE:
-        return 0; /*Text(
+        return 0;
+      /*Text(
           '$valueType Field',
           style: const TextStyle(fontSize: 20),
         );*/ //R.layout.form_coordinate_custom
       case ValueType.IMAGE:
-        return 0; /*Text(
+        return 0;
+      /*Text(
           '$valueType Field',
           style: const TextStyle(fontSize: 20),
         );*/ //R.layout.form_picture
@@ -61,31 +73,36 @@ class LayoutProviderImpl implements LayoutProvider {
           case ValueTypeRenderingType.HORIZONTAL_RADIOBUTTONS:
           case ValueTypeRenderingType.VERTICAL_RADIOBUTTONS:
           case ValueTypeRenderingType.DEFAULT:
-            return 0; /*Text(
+            return 0;
+          /*Text(
               '$valueType Field',
               style: const TextStyle(fontSize: 20),
             );*/ //R.layout.form_radio_button
           case ValueTypeRenderingType.TOGGLE:
             switch (valueType) {
               case ValueType.TRUE_ONLY:
-                return 0; /*Text(
+                return 0;
+              /*Text(
                   '$valueType Field',
                   style: const TextStyle(fontSize: 20),
                 );*/ //R.layout.form_toggle
               default:
-                return 0; /*Text(
+                return 0;
+              /*Text(
                   '$valueType Field',
                   style: const TextStyle(fontSize: 20),
                 );*/ //R.layout.form_radio_button
             }
           case ValueTypeRenderingType.HORIZONTAL_CHECKBOXES:
           case ValueTypeRenderingType.VERTICAL_CHECKBOXES:
-            return 0; /*Text(
+            return 0;
+          /*Text(
               '$valueType Field',
               style: const TextStyle(fontSize: 20),
             );*/ //R.layout.form_check_button
           default:
-            return 0; /*Text(
+            return 0;
+          /*Text(
               '$valueType Field',
               style: const TextStyle(fontSize: 20),
             ); */ //R.layout.form_radio_button
@@ -131,7 +148,8 @@ class LayoutProviderImpl implements LayoutProvider {
       case ValueType.FILE_RESOURCE:
       case ValueType.USERNAME:
       case ValueType.TRACKER_ASSOCIATE:
-        return 0; /*Text(
+        return 0;
+      /*Text(
           '$valueType Field',
           style: const TextStyle(fontSize: 20),
         );*/ //R.layout.form_unsupported
@@ -150,7 +168,13 @@ class LayoutProviderImpl implements LayoutProvider {
 
   int getLayoutForOptionSet(
       String? optionSet,
+
+      /// from the renderType of the item's programStageSection,
+      /// programStageSection?.renderType()?.mobile()?.type()
       SectionRenderingType? sectionRenderingType,
+
+      /// from the renderType of the item's programStageDataElement,
+      /// programStageDataElement.renderType()?.mobile()
       ValueTypeRenderingType? renderingType,
       /*@LayoutRes*/ int defaultLayout) {
     if (shouldRenderAsMatrixImage(
@@ -217,7 +241,13 @@ class LayoutProviderImpl implements LayoutProvider {
 
   bool shouldRenderAsMatrixImage(
       String? optionSet,
+
+      /// from the renderType of the item's programStageSection,
+      /// programStageSection?.renderType()?.mobile()?.type()
       SectionRenderingType? sectionRenderingType,
+
+      /// from the renderType of the item's programStageDataElement,
+      /// programStageDataElement.renderType()?.mobile()
       ValueTypeRenderingType? renderingType) {
     final bool isOptionSet = optionSet != null;
     final bool isDefaultRendering = renderingType == null ||

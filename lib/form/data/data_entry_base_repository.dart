@@ -4,6 +4,7 @@ import 'package:d2_remote/modules/metadata/option_set/entities/option_group.enti
 import 'package:d2_remote/modules/metadata/option_set/entities/option_group_option.entity.dart';
 
 import '../model/field_ui_model.dart';
+import '../model/section_ui_model_impl.dart';
 import '../ui/field_view_model_factory.dart';
 import 'data_entry_repository.dart';
 
@@ -16,9 +17,12 @@ abstract class DataEntryBaseRepository implements DataEntryRepository {
   @override
   FieldUiModel updateSection(FieldUiModel sectionToUpdate, bool isSectionOpen,
       int totalFields, int fieldsWithValue, int errorCount, int warningCount) {
-    // TODO: implement updateSection
-    // throw UnimplementedError();
-    return sectionToUpdate;
+    return (sectionToUpdate as SectionUiModelImpl).copyWith(
+        isOpen: isSectionOpen,
+        totalFields: totalFields,
+        completedFields: fieldsWithValue,
+        errors: errorCount,
+        warnings: warningCount);
   }
 
   @override
@@ -59,6 +63,7 @@ abstract class DataEntryBaseRepository implements DataEntryRepository {
     return optionsFromGroups;
   }
 
+  /// transform Section Entity to [SectionUiModelImpl] for the UI
   FieldUiModel transformSection(
       {required String sectionUid,
       String? sectionName,

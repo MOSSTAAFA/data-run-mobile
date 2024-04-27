@@ -260,6 +260,7 @@ const String LAST_META_SYNC_STATUS = 'last_meta_sync_status';
 const String LAST_META_SYNC_NO_NETWORK = 'last_meta_sync_no_network';
 const String EVENT_UID = 'EVENT_UID';
 const String EVENT_MODE = 'EVENT_MODE';
+const String RECORDS = 'RECORDS';
 
 const String EVENT_CREATION_TYPE = 'EVENT_CREATION_TYPE';
 const String EVENT_SCHEDULE_INTERVAL = 'EVENT_SCHEDULE_INTERVAL';

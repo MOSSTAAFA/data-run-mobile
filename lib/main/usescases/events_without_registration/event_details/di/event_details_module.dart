@@ -1,15 +1,5 @@
 import 'package:d2_remote/core/mp/enrollment/enrollment_status.dart';
 import 'package:get/get.dart';
-import 'package:mass_pro/form/data/metadata/option_set_configuration.dart';
-import 'package:mass_pro/form/data/metadata/org_unit_configuration.dart';
-import 'package:mass_pro/form/ui/field_view_model_factory_impl.dart';
-import 'package:mass_pro/form/ui/layout_provider_impl.dart';
-import 'package:mass_pro/form/ui/provider/display_name_provider_impl.dart';
-import 'package:mass_pro/form/ui/provider/hint_provider_impl.dart';
-import 'package:mass_pro/form/ui/provider/keyboard_action_provider_impl.dart';
-import 'package:mass_pro/form/ui/provider/ui_style_provider_impl.dart';
-import 'package:mass_pro/form/ui/style/form_ui_model_color_factory_impl.dart';
-import 'package:mass_pro/form/ui/style/long_text_ui_color_factory_impl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../../commons/constants.dart';
@@ -18,7 +8,16 @@ import '../../../../../commons/period/period_extensions.dart';
 import '../../../../../commons/resources/d2_error_utils.dart';
 import '../../../../../commons/resources/resource_manager.dart';
 import '../../../../../core/di/providers.dart';
+import '../../../../../form/data/metadata/option_set_configuration.dart';
+import '../../../../../form/data/metadata/org_unit_configuration.dart';
+import '../../../../../form/ui/field_view_model_factory_impl.dart';
+import '../../../../../form/ui/provider/display_name_provider_impl.dart';
+import '../../../../../form/ui/provider/hint_provider_impl.dart';
+import '../../../../../form/ui/provider/keyboard_action_provider_impl.dart';
 import '../../../../../form/ui/provider/ui_event_types_provider_impl.dart';
+import '../../../../../form/ui/provider/ui_style_provider_impl.dart';
+import '../../../../../form/ui/style/form_ui_model_color_factory_impl.dart';
+import '../../../../../form/ui/style/long_text_ui_color_factory_impl.dart';
 import '../../../../mp_logic/mp_period_utils.dart';
 import '../../../bundle/bundle.dart';
 import '../../event_initial/di/event_initial_module.dart';
@@ -70,7 +69,7 @@ EventDetailsRepository eventDetailsRepository(EventDetailsRepositoryRef ref) {
                 FormUiModelColorFactoryImpl(isBackgroundTransparent: true),
             longTextColorFactory:
                 LongTextUiColorFactoryImpl(isBackgroundTransparent: true)),
-        layoutProvider: const LayoutProviderImpl(),
+        // layoutProvider: const LayoutProviderImpl(),
         hintProvider: const HintProviderImpl(),
         displayNameProvider: const DisplayNameProviderImpl(
             OptionSetConfiguration(), OrgUnitConfiguration()),

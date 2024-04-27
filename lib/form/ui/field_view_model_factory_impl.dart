@@ -1,11 +1,9 @@
 import 'package:d2_remote/core/common/feature_type.dart';
 import 'package:d2_remote/core/common/value_type.dart';
 import 'package:d2_remote/core/common/value_type_device_rendering.dart';
-import 'package:d2_remote/core/common/value_type_rendering_type.dart';
 import 'package:d2_remote/core/program/section_rendering_type.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_tracked_entity_attribute.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/tracked_entity_attribute.entity.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
 import '../../commons/extensions/dynamic_extensions.dart';
 import '../../commons/extensions/value_extensions.dart';
@@ -19,7 +17,6 @@ import 'field_view_model_factory.dart';
 import 'provider/display_name_provider.dart';
 import 'provider/hint_provider.dart';
 import 'provider/keyboard_action_provider.dart';
-import 'provider/layout_provider.dart';
 import 'provider/ui_event_types_provider.dart';
 import 'provider/ui_style_provider.dart';
 
@@ -29,16 +26,21 @@ class FieldViewModelFactoryImpl implements FieldViewModelFactory {
   FieldViewModelFactoryImpl({
     required this.noMandatoryFields,
     required this.uiStyleProvider,
-    required this.layoutProvider,
+
+    /// Replaced by WidgetProvider
+    // required this.layoutProvider,
     required this.hintProvider,
     required this.displayNameProvider,
     required this.uiEventTypesProvider,
     required this.keyboardActionProvider,
     /*this.legendValueProvider*/
   });
+
   final bool noMandatoryFields;
   final UiStyleProvider uiStyleProvider;
-  final LayoutProvider layoutProvider;
+
+  /// Replaced by WidgetProvider
+  // final LayoutProvider layoutProvider;
   final HintProvider hintProvider;
   final DisplayNameProvider displayNameProvider;
   final UiEventTypesProvider uiEventTypesProvider;
@@ -68,16 +70,25 @@ class FieldViewModelFactoryImpl implements FieldViewModelFactory {
 
     if (noMandatoryFields) isMandatory = false;
 
+    // TODO(NMC): avoid asynchronicity using scopes
+    /// see:
+    /// https://docs-v2.riverpod.dev/docs/concepts/scopes#initialization-of-synchronous-provider-for-async-apis
+    ///
     final String? displayName = await displayNameProvider.provideDisplayName(
         valueType, value, optionSet);
 
     return FieldUiModelImpl(
         uid: id,
-        layoutId: layoutProvider.getLayoutByType(
-            valueType,
-            ValueTypeRenderingType.valueOf(fieldRendering?.type),
-            optionSet,
-            renderingType),
+        // layoutId: layoutProvider.getLayoutByType(
+        //     valueType,
+        //     ValueTypeRenderingType.valueOf(fieldRendering?.type),
+        //     optionSet,
+        //     renderingType),
+        /// NMC added
+        sectionRenderingType: renderingType,
+
+        /// NMC added
+        fieldRendering: fieldRendering?.type.toValueTypeRenderingType,
         value: value,
         focused: false,
         error: null,
@@ -150,7 +161,7 @@ class FieldViewModelFactoryImpl implements FieldViewModelFactory {
   FieldUiModel createSingleSection(String singleSectionName) {
     return SectionUiModelImpl(
         uid: SectionUiModelImpl.SINGLE_SECTION_UID,
-        layoutId: layoutProvider.getLayoutForSection(),
+        // layoutId: layoutProvider.getLayoutForSection(),
         value: null,
         focused: false,
         error: null,
@@ -191,7 +202,7 @@ class FieldViewModelFactoryImpl implements FieldViewModelFactory {
       String? rendering) {
     return SectionUiModelImpl(
         uid: sectionUid,
-        layoutId: layoutProvider.getLayoutForSection(),
+        // layoutId: layoutProvider.getLayoutForSection(),
         value: null,
         focused: false,
         error: null,
@@ -225,7 +236,7 @@ class FieldViewModelFactoryImpl implements FieldViewModelFactory {
   FieldUiModel createClosingSection() {
     return SectionUiModelImpl(
         uid: SectionUiModelImpl.CLOSING_SECTION_UID,
-        layoutId: layoutProvider.getLayoutForSection(),
+        // layoutId: layoutProvider.getLayoutForSection(),
         value: null,
         focused: false,
         error: null,

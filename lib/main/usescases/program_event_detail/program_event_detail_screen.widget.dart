@@ -4,12 +4,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 
 import '../../../commons/constants.dart';
+import '../../../commons/custom_widgets/navigationbar/navigation_page_configurator.dart';
 import '../../../commons/custom_widgets/navigationbar/navigation_tab_bar_view.widget.dart';
 import '../../../commons/data/event_creation_type.dart';
 import '../../../commons/extensions/standard_extensions.dart';
 import '../../../commons/helpers/collections.dart';
 import '../../../commons/state/app_state_notifier.dart';
 import '../../../commons/utils/view_actions.dart';
+import '../../../form/model/form_repository_records.dart';
 import '../../../form/ui/components/linear_loading_indicator.dart';
 import '../../../riverpod/use_on_init_hook.dart';
 import '../../l10n/app_localizations.dart';
@@ -26,10 +28,13 @@ import 'program_event_detail_presenter.dart';
 import 'program_event_detail_view_model.dart';
 import 'program_event_page_configurator.dart';
 
+final GlobalKey<NavigatorState> programNavigatorKey = GlobalKey<NavigatorState>();
 /// ProgramEventDetailActivity
 /// the screen that list the events of a particular program, navigated to from
 /// Program list in the main page
-
+///
+/// ProgramStage selection screen has no layout and calls individual items layout for each program stage using
+/// [ProgramStageSelectionAdapter] in [ProgramStageSelectionActivity]
 const String EXTRA_PROGRAM_UID = 'PROGRAM_UID';
 
 class ProgramEventDetailScreen extends ConsumerStatefulWidget {
@@ -48,56 +53,52 @@ class _ProgramEventDetailScreenState
   late final ProgramEventDetailPresenter presenter;
   late final String programUid;
   late final String? activityUid;
+  final NavigationPageConfigurator _pageConfigurator =
+      ProgramEventPageConfigurator();
 
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context)!;
 
-    return ProviderScope(
-      overrides: [
-        pageConfiguratorProvider
-            .overrideWith((_) => ProgramEventPageConfigurator()),
+    return Column(
+      children: [
+        Consumer(
+          // This builder will only get called when the
+          // programEventDetailModelProvider.progress is updated.
+          builder: (context, ref, child) => LinearLoadingIndicator(
+            isLoading: ref.watch(programEventDetailModelProvider
+                .select((value) => value.progress)),
+          ),
+        ),
+        Expanded(
+          child: NavigationTabBarView(
+            pageConfigurator: _pageConfigurator,
+            appBarTitle: Text(ref.watch(programNameProvider)),
+            actionButtonBuilder: (context, viewAction) => FloatingActionButton(
+              heroTag: ViewAction.list_view.name,
+              child: const Icon(Icons.add),
+              onPressed: () => startNewEvent(),
+            ),
+            tabBuilder: (context, viewAction) {
+              final name = localization.lookup(viewAction.name);
+              return when(viewAction, {
+                ViewAction.list_view: () => Tab(text: name),
+                ViewAction.table_view: () => Tab(text: name),
+                ViewAction.map_view: () => Tab(text: name),
+                ViewAction.analytics: () => Tab(text: name),
+              })!;
+            },
+            pageBuilder: (context, viewAction) =>
+                when<ViewAction, Widget>(viewAction, {
+              ViewAction.list_view: () => const EventListScreen(),
+              ViewAction.table_view: () => const EventTable(),
+              ViewAction.map_view: () => const EventMap(),
+            }).orElse(() => const Center(
+                      child: Text('Unimplemented Screen!'),
+                    )),
+          ),
+        ),
       ],
-      child: Column(
-        children: [
-          Consumer(
-            // This builder will only get called when the
-            // programEventDetailModelProvider.progress is updated.
-            builder: (context, ref, child) => LinearLoadingIndicator(
-              isLoading: ref.watch(programEventDetailModelProvider
-                  .select((value) => value.progress)),
-            ),
-          ),
-          Expanded(
-            child: NavigationTabBarView(
-              appBarTitle: Text(ref.watch(programNameProvider)),
-              actionButtonBuilder: (context, viewAction) =>
-                  FloatingActionButton(
-                heroTag: ViewAction.list_view.name,
-                child: const Icon(Icons.add),
-                onPressed: () => startNewEvent(),
-              ),
-              tabBuilder: (context, viewAction) {
-                final name = localization.lookup(viewAction.name);
-                return when(viewAction, {
-                  ViewAction.list_view: () => Tab(text: name),
-                  ViewAction.table_view: () => Tab(text: name),
-                  ViewAction.map_view: () => Tab(text: name),
-                  ViewAction.analytics: () => Tab(text: name),
-                })!;
-              },
-              pageBuilder: (context, viewAction) =>
-                  when<ViewAction, Widget>(viewAction, {
-                ViewAction.list_view: () => const EventListScreen(),
-                ViewAction.table_view: () => const EventTable(),
-                ViewAction.map_view: () => const EventMap(),
-              }).orElse(() => const Center(
-                        child: Text('Unimplemented Screen!'),
-                      )),
-            ),
-          ),
-        ],
-      ),
     );
   }
 
@@ -155,12 +156,17 @@ class _ProgramEventDetailScreenState
     bundle = bundle.putString(EVENT_MODE, EventMode.CHECK.name);
     bundle = bundle.putString(ACTIVITY_UID, activityUid);
 
+    bundle = bundle.putObject(RECORDS, EventRecords(eventId));
+
     // set to the  Bundle activityUid
     // ref.read(bundleObjectProvider.notifier).setValue(bundle);
 
+    // ref
+    //     .read(appStateNotifierProvider.notifier)
+    //     .navigateToScreen(const EventCaptureScreen(), bundle: bundle);
     ref
         .read(appStateNotifierProvider.notifier)
-        .navigateToScreen(const EventCaptureScreen(), bundle: bundle);
+        .navigateToRoute(EventCaptureScreen.route, arguments: bundle);
   }
 
   @override
@@ -234,7 +240,7 @@ class _ProgramEventDetailScreenState
 
     ref
         .read(appStateNotifierProvider.notifier)
-        .navigateToScreen(const EventInitialScreen(), bundle: bundle);
+        .navigateToRoute(EventInitialScreen.route, arguments: bundle);
   }
 
   @override

@@ -19,6 +19,10 @@ import 'event_details_view_model_controller.dart';
 
 /// EventDetailsFragment
 /// display a clicked event in a events lists of a program
+/// A widget with scaffold bar containing (back, name, sync, percentage, more:)
+/// it shows the main Info Of an event
+/// The first screen of and Event that appear in Detail tab of [EventCapturePagerWidget]
+/// among (DataEntry Tab, Analytics Tab, and Notes Tab) in the [EventCapturePagerWidget] by [EventCaptureScreen]
 class EventDetailsScreen extends ConsumerStatefulWidget {
   const EventDetailsScreen({
     super.key,
@@ -55,6 +59,7 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen>
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('build(): $runtimeType');
     return Container();
   }
 

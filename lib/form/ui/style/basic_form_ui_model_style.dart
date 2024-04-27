@@ -45,11 +45,10 @@ class BasicFormUiModelStyle implements FormUiModelStyle {
   }
 
   @override
-  Pair<List<int>, Color> backgroundColor(
+  Pair<List<int>, Color?> backgroundColor(
       ValueType? valueType, String? error, String? warning) {
-    FormUiColorType colorType = FormUiColorType.TEXT_PRIMARY;
-    if (warning != null) colorType = FormUiColorType.WARNING;
-    if (error != null) colorType = FormUiColorType.ERROR;
-    return Pair([], _colors![colorType]!);
+    if (warning != null) return Pair([], _colors![FormUiColorType.WARNING]);
+    if (error != null) return Pair([], _colors![FormUiColorType.ERROR]);
+    return Pair([], null);
   }
 }

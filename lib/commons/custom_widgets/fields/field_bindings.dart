@@ -22,7 +22,7 @@ extension TextFormFieldExt on TextField {
   void setInputStyle(FieldUiModel? styleItem) {
     styleItem?.let((FieldUiModel uiModel) {
       uiModel.textColor?.let((Color it) => style?.copyWith(color: it));
-      uiModel.backGroundColor?.let((Pair<List<int>, Color> it) =>
+      uiModel.backGroundColor?.let((Pair<List<int>, Color?> it) =>
           style?.copyWith(backgroundColor: it.second));
     });
 

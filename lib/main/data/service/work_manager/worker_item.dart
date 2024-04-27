@@ -14,6 +14,7 @@ class WorkerItem with EquatableMixin {
     // this.backoffPolicy,
     // this.constraints,
   });
+
   final String workerName;
   final WorkerType workerType;
   final double? delayInSeconds;
@@ -21,6 +22,7 @@ class WorkerItem with EquatableMixin {
 
   // final ExistingWorkPolicy? policy;
   final Duration initialDelay;
+
   // final BackoffPolicy? backoffPolicy;
   // final Constraints? constraints;
   // final ExistingPeriodicWorkPolicy? periodicPolicy;

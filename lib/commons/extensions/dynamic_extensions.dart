@@ -9,12 +9,14 @@ extension IsNullDynamicExtension on dynamic {
   }
 
   void logError(
-          {String info = '', Function logFunction = MpUtils.printFunction}) =>
+          {String info = '', Function logFunction = MpUtils.printFunction,
+            Type? runtimeType}) =>
       // ignore: unnecessary_this
-      logFunction('Error: ${this.runtimeType}', this, info, isError: true);
+      logFunction('Error: ${runtimeType ?? ''}', this, info, isError: true);
 
   void logInfo(
-          {String info = '', Function printFunction = MpUtils.printFunction}) =>
+          {String info = '', Function printFunction = MpUtils.printFunction,
+            Type? runtimeType}) =>
       // ignore: unnecessary_this
-      printFunction('Info: ${this.runtimeType}', this, info);
+      printFunction('Info: ${runtimeType ?? ''}', this, info);
 }

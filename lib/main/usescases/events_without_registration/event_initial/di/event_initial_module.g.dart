@@ -6,7 +6,7 @@ part of 'event_initial_module.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$fieldMapperHash() => r'65bf8e9892ada0a1d16db472a3a94596742ec3be';
+String _$fieldMapperHash() => r'7210df9d320b3f170b642e576b966dd82f40e17e';
 
 /// See also [fieldMapper].
 @ProviderFor(fieldMapper)
@@ -21,7 +21,7 @@ final fieldMapperProvider = AutoDisposeProvider<EventFieldMapper>.internal(
 
 typedef FieldMapperRef = AutoDisposeProviderRef<EventFieldMapper>;
 String _$eventInitialRepositoryHash() =>
-    r'5de55fbbca27da9aac12bcd56e2b21198bd4d111';
+    r'02934f15cd544b0ef734eb961e947bccb96c4de1';
 
 /// See also [eventInitialRepository].
 @ProviderFor(eventInitialRepository)
@@ -161,4 +161,5 @@ final preferencesInstanceProvider = Provider<PreferenceProvider>.internal(
 );
 
 typedef PreferencesInstanceRef = ProviderRef<PreferenceProvider>;
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member

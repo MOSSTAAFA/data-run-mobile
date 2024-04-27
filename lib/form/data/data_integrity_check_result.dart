@@ -1,3 +1,4 @@
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -13,25 +14,25 @@ class DataIntegrityCheckResult with _$DataIntegrityCheckResult {
   //     @Default(false) bool allowDiscard}) = _DataIntegrityCheckResult;
 
   const factory DataIntegrityCheckResult.missingMandatoryResult(
-      {required Map<String, String> mandatoryFields,
-      required List<FieldWithIssue> errorFields,
-      required List<FieldWithIssue> warningFields,
+      {required IMap<String, String> mandatoryFields,
+      required IList<FieldWithIssue> errorFields,
+      required IList<FieldWithIssue> warningFields,
       // override
       @Default(false) bool canComplete,
       String? onCompleteMessage,
       @Default(false) bool allowDiscard}) = MissingMandatoryResult;
 
   const factory DataIntegrityCheckResult.fieldsWithErrorResult(
-      {required Map<String, String> mandatoryFields,
-      required List<FieldWithIssue> fieldUidErrorList,
-      required List<FieldWithIssue> warningFields,
+      {required IMap<String, String> mandatoryFields,
+      required IList<FieldWithIssue> fieldUidErrorList,
+      required IList<FieldWithIssue> warningFields,
       // override
       @Default(false) bool canComplete,
       String? onCompleteMessage,
       @Default(false) bool allowDiscard}) = FieldsWithErrorResult;
 
   const factory DataIntegrityCheckResult.fieldsWithWarningResult(
-      {required List<FieldWithIssue> fieldUidWarningList,
+      {required IList<FieldWithIssue> fieldUidWarningList,
       // override
       @Default(false) bool canComplete,
       String? onCompleteMessage,

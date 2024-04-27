@@ -34,9 +34,9 @@ class LongTextDecorator extends FormUiModelStyle {
   }
 
   @override
-  Pair<List<int>, Color> backgroundColor(
+  Pair<List<int>, Color?> backgroundColor(
       ValueType? valueType, String? error, String? warning) {
-    FormUiColorType colorType = FormUiColorType.TEXT_PRIMARY;
+    FormUiColorType? colorType;
     if (warning != null) colorType = FormUiColorType.WARNING;
     if (error != null) colorType = FormUiColorType.ERROR;
     return Pair([], longTextFactory.getBasicColors()[colorType]!);

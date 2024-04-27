@@ -272,5 +272,9 @@
   "relationships": "Relationships",
   "showHelp": "Show Help",
   "analytics": "Analytics",
-  "share": "Share"
+  "share": "Share",
+  "enter_text": "enter_text",
+  "enter_value": "enter_value",
+  "tei": "tei",
+  "events": "events"
 }

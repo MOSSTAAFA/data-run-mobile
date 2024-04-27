@@ -6,8 +6,10 @@ import '../../../commons/extensions/standard_extensions.dart';
 class D2ProgressStatus with EquatableMixin {
   const D2ProgressStatus(
       {this.isComplete = false, this.syncStatus, this.message});
+
   final bool isComplete;
   final D2ProgressSyncStatus? syncStatus;
+
   // NMC
   final String? message;
 

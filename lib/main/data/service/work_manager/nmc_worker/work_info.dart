@@ -5,8 +5,10 @@ class WorkInfo with EquatableMixin {
       {this.progress = 0,
       this.state = WorkInfoState.ENQUEUED,
       this.message = ''});
+
   final String message;
   final WorkInfoState state;
+
   // final Bundle mOutputData;
   // final ISet<String> mTags;
   // final Bundle mProgress;

@@ -1,9 +1,9 @@
-// abstract class EventCaptureFormView {
-//   void performSaveClick();
+abstract class EventCaptureFormView {
+  void performSaveClick();
 
-//   void hideSaveButton();
+  void hideSaveButton();
 
-//   void showSaveButton();
+  void showSaveButton();
 
-//   void onReopen();
-// }
+  void onReopen();
+}

@@ -6,7 +6,23 @@ part of 'injector.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$formRepositoryHash() => r'428cfced822ebd18a3a7473722fac2e3fa9dbe8e';
+String _$formRepositoryHash() => r'987060202a447a369bf1520e2de32e7282dd7d1c';
+
+/// See also [formRepository].
+@ProviderFor(formRepository)
+final formRepositoryProvider = AutoDisposeProvider<FormRepository>.internal(
+  formRepository,
+  name: r'formRepositoryProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$formRepositoryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef FormRepositoryRef = AutoDisposeProviderRef<FormRepository>;
+String _$dataEntryRepositoryHash() =>
+    r'3a09ee34dd7fbcba020c30b6322b9748ccf4f16b';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,90 +45,6 @@ class _SystemHash {
   }
 }
 
-typedef FormRepositoryRef = AutoDisposeProviderRef<FormRepository>;
-
-/// See also [formRepository].
-@ProviderFor(formRepository)
-const formRepositoryProvider = FormRepositoryFamily();
-
-/// See also [formRepository].
-class FormRepositoryFamily extends Family<FormRepository> {
-  /// See also [formRepository].
-  const FormRepositoryFamily();
-
-  /// See also [formRepository].
-  FormRepositoryProvider call(
-    FormRepositoryRecords repositoryRecords,
-  ) {
-    return FormRepositoryProvider(
-      repositoryRecords,
-    );
-  }
-
-  @override
-  FormRepositoryProvider getProviderOverride(
-    covariant FormRepositoryProvider provider,
-  ) {
-    return call(
-      provider.repositoryRecords,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'formRepositoryProvider';
-}
-
-/// See also [formRepository].
-class FormRepositoryProvider extends AutoDisposeProvider<FormRepository> {
-  /// See also [formRepository].
-  FormRepositoryProvider(
-    this.repositoryRecords,
-  ) : super.internal(
-          (ref) => formRepository(
-            ref,
-            repositoryRecords,
-          ),
-          from: formRepositoryProvider,
-          name: r'formRepositoryProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$formRepositoryHash,
-          dependencies: FormRepositoryFamily._dependencies,
-          allTransitiveDependencies:
-              FormRepositoryFamily._allTransitiveDependencies,
-        );
-
-  final FormRepositoryRecords repositoryRecords;
-
-  @override
-  bool operator ==(Object other) {
-    return other is FormRepositoryProvider &&
-        other.repositoryRecords == repositoryRecords;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, repositoryRecords.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-String _$dataEntryRepositoryHash() =>
-    r'e06c74fe0b4e2b07b44d8569a899ef7046f62813';
 typedef _DataEntryRepositoryRef = AutoDisposeProviderRef<DataEntryRepository>;
 
 /// See also [_dataEntryRepository].
@@ -204,7 +136,7 @@ class _DataEntryRepositoryProvider
   }
 }
 
-String _$searchRepositoryHash() => r'554f0e3c5923bf00b4bd2c4985694df29b191338';
+String _$searchRepositoryHash() => r'76a860a0cb708c059a99ed5f7ec2bd84482d7263';
 typedef _SearchRepositoryRef = AutoDisposeProviderRef<SearchRepository>;
 
 /// See also [_searchRepository].
@@ -288,7 +220,7 @@ class _SearchRepositoryProvider extends AutoDisposeProvider<SearchRepository> {
 }
 
 String _$enrollmentRepositoryHash() =>
-    r'31fbb2f1622589f9d27d3bd4e6dc766fceaea0bd';
+    r'da50c870be3150c4a202e7dc694427aa04882107';
 typedef _EnrollmentRepositoryRef = AutoDisposeProviderRef<EnrollmentRepository>;
 
 /// See also [_enrollmentRepository].
@@ -372,7 +304,7 @@ class _EnrollmentRepositoryProvider
   }
 }
 
-String _$eventRepositoryHash() => r'3a4eeb7d443acfbe23a5919562052e293bb170fb';
+String _$eventRepositoryHash() => r'cb536a4559388480c12a3bd18b59178a32c01cac';
 typedef _EventRepositoryRef = AutoDisposeProviderRef<EventRepository>;
 
 /// See also [_eventRepository].
@@ -456,7 +388,7 @@ class _EventRepositoryProvider extends AutoDisposeProvider<EventRepository> {
 }
 
 String _$fieldViewModelFactoryHash() =>
-    r'ac618219bb56c86488a3c86896d2d5ef25271f0f';
+    r'626abd8a21cb33bfa08cc3442a768024a6773752';
 typedef _FieldViewModelFactoryRef
     = AutoDisposeProviderRef<FieldViewModelFactory>;
 
@@ -648,7 +580,7 @@ class _EnrollmentObjectRepositoryProvider
   }
 }
 
-String _$formValueStoreHash() => r'cc50b90279ec3e015bb54f71ebb3ba2ee13df22b';
+String _$formValueStoreHash() => r'02d1cb44f73e8d97f8b256b9fd324afa2567e018';
 typedef _FormValueStoreRef = AutoDisposeProviderRef<FormValueStore?>;
 
 /// See also [_formValueStore].
@@ -780,7 +712,7 @@ final _fieldErrorMessageProviderProvider =
 typedef _FieldErrorMessageProviderRef
     = AutoDisposeProviderRef<FieldErrorMessageProvider>;
 String _$enrollmentFormLabelsProviderHash() =>
-    r'485fb30f9324971556b2009f585e98b4c2ccdb82';
+    r'1ec86ab2ae11b114944162911ba65309fd49b20d';
 
 /// See also [_enrollmentFormLabelsProvider].
 @ProviderFor(_enrollmentFormLabelsProvider)
@@ -863,21 +795,6 @@ final _hintProviderProvider = AutoDisposeProvider<HintProvider>.internal(
 );
 
 typedef _HintProviderRef = AutoDisposeProviderRef<HintProvider>;
-String _$layoutProviderHash() => r'2b55a06e9020aeba73fb76e8f0571e723c9ed272';
-
-/// See also [_layoutProvider].
-@ProviderFor(_layoutProvider)
-final _layoutProviderProvider = AutoDisposeProvider<LayoutProvider>.internal(
-  _layoutProvider,
-  name: r'_layoutProviderProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$layoutProviderHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _LayoutProviderRef = AutoDisposeProviderRef<LayoutProvider>;
 String _$uiStyleProviderHash() => r'ceb06436acaab32d95e684b6d928ab565206a7ed';
 typedef _UiStyleProviderRef = AutoDisposeProviderRef<UiStyleProvider>;
 
@@ -979,4 +896,5 @@ final _searchOptionSetOptionProvider =
 
 typedef _SearchOptionSetOptionRef
     = AutoDisposeProviderRef<SearchOptionSetOption>;
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member

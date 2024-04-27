@@ -137,14 +137,14 @@ class _SyncScreenState extends ConsumerState<SyncScreen>
   void goToLogin() {
     ref
         .read(appStateNotifierProvider.notifier)
-        .gotToNextScreen(const LoginScreen());
+        .gotToNextScreenPopAll(const LoginScreen());
   }
 
   @override
   void goToMain() {
     ref
         .read(appStateNotifierProvider.notifier)
-        .gotToNextScreen(const MainScreen(launchDataSync: true));
+        .gotToNextScreenPopAll(const MainScreen(launchDataSync: true));
   }
 
   @override

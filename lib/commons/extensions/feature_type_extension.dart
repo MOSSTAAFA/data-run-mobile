@@ -1,4 +1,5 @@
 import 'package:d2_remote/core/common/feature_type.dart';
+
 import '../../commons/extensions/dynamic_extensions.dart';
 
 extension FeatureTypeExtension on String? {

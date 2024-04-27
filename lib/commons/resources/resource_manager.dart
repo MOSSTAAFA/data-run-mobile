@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../main.dart';
-import '../../main/l10n/app_localizations.dart';
 import '../../utils/mass_utils/colors.dart';
 import '../extensions/standard_extensions.dart';
 import 'd2_error_utils.dart';
@@ -20,7 +19,7 @@ class ResourceManager {
   final ResourceManagerRef ref;
 
   String getString(String stringResource) {
-    return AppLocalization.of(navigatorKey.currentContext!)!
+    return navigatorKey.localization
         .lookup(stringResource);
   }
 
@@ -71,11 +70,11 @@ class ResourceManager {
     return ref.read(d2ErrorUtilsProvider).getErrorMessage(throwable);
   }
 
-  String defaultEventLabel() => getString('R.string.events');
+  String defaultEventLabel() => getString('events');
 
   String defaultDataSetLabel() => getString('R.string.data_sets');
 
-  String defaultTeiLabel() => getString('R.string.tei');
+  String defaultTeiLabel() => getString('tei');
 
   String jiraIssueSentMessage() => getString('R.string.jira_issue_sent');
 

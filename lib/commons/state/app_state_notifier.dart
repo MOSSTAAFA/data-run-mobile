@@ -4,7 +4,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../main.dart';
 import '../../main/usescases/bundle/bundle.dart';
-import '../../main/usescases/login/login_screen.widget.dart';
 import '../../main/usescases/main/main_screen.widget.dart';
 import '../../utils/mass_utils/strings.dart';
 import '../extensions/dynamic_extensions.dart';
@@ -30,19 +29,24 @@ class AppStateNotifier extends _$AppStateNotifier {
   }
 
   /// Get.toNamed()	Navigator.pushNamed()
-  void navigateToRoute(String route, {dynamic arguments}) {
+  void navigateToRoute(String route, {dynamic arguments, bool isRootNavigator = true}) {
     logInfo(info: 'Moving to $route');
     updateCurrentRoute(route);
-    Get.toNamed(route, arguments: arguments);
+    // Get.toNamed(route, arguments: arguments);
+    // Get.to(route, arguments: arguments);
+    Navigator.of(navigatorKey.currentContext!, rootNavigator: false)
+        .pushNamed(route, arguments: arguments);
   }
 
   /// To navigate to a new screen and option to go back
   /// Get.to()	Navigator.push()
-  void navigateToScreen(Widget screen, {Bundle? bundle}) {
+  void navigateToScreen(Widget screen, {Bundle? bundle, bool isRootNavigator = true}) {
     final route = '/${screen.runtimeType}';
-    logInfo(info: 'Navigating to: ${toCamelCase((() => screen).runtimeType.toString())}');
+    logInfo(
+        info:
+            'Navigating to: ${toCamelCase((() => screen).runtimeType.toString())}');
     updateCurrentRoute(toCamelCase(route));
-    Get.to(/*() =>*/ screen, arguments: bundle);
+    Get.to(/*() =>*/ screen, arguments: bundle, fullscreenDialog: true);
   }
 
   /// To navigate to a new screen and option to go back
@@ -61,9 +65,11 @@ class AppStateNotifier extends _$AppStateNotifier {
   void gotToNextScreen(Widget screen, {Bundle? bundle}) {
     final route = '/${screen.runtimeType}';
     logInfo(info: 'Navigating off to: ${toCamelCase(route)}');
-    logInfo(info: 'Navigating off to: ${toCamelCase((() => screen).runtimeType.toString())}');
+    logInfo(
+        info:
+            'Navigating off to: ${toCamelCase((() => screen).runtimeType.toString())}');
     updateCurrentRoute(toCamelCase(route));
-    Get.off(/*() => */screen, arguments: bundle);
+    Get.off(/*() => */ screen, arguments: bundle);
   }
 
   /// To go to the next screen and no option to go back to the previous screen
@@ -78,12 +84,19 @@ class AppStateNotifier extends _$AppStateNotifier {
 
   /// To go to the next screen and cancel all previous routes (useful in shopping carts, polls, and tests)
   /// Get.offAllNamed()	Navigator.pushNamedAndRemoveUntil()
-  void gotToNextScreenPopAll(Widget screen, {Bundle? bundle}) {
+  void gotToNextScreenPopAll(Widget screen, {dynamic bundle, bool isRootNavigator = true}) {
     final route = '/${screen.runtimeType}';
     logInfo(info: 'Navigating off pop all to: ${toCamelCase(route)}');
     updateCurrentRoute(toCamelCase(route));
     Get.offAll(() => screen, arguments: bundle);
+  }
 
+  /// To go to the next screen and cancel all previous routes (useful in shopping carts, polls, and tests)
+  /// Get.offAllNamed()	Navigator.pushNamedAndRemoveUntil()
+  void gotToNextRoutePopAll(String route, {dynamic arguments}) {
+    logInfo(info: 'Navigating off pop all to: ${toCamelCase(route)}');
+    updateCurrentRoute(toCamelCase(route));
+    Get.offAll(route, arguments: arguments);
   }
 
   void updateCurrentRoute(String route) {

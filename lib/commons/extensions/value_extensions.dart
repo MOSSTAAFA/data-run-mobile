@@ -5,9 +5,9 @@ import 'package:d2_remote/modules/data/tracker/entities/tracked_entity_attribute
 import 'package:d2_remote/modules/metadata/data_element/entities/data_element.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/tracked_entity_attribute.entity.dart';
 
+import '../../commons/extensions/dynamic_extensions.dart';
 import 'dynamic_value_extensions.dart';
 import 'string_extension.dart';
-import '../../commons/extensions/dynamic_extensions.dart';
 
 /// UserFriendlyTrackedEntityAttributeValueExtension
 extension UserFriendlyTrackedEntityAttributeValueExtension
@@ -75,10 +75,10 @@ extension UserFriendlyEventDataValueExtension on EventDataValue? {
   }
 }
 
-extension ToValueType on String? {
+extension ToValueType on String {
   ValueType? get toValueType {
     try {
-      return ValueType.values.byName(this ?? '');
+      return ValueType.values.byName(this);
       // return ValueType.values.firstWhere((valueType) => valueType.name == this,
       //     orElse: throw ArgumentError(
       //         'The ValueType $this does not match any Value type'));

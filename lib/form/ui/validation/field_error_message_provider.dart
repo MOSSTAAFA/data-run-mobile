@@ -18,15 +18,13 @@ import 'package:d2_remote/core/common/value_type/failures/unit_interval_failure.
 import 'package:d2_remote/core/common/value_type/failures/url_failure.dart';
 
 import '../../../main.dart';
-import '../../../main/l10n/app_localizations.dart';
 import 'failures/field_mask_failure.dart';
 
 class FieldErrorMessageProvider {
   const FieldErrorMessageProvider();
 
   String getFriendlyErrorMessage(Exception error) {
-    return AppLocalization.of(navigatorKey.currentContext!)!
-        .lookup(_parseErrorToMessage(error));
+    return navigatorKey.localization.lookup(_parseErrorToMessage(error));
   }
 
   String _parseErrorToMessage(Exception error) {
@@ -170,12 +168,10 @@ class FieldErrorMessageProvider {
   }
 
   String mandatoryWarning() {
-    return AppLocalization.of(navigatorKey.currentContext!)!
-        .lookup('field_is_mandatory');
+    return navigatorKey.localization.lookup('field_is_mandatory');
   }
 
   String defaultValidationErrorMessage() {
-    return AppLocalization.of(navigatorKey.currentContext!)!
-        .lookup('validation_error_message');
+    return navigatorKey.localization.lookup('validation_error_message');
   }
 }

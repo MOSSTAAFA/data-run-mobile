@@ -10,6 +10,7 @@ import '../model/option_set_configuration.dart';
 
 abstract class FieldViewModelFactory {
   FieldViewModelFactory();
+
   Future<FieldUiModel> create(
       {required String id,
       required String label,

@@ -1,4 +1,6 @@
 import 'package:d2_remote/core/common/value_type.dart';
+import 'package:d2_remote/core/common/value_type_rendering_type.dart';
+import 'package:d2_remote/core/program/section_rendering_type.dart';
 import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dart';
 import 'package:dartx/dartx_io.dart';
 import 'package:flutter/material.dart';
@@ -12,10 +14,17 @@ import 'key_board_action_type.dart';
 import 'option_set_configuration.dart';
 import 'ui_event_type.dart';
 
+typedef IntentCallback = void Function(FormIntent intent);
+typedef ListViewUiEventsCallback = void Function(ListViewUiEvents uiEvent);
+
 abstract class FieldUiModel {
+  IntentCallback? get intentCallback;
+
+  ListViewUiEventsCallback? get listViewUiEventsCallback;
+
   String get uid;
 
-  int get layoutId;
+  // int get layoutId;
 
   String? get value;
 
@@ -55,9 +64,28 @@ abstract class FieldUiModel {
 
   Color? get textColor;
 
-  Pair<List<int>, Color>? get backGroundColor;
+  Pair<List<int>, Color?>? get backGroundColor;
 
+  /// a UiRenderType
+  /// provided by UiEventTypesProviderImpl : UiEventTypesProvider
+  /// UiEventTypesProviderImpl.provideUiRenderType
+  /// switch(FeatureType)
+  /// based on
+  /// FeatureType, fieldRendering?.type() : ValueTypeRenderingType?,,
+  /// and sectionRenderingType: SectionRenderingType? coming earlier into
+  /// the factory of the item
+  /// the item switch(FeatureType)
   UiRenderType? get renderingType;
+
+  /// NMC added provided here instead to providing it
+  /// to the FieldViewModelFactoryImpl
+  /// from ProgramSection of the item
+  SectionRenderingType? get sectionRenderingType;
+
+  /// NMC added provided here instead to providing it
+  /// to the FieldViewModelFactoryImpl
+  /// from ProgramStageDataElement of the item
+  ValueTypeRenderingType? get fieldRendering;
 
   OptionSetConfiguration? get optionSetConfiguration;
 
@@ -75,30 +103,32 @@ abstract class FieldUiModel {
 
   // Callback? get callback;
 
-  FieldUiModel setCallback(Callback callback);
+  FieldUiModel setCallback(
+      {IntentCallback? intentCallback,
+      ListViewUiEventsCallback? listViewUiEventsCallback});
 
-  bool equals(FieldUiModel item);
+  // bool equals(FieldUiModel item);
 
-  onItemClick();
+  void onItemClick();
 
-  onNext();
+  void onNext();
 
   // onTextChange(value: CharSequence?);
-  onTextChange(String? value);
+  void onTextChange(String? value);
 
-  onDescriptionClick();
+  void onDescriptionClick();
 
-  onClear();
+  void onClear();
 
-  onSave(String? value);
+  void onSave(String? value);
 
-  onSaveBoolean(bool boolean);
+  void onSaveBoolean(bool boolean);
 
-  onSaveOption(Option option);
+  void onSaveOption(Option option);
 
-  invokeUiEvent(UiEventType uiEventType);
+  void invokeUiEvent(UiEventType uiEventType);
 
-  invokeIntent(FormIntent intent);
+  void invokeIntent(FormIntent intent);
 
   FieldUiModel setValue(String? value);
 
@@ -128,14 +158,57 @@ abstract class FieldUiModel {
   bool isSection() => valueType == null;
 
   bool isSectionWithFields();
+
+  // Callback? get callback;
+
+  FieldUiModel copyWith({
+    String? uid,
+    int? layoutId,
+    String? value,
+    bool? focused,
+    String? error,
+    bool? editable,
+    String? warning,
+    bool? mandatory,
+    String? label,
+    String? programStageSection,
+    FormUiModelStyle? style,
+    String? hint,
+    String? description,
+    ValueType? valueType,
+    // LegendValue? legend,
+    String? optionSet,
+    bool? allowFutureDates,
+    UiEventFactory? uiEventFactory,
+    String? displayName,
+    UiRenderType? renderingType,
+    KeyboardActionType? keyboardActionType,
+    String? fieldMask,
+    bool? isOpen,
+    int? totalFields,
+    int? completedFields,
+    int? errors,
+    int? warnings,
+    String? rendering,
+    String? selectedField,
+    bool? isLoadingData,
+    OptionSetConfiguration? optionSetConfiguration,
+    int? sectionNumber,
+    bool? showBottomShadow,
+    bool? lastPositionShouldChangeHeight,
+    // Callback? callback,
+    IntentCallback? intentCallback,
+    ListViewUiEventsCallback? listViewUiEventsCallback,
+  });
 }
 
 class Callback {
   const Callback({this.intent, this.listViewUiEvents});
+
   final void Function(FormIntent intent)? intent;
   final void Function(ListViewUiEvents uiEvent)? listViewUiEvents;
 
-  // intent(FormIntent intent);
-  //
-  // listViewUiEvents(ListViewUiEvents uiEvent);
+// intent(FormIntent intent);
+//
+// listViewUiEvents(ListViewUiEvents uiEvent);
 }

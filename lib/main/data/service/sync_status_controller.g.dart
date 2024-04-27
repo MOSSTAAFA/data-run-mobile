@@ -7,7 +7,7 @@ part of 'sync_status_controller.dart';
 // **************************************************************************
 
 String _$syncStatusControllerInstanceHash() =>
-    r'241a6a2a9395c1ac2743850e0110dbbb7bad5f8b';
+    r'e8809e5bcb66e2dc49e5227eac9da8b565ef2c69';
 
 /// fun observeDownloadProcess(): LiveData<SyncStatusData> = downloadStatus
 ///
@@ -25,4 +25,5 @@ final syncStatusControllerInstanceProvider = NotifierProvider<
 );
 
 typedef _$SyncStatusControllerInstance = Notifier<SyncStatusController>;
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member

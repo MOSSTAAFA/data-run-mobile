@@ -2,7 +2,6 @@ import 'package:d2_remote/core/mp/period/period_type.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../main.dart';
-import '../l10n/app_localizations.dart';
 
 part 'mp_period_utils.g.dart';
 
@@ -13,12 +12,12 @@ const String SIMPLE_DATE_FORMAT = 'd/M/yyyy';
 
 @Riverpod(keepAlive: true)
 AmPeriodUtils amPeriodUtils(AmPeriodUtilsRef ref) {
-  final localization = AppLocalization.of(navigatorKey.currentContext!)!;
+  final localization = navigatorKey.localization;
 
   return AmPeriodUtils(
-      localization.lookup('R.period_span_default_label'),
-      localization.lookup('R.week_period_span_default_label'),
-      localization.lookup('R.biweek_period_span_default_label'));
+      localization.lookup('period_span_default_label'),
+      localization.lookup('week_period_span_default_label'),
+      localization.lookup('biweek_period_span_default_label'));
 }
 
 class AmPeriodUtils {

@@ -82,7 +82,7 @@ class EventFieldMapper {
             (index) => errorCounter++);
       }
       _finalFieldList[_finalFieldList.indexOf(section)] = section.apply((it) {
-        late SectionUiModelImpl sm;
+        late FieldUiModel sm;
         if (errorCounter != 0) {
           // it.errors = errorCounter;
           sm = it.copyWith(errors: errorCounter);
