@@ -137,6 +137,6 @@ class EventModel with EquatableMixin {
 
 extension EventViewModelUids on List<EventModel> {
   List<String> uids() {
-    return map((it) => it.event!.id!).toList();
+    return map((it) => it.event!.uid!).toList();
   }
 }

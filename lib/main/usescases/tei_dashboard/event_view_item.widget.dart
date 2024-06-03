@@ -94,7 +94,7 @@ class _EventViewItemState extends ConsumerState<EventViewItem> {
                   ref
                       .read(programEventDetailModelProvider.notifier)
                       .onEventSelected(
-                          event!.id!,
+                          event!.uid!,
                           event.orgUnit,
                           event.activity is String
                               ? event.activity
@@ -125,7 +125,7 @@ class _EventViewItemState extends ConsumerState<EventViewItem> {
                       ),
                       onPressed: () => ref
                           .watch(programEventDetailModelProvider.notifier)
-                          .onSyncClick(event?.id),
+                          .onSyncClick(event?.uid),
                     )
                   : Icon(
                       Icons.check,

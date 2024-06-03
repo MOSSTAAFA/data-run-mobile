@@ -27,7 +27,7 @@ extension SetCheckTrackedEntityAttributeValueExtension on EventDataValueQuery {
     // delete(blockingGetWithoutChildren())
     final toDelete = await getOne();
     if (toDelete != null) {
-      await byId(toDelete.id as String).delete();
+      await byId(toDelete.uid as String).delete();
     }
   }
 

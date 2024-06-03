@@ -63,7 +63,7 @@ class EnrollmentRepository extends DataEntryBaseRepository {
 
     _programSections = _program!.then((program) => D2Remote
         .programModule.programSection
-        .byProgram(program!.id!)
+        .byProgram(program!.uid!)
         .withAttributes()
         .get());
   }
@@ -79,7 +79,7 @@ class EnrollmentRepository extends DataEntryBaseRepository {
 
     final List<ProgramSection> programSections = await D2Remote
         .programModule.programSection
-        .byProgram(program.id!)
+        .byProgram(program.uid!)
         .withAttributes()
         .get();
 
@@ -104,7 +104,7 @@ class EnrollmentRepository extends DataEntryBaseRepository {
   Future<List<String>> sectionUids() async {
     const List<String> sectionUids = [ENROLLMENT_DATA_SECTION_UID];
     final List<ProgramSection> sections = (await _programSections)!;
-    sectionUids.addAll(sections.map((section) => section.id!).toList());
+    sectionUids.addAll(sections.map((section) => section.uid!).toList());
     // TODO(NMC): re-visit the throw
     return sectionUids;
     // throw sectionUids;
@@ -121,19 +121,19 @@ class EnrollmentRepository extends DataEntryBaseRepository {
 
     for (final ProgramSection section in programSections) {
       fields.add(transformSection(
-          sectionUid: section.id!,
+          sectionUid: section.uid!,
           sectionName: section.displayName,
           sectionDescription: section.description));
       await Future.forEach<ProgramSectionAttribute>(section.attributes ?? [],
           (attribute) async {
         final programTrackedEntityAttribute = await D2Remote
             .programModule.programTrackedEntityAttribute
-            .byProgram(program.id!)
-            .byTrackedEntityAttribute(attribute.id!)
+            .byProgram(program.uid!)
+            .byTrackedEntityAttribute(attribute.uid!)
             .getOne();
         if (programTrackedEntityAttribute != null) {
           fields.add(await _transform(programTrackedEntityAttribute,
-              sectionUid: section.id!));
+              sectionUid: section.uid!));
         }
       });
     }
@@ -250,7 +250,7 @@ class EnrollmentRepository extends DataEntryBaseRepository {
         _getSectionRenderingType(programSection);
 
     final FieldUiModel fieldViewModel = await fieldFactory.create(
-        id: attribute!.id!,
+        id: attribute!.uid!,
         label: attribute.displayName ?? '',
         valueType: valueType!,
         mandatory: mandatory,

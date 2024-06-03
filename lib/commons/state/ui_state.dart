@@ -71,7 +71,7 @@ class UIState with _$UIState {
   IdentifiableEntity get filterEntity => filterStack.last;
 
   String? get filterEntityId =>
-      filterStack.isEmpty ? null : filterEntity.id.toString();
+      filterStack.isEmpty ? null : filterEntity.uid.toString();
 
   // BaseQuery? get filterEntityType =>
   //     filterStack.isEmpty ? null : filterEntity.entityType;

@@ -47,7 +47,7 @@ class OuTreeRepository {
       OrganisationUnit parentOrgUnit, List<String> selectedOrgUnits) {
     return D2Remote.organisationUnitModule.organisationUnit
         .whereIn(attribute: 'id', values: selectedOrgUnits, merge: true)
-        .like(attribute: 'path', value: '%${parentOrgUnit.id}%')
+        .like(attribute: 'path', value: '%${parentOrgUnit.uid}%')
         // .like(attribute: 'path', value: '${parentOrgUnit.id}')
         .count();
   }

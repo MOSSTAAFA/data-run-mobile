@@ -112,7 +112,7 @@ class EnrollmentEventGeneratorRepositoryImpl
         .build();
 
     await D2Remote.trackerModule.event.setData(eventToAdd).save();
-    return eventToAdd.id!;
+    return eventToAdd.uid!;
   }
 
   @override

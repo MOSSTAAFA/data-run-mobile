@@ -108,7 +108,7 @@ class ProgramEventDetailPresenterImpl implements ProgramEventDetailPresenter {
 
   @override
   Future<String?> getStageUid() async {
-    return (await eventRepository.programStage())?.id;
+    return (await eventRepository.programStage())?.uid;
   }
 
   @override

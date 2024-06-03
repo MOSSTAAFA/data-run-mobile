@@ -23,7 +23,7 @@ class ProgramViewModelMapper {
       {bool hasOverdue = false,
       bool filtersAreActive = false}) {
     return ProgramViewModel(
-        uid: program.id!,
+        uid: program.uid!,
         title: program.displayName!,
         metadataIconData: MetadataIconData(
             programColor: resourceManager

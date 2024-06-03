@@ -73,7 +73,7 @@ class ConfigureOrgUnit {
         await _getStoredOrgUnit(selectedOrgUnit) ??
         await _getOrgUnitIfOnlyOne();
 
-    orgUnit?.let((OrganisationUnit it) => _setCurrentOrgUnit(it.id!));
+    orgUnit?.let((OrganisationUnit it) => _setCurrentOrgUnit(it.uid!));
 
     return orgUnit;
   }

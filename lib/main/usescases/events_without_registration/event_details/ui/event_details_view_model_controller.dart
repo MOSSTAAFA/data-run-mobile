@@ -102,7 +102,7 @@ class EventDetailsViewModelController {
     ref.read(eventDetailsModelProvider.notifier).updateWith(
         eventDetails: await _configureEventDetails(
             selectedDate: currentModel.eventDate.currentDate,
-            selectedOrgUnit: currentModel.eventOrgUnit.selectedOrgUnit?.id,
+            selectedOrgUnit: currentModel.eventOrgUnit.selectedOrgUnit?.uid,
             coordinates: currentModel.eventCoordinates.model?.value,
             tempCreate: currentModel.eventTemp.status?.name));
   }

@@ -49,10 +49,10 @@ class MpProgramUtils {
   Future<State> getEventProgramState(Program? program) async {
     if (program != null) {
       final bool hasEventWithErrorState =
-          await _hasEventWithErrorState(program.id!);
-      final bool hasEventWithSMSState = _hasEventWithSMSState(program.id!);
+          await _hasEventWithErrorState(program.uid!);
+      final bool hasEventWithSMSState = _hasEventWithSMSState(program.uid!);
       final bool hasEventWithNotSyncedStateOrDeleted =
-          await _hasEventWithNotSyncedStateOrDeleted(program.id!);
+          await _hasEventWithNotSyncedStateOrDeleted(program.uid!);
       return when(true, {
         hasEventWithErrorState: () => State.WARNING,
         hasEventWithSMSState: () => State.SENT_VIA_SMS,

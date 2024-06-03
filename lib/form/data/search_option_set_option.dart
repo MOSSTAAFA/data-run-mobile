@@ -16,7 +16,7 @@ class SearchOptionSetOption {
     OptionSet? optionSet;
     OptionQuery query = optionSetModule.option;
 
-    query = query.byOptionSet(optionSet?.id ?? '');
+    query = query.byOptionSet(optionSet?.uid ?? '');
 
     if (textToSearch.isNotEmpty) {
       query = query.like(attribute: 'displayName', value: '%$textToSearch%');

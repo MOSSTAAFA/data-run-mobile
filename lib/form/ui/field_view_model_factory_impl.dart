@@ -130,7 +130,7 @@ class FieldViewModelFactoryImpl implements FieldViewModelFactory {
     isNull(trackedEntityAttribute.valueType, 'type must be supplied');
 
     return create(
-      id: trackedEntityAttribute.id!,
+      id: trackedEntityAttribute.uid!,
       // label: trackedEntityAttribute.displayFormName() ?? '',
       label: trackedEntityAttribute.formName ?? '',
       valueType: trackedEntityAttribute.valueType.toValueType!,

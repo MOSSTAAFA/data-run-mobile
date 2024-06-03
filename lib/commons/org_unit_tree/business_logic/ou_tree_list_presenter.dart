@@ -43,8 +43,8 @@ class OuTreeListPresenter extends GetxController implements Listenable {
         nodes.add(OuTreeNodeModel(
             content: org,
             isOpen: false,
-            hasChild: await repository.orgUnitHasChildren(org.id!),
-            isChecked: preselectedOrgUnits.contains(org.id),
+            hasChild: await repository.orgUnitHasChildren(org.uid!),
+            isChecked: preselectedOrgUnits.contains(org.uid),
             level: org.level ?? 0,
             selectedChildrenCount: await repository.countSelectedChildren(
                 org, preselectedOrgUnits)));

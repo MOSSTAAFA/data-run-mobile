@@ -54,7 +54,7 @@ class SearchRepository extends DataEntryBaseRepository {
     for (final typeAttribute in teTypeAttributes) {
       final TrackedEntityAttribute attribute = (await D2Remote
           .programModule.trackedEntityAttribute
-          .byId(typeAttribute.id!)
+          .byId(typeAttribute.uid!)
           .getOne())!;
       if (attribute.optionSet != null) {
         final int optionsCount = await D2Remote.optionModule.option

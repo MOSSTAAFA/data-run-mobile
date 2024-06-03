@@ -82,7 +82,7 @@ class _OuSelectorDialogState extends State<OuSelectorDialog> {
                       orgUnits: snapshot.data!,
                       clickedItem: (OrganisationUnit ou) {
                         widget.textChangedConsumer
-                            .call(ou.id!, ou.displayName!);
+                            .call(ou.uid!, ou.displayName!);
                         dismiss();
                       });
                 }),

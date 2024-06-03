@@ -39,7 +39,7 @@ class EventRepository extends DataEntryBaseRepository {
         .get());
 
     _sectionMap = _programStageSections.then((sections) =>
-        {for (ProgramStageSection section in sections) section.id!: section});
+        {for (ProgramStageSection section in sections) section.uid!: section});
   }
 
   final String? eventUid;
@@ -79,7 +79,7 @@ class EventRepository extends DataEntryBaseRepository {
     final sectionMap = await _sectionMap;
     for (final programStageSection in sectionMap.values) {
       fields.add(transformSection(
-          sectionUid: programStageSection.id!,
+          sectionUid: programStageSection.uid!,
           sectionName: programStageSection.displayName));
       await Future.forEach<ProgramStageSectionDataElement>(
           programStageSection.dataElements ?? [], (dataElement) async {
@@ -105,7 +105,7 @@ class EventRepository extends DataEntryBaseRepository {
 
     final List<ProgramStageDataElement> stageDataElements = await D2Remote
         .programModule.programStageDataElement
-        .byProgramStage(programStage.id!)
+        .byProgramStage(programStage.uid!)
         .withOptions()
         .orderBy(attribute: 'sortOrder', order: SortOrder.ASC)
         .get();
@@ -133,7 +133,7 @@ class EventRepository extends DataEntryBaseRepository {
     final EventDataValueQuery valueRepository = D2Remote
         .trackerModule.eventDataValue
         .byEvent(eventUid!)
-        .byDataElement(de.id!);
+        .byDataElement(de.uid!);
 
     ProgramStageSection? programStageSection;
     final sectionMapValues = (await _sectionMap).values;
@@ -146,7 +146,7 @@ class EventRepository extends DataEntryBaseRepository {
       }
     }
 
-    final String uid = de.id!;
+    final String uid = de.uid!;
     final String displayName = de.displayName!;
     final ValueType? valueType = ValueType.valueOf(de.valueType);
     final bool mandatory = programStageDataElement.compulsory ?? false;
@@ -203,7 +203,7 @@ class EventRepository extends DataEntryBaseRepository {
         mandatory: mandatory,
         optionSet: optionSet,
         value: dataValue,
-        programStageSection: programStageSection?.id,
+        programStageSection: programStageSection?.uid,
         allowFutureDates: allowFutureDates,
         editable: true,
         //isEventEditable(),

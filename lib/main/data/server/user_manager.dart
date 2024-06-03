@@ -1,4 +1,4 @@
-import 'package:d2_remote/modules/auth/user/entities/user.entity.dart';
+import 'package:d2_remote/modules/auth/user/entities/d_user.entity.dart';
 import 'package:d2_remote/modules/auth/user/models/login-response.model.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,7 +12,7 @@ abstract class UserManager {
       bool? inMemory,
       Dio? dioTestClient});
 
-  Future<User?> handleAuthData(
+  Future<DUser?> handleAuthData(
       {String serverUrl, Bundle? data, int? requestCode});
 
   Future<bool> isUserLoggedIn(

@@ -140,7 +140,7 @@ class _OuTreeListState extends State<OuTreeList> implements OuTreeListView {
                 return OuTreeNode(
                   node: node,
                   preselected:
-                      widget.selectedOrgUnits.contains(node.content.id),
+                      widget.selectedOrgUnits.contains(node.content.uid),
                   checkCallback:
                       (OrganisationUnit organisationUnit, bool isChecked) {
                     widget.onOrgUnitSelected(organisationUnit, isChecked);

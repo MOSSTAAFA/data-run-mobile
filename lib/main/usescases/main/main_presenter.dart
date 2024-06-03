@@ -1,4 +1,4 @@
-import 'package:d2_remote/modules/auth/user/entities/user.entity.dart';
+import 'package:d2_remote/modules/auth/user/entities/d_user.entity.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../commons/prefs/preference.dart';
@@ -58,7 +58,7 @@ class MainPresenter {
 
   Future<String> getUserUid() async {
     try {
-      return (await repository.user())!.id!;
+      return (await repository.user())!.uid!;
     } catch (e) {
       return '';
     }
@@ -109,7 +109,7 @@ class MainPresenter {
     view.openDrawer(/* 'Gravity.START' */ 0);
   }
 
-  String _username(User user) {
+  String _username(DUser user) {
     return '${user.firstName} ${user.surname ?? ''}';
   }
 

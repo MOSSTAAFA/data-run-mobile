@@ -21,9 +21,9 @@ class OrgUnitDialog extends StatelessWidget {
     // Create a tree node for each orgUnit and store it in a map
     for (OrganisationUnit orgUnit in orgUnits) {
       nodeMap = nodeMap.add(
-          orgUnit.id!,
+          orgUnit.uid!,
           Node<OrganisationUnit>(
-            key: orgUnit.id!,
+            key: orgUnit.uid!,
             label: orgUnit.name!,
             data: orgUnit,
             children: [],
@@ -35,7 +35,7 @@ class OrgUnitDialog extends StatelessWidget {
       if (orgUnit.path.isNotEmpty) {
         final String parentId = orgUnit.path.split('/').last;
         final Node<OrganisationUnit> parentNode = nodeMap[parentId]!;
-        final Node<OrganisationUnit> currentNode = nodeMap[orgUnit.id!]!;
+        final Node<OrganisationUnit> currentNode = nodeMap[orgUnit.uid!]!;
         parentNode.children.add(currentNode);
       }
     }
@@ -94,10 +94,10 @@ class OrgUnitDialog extends StatelessWidget {
                 controller: _controller,
                 // nodeBuilder: (context, node) => TreeNode(node: node),
                 onNodeTap: (node) {
-                  final orgUnit = _controller.getNode(node)?.data.id;
+                  final orgUnit = _controller.getNode(node)?.data.uid;
                   // '$node - ${_controller.selectedNode?.data?.name}';
                   // OrgUnit? orgUnit = _controller.selectedNode?.data;
-                  onPossitiveListener?.call(_controller.getNode(node)?.data.id);
+                  onPossitiveListener?.call(_controller.getNode(node)?.data.uid);
                   Navigator.pop(context, orgUnit);
                 },
               ),

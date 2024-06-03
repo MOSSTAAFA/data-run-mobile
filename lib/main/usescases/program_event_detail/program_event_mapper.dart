@@ -66,7 +66,7 @@ class ProgramEventMapper {
             '-',
         activityName: await _getActivityName(event.activity),
         dataElementValues:
-            await _getEventValues(event.id!, event.programStage!),
+            await _getEventValues(event.uid!, event.programStage!),
         groupedByStage: true,
         displayDate: eventDate
         // {
@@ -110,7 +110,7 @@ class ProgramEventMapper {
     final bool dirty = event.dirty;
 
     return ProgramEventViewModel(
-        uid: event.id!,
+        uid: event.uid!,
         orgUnitUid: event.orgUnit,
         orgUnitName: orgUnitName,
         date: event.eventDate.toDate()!,
@@ -122,7 +122,7 @@ class ProgramEventMapper {
         activityName: activityName,
         geometry: event.geometry,
         canBeEdited:
-            await ref.read(eventServiceProvider).isEditable(event.id!));
+            await ref.read(eventServiceProvider).isEditable(event.uid!));
   }
 
   Future<List<ProgramEventViewModel>> eventsToProgramEvents(
@@ -184,7 +184,7 @@ class ProgramEventMapper {
           } else if (!(dataElement.name?.isEmpty ?? true)) {
             displayName = dataElement.name;
           } else {
-            displayName = dataElement.id;
+            displayName = dataElement.uid;
           }
           final String value = await it.userFriendlyValue() ?? '';
           if (displayName != null) {

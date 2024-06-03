@@ -72,7 +72,7 @@ extension EventQueryUploadExtension on EventQuery {
     List<String> eventActivityIds = [];
 
     events.forEach((event) {
-      eventIds.add(event.id as String);
+      eventIds.add(event.uid as String);
 
       eventActivityIds.removeWhere((id) => id == event.activity);
       eventActivityIds.add(event.activity);
@@ -93,14 +93,14 @@ extension EventQueryUploadExtension on EventQuery {
 
     final eventUploadPayload = events.map((event) {
       event.dataValues = eventDataValues
-          .where((dataValue) => dataValue.event == event.id)
+          .where((dataValue) => dataValue.event == event.uid)
           .toList();
       event.programStage = programStages
-          .lastWhere((programStage) => programStage.id == event.programStage)
+          .lastWhere((programStage) => programStage.uid == event.programStage)
           .toJson();
 
       event.activity = activities
-          .lastWhere((activity) => activity.id == event.activity)
+          .lastWhere((activity) => activity.uid == event.activity)
           .toJson();
 
       return Event.toUpload(event);
@@ -133,7 +133,7 @@ extension EventQueryUploadExtension on EventQuery {
 
     for (var event in events) {
       final importSummary = importSummaries.lastWhere((summary) =>
-          summary['reference'] != null && summary['reference'] == event.id);
+          summary['reference'] != null && summary['reference'] == event.uid);
 
       if (importSummary != null) {
         availableItemCount++;

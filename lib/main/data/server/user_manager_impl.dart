@@ -1,5 +1,5 @@
 import 'package:d2_remote/d2_remote.dart';
-import 'package:d2_remote/modules/auth/user/entities/user.entity.dart';
+import 'package:d2_remote/modules/auth/user/entities/d_user.entity.dart';
 import 'package:d2_remote/modules/auth/user/models/login-response.model.dart';
 import 'package:dartlin/control_flow.dart';
 import 'package:dio/dio.dart';
@@ -47,7 +47,7 @@ class UserManagerImpl implements UserManager {
   }
 
   @override
-  Future<User?> handleAuthData(
+  Future<DUser?> handleAuthData(
       {String serverUrl = '', Bundle? data, int? requestCode}) {
     return Future.value();
   }

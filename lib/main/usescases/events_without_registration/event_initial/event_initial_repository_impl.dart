@@ -91,7 +91,7 @@ class EventInitialRepositoryImpl implements EventInitialRepository {
     await D2Remote.trackerModule.event.setData(eventToAdd).save();
 
     final EventObjectRepository eventRepository =
-        EventObjectRepository(eventToAdd.id!);
+        EventObjectRepository(eventToAdd.uid!);
 
     await eventRepository.setEventDate(dateTime);
     final Event? event = await eventRepository.getEvent();
@@ -112,7 +112,7 @@ class EventInitialRepositoryImpl implements EventInitialRepository {
         default:
       }
     }
-    return event.id!;
+    return event.uid!;
   }
 
   @override
@@ -139,7 +139,7 @@ class EventInitialRepositoryImpl implements EventInitialRepository {
     await D2Remote.trackerModule.event.setData(eventToAdd).save();
 
     final EventObjectRepository eventRepository =
-        EventObjectRepository(eventToAdd.id!);
+        EventObjectRepository(eventToAdd.uid!);
 
     await eventRepository.setDueDate(dateTime);
     await eventRepository.setStatus(EventStatus.SCHEDULE);
@@ -161,7 +161,7 @@ class EventInitialRepositoryImpl implements EventInitialRepository {
         default:
       }
     }
-    return event.id!;
+    return event.uid!;
   }
 
   @override
@@ -259,7 +259,7 @@ class EventInitialRepositoryImpl implements EventInitialRepository {
             .getOne();
         final List<ProgramStageSection> stageSections = await D2Remote
             .programModule.programStageSection
-            .where(attribute: 'programStage', value: stage?.id)
+            .where(attribute: 'programStage', value: stage?.uid)
             .get();
         if (stageSections.length > 0) {
           stageSections
@@ -267,7 +267,7 @@ class EventInitialRepositoryImpl implements EventInitialRepository {
           for (final ProgramStageSection section in stageSections) {
             formSection.add(FormSectionViewModel.createForSection(
                 _eventUid!,
-                section.id!,
+                section.uid!,
                 section.displayName!,
                 section.renderType != null ? section.renderType : null));
           }
@@ -294,11 +294,11 @@ class EventInitialRepositoryImpl implements EventInitialRepository {
       final List<ProgramStageSection> sections = await D2Remote
           .programModule.programStageSection
           .withDataElements()
-          .byProgramStage(stage?.id ?? '')
+          .byProgramStage(stage?.uid ?? '')
           .get();
       final List<ProgramStageDataElement> stageDataElements = await D2Remote
           .programModule.programStageDataElement
-          .byProgramStage(stage?.id ?? '')
+          .byProgramStage(stage?.uid ?? '')
           .get();
       if (sections.isNotEmpty) {
         for (final ProgramStageSection stageSection in sections) {
@@ -315,7 +315,7 @@ class EventInitialRepositoryImpl implements EventInitialRepository {
                   dataelement,
                   _searchValueDataElement(programStageDataElement.dataElementId,
                       event?.dataValues ?? []),
-                  stageSection.id,
+                  stageSection.uid,
                   event!.status.toEventStatus!));
             }
           }
@@ -346,7 +346,7 @@ class EventInitialRepositoryImpl implements EventInitialRepository {
       String value,
       String? programStageSection,
       EventStatus eventStatus) async {
-    final String uid = dataElement.id!;
+    final String uid = dataElement.uid!;
     final String displayName = dataElement.displayName!;
     final String valueTypeName = dataElement.valueType;
     final bool mandatory = stage.compulsory ?? false;

@@ -153,7 +153,7 @@ class EventInitialPresenter {
           .read(preferencesInstanceProvider)
           .setValue(CURRENT_ORG_UNIT, orgUnitUid);
       eventInitialRepository
-          .createEvent(enrollmentUid, trackedEntityInstance, program!.id!,
+          .createEvent(enrollmentUid, trackedEntityInstance, program!.uid!,
               programStageModel, date, orgUnitUid, activityUid, geometry)
           .then((String value) => view.onEventCreated(
               value) /*ref.read(onEventCreatedProvider.notifier).setValue(value)*/)
@@ -181,7 +181,7 @@ class EventInitialPresenter {
           .permanentReferral(
               enrollmentUid,
               trackedEntityInstanceUid,
-              program!.id!,
+              program!.uid!,
               programStageModel,
               dueDate,
               orgUnitUid,
@@ -209,7 +209,7 @@ class EventInitialPresenter {
           .read(preferencesInstanceProvider)
           .setValue(CURRENT_ORG_UNIT, orgUnitUid);
       eventInitialRepository
-          .scheduleEvent(enrollmentUid, null, program!.id!, programStageModel,
+          .scheduleEvent(enrollmentUid, null, program!.uid!, programStageModel,
               dueDate, orgUnitUid, activityUid, geometry)
           .then((String value) => view.onEventCreated(
               value) /*ref.read(onEventCreatedProvider.notifier).setValue(value)*/)

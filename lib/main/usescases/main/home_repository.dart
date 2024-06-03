@@ -1,7 +1,7 @@
-import 'package:d2_remote/modules/auth/user/entities/user.entity.dart';
+import 'package:d2_remote/modules/auth/user/entities/d_user.entity.dart';
 
 abstract class HomeRepository {
-  Future<User?> user();
+  Future<DUser?> user();
 
   // Future<CategoryCombo> defaultCatCombo();
   // Future<CategoryOptionCombo> defaultCatOptCombo();
