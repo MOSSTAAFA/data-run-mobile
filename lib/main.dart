@@ -36,7 +36,7 @@ Future<void> main() async {
   await PreferenceProvider.initialize();
 
   await D2Remote.initialize();
-  await setUpActivityManagementMocks();
+  // await setUpActivityManagementMocks();
 
   di.init();
 

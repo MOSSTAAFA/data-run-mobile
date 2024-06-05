@@ -3,6 +3,8 @@ import 'package:d2_remote/modules/auth/user/entities/d_user.entity.dart';
 import 'package:d2_remote/modules/auth/user/models/login-response.model.dart';
 import 'package:dartlin/control_flow.dart';
 import 'package:dio/dio.dart';
+import 'package:get/get.dart';
+import 'package:mass_pro/main/usescases/login/login_screen.widget.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,7 +16,7 @@ part 'user_manager_impl.g.dart';
 
 @riverpod
 UserManager userManager(UserManagerRef ref) {
-  return const UserManagerImpl();
+  return UserManagerImpl();
 }
 
 class UserManagerImpl implements UserManager {
@@ -30,7 +32,7 @@ class UserManagerImpl implements UserManager {
     throwExceptionIfPasswordNull(password);
     await throwExceptionIfAlreadyAuthenticated(username);
 
-    final LoginResponseStatus responseStatus = await D2Remote.logIn(
+    final LoginResponseStatus responseStatus = await D2Remote.logInDataRun(
         username: username,
         password: password,
         url: serverUrl,
@@ -62,7 +64,7 @@ class UserManagerImpl implements UserManager {
   @override
   Future<String> userInitials() {
     return D2Remote.userModule.user.getOne().then((user) {
-      return '${user?.firstName[0] ?? ''}${user?.surname?[0] ?? ''}';
+      return '${user?.firstName?[0] ?? ''}${user?.surname?[0] ?? ''}';
     });
   }
 
@@ -91,6 +93,7 @@ class UserManagerImpl implements UserManager {
 
   @override
   Future<bool> logOut() {
+    Get.offAll(() => const LoginScreen());
     return D2Remote.logOut();
   }
 

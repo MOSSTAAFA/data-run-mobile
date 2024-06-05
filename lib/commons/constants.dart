@@ -7,6 +7,10 @@ class Constants {
   static const String INCIDENT_DATE = 'incidentDate';
 }
 
+// const String kApiBaseUrl = 'https://mis.nmcpye.org/staging';
+// const String kApiBaseUrl = 'http://localhost:8080';
+const String kApiBaseUrl = 'http://169.254.62.37:8080';
+
 const String kAppVersion = 'v1.0.0';
 const String kAppName = 'Flutter Examples';
 // final kAppIcon =
@@ -32,7 +36,6 @@ const String kReports = 'reports';
 // Paths
 const String kGooglePlayUrl = '';
 const String kGitHubUrl = 'https://github.com/Hamza-ye/flutter_examples';
-const String kApiBaseUrl = 'https://mis.nmcpye.org/staging';
 const String kCoverageReportsPath = 'coverage-reports';
 const String kCoverageDataItemsPath = 'coverage-data_items';
 const String kTeamsPath = 'teams';

@@ -9,6 +9,7 @@ import '../../../commons/extensions/standard_extensions.dart';
 import '../../../commons/state/app_state_notifier.dart';
 import '../../../commons/utils/view_actions.dart';
 import '../../../form/ui/components/linear_loading_indicator.dart';
+import '../../data/server/user_manager_impl.dart';
 import '../../data/service/sync_status_controller.dart';
 import '../../l10n/app_localizations.dart';
 import '../general/view_base.dart';
@@ -68,19 +69,17 @@ class _MainScreenState extends ConsumerState<MainScreen>
             //   onPressed: () => startNewEvent(),
             // ),
             // appBarTitle: Text(ref.watch(eventDataStringProvider)),
-            // appBarActions: [
-            //   Consumer(
-            //     builder: (context, ref, child) {
-            //       return ref.watch(syncButtonVisibilityProvider)
-            //           ? IconButton(
-            //               icon: const Icon(Icons.sync),
-            //               tooltip: localization.lookup('sync'),
-            //               onPressed: () => showSyncDialog(),
-            //             )
-            //           : const SizedBox();
-            //     },
-            //   ),
-            // ],
+            appBarActions: [
+              Consumer(
+                builder: (context, ref, child) {
+                  return IconButton(
+                    icon: const Icon(Icons.logout_rounded),
+                    tooltip: localization.lookup('sync'),
+                    onPressed: () => ref.read(userManagerProvider).logOut(),
+                  );
+                },
+              ),
+            ],
             tabBuilder: (context, viewAction) {
               final name = localization.lookup(viewAction.name);
               return when(viewAction, {

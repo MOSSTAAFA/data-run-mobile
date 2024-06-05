@@ -6,7 +6,6 @@ import 'package:queue/queue.dart';
 import 'package:reflectable/reflectable.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../activity_test_setup.dart';
 import '../arch/call/d2_progress.dart';
 
 part 'sync_metadata.g.dart';
@@ -75,22 +74,22 @@ class SyncMetadata {
             Future(() => callback?.call(requestProgresses.getOrNull(index))));
 
         /// For Test,
-        if (activityManagementEntitiesNames
-            .contains(metadataEntityQuery.apiResourceName)) {
-          queue.add(() => metadataEntityQuery.download(
-                  (RequestProgress requestProgress, bool isComplete) {
-                callback?.call(D2Progress(
-                    message: requestProgress.message,
-                    percentage: requestProgress.percentage));
-              }, dioTestClient: activityManagementDio));
-        } else {
+        // if (activityManagementEntitiesNames
+        //     .contains(metadataEntityQuery.apiResourceName)) {
+        //   queue.add(() => metadataEntityQuery.download(
+        //           (RequestProgress requestProgress, bool isComplete) {
+        //         callback?.call(D2Progress(
+        //             message: requestProgress.message,
+        //             percentage: requestProgress.percentage));
+        //       }, dioTestClient: activityManagementDio));
+        // } else {
           queue.add(() => metadataEntityQuery
                   .download((RequestProgress requestProgress, bool isComplete) {
                 callback?.call(D2Progress(
                     message: requestProgress.message,
                     percentage: requestProgress.percentage));
               }));
-        }
+        // }
       });
 
       await queue.onComplete;

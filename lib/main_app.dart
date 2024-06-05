@@ -79,7 +79,7 @@ class _MainAppState extends State<MainApp> {
   }
 
   Future<void> loginUser() async {
-    final onlineLogIn = await D2Remote.logIn(
+    final onlineLogIn = await D2Remote.logInDataRun(
         username: 'admin',
         password: 'district',
         url: 'https://play.dhis2.org/2.35.11',
