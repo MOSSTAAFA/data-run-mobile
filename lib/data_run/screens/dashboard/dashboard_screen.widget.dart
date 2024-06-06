@@ -1,32 +1,26 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:mass_pro/commons/custom_widgets/navigationbar/navigation_page_configurator.dart';
 import 'package:mass_pro/commons/custom_widgets/navigationbar/navigation_tab_bar_view.widget.dart';
+import 'package:mass_pro/commons/data_run/utils/view_actions.dart';
 import 'package:mass_pro/commons/extensions/standard_extensions.dart';
 import 'package:mass_pro/commons/state/app_state_notifier.dart';
-import 'package:mass_pro/commons/data_run/utils/view_actions.dart';
+import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_deck.widget.dart';
+import 'package:mass_pro/data_run/screens/dashboard/dashboard_page_configurator.dart';
+import 'package:mass_pro/data_run/screens/dashboard/dashboard_presenter.dart';
+import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen_view.dart';
+import 'package:mass_pro/data_run/screens/general/view_base.dart';
 import 'package:mass_pro/form/ui/components/linear_loading_indicator.dart';
-import 'package:mass_pro/main/data/server/user_manager_impl.dart';
 import 'package:mass_pro/main/data/service/sync_status_controller.dart';
 import 'package:mass_pro/main/l10n/app_localizations.dart';
-import 'package:mass_pro/main/usescases/general/view_base.dart';
 import 'package:mass_pro/main/usescases/login/login_screen.widget.dart';
 import 'package:mass_pro/main/usescases/program_event_detail/program_event_detail_view_model.dart';
-import 'package:mass_pro/main/usescases/main/home_page_configurator.dart';
-import 'package:mass_pro/main/usescases/main/main_presenter.dart';
-import 'package:mass_pro/main/usescases/main/main_view.dart';
-import 'package:mass_pro/main/usescases/main/program/program_screen.widget.dart';
 
-class MainScreen extends ConsumerStatefulWidget {
-  const MainScreen(
-      {super.key,
-      this.launchDataSync = false,
-      this.forceToNotSynced = false});
+class DashboardScreenWidget extends ConsumerStatefulWidget {
+  const DashboardScreenWidget(
+      {super.key, this.launchDataSync = false, this.forceToNotSynced = false});
 
-  static const String route = '/MainScreen';
+  static const String route = '/DashboardScreen';
 
   final bool forceToNotSynced;
 
@@ -35,13 +29,15 @@ class MainScreen extends ConsumerStatefulWidget {
   // final OpenIdSession.LogOutReason? logOutReason;
 
   @override
-  ConsumerState<MainScreen> createState() => _MainScreenState();
+  ConsumerState<DashboardScreenWidget> createState() =>
+      _DashboardScreenWidgetState();
 }
 
-class _MainScreenState extends ConsumerState<MainScreen>
-    with MainView, ViewBase {
-  late final MainPresenter presenter;
-  final NavigationPageConfigurator _pageConfigurator = HomePageConfigurator();
+class _DashboardScreenWidgetState extends ConsumerState<DashboardScreenWidget>
+    with DashboardScreenView, ViewBase {
+  late final DashboardPresenter presenter;
+  final NavigationPageConfigurator _pageConfigurator =
+      DashboardPageConfigurator();
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +68,7 @@ class _MainScreenState extends ConsumerState<MainScreen>
                   return IconButton(
                     icon: const Icon(Icons.logout_rounded),
                     tooltip: localization.lookup('sync'),
-                    onPressed: () => ref.read(userManagerProvider).logOut(),
+                    onPressed: () => presenter.logOut(),
                   );
                 },
               ),
@@ -80,16 +76,23 @@ class _MainScreenState extends ConsumerState<MainScreen>
             tabBuilder: (context, viewAction) {
               final name = localization.lookup(viewAction.name);
               return when(viewAction, {
+                ///project tab
                 ViewAction.list_view: () => Tab(text: name),
+
+                /// Assignments, or Targets Tab
                 ViewAction.programs: () => Tab(text: name),
+
+                /// Analytics Tab
                 ViewAction.table_view: () => Tab(text: name),
+
+                /// Notification Tab
                 ViewAction.map_view: () => Tab(text: name),
                 ViewAction.analytics: () => Tab(text: name),
               })!;
             },
             pageBuilder: (context, viewAction) =>
                 when<ViewAction, Widget>(viewAction, {
-              ViewAction.programs: () => const ProgramViewScreen(),
+              ViewAction.programs: () => const DashboardDeckWidget(),
               // ViewAction.list_view: () => const ProgramViewScreen(),
               // ViewAction.table_view: () => const EventTable(),
               // ViewAction.map_view: () => const EventMap(),
@@ -104,7 +107,7 @@ class _MainScreenState extends ConsumerState<MainScreen>
 
   @override
   void initState() {
-    presenter = ref.read(mainPresenterProvider(this));
+    presenter = ref.read(dashboardPresenterProvider(this));
 
     ref.listenManual<bool?>(
         syncStatusControllerInstanceProvider.select((syncStatusController) =>
@@ -133,16 +136,6 @@ class _MainScreenState extends ConsumerState<MainScreen>
   }
 
   @override
-  void cancelNotifications() {
-    // TODO: implement cancelNotifications
-  }
-
-  @override
-  void changeFragment(int id) {
-    // TODO: implement changeFragment
-  }
-
-  @override
   void goToHome() {
     // TODO: implement goToHome
   }
@@ -163,22 +156,6 @@ class _MainScreenState extends ConsumerState<MainScreen>
   }
 
   @override
-  void hideFilters() {
-    // TODO: implement hideFilters
-  }
-
-  @override
-  File? obtainFileView() {
-    // TODO: implement obtainFileView
-    throw UnimplementedError();
-  }
-
-  @override
-  void onLockClick() {
-    // TODO: implement onLockClick
-  }
-
-  @override
   void openDrawer(int gravity) {
     // TODO: implement openDrawer
   }
@@ -191,20 +168,5 @@ class _MainScreenState extends ConsumerState<MainScreen>
   @override
   void showGranularSync() {
     // TODO: implement showGranularSync
-  }
-
-  @override
-  void showHideFilter() {
-    // TODO: implement showHideFilter
-  }
-
-  @override
-  void showProgressDeleteNotification() {
-    // TODO: implement showProgressDeleteNotification
-  }
-
-  @override
-  void updateFilters(int totalFilters) {
-    // TODO: implement updateFilters
   }
 }

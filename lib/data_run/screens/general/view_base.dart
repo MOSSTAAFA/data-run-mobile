@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
 
-import '../../../commons/custom_widgets/copy_to_clipboard.dart';
-import '../../../commons/utils/view_actions.dart';
-import '../../../main.dart';
-import 'view_abstract.dart';
+import 'package:mass_pro/commons/custom_widgets/copy_to_clipboard.dart';
+import 'package:mass_pro/commons/data_run/utils/view_actions.dart';
+import 'package:mass_pro/main.dart';
+import 'package:mass_pro/data_run/screens/general/view_abstract.dart';
 
 /// any screen ActivityGlobalAbstract
 mixin ViewBase implements ViewAbstract {

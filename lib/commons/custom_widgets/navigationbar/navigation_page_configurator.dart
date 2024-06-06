@@ -1,7 +1,7 @@
 import 'package:dartx/dartx.dart';
 
 import '../../extensions/standard_extensions.dart';
-import '../../utils/view_actions.dart';
+import '../../data_run/utils/view_actions.dart';
 import 'navigation_page.dart';
 
 abstract class NavigationPageConfigurator {

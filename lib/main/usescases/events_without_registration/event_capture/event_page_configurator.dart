@@ -1,7 +1,7 @@
 // class EventPageConfigurator.kt
 import '../../../../commons/custom_widgets/navigationbar/navigation_page.dart';
 import '../../../../commons/custom_widgets/navigationbar/navigation_page_configurator.dart';
-import '../../../../commons/utils/view_actions.dart';
+import '../../../../commons/data_run/utils/view_actions.dart';
 
 class EventPageConfigurator with NavigationPageConfigurator {
   @override

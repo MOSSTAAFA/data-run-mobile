@@ -9,17 +9,16 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
 
-import 'activity_test_setup.dart';
-import 'commons/constants.dart';
-import 'commons/prefs/preference_provider.dart';
+import 'package:mass_pro/commons/constants.dart';
+import 'package:mass_pro/commons/prefs/preference_provider.dart';
 import 'main.reflectable.dart';
-import 'main/di.dart' as di;
-import 'main/l10n/app_localizations.dart';
-import 'main/usescases/events_without_registration/event_capture/event_capture_screen.widget.dart';
-import 'main/usescases/events_without_registration/event_initial/event_initial_screen.widget.dart';
-import 'main/usescases/program_event_detail/program_event_detail_screen.widget.dart';
-import 'main/usescases/splash/splash_screen.widget.dart';
-import 'riverpod/provider_logger.dart';
+import 'package:mass_pro/main/di.dart' as di;
+import 'package:mass_pro/main/l10n/app_localizations.dart';
+import 'package:mass_pro/main/usescases/events_without_registration/event_capture/event_capture_screen.widget.dart';
+import 'package:mass_pro/main/usescases/events_without_registration/event_initial/event_initial_screen.widget.dart';
+import 'package:mass_pro/main/usescases/program_event_detail/program_event_detail_screen.widget.dart';
+import 'package:mass_pro/main/usescases/splash/splash_screen.widget.dart';
+import 'package:mass_pro/riverpod/provider_logger.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 

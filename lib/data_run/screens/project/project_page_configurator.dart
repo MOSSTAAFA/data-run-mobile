@@ -1,8 +1,8 @@
 // class EventPageConfigurator.kt
-import '../../../../commons/custom_widgets/navigationbar/navigation_page_configurator.dart';
-import '../../../commons/data_run/utils/view_actions.dart';
+import 'package:mass_pro/commons/custom_widgets/navigationbar/navigation_page_configurator.dart';
+import 'package:mass_pro/commons/data_run/utils/view_actions.dart';
 
-class HomePageConfigurator with NavigationPageConfigurator {
+class ProjectPageConfigurator with NavigationPageConfigurator {
   @override
   bool actionButtonVisibility(ViewAction viewAction) {
     return false;

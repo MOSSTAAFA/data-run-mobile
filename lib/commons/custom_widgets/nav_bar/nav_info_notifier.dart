@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../global_functions/global_functions.dart';
-import '../../utils/view_actions.dart';
+import '../../data_run/utils/view_actions.dart';
 
 part 'nav_info_notifier.g.dart';
 

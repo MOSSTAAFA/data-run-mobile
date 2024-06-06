@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import '../../main/l10n/app_localizations.dart';
 import '../../utils/mass_utils/icons.dart';
-import '../utils/view_actions.dart';
+import '../data_run/utils/view_actions.dart';
 
 class ActionMenuButton extends StatelessWidget {
   const ActionMenuButton({

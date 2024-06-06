@@ -1,7 +1,7 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
-import '../../general/view_base.dart';
-import 'program_view.model.dart';
+import 'package:mass_pro/main/usescases/general/view_base.dart';
+import 'package:mass_pro/main/usescases/main/program/program_view.model.dart';
 
 mixin ProgramView implements ViewBase {
   void swapProgramModelData(IList<ProgramViewModel> programs);

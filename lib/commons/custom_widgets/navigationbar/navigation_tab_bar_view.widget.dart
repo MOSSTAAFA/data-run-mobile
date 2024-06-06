@@ -7,7 +7,7 @@ import '../../extensions/standard_extensions.dart';
 import '../../state/app_state.dart';
 import '../../state/app_state_notifier.dart';
 import '../../state/pref_state.dart';
-import '../../utils/view_actions.dart';
+import '../../data_run/utils/view_actions.dart';
 import 'navigation_page.dart';
 import 'navigation_page_configurator.dart';
 
@@ -82,11 +82,6 @@ class NavigationTabBarViewState extends ConsumerState<NavigationTabBarView>
     }
 
     final localization = AppLocalization.of(context)!.localized!;
-    // final prefState = context.select((AppBloc bloc) => bloc.state.prefState);
-    final PrefState prefState =
-        ref.watch(appStateNotifierProvider.select((value) => value.prefState));
-
-    final AppState appState = ref.read(appStateNotifierProvider);
 
     Widget? leadingActions;
     Widget? drawerHamburger;
@@ -126,18 +121,7 @@ class NavigationTabBarViewState extends ConsumerState<NavigationTabBarView>
               centerTitle: false,
               automaticallyImplyLeading: false,
               leading:
-                  leadingActions /*??
-                  IconButton(
-                    color: Colors.white,
-                    icon: const Icon(Icons.arrow_back),
-                    iconSize: 20.0,
-                    onPressed: () {
-                      ref
-                          .read(appStateNotifierProvider.notifier)
-                          .navigateBack();
-                    },
-                  )*/
-              ,
+                  leadingActions,
               leadingWidth: kMinInteractiveDimension *
                   (widget.appBarLeadingActions?.length ??
                       0 + (isMobile(context) ? 1 : 2)),

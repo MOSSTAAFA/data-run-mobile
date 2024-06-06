@@ -1,25 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'main_navigator.dart';
+part of 'project_repository_impl.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$mainNavigatorHash() => r'e267bb6b7448beae94c614dde124c0d05aa5641f';
+String _$projectRepositoryHash() => r'8c2df53471d5d895187582fb6c62dabb448348b2';
 
-/// See also [mainNavigator].
-@ProviderFor(mainNavigator)
-final mainNavigatorProvider = Provider<MainNavigator>.internal(
-  mainNavigator,
-  name: r'mainNavigatorProvider',
+/// See also [projectRepository].
+@ProviderFor(projectRepository)
+final projectRepositoryProvider = Provider<ProjectRepository>.internal(
+  projectRepository,
+  name: r'projectRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$mainNavigatorHash,
+      : _$projectRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef MainNavigatorRef = ProviderRef<MainNavigator>;
+typedef ProjectRepositoryRef = ProviderRef<ProjectRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
