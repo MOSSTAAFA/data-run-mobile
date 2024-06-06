@@ -65,12 +65,9 @@ class ProjectUtils {
         0;
   }
 
-  bool _hasEventWithSMSState(String id) {
-    // TODO(NMC): implement
-    return false;
-  }
-
   Future<bool> _hasActivitiesWithNotSyncedStateOrDeleted(String id) async {
+    /// get list of team activities in project
+    /// check each activity if it has an itns village
     final List<Event> events = await D2Remote.trackerModule.event
         .byProgram(id)
         .where(attribute: 'deleted', value: false)
