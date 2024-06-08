@@ -27,7 +27,7 @@ Future<IList<ProjectItemModel>> projectItemModels(
   final syncStatusData = ref.watch(syncStatusControllerInstanceProvider
       .select((value) => value.syncStatusData));
   final items =
-      ref.read(projectDeckRepositoryProvider).homeItems(syncStatusData);
+      ref.read(projectDeckRepositoryProvider).projectItems(syncStatusData);
   return items;
 }
 

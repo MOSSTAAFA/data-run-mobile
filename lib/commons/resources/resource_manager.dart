@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../main.dart';
-import '../../utils/mass_utils/colors.dart';
-import '../extensions/standard_extensions.dart';
-import 'd2_error_utils.dart';
+import 'package:mass_pro/main.dart';
+import 'package:mass_pro/utils/mass_utils/colors.dart';
+import 'package:mass_pro/commons/extensions/standard_extensions.dart';
+import 'package:mass_pro/commons/resources/d2_error_utils.dart';
 
 part 'resource_manager.g.dart';
 

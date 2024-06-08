@@ -4,22 +4,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/commons/custom_widgets/navigationbar/navigation_page_configurator.dart';
 import 'package:mass_pro/commons/custom_widgets/navigationbar/navigation_tab_bar_view.widget.dart';
+import 'package:mass_pro/commons/data_run/utils/view_actions.dart';
 import 'package:mass_pro/commons/extensions/standard_extensions.dart';
 import 'package:mass_pro/commons/state/app_state_notifier.dart';
-import 'package:mass_pro/commons/data_run/utils/view_actions.dart';
-import 'package:mass_pro/form/ui/components/linear_loading_indicator.dart';
-import 'package:mass_pro/main/data/service/sync_status_controller.dart';
-import 'package:mass_pro/main/l10n/app_localizations.dart';
-import 'package:mass_pro/main/usescases/login/login_screen.widget.dart';
-import 'package:mass_pro/main/usescases/program_event_detail/program_event_detail_view_model.dart';
 import 'package:mass_pro/data_run/screens/general/view_base.dart';
 import 'package:mass_pro/data_run/screens/project/project_deck/project_deck.widget.dart';
 import 'package:mass_pro/data_run/screens/project/project_page_configurator.dart';
 import 'package:mass_pro/data_run/screens/project/project_presenter.dart';
 import 'package:mass_pro/data_run/screens/project/project_screen_view.dart';
+import 'package:mass_pro/form/ui/components/linear_loading_indicator.dart';
+import 'package:mass_pro/main/data/service/sync_status_controller.dart';
+import 'package:mass_pro/main/l10n/app_localizations.dart';
+import 'package:mass_pro/main/usescases/login/login_screen.widget.dart';
+import 'package:mass_pro/main/usescases/program_event_detail/program_event_detail_view_model.dart';
 
 const String EXTRA_PROJECT_UID = 'PROGRAM_UID';
 
+/// Project Details screen Listing what a Certain
+/// Project contains when a project is clicked
 class ProjectScreenWidget extends ConsumerStatefulWidget {
   const ProjectScreenWidget(
       {super.key, this.launchDataSync = false, this.forceToNotSynced = false});
@@ -33,7 +35,8 @@ class ProjectScreenWidget extends ConsumerStatefulWidget {
   // final OpenIdSession.LogOutReason? logOutReason;
 
   @override
-  ConsumerState<ProjectScreenWidget> createState() => _ProjectScreenWidgetState();
+  ConsumerState<ProjectScreenWidget> createState() =>
+      _ProjectScreenWidgetState();
 }
 
 class _ProjectScreenWidgetState extends ConsumerState<ProjectScreenWidget>
@@ -81,6 +84,7 @@ class _ProjectScreenWidgetState extends ConsumerState<ProjectScreenWidget>
               return when(viewAction, {
                 ///project tab
                 ViewAction.list_view: () => Tab(text: name),
+
                 /// Assignments, or Targets Tab
                 ViewAction.programs: () => Tab(text: name),
 

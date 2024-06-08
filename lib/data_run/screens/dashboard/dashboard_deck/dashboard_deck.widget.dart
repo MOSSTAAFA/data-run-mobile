@@ -49,10 +49,12 @@ class _DashboardDeckWidgetState
     super.initState();
   }
 
+  @override
   void clearFilters() {
     // TODO: implement clearFilters
   }
 
+  @override
   void navigateTo(DashboardItemModel dashboardItem) {
     bundle = bundle.putString(EXTRA_PROJECT_UID, dashboardItem.uid);
     logInfo(info: 'EXTRA_PROGRAM_UID, ${dashboardItem.uid}');

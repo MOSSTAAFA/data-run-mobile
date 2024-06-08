@@ -20,4 +20,8 @@ enum State {
 
   static List<State> get uploadableStates =>
       [TO_POST, TO_UPDATE, SENT_VIA_SMS, SYNCED_VIA_SMS, UPLOADING];
+
+  bool isUploadState() {
+    return uploadableStates.contains(this);
+  }
 }

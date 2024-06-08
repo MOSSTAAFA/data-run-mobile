@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:mass_pro/commons/ui/metadata_icon_data.dart';
+import 'package:mass_pro/core/common/state.dart';
 
 class DashboardItemModel with EquatableMixin {
   DashboardItemModel(
@@ -7,18 +8,17 @@ class DashboardItemModel with EquatableMixin {
       this.title = '',
       this.metadataIconData,
       this.type,
-      this.typeName = '',
       // this.programType = '',
 
       /// Count of activities
       this.count = 0,
-      this.progress = 0,
       this.description,
+      this.state = State.SYNCED,
       this.accessDataWrite = true,
       this.dirty = false,
       this.hasOverdueEvent = false,
       this.filtersAreActive = false,
-      this.downloadState = ProjectDownloadState.DOWNLOADED,
+      this.downloadState = ProjectDownloadState.NONE,
       this.downloadActive = false});
 
   final String uid;
@@ -27,19 +27,24 @@ class DashboardItemModel with EquatableMixin {
   // final MetadataIconData metadataIconData;
   final MetadataIconData? metadataIconData;
 
+  /// Count of sub items, here it's a count for activities inside
+  /// an item
   final int count;
-  final double progress;
   final String? type;
-  final String typeName;
+
   // final String programType;
   final String? description;
   final bool accessDataWrite;
 
-  // final State state;
+  final State state;
   final bool dirty;
   final bool hasOverdueEvent;
   final bool filtersAreActive;
+
+  /// Syncing Status, is it dirty and needs syncing...
   final ProjectDownloadState downloadState;
+
+  /// the Item is currently downloading or syncing.
   final bool downloadActive; //: Boolean = false
 
   bool translucent() {
@@ -47,7 +52,7 @@ class DashboardItemModel with EquatableMixin {
         downloadState == ProjectDownloadState.DOWNLOADING;
   }
 
-  String countDescription() => '$count $typeName';
+  String countDescription() => '$count $type';
 
   bool isDownloading() =>
       downloadActive || downloadState == ProjectDownloadState.DOWNLOADING;
@@ -65,7 +70,7 @@ class DashboardItemModel with EquatableMixin {
           String? description,
           bool? onlyEnrollOnce,
           bool? accessDataWrite,
-          //  State state,
+          State? state,
           bool? dirty,
           bool? hasOverdueEvent,
           bool? filtersAreActive,
@@ -78,11 +83,11 @@ class DashboardItemModel with EquatableMixin {
           metadataIconData: metadataIconData ?? this.metadataIconData,
           count: count ?? this.count,
           type: type ?? this.type,
-          typeName: typeName ?? this.typeName,
           // programType: programType ?? this.programType,
           description: description ?? this.description,
           accessDataWrite: accessDataWrite ?? this.accessDataWrite,
           dirty: dirty ?? this.dirty,
+          state: state ?? this.state,
           hasOverdueEvent: hasOverdueEvent ?? this.hasOverdueEvent,
           filtersAreActive: filtersAreActive ?? this.filtersAreActive,
           downloadState: downloadState ?? this.downloadState,
@@ -95,11 +100,11 @@ class DashboardItemModel with EquatableMixin {
         metadataIconData,
         count,
         type,
-        typeName,
         // programType,
         description,
         accessDataWrite,
         dirty,
+        state,
         hasOverdueEvent,
         filtersAreActive,
         downloadState,

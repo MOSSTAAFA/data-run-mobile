@@ -17,8 +17,7 @@ DashboardDeckPresenter dashboardDeckPresenter(DashboardDeckPresenterRef ref, Das
 
 @Riverpod(keepAlive: true)
 DashboardDeckRepository dashboardDeckRepository(DashboardDeckRepositoryRef ref) {
-  return DashboardDeckRepositoryImpl(
-      ref);
+  return DashboardDeckRepositoryImpl(ref);
 }
 
 @riverpod
@@ -27,7 +26,7 @@ Future<IList<DashboardItemModel>> dashboardItemModels(
   final syncStatusData = ref.watch(syncStatusControllerInstanceProvider
       .select((value) => value.syncStatusData));
   final items =
-      ref.read(dashboardDeckRepositoryProvider).homeItems(syncStatusData);
+      ref.read(dashboardDeckRepositoryProvider).deckItems(syncStatusData);
   return items;
 }
 

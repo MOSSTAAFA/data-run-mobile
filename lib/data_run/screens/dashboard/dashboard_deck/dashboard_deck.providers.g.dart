@@ -141,7 +141,7 @@ final dashboardDeckRepositoryProvider =
 
 typedef DashboardDeckRepositoryRef = ProviderRef<DashboardDeckRepository>;
 String _$dashboardItemModelsHash() =>
-    r'b970a400e98d306b34cf9f749389559978bb090d';
+    r'54ef334c04133ea30b470a054dabd13ed3dfe30f';
 
 /// See also [dashboardItemModels].
 @ProviderFor(dashboardItemModels)

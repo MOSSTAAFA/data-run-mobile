@@ -16,24 +16,11 @@ class DashboardRepositoryImpl implements DashboardRepository {
     return D2Remote.userModule.user.getOne();
   }
 
-  // Future<CategoryCombo> defaultCatCombo(){}
-  // Future<CategoryOptionCombo> defaultCatOptCombo(){}
   @override
   Future<bool> logOut() async {
     return D2Remote.logOut();
   }
 
-  @override
-  Future<bool> hasProgramWithAssignment() {
-    return Future.value(false);
-  }
-
-  @override
-  Future<bool> hasHomeAnalytics() {
-    return Future.value(false);
-  }
-
-  // Future<SystemInfo> getServerVersion(){}
   @override
   Future<int> accountsCount() {
     return Future.value(0);

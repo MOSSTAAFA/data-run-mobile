@@ -1,151 +1,118 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:d2_remote/d2_remote.dart';
-import 'package:d2_remote/modules/activity_management/project/entities/project.entity.dart';
-import 'package:d2_remote/modules/data/tracker/entities/event.entity.dart';
-import 'package:d2_remote/modules/data/tracker/queries/event.query.dart';
-import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart';
-import 'package:d2_remote/modules/metadata/program/entities/tracked_entity_type.entity.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import '../../commons/extensions/standard_extensions.dart';
-import '../../core/common/state.dart';
-import '../../core/program/program_type.dart';
-
-part 'mp_program_utils.g.dart';
-
-@Riverpod(keepAlive: true)
-ProjectUtils projectUtils(ProjectUtilsRef ref, EventQuery eventQuery) {
-  return ProjectUtils(eventQuery);
-}
+import 'package:d2_remote/modules/metadatarun/project/entities/d_project.entity.dart';
+import 'package:mass_pro/commons/extensions/standard_extensions.dart';
+import 'package:mass_pro/core/common/state.dart';
+import 'package:mass_pro/data_run/utils/project_type.dart';
+import 'package:mass_pro/data_run/utils/utils.providers.dart';
 
 class ProjectUtils {
-  ProjectUtils(this.eventQuery);
-  final EventQuery eventQuery;
-  Future<State> getProgramState(Project? project) {
-    return getEventProgramState(project);
+  ProjectUtils(this.ref);
+
+  final ProjectUtilsRef ref;
+
+  /// get Projects with activities the user have
+  /// Assignments in assigned to him
+  Future<List<DProject>> getUserTeamsProjects(
+      {bool includeInactive = false}) async {
+    final activities = await ref
+        .read(activityUtilsProvider)
+        .getActivities(includeInactive: includeInactive);
+    final projectIds =
+        activities.map((activity) => activity.project as String).toList();
+    return D2Remote.projectModuleD.project.byIds(projectIds).get();
   }
 
-  Future<State> getProgramStateByUid(String programUid) async {
-    return getProgramState(
-        await D2Remote.programModule.program.byId(programUid).getOne());
+  Future<int> getActivitiesCount(DProject? project) async {
+    final count = await D2Remote.activityModuleD.activity
+        .byProject(project!.uid!)
+        .count();
+    return count as int;
   }
 
-  Future<List<Program>> getProgramsInCaptureOrgUnits() {
-    return D2Remote.programModule.program.get();
-    // return d2.programModule().programs()
-    //     .withTrackedEntityType()
-    //     .byOrganisationUnitScope(OrganisationUnit.Scope.SCOPE_DATA_CAPTURE)
-    //     .get().toFlowable()
-  }
+  Future<State> getProjectState(DProject? project,
+      {bool includeInActive = true}) async {
+    return when(project!.name.toProjectType, {
+      ProjectType.CHVs: () async {
+        final withSyncErrorStateRegisters =
+            await D2Remote.iccmModule.patientInfo.withSyncErrorState().count();
+        final withUpdateErrorStateRegisters = await D2Remote
+            .iccmModule.patientInfo
+            .withUpdateSyncedErrorState()
+            .count();
 
-  Future<State> getEventProgramState(Project? project) async {
-    if (project != null) {
-      final bool hasActivitiesWithErrorState =
-          await _hasEventWithErrorState(project.uid!);
-      final bool hasActivitiesWithNotSyncedStateOrDeleted =
-          await _hasActivitiesWithNotSyncedStateOrDeleted(project.uid!);
-      return when(true, {
-        hasActivitiesWithErrorState: () => State.WARNING,
-        hasActivitiesWithNotSyncedStateOrDeleted: () => State.TO_UPDATE
-      }).orElse(() => State.SYNCED);
-    } else {
-      return State.SYNCED;
-    }
-  }
+        final withSyncErrorStateSessions =
+            await D2Remote.iccmModule.chvSession.withSyncErrorState().count();
+        final withUpdateErrorStateSessions = await D2Remote
+            .iccmModule.chvSession
+            .withUpdateSyncedErrorState()
+            .count();
 
-  Future<bool> _hasEventWithErrorState(String id) async {
-    return (await eventQuery
-            .byProgram(id)
-            .where(attribute: 'deleted', value: false)
-            .where(attribute: 'synced', value: false)
-            .where(attribute: 'dirty', value: true)
-            .where(attribute: 'syncFailed', value: true)
-            .count()) >
-        0;
-  }
+        final withSyncErrorState = withSyncErrorStateRegisters > 0 ||
+            withUpdateErrorStateRegisters > 0;
+        final withUpdateErrorState =
+            withSyncErrorStateSessions > 0 || withUpdateErrorStateSessions > 0;
 
-  Future<bool> _hasActivitiesWithNotSyncedStateOrDeleted(String id) async {
-    /// get list of team activities in project
-    /// check each activity if it has an itns village
-    final List<Event> events = await D2Remote.trackerModule.event
-        .byProgram(id)
-        .where(attribute: 'deleted', value: false)
-        .where(attribute: 'dirty', value: true)
-        .get();
+        final withToPostStateRegisters =
+            await D2Remote.iccmModule.patientInfo.withToPostState().count();
+        final withToUpdateStateRegisters =
+            await D2Remote.iccmModule.patientInfo.withToUpdateState().count();
 
-    if (events.isNotEmpty) {
-      return true;
-    }
-    final List<Event> events2 = await D2Remote.trackerModule.event
-        .byProgram(id)
-        .where(attribute: 'deleted', value: true)
-        .get();
+        final withToPostStateSessions =
+            await D2Remote.iccmModule.chvSession.withToPostState().count();
+        final withToUpdateStateSessions =
+            await D2Remote.iccmModule.chvSession.withToUpdateState().count();
 
-    if (events.isNotEmpty) {
-      return true;
-    }
+        final withToPostState =
+            withToPostStateRegisters > 0 || withToPostStateSessions > 0;
+        final withToUpdateState =
+            withToUpdateStateRegisters > 0 || withToUpdateStateSessions > 0;
 
-    return false;
-  }
-
-  Future<String> getProgramRecordLabel(
-      Program program, String defaultTrackerLabel, String defaultEventLabel) {
-    return when<ProgramType?, Future<String>>(
-        program.programType.toProgramType, {
-      ProgramType.WITH_REGISTRATION: () async {
-        final TrackedEntityType? trackedEntityType = await D2Remote
-            .programModule.trackedEntityType
-            .byId(program.trackedEntityType ?? '')
-            .getOne();
-        return trackedEntityType?.displayName ?? defaultTrackerLabel;
+        return when(true, {
+          withUpdateErrorState || withSyncErrorState: () => State.WARNING,
+          withToPostState: () => State.TO_POST,
+          withToUpdateState: () => State.TO_UPDATE,
+        }).orElse(() => State.SYNCED);
       },
-      ProgramType.WITHOUT_REGISTRATION: () => Future.value(defaultEventLabel)
-    }).orElse(() => Future.value(''));
+      ProjectType.ITNs: () async {
+        final withSyncErrorState = await D2Remote.itnsVillageModule.itnsVillage
+            .withSyncErrorState()
+            .count();
+
+        final withUpdateErrorState = await D2Remote
+            .itnsVillageModule.itnsVillage
+            .withUpdateSyncedErrorState()
+            .count();
+
+        final withToPostState = await D2Remote.itnsVillageModule.itnsVillage
+            .withToPostState()
+            .count();
+        final withToUpdateState = await D2Remote.itnsVillageModule.itnsVillage
+            .withToUpdateState()
+            .count();
+
+        return when(true, {
+          withUpdateErrorState > 0 || withSyncErrorState > 0: () =>
+              State.WARNING,
+          withToPostState > 0: () => State.TO_POST,
+          withToUpdateState > 0: () => State.TO_UPDATE,
+        }).orElse(() => State.SYNCED);
+      },
+      ProjectType.IRS: () async {
+        return State.SYNCED;
+      },
+      ProjectType.AMDs: () async {
+        return State.SYNCED;
+      },
+      ProjectType.UNITS: () async {
+        return State.SYNCED;
+      },
+    }).orElse(() => throw Exception('Unsupported project type'));
   }
-  // private fun getTrackerProgramState(program: Program): State {
-  //       val teiRepository = d2.trackedEntityModule().trackedEntityInstances()
-  //           .byProgramUids(arrayListOf(program.uid()))
-  //       val enrollmentRepository = d2.enrollmentModule().enrollments()
-  //           .byProgram().eq(program.uid())
 
-  //       return when {
-  //           hasTeiWithErrorOrWarningState(teiRepository, enrollmentRepository) -> State.WARNING
-  //           hasTeiWithSMSState(teiRepository) -> State.SENT_VIA_SMS
-  //           hasTeiWithNotSyncedStateOrDeleted(teiRepository) -> State.TO_UPDATE
-  //           else -> State.SYNCED
-  //       }
-  //   }
-
-  //   private fun hasTeiWithErrorOrWarningState(
-  //       teiRepository: TrackedEntityInstanceCollectionRepository,
-  //       enrollmentRepository: EnrollmentCollectionRepository
-  //   ): Boolean {
-  //       return teiRepository
-  //           .byDeleted().isFalse
-  //           .byAggregatedSyncState().`in`(State.ERROR, State.WARNING)
-  //           .blockingGet().isNotEmpty() ||
-  //           enrollmentRepository.byAggregatedSyncState().`in`(State.ERROR, State.WARNING)
-  //               .blockingGet().isNotEmpty()
-  //   }
-
-  //   private fun hasTeiWithSMSState(
-  //       teiRepository: TrackedEntityInstanceCollectionRepository
-  //   ): Boolean {
-  //       return teiRepository
-  //           .byDeleted().isFalse
-  //           .byAggregatedSyncState().`in`(State.SENT_VIA_SMS, State.SYNCED_VIA_SMS)
-  //           .blockingGet().isNotEmpty()
-  //   }
-
-  //   private fun hasTeiWithNotSyncedStateOrDeleted(
-  //       teiRepository: TrackedEntityInstanceCollectionRepository
-  //   ): Boolean {
-  //       return teiRepository
-  //           .byDeleted().isFalse
-  //           .byAggregatedSyncState().`in`(State.TO_UPDATE, State.TO_POST, State.UPLOADING)
-  //           .blockingGet().isNotEmpty() ||
-  //           teiRepository
-  //               .byDeleted().isTrue.blockingGet().isNotEmpty()
-  //   }
+  Future<State> getProjectStateByUid(String projectUid) async {
+    return getProjectState(
+        await D2Remote.projectModuleD.project.byId(projectUid).getOne());
+  }
 }

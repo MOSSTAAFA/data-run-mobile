@@ -3,11 +3,8 @@ import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_ite
 import 'package:mass_pro/main/data/service/sync_status_data.dart';
 
 abstract class DashboardDeckRepository {
-  Future<IList<DashboardItemModel>> homeItems(SyncStatusData syncStatusData);
+  Future<IList<DashboardItemModel>> deckItems(SyncStatusData syncStatusData);
 
-  Future<IList<DashboardItemModel>> programModels(
-      SyncStatusData syncStatusData);
-
-  Future<IList<DashboardItemModel>> aggregatesModels(
+  Future<IList<DashboardItemModel>> deckCachedModels(
       SyncStatusData syncStatusData);
 }

@@ -14,8 +14,9 @@ import 'package:mass_pro/form/ui/components/linear_loading_indicator.dart';
 import 'package:mass_pro/main/data/service/sync_status_controller.dart';
 import 'package:mass_pro/main/l10n/app_localizations.dart';
 import 'package:mass_pro/main/usescases/login/login_screen.widget.dart';
-import 'package:mass_pro/main/usescases/program_event_detail/program_event_detail_view_model.dart';
 
+/// Dashboard Screen is the main Screen of the app the show after login
+/// Currently it lists the available projects as items other General relevant data
 class DashboardScreenWidget extends ConsumerStatefulWidget {
   const DashboardScreenWidget(
       {super.key, this.launchDataSync = false, this.forceToNotSynced = false});
@@ -25,8 +26,6 @@ class DashboardScreenWidget extends ConsumerStatefulWidget {
   final bool forceToNotSynced;
 
   final bool launchDataSync;
-
-  // final OpenIdSession.LogOutReason? logOutReason;
 
   @override
   ConsumerState<DashboardScreenWidget> createState() =>
@@ -49,8 +48,7 @@ class _DashboardScreenWidgetState extends ConsumerState<DashboardScreenWidget>
           // This builder will only get called when the
           // programEventDetailModelProvider.progress is updated.
           builder: (context, ref, child) => LinearLoadingIndicator(
-            isLoading: ref.watch(programEventDetailModelProvider
-                .select((value) => value.progress)),
+            isLoading: true,
           ),
         ),
         Expanded(
@@ -61,13 +59,13 @@ class _DashboardScreenWidgetState extends ConsumerState<DashboardScreenWidget>
             //   child: const Icon(Icons.add),
             //   onPressed: () => startNewEvent(),
             // ),
-            // appBarTitle: Text(ref.watch(eventDataStringProvider)),
+            appBarTitle: Text(localization.lookup('dashboard_title')),
             appBarActions: [
               Consumer(
                 builder: (context, ref, child) {
                   return IconButton(
                     icon: const Icon(Icons.logout_rounded),
-                    tooltip: localization.lookup('sync'),
+                    tooltip: localization.lookup('logout'),
                     onPressed: () => presenter.logOut(),
                   );
                 },

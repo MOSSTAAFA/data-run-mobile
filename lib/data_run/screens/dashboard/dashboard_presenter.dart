@@ -113,10 +113,6 @@ class DashboardPresenter {
     return '${user.firstName} ${user.surname ?? ''}';
   }
 
-  Future<bool> hasProgramWithAssignment() {
-    return repository.hasProgramWithAssignment();
-  }
-
   void onNavigateBackToHome() {
     view.goToHome();
     // initFilters();
@@ -160,21 +156,5 @@ class DashboardPresenter {
     return preferencesProvider.setValue(WAS_INITIAL_SYNC_DONE, true);
     // userManager.d2.dataStoreModule().localDataStore().value(WAS_INITIAL_SYNC_DONE)
     //     .blockingSet(TRUE)
-  }
-
-  void trackHomeAnalytics() {
-    // matomoAnalyticsController.trackEvent(HOME, OPEN_ANALYTICS, CLICK)
-  }
-
-  void trackPinDialog() {
-    // matomoAnalyticsController.trackEvent(HOME, BLOCK_SESSION_PIN, CLICK)
-  }
-
-  void trackQRScanner() {
-    // matomoAnalyticsController.trackEvent(HOME, QR_SCANNER, CLICK)
-  }
-
-  void trackJiraReport() {
-    // matomoAnalyticsController.trackEvent(HOME, JIRA_REPORT, CLICK)
   }
 }

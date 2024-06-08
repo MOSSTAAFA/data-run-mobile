@@ -12,14 +12,11 @@ class DashboardDeckPresenter {
   final DashboardDeckView view;
   final DashboardDeckRepository programRepository;
 
-  // final ThemeManager themeManager;
   // final FilterManager filterManager;
-  // final MatomoAnalyticsController matomoAnalyticsController;
   // final SyncStatusController syncStatusController;
 
   void onSyncStatusClick(DashboardItemModel dashboardItemModel) {
     // val programTitle = "$CLICK_ON${program.title}"
-    // matomoAnalyticsController.trackEvent(HOME, SYNC_BTN, programTitle)
     view.showSyncDialog(dashboardItemModel);
   }
 

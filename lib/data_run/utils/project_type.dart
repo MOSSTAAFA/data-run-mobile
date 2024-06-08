@@ -1,9 +1,9 @@
 import '../../commons/extensions/dynamic_extensions.dart';
 
-enum ProjectType { ITNs, IRS, CHV }
+enum ProjectType { ITNs, IRS, CHVs, AMDs, UNITS }
 
 extension ToProgramTypeExtension on String? {
-  ProjectType? get toProgramType {
+  ProjectType? get toProjectType {
     try {
       return ProjectType.values.byName(this ?? '');
       // return ProgramType.values.firstWhere((status) => status.name == this,

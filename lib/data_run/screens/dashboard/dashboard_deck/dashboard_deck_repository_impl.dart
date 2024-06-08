@@ -1,21 +1,21 @@
 // ignore_for_file: avoid_dynamic_calls
 
+import 'package:d2_remote/modules/metadatarun/project/entities/d_project.entity.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:flutter/material.dart';
 import 'package:mass_pro/commons/extensions/standard_extensions.dart';
 import 'package:mass_pro/commons/resources/resource_manager.dart';
+import 'package:mass_pro/commons/ui/metadata_icon_data.dart';
 import 'package:mass_pro/core/arch/call/d2_progress_status.dart';
-import 'package:mass_pro/core/common/state.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_deck.providers.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_deck_repository.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_item.model.dart';
-import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_item_model_mapper.dart';
+import 'package:mass_pro/data_run/utils/utils.providers.dart';
 import 'package:mass_pro/main/data/service/sync_status_controller.dart';
 import 'package:mass_pro/main/data/service/sync_status_data.dart';
 
 class DashboardDeckRepositoryImpl implements DashboardDeckRepository {
-  DashboardDeckRepositoryImpl(
-      this.ref /*, this.mpProgramUtils, this.resourceManager*/) {
-    // programViewModelMapper = ProgramViewModelMapper(resourceManager);
+  DashboardDeckRepositoryImpl(this.ref) {
     _startListeningForLastSyncStatus();
   }
 
@@ -30,38 +30,20 @@ class DashboardDeckRepositoryImpl implements DashboardDeckRepository {
   // final FilterPresenter filterPresenter;
   final DashboardDeckRepositoryRef ref;
 
-  // final MpProgramUtils mpProgramUtils;
-  //
-  // // final DhisTrackedEntityInstanceUtils dhisTeiUtils;
-  // final ResourceManager resourceManager;
-
-  late final DashboardItemModelMapper dashboardItemModelMapper;
   IList<DashboardItemModel> baseProgramCache = IList<DashboardItemModel>();
   SyncStatusData? lastSyncStatus;
 
   @override
-  Future<IList<DashboardItemModel>> homeItems(
+  Future<IList<DashboardItemModel>> deckItems(
       SyncStatusData syncStatusData) async {
-    IList<DashboardItemModel> programViewModels = await programModels(
+    final IList<DashboardItemModel> programViewModels = await deckCachedModels(
         syncStatusData) /* .catchError((onError) => IList<ProgramViewModel>()) */;
-    programViewModels = programViewModels
-        .addAll(await aggregatesModels(
-            syncStatusData) /* .catchError((onError) => IList<ProgramViewModel>()) */)
-        .sort((p1, p2) =>
-            p1.title.toLowerCase().compareTo(p2.title.toLowerCase()));
-
-    return programViewModels;
+    return programViewModels.sort(
+        (p1, p2) => p1.title.toLowerCase().compareTo(p2.title.toLowerCase()));
   }
 
   @override
-  Future<IList<DashboardItemModel>> aggregatesModels(
-      SyncStatusData syncStatusData) {
-    // TODO: implement aggregatesModels
-    return Future.value(IList<DashboardItemModel>());
-  }
-
-  @override
-  Future<IList<DashboardItemModel>> programModels(
+  Future<IList<DashboardItemModel>> deckCachedModels(
       SyncStatusData syncStatusData) async {
     if (baseProgramCache.isEmpty) {
       baseProgramCache = await _baseDashboardItems();
@@ -73,18 +55,38 @@ class DashboardDeckRepositoryImpl implements DashboardDeckRepository {
 
   /// fetch projects and map each project into [DashboardItemModel]
   Future<IList<DashboardItemModel>> _baseDashboardItems() async {
-    final projects = await mpProgramUtils.getProgramsInCaptureOrgUnits();
+    final projects =
+        await ref.read(projectUtilsProvider).getUserTeamsProjects();
     IList<DashboardItemModel> programModles = IList<DashboardItemModel>();
-    for (final project in projects) {
-      final String recordLabel = await mpProgramUtils.getProgramRecordLabel(
-          project,
-          resourceManager.defaultTeiLabel(),
-          resourceManager.defaultEventLabel());
-      final State state = await mpProgramUtils.getProgramState(project);
+    for (final DProject project in projects) {
+      final state =
+          await ref.read(projectUtilsProvider).getProjectState(project);
 
-      final DashboardItemModel programModel = dashboardItemModelMapper.map(
-          project, 0, recordLabel, state,
-          hasOverdue: false, filtersAreActive: false);
+      final count =
+          await ref.read(projectUtilsProvider).getActivitiesCount(project);
+
+      final DashboardItemModel programModel = DashboardItemModel(
+          uid: project.uid!,
+          title: project.name!,
+          metadataIconData: MetadataIconData(
+              programColor: ref
+                  .read(resourceManagerProvider)
+                  .getColorOrDefaultFrom(/* program.style?.color */ null),
+              iconResource: ref
+                  .read(resourceManagerProvider)
+                  .getObjectStyleDrawableResource(
+                      /* program.style()?.icon() */
+                      null,
+                      Icons.question_mark)),
+          count: count,
+          type: project.name,
+          dirty: project.dirty,
+          state: state,
+          // State.valueOf(state.name),
+          // hasOverdueEvent: hasOverdue,
+          // filtersAreActive: filtersAreActive,
+          downloadState: ProjectDownloadState.NONE);
+
       programModles = programModles.add(programModel);
     }
     return programModles;
@@ -98,16 +100,16 @@ class DashboardDeckRepositoryImpl implements DashboardDeckRepository {
   IList<DashboardItemModel> applySync(
       IList<DashboardItemModel> models, SyncStatusData syncStatusData) {
     return models
-        .map((programModel) => programModel.copyWith(
+        .map((dashboardModel) => dashboardModel.copyWith(
             downloadState: when<bool, ProjectDownloadState>(true, {
-              syncStatusData.hasDownloadError(programModel.uid): () =>
+              syncStatusData.hasDownloadError(dashboardModel.uid): () =>
                   ProjectDownloadState.ERROR,
-              syncStatusData.isProgramDownloading(programModel.uid): () =>
+              syncStatusData.isProgramDownloading(dashboardModel.uid): () =>
                   ProjectDownloadState.DOWNLOADING,
               syncStatusData.wasProgramDownloading(
-                  lastSyncStatus, programModel.uid): () => when(
+                  lastSyncStatus, dashboardModel.uid): () => when(
                       syncStatusData
-                          .programSyncStatusMap[programModel.uid]?.syncStatus,
+                          .programSyncStatusMap[dashboardModel.uid]?.syncStatus,
                       {
                         [
                           D2ProgressSyncStatus.SUCCESS,
