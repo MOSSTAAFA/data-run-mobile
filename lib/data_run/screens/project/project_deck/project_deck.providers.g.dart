@@ -139,7 +139,7 @@ final projectDeckRepositoryProvider = Provider<ProjectDeckRepository>.internal(
 );
 
 typedef ProjectDeckRepositoryRef = ProviderRef<ProjectDeckRepository>;
-String _$projectItemModelsHash() => r'a4917714ab2f4f66c9924f456d5d3b2e19855641';
+String _$projectItemModelsHash() => r'68f5ac3a22acb582a1209ad449c23b70321725b2';
 
 /// See also [projectItemModels].
 @ProviderFor(projectItemModels)

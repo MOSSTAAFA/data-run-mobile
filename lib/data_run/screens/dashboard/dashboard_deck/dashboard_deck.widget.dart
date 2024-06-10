@@ -16,6 +16,8 @@ import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 class DashboardDeckWidget extends ConsumerStatefulWidget {
   const DashboardDeckWidget({super.key});
 
+  static const String route = '/DashboardDeck';
+
   @override
   ConsumerState<DashboardDeckWidget> createState() =>
       _DashboardDeckWidgetState();

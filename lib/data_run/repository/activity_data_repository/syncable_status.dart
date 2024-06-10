@@ -1,0 +1,1 @@
+enum SyncableStatus { ACTIVE, COMPLETED }
