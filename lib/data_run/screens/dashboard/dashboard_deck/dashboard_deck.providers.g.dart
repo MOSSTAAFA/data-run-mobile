@@ -30,8 +30,6 @@ class _SystemHash {
   }
 }
 
-typedef DashboardDeckPresenterRef = ProviderRef<DashboardDeckPresenter>;
-
 /// Dashboard Deck Items Providers
 ///
 /// Copied from [dashboardDeckPresenter].
@@ -90,10 +88,10 @@ class DashboardDeckPresenterProvider extends Provider<DashboardDeckPresenter> {
   ///
   /// Copied from [dashboardDeckPresenter].
   DashboardDeckPresenterProvider(
-    this.view,
-  ) : super.internal(
+    DashboardDeckView view,
+  ) : this._internal(
           (ref) => dashboardDeckPresenter(
-            ref,
+            ref as DashboardDeckPresenterRef,
             view,
           ),
           from: dashboardDeckPresenterProvider,
@@ -105,9 +103,43 @@ class DashboardDeckPresenterProvider extends Provider<DashboardDeckPresenter> {
           dependencies: DashboardDeckPresenterFamily._dependencies,
           allTransitiveDependencies:
               DashboardDeckPresenterFamily._allTransitiveDependencies,
+          view: view,
         );
 
+  DashboardDeckPresenterProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.view,
+  }) : super.internal();
+
   final DashboardDeckView view;
+
+  @override
+  Override overrideWith(
+    DashboardDeckPresenter Function(DashboardDeckPresenterRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: DashboardDeckPresenterProvider._internal(
+        (ref) => create(ref as DashboardDeckPresenterRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        view: view,
+      ),
+    );
+  }
+
+  @override
+  ProviderElement<DashboardDeckPresenter> createElement() {
+    return _DashboardDeckPresenterProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -121,6 +153,20 @@ class DashboardDeckPresenterProvider extends Provider<DashboardDeckPresenter> {
 
     return _SystemHash.finish(hash);
   }
+}
+
+mixin DashboardDeckPresenterRef on ProviderRef<DashboardDeckPresenter> {
+  /// The parameter `view` of this provider.
+  DashboardDeckView get view;
+}
+
+class _DashboardDeckPresenterProviderElement
+    extends ProviderElement<DashboardDeckPresenter>
+    with DashboardDeckPresenterRef {
+  _DashboardDeckPresenterProviderElement(super.provider);
+
+  @override
+  DashboardDeckView get view => (origin as DashboardDeckPresenterProvider).view;
 }
 
 String _$dashboardDeckRepositoryHash() =>
@@ -212,4 +258,4 @@ final dashboardItemModelProvider =
 
 typedef DashboardItemModelRef = AutoDisposeProviderRef<DashboardItemModel?>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

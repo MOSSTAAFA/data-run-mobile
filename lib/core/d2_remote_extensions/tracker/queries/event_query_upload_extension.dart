@@ -13,8 +13,8 @@ import 'package:d2_remote/shared/utilities/http_client.util.dart';
 import 'package:dio/dio.dart';
 import 'package:queue/queue.dart';
 
-import '../../../arch/call/d2_progress.dart';
-import '../../../arch/call/d2_progress_status.dart';
+import 'package:d2_remote/modules/datarun/sync/call/d2_progress.dart';
+import 'package:d2_remote/modules/datarun/sync/call/d2_progress_status.dart';
 import '../../../tracker/tracker_d2_progress.dart';
 import '../../../tracker/tracker_d2_progress_manager.dart';
 

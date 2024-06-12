@@ -12,7 +12,7 @@ part of 'field_with_issue.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$FieldWithIssue {
@@ -76,11 +76,11 @@ class _$FieldWithIssueCopyWithImpl<$Res, $Val extends FieldWithIssue>
 }
 
 /// @nodoc
-abstract class _$$_FieldWithIssueCopyWith<$Res>
+abstract class _$$FieldWithIssueImplCopyWith<$Res>
     implements $FieldWithIssueCopyWith<$Res> {
-  factory _$$_FieldWithIssueCopyWith(
-          _$_FieldWithIssue value, $Res Function(_$_FieldWithIssue) then) =
-      __$$_FieldWithIssueCopyWithImpl<$Res>;
+  factory _$$FieldWithIssueImplCopyWith(_$FieldWithIssueImpl value,
+          $Res Function(_$FieldWithIssueImpl) then) =
+      __$$FieldWithIssueImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -88,11 +88,11 @@ abstract class _$$_FieldWithIssueCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_FieldWithIssueCopyWithImpl<$Res>
-    extends _$FieldWithIssueCopyWithImpl<$Res, _$_FieldWithIssue>
-    implements _$$_FieldWithIssueCopyWith<$Res> {
-  __$$_FieldWithIssueCopyWithImpl(
-      _$_FieldWithIssue _value, $Res Function(_$_FieldWithIssue) _then)
+class __$$FieldWithIssueImplCopyWithImpl<$Res>
+    extends _$FieldWithIssueCopyWithImpl<$Res, _$FieldWithIssueImpl>
+    implements _$$FieldWithIssueImplCopyWith<$Res> {
+  __$$FieldWithIssueImplCopyWithImpl(
+      _$FieldWithIssueImpl _value, $Res Function(_$FieldWithIssueImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -103,7 +103,7 @@ class __$$_FieldWithIssueCopyWithImpl<$Res>
     Object? issueType = null,
     Object? message = null,
   }) {
-    return _then(_$_FieldWithIssue(
+    return _then(_$FieldWithIssueImpl(
       fieldUid: null == fieldUid
           ? _value.fieldUid
           : fieldUid // ignore: cast_nullable_to_non_nullable
@@ -126,8 +126,8 @@ class __$$_FieldWithIssueCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_FieldWithIssue extends _FieldWithIssue {
-  const _$_FieldWithIssue(
+class _$FieldWithIssueImpl extends _FieldWithIssue {
+  const _$FieldWithIssueImpl(
       {required this.fieldUid,
       required this.fieldName,
       required this.issueType,
@@ -149,10 +149,10 @@ class _$_FieldWithIssue extends _FieldWithIssue {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_FieldWithIssue &&
+            other is _$FieldWithIssueImpl &&
             (identical(other.fieldUid, fieldUid) ||
                 other.fieldUid == fieldUid) &&
             (identical(other.fieldName, fieldName) ||
@@ -169,8 +169,9 @@ class _$_FieldWithIssue extends _FieldWithIssue {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_FieldWithIssueCopyWith<_$_FieldWithIssue> get copyWith =>
-      __$$_FieldWithIssueCopyWithImpl<_$_FieldWithIssue>(this, _$identity);
+  _$$FieldWithIssueImplCopyWith<_$FieldWithIssueImpl> get copyWith =>
+      __$$FieldWithIssueImplCopyWithImpl<_$FieldWithIssueImpl>(
+          this, _$identity);
 }
 
 abstract class _FieldWithIssue extends FieldWithIssue {
@@ -178,7 +179,7 @@ abstract class _FieldWithIssue extends FieldWithIssue {
       {required final String fieldUid,
       required final String fieldName,
       required final IssueType issueType,
-      required final String message}) = _$_FieldWithIssue;
+      required final String message}) = _$FieldWithIssueImpl;
   const _FieldWithIssue._() : super._();
 
   @override
@@ -191,6 +192,6 @@ abstract class _FieldWithIssue extends FieldWithIssue {
   String get message;
   @override
   @JsonKey(ignore: true)
-  _$$_FieldWithIssueCopyWith<_$_FieldWithIssue> get copyWith =>
+  _$$FieldWithIssueImplCopyWith<_$FieldWithIssueImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

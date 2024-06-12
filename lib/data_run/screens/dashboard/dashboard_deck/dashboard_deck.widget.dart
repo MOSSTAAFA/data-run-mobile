@@ -1,7 +1,5 @@
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/get.dart';
 import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_deck.providers.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_deck.view.dart';
@@ -9,24 +7,23 @@ import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_dec
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_item.model.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_items.widget.dart';
 import 'package:mass_pro/data_run/screens/general/view_base.dart';
-import 'package:mass_pro/data_run/screens/project/project_screen.widget.dart';
+import 'package:mass_pro/data_run/screens/project_details/project_detail_screen.widget.dart';
+import 'package:mass_pro/data_run/utils/screens_constants.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
+
+import '../../../../utils/navigator_key.dart';
 
 /// ProgramFragment
 class DashboardDeckWidget extends ConsumerStatefulWidget {
   const DashboardDeckWidget({super.key});
-
-  static const String route = '/DashboardDeck';
 
   @override
   ConsumerState<DashboardDeckWidget> createState() =>
       _DashboardDeckWidgetState();
 }
 
-class _DashboardDeckWidgetState
-    extends ConsumerState<DashboardDeckWidget>
+class _DashboardDeckWidgetState extends ConsumerState<DashboardDeckWidget>
     with DashboardDeckView, ViewBase {
-
   Bundle bundle = Bundle();
   late final KeepAliveLink bundleKeepAliveLink;
   late final DashboardDeckPresenter presenter;
@@ -59,12 +56,16 @@ class _DashboardDeckWidgetState
   @override
   void navigateTo(DashboardItemModel dashboardItem) {
     bundle = bundle.putString(EXTRA_PROJECT_UID, dashboardItem.uid);
-    logInfo(info: 'EXTRA_PROGRAM_UID, ${dashboardItem.uid}');
-    // navigatorKey.currentState!.pushNamed(ProgramEventDetailScreen.route);
+    logInfo(info: '$EXTRA_PROJECT_UID, ${dashboardItem.uid}');
+    navigatorKey.currentState!
+        .pushNamed(ProjectDetailScreenWidget.route, arguments: bundle);
     // ref
     //     .read(appStateNotifierProvider.notifier)
-    //     .navigateToRoute(ProjectScreenWidget.route, arguments: bundle);
-    Get.toNamed(ProjectScreenWidget.route, arguments: bundle);
+    //     .gotToNextRoute(ProjectDetailScreenWidget(), arguments: bundle);
+    // ref
+    //     .read(appStateNotifierProvider.notifier)
+    //     .navigateToScreen(const ProjectDetailScreenWidget(), bundle: bundle);
+    // Navigator.of(context).pushNamed(ProjectDetailScreenWidget.route, arguments: bundle);
   }
 
   @override

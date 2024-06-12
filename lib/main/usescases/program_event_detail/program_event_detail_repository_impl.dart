@@ -1,4 +1,4 @@
-import 'package:d2_remote/core/common/feature_type.dart';
+import 'package:mass_pro/sdk/core/common/feature_type.dart';
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/activity_management/activity/entities/activity.entity.dart';
 import 'package:d2_remote/modules/data/tracker/entities/event.entity.dart';

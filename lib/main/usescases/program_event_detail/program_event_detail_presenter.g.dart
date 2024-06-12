@@ -30,9 +30,6 @@ class _SystemHash {
   }
 }
 
-typedef ProgramEventDetailPresenterRef
-    = AutoDisposeProviderRef<ProgramEventDetailPresenter>;
-
 /// See also [programEventDetailPresenter].
 @ProviderFor(programEventDetailPresenter)
 const programEventDetailPresenterProvider = ProgramEventDetailPresenterFamily();
@@ -81,10 +78,10 @@ class ProgramEventDetailPresenterProvider
     extends AutoDisposeProvider<ProgramEventDetailPresenter> {
   /// See also [programEventDetailPresenter].
   ProgramEventDetailPresenterProvider(
-    this.view,
-  ) : super.internal(
+    ProgramEventDetailView view,
+  ) : this._internal(
           (ref) => programEventDetailPresenter(
-            ref,
+            ref as ProgramEventDetailPresenterRef,
             view,
           ),
           from: programEventDetailPresenterProvider,
@@ -96,9 +93,45 @@ class ProgramEventDetailPresenterProvider
           dependencies: ProgramEventDetailPresenterFamily._dependencies,
           allTransitiveDependencies:
               ProgramEventDetailPresenterFamily._allTransitiveDependencies,
+          view: view,
         );
 
+  ProgramEventDetailPresenterProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.view,
+  }) : super.internal();
+
   final ProgramEventDetailView view;
+
+  @override
+  Override overrideWith(
+    ProgramEventDetailPresenter Function(
+            ProgramEventDetailPresenterRef provider)
+        create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: ProgramEventDetailPresenterProvider._internal(
+        (ref) => create(ref as ProgramEventDetailPresenterRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        view: view,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeProviderElement<ProgramEventDetailPresenter> createElement() {
+    return _ProgramEventDetailPresenterProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -113,5 +146,21 @@ class ProgramEventDetailPresenterProvider
     return _SystemHash.finish(hash);
   }
 }
+
+mixin ProgramEventDetailPresenterRef
+    on AutoDisposeProviderRef<ProgramEventDetailPresenter> {
+  /// The parameter `view` of this provider.
+  ProgramEventDetailView get view;
+}
+
+class _ProgramEventDetailPresenterProviderElement
+    extends AutoDisposeProviderElement<ProgramEventDetailPresenter>
+    with ProgramEventDetailPresenterRef {
+  _ProgramEventDetailPresenterProviderElement(super.provider);
+
+  @override
+  ProgramEventDetailView get view =>
+      (origin as ProgramEventDetailPresenterProvider).view;
+}
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

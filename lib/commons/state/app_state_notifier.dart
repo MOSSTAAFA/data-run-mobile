@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen.widget.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../main.dart';
-import '../../main/usescases/bundle/bundle.dart';
-import '../../main/usescases/main/main_screen.widget.dart';
-import '../../utils/mass_utils/strings.dart';
-import '../extensions/dynamic_extensions.dart';
-import 'app_state.dart';
+import 'package:mass_pro/main/usescases/bundle/bundle.dart';
+import 'package:mass_pro/main/usescases/main/main_screen.widget.dart';
+import 'package:mass_pro/utils/mass_utils/strings.dart';
+import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
+import 'package:mass_pro/commons/state/app_state.dart';
+
+import 'package:mass_pro/utils/navigator_key.dart';
 
 part 'app_state_notifier.g.dart';
 
@@ -32,10 +34,10 @@ class AppStateNotifier extends _$AppStateNotifier {
   void navigateToRoute(String route, {dynamic arguments, bool isRootNavigator = true}) {
     logInfo(info: 'Moving to $route');
     updateCurrentRoute(route);
-    // Get.toNamed(route, arguments: arguments);
+    Get.toNamed(route, arguments: arguments);
     // Get.to(route, arguments: arguments);
-    Navigator.of(navigatorKey.currentContext!, rootNavigator: false)
-        .pushNamed(route, arguments: arguments);
+    // Navigator.of(navigatorKey.currentContext!, rootNavigator: false)
+    //     .pushNamed(route, arguments: arguments);
   }
 
   /// To navigate to a new screen and option to go back
@@ -76,10 +78,10 @@ class AppStateNotifier extends _$AppStateNotifier {
   /// (for use in SplashScreens, login screens and etc.)
   /// startActivity()
   /// Get.off()	Navigator.pushReplacement()
-  void gotToNextRoute(String route, {dynamic arguments}) {
-    logInfo(info: 'Navigating off to: $route');
-    updateCurrentRoute(toCamelCase(route));
-    Get.off(route, arguments: arguments);
+  void gotToNextRoute(Widget screen, {dynamic arguments}) {
+    // logInfo(info: 'Navigating off to: $route');
+    // updateCurrentRoute(toCamelCase(route));
+    Get.off(() => screen, arguments: arguments);
   }
 
   /// To go to the next screen and cancel all previous routes (useful in shopping carts, polls, and tests)
@@ -116,11 +118,11 @@ class AppStateNotifier extends _$AppStateNotifier {
     // WidgetsBinding.instance.addPostFrameCallback((duration) {
     //   navigatorKey.currentState!.pushNamed('MainScreen.route');
     // });
-    updateCurrentRoute(MainScreen.route);
+    updateCurrentRoute(DashboardScreenWidget.route);
 
     if (state.prefState.isMobile) {
       navigatorKey.currentState!.pushNamedAndRemoveUntil(
-          MainScreen.route, (Route<dynamic> route) => false);
+          DashboardScreenWidget.route, (Route<dynamic> route) => false);
     }
   }
 

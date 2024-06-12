@@ -2,7 +2,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../commons/custom_widgets/navigationbar/navigation_page.dart';
 import '../../../commons/custom_widgets/navigationbar/navigation_page_configurator.dart';
-import '../../../commons/extensions/standard_extensions.dart';
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import '../../../commons/helpers/iterable.dart';
 import '../../../commons/data_run/utils/view_actions.dart';
 

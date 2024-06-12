@@ -12,7 +12,7 @@ part of 'list_view_ui_events.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ListViewUiEvents {
@@ -184,22 +184,23 @@ class _$ListViewUiEventsCopyWithImpl<$Res, $Val extends ListViewUiEvents>
 }
 
 /// @nodoc
-abstract class _$$OpenYearMonthDayAgeCalendarCopyWith<$Res> {
-  factory _$$OpenYearMonthDayAgeCalendarCopyWith(
-          _$OpenYearMonthDayAgeCalendar value,
-          $Res Function(_$OpenYearMonthDayAgeCalendar) then) =
-      __$$OpenYearMonthDayAgeCalendarCopyWithImpl<$Res>;
+abstract class _$$OpenYearMonthDayAgeCalendarImplCopyWith<$Res> {
+  factory _$$OpenYearMonthDayAgeCalendarImplCopyWith(
+          _$OpenYearMonthDayAgeCalendarImpl value,
+          $Res Function(_$OpenYearMonthDayAgeCalendarImpl) then) =
+      __$$OpenYearMonthDayAgeCalendarImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String uid, int year, int month, int day});
 }
 
 /// @nodoc
-class __$$OpenYearMonthDayAgeCalendarCopyWithImpl<$Res>
-    extends _$ListViewUiEventsCopyWithImpl<$Res, _$OpenYearMonthDayAgeCalendar>
-    implements _$$OpenYearMonthDayAgeCalendarCopyWith<$Res> {
-  __$$OpenYearMonthDayAgeCalendarCopyWithImpl(
-      _$OpenYearMonthDayAgeCalendar _value,
-      $Res Function(_$OpenYearMonthDayAgeCalendar) _then)
+class __$$OpenYearMonthDayAgeCalendarImplCopyWithImpl<$Res>
+    extends _$ListViewUiEventsCopyWithImpl<$Res,
+        _$OpenYearMonthDayAgeCalendarImpl>
+    implements _$$OpenYearMonthDayAgeCalendarImplCopyWith<$Res> {
+  __$$OpenYearMonthDayAgeCalendarImplCopyWithImpl(
+      _$OpenYearMonthDayAgeCalendarImpl _value,
+      $Res Function(_$OpenYearMonthDayAgeCalendarImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -210,7 +211,7 @@ class __$$OpenYearMonthDayAgeCalendarCopyWithImpl<$Res>
     Object? month = null,
     Object? day = null,
   }) {
-    return _then(_$OpenYearMonthDayAgeCalendar(
+    return _then(_$OpenYearMonthDayAgeCalendarImpl(
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
@@ -233,9 +234,9 @@ class __$$OpenYearMonthDayAgeCalendarCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$OpenYearMonthDayAgeCalendar extends OpenYearMonthDayAgeCalendar
+class _$OpenYearMonthDayAgeCalendarImpl extends OpenYearMonthDayAgeCalendar
     with DiagnosticableTreeMixin {
-  const _$OpenYearMonthDayAgeCalendar(
+  const _$OpenYearMonthDayAgeCalendarImpl(
       {required this.uid,
       required this.year,
       required this.month,
@@ -269,10 +270,10 @@ class _$OpenYearMonthDayAgeCalendar extends OpenYearMonthDayAgeCalendar
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$OpenYearMonthDayAgeCalendar &&
+            other is _$OpenYearMonthDayAgeCalendarImpl &&
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.year, year) || other.year == year) &&
             (identical(other.month, month) || other.month == month) &&
@@ -285,9 +286,9 @@ class _$OpenYearMonthDayAgeCalendar extends OpenYearMonthDayAgeCalendar
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$OpenYearMonthDayAgeCalendarCopyWith<_$OpenYearMonthDayAgeCalendar>
-      get copyWith => __$$OpenYearMonthDayAgeCalendarCopyWithImpl<
-          _$OpenYearMonthDayAgeCalendar>(this, _$identity);
+  _$$OpenYearMonthDayAgeCalendarImplCopyWith<_$OpenYearMonthDayAgeCalendarImpl>
+      get copyWith => __$$OpenYearMonthDayAgeCalendarImplCopyWithImpl<
+          _$OpenYearMonthDayAgeCalendarImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -466,7 +467,7 @@ abstract class OpenYearMonthDayAgeCalendar extends ListViewUiEvents {
       {required final String uid,
       required final int year,
       required final int month,
-      required final int day}) = _$OpenYearMonthDayAgeCalendar;
+      required final int day}) = _$OpenYearMonthDayAgeCalendarImpl;
   const OpenYearMonthDayAgeCalendar._() : super._();
 
   String get uid;
@@ -474,15 +475,15 @@ abstract class OpenYearMonthDayAgeCalendar extends ListViewUiEvents {
   int get month;
   int get day;
   @JsonKey(ignore: true)
-  _$$OpenYearMonthDayAgeCalendarCopyWith<_$OpenYearMonthDayAgeCalendar>
+  _$$OpenYearMonthDayAgeCalendarImplCopyWith<_$OpenYearMonthDayAgeCalendarImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$OpenCustomCalendarCopyWith<$Res> {
-  factory _$$OpenCustomCalendarCopyWith(_$OpenCustomCalendar value,
-          $Res Function(_$OpenCustomCalendar) then) =
-      __$$OpenCustomCalendarCopyWithImpl<$Res>;
+abstract class _$$OpenCustomCalendarImplCopyWith<$Res> {
+  factory _$$OpenCustomCalendarImplCopyWith(_$OpenCustomCalendarImpl value,
+          $Res Function(_$OpenCustomCalendarImpl) then) =
+      __$$OpenCustomCalendarImplCopyWithImpl<$Res>;
   @useResult
   $Res call(
       {String uid,
@@ -493,11 +494,11 @@ abstract class _$$OpenCustomCalendarCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$OpenCustomCalendarCopyWithImpl<$Res>
-    extends _$ListViewUiEventsCopyWithImpl<$Res, _$OpenCustomCalendar>
-    implements _$$OpenCustomCalendarCopyWith<$Res> {
-  __$$OpenCustomCalendarCopyWithImpl(
-      _$OpenCustomCalendar _value, $Res Function(_$OpenCustomCalendar) _then)
+class __$$OpenCustomCalendarImplCopyWithImpl<$Res>
+    extends _$ListViewUiEventsCopyWithImpl<$Res, _$OpenCustomCalendarImpl>
+    implements _$$OpenCustomCalendarImplCopyWith<$Res> {
+  __$$OpenCustomCalendarImplCopyWithImpl(_$OpenCustomCalendarImpl _value,
+      $Res Function(_$OpenCustomCalendarImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -509,7 +510,7 @@ class __$$OpenCustomCalendarCopyWithImpl<$Res>
     Object? allowFutureDates = null,
     Object? isDateTime = freezed,
   }) {
-    return _then(_$OpenCustomCalendar(
+    return _then(_$OpenCustomCalendarImpl(
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
@@ -536,9 +537,9 @@ class __$$OpenCustomCalendarCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$OpenCustomCalendar extends OpenCustomCalendar
+class _$OpenCustomCalendarImpl extends OpenCustomCalendar
     with DiagnosticableTreeMixin {
-  const _$OpenCustomCalendar(
+  const _$OpenCustomCalendarImpl(
       {required this.uid,
       required this.label,
       this.date,
@@ -576,10 +577,10 @@ class _$OpenCustomCalendar extends OpenCustomCalendar
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$OpenCustomCalendar &&
+            other is _$OpenCustomCalendarImpl &&
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.label, label) || other.label == label) &&
             (identical(other.date, date) || other.date == date) &&
@@ -596,8 +597,8 @@ class _$OpenCustomCalendar extends OpenCustomCalendar
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$OpenCustomCalendarCopyWith<_$OpenCustomCalendar> get copyWith =>
-      __$$OpenCustomCalendarCopyWithImpl<_$OpenCustomCalendar>(
+  _$$OpenCustomCalendarImplCopyWith<_$OpenCustomCalendarImpl> get copyWith =>
+      __$$OpenCustomCalendarImplCopyWithImpl<_$OpenCustomCalendarImpl>(
           this, _$identity);
 
   @override
@@ -779,7 +780,7 @@ abstract class OpenCustomCalendar extends ListViewUiEvents {
       required final String label,
       final DateTime? date,
       required final bool allowFutureDates,
-      final bool? isDateTime}) = _$OpenCustomCalendar;
+      final bool? isDateTime}) = _$OpenCustomCalendarImpl;
   const OpenCustomCalendar._() : super._();
 
   String get uid;
@@ -788,25 +789,25 @@ abstract class OpenCustomCalendar extends ListViewUiEvents {
   bool get allowFutureDates;
   bool? get isDateTime;
   @JsonKey(ignore: true)
-  _$$OpenCustomCalendarCopyWith<_$OpenCustomCalendar> get copyWith =>
+  _$$OpenCustomCalendarImplCopyWith<_$OpenCustomCalendarImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$OpenTimePickerCopyWith<$Res> {
-  factory _$$OpenTimePickerCopyWith(
-          _$OpenTimePicker value, $Res Function(_$OpenTimePicker) then) =
-      __$$OpenTimePickerCopyWithImpl<$Res>;
+abstract class _$$OpenTimePickerImplCopyWith<$Res> {
+  factory _$$OpenTimePickerImplCopyWith(_$OpenTimePickerImpl value,
+          $Res Function(_$OpenTimePickerImpl) then) =
+      __$$OpenTimePickerImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String uid, String label, DateTime? date, bool? isDateTime});
 }
 
 /// @nodoc
-class __$$OpenTimePickerCopyWithImpl<$Res>
-    extends _$ListViewUiEventsCopyWithImpl<$Res, _$OpenTimePicker>
-    implements _$$OpenTimePickerCopyWith<$Res> {
-  __$$OpenTimePickerCopyWithImpl(
-      _$OpenTimePicker _value, $Res Function(_$OpenTimePicker) _then)
+class __$$OpenTimePickerImplCopyWithImpl<$Res>
+    extends _$ListViewUiEventsCopyWithImpl<$Res, _$OpenTimePickerImpl>
+    implements _$$OpenTimePickerImplCopyWith<$Res> {
+  __$$OpenTimePickerImplCopyWithImpl(
+      _$OpenTimePickerImpl _value, $Res Function(_$OpenTimePickerImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -817,7 +818,7 @@ class __$$OpenTimePickerCopyWithImpl<$Res>
     Object? date = freezed,
     Object? isDateTime = freezed,
   }) {
-    return _then(_$OpenTimePicker(
+    return _then(_$OpenTimePickerImpl(
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
@@ -840,8 +841,8 @@ class __$$OpenTimePickerCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$OpenTimePicker extends OpenTimePicker with DiagnosticableTreeMixin {
-  const _$OpenTimePicker(
+class _$OpenTimePickerImpl extends OpenTimePicker with DiagnosticableTreeMixin {
+  const _$OpenTimePickerImpl(
       {required this.uid,
       required this.label,
       this.date,
@@ -875,10 +876,10 @@ class _$OpenTimePicker extends OpenTimePicker with DiagnosticableTreeMixin {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$OpenTimePicker &&
+            other is _$OpenTimePickerImpl &&
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.label, label) || other.label == label) &&
             (identical(other.date, date) || other.date == date) &&
@@ -892,8 +893,9 @@ class _$OpenTimePicker extends OpenTimePicker with DiagnosticableTreeMixin {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$OpenTimePickerCopyWith<_$OpenTimePicker> get copyWith =>
-      __$$OpenTimePickerCopyWithImpl<_$OpenTimePicker>(this, _$identity);
+  _$$OpenTimePickerImplCopyWith<_$OpenTimePickerImpl> get copyWith =>
+      __$$OpenTimePickerImplCopyWithImpl<_$OpenTimePickerImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1072,7 +1074,7 @@ abstract class OpenTimePicker extends ListViewUiEvents {
       {required final String uid,
       required final String label,
       final DateTime? date,
-      final bool? isDateTime}) = _$OpenTimePicker;
+      final bool? isDateTime}) = _$OpenTimePickerImpl;
   const OpenTimePicker._() : super._();
 
   String get uid;
@@ -1080,27 +1082,28 @@ abstract class OpenTimePicker extends ListViewUiEvents {
   DateTime? get date;
   bool? get isDateTime;
   @JsonKey(ignore: true)
-  _$$OpenTimePickerCopyWith<_$OpenTimePicker> get copyWith =>
+  _$$OpenTimePickerImplCopyWith<_$OpenTimePickerImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$ShowDescriptionLabelDialogCopyWith<$Res> {
-  factory _$$ShowDescriptionLabelDialogCopyWith(
-          _$ShowDescriptionLabelDialog value,
-          $Res Function(_$ShowDescriptionLabelDialog) then) =
-      __$$ShowDescriptionLabelDialogCopyWithImpl<$Res>;
+abstract class _$$ShowDescriptionLabelDialogImplCopyWith<$Res> {
+  factory _$$ShowDescriptionLabelDialogImplCopyWith(
+          _$ShowDescriptionLabelDialogImpl value,
+          $Res Function(_$ShowDescriptionLabelDialogImpl) then) =
+      __$$ShowDescriptionLabelDialogImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String title, String? message});
 }
 
 /// @nodoc
-class __$$ShowDescriptionLabelDialogCopyWithImpl<$Res>
-    extends _$ListViewUiEventsCopyWithImpl<$Res, _$ShowDescriptionLabelDialog>
-    implements _$$ShowDescriptionLabelDialogCopyWith<$Res> {
-  __$$ShowDescriptionLabelDialogCopyWithImpl(
-      _$ShowDescriptionLabelDialog _value,
-      $Res Function(_$ShowDescriptionLabelDialog) _then)
+class __$$ShowDescriptionLabelDialogImplCopyWithImpl<$Res>
+    extends _$ListViewUiEventsCopyWithImpl<$Res,
+        _$ShowDescriptionLabelDialogImpl>
+    implements _$$ShowDescriptionLabelDialogImplCopyWith<$Res> {
+  __$$ShowDescriptionLabelDialogImplCopyWithImpl(
+      _$ShowDescriptionLabelDialogImpl _value,
+      $Res Function(_$ShowDescriptionLabelDialogImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1109,7 +1112,7 @@ class __$$ShowDescriptionLabelDialogCopyWithImpl<$Res>
     Object? title = null,
     Object? message = freezed,
   }) {
-    return _then(_$ShowDescriptionLabelDialog(
+    return _then(_$ShowDescriptionLabelDialogImpl(
       null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -1124,9 +1127,9 @@ class __$$ShowDescriptionLabelDialogCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ShowDescriptionLabelDialog extends ShowDescriptionLabelDialog
+class _$ShowDescriptionLabelDialogImpl extends ShowDescriptionLabelDialog
     with DiagnosticableTreeMixin {
-  const _$ShowDescriptionLabelDialog(this.title, this.message) : super._();
+  const _$ShowDescriptionLabelDialogImpl(this.title, this.message) : super._();
 
   @override
   final String title;
@@ -1149,10 +1152,10 @@ class _$ShowDescriptionLabelDialog extends ShowDescriptionLabelDialog
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ShowDescriptionLabelDialog &&
+            other is _$ShowDescriptionLabelDialogImpl &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.message, message) || other.message == message));
   }
@@ -1163,9 +1166,9 @@ class _$ShowDescriptionLabelDialog extends ShowDescriptionLabelDialog
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ShowDescriptionLabelDialogCopyWith<_$ShowDescriptionLabelDialog>
-      get copyWith => __$$ShowDescriptionLabelDialogCopyWithImpl<
-          _$ShowDescriptionLabelDialog>(this, _$identity);
+  _$$ShowDescriptionLabelDialogImplCopyWith<_$ShowDescriptionLabelDialogImpl>
+      get copyWith => __$$ShowDescriptionLabelDialogImplCopyWithImpl<
+          _$ShowDescriptionLabelDialogImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1341,31 +1344,34 @@ class _$ShowDescriptionLabelDialog extends ShowDescriptionLabelDialog
 
 abstract class ShowDescriptionLabelDialog extends ListViewUiEvents {
   const factory ShowDescriptionLabelDialog(
-      final String title, final String? message) = _$ShowDescriptionLabelDialog;
+          final String title, final String? message) =
+      _$ShowDescriptionLabelDialogImpl;
   const ShowDescriptionLabelDialog._() : super._();
 
   String get title;
   String? get message;
   @JsonKey(ignore: true)
-  _$$ShowDescriptionLabelDialogCopyWith<_$ShowDescriptionLabelDialog>
+  _$$ShowDescriptionLabelDialogImplCopyWith<_$ShowDescriptionLabelDialogImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$RequestCurrentLocationCopyWith<$Res> {
-  factory _$$RequestCurrentLocationCopyWith(_$RequestCurrentLocation value,
-          $Res Function(_$RequestCurrentLocation) then) =
-      __$$RequestCurrentLocationCopyWithImpl<$Res>;
+abstract class _$$RequestCurrentLocationImplCopyWith<$Res> {
+  factory _$$RequestCurrentLocationImplCopyWith(
+          _$RequestCurrentLocationImpl value,
+          $Res Function(_$RequestCurrentLocationImpl) then) =
+      __$$RequestCurrentLocationImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String uid});
 }
 
 /// @nodoc
-class __$$RequestCurrentLocationCopyWithImpl<$Res>
-    extends _$ListViewUiEventsCopyWithImpl<$Res, _$RequestCurrentLocation>
-    implements _$$RequestCurrentLocationCopyWith<$Res> {
-  __$$RequestCurrentLocationCopyWithImpl(_$RequestCurrentLocation _value,
-      $Res Function(_$RequestCurrentLocation) _then)
+class __$$RequestCurrentLocationImplCopyWithImpl<$Res>
+    extends _$ListViewUiEventsCopyWithImpl<$Res, _$RequestCurrentLocationImpl>
+    implements _$$RequestCurrentLocationImplCopyWith<$Res> {
+  __$$RequestCurrentLocationImplCopyWithImpl(
+      _$RequestCurrentLocationImpl _value,
+      $Res Function(_$RequestCurrentLocationImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1373,7 +1379,7 @@ class __$$RequestCurrentLocationCopyWithImpl<$Res>
   $Res call({
     Object? uid = null,
   }) {
-    return _then(_$RequestCurrentLocation(
+    return _then(_$RequestCurrentLocationImpl(
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
@@ -1384,9 +1390,9 @@ class __$$RequestCurrentLocationCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$RequestCurrentLocation extends RequestCurrentLocation
+class _$RequestCurrentLocationImpl extends RequestCurrentLocation
     with DiagnosticableTreeMixin {
-  const _$RequestCurrentLocation({required this.uid}) : super._();
+  const _$RequestCurrentLocationImpl({required this.uid}) : super._();
 
   @override
   final String uid;
@@ -1406,10 +1412,10 @@ class _$RequestCurrentLocation extends RequestCurrentLocation
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$RequestCurrentLocation &&
+            other is _$RequestCurrentLocationImpl &&
             (identical(other.uid, uid) || other.uid == uid));
   }
 
@@ -1419,9 +1425,9 @@ class _$RequestCurrentLocation extends RequestCurrentLocation
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$RequestCurrentLocationCopyWith<_$RequestCurrentLocation> get copyWith =>
-      __$$RequestCurrentLocationCopyWithImpl<_$RequestCurrentLocation>(
-          this, _$identity);
+  _$$RequestCurrentLocationImplCopyWith<_$RequestCurrentLocationImpl>
+      get copyWith => __$$RequestCurrentLocationImplCopyWithImpl<
+          _$RequestCurrentLocationImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1597,30 +1603,30 @@ class _$RequestCurrentLocation extends RequestCurrentLocation
 
 abstract class RequestCurrentLocation extends ListViewUiEvents {
   const factory RequestCurrentLocation({required final String uid}) =
-      _$RequestCurrentLocation;
+      _$RequestCurrentLocationImpl;
   const RequestCurrentLocation._() : super._();
 
   String get uid;
   @JsonKey(ignore: true)
-  _$$RequestCurrentLocationCopyWith<_$RequestCurrentLocation> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$RequestCurrentLocationImplCopyWith<_$RequestCurrentLocationImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$RequestLocationByMapCopyWith<$Res> {
-  factory _$$RequestLocationByMapCopyWith(_$RequestLocationByMap value,
-          $Res Function(_$RequestLocationByMap) then) =
-      __$$RequestLocationByMapCopyWithImpl<$Res>;
+abstract class _$$RequestLocationByMapImplCopyWith<$Res> {
+  factory _$$RequestLocationByMapImplCopyWith(_$RequestLocationByMapImpl value,
+          $Res Function(_$RequestLocationByMapImpl) then) =
+      __$$RequestLocationByMapImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String uid, FeatureType featureType, String? value});
 }
 
 /// @nodoc
-class __$$RequestLocationByMapCopyWithImpl<$Res>
-    extends _$ListViewUiEventsCopyWithImpl<$Res, _$RequestLocationByMap>
-    implements _$$RequestLocationByMapCopyWith<$Res> {
-  __$$RequestLocationByMapCopyWithImpl(_$RequestLocationByMap _value,
-      $Res Function(_$RequestLocationByMap) _then)
+class __$$RequestLocationByMapImplCopyWithImpl<$Res>
+    extends _$ListViewUiEventsCopyWithImpl<$Res, _$RequestLocationByMapImpl>
+    implements _$$RequestLocationByMapImplCopyWith<$Res> {
+  __$$RequestLocationByMapImplCopyWithImpl(_$RequestLocationByMapImpl _value,
+      $Res Function(_$RequestLocationByMapImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1630,7 +1636,7 @@ class __$$RequestLocationByMapCopyWithImpl<$Res>
     Object? featureType = null,
     Object? value = freezed,
   }) {
-    return _then(_$RequestLocationByMap(
+    return _then(_$RequestLocationByMapImpl(
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
@@ -1649,9 +1655,9 @@ class __$$RequestLocationByMapCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$RequestLocationByMap extends RequestLocationByMap
+class _$RequestLocationByMapImpl extends RequestLocationByMap
     with DiagnosticableTreeMixin {
-  const _$RequestLocationByMap(
+  const _$RequestLocationByMapImpl(
       {required this.uid, required this.featureType, this.value})
       : super._();
 
@@ -1679,10 +1685,10 @@ class _$RequestLocationByMap extends RequestLocationByMap
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$RequestLocationByMap &&
+            other is _$RequestLocationByMapImpl &&
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.featureType, featureType) ||
                 other.featureType == featureType) &&
@@ -1695,9 +1701,10 @@ class _$RequestLocationByMap extends RequestLocationByMap
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$RequestLocationByMapCopyWith<_$RequestLocationByMap> get copyWith =>
-      __$$RequestLocationByMapCopyWithImpl<_$RequestLocationByMap>(
-          this, _$identity);
+  _$$RequestLocationByMapImplCopyWith<_$RequestLocationByMapImpl>
+      get copyWith =>
+          __$$RequestLocationByMapImplCopyWithImpl<_$RequestLocationByMapImpl>(
+              this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1875,32 +1882,32 @@ abstract class RequestLocationByMap extends ListViewUiEvents {
   const factory RequestLocationByMap(
       {required final String uid,
       required final FeatureType featureType,
-      final String? value}) = _$RequestLocationByMap;
+      final String? value}) = _$RequestLocationByMapImpl;
   const RequestLocationByMap._() : super._();
 
   String get uid;
   FeatureType get featureType;
   String? get value;
   @JsonKey(ignore: true)
-  _$$RequestLocationByMapCopyWith<_$RequestLocationByMap> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$RequestLocationByMapImplCopyWith<_$RequestLocationByMapImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$ScanQRCodeCopyWith<$Res> {
-  factory _$$ScanQRCodeCopyWith(
-          _$ScanQRCode value, $Res Function(_$ScanQRCode) then) =
-      __$$ScanQRCodeCopyWithImpl<$Res>;
+abstract class _$$ScanQRCodeImplCopyWith<$Res> {
+  factory _$$ScanQRCodeImplCopyWith(
+          _$ScanQRCodeImpl value, $Res Function(_$ScanQRCodeImpl) then) =
+      __$$ScanQRCodeImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String uid, String? optionSet, UiRenderType? renderingType});
 }
 
 /// @nodoc
-class __$$ScanQRCodeCopyWithImpl<$Res>
-    extends _$ListViewUiEventsCopyWithImpl<$Res, _$ScanQRCode>
-    implements _$$ScanQRCodeCopyWith<$Res> {
-  __$$ScanQRCodeCopyWithImpl(
-      _$ScanQRCode _value, $Res Function(_$ScanQRCode) _then)
+class __$$ScanQRCodeImplCopyWithImpl<$Res>
+    extends _$ListViewUiEventsCopyWithImpl<$Res, _$ScanQRCodeImpl>
+    implements _$$ScanQRCodeImplCopyWith<$Res> {
+  __$$ScanQRCodeImplCopyWithImpl(
+      _$ScanQRCodeImpl _value, $Res Function(_$ScanQRCodeImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1910,7 +1917,7 @@ class __$$ScanQRCodeCopyWithImpl<$Res>
     Object? optionSet = freezed,
     Object? renderingType = freezed,
   }) {
-    return _then(_$ScanQRCode(
+    return _then(_$ScanQRCodeImpl(
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
@@ -1929,8 +1936,9 @@ class __$$ScanQRCodeCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ScanQRCode extends ScanQRCode with DiagnosticableTreeMixin {
-  const _$ScanQRCode({required this.uid, this.optionSet, this.renderingType})
+class _$ScanQRCodeImpl extends ScanQRCode with DiagnosticableTreeMixin {
+  const _$ScanQRCodeImpl(
+      {required this.uid, this.optionSet, this.renderingType})
       : super._();
 
   @override
@@ -1956,10 +1964,10 @@ class _$ScanQRCode extends ScanQRCode with DiagnosticableTreeMixin {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ScanQRCode &&
+            other is _$ScanQRCodeImpl &&
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.optionSet, optionSet) ||
                 other.optionSet == optionSet) &&
@@ -1973,8 +1981,8 @@ class _$ScanQRCode extends ScanQRCode with DiagnosticableTreeMixin {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ScanQRCodeCopyWith<_$ScanQRCode> get copyWith =>
-      __$$ScanQRCodeCopyWithImpl<_$ScanQRCode>(this, _$identity);
+  _$$ScanQRCodeImplCopyWith<_$ScanQRCodeImpl> get copyWith =>
+      __$$ScanQRCodeImplCopyWithImpl<_$ScanQRCodeImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -2152,22 +2160,22 @@ abstract class ScanQRCode extends ListViewUiEvents {
   const factory ScanQRCode(
       {required final String uid,
       final String? optionSet,
-      final UiRenderType? renderingType}) = _$ScanQRCode;
+      final UiRenderType? renderingType}) = _$ScanQRCodeImpl;
   const ScanQRCode._() : super._();
 
   String get uid;
   String? get optionSet;
   UiRenderType? get renderingType;
   @JsonKey(ignore: true)
-  _$$ScanQRCodeCopyWith<_$ScanQRCode> get copyWith =>
+  _$$ScanQRCodeImplCopyWith<_$ScanQRCodeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$DisplayQRCodeCopyWith<$Res> {
-  factory _$$DisplayQRCodeCopyWith(
-          _$DisplayQRCode value, $Res Function(_$DisplayQRCode) then) =
-      __$$DisplayQRCodeCopyWithImpl<$Res>;
+abstract class _$$DisplayQRCodeImplCopyWith<$Res> {
+  factory _$$DisplayQRCodeImplCopyWith(
+          _$DisplayQRCodeImpl value, $Res Function(_$DisplayQRCodeImpl) then) =
+      __$$DisplayQRCodeImplCopyWithImpl<$Res>;
   @useResult
   $Res call(
       {String uid,
@@ -2178,11 +2186,11 @@ abstract class _$$DisplayQRCodeCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$DisplayQRCodeCopyWithImpl<$Res>
-    extends _$ListViewUiEventsCopyWithImpl<$Res, _$DisplayQRCode>
-    implements _$$DisplayQRCodeCopyWith<$Res> {
-  __$$DisplayQRCodeCopyWithImpl(
-      _$DisplayQRCode _value, $Res Function(_$DisplayQRCode) _then)
+class __$$DisplayQRCodeImplCopyWithImpl<$Res>
+    extends _$ListViewUiEventsCopyWithImpl<$Res, _$DisplayQRCodeImpl>
+    implements _$$DisplayQRCodeImplCopyWith<$Res> {
+  __$$DisplayQRCodeImplCopyWithImpl(
+      _$DisplayQRCodeImpl _value, $Res Function(_$DisplayQRCodeImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2194,7 +2202,7 @@ class __$$DisplayQRCodeCopyWithImpl<$Res>
     Object? renderingType = freezed,
     Object? editable = null,
   }) {
-    return _then(_$DisplayQRCode(
+    return _then(_$DisplayQRCodeImpl(
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
@@ -2221,8 +2229,8 @@ class __$$DisplayQRCodeCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$DisplayQRCode extends DisplayQRCode with DiagnosticableTreeMixin {
-  const _$DisplayQRCode(
+class _$DisplayQRCodeImpl extends DisplayQRCode with DiagnosticableTreeMixin {
+  const _$DisplayQRCodeImpl(
       {required this.uid,
       this.optionSet,
       required this.value,
@@ -2259,10 +2267,10 @@ class _$DisplayQRCode extends DisplayQRCode with DiagnosticableTreeMixin {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DisplayQRCode &&
+            other is _$DisplayQRCodeImpl &&
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.optionSet, optionSet) ||
                 other.optionSet == optionSet) &&
@@ -2280,8 +2288,8 @@ class _$DisplayQRCode extends DisplayQRCode with DiagnosticableTreeMixin {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$DisplayQRCodeCopyWith<_$DisplayQRCode> get copyWith =>
-      __$$DisplayQRCodeCopyWithImpl<_$DisplayQRCode>(this, _$identity);
+  _$$DisplayQRCodeImplCopyWith<_$DisplayQRCodeImpl> get copyWith =>
+      __$$DisplayQRCodeImplCopyWithImpl<_$DisplayQRCodeImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -2461,7 +2469,7 @@ abstract class DisplayQRCode extends ListViewUiEvents {
       final String? optionSet,
       required final String value,
       final UiRenderType? renderingType,
-      required final bool editable}) = _$DisplayQRCode;
+      required final bool editable}) = _$DisplayQRCodeImpl;
   const DisplayQRCode._() : super._();
 
   String get uid;
@@ -2470,25 +2478,25 @@ abstract class DisplayQRCode extends ListViewUiEvents {
   UiRenderType? get renderingType;
   bool get editable;
   @JsonKey(ignore: true)
-  _$$DisplayQRCodeCopyWith<_$DisplayQRCode> get copyWith =>
+  _$$DisplayQRCodeImplCopyWith<_$DisplayQRCodeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$OpenOrgUnitDialogCopyWith<$Res> {
-  factory _$$OpenOrgUnitDialogCopyWith(
-          _$OpenOrgUnitDialog value, $Res Function(_$OpenOrgUnitDialog) then) =
-      __$$OpenOrgUnitDialogCopyWithImpl<$Res>;
+abstract class _$$OpenOrgUnitDialogImplCopyWith<$Res> {
+  factory _$$OpenOrgUnitDialogImplCopyWith(_$OpenOrgUnitDialogImpl value,
+          $Res Function(_$OpenOrgUnitDialogImpl) then) =
+      __$$OpenOrgUnitDialogImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String uid, String label, String? value});
 }
 
 /// @nodoc
-class __$$OpenOrgUnitDialogCopyWithImpl<$Res>
-    extends _$ListViewUiEventsCopyWithImpl<$Res, _$OpenOrgUnitDialog>
-    implements _$$OpenOrgUnitDialogCopyWith<$Res> {
-  __$$OpenOrgUnitDialogCopyWithImpl(
-      _$OpenOrgUnitDialog _value, $Res Function(_$OpenOrgUnitDialog) _then)
+class __$$OpenOrgUnitDialogImplCopyWithImpl<$Res>
+    extends _$ListViewUiEventsCopyWithImpl<$Res, _$OpenOrgUnitDialogImpl>
+    implements _$$OpenOrgUnitDialogImplCopyWith<$Res> {
+  __$$OpenOrgUnitDialogImplCopyWithImpl(_$OpenOrgUnitDialogImpl _value,
+      $Res Function(_$OpenOrgUnitDialogImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2498,7 +2506,7 @@ class __$$OpenOrgUnitDialogCopyWithImpl<$Res>
     Object? label = null,
     Object? value = freezed,
   }) {
-    return _then(_$OpenOrgUnitDialog(
+    return _then(_$OpenOrgUnitDialogImpl(
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
@@ -2517,9 +2525,9 @@ class __$$OpenOrgUnitDialogCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$OpenOrgUnitDialog extends OpenOrgUnitDialog
+class _$OpenOrgUnitDialogImpl extends OpenOrgUnitDialog
     with DiagnosticableTreeMixin {
-  const _$OpenOrgUnitDialog(
+  const _$OpenOrgUnitDialogImpl(
       {required this.uid, required this.label, this.value})
       : super._();
 
@@ -2546,10 +2554,10 @@ class _$OpenOrgUnitDialog extends OpenOrgUnitDialog
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$OpenOrgUnitDialog &&
+            other is _$OpenOrgUnitDialogImpl &&
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.label, label) || other.label == label) &&
             (identical(other.value, value) || other.value == value));
@@ -2561,8 +2569,9 @@ class _$OpenOrgUnitDialog extends OpenOrgUnitDialog
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$OpenOrgUnitDialogCopyWith<_$OpenOrgUnitDialog> get copyWith =>
-      __$$OpenOrgUnitDialogCopyWithImpl<_$OpenOrgUnitDialog>(this, _$identity);
+  _$$OpenOrgUnitDialogImplCopyWith<_$OpenOrgUnitDialogImpl> get copyWith =>
+      __$$OpenOrgUnitDialogImplCopyWithImpl<_$OpenOrgUnitDialogImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -2740,31 +2749,32 @@ abstract class OpenOrgUnitDialog extends ListViewUiEvents {
   const factory OpenOrgUnitDialog(
       {required final String uid,
       required final String label,
-      final String? value}) = _$OpenOrgUnitDialog;
+      final String? value}) = _$OpenOrgUnitDialogImpl;
   const OpenOrgUnitDialog._() : super._();
 
   String get uid;
   String get label;
   String? get value;
   @JsonKey(ignore: true)
-  _$$OpenOrgUnitDialogCopyWith<_$OpenOrgUnitDialog> get copyWith =>
+  _$$OpenOrgUnitDialogImplCopyWith<_$OpenOrgUnitDialogImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$AddImageCopyWith<$Res> {
-  factory _$$AddImageCopyWith(
-          _$AddImage value, $Res Function(_$AddImage) then) =
-      __$$AddImageCopyWithImpl<$Res>;
+abstract class _$$AddImageImplCopyWith<$Res> {
+  factory _$$AddImageImplCopyWith(
+          _$AddImageImpl value, $Res Function(_$AddImageImpl) then) =
+      __$$AddImageImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String uid});
 }
 
 /// @nodoc
-class __$$AddImageCopyWithImpl<$Res>
-    extends _$ListViewUiEventsCopyWithImpl<$Res, _$AddImage>
-    implements _$$AddImageCopyWith<$Res> {
-  __$$AddImageCopyWithImpl(_$AddImage _value, $Res Function(_$AddImage) _then)
+class __$$AddImageImplCopyWithImpl<$Res>
+    extends _$ListViewUiEventsCopyWithImpl<$Res, _$AddImageImpl>
+    implements _$$AddImageImplCopyWith<$Res> {
+  __$$AddImageImplCopyWithImpl(
+      _$AddImageImpl _value, $Res Function(_$AddImageImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2772,7 +2782,7 @@ class __$$AddImageCopyWithImpl<$Res>
   $Res call({
     Object? uid = null,
   }) {
-    return _then(_$AddImage(
+    return _then(_$AddImageImpl(
       null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
@@ -2783,8 +2793,8 @@ class __$$AddImageCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$AddImage extends AddImage with DiagnosticableTreeMixin {
-  const _$AddImage(this.uid) : super._();
+class _$AddImageImpl extends AddImage with DiagnosticableTreeMixin {
+  const _$AddImageImpl(this.uid) : super._();
 
   @override
   final String uid;
@@ -2803,10 +2813,10 @@ class _$AddImage extends AddImage with DiagnosticableTreeMixin {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$AddImage &&
+            other is _$AddImageImpl &&
             (identical(other.uid, uid) || other.uid == uid));
   }
 
@@ -2816,8 +2826,8 @@ class _$AddImage extends AddImage with DiagnosticableTreeMixin {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$AddImageCopyWith<_$AddImage> get copyWith =>
-      __$$AddImageCopyWithImpl<_$AddImage>(this, _$identity);
+  _$$AddImageImplCopyWith<_$AddImageImpl> get copyWith =>
+      __$$AddImageImplCopyWithImpl<_$AddImageImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -2992,30 +3002,30 @@ class _$AddImage extends AddImage with DiagnosticableTreeMixin {
 }
 
 abstract class AddImage extends ListViewUiEvents {
-  const factory AddImage(final String uid) = _$AddImage;
+  const factory AddImage(final String uid) = _$AddImageImpl;
   const AddImage._() : super._();
 
   String get uid;
   @JsonKey(ignore: true)
-  _$$AddImageCopyWith<_$AddImage> get copyWith =>
+  _$$AddImageImplCopyWith<_$AddImageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$ShowImageCopyWith<$Res> {
-  factory _$$ShowImageCopyWith(
-          _$ShowImage value, $Res Function(_$ShowImage) then) =
-      __$$ShowImageCopyWithImpl<$Res>;
+abstract class _$$ShowImageImplCopyWith<$Res> {
+  factory _$$ShowImageImplCopyWith(
+          _$ShowImageImpl value, $Res Function(_$ShowImageImpl) then) =
+      __$$ShowImageImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String label, String value});
 }
 
 /// @nodoc
-class __$$ShowImageCopyWithImpl<$Res>
-    extends _$ListViewUiEventsCopyWithImpl<$Res, _$ShowImage>
-    implements _$$ShowImageCopyWith<$Res> {
-  __$$ShowImageCopyWithImpl(
-      _$ShowImage _value, $Res Function(_$ShowImage) _then)
+class __$$ShowImageImplCopyWithImpl<$Res>
+    extends _$ListViewUiEventsCopyWithImpl<$Res, _$ShowImageImpl>
+    implements _$$ShowImageImplCopyWith<$Res> {
+  __$$ShowImageImplCopyWithImpl(
+      _$ShowImageImpl _value, $Res Function(_$ShowImageImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -3024,7 +3034,7 @@ class __$$ShowImageCopyWithImpl<$Res>
     Object? label = null,
     Object? value = null,
   }) {
-    return _then(_$ShowImage(
+    return _then(_$ShowImageImpl(
       label: null == label
           ? _value.label
           : label // ignore: cast_nullable_to_non_nullable
@@ -3039,8 +3049,8 @@ class __$$ShowImageCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ShowImage extends ShowImage with DiagnosticableTreeMixin {
-  const _$ShowImage({required this.label, required this.value}) : super._();
+class _$ShowImageImpl extends ShowImage with DiagnosticableTreeMixin {
+  const _$ShowImageImpl({required this.label, required this.value}) : super._();
 
   @override
   final String label;
@@ -3062,10 +3072,10 @@ class _$ShowImage extends ShowImage with DiagnosticableTreeMixin {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ShowImage &&
+            other is _$ShowImageImpl &&
             (identical(other.label, label) || other.label == label) &&
             (identical(other.value, value) || other.value == value));
   }
@@ -3076,8 +3086,8 @@ class _$ShowImage extends ShowImage with DiagnosticableTreeMixin {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ShowImageCopyWith<_$ShowImage> get copyWith =>
-      __$$ShowImageCopyWithImpl<_$ShowImage>(this, _$identity);
+  _$$ShowImageImplCopyWith<_$ShowImageImpl> get copyWith =>
+      __$$ShowImageImplCopyWithImpl<_$ShowImageImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -3253,31 +3263,32 @@ class _$ShowImage extends ShowImage with DiagnosticableTreeMixin {
 
 abstract class ShowImage extends ListViewUiEvents {
   const factory ShowImage(
-      {required final String label, required final String value}) = _$ShowImage;
+      {required final String label,
+      required final String value}) = _$ShowImageImpl;
   const ShowImage._() : super._();
 
   String get label;
   String get value;
   @JsonKey(ignore: true)
-  _$$ShowImageCopyWith<_$ShowImage> get copyWith =>
+  _$$ShowImageImplCopyWith<_$ShowImageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$CopyToClipboardCopyWith<$Res> {
-  factory _$$CopyToClipboardCopyWith(
-          _$CopyToClipboard value, $Res Function(_$CopyToClipboard) then) =
-      __$$CopyToClipboardCopyWithImpl<$Res>;
+abstract class _$$CopyToClipboardImplCopyWith<$Res> {
+  factory _$$CopyToClipboardImplCopyWith(_$CopyToClipboardImpl value,
+          $Res Function(_$CopyToClipboardImpl) then) =
+      __$$CopyToClipboardImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String? value});
 }
 
 /// @nodoc
-class __$$CopyToClipboardCopyWithImpl<$Res>
-    extends _$ListViewUiEventsCopyWithImpl<$Res, _$CopyToClipboard>
-    implements _$$CopyToClipboardCopyWith<$Res> {
-  __$$CopyToClipboardCopyWithImpl(
-      _$CopyToClipboard _value, $Res Function(_$CopyToClipboard) _then)
+class __$$CopyToClipboardImplCopyWithImpl<$Res>
+    extends _$ListViewUiEventsCopyWithImpl<$Res, _$CopyToClipboardImpl>
+    implements _$$CopyToClipboardImplCopyWith<$Res> {
+  __$$CopyToClipboardImplCopyWithImpl(
+      _$CopyToClipboardImpl _value, $Res Function(_$CopyToClipboardImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -3285,7 +3296,7 @@ class __$$CopyToClipboardCopyWithImpl<$Res>
   $Res call({
     Object? value = freezed,
   }) {
-    return _then(_$CopyToClipboard(
+    return _then(_$CopyToClipboardImpl(
       value: freezed == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -3296,8 +3307,9 @@ class __$$CopyToClipboardCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$CopyToClipboard extends CopyToClipboard with DiagnosticableTreeMixin {
-  const _$CopyToClipboard({this.value}) : super._();
+class _$CopyToClipboardImpl extends CopyToClipboard
+    with DiagnosticableTreeMixin {
+  const _$CopyToClipboardImpl({this.value}) : super._();
 
   @override
   final String? value;
@@ -3316,10 +3328,10 @@ class _$CopyToClipboard extends CopyToClipboard with DiagnosticableTreeMixin {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CopyToClipboard &&
+            other is _$CopyToClipboardImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -3329,8 +3341,9 @@ class _$CopyToClipboard extends CopyToClipboard with DiagnosticableTreeMixin {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$CopyToClipboardCopyWith<_$CopyToClipboard> get copyWith =>
-      __$$CopyToClipboardCopyWithImpl<_$CopyToClipboard>(this, _$identity);
+  _$$CopyToClipboardImplCopyWith<_$CopyToClipboardImpl> get copyWith =>
+      __$$CopyToClipboardImplCopyWithImpl<_$CopyToClipboardImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -3505,30 +3518,30 @@ class _$CopyToClipboard extends CopyToClipboard with DiagnosticableTreeMixin {
 }
 
 abstract class CopyToClipboard extends ListViewUiEvents {
-  const factory CopyToClipboard({final String? value}) = _$CopyToClipboard;
+  const factory CopyToClipboard({final String? value}) = _$CopyToClipboardImpl;
   const CopyToClipboard._() : super._();
 
   String? get value;
   @JsonKey(ignore: true)
-  _$$CopyToClipboardCopyWith<_$CopyToClipboard> get copyWith =>
+  _$$CopyToClipboardImplCopyWith<_$CopyToClipboardImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$OpenOptionSetDialogCopyWith<$Res> {
-  factory _$$OpenOptionSetDialogCopyWith(_$OpenOptionSetDialog value,
-          $Res Function(_$OpenOptionSetDialog) then) =
-      __$$OpenOptionSetDialogCopyWithImpl<$Res>;
+abstract class _$$OpenOptionSetDialogImplCopyWith<$Res> {
+  factory _$$OpenOptionSetDialogImplCopyWith(_$OpenOptionSetDialogImpl value,
+          $Res Function(_$OpenOptionSetDialogImpl) then) =
+      __$$OpenOptionSetDialogImplCopyWithImpl<$Res>;
   @useResult
   $Res call({FieldUiModel field});
 }
 
 /// @nodoc
-class __$$OpenOptionSetDialogCopyWithImpl<$Res>
-    extends _$ListViewUiEventsCopyWithImpl<$Res, _$OpenOptionSetDialog>
-    implements _$$OpenOptionSetDialogCopyWith<$Res> {
-  __$$OpenOptionSetDialogCopyWithImpl(
-      _$OpenOptionSetDialog _value, $Res Function(_$OpenOptionSetDialog) _then)
+class __$$OpenOptionSetDialogImplCopyWithImpl<$Res>
+    extends _$ListViewUiEventsCopyWithImpl<$Res, _$OpenOptionSetDialogImpl>
+    implements _$$OpenOptionSetDialogImplCopyWith<$Res> {
+  __$$OpenOptionSetDialogImplCopyWithImpl(_$OpenOptionSetDialogImpl _value,
+      $Res Function(_$OpenOptionSetDialogImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -3536,7 +3549,7 @@ class __$$OpenOptionSetDialogCopyWithImpl<$Res>
   $Res call({
     Object? field = null,
   }) {
-    return _then(_$OpenOptionSetDialog(
+    return _then(_$OpenOptionSetDialogImpl(
       field: null == field
           ? _value.field
           : field // ignore: cast_nullable_to_non_nullable
@@ -3547,9 +3560,9 @@ class __$$OpenOptionSetDialogCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$OpenOptionSetDialog extends OpenOptionSetDialog
+class _$OpenOptionSetDialogImpl extends OpenOptionSetDialog
     with DiagnosticableTreeMixin {
-  const _$OpenOptionSetDialog({required this.field}) : super._();
+  const _$OpenOptionSetDialogImpl({required this.field}) : super._();
 
   @override
   final FieldUiModel field;
@@ -3568,10 +3581,10 @@ class _$OpenOptionSetDialog extends OpenOptionSetDialog
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$OpenOptionSetDialog &&
+            other is _$OpenOptionSetDialogImpl &&
             (identical(other.field, field) || other.field == field));
   }
 
@@ -3581,8 +3594,8 @@ class _$OpenOptionSetDialog extends OpenOptionSetDialog
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$OpenOptionSetDialogCopyWith<_$OpenOptionSetDialog> get copyWith =>
-      __$$OpenOptionSetDialogCopyWithImpl<_$OpenOptionSetDialog>(
+  _$$OpenOptionSetDialogImplCopyWith<_$OpenOptionSetDialogImpl> get copyWith =>
+      __$$OpenOptionSetDialogImplCopyWithImpl<_$OpenOptionSetDialogImpl>(
           this, _$identity);
 
   @override
@@ -3759,11 +3772,11 @@ class _$OpenOptionSetDialog extends OpenOptionSetDialog
 
 abstract class OpenOptionSetDialog extends ListViewUiEvents {
   const factory OpenOptionSetDialog({required final FieldUiModel field}) =
-      _$OpenOptionSetDialog;
+      _$OpenOptionSetDialogImpl;
   const OpenOptionSetDialog._() : super._();
 
   FieldUiModel get field;
   @JsonKey(ignore: true)
-  _$$OpenOptionSetDialogCopyWith<_$OpenOptionSetDialog> get copyWith =>
+  _$$OpenOptionSetDialogImplCopyWith<_$OpenOptionSetDialogImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

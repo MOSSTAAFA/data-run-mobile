@@ -2,7 +2,7 @@
 
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/metadatarun/project/entities/d_project.entity.dart';
-import 'package:mass_pro/commons/extensions/standard_extensions.dart';
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import 'package:mass_pro/core/common/state.dart';
 import 'package:mass_pro/data_run/utils/project_type.dart';
 import 'package:mass_pro/data_run/utils/utils.providers.dart';
@@ -14,14 +14,8 @@ class ProjectUtils {
 
   /// get Projects with activities the user have
   /// Assignments in assigned to him
-  Future<List<DProject>> getUserTeamsProjects(
-      {bool includeInactive = false}) async {
-    final activities = await ref
-        .read(activityUtilsProvider)
-        .getActivities(includeInactive: includeInactive);
-    final projectIds =
-        activities.map((activity) => activity.project as String).toList();
-    return D2Remote.projectModuleD.project.byIds(projectIds).get();
+  Future<List<DProject>> getProjects() {
+    return D2Remote.projectModuleD.project.get();
   }
 
   Future<int> getActivitiesCount(DProject? project) async {

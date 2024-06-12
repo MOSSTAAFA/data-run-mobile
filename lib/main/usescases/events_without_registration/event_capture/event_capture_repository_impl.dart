@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls
 
-import 'package:d2_remote/core/maintenance/d2_error.dart';
-import 'package:d2_remote/core/mp/enrollment/enrollment_status.dart';
+import 'package:mass_pro/sdk/core/maintenance/d2_error.dart';
+import 'package:mass_pro/sdk/core/mp/enrollment/enrollment_status.dart';
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/activity_management/activity/entities/activity.entity.dart';
 import 'package:d2_remote/modules/data/tracker/entities/enrollment.entity.dart';

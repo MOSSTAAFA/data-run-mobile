@@ -3,18 +3,18 @@ import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart'
 import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../commons/extensions/string_extension.dart';
-import '../../../../commons/helpers/collections.dart';
-import '../../../../commons/prefs/preference.dart';
-import '../../../../core/event/event_editable_status.dart';
-import '../../../../form/data/form_section_view_model.dart';
-import '../../../../form/model/field_ui_model.dart';
-import '../../../../main.dart';
-import '../../../l10n/app_localizations.dart';
-import '../event_capture/event_section_model.dart';
-import 'di/event_initial_module.dart';
-import 'event_initial_repository.dart';
-import 'event_initial_view.dart';
+import 'package:mass_pro/commons/extensions/string_extension.dart';
+import 'package:mass_pro/commons/helpers/collections.dart';
+import 'package:mass_pro/commons/prefs/preference.dart';
+import 'package:mass_pro/core/event/event_editable_status.dart';
+import 'package:mass_pro/form/data/form_section_view_model.dart';
+import 'package:mass_pro/form/model/field_ui_model.dart';
+import 'package:mass_pro/utils/navigator_key.dart';
+import 'package:mass_pro/main/l10n/app_localizations.dart';
+import 'package:mass_pro/main/usescases/events_without_registration/event_capture/event_section_model.dart';
+import 'package:mass_pro/main/usescases/events_without_registration/event_initial/di/event_initial_module.dart';
+import 'package:mass_pro/main/usescases/events_without_registration/event_initial/event_initial_repository.dart';
+import 'package:mass_pro/main/usescases/events_without_registration/event_initial/event_initial_view.dart';
 
 class EventInitialPresenter {
   EventInitialPresenter(this.ref, this.view, this.eventInitialRepository);

@@ -1,8 +1,8 @@
-import 'package:d2_remote/core/common/feature_type.dart';
+import 'package:mass_pro/sdk/core/common/feature_type.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity.dart';
 
 import '../../../../../commons/extensions/feature_type_extension.dart';
-import '../../../../../commons/extensions/standard_extensions.dart';
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import '../../../../../form/model/field_ui_model.dart';
 import '../data/event_details_repository.dart';
 import '../models/event_coordinates.dart';

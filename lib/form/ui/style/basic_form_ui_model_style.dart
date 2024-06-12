@@ -1,4 +1,4 @@
-import 'package:d2_remote/core/common/value_type.dart';
+import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 

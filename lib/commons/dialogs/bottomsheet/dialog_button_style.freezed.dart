@@ -12,7 +12,7 @@ part of 'dialog_button_style.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$DialogButtonStyle {
@@ -117,11 +117,11 @@ class _$DialogButtonStyleCopyWithImpl<$Res, $Val extends DialogButtonStyle>
 }
 
 /// @nodoc
-abstract class _$$_DialogButtonStyleCopyWith<$Res>
+abstract class _$$DialogButtonStyleImplCopyWith<$Res>
     implements $DialogButtonStyleCopyWith<$Res> {
-  factory _$$_DialogButtonStyleCopyWith(_$_DialogButtonStyle value,
-          $Res Function(_$_DialogButtonStyle) then) =
-      __$$_DialogButtonStyleCopyWithImpl<$Res>;
+  factory _$$DialogButtonStyleImplCopyWith(_$DialogButtonStyleImpl value,
+          $Res Function(_$DialogButtonStyleImpl) then) =
+      __$$DialogButtonStyleImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -132,11 +132,11 @@ abstract class _$$_DialogButtonStyleCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_DialogButtonStyleCopyWithImpl<$Res>
-    extends _$DialogButtonStyleCopyWithImpl<$Res, _$_DialogButtonStyle>
-    implements _$$_DialogButtonStyleCopyWith<$Res> {
-  __$$_DialogButtonStyleCopyWithImpl(
-      _$_DialogButtonStyle _value, $Res Function(_$_DialogButtonStyle) _then)
+class __$$DialogButtonStyleImplCopyWithImpl<$Res>
+    extends _$DialogButtonStyleCopyWithImpl<$Res, _$DialogButtonStyleImpl>
+    implements _$$DialogButtonStyleImplCopyWith<$Res> {
+  __$$DialogButtonStyleImplCopyWithImpl(_$DialogButtonStyleImpl _value,
+      $Res Function(_$DialogButtonStyleImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -147,7 +147,7 @@ class __$$_DialogButtonStyleCopyWithImpl<$Res>
     Object? iconResource = freezed,
     Object? backgroundColor = freezed,
   }) {
-    return _then(_$_DialogButtonStyle(
+    return _then(_$DialogButtonStyleImpl(
       textResource: null == textResource
           ? _value.textResource
           : textResource // ignore: cast_nullable_to_non_nullable
@@ -170,8 +170,8 @@ class __$$_DialogButtonStyleCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_DialogButtonStyle extends _DialogButtonStyle {
-  const _$_DialogButtonStyle(
+class _$DialogButtonStyleImpl extends _DialogButtonStyle {
+  const _$DialogButtonStyleImpl(
       {required this.textResource,
       this.colorResource,
       this.iconResource,
@@ -193,10 +193,10 @@ class _$_DialogButtonStyle extends _DialogButtonStyle {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_DialogButtonStyle &&
+            other is _$DialogButtonStyleImpl &&
             (identical(other.textResource, textResource) ||
                 other.textResource == textResource) &&
             (identical(other.colorResource, colorResource) ||
@@ -214,8 +214,8 @@ class _$_DialogButtonStyle extends _DialogButtonStyle {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_DialogButtonStyleCopyWith<_$_DialogButtonStyle> get copyWith =>
-      __$$_DialogButtonStyleCopyWithImpl<_$_DialogButtonStyle>(
+  _$$DialogButtonStyleImplCopyWith<_$DialogButtonStyleImpl> get copyWith =>
+      __$$DialogButtonStyleImplCopyWithImpl<_$DialogButtonStyleImpl>(
           this, _$identity);
 
   @override
@@ -304,7 +304,7 @@ abstract class _DialogButtonStyle extends DialogButtonStyle {
       {required final String textResource,
       final Color? colorResource,
       final IconData? iconResource,
-      final Color? backgroundColor}) = _$_DialogButtonStyle;
+      final Color? backgroundColor}) = _$DialogButtonStyleImpl;
   const _DialogButtonStyle._() : super._();
 
   @override
@@ -315,27 +315,27 @@ abstract class _DialogButtonStyle extends DialogButtonStyle {
   Color? get backgroundColor;
   @override
   @JsonKey(ignore: true)
-  _$$_DialogButtonStyleCopyWith<_$_DialogButtonStyle> get copyWith =>
+  _$$DialogButtonStyleImplCopyWith<_$DialogButtonStyleImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$MainButtonCopyWith<$Res>
+abstract class _$$MainButtonImplCopyWith<$Res>
     implements $DialogButtonStyleCopyWith<$Res> {
-  factory _$$MainButtonCopyWith(
-          _$MainButton value, $Res Function(_$MainButton) then) =
-      __$$MainButtonCopyWithImpl<$Res>;
+  factory _$$MainButtonImplCopyWith(
+          _$MainButtonImpl value, $Res Function(_$MainButtonImpl) then) =
+      __$$MainButtonImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String textResource, Color? colorResource});
 }
 
 /// @nodoc
-class __$$MainButtonCopyWithImpl<$Res>
-    extends _$DialogButtonStyleCopyWithImpl<$Res, _$MainButton>
-    implements _$$MainButtonCopyWith<$Res> {
-  __$$MainButtonCopyWithImpl(
-      _$MainButton _value, $Res Function(_$MainButton) _then)
+class __$$MainButtonImplCopyWithImpl<$Res>
+    extends _$DialogButtonStyleCopyWithImpl<$Res, _$MainButtonImpl>
+    implements _$$MainButtonImplCopyWith<$Res> {
+  __$$MainButtonImplCopyWithImpl(
+      _$MainButtonImpl _value, $Res Function(_$MainButtonImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -344,7 +344,7 @@ class __$$MainButtonCopyWithImpl<$Res>
     Object? textResource = null,
     Object? colorResource = freezed,
   }) {
-    return _then(_$MainButton(
+    return _then(_$MainButtonImpl(
       textResource: null == textResource
           ? _value.textResource
           : textResource // ignore: cast_nullable_to_non_nullable
@@ -359,8 +359,8 @@ class __$$MainButtonCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$MainButton extends MainButton {
-  const _$MainButton(
+class _$MainButtonImpl extends MainButton {
+  const _$MainButtonImpl(
       {required this.textResource, this.colorResource = Colors.white})
       : super._();
 
@@ -376,10 +376,10 @@ class _$MainButton extends MainButton {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$MainButton &&
+            other is _$MainButtonImpl &&
             (identical(other.textResource, textResource) ||
                 other.textResource == textResource) &&
             (identical(other.colorResource, colorResource) ||
@@ -392,8 +392,8 @@ class _$MainButton extends MainButton {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$MainButtonCopyWith<_$MainButton> get copyWith =>
-      __$$MainButtonCopyWithImpl<_$MainButton>(this, _$identity);
+  _$$MainButtonImplCopyWith<_$MainButtonImpl> get copyWith =>
+      __$$MainButtonImplCopyWithImpl<_$MainButtonImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -477,7 +477,7 @@ class _$MainButton extends MainButton {
 abstract class MainButton extends DialogButtonStyle {
   const factory MainButton(
       {required final String textResource,
-      final Color? colorResource}) = _$MainButton;
+      final Color? colorResource}) = _$MainButtonImpl;
   const MainButton._() : super._();
 
   @override
@@ -486,27 +486,27 @@ abstract class MainButton extends DialogButtonStyle {
   Color? get colorResource;
   @override
   @JsonKey(ignore: true)
-  _$$MainButtonCopyWith<_$MainButton> get copyWith =>
+  _$$MainButtonImplCopyWith<_$MainButtonImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$SecondaryButtonCopyWith<$Res>
+abstract class _$$SecondaryButtonImplCopyWith<$Res>
     implements $DialogButtonStyleCopyWith<$Res> {
-  factory _$$SecondaryButtonCopyWith(
-          _$SecondaryButton value, $Res Function(_$SecondaryButton) then) =
-      __$$SecondaryButtonCopyWithImpl<$Res>;
+  factory _$$SecondaryButtonImplCopyWith(_$SecondaryButtonImpl value,
+          $Res Function(_$SecondaryButtonImpl) then) =
+      __$$SecondaryButtonImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String textResource, Color? colorResource});
 }
 
 /// @nodoc
-class __$$SecondaryButtonCopyWithImpl<$Res>
-    extends _$DialogButtonStyleCopyWithImpl<$Res, _$SecondaryButton>
-    implements _$$SecondaryButtonCopyWith<$Res> {
-  __$$SecondaryButtonCopyWithImpl(
-      _$SecondaryButton _value, $Res Function(_$SecondaryButton) _then)
+class __$$SecondaryButtonImplCopyWithImpl<$Res>
+    extends _$DialogButtonStyleCopyWithImpl<$Res, _$SecondaryButtonImpl>
+    implements _$$SecondaryButtonImplCopyWith<$Res> {
+  __$$SecondaryButtonImplCopyWithImpl(
+      _$SecondaryButtonImpl _value, $Res Function(_$SecondaryButtonImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -515,7 +515,7 @@ class __$$SecondaryButtonCopyWithImpl<$Res>
     Object? textResource = null,
     Object? colorResource = freezed,
   }) {
-    return _then(_$SecondaryButton(
+    return _then(_$SecondaryButtonImpl(
       textResource: null == textResource
           ? _value.textResource
           : textResource // ignore: cast_nullable_to_non_nullable
@@ -530,8 +530,8 @@ class __$$SecondaryButtonCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SecondaryButton extends SecondaryButton {
-  const _$SecondaryButton(
+class _$SecondaryButtonImpl extends SecondaryButton {
+  const _$SecondaryButtonImpl(
       {required this.textResource, this.colorResource = Colors.white})
       : super._();
 
@@ -547,10 +547,10 @@ class _$SecondaryButton extends SecondaryButton {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SecondaryButton &&
+            other is _$SecondaryButtonImpl &&
             (identical(other.textResource, textResource) ||
                 other.textResource == textResource) &&
             (identical(other.colorResource, colorResource) ||
@@ -563,8 +563,9 @@ class _$SecondaryButton extends SecondaryButton {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$SecondaryButtonCopyWith<_$SecondaryButton> get copyWith =>
-      __$$SecondaryButtonCopyWithImpl<_$SecondaryButton>(this, _$identity);
+  _$$SecondaryButtonImplCopyWith<_$SecondaryButtonImpl> get copyWith =>
+      __$$SecondaryButtonImplCopyWithImpl<_$SecondaryButtonImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -648,7 +649,7 @@ class _$SecondaryButton extends SecondaryButton {
 abstract class SecondaryButton extends DialogButtonStyle {
   const factory SecondaryButton(
       {required final String textResource,
-      final Color? colorResource}) = _$SecondaryButton;
+      final Color? colorResource}) = _$SecondaryButtonImpl;
   const SecondaryButton._() : super._();
 
   @override
@@ -657,6 +658,6 @@ abstract class SecondaryButton extends DialogButtonStyle {
   Color? get colorResource;
   @override
   @JsonKey(ignore: true)
-  _$$SecondaryButtonCopyWith<_$SecondaryButton> get copyWith =>
+  _$$SecondaryButtonImplCopyWith<_$SecondaryButtonImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

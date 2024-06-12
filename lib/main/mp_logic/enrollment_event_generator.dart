@@ -1,5 +1,5 @@
-import 'package:d2_remote/core/maintenance/d2_error.dart';
-import 'package:d2_remote/core/mp/period/period_type.dart';
+import 'package:mass_pro/sdk/core/maintenance/d2_error.dart';
+import 'package:mass_pro/sdk/core/mp/period/period_type.dart';
 import 'package:d2_remote/modules/data/tracker/entities/enrollment.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity.dart';

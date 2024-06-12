@@ -12,7 +12,7 @@ part of 'bottom_sheet_dialog_ui_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$BottomSheetDialogUiModel {
@@ -118,12 +118,12 @@ class _$BottomSheetDialogUiModelCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_BottomSheetDialogUiModelCopyWith<$Res>
+abstract class _$$BottomSheetDialogUiModelImplCopyWith<$Res>
     implements $BottomSheetDialogUiModelCopyWith<$Res> {
-  factory _$$_BottomSheetDialogUiModelCopyWith(
-          _$_BottomSheetDialogUiModel value,
-          $Res Function(_$_BottomSheetDialogUiModel) then) =
-      __$$_BottomSheetDialogUiModelCopyWithImpl<$Res>;
+  factory _$$BottomSheetDialogUiModelImplCopyWith(
+          _$BottomSheetDialogUiModelImpl value,
+          $Res Function(_$BottomSheetDialogUiModelImpl) then) =
+      __$$BottomSheetDialogUiModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -141,12 +141,13 @@ abstract class _$$_BottomSheetDialogUiModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_BottomSheetDialogUiModelCopyWithImpl<$Res>
+class __$$BottomSheetDialogUiModelImplCopyWithImpl<$Res>
     extends _$BottomSheetDialogUiModelCopyWithImpl<$Res,
-        _$_BottomSheetDialogUiModel>
-    implements _$$_BottomSheetDialogUiModelCopyWith<$Res> {
-  __$$_BottomSheetDialogUiModelCopyWithImpl(_$_BottomSheetDialogUiModel _value,
-      $Res Function(_$_BottomSheetDialogUiModel) _then)
+        _$BottomSheetDialogUiModelImpl>
+    implements _$$BottomSheetDialogUiModelImplCopyWith<$Res> {
+  __$$BottomSheetDialogUiModelImplCopyWithImpl(
+      _$BottomSheetDialogUiModelImpl _value,
+      $Res Function(_$BottomSheetDialogUiModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -159,7 +160,7 @@ class __$$_BottomSheetDialogUiModelCopyWithImpl<$Res>
     Object? mainButton = null,
     Object? secondaryButton = freezed,
   }) {
-    return _then(_$_BottomSheetDialogUiModel(
+    return _then(_$BottomSheetDialogUiModelImpl(
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -190,8 +191,8 @@ class __$$_BottomSheetDialogUiModelCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_BottomSheetDialogUiModel extends _BottomSheetDialogUiModel {
-  const _$_BottomSheetDialogUiModel(
+class _$BottomSheetDialogUiModelImpl extends _BottomSheetDialogUiModel {
+  const _$BottomSheetDialogUiModelImpl(
       {required this.title,
       required this.subtitle,
       required this.iconResource,
@@ -220,10 +221,10 @@ class _$_BottomSheetDialogUiModel extends _BottomSheetDialogUiModel {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BottomSheetDialogUiModel &&
+            other is _$BottomSheetDialogUiModelImpl &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.subtitle, subtitle) ||
                 other.subtitle == subtitle) &&
@@ -250,19 +251,20 @@ class _$_BottomSheetDialogUiModel extends _BottomSheetDialogUiModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BottomSheetDialogUiModelCopyWith<_$_BottomSheetDialogUiModel>
-      get copyWith => __$$_BottomSheetDialogUiModelCopyWithImpl<
-          _$_BottomSheetDialogUiModel>(this, _$identity);
+  _$$BottomSheetDialogUiModelImplCopyWith<_$BottomSheetDialogUiModelImpl>
+      get copyWith => __$$BottomSheetDialogUiModelImplCopyWithImpl<
+          _$BottomSheetDialogUiModelImpl>(this, _$identity);
 }
 
 abstract class _BottomSheetDialogUiModel extends BottomSheetDialogUiModel {
   const factory _BottomSheetDialogUiModel(
-      {required final String title,
-      required final String subtitle,
-      required final Icon iconResource,
-      final IList<FieldWithIssue> fieldsWithIssues,
-      required final DialogButtonStyle mainButton,
-      final DialogButtonStyle? secondaryButton}) = _$_BottomSheetDialogUiModel;
+          {required final String title,
+          required final String subtitle,
+          required final Icon iconResource,
+          final IList<FieldWithIssue> fieldsWithIssues,
+          required final DialogButtonStyle mainButton,
+          final DialogButtonStyle? secondaryButton}) =
+      _$BottomSheetDialogUiModelImpl;
   const _BottomSheetDialogUiModel._() : super._();
 
   @override
@@ -279,6 +281,6 @@ abstract class _BottomSheetDialogUiModel extends BottomSheetDialogUiModel {
   DialogButtonStyle? get secondaryButton;
   @override
   @JsonKey(ignore: true)
-  _$$_BottomSheetDialogUiModelCopyWith<_$_BottomSheetDialogUiModel>
+  _$$BottomSheetDialogUiModelImplCopyWith<_$BottomSheetDialogUiModelImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

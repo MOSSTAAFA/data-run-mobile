@@ -12,7 +12,7 @@ part of 'field_mask_failure.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$FieldMaskFailure {
@@ -109,22 +109,23 @@ class _$FieldMaskFailureCopyWithImpl<$Res, $Val extends FieldMaskFailure>
 }
 
 /// @nodoc
-abstract class _$$WrongPatternExceptionCopyWith<$Res>
+abstract class _$$WrongPatternExceptionImplCopyWith<$Res>
     implements $FieldMaskFailureCopyWith<$Res> {
-  factory _$$WrongPatternExceptionCopyWith(_$WrongPatternException value,
-          $Res Function(_$WrongPatternException) then) =
-      __$$WrongPatternExceptionCopyWithImpl<$Res>;
+  factory _$$WrongPatternExceptionImplCopyWith(
+          _$WrongPatternExceptionImpl value,
+          $Res Function(_$WrongPatternExceptionImpl) then) =
+      __$$WrongPatternExceptionImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String message, CaughtException? cause});
 }
 
 /// @nodoc
-class __$$WrongPatternExceptionCopyWithImpl<$Res>
-    extends _$FieldMaskFailureCopyWithImpl<$Res, _$WrongPatternException>
-    implements _$$WrongPatternExceptionCopyWith<$Res> {
-  __$$WrongPatternExceptionCopyWithImpl(_$WrongPatternException _value,
-      $Res Function(_$WrongPatternException) _then)
+class __$$WrongPatternExceptionImplCopyWithImpl<$Res>
+    extends _$FieldMaskFailureCopyWithImpl<$Res, _$WrongPatternExceptionImpl>
+    implements _$$WrongPatternExceptionImplCopyWith<$Res> {
+  __$$WrongPatternExceptionImplCopyWithImpl(_$WrongPatternExceptionImpl _value,
+      $Res Function(_$WrongPatternExceptionImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -133,7 +134,7 @@ class __$$WrongPatternExceptionCopyWithImpl<$Res>
     Object? message = null,
     Object? cause = freezed,
   }) {
-    return _then(_$WrongPatternException(
+    return _then(_$WrongPatternExceptionImpl(
       null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -148,8 +149,8 @@ class __$$WrongPatternExceptionCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$WrongPatternException extends WrongPatternException {
-  const _$WrongPatternException([this.message = 'Exception', this.cause])
+class _$WrongPatternExceptionImpl extends WrongPatternException {
+  const _$WrongPatternExceptionImpl([this.message = 'Exception', this.cause])
       : super._();
 
   @override
@@ -159,10 +160,10 @@ class _$WrongPatternException extends WrongPatternException {
   final CaughtException? cause;
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$WrongPatternException &&
+            other is _$WrongPatternExceptionImpl &&
             (identical(other.message, message) || other.message == message) &&
             (identical(other.cause, cause) || other.cause == cause));
   }
@@ -173,9 +174,9 @@ class _$WrongPatternException extends WrongPatternException {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$WrongPatternExceptionCopyWith<_$WrongPatternException> get copyWith =>
-      __$$WrongPatternExceptionCopyWithImpl<_$WrongPatternException>(
-          this, _$identity);
+  _$$WrongPatternExceptionImplCopyWith<_$WrongPatternExceptionImpl>
+      get copyWith => __$$WrongPatternExceptionImplCopyWithImpl<
+          _$WrongPatternExceptionImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -252,7 +253,7 @@ abstract class WrongPatternException extends FieldMaskFailure
     implements ThrowableException {
   const factory WrongPatternException(
       [final String message,
-      final CaughtException? cause]) = _$WrongPatternException;
+      final CaughtException? cause]) = _$WrongPatternExceptionImpl;
   const WrongPatternException._() : super._();
 
   @override
@@ -261,27 +262,29 @@ abstract class WrongPatternException extends FieldMaskFailure
   CaughtException? get cause;
   @override
   @JsonKey(ignore: true)
-  _$$WrongPatternExceptionCopyWith<_$WrongPatternException> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$WrongPatternExceptionImplCopyWith<_$WrongPatternExceptionImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$InvalidPatternExceptionCopyWith<$Res>
+abstract class _$$InvalidPatternExceptionImplCopyWith<$Res>
     implements $FieldMaskFailureCopyWith<$Res> {
-  factory _$$InvalidPatternExceptionCopyWith(_$InvalidPatternException value,
-          $Res Function(_$InvalidPatternException) then) =
-      __$$InvalidPatternExceptionCopyWithImpl<$Res>;
+  factory _$$InvalidPatternExceptionImplCopyWith(
+          _$InvalidPatternExceptionImpl value,
+          $Res Function(_$InvalidPatternExceptionImpl) then) =
+      __$$InvalidPatternExceptionImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String message, CaughtException? cause});
 }
 
 /// @nodoc
-class __$$InvalidPatternExceptionCopyWithImpl<$Res>
-    extends _$FieldMaskFailureCopyWithImpl<$Res, _$InvalidPatternException>
-    implements _$$InvalidPatternExceptionCopyWith<$Res> {
-  __$$InvalidPatternExceptionCopyWithImpl(_$InvalidPatternException _value,
-      $Res Function(_$InvalidPatternException) _then)
+class __$$InvalidPatternExceptionImplCopyWithImpl<$Res>
+    extends _$FieldMaskFailureCopyWithImpl<$Res, _$InvalidPatternExceptionImpl>
+    implements _$$InvalidPatternExceptionImplCopyWith<$Res> {
+  __$$InvalidPatternExceptionImplCopyWithImpl(
+      _$InvalidPatternExceptionImpl _value,
+      $Res Function(_$InvalidPatternExceptionImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -290,7 +293,7 @@ class __$$InvalidPatternExceptionCopyWithImpl<$Res>
     Object? message = null,
     Object? cause = freezed,
   }) {
-    return _then(_$InvalidPatternException(
+    return _then(_$InvalidPatternExceptionImpl(
       null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -305,8 +308,8 @@ class __$$InvalidPatternExceptionCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$InvalidPatternException extends InvalidPatternException {
-  const _$InvalidPatternException([this.message = 'Exception', this.cause])
+class _$InvalidPatternExceptionImpl extends InvalidPatternException {
+  const _$InvalidPatternExceptionImpl([this.message = 'Exception', this.cause])
       : super._();
 
   @override
@@ -316,10 +319,10 @@ class _$InvalidPatternException extends InvalidPatternException {
   final CaughtException? cause;
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$InvalidPatternException &&
+            other is _$InvalidPatternExceptionImpl &&
             (identical(other.message, message) || other.message == message) &&
             (identical(other.cause, cause) || other.cause == cause));
   }
@@ -330,9 +333,9 @@ class _$InvalidPatternException extends InvalidPatternException {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$InvalidPatternExceptionCopyWith<_$InvalidPatternException> get copyWith =>
-      __$$InvalidPatternExceptionCopyWithImpl<_$InvalidPatternException>(
-          this, _$identity);
+  _$$InvalidPatternExceptionImplCopyWith<_$InvalidPatternExceptionImpl>
+      get copyWith => __$$InvalidPatternExceptionImplCopyWithImpl<
+          _$InvalidPatternExceptionImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -409,7 +412,7 @@ abstract class InvalidPatternException extends FieldMaskFailure
     implements ThrowableException {
   const factory InvalidPatternException(
       [final String message,
-      final CaughtException? cause]) = _$InvalidPatternException;
+      final CaughtException? cause]) = _$InvalidPatternExceptionImpl;
   const InvalidPatternException._() : super._();
 
   @override
@@ -418,6 +421,6 @@ abstract class InvalidPatternException extends FieldMaskFailure
   CaughtException? get cause;
   @override
   @JsonKey(ignore: true)
-  _$$InvalidPatternExceptionCopyWith<_$InvalidPatternException> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$InvalidPatternExceptionImplCopyWith<_$InvalidPatternExceptionImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

@@ -1,5 +1,5 @@
-import 'package:d2_remote/core/mp/enrollment/enrollment_status.dart';
-import 'package:d2_remote/core/mp/period/period_type.dart';
+import 'package:mass_pro/sdk/core/mp/enrollment/enrollment_status.dart';
+import 'package:mass_pro/sdk/core/mp/period/period_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import '../../../../../commons/constants.dart';
 import '../../../../../commons/custom_widgets/org_unit_dialog.dart';
 import '../../../../../commons/data/event_creation_type.dart';
-import '../../../../../commons/extensions/standard_extensions.dart';
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import '../../../../../commons/period/period_extensions.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../bundle/bundle.dart';

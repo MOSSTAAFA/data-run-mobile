@@ -1,24 +1,24 @@
-import 'package:d2_remote/core/common/value_type/failures/boolean_failure.dart';
-import 'package:d2_remote/core/common/value_type/failures/coordinate_failure.dart';
-import 'package:d2_remote/core/common/value_type/failures/date_failure.dart';
-import 'package:d2_remote/core/common/value_type/failures/date_time_failure.dart';
-import 'package:d2_remote/core/common/value_type/failures/email_failure.dart';
-import 'package:d2_remote/core/common/value_type/failures/integer_failure.dart';
-import 'package:d2_remote/core/common/value_type/failures/integer_negative_failure.dart';
-import 'package:d2_remote/core/common/value_type/failures/integer_positive_failure.dart';
-import 'package:d2_remote/core/common/value_type/failures/integer_zero_or_positive_failure.dart';
-import 'package:d2_remote/core/common/value_type/failures/letter_failure.dart';
-import 'package:d2_remote/core/common/value_type/failures/number_failure.dart';
-import 'package:d2_remote/core/common/value_type/failures/percentage_failure.dart';
-import 'package:d2_remote/core/common/value_type/failures/phone_number_failure.dart';
-import 'package:d2_remote/core/common/value_type/failures/text_failure.dart';
-import 'package:d2_remote/core/common/value_type/failures/time_failure.dart';
-import 'package:d2_remote/core/common/value_type/failures/true_only_failure.dart';
-import 'package:d2_remote/core/common/value_type/failures/unit_interval_failure.dart';
-import 'package:d2_remote/core/common/value_type/failures/url_failure.dart';
+import 'package:mass_pro/sdk/core/common/value_type/failures/boolean_failure.dart';
+import 'package:mass_pro/sdk/core/common/value_type/failures/coordinate_failure.dart';
+import 'package:mass_pro/sdk/core/common/value_type/failures/date_failure.dart';
+import 'package:mass_pro/sdk/core/common/value_type/failures/date_time_failure.dart';
+import 'package:mass_pro/sdk/core/common/value_type/failures/email_failure.dart';
+import 'package:mass_pro/sdk/core/common/value_type/failures/integer_failure.dart';
+import 'package:mass_pro/sdk/core/common/value_type/failures/integer_negative_failure.dart';
+import 'package:mass_pro/sdk/core/common/value_type/failures/integer_positive_failure.dart';
+import 'package:mass_pro/sdk/core/common/value_type/failures/integer_zero_or_positive_failure.dart';
+import 'package:mass_pro/sdk/core/common/value_type/failures/letter_failure.dart';
+import 'package:mass_pro/sdk/core/common/value_type/failures/number_failure.dart';
+import 'package:mass_pro/sdk/core/common/value_type/failures/percentage_failure.dart';
+import 'package:mass_pro/sdk/core/common/value_type/failures/phone_number_failure.dart';
+import 'package:mass_pro/sdk/core/common/value_type/failures/text_failure.dart';
+import 'package:mass_pro/sdk/core/common/value_type/failures/time_failure.dart';
+import 'package:mass_pro/sdk/core/common/value_type/failures/true_only_failure.dart';
+import 'package:mass_pro/sdk/core/common/value_type/failures/unit_interval_failure.dart';
+import 'package:mass_pro/sdk/core/common/value_type/failures/url_failure.dart';
 
-import '../../../main.dart';
-import 'failures/field_mask_failure.dart';
+import 'package:mass_pro/utils/navigator_key.dart';
+import 'package:mass_pro/form/ui/validation/failures/field_mask_failure.dart';
 
 class FieldErrorMessageProvider {
   const FieldErrorMessageProvider();

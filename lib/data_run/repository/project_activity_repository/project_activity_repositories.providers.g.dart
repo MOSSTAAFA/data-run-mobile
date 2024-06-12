@@ -15,7 +15,7 @@ String _$projectActivityItnRepositoryHash() =>
 /// Copied from [_projectActivityItnRepository].
 @ProviderFor(_projectActivityItnRepository)
 final _projectActivityItnRepositoryProvider =
-    AutoDisposeProvider<ProjectActivityRepository<BaseEntity>>.internal(
+    AutoDisposeProvider<ProjectActivityRepository>.internal(
   _projectActivityItnRepository,
   name: r'_projectActivityItnRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -26,14 +26,14 @@ final _projectActivityItnRepositoryProvider =
 );
 
 typedef _ProjectActivityItnRepositoryRef
-    = AutoDisposeProviderRef<ProjectActivityRepository<BaseEntity>>;
+    = AutoDisposeProviderRef<ProjectActivityRepository>;
 String _$projectActivityChvRepositoryHash() =>
     r'70f860f2104550edbdf6731703641efddbe4dac4';
 
 /// See also [_projectActivityChvRepository].
 @ProviderFor(_projectActivityChvRepository)
 final _projectActivityChvRepositoryProvider =
-    AutoDisposeProvider<ProjectActivityRepository<BaseEntity>>.internal(
+    AutoDisposeProvider<ProjectActivityRepository>.internal(
   _projectActivityChvRepository,
   name: r'_projectActivityChvRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -44,6 +44,6 @@ final _projectActivityChvRepositoryProvider =
 );
 
 typedef _ProjectActivityChvRepositoryRef
-    = AutoDisposeProviderRef<ProjectActivityRepository<BaseEntity>>;
+    = AutoDisposeProviderRef<ProjectActivityRepository>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

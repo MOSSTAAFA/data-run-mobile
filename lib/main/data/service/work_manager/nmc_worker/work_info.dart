@@ -28,7 +28,7 @@ class WorkInfo with EquatableMixin {
 enum WorkInfoState {
   ///
   /// Used to indicate that the {@link WorkRequest} is enqueued and eligible to run when its
-  /// {@link Constraints} are met and resources are available.
+  /// {Constraints} are met and resources are available.
   ///
   ENQUEUED,
 

@@ -1,9 +1,9 @@
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/commons/custom_widgets/navigationbar/navigation_page_configurator.dart';
 import 'package:mass_pro/commons/custom_widgets/navigationbar/navigation_tab_bar_view.widget.dart';
 import 'package:mass_pro/commons/data_run/utils/view_actions.dart';
-import 'package:mass_pro/commons/extensions/standard_extensions.dart';
 import 'package:mass_pro/commons/state/app_state_notifier.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_deck.widget.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_page_configurator.dart';
@@ -21,7 +21,7 @@ class DashboardScreenWidget extends ConsumerStatefulWidget {
   const DashboardScreenWidget(
       {super.key, this.launchDataSync = false, this.forceToNotSynced = false});
 
-  static const String route = '/DashboardScreen';
+  static const String route = '/dashboard-screen';
 
   final bool forceToNotSynced;
 

@@ -3,7 +3,7 @@
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/metadatarun/activity/entities/d_activity.entity.dart';
 import 'package:d2_remote/modules/metadatarun/project/entities/d_project.entity.dart';
-import 'package:mass_pro/commons/extensions/standard_extensions.dart';
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import 'package:mass_pro/core/common/state.dart';
 import 'package:mass_pro/data_run/utils/project_type.dart';
 import 'package:mass_pro/data_run/utils/utils.providers.dart';
@@ -119,10 +119,10 @@ class ActivityUtils {
       return query.get();
     } else {
       final activeTeams = await D2Remote.teamModuleD.team.activated().get();
-      final activeTeamsActivities =
-          activeTeams.map((team) => team.activity as String).toList();
+      // final activeTeamsActivities =
+      //     activeTeams.map((team) => team.activity as String).toList();
 
-      query.byIds(activeTeamsActivities);
+      // query.byIds(activeTeamsActivities);
 
       if (project != null) {
         query.byProject(project.uid!);

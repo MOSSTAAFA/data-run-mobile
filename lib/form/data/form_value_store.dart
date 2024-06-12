@@ -1,5 +1,5 @@
-import 'package:d2_remote/core/common/value_type.dart';
-import 'package:d2_remote/core/maintenance/d2_error.dart';
+import 'package:mass_pro/sdk/core/common/value_type.dart';
+import 'package:mass_pro/sdk/core/maintenance/d2_error.dart';
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/data/tracker/entities/enrollment.entity.dart';
 import 'package:d2_remote/modules/data/tracker/entities/event.entity.dart';

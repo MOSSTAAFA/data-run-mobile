@@ -12,7 +12,7 @@ part of 'data_integrity_check_result.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$DataIntegrityCheckResult {
@@ -151,10 +151,11 @@ class _$DataIntegrityCheckResultCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$MissingMandatoryResultCopyWith<$Res> {
-  factory _$$MissingMandatoryResultCopyWith(_$MissingMandatoryResult value,
-          $Res Function(_$MissingMandatoryResult) then) =
-      __$$MissingMandatoryResultCopyWithImpl<$Res>;
+abstract class _$$MissingMandatoryResultImplCopyWith<$Res> {
+  factory _$$MissingMandatoryResultImplCopyWith(
+          _$MissingMandatoryResultImpl value,
+          $Res Function(_$MissingMandatoryResultImpl) then) =
+      __$$MissingMandatoryResultImplCopyWithImpl<$Res>;
   @useResult
   $Res call(
       {IMap<String, String> mandatoryFields,
@@ -166,12 +167,13 @@ abstract class _$$MissingMandatoryResultCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$MissingMandatoryResultCopyWithImpl<$Res>
+class __$$MissingMandatoryResultImplCopyWithImpl<$Res>
     extends _$DataIntegrityCheckResultCopyWithImpl<$Res,
-        _$MissingMandatoryResult>
-    implements _$$MissingMandatoryResultCopyWith<$Res> {
-  __$$MissingMandatoryResultCopyWithImpl(_$MissingMandatoryResult _value,
-      $Res Function(_$MissingMandatoryResult) _then)
+        _$MissingMandatoryResultImpl>
+    implements _$$MissingMandatoryResultImplCopyWith<$Res> {
+  __$$MissingMandatoryResultImplCopyWithImpl(
+      _$MissingMandatoryResultImpl _value,
+      $Res Function(_$MissingMandatoryResultImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -184,7 +186,7 @@ class __$$MissingMandatoryResultCopyWithImpl<$Res>
     Object? onCompleteMessage = freezed,
     Object? allowDiscard = null,
   }) {
-    return _then(_$MissingMandatoryResult(
+    return _then(_$MissingMandatoryResultImpl(
       mandatoryFields: null == mandatoryFields
           ? _value.mandatoryFields
           : mandatoryFields // ignore: cast_nullable_to_non_nullable
@@ -215,10 +217,10 @@ class __$$MissingMandatoryResultCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$MissingMandatoryResult
+class _$MissingMandatoryResultImpl
     with DiagnosticableTreeMixin
     implements MissingMandatoryResult {
-  const _$MissingMandatoryResult(
+  const _$MissingMandatoryResultImpl(
       {required this.mandatoryFields,
       required this.errorFields,
       required this.warningFields,
@@ -262,10 +264,10 @@ class _$MissingMandatoryResult
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$MissingMandatoryResult &&
+            other is _$MissingMandatoryResultImpl &&
             (identical(other.mandatoryFields, mandatoryFields) ||
                 other.mandatoryFields == mandatoryFields) &&
             const DeepCollectionEquality()
@@ -293,9 +295,9 @@ class _$MissingMandatoryResult
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$MissingMandatoryResultCopyWith<_$MissingMandatoryResult> get copyWith =>
-      __$$MissingMandatoryResultCopyWithImpl<_$MissingMandatoryResult>(
-          this, _$identity);
+  _$$MissingMandatoryResultImplCopyWith<_$MissingMandatoryResultImpl>
+      get copyWith => __$$MissingMandatoryResultImplCopyWithImpl<
+          _$MissingMandatoryResultImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -445,7 +447,7 @@ abstract class MissingMandatoryResult implements DataIntegrityCheckResult {
       required final IList<FieldWithIssue> warningFields,
       final bool canComplete,
       final String? onCompleteMessage,
-      final bool allowDiscard}) = _$MissingMandatoryResult;
+      final bool allowDiscard}) = _$MissingMandatoryResultImpl;
 
   IMap<String, String> get mandatoryFields;
   IList<FieldWithIssue> get errorFields;
@@ -454,15 +456,16 @@ abstract class MissingMandatoryResult implements DataIntegrityCheckResult {
   String? get onCompleteMessage;
   bool get allowDiscard;
   @JsonKey(ignore: true)
-  _$$MissingMandatoryResultCopyWith<_$MissingMandatoryResult> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$MissingMandatoryResultImplCopyWith<_$MissingMandatoryResultImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$FieldsWithErrorResultCopyWith<$Res> {
-  factory _$$FieldsWithErrorResultCopyWith(_$FieldsWithErrorResult value,
-          $Res Function(_$FieldsWithErrorResult) then) =
-      __$$FieldsWithErrorResultCopyWithImpl<$Res>;
+abstract class _$$FieldsWithErrorResultImplCopyWith<$Res> {
+  factory _$$FieldsWithErrorResultImplCopyWith(
+          _$FieldsWithErrorResultImpl value,
+          $Res Function(_$FieldsWithErrorResultImpl) then) =
+      __$$FieldsWithErrorResultImplCopyWithImpl<$Res>;
   @useResult
   $Res call(
       {IMap<String, String> mandatoryFields,
@@ -474,12 +477,12 @@ abstract class _$$FieldsWithErrorResultCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$FieldsWithErrorResultCopyWithImpl<$Res>
+class __$$FieldsWithErrorResultImplCopyWithImpl<$Res>
     extends _$DataIntegrityCheckResultCopyWithImpl<$Res,
-        _$FieldsWithErrorResult>
-    implements _$$FieldsWithErrorResultCopyWith<$Res> {
-  __$$FieldsWithErrorResultCopyWithImpl(_$FieldsWithErrorResult _value,
-      $Res Function(_$FieldsWithErrorResult) _then)
+        _$FieldsWithErrorResultImpl>
+    implements _$$FieldsWithErrorResultImplCopyWith<$Res> {
+  __$$FieldsWithErrorResultImplCopyWithImpl(_$FieldsWithErrorResultImpl _value,
+      $Res Function(_$FieldsWithErrorResultImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -492,7 +495,7 @@ class __$$FieldsWithErrorResultCopyWithImpl<$Res>
     Object? onCompleteMessage = freezed,
     Object? allowDiscard = null,
   }) {
-    return _then(_$FieldsWithErrorResult(
+    return _then(_$FieldsWithErrorResultImpl(
       mandatoryFields: null == mandatoryFields
           ? _value.mandatoryFields
           : mandatoryFields // ignore: cast_nullable_to_non_nullable
@@ -523,10 +526,10 @@ class __$$FieldsWithErrorResultCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$FieldsWithErrorResult
+class _$FieldsWithErrorResultImpl
     with DiagnosticableTreeMixin
     implements FieldsWithErrorResult {
-  const _$FieldsWithErrorResult(
+  const _$FieldsWithErrorResultImpl(
       {required this.mandatoryFields,
       required this.fieldUidErrorList,
       required this.warningFields,
@@ -570,10 +573,10 @@ class _$FieldsWithErrorResult
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$FieldsWithErrorResult &&
+            other is _$FieldsWithErrorResultImpl &&
             (identical(other.mandatoryFields, mandatoryFields) ||
                 other.mandatoryFields == mandatoryFields) &&
             const DeepCollectionEquality()
@@ -601,9 +604,9 @@ class _$FieldsWithErrorResult
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$FieldsWithErrorResultCopyWith<_$FieldsWithErrorResult> get copyWith =>
-      __$$FieldsWithErrorResultCopyWithImpl<_$FieldsWithErrorResult>(
-          this, _$identity);
+  _$$FieldsWithErrorResultImplCopyWith<_$FieldsWithErrorResultImpl>
+      get copyWith => __$$FieldsWithErrorResultImplCopyWithImpl<
+          _$FieldsWithErrorResultImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -753,7 +756,7 @@ abstract class FieldsWithErrorResult implements DataIntegrityCheckResult {
       required final IList<FieldWithIssue> warningFields,
       final bool canComplete,
       final String? onCompleteMessage,
-      final bool allowDiscard}) = _$FieldsWithErrorResult;
+      final bool allowDiscard}) = _$FieldsWithErrorResultImpl;
 
   IMap<String, String> get mandatoryFields;
   IList<FieldWithIssue> get fieldUidErrorList;
@@ -762,15 +765,16 @@ abstract class FieldsWithErrorResult implements DataIntegrityCheckResult {
   String? get onCompleteMessage;
   bool get allowDiscard;
   @JsonKey(ignore: true)
-  _$$FieldsWithErrorResultCopyWith<_$FieldsWithErrorResult> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$FieldsWithErrorResultImplCopyWith<_$FieldsWithErrorResultImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$FieldsWithWarningResultCopyWith<$Res> {
-  factory _$$FieldsWithWarningResultCopyWith(_$FieldsWithWarningResult value,
-          $Res Function(_$FieldsWithWarningResult) then) =
-      __$$FieldsWithWarningResultCopyWithImpl<$Res>;
+abstract class _$$FieldsWithWarningResultImplCopyWith<$Res> {
+  factory _$$FieldsWithWarningResultImplCopyWith(
+          _$FieldsWithWarningResultImpl value,
+          $Res Function(_$FieldsWithWarningResultImpl) then) =
+      __$$FieldsWithWarningResultImplCopyWithImpl<$Res>;
   @useResult
   $Res call(
       {IList<FieldWithIssue> fieldUidWarningList,
@@ -780,12 +784,13 @@ abstract class _$$FieldsWithWarningResultCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$FieldsWithWarningResultCopyWithImpl<$Res>
+class __$$FieldsWithWarningResultImplCopyWithImpl<$Res>
     extends _$DataIntegrityCheckResultCopyWithImpl<$Res,
-        _$FieldsWithWarningResult>
-    implements _$$FieldsWithWarningResultCopyWith<$Res> {
-  __$$FieldsWithWarningResultCopyWithImpl(_$FieldsWithWarningResult _value,
-      $Res Function(_$FieldsWithWarningResult) _then)
+        _$FieldsWithWarningResultImpl>
+    implements _$$FieldsWithWarningResultImplCopyWith<$Res> {
+  __$$FieldsWithWarningResultImplCopyWithImpl(
+      _$FieldsWithWarningResultImpl _value,
+      $Res Function(_$FieldsWithWarningResultImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -796,7 +801,7 @@ class __$$FieldsWithWarningResultCopyWithImpl<$Res>
     Object? onCompleteMessage = freezed,
     Object? allowDiscard = null,
   }) {
-    return _then(_$FieldsWithWarningResult(
+    return _then(_$FieldsWithWarningResultImpl(
       fieldUidWarningList: null == fieldUidWarningList
           ? _value.fieldUidWarningList
           : fieldUidWarningList // ignore: cast_nullable_to_non_nullable
@@ -819,10 +824,10 @@ class __$$FieldsWithWarningResultCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$FieldsWithWarningResult
+class _$FieldsWithWarningResultImpl
     with DiagnosticableTreeMixin
     implements FieldsWithWarningResult {
-  const _$FieldsWithWarningResult(
+  const _$FieldsWithWarningResultImpl(
       {required this.fieldUidWarningList,
       this.canComplete = false,
       this.onCompleteMessage,
@@ -858,10 +863,10 @@ class _$FieldsWithWarningResult
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$FieldsWithWarningResult &&
+            other is _$FieldsWithWarningResultImpl &&
             const DeepCollectionEquality()
                 .equals(other.fieldUidWarningList, fieldUidWarningList) &&
             (identical(other.canComplete, canComplete) ||
@@ -883,9 +888,9 @@ class _$FieldsWithWarningResult
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$FieldsWithWarningResultCopyWith<_$FieldsWithWarningResult> get copyWith =>
-      __$$FieldsWithWarningResultCopyWithImpl<_$FieldsWithWarningResult>(
-          this, _$identity);
+  _$$FieldsWithWarningResultImplCopyWith<_$FieldsWithWarningResultImpl>
+      get copyWith => __$$FieldsWithWarningResultImplCopyWithImpl<
+          _$FieldsWithWarningResultImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1033,22 +1038,22 @@ abstract class FieldsWithWarningResult implements DataIntegrityCheckResult {
       {required final IList<FieldWithIssue> fieldUidWarningList,
       final bool canComplete,
       final String? onCompleteMessage,
-      final bool allowDiscard}) = _$FieldsWithWarningResult;
+      final bool allowDiscard}) = _$FieldsWithWarningResultImpl;
 
   IList<FieldWithIssue> get fieldUidWarningList; // override
   bool get canComplete;
   String? get onCompleteMessage;
   bool get allowDiscard;
   @JsonKey(ignore: true)
-  _$$FieldsWithWarningResultCopyWith<_$FieldsWithWarningResult> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$FieldsWithWarningResultImplCopyWith<_$FieldsWithWarningResultImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$SuccessfulResultCopyWith<$Res> {
-  factory _$$SuccessfulResultCopyWith(
-          _$SuccessfulResult value, $Res Function(_$SuccessfulResult) then) =
-      __$$SuccessfulResultCopyWithImpl<$Res>;
+abstract class _$$SuccessfulResultImplCopyWith<$Res> {
+  factory _$$SuccessfulResultImplCopyWith(_$SuccessfulResultImpl value,
+          $Res Function(_$SuccessfulResultImpl) then) =
+      __$$SuccessfulResultImplCopyWithImpl<$Res>;
   @useResult
   $Res call(
       {String? extraData,
@@ -1058,11 +1063,11 @@ abstract class _$$SuccessfulResultCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$SuccessfulResultCopyWithImpl<$Res>
-    extends _$DataIntegrityCheckResultCopyWithImpl<$Res, _$SuccessfulResult>
-    implements _$$SuccessfulResultCopyWith<$Res> {
-  __$$SuccessfulResultCopyWithImpl(
-      _$SuccessfulResult _value, $Res Function(_$SuccessfulResult) _then)
+class __$$SuccessfulResultImplCopyWithImpl<$Res>
+    extends _$DataIntegrityCheckResultCopyWithImpl<$Res, _$SuccessfulResultImpl>
+    implements _$$SuccessfulResultImplCopyWith<$Res> {
+  __$$SuccessfulResultImplCopyWithImpl(_$SuccessfulResultImpl _value,
+      $Res Function(_$SuccessfulResultImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1073,7 +1078,7 @@ class __$$SuccessfulResultCopyWithImpl<$Res>
     Object? onCompleteMessage = freezed,
     Object? allowDiscard = null,
   }) {
-    return _then(_$SuccessfulResult(
+    return _then(_$SuccessfulResultImpl(
       extraData: freezed == extraData
           ? _value.extraData
           : extraData // ignore: cast_nullable_to_non_nullable
@@ -1096,10 +1101,10 @@ class __$$SuccessfulResultCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SuccessfulResult
+class _$SuccessfulResultImpl
     with DiagnosticableTreeMixin
     implements SuccessfulResult {
-  const _$SuccessfulResult(
+  const _$SuccessfulResultImpl(
       {this.extraData,
       this.canComplete = false,
       this.onCompleteMessage,
@@ -1135,10 +1140,10 @@ class _$SuccessfulResult
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SuccessfulResult &&
+            other is _$SuccessfulResultImpl &&
             (identical(other.extraData, extraData) ||
                 other.extraData == extraData) &&
             (identical(other.canComplete, canComplete) ||
@@ -1156,8 +1161,9 @@ class _$SuccessfulResult
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$SuccessfulResultCopyWith<_$SuccessfulResult> get copyWith =>
-      __$$SuccessfulResultCopyWithImpl<_$SuccessfulResult>(this, _$identity);
+  _$$SuccessfulResultImplCopyWith<_$SuccessfulResultImpl> get copyWith =>
+      __$$SuccessfulResultImplCopyWithImpl<_$SuccessfulResultImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1305,37 +1311,39 @@ abstract class SuccessfulResult implements DataIntegrityCheckResult {
       {final String? extraData,
       final bool canComplete,
       final String? onCompleteMessage,
-      final bool allowDiscard}) = _$SuccessfulResult;
+      final bool allowDiscard}) = _$SuccessfulResultImpl;
 
   String? get extraData; // override
   bool get canComplete;
   String? get onCompleteMessage;
   bool get allowDiscard;
   @JsonKey(ignore: true)
-  _$$SuccessfulResultCopyWith<_$SuccessfulResult> get copyWith =>
+  _$$SuccessfulResultImplCopyWith<_$SuccessfulResultImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$NotSavedResultCopyWith<$Res> {
-  factory _$$NotSavedResultCopyWith(
-          _$NotSavedResult value, $Res Function(_$NotSavedResult) then) =
-      __$$NotSavedResultCopyWithImpl<$Res>;
+abstract class _$$NotSavedResultImplCopyWith<$Res> {
+  factory _$$NotSavedResultImplCopyWith(_$NotSavedResultImpl value,
+          $Res Function(_$NotSavedResultImpl) then) =
+      __$$NotSavedResultImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$NotSavedResultCopyWithImpl<$Res>
-    extends _$DataIntegrityCheckResultCopyWithImpl<$Res, _$NotSavedResult>
-    implements _$$NotSavedResultCopyWith<$Res> {
-  __$$NotSavedResultCopyWithImpl(
-      _$NotSavedResult _value, $Res Function(_$NotSavedResult) _then)
+class __$$NotSavedResultImplCopyWithImpl<$Res>
+    extends _$DataIntegrityCheckResultCopyWithImpl<$Res, _$NotSavedResultImpl>
+    implements _$$NotSavedResultImplCopyWith<$Res> {
+  __$$NotSavedResultImplCopyWithImpl(
+      _$NotSavedResultImpl _value, $Res Function(_$NotSavedResultImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$NotSavedResult with DiagnosticableTreeMixin implements NotSavedResult {
-  const _$NotSavedResult();
+class _$NotSavedResultImpl
+    with DiagnosticableTreeMixin
+    implements NotSavedResult {
+  const _$NotSavedResultImpl();
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -1350,9 +1358,9 @@ class _$NotSavedResult with DiagnosticableTreeMixin implements NotSavedResult {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$NotSavedResult);
+        (other.runtimeType == runtimeType && other is _$NotSavedResultImpl);
   }
 
   @override
@@ -1497,5 +1505,5 @@ class _$NotSavedResult with DiagnosticableTreeMixin implements NotSavedResult {
 }
 
 abstract class NotSavedResult implements DataIntegrityCheckResult {
-  const factory NotSavedResult() = _$NotSavedResult;
+  const factory NotSavedResult() = _$NotSavedResultImpl;
 }

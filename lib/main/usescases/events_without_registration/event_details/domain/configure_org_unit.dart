@@ -4,7 +4,7 @@ import 'package:dartx/dartx_io.dart' as dx;
 
 import '../../../../../commons/data/event_creation_type.dart';
 import '../../../../../commons/date/date_utils.dart';
-import '../../../../../commons/extensions/standard_extensions.dart';
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import '../../../../../commons/prefs/preference.dart';
 import '../../../../../commons/prefs/preference_provider.dart';
 import '../data/event_details_repository.dart';

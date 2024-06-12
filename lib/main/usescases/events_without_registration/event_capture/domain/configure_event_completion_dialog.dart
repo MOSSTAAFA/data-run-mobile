@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../../../commons/date/field_with_issue.dart';
 import '../../../../../commons/dialogs/bottomsheet/bottom_sheet_dialog_ui_model.dart';
 import '../../../../../commons/dialogs/bottomsheet/dialog_button_style.dart';
-import '../../../../../commons/extensions/standard_extensions.dart';
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import '../model/event_completion_buttons.dart';
 import '../model/event_completion_dialog.dart';
 import '../provider/event_capture_resources_provider.dart';

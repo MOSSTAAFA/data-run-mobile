@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls
 
-import 'package:d2_remote/core/arch/helpers/uids_helper.dart';
-import 'package:d2_remote/core/mp/helpers/result.dart';
+import 'package:mass_pro/sdk/core/arch/helpers/uids_helper.dart';
+import 'package:mass_pro/sdk/core/mp/helpers/result.dart';
 import 'package:d2_remote/modules/data/tracker/queries/event.query.dart';
 import 'package:d2_remote/modules/data/tracker/queries/tracked_entity_instance.query.dart';
 import 'package:d2_remote/modules/metadata/dataset/queries/data_set.query.dart';
@@ -11,8 +11,8 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../commons/extensions/dynamic_extensions.dart';
-import '../../../core/arch/call/d2_progress.dart';
-import '../../../core/arch/call/d2_progress_status.dart';
+import 'package:d2_remote/modules/datarun/sync/call/d2_progress.dart';
+import 'package:d2_remote/modules/datarun/sync/call/d2_progress_status.dart';
 import '../../../core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
 import '../../../core/d2_remote_extensions/tracker/queries/event_query_download_extension.dart';
 import '../../../core/d2_remote_extensions/tracker/queries/event_query_upload_extension.dart';

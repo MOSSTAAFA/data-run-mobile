@@ -14,7 +14,7 @@ class EventCaptureResourcesProvider {
       ); //R.drawable.ic_error_outline;
 
   Icon provideYellowAlertIcon() => const Icon(
-        MdiIcons.alert,
+        Icons.warning,
         color: Colors.yellow,
       ); //R.drawable.ic_alert;
 

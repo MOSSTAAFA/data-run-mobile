@@ -45,8 +45,6 @@ class _SystemHash {
   }
 }
 
-typedef _DataEntryRepositoryRef = AutoDisposeProviderRef<DataEntryRepository>;
-
 /// See also [_dataEntryRepository].
 @ProviderFor(_dataEntryRepository)
 const _dataEntryRepositoryProvider = _DataEntryRepositoryFamily();
@@ -97,11 +95,11 @@ class _DataEntryRepositoryProvider
     extends AutoDisposeProvider<DataEntryRepository> {
   /// See also [_dataEntryRepository].
   _DataEntryRepositoryProvider({
-    this.entryMode,
-    required this.repositoryRecords,
-  }) : super.internal(
+    EntryMode? entryMode,
+    required FormRepositoryRecords repositoryRecords,
+  }) : this._internal(
           (ref) => _dataEntryRepository(
-            ref,
+            ref as _DataEntryRepositoryRef,
             entryMode: entryMode,
             repositoryRecords: repositoryRecords,
           ),
@@ -114,10 +112,47 @@ class _DataEntryRepositoryProvider
           dependencies: _DataEntryRepositoryFamily._dependencies,
           allTransitiveDependencies:
               _DataEntryRepositoryFamily._allTransitiveDependencies,
+          entryMode: entryMode,
+          repositoryRecords: repositoryRecords,
         );
+
+  _DataEntryRepositoryProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.entryMode,
+    required this.repositoryRecords,
+  }) : super.internal();
 
   final EntryMode? entryMode;
   final FormRepositoryRecords repositoryRecords;
+
+  @override
+  Override overrideWith(
+    DataEntryRepository Function(_DataEntryRepositoryRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _DataEntryRepositoryProvider._internal(
+        (ref) => create(ref as _DataEntryRepositoryRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        entryMode: entryMode,
+        repositoryRecords: repositoryRecords,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeProviderElement<DataEntryRepository> createElement() {
+    return _DataEntryRepositoryProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -136,8 +171,28 @@ class _DataEntryRepositoryProvider
   }
 }
 
+mixin _DataEntryRepositoryRef on AutoDisposeProviderRef<DataEntryRepository> {
+  /// The parameter `entryMode` of this provider.
+  EntryMode? get entryMode;
+
+  /// The parameter `repositoryRecords` of this provider.
+  FormRepositoryRecords get repositoryRecords;
+}
+
+class _DataEntryRepositoryProviderElement
+    extends AutoDisposeProviderElement<DataEntryRepository>
+    with _DataEntryRepositoryRef {
+  _DataEntryRepositoryProviderElement(super.provider);
+
+  @override
+  EntryMode? get entryMode =>
+      (origin as _DataEntryRepositoryProvider).entryMode;
+  @override
+  FormRepositoryRecords get repositoryRecords =>
+      (origin as _DataEntryRepositoryProvider).repositoryRecords;
+}
+
 String _$searchRepositoryHash() => r'76a860a0cb708c059a99ed5f7ec2bd84482d7263';
-typedef _SearchRepositoryRef = AutoDisposeProviderRef<SearchRepository>;
 
 /// See also [_searchRepository].
 @ProviderFor(_searchRepository)
@@ -185,10 +240,10 @@ class _SearchRepositoryFamily extends Family<SearchRepository> {
 class _SearchRepositoryProvider extends AutoDisposeProvider<SearchRepository> {
   /// See also [_searchRepository].
   _SearchRepositoryProvider(
-    this.searchRecords,
-  ) : super.internal(
+    SearchRecords searchRecords,
+  ) : this._internal(
           (ref) => _searchRepository(
-            ref,
+            ref as _SearchRepositoryRef,
             searchRecords,
           ),
           from: _searchRepositoryProvider,
@@ -200,9 +255,43 @@ class _SearchRepositoryProvider extends AutoDisposeProvider<SearchRepository> {
           dependencies: _SearchRepositoryFamily._dependencies,
           allTransitiveDependencies:
               _SearchRepositoryFamily._allTransitiveDependencies,
+          searchRecords: searchRecords,
         );
 
+  _SearchRepositoryProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.searchRecords,
+  }) : super.internal();
+
   final SearchRecords searchRecords;
+
+  @override
+  Override overrideWith(
+    SearchRepository Function(_SearchRepositoryRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _SearchRepositoryProvider._internal(
+        (ref) => create(ref as _SearchRepositoryRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        searchRecords: searchRecords,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeProviderElement<SearchRepository> createElement() {
+    return _SearchRepositoryProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -219,9 +308,23 @@ class _SearchRepositoryProvider extends AutoDisposeProvider<SearchRepository> {
   }
 }
 
+mixin _SearchRepositoryRef on AutoDisposeProviderRef<SearchRepository> {
+  /// The parameter `searchRecords` of this provider.
+  SearchRecords get searchRecords;
+}
+
+class _SearchRepositoryProviderElement
+    extends AutoDisposeProviderElement<SearchRepository>
+    with _SearchRepositoryRef {
+  _SearchRepositoryProviderElement(super.provider);
+
+  @override
+  SearchRecords get searchRecords =>
+      (origin as _SearchRepositoryProvider).searchRecords;
+}
+
 String _$enrollmentRepositoryHash() =>
     r'da50c870be3150c4a202e7dc694427aa04882107';
-typedef _EnrollmentRepositoryRef = AutoDisposeProviderRef<EnrollmentRepository>;
 
 /// See also [_enrollmentRepository].
 @ProviderFor(_enrollmentRepository)
@@ -270,10 +373,10 @@ class _EnrollmentRepositoryProvider
     extends AutoDisposeProvider<EnrollmentRepository> {
   /// See also [_enrollmentRepository].
   _EnrollmentRepositoryProvider(
-    this.enrollmentRecords,
-  ) : super.internal(
+    EnrollmentRecords enrollmentRecords,
+  ) : this._internal(
           (ref) => _enrollmentRepository(
-            ref,
+            ref as _EnrollmentRepositoryRef,
             enrollmentRecords,
           ),
           from: _enrollmentRepositoryProvider,
@@ -285,9 +388,43 @@ class _EnrollmentRepositoryProvider
           dependencies: _EnrollmentRepositoryFamily._dependencies,
           allTransitiveDependencies:
               _EnrollmentRepositoryFamily._allTransitiveDependencies,
+          enrollmentRecords: enrollmentRecords,
         );
 
+  _EnrollmentRepositoryProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.enrollmentRecords,
+  }) : super.internal();
+
   final EnrollmentRecords enrollmentRecords;
+
+  @override
+  Override overrideWith(
+    EnrollmentRepository Function(_EnrollmentRepositoryRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _EnrollmentRepositoryProvider._internal(
+        (ref) => create(ref as _EnrollmentRepositoryRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        enrollmentRecords: enrollmentRecords,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeProviderElement<EnrollmentRepository> createElement() {
+    return _EnrollmentRepositoryProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -304,8 +441,22 @@ class _EnrollmentRepositoryProvider
   }
 }
 
+mixin _EnrollmentRepositoryRef on AutoDisposeProviderRef<EnrollmentRepository> {
+  /// The parameter `enrollmentRecords` of this provider.
+  EnrollmentRecords get enrollmentRecords;
+}
+
+class _EnrollmentRepositoryProviderElement
+    extends AutoDisposeProviderElement<EnrollmentRepository>
+    with _EnrollmentRepositoryRef {
+  _EnrollmentRepositoryProviderElement(super.provider);
+
+  @override
+  EnrollmentRecords get enrollmentRecords =>
+      (origin as _EnrollmentRepositoryProvider).enrollmentRecords;
+}
+
 String _$eventRepositoryHash() => r'cb536a4559388480c12a3bd18b59178a32c01cac';
-typedef _EventRepositoryRef = AutoDisposeProviderRef<EventRepository>;
 
 /// See also [_eventRepository].
 @ProviderFor(_eventRepository)
@@ -353,10 +504,10 @@ class _EventRepositoryFamily extends Family<EventRepository> {
 class _EventRepositoryProvider extends AutoDisposeProvider<EventRepository> {
   /// See also [_eventRepository].
   _EventRepositoryProvider(
-    this.eventRecords,
-  ) : super.internal(
+    EventRecords eventRecords,
+  ) : this._internal(
           (ref) => _eventRepository(
-            ref,
+            ref as _EventRepositoryRef,
             eventRecords,
           ),
           from: _eventRepositoryProvider,
@@ -368,9 +519,43 @@ class _EventRepositoryProvider extends AutoDisposeProvider<EventRepository> {
           dependencies: _EventRepositoryFamily._dependencies,
           allTransitiveDependencies:
               _EventRepositoryFamily._allTransitiveDependencies,
+          eventRecords: eventRecords,
         );
 
+  _EventRepositoryProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.eventRecords,
+  }) : super.internal();
+
   final EventRecords eventRecords;
+
+  @override
+  Override overrideWith(
+    EventRepository Function(_EventRepositoryRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _EventRepositoryProvider._internal(
+        (ref) => create(ref as _EventRepositoryRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        eventRecords: eventRecords,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeProviderElement<EventRepository> createElement() {
+    return _EventRepositoryProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -387,10 +572,23 @@ class _EventRepositoryProvider extends AutoDisposeProvider<EventRepository> {
   }
 }
 
+mixin _EventRepositoryRef on AutoDisposeProviderRef<EventRepository> {
+  /// The parameter `eventRecords` of this provider.
+  EventRecords get eventRecords;
+}
+
+class _EventRepositoryProviderElement
+    extends AutoDisposeProviderElement<EventRepository>
+    with _EventRepositoryRef {
+  _EventRepositoryProviderElement(super.provider);
+
+  @override
+  EventRecords get eventRecords =>
+      (origin as _EventRepositoryProvider).eventRecords;
+}
+
 String _$fieldViewModelFactoryHash() =>
     r'626abd8a21cb33bfa08cc3442a768024a6773752';
-typedef _FieldViewModelFactoryRef
-    = AutoDisposeProviderRef<FieldViewModelFactory>;
 
 /// See also [_fieldViewModelFactory].
 @ProviderFor(_fieldViewModelFactory)
@@ -442,11 +640,11 @@ class _FieldViewModelFactoryProvider
     extends AutoDisposeProvider<FieldViewModelFactory> {
   /// See also [_fieldViewModelFactory].
   _FieldViewModelFactoryProvider(
-    this.allowMandatoryFields,
-    this.isBackgroundTransparent,
-  ) : super.internal(
+    bool allowMandatoryFields,
+    bool isBackgroundTransparent,
+  ) : this._internal(
           (ref) => _fieldViewModelFactory(
-            ref,
+            ref as _FieldViewModelFactoryRef,
             allowMandatoryFields,
             isBackgroundTransparent,
           ),
@@ -459,10 +657,47 @@ class _FieldViewModelFactoryProvider
           dependencies: _FieldViewModelFactoryFamily._dependencies,
           allTransitiveDependencies:
               _FieldViewModelFactoryFamily._allTransitiveDependencies,
+          allowMandatoryFields: allowMandatoryFields,
+          isBackgroundTransparent: isBackgroundTransparent,
         );
+
+  _FieldViewModelFactoryProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.allowMandatoryFields,
+    required this.isBackgroundTransparent,
+  }) : super.internal();
 
   final bool allowMandatoryFields;
   final bool isBackgroundTransparent;
+
+  @override
+  Override overrideWith(
+    FieldViewModelFactory Function(_FieldViewModelFactoryRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _FieldViewModelFactoryProvider._internal(
+        (ref) => create(ref as _FieldViewModelFactoryRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        allowMandatoryFields: allowMandatoryFields,
+        isBackgroundTransparent: isBackgroundTransparent,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeProviderElement<FieldViewModelFactory> createElement() {
+    return _FieldViewModelFactoryProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -481,10 +716,30 @@ class _FieldViewModelFactoryProvider
   }
 }
 
+mixin _FieldViewModelFactoryRef
+    on AutoDisposeProviderRef<FieldViewModelFactory> {
+  /// The parameter `allowMandatoryFields` of this provider.
+  bool get allowMandatoryFields;
+
+  /// The parameter `isBackgroundTransparent` of this provider.
+  bool get isBackgroundTransparent;
+}
+
+class _FieldViewModelFactoryProviderElement
+    extends AutoDisposeProviderElement<FieldViewModelFactory>
+    with _FieldViewModelFactoryRef {
+  _FieldViewModelFactoryProviderElement(super.provider);
+
+  @override
+  bool get allowMandatoryFields =>
+      (origin as _FieldViewModelFactoryProvider).allowMandatoryFields;
+  @override
+  bool get isBackgroundTransparent =>
+      (origin as _FieldViewModelFactoryProvider).isBackgroundTransparent;
+}
+
 String _$enrollmentObjectRepositoryHash() =>
     r'cc02474cbf3723f1ef51349b0ac3c379c9cff3ea';
-typedef _EnrollmentObjectRepositoryRef
-    = AutoDisposeProviderRef<EnrollmentObjectRepository>;
 
 /// _provideEnrollmentObjectRepository(uid)
 ///
@@ -546,10 +801,10 @@ class _EnrollmentObjectRepositoryProvider
   ///
   /// Copied from [_enrollmentObjectRepository].
   _EnrollmentObjectRepositoryProvider(
-    this.enrollmentUid,
-  ) : super.internal(
+    String enrollmentUid,
+  ) : this._internal(
           (ref) => _enrollmentObjectRepository(
-            ref,
+            ref as _EnrollmentObjectRepositoryRef,
             enrollmentUid,
           ),
           from: _enrollmentObjectRepositoryProvider,
@@ -561,9 +816,44 @@ class _EnrollmentObjectRepositoryProvider
           dependencies: _EnrollmentObjectRepositoryFamily._dependencies,
           allTransitiveDependencies:
               _EnrollmentObjectRepositoryFamily._allTransitiveDependencies,
+          enrollmentUid: enrollmentUid,
         );
 
+  _EnrollmentObjectRepositoryProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.enrollmentUid,
+  }) : super.internal();
+
   final String enrollmentUid;
+
+  @override
+  Override overrideWith(
+    EnrollmentObjectRepository Function(_EnrollmentObjectRepositoryRef provider)
+        create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _EnrollmentObjectRepositoryProvider._internal(
+        (ref) => create(ref as _EnrollmentObjectRepositoryRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        enrollmentUid: enrollmentUid,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeProviderElement<EnrollmentObjectRepository> createElement() {
+    return _EnrollmentObjectRepositoryProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -580,8 +870,23 @@ class _EnrollmentObjectRepositoryProvider
   }
 }
 
+mixin _EnrollmentObjectRepositoryRef
+    on AutoDisposeProviderRef<EnrollmentObjectRepository> {
+  /// The parameter `enrollmentUid` of this provider.
+  String get enrollmentUid;
+}
+
+class _EnrollmentObjectRepositoryProviderElement
+    extends AutoDisposeProviderElement<EnrollmentObjectRepository>
+    with _EnrollmentObjectRepositoryRef {
+  _EnrollmentObjectRepositoryProviderElement(super.provider);
+
+  @override
+  String get enrollmentUid =>
+      (origin as _EnrollmentObjectRepositoryProvider).enrollmentUid;
+}
+
 String _$formValueStoreHash() => r'02d1cb44f73e8d97f8b256b9fd324afa2567e018';
-typedef _FormValueStoreRef = AutoDisposeProviderRef<FormValueStore?>;
 
 /// See also [_formValueStore].
 @ProviderFor(_formValueStore)
@@ -635,12 +940,12 @@ class _FormValueStoreFamily extends Family<FormValueStore?> {
 class _FormValueStoreProvider extends AutoDisposeProvider<FormValueStore?> {
   /// See also [_formValueStore].
   _FormValueStoreProvider(
-    this.recordUid,
-    this.entryMode, [
-    this.repository,
-  ]) : super.internal(
+    String? recordUid,
+    EntryMode? entryMode, [
+    EnrollmentObjectRepository? repository,
+  ]) : this._internal(
           (ref) => _formValueStore(
-            ref,
+            ref as _FormValueStoreRef,
             recordUid,
             entryMode,
             repository,
@@ -654,11 +959,51 @@ class _FormValueStoreProvider extends AutoDisposeProvider<FormValueStore?> {
           dependencies: _FormValueStoreFamily._dependencies,
           allTransitiveDependencies:
               _FormValueStoreFamily._allTransitiveDependencies,
+          recordUid: recordUid,
+          entryMode: entryMode,
+          repository: repository,
         );
+
+  _FormValueStoreProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.recordUid,
+    required this.entryMode,
+    required this.repository,
+  }) : super.internal();
 
   final String? recordUid;
   final EntryMode? entryMode;
   final EnrollmentObjectRepository? repository;
+
+  @override
+  Override overrideWith(
+    FormValueStore? Function(_FormValueStoreRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _FormValueStoreProvider._internal(
+        (ref) => create(ref as _FormValueStoreRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        recordUid: recordUid,
+        entryMode: entryMode,
+        repository: repository,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeProviderElement<FormValueStore?> createElement() {
+    return _FormValueStoreProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -677,6 +1022,31 @@ class _FormValueStoreProvider extends AutoDisposeProvider<FormValueStore?> {
 
     return _SystemHash.finish(hash);
   }
+}
+
+mixin _FormValueStoreRef on AutoDisposeProviderRef<FormValueStore?> {
+  /// The parameter `recordUid` of this provider.
+  String? get recordUid;
+
+  /// The parameter `entryMode` of this provider.
+  EntryMode? get entryMode;
+
+  /// The parameter `repository` of this provider.
+  EnrollmentObjectRepository? get repository;
+}
+
+class _FormValueStoreProviderElement
+    extends AutoDisposeProviderElement<FormValueStore?>
+    with _FormValueStoreRef {
+  _FormValueStoreProviderElement(super.provider);
+
+  @override
+  String? get recordUid => (origin as _FormValueStoreProvider).recordUid;
+  @override
+  EntryMode? get entryMode => (origin as _FormValueStoreProvider).entryMode;
+  @override
+  EnrollmentObjectRepository? get repository =>
+      (origin as _FormValueStoreProvider).repository;
 }
 
 String _$networkUtilsHash() => r'fe32a0e13dc1e5fe27a6e10a51b6a0016de0a588';
@@ -796,7 +1166,6 @@ final _hintProviderProvider = AutoDisposeProvider<HintProvider>.internal(
 
 typedef _HintProviderRef = AutoDisposeProviderRef<HintProvider>;
 String _$uiStyleProviderHash() => r'ceb06436acaab32d95e684b6d928ab565206a7ed';
-typedef _UiStyleProviderRef = AutoDisposeProviderRef<UiStyleProvider>;
 
 /// See also [_uiStyleProvider].
 @ProviderFor(_uiStyleProvider)
@@ -844,10 +1213,10 @@ class _UiStyleProviderFamily extends Family<UiStyleProvider> {
 class _UiStyleProviderProvider extends AutoDisposeProvider<UiStyleProvider> {
   /// See also [_uiStyleProvider].
   _UiStyleProviderProvider(
-    this.isBackgroundTransparent,
-  ) : super.internal(
+    bool isBackgroundTransparent,
+  ) : this._internal(
           (ref) => _uiStyleProvider(
-            ref,
+            ref as _UiStyleProviderRef,
             isBackgroundTransparent,
           ),
           from: _uiStyleProviderProvider,
@@ -859,9 +1228,43 @@ class _UiStyleProviderProvider extends AutoDisposeProvider<UiStyleProvider> {
           dependencies: _UiStyleProviderFamily._dependencies,
           allTransitiveDependencies:
               _UiStyleProviderFamily._allTransitiveDependencies,
+          isBackgroundTransparent: isBackgroundTransparent,
         );
 
+  _UiStyleProviderProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.isBackgroundTransparent,
+  }) : super.internal();
+
   final bool isBackgroundTransparent;
+
+  @override
+  Override overrideWith(
+    UiStyleProvider Function(_UiStyleProviderRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _UiStyleProviderProvider._internal(
+        (ref) => create(ref as _UiStyleProviderRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        isBackgroundTransparent: isBackgroundTransparent,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeProviderElement<UiStyleProvider> createElement() {
+    return _UiStyleProviderProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -876,6 +1279,21 @@ class _UiStyleProviderProvider extends AutoDisposeProvider<UiStyleProvider> {
 
     return _SystemHash.finish(hash);
   }
+}
+
+mixin _UiStyleProviderRef on AutoDisposeProviderRef<UiStyleProvider> {
+  /// The parameter `isBackgroundTransparent` of this provider.
+  bool get isBackgroundTransparent;
+}
+
+class _UiStyleProviderProviderElement
+    extends AutoDisposeProviderElement<UiStyleProvider>
+    with _UiStyleProviderRef {
+  _UiStyleProviderProviderElement(super.provider);
+
+  @override
+  bool get isBackgroundTransparent =>
+      (origin as _UiStyleProviderProvider).isBackgroundTransparent;
 }
 
 String _$searchOptionSetOptionHash() =>
@@ -897,4 +1315,4 @@ final _searchOptionSetOptionProvider =
 typedef _SearchOptionSetOptionRef
     = AutoDisposeProviderRef<SearchOptionSetOption>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

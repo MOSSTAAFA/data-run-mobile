@@ -1,4 +1,4 @@
-import '../../../../../commons/extensions/standard_extensions.dart';
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import '../../../../../commons/resources/resource_manager.dart';
 import '../../../../../core/event/event_editable_status.dart';
 

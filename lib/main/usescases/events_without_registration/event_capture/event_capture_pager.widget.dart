@@ -4,7 +4,7 @@
 // import '../../../../commons/custom_widgets/nav_bar/nav_info_notifier.dart';
 // import '../../../../commons/custom_widgets/navigationbar/navigation_page.dart';
 // import '../../../../commons/custom_widgets/navigationbar/navigation_tab_bar_view.widget.dart';
-// import '../../../../commons/extensions/standard_extensions.dart';
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 // import '../../../../form/data/data_integrity_check_result.dart';
 // import '../../../utils/event_mode.dart';
 // import '../event_details/ui/event_details_screen.widget.dart';

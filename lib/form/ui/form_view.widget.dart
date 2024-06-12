@@ -1,6 +1,6 @@
 // ignore_for_file: always_specify_types, always_declare_return_types
 
-import 'package:d2_remote/core/common/value_type.dart';
+import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,7 +8,7 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
 import '../../commons/custom_widgets/mixins/keyboard_manager.dart';
 import '../../commons/extensions/dynamic_extensions.dart';
-import '../../commons/extensions/standard_extensions.dart';
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import '../../commons/helpers/iterable.dart';
 import '../data/data_integrity_check_result.dart';
 import '../data/form_repository.dart';

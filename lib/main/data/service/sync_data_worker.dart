@@ -1,18 +1,17 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-
-import '../../../commons/constants.dart';
-import '../../../commons/date/date_utils.dart';
-import '../../../commons/extensions/dynamic_extensions.dart';
-import '../../../commons/network/network_utils.dart';
-import '../../../commons/prefs/preference_provider.dart';
-import '../../../commons/resources/resource_manager.dart';
-import 'sync_metadata_worker.dart';
-import 'sync_presenter.dart';
-import 'sync_result.dart';
-import 'work_manager/nmc_worker/work_info.dart';
-import 'work_manager/nmc_worker/worker.dart';
+import 'package:mass_pro/commons/constants.dart';
+import 'package:mass_pro/commons/date/date_utils.dart';
+import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
+import 'package:mass_pro/commons/network/network_utils.dart';
+import 'package:mass_pro/commons/prefs/preference_provider.dart';
+import 'package:mass_pro/commons/resources/resource_manager.dart';
+import 'package:mass_pro/main/data/service/sync_metadata_worker.dart';
+import 'package:mass_pro/main/data/service/sync_presenter.dart';
+import 'package:mass_pro/main/data/service/sync_result.dart';
+import 'package:mass_pro/main/data/service/work_manager/nmc_worker/work_info.dart';
+import 'package:mass_pro/main/data/service/work_manager/nmc_worker/worker.dart';
 
 class SyncDataWorker extends Worker {
   SyncDataWorker(this.ref,

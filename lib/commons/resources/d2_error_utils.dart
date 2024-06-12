@@ -1,11 +1,10 @@
-import 'package:d2_remote/core/common/exception/exception.dart';
-import 'package:d2_remote/core/maintenance/d2_error.dart';
-import 'package:d2_remote/core/maintenance/d2_error_code.dart';
 import 'package:dartlin/control_flow.dart';
+import 'package:mass_pro/main/l10n/app_localizations.dart';
+import 'package:mass_pro/sdk/core/common/exception/exception.dart';
+import 'package:mass_pro/sdk/core/maintenance/d2_error.dart';
+import 'package:mass_pro/sdk/core/maintenance/d2_error_code.dart';
+import 'package:mass_pro/utils/navigator_key.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import '../../main.dart';
-import '../../main/l10n/app_localizations.dart';
 
 part 'd2_error_utils.g.dart';
 

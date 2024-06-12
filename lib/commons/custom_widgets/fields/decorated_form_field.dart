@@ -110,7 +110,7 @@ class _DecoratedFormFieldState extends State<DecoratedFormField> {
       if (icon == null) {
         if (widget.isPercent) {
           icon = const Icon(
-            MdiIcons.percent,
+            Icons.percent,
             size: 16,
           );
         }

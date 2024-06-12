@@ -12,7 +12,7 @@ part of 'form_intent.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$FormIntent {
@@ -170,22 +170,24 @@ class _$FormIntentCopyWithImpl<$Res, $Val extends FormIntent>
 }
 
 /// @nodoc
-abstract class _$$InitCopyWith<$Res> {
-  factory _$$InitCopyWith(_$Init value, $Res Function(_$Init) then) =
-      __$$InitCopyWithImpl<$Res>;
+abstract class _$$InitImplCopyWith<$Res> {
+  factory _$$InitImplCopyWith(
+          _$InitImpl value, $Res Function(_$InitImpl) then) =
+      __$$InitImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$InitCopyWithImpl<$Res> extends _$FormIntentCopyWithImpl<$Res, _$Init>
-    implements _$$InitCopyWith<$Res> {
-  __$$InitCopyWithImpl(_$Init _value, $Res Function(_$Init) _then)
+class __$$InitImplCopyWithImpl<$Res>
+    extends _$FormIntentCopyWithImpl<$Res, _$InitImpl>
+    implements _$$InitImplCopyWith<$Res> {
+  __$$InitImplCopyWithImpl(_$InitImpl _value, $Res Function(_$InitImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$Init extends Init {
-  const _$Init() : super._();
+class _$InitImpl extends Init {
+  const _$InitImpl() : super._();
 
   @override
   String toString() {
@@ -193,9 +195,9 @@ class _$Init extends Init {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$Init);
+        (other.runtimeType == runtimeType && other is _$InitImpl);
   }
 
   @override
@@ -360,24 +362,25 @@ class _$Init extends Init {
 }
 
 abstract class Init extends FormIntent {
-  const factory Init() = _$Init;
+  const factory Init() = _$InitImpl;
   const Init._() : super._();
 }
 
 /// @nodoc
-abstract class _$$OnFinishCopyWith<$Res> {
-  factory _$$OnFinishCopyWith(
-          _$OnFinish value, $Res Function(_$OnFinish) then) =
-      __$$OnFinishCopyWithImpl<$Res>;
+abstract class _$$OnFinishImplCopyWith<$Res> {
+  factory _$$OnFinishImplCopyWith(
+          _$OnFinishImpl value, $Res Function(_$OnFinishImpl) then) =
+      __$$OnFinishImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String? extraData});
 }
 
 /// @nodoc
-class __$$OnFinishCopyWithImpl<$Res>
-    extends _$FormIntentCopyWithImpl<$Res, _$OnFinish>
-    implements _$$OnFinishCopyWith<$Res> {
-  __$$OnFinishCopyWithImpl(_$OnFinish _value, $Res Function(_$OnFinish) _then)
+class __$$OnFinishImplCopyWithImpl<$Res>
+    extends _$FormIntentCopyWithImpl<$Res, _$OnFinishImpl>
+    implements _$$OnFinishImplCopyWith<$Res> {
+  __$$OnFinishImplCopyWithImpl(
+      _$OnFinishImpl _value, $Res Function(_$OnFinishImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -385,7 +388,7 @@ class __$$OnFinishCopyWithImpl<$Res>
   $Res call({
     Object? extraData = freezed,
   }) {
-    return _then(_$OnFinish(
+    return _then(_$OnFinishImpl(
       freezed == extraData
           ? _value.extraData
           : extraData // ignore: cast_nullable_to_non_nullable
@@ -396,8 +399,8 @@ class __$$OnFinishCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$OnFinish extends OnFinish {
-  const _$OnFinish([this.extraData]) : super._();
+class _$OnFinishImpl extends OnFinish {
+  const _$OnFinishImpl([this.extraData]) : super._();
 
   @override
   final String? extraData;
@@ -408,10 +411,10 @@ class _$OnFinish extends OnFinish {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$OnFinish &&
+            other is _$OnFinishImpl &&
             (identical(other.extraData, extraData) ||
                 other.extraData == extraData));
   }
@@ -422,8 +425,8 @@ class _$OnFinish extends OnFinish {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$OnFinishCopyWith<_$OnFinish> get copyWith =>
-      __$$OnFinishCopyWithImpl<_$OnFinish>(this, _$identity);
+  _$$OnFinishImplCopyWith<_$OnFinishImpl> get copyWith =>
+      __$$OnFinishImplCopyWithImpl<_$OnFinishImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -584,28 +587,30 @@ class _$OnFinish extends OnFinish {
 }
 
 abstract class OnFinish extends FormIntent {
-  const factory OnFinish([final String? extraData]) = _$OnFinish;
+  const factory OnFinish([final String? extraData]) = _$OnFinishImpl;
   const OnFinish._() : super._();
 
   String? get extraData;
   @JsonKey(ignore: true)
-  _$$OnFinishCopyWith<_$OnFinish> get copyWith =>
+  _$$OnFinishImplCopyWith<_$OnFinishImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$OnClearCopyWith<$Res> {
-  factory _$$OnClearCopyWith(_$OnClear value, $Res Function(_$OnClear) then) =
-      __$$OnClearCopyWithImpl<$Res>;
+abstract class _$$OnClearImplCopyWith<$Res> {
+  factory _$$OnClearImplCopyWith(
+          _$OnClearImpl value, $Res Function(_$OnClearImpl) then) =
+      __$$OnClearImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String? extraData});
 }
 
 /// @nodoc
-class __$$OnClearCopyWithImpl<$Res>
-    extends _$FormIntentCopyWithImpl<$Res, _$OnClear>
-    implements _$$OnClearCopyWith<$Res> {
-  __$$OnClearCopyWithImpl(_$OnClear _value, $Res Function(_$OnClear) _then)
+class __$$OnClearImplCopyWithImpl<$Res>
+    extends _$FormIntentCopyWithImpl<$Res, _$OnClearImpl>
+    implements _$$OnClearImplCopyWith<$Res> {
+  __$$OnClearImplCopyWithImpl(
+      _$OnClearImpl _value, $Res Function(_$OnClearImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -613,7 +618,7 @@ class __$$OnClearCopyWithImpl<$Res>
   $Res call({
     Object? extraData = freezed,
   }) {
-    return _then(_$OnClear(
+    return _then(_$OnClearImpl(
       freezed == extraData
           ? _value.extraData
           : extraData // ignore: cast_nullable_to_non_nullable
@@ -624,8 +629,8 @@ class __$$OnClearCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$OnClear extends OnClear {
-  const _$OnClear([this.extraData]) : super._();
+class _$OnClearImpl extends OnClear {
+  const _$OnClearImpl([this.extraData]) : super._();
 
   @override
   final String? extraData;
@@ -636,10 +641,10 @@ class _$OnClear extends OnClear {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$OnClear &&
+            other is _$OnClearImpl &&
             (identical(other.extraData, extraData) ||
                 other.extraData == extraData));
   }
@@ -650,8 +655,8 @@ class _$OnClear extends OnClear {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$OnClearCopyWith<_$OnClear> get copyWith =>
-      __$$OnClearCopyWithImpl<_$OnClear>(this, _$identity);
+  _$$OnClearImplCopyWith<_$OnClearImpl> get copyWith =>
+      __$$OnClearImplCopyWithImpl<_$OnClearImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -812,28 +817,30 @@ class _$OnClear extends OnClear {
 }
 
 abstract class OnClear extends FormIntent {
-  const factory OnClear([final String? extraData]) = _$OnClear;
+  const factory OnClear([final String? extraData]) = _$OnClearImpl;
   const OnClear._() : super._();
 
   String? get extraData;
   @JsonKey(ignore: true)
-  _$$OnClearCopyWith<_$OnClear> get copyWith =>
+  _$$OnClearImplCopyWith<_$OnClearImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$OnFocusCopyWith<$Res> {
-  factory _$$OnFocusCopyWith(_$OnFocus value, $Res Function(_$OnFocus) then) =
-      __$$OnFocusCopyWithImpl<$Res>;
+abstract class _$$OnFocusImplCopyWith<$Res> {
+  factory _$$OnFocusImplCopyWith(
+          _$OnFocusImpl value, $Res Function(_$OnFocusImpl) then) =
+      __$$OnFocusImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String uid, String? value});
 }
 
 /// @nodoc
-class __$$OnFocusCopyWithImpl<$Res>
-    extends _$FormIntentCopyWithImpl<$Res, _$OnFocus>
-    implements _$$OnFocusCopyWith<$Res> {
-  __$$OnFocusCopyWithImpl(_$OnFocus _value, $Res Function(_$OnFocus) _then)
+class __$$OnFocusImplCopyWithImpl<$Res>
+    extends _$FormIntentCopyWithImpl<$Res, _$OnFocusImpl>
+    implements _$$OnFocusImplCopyWith<$Res> {
+  __$$OnFocusImplCopyWithImpl(
+      _$OnFocusImpl _value, $Res Function(_$OnFocusImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -842,7 +849,7 @@ class __$$OnFocusCopyWithImpl<$Res>
     Object? uid = null,
     Object? value = freezed,
   }) {
-    return _then(_$OnFocus(
+    return _then(_$OnFocusImpl(
       null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
@@ -857,8 +864,8 @@ class __$$OnFocusCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$OnFocus extends OnFocus {
-  const _$OnFocus(this.uid, this.value) : super._();
+class _$OnFocusImpl extends OnFocus {
+  const _$OnFocusImpl(this.uid, this.value) : super._();
 
   @override
   final String uid;
@@ -871,10 +878,10 @@ class _$OnFocus extends OnFocus {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$OnFocus &&
+            other is _$OnFocusImpl &&
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.value, value) || other.value == value));
   }
@@ -885,8 +892,8 @@ class _$OnFocus extends OnFocus {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$OnFocusCopyWith<_$OnFocus> get copyWith =>
-      __$$OnFocusCopyWithImpl<_$OnFocus>(this, _$identity);
+  _$$OnFocusImplCopyWith<_$OnFocusImpl> get copyWith =>
+      __$$OnFocusImplCopyWithImpl<_$OnFocusImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1047,29 +1054,31 @@ class _$OnFocus extends OnFocus {
 }
 
 abstract class OnFocus extends FormIntent {
-  const factory OnFocus(final String uid, final String? value) = _$OnFocus;
+  const factory OnFocus(final String uid, final String? value) = _$OnFocusImpl;
   const OnFocus._() : super._();
 
   String get uid;
   String? get value;
   @JsonKey(ignore: true)
-  _$$OnFocusCopyWith<_$OnFocus> get copyWith =>
+  _$$OnFocusImplCopyWith<_$OnFocusImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$OnNextCopyWith<$Res> {
-  factory _$$OnNextCopyWith(_$OnNext value, $Res Function(_$OnNext) then) =
-      __$$OnNextCopyWithImpl<$Res>;
+abstract class _$$OnNextImplCopyWith<$Res> {
+  factory _$$OnNextImplCopyWith(
+          _$OnNextImpl value, $Res Function(_$OnNextImpl) then) =
+      __$$OnNextImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String uid, String? value, int? position});
 }
 
 /// @nodoc
-class __$$OnNextCopyWithImpl<$Res>
-    extends _$FormIntentCopyWithImpl<$Res, _$OnNext>
-    implements _$$OnNextCopyWith<$Res> {
-  __$$OnNextCopyWithImpl(_$OnNext _value, $Res Function(_$OnNext) _then)
+class __$$OnNextImplCopyWithImpl<$Res>
+    extends _$FormIntentCopyWithImpl<$Res, _$OnNextImpl>
+    implements _$$OnNextImplCopyWith<$Res> {
+  __$$OnNextImplCopyWithImpl(
+      _$OnNextImpl _value, $Res Function(_$OnNextImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1079,7 +1088,7 @@ class __$$OnNextCopyWithImpl<$Res>
     Object? value = freezed,
     Object? position = freezed,
   }) {
-    return _then(_$OnNext(
+    return _then(_$OnNextImpl(
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
@@ -1098,8 +1107,9 @@ class __$$OnNextCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$OnNext extends OnNext {
-  const _$OnNext({required this.uid, this.value, this.position}) : super._();
+class _$OnNextImpl extends OnNext {
+  const _$OnNextImpl({required this.uid, this.value, this.position})
+      : super._();
 
   @override
   final String uid;
@@ -1114,10 +1124,10 @@ class _$OnNext extends OnNext {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$OnNext &&
+            other is _$OnNextImpl &&
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.value, value) || other.value == value) &&
             (identical(other.position, position) ||
@@ -1130,8 +1140,8 @@ class _$OnNext extends OnNext {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$OnNextCopyWith<_$OnNext> get copyWith =>
-      __$$OnNextCopyWithImpl<_$OnNext>(this, _$identity);
+  _$$OnNextImplCopyWith<_$OnNextImpl> get copyWith =>
+      __$$OnNextImplCopyWithImpl<_$OnNextImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1295,31 +1305,33 @@ abstract class OnNext extends FormIntent {
   const factory OnNext(
       {required final String uid,
       final String? value,
-      final int? position}) = _$OnNext;
+      final int? position}) = _$OnNextImpl;
   const OnNext._() : super._();
 
   String get uid;
   String? get value;
   int? get position;
   @JsonKey(ignore: true)
-  _$$OnNextCopyWith<_$OnNext> get copyWith =>
+  _$$OnNextImplCopyWith<_$OnNextImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$OnSaveCopyWith<$Res> {
-  factory _$$OnSaveCopyWith(_$OnSave value, $Res Function(_$OnSave) then) =
-      __$$OnSaveCopyWithImpl<$Res>;
+abstract class _$$OnSaveImplCopyWith<$Res> {
+  factory _$$OnSaveImplCopyWith(
+          _$OnSaveImpl value, $Res Function(_$OnSaveImpl) then) =
+      __$$OnSaveImplCopyWithImpl<$Res>;
   @useResult
   $Res call(
       {String uid, String? value, ValueType? valueType, String? fieldMask});
 }
 
 /// @nodoc
-class __$$OnSaveCopyWithImpl<$Res>
-    extends _$FormIntentCopyWithImpl<$Res, _$OnSave>
-    implements _$$OnSaveCopyWith<$Res> {
-  __$$OnSaveCopyWithImpl(_$OnSave _value, $Res Function(_$OnSave) _then)
+class __$$OnSaveImplCopyWithImpl<$Res>
+    extends _$FormIntentCopyWithImpl<$Res, _$OnSaveImpl>
+    implements _$$OnSaveImplCopyWith<$Res> {
+  __$$OnSaveImplCopyWithImpl(
+      _$OnSaveImpl _value, $Res Function(_$OnSaveImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1330,7 +1342,7 @@ class __$$OnSaveCopyWithImpl<$Res>
     Object? valueType = freezed,
     Object? fieldMask = freezed,
   }) {
-    return _then(_$OnSave(
+    return _then(_$OnSaveImpl(
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
@@ -1353,8 +1365,8 @@ class __$$OnSaveCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$OnSave extends OnSave {
-  const _$OnSave(
+class _$OnSaveImpl extends OnSave {
+  const _$OnSaveImpl(
       {required this.uid, this.value, this.valueType, this.fieldMask})
       : super._();
 
@@ -1373,10 +1385,10 @@ class _$OnSave extends OnSave {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$OnSave &&
+            other is _$OnSaveImpl &&
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.value, value) || other.value == value) &&
             (identical(other.valueType, valueType) ||
@@ -1392,8 +1404,8 @@ class _$OnSave extends OnSave {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$OnSaveCopyWith<_$OnSave> get copyWith =>
-      __$$OnSaveCopyWithImpl<_$OnSave>(this, _$identity);
+  _$$OnSaveImplCopyWith<_$OnSaveImpl> get copyWith =>
+      __$$OnSaveImplCopyWithImpl<_$OnSaveImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1558,7 +1570,7 @@ abstract class OnSave extends FormIntent {
       {required final String uid,
       final String? value,
       final ValueType? valueType,
-      final String? fieldMask}) = _$OnSave;
+      final String? fieldMask}) = _$OnSaveImpl;
   const OnSave._() : super._();
 
   String get uid;
@@ -1566,25 +1578,25 @@ abstract class OnSave extends FormIntent {
   ValueType? get valueType;
   String? get fieldMask;
   @JsonKey(ignore: true)
-  _$$OnSaveCopyWith<_$OnSave> get copyWith =>
+  _$$OnSaveImplCopyWith<_$OnSaveImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$OnTextChangeCopyWith<$Res> {
-  factory _$$OnTextChangeCopyWith(
-          _$OnTextChange value, $Res Function(_$OnTextChange) then) =
-      __$$OnTextChangeCopyWithImpl<$Res>;
+abstract class _$$OnTextChangeImplCopyWith<$Res> {
+  factory _$$OnTextChangeImplCopyWith(
+          _$OnTextChangeImpl value, $Res Function(_$OnTextChangeImpl) then) =
+      __$$OnTextChangeImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String uid, String? value});
 }
 
 /// @nodoc
-class __$$OnTextChangeCopyWithImpl<$Res>
-    extends _$FormIntentCopyWithImpl<$Res, _$OnTextChange>
-    implements _$$OnTextChangeCopyWith<$Res> {
-  __$$OnTextChangeCopyWithImpl(
-      _$OnTextChange _value, $Res Function(_$OnTextChange) _then)
+class __$$OnTextChangeImplCopyWithImpl<$Res>
+    extends _$FormIntentCopyWithImpl<$Res, _$OnTextChangeImpl>
+    implements _$$OnTextChangeImplCopyWith<$Res> {
+  __$$OnTextChangeImplCopyWithImpl(
+      _$OnTextChangeImpl _value, $Res Function(_$OnTextChangeImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1593,7 +1605,7 @@ class __$$OnTextChangeCopyWithImpl<$Res>
     Object? uid = null,
     Object? value = freezed,
   }) {
-    return _then(_$OnTextChange(
+    return _then(_$OnTextChangeImpl(
       null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
@@ -1608,8 +1620,8 @@ class __$$OnTextChangeCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$OnTextChange extends OnTextChange {
-  const _$OnTextChange(this.uid, this.value) : super._();
+class _$OnTextChangeImpl extends OnTextChange {
+  const _$OnTextChangeImpl(this.uid, this.value) : super._();
 
   @override
   final String uid;
@@ -1622,10 +1634,10 @@ class _$OnTextChange extends OnTextChange {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$OnTextChange &&
+            other is _$OnTextChangeImpl &&
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.value, value) || other.value == value));
   }
@@ -1636,8 +1648,8 @@ class _$OnTextChange extends OnTextChange {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$OnTextChangeCopyWith<_$OnTextChange> get copyWith =>
-      __$$OnTextChangeCopyWithImpl<_$OnTextChange>(this, _$identity);
+  _$$OnTextChangeImplCopyWith<_$OnTextChangeImpl> get copyWith =>
+      __$$OnTextChangeImplCopyWithImpl<_$OnTextChangeImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1799,31 +1811,31 @@ class _$OnTextChange extends OnTextChange {
 
 abstract class OnTextChange extends FormIntent {
   const factory OnTextChange(final String uid, final String? value) =
-      _$OnTextChange;
+      _$OnTextChangeImpl;
   const OnTextChange._() : super._();
 
   String get uid;
   String? get value;
   @JsonKey(ignore: true)
-  _$$OnTextChangeCopyWith<_$OnTextChange> get copyWith =>
+  _$$OnTextChangeImplCopyWith<_$OnTextChangeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$ClearValueCopyWith<$Res> {
-  factory _$$ClearValueCopyWith(
-          _$ClearValue value, $Res Function(_$ClearValue) then) =
-      __$$ClearValueCopyWithImpl<$Res>;
+abstract class _$$ClearValueImplCopyWith<$Res> {
+  factory _$$ClearValueImplCopyWith(
+          _$ClearValueImpl value, $Res Function(_$ClearValueImpl) then) =
+      __$$ClearValueImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String uid});
 }
 
 /// @nodoc
-class __$$ClearValueCopyWithImpl<$Res>
-    extends _$FormIntentCopyWithImpl<$Res, _$ClearValue>
-    implements _$$ClearValueCopyWith<$Res> {
-  __$$ClearValueCopyWithImpl(
-      _$ClearValue _value, $Res Function(_$ClearValue) _then)
+class __$$ClearValueImplCopyWithImpl<$Res>
+    extends _$FormIntentCopyWithImpl<$Res, _$ClearValueImpl>
+    implements _$$ClearValueImplCopyWith<$Res> {
+  __$$ClearValueImplCopyWithImpl(
+      _$ClearValueImpl _value, $Res Function(_$ClearValueImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1831,7 +1843,7 @@ class __$$ClearValueCopyWithImpl<$Res>
   $Res call({
     Object? uid = null,
   }) {
-    return _then(_$ClearValue(
+    return _then(_$ClearValueImpl(
       null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
@@ -1842,8 +1854,8 @@ class __$$ClearValueCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ClearValue extends ClearValue {
-  const _$ClearValue(this.uid) : super._();
+class _$ClearValueImpl extends ClearValue {
+  const _$ClearValueImpl(this.uid) : super._();
 
   @override
   final String uid;
@@ -1854,10 +1866,10 @@ class _$ClearValue extends ClearValue {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ClearValue &&
+            other is _$ClearValueImpl &&
             (identical(other.uid, uid) || other.uid == uid));
   }
 
@@ -1867,8 +1879,8 @@ class _$ClearValue extends ClearValue {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ClearValueCopyWith<_$ClearValue> get copyWith =>
-      __$$ClearValueCopyWithImpl<_$ClearValue>(this, _$identity);
+  _$$ClearValueImplCopyWith<_$ClearValueImpl> get copyWith =>
+      __$$ClearValueImplCopyWithImpl<_$ClearValueImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -2029,32 +2041,32 @@ class _$ClearValue extends ClearValue {
 }
 
 abstract class ClearValue extends FormIntent {
-  const factory ClearValue(final String uid) = _$ClearValue;
+  const factory ClearValue(final String uid) = _$ClearValueImpl;
   const ClearValue._() : super._();
 
   String get uid;
   @JsonKey(ignore: true)
-  _$$ClearValueCopyWith<_$ClearValue> get copyWith =>
+  _$$ClearValueImplCopyWith<_$ClearValueImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$SelectLocationFromCoordinatesCopyWith<$Res> {
-  factory _$$SelectLocationFromCoordinatesCopyWith(
-          _$SelectLocationFromCoordinates value,
-          $Res Function(_$SelectLocationFromCoordinates) then) =
-      __$$SelectLocationFromCoordinatesCopyWithImpl<$Res>;
+abstract class _$$SelectLocationFromCoordinatesImplCopyWith<$Res> {
+  factory _$$SelectLocationFromCoordinatesImplCopyWith(
+          _$SelectLocationFromCoordinatesImpl value,
+          $Res Function(_$SelectLocationFromCoordinatesImpl) then) =
+      __$$SelectLocationFromCoordinatesImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String uid, String? coordinates, String extraData});
 }
 
 /// @nodoc
-class __$$SelectLocationFromCoordinatesCopyWithImpl<$Res>
-    extends _$FormIntentCopyWithImpl<$Res, _$SelectLocationFromCoordinates>
-    implements _$$SelectLocationFromCoordinatesCopyWith<$Res> {
-  __$$SelectLocationFromCoordinatesCopyWithImpl(
-      _$SelectLocationFromCoordinates _value,
-      $Res Function(_$SelectLocationFromCoordinates) _then)
+class __$$SelectLocationFromCoordinatesImplCopyWithImpl<$Res>
+    extends _$FormIntentCopyWithImpl<$Res, _$SelectLocationFromCoordinatesImpl>
+    implements _$$SelectLocationFromCoordinatesImplCopyWith<$Res> {
+  __$$SelectLocationFromCoordinatesImplCopyWithImpl(
+      _$SelectLocationFromCoordinatesImpl _value,
+      $Res Function(_$SelectLocationFromCoordinatesImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2064,7 +2076,7 @@ class __$$SelectLocationFromCoordinatesCopyWithImpl<$Res>
     Object? coordinates = freezed,
     Object? extraData = null,
   }) {
-    return _then(_$SelectLocationFromCoordinates(
+    return _then(_$SelectLocationFromCoordinatesImpl(
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
@@ -2083,8 +2095,9 @@ class __$$SelectLocationFromCoordinatesCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SelectLocationFromCoordinates extends SelectLocationFromCoordinates {
-  const _$SelectLocationFromCoordinates(
+class _$SelectLocationFromCoordinatesImpl
+    extends SelectLocationFromCoordinates {
+  const _$SelectLocationFromCoordinatesImpl(
       {required this.uid, this.coordinates, required this.extraData})
       : super._();
 
@@ -2101,10 +2114,10 @@ class _$SelectLocationFromCoordinates extends SelectLocationFromCoordinates {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SelectLocationFromCoordinates &&
+            other is _$SelectLocationFromCoordinatesImpl &&
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.coordinates, coordinates) ||
                 other.coordinates == coordinates) &&
@@ -2118,9 +2131,10 @@ class _$SelectLocationFromCoordinates extends SelectLocationFromCoordinates {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$SelectLocationFromCoordinatesCopyWith<_$SelectLocationFromCoordinates>
-      get copyWith => __$$SelectLocationFromCoordinatesCopyWithImpl<
-          _$SelectLocationFromCoordinates>(this, _$identity);
+  _$$SelectLocationFromCoordinatesImplCopyWith<
+          _$SelectLocationFromCoordinatesImpl>
+      get copyWith => __$$SelectLocationFromCoordinatesImplCopyWithImpl<
+          _$SelectLocationFromCoordinatesImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -2284,32 +2298,34 @@ abstract class SelectLocationFromCoordinates extends FormIntent {
   const factory SelectLocationFromCoordinates(
       {required final String uid,
       final String? coordinates,
-      required final String extraData}) = _$SelectLocationFromCoordinates;
+      required final String extraData}) = _$SelectLocationFromCoordinatesImpl;
   const SelectLocationFromCoordinates._() : super._();
 
   String get uid;
   String? get coordinates;
   String get extraData;
   @JsonKey(ignore: true)
-  _$$SelectLocationFromCoordinatesCopyWith<_$SelectLocationFromCoordinates>
+  _$$SelectLocationFromCoordinatesImplCopyWith<
+          _$SelectLocationFromCoordinatesImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$SelectLocationFromMapCopyWith<$Res> {
-  factory _$$SelectLocationFromMapCopyWith(_$SelectLocationFromMap value,
-          $Res Function(_$SelectLocationFromMap) then) =
-      __$$SelectLocationFromMapCopyWithImpl<$Res>;
+abstract class _$$SelectLocationFromMapImplCopyWith<$Res> {
+  factory _$$SelectLocationFromMapImplCopyWith(
+          _$SelectLocationFromMapImpl value,
+          $Res Function(_$SelectLocationFromMapImpl) then) =
+      __$$SelectLocationFromMapImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String uid, String featureType, String? coordinates});
 }
 
 /// @nodoc
-class __$$SelectLocationFromMapCopyWithImpl<$Res>
-    extends _$FormIntentCopyWithImpl<$Res, _$SelectLocationFromMap>
-    implements _$$SelectLocationFromMapCopyWith<$Res> {
-  __$$SelectLocationFromMapCopyWithImpl(_$SelectLocationFromMap _value,
-      $Res Function(_$SelectLocationFromMap) _then)
+class __$$SelectLocationFromMapImplCopyWithImpl<$Res>
+    extends _$FormIntentCopyWithImpl<$Res, _$SelectLocationFromMapImpl>
+    implements _$$SelectLocationFromMapImplCopyWith<$Res> {
+  __$$SelectLocationFromMapImplCopyWithImpl(_$SelectLocationFromMapImpl _value,
+      $Res Function(_$SelectLocationFromMapImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2319,7 +2335,7 @@ class __$$SelectLocationFromMapCopyWithImpl<$Res>
     Object? featureType = null,
     Object? coordinates = freezed,
   }) {
-    return _then(_$SelectLocationFromMap(
+    return _then(_$SelectLocationFromMapImpl(
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
@@ -2338,8 +2354,8 @@ class __$$SelectLocationFromMapCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SelectLocationFromMap extends SelectLocationFromMap {
-  const _$SelectLocationFromMap(
+class _$SelectLocationFromMapImpl extends SelectLocationFromMap {
+  const _$SelectLocationFromMapImpl(
       {required this.uid, required this.featureType, this.coordinates})
       : super._();
 
@@ -2356,10 +2372,10 @@ class _$SelectLocationFromMap extends SelectLocationFromMap {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SelectLocationFromMap &&
+            other is _$SelectLocationFromMapImpl &&
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.featureType, featureType) ||
                 other.featureType == featureType) &&
@@ -2373,9 +2389,9 @@ class _$SelectLocationFromMap extends SelectLocationFromMap {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$SelectLocationFromMapCopyWith<_$SelectLocationFromMap> get copyWith =>
-      __$$SelectLocationFromMapCopyWithImpl<_$SelectLocationFromMap>(
-          this, _$identity);
+  _$$SelectLocationFromMapImplCopyWith<_$SelectLocationFromMapImpl>
+      get copyWith => __$$SelectLocationFromMapImplCopyWithImpl<
+          _$SelectLocationFromMapImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -2539,32 +2555,32 @@ abstract class SelectLocationFromMap extends FormIntent {
   const factory SelectLocationFromMap(
       {required final String uid,
       required final String featureType,
-      final String? coordinates}) = _$SelectLocationFromMap;
+      final String? coordinates}) = _$SelectLocationFromMapImpl;
   const SelectLocationFromMap._() : super._();
 
   String get uid;
   String get featureType;
   String? get coordinates;
   @JsonKey(ignore: true)
-  _$$SelectLocationFromMapCopyWith<_$SelectLocationFromMap> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$SelectLocationFromMapImplCopyWith<_$SelectLocationFromMapImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$SaveCurrentLocationCopyWith<$Res> {
-  factory _$$SaveCurrentLocationCopyWith(_$SaveCurrentLocation value,
-          $Res Function(_$SaveCurrentLocation) then) =
-      __$$SaveCurrentLocationCopyWithImpl<$Res>;
+abstract class _$$SaveCurrentLocationImplCopyWith<$Res> {
+  factory _$$SaveCurrentLocationImplCopyWith(_$SaveCurrentLocationImpl value,
+          $Res Function(_$SaveCurrentLocationImpl) then) =
+      __$$SaveCurrentLocationImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String uid, String? value, String featureType});
 }
 
 /// @nodoc
-class __$$SaveCurrentLocationCopyWithImpl<$Res>
-    extends _$FormIntentCopyWithImpl<$Res, _$SaveCurrentLocation>
-    implements _$$SaveCurrentLocationCopyWith<$Res> {
-  __$$SaveCurrentLocationCopyWithImpl(
-      _$SaveCurrentLocation _value, $Res Function(_$SaveCurrentLocation) _then)
+class __$$SaveCurrentLocationImplCopyWithImpl<$Res>
+    extends _$FormIntentCopyWithImpl<$Res, _$SaveCurrentLocationImpl>
+    implements _$$SaveCurrentLocationImplCopyWith<$Res> {
+  __$$SaveCurrentLocationImplCopyWithImpl(_$SaveCurrentLocationImpl _value,
+      $Res Function(_$SaveCurrentLocationImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2574,7 +2590,7 @@ class __$$SaveCurrentLocationCopyWithImpl<$Res>
     Object? value = freezed,
     Object? featureType = null,
   }) {
-    return _then(_$SaveCurrentLocation(
+    return _then(_$SaveCurrentLocationImpl(
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
@@ -2593,8 +2609,8 @@ class __$$SaveCurrentLocationCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SaveCurrentLocation extends SaveCurrentLocation {
-  const _$SaveCurrentLocation(
+class _$SaveCurrentLocationImpl extends SaveCurrentLocation {
+  const _$SaveCurrentLocationImpl(
       {required this.uid, this.value, required this.featureType})
       : super._();
 
@@ -2611,10 +2627,10 @@ class _$SaveCurrentLocation extends SaveCurrentLocation {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SaveCurrentLocation &&
+            other is _$SaveCurrentLocationImpl &&
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.value, value) || other.value == value) &&
             (identical(other.featureType, featureType) ||
@@ -2627,8 +2643,8 @@ class _$SaveCurrentLocation extends SaveCurrentLocation {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$SaveCurrentLocationCopyWith<_$SaveCurrentLocation> get copyWith =>
-      __$$SaveCurrentLocationCopyWithImpl<_$SaveCurrentLocation>(
+  _$$SaveCurrentLocationImplCopyWith<_$SaveCurrentLocationImpl> get copyWith =>
+      __$$SaveCurrentLocationImplCopyWithImpl<_$SaveCurrentLocationImpl>(
           this, _$identity);
 
   @override
@@ -2793,32 +2809,32 @@ abstract class SaveCurrentLocation extends FormIntent {
   const factory SaveCurrentLocation(
       {required final String uid,
       final String? value,
-      required final String featureType}) = _$SaveCurrentLocation;
+      required final String featureType}) = _$SaveCurrentLocationImpl;
   const SaveCurrentLocation._() : super._();
 
   String get uid;
   String? get value;
   String get featureType;
   @JsonKey(ignore: true)
-  _$$SaveCurrentLocationCopyWith<_$SaveCurrentLocation> get copyWith =>
+  _$$SaveCurrentLocationImplCopyWith<_$SaveCurrentLocationImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$OnSectionCopyWith<$Res> {
-  factory _$$OnSectionCopyWith(
-          _$OnSection value, $Res Function(_$OnSection) then) =
-      __$$OnSectionCopyWithImpl<$Res>;
+abstract class _$$OnSectionImplCopyWith<$Res> {
+  factory _$$OnSectionImplCopyWith(
+          _$OnSectionImpl value, $Res Function(_$OnSectionImpl) then) =
+      __$$OnSectionImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String sectionUid});
 }
 
 /// @nodoc
-class __$$OnSectionCopyWithImpl<$Res>
-    extends _$FormIntentCopyWithImpl<$Res, _$OnSection>
-    implements _$$OnSectionCopyWith<$Res> {
-  __$$OnSectionCopyWithImpl(
-      _$OnSection _value, $Res Function(_$OnSection) _then)
+class __$$OnSectionImplCopyWithImpl<$Res>
+    extends _$FormIntentCopyWithImpl<$Res, _$OnSectionImpl>
+    implements _$$OnSectionImplCopyWith<$Res> {
+  __$$OnSectionImplCopyWithImpl(
+      _$OnSectionImpl _value, $Res Function(_$OnSectionImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2826,7 +2842,7 @@ class __$$OnSectionCopyWithImpl<$Res>
   $Res call({
     Object? sectionUid = null,
   }) {
-    return _then(_$OnSection(
+    return _then(_$OnSectionImpl(
       null == sectionUid
           ? _value.sectionUid
           : sectionUid // ignore: cast_nullable_to_non_nullable
@@ -2837,8 +2853,8 @@ class __$$OnSectionCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$OnSection extends OnSection {
-  const _$OnSection(this.sectionUid) : super._();
+class _$OnSectionImpl extends OnSection {
+  const _$OnSectionImpl(this.sectionUid) : super._();
 
   @override
   final String sectionUid;
@@ -2849,10 +2865,10 @@ class _$OnSection extends OnSection {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$OnSection &&
+            other is _$OnSectionImpl &&
             (identical(other.sectionUid, sectionUid) ||
                 other.sectionUid == sectionUid));
   }
@@ -2863,8 +2879,8 @@ class _$OnSection extends OnSection {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$OnSectionCopyWith<_$OnSection> get copyWith =>
-      __$$OnSectionCopyWithImpl<_$OnSection>(this, _$identity);
+  _$$OnSectionImplCopyWith<_$OnSectionImpl> get copyWith =>
+      __$$OnSectionImplCopyWithImpl<_$OnSectionImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -3025,30 +3041,30 @@ class _$OnSection extends OnSection {
 }
 
 abstract class OnSection extends FormIntent {
-  const factory OnSection(final String sectionUid) = _$OnSection;
+  const factory OnSection(final String sectionUid) = _$OnSectionImpl;
   const OnSection._() : super._();
 
   String get sectionUid;
   @JsonKey(ignore: true)
-  _$$OnSectionCopyWith<_$OnSection> get copyWith =>
+  _$$OnSectionImplCopyWith<_$OnSectionImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$OnRequestCoordinatesCopyWith<$Res> {
-  factory _$$OnRequestCoordinatesCopyWith(_$OnRequestCoordinates value,
-          $Res Function(_$OnRequestCoordinates) then) =
-      __$$OnRequestCoordinatesCopyWithImpl<$Res>;
+abstract class _$$OnRequestCoordinatesImplCopyWith<$Res> {
+  factory _$$OnRequestCoordinatesImplCopyWith(_$OnRequestCoordinatesImpl value,
+          $Res Function(_$OnRequestCoordinatesImpl) then) =
+      __$$OnRequestCoordinatesImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String uid});
 }
 
 /// @nodoc
-class __$$OnRequestCoordinatesCopyWithImpl<$Res>
-    extends _$FormIntentCopyWithImpl<$Res, _$OnRequestCoordinates>
-    implements _$$OnRequestCoordinatesCopyWith<$Res> {
-  __$$OnRequestCoordinatesCopyWithImpl(_$OnRequestCoordinates _value,
-      $Res Function(_$OnRequestCoordinates) _then)
+class __$$OnRequestCoordinatesImplCopyWithImpl<$Res>
+    extends _$FormIntentCopyWithImpl<$Res, _$OnRequestCoordinatesImpl>
+    implements _$$OnRequestCoordinatesImplCopyWith<$Res> {
+  __$$OnRequestCoordinatesImplCopyWithImpl(_$OnRequestCoordinatesImpl _value,
+      $Res Function(_$OnRequestCoordinatesImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -3056,7 +3072,7 @@ class __$$OnRequestCoordinatesCopyWithImpl<$Res>
   $Res call({
     Object? uid = null,
   }) {
-    return _then(_$OnRequestCoordinates(
+    return _then(_$OnRequestCoordinatesImpl(
       null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
@@ -3067,8 +3083,8 @@ class __$$OnRequestCoordinatesCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$OnRequestCoordinates extends OnRequestCoordinates {
-  const _$OnRequestCoordinates(this.uid) : super._();
+class _$OnRequestCoordinatesImpl extends OnRequestCoordinates {
+  const _$OnRequestCoordinatesImpl(this.uid) : super._();
 
   @override
   final String uid;
@@ -3079,10 +3095,10 @@ class _$OnRequestCoordinates extends OnRequestCoordinates {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$OnRequestCoordinates &&
+            other is _$OnRequestCoordinatesImpl &&
             (identical(other.uid, uid) || other.uid == uid));
   }
 
@@ -3092,9 +3108,10 @@ class _$OnRequestCoordinates extends OnRequestCoordinates {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$OnRequestCoordinatesCopyWith<_$OnRequestCoordinates> get copyWith =>
-      __$$OnRequestCoordinatesCopyWithImpl<_$OnRequestCoordinates>(
-          this, _$identity);
+  _$$OnRequestCoordinatesImplCopyWith<_$OnRequestCoordinatesImpl>
+      get copyWith =>
+          __$$OnRequestCoordinatesImplCopyWithImpl<_$OnRequestCoordinatesImpl>(
+              this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -3255,32 +3272,33 @@ class _$OnRequestCoordinates extends OnRequestCoordinates {
 }
 
 abstract class OnRequestCoordinates extends FormIntent {
-  const factory OnRequestCoordinates(final String uid) = _$OnRequestCoordinates;
+  const factory OnRequestCoordinates(final String uid) =
+      _$OnRequestCoordinatesImpl;
   const OnRequestCoordinates._() : super._();
 
   String get uid;
   @JsonKey(ignore: true)
-  _$$OnRequestCoordinatesCopyWith<_$OnRequestCoordinates> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$OnRequestCoordinatesImplCopyWith<_$OnRequestCoordinatesImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$OnCancelRequestCoordinatesCopyWith<$Res> {
-  factory _$$OnCancelRequestCoordinatesCopyWith(
-          _$OnCancelRequestCoordinates value,
-          $Res Function(_$OnCancelRequestCoordinates) then) =
-      __$$OnCancelRequestCoordinatesCopyWithImpl<$Res>;
+abstract class _$$OnCancelRequestCoordinatesImplCopyWith<$Res> {
+  factory _$$OnCancelRequestCoordinatesImplCopyWith(
+          _$OnCancelRequestCoordinatesImpl value,
+          $Res Function(_$OnCancelRequestCoordinatesImpl) then) =
+      __$$OnCancelRequestCoordinatesImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String uid});
 }
 
 /// @nodoc
-class __$$OnCancelRequestCoordinatesCopyWithImpl<$Res>
-    extends _$FormIntentCopyWithImpl<$Res, _$OnCancelRequestCoordinates>
-    implements _$$OnCancelRequestCoordinatesCopyWith<$Res> {
-  __$$OnCancelRequestCoordinatesCopyWithImpl(
-      _$OnCancelRequestCoordinates _value,
-      $Res Function(_$OnCancelRequestCoordinates) _then)
+class __$$OnCancelRequestCoordinatesImplCopyWithImpl<$Res>
+    extends _$FormIntentCopyWithImpl<$Res, _$OnCancelRequestCoordinatesImpl>
+    implements _$$OnCancelRequestCoordinatesImplCopyWith<$Res> {
+  __$$OnCancelRequestCoordinatesImplCopyWithImpl(
+      _$OnCancelRequestCoordinatesImpl _value,
+      $Res Function(_$OnCancelRequestCoordinatesImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -3288,7 +3306,7 @@ class __$$OnCancelRequestCoordinatesCopyWithImpl<$Res>
   $Res call({
     Object? uid = null,
   }) {
-    return _then(_$OnCancelRequestCoordinates(
+    return _then(_$OnCancelRequestCoordinatesImpl(
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
@@ -3299,8 +3317,8 @@ class __$$OnCancelRequestCoordinatesCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$OnCancelRequestCoordinates extends OnCancelRequestCoordinates {
-  const _$OnCancelRequestCoordinates({required this.uid}) : super._();
+class _$OnCancelRequestCoordinatesImpl extends OnCancelRequestCoordinates {
+  const _$OnCancelRequestCoordinatesImpl({required this.uid}) : super._();
 
   @override
   final String uid;
@@ -3311,10 +3329,10 @@ class _$OnCancelRequestCoordinates extends OnCancelRequestCoordinates {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$OnCancelRequestCoordinates &&
+            other is _$OnCancelRequestCoordinatesImpl &&
             (identical(other.uid, uid) || other.uid == uid));
   }
 
@@ -3324,9 +3342,9 @@ class _$OnCancelRequestCoordinates extends OnCancelRequestCoordinates {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$OnCancelRequestCoordinatesCopyWith<_$OnCancelRequestCoordinates>
-      get copyWith => __$$OnCancelRequestCoordinatesCopyWithImpl<
-          _$OnCancelRequestCoordinates>(this, _$identity);
+  _$$OnCancelRequestCoordinatesImplCopyWith<_$OnCancelRequestCoordinatesImpl>
+      get copyWith => __$$OnCancelRequestCoordinatesImplCopyWithImpl<
+          _$OnCancelRequestCoordinatesImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -3488,11 +3506,11 @@ class _$OnCancelRequestCoordinates extends OnCancelRequestCoordinates {
 
 abstract class OnCancelRequestCoordinates extends FormIntent {
   const factory OnCancelRequestCoordinates({required final String uid}) =
-      _$OnCancelRequestCoordinates;
+      _$OnCancelRequestCoordinatesImpl;
   const OnCancelRequestCoordinates._() : super._();
 
   String get uid;
   @JsonKey(ignore: true)
-  _$$OnCancelRequestCoordinatesCopyWith<_$OnCancelRequestCoordinates>
+  _$$OnCancelRequestCoordinatesImplCopyWith<_$OnCancelRequestCoordinatesImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

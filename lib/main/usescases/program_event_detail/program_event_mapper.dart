@@ -14,7 +14,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../commons/data/event_view_model.dart';
 import '../../../commons/data/program_event_view_model.dart';
 import '../../../commons/date/date_utils.dart';
-import '../../../commons/extensions/standard_extensions.dart';
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import '../../../commons/extensions/string_extension.dart';
 import '../../../commons/extensions/value_extensions.dart';
 import '../../../commons/helpers/collections.dart';

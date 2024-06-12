@@ -1,4 +1,4 @@
-import 'package:d2_remote/core/program/section_rendering_type.dart';
+import 'package:mass_pro/sdk/core/program/section_rendering_type.dart';
 
 import '../../commons/extensions/dynamic_extensions.dart';
 

@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:mass_pro/commons/custom_widgets/navigationbar/navigation_page_configurator.dart';
 import 'package:mass_pro/commons/custom_widgets/navigationbar/navigation_tab_bar_view.widget.dart';
-import 'package:mass_pro/commons/extensions/standard_extensions.dart';
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import 'package:mass_pro/commons/state/app_state_notifier.dart';
 import 'package:mass_pro/commons/data_run/utils/view_actions.dart';
 import 'package:mass_pro/form/ui/components/linear_loading_indicator.dart';

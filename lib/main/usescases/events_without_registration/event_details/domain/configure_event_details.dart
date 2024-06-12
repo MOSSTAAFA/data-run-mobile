@@ -1,18 +1,17 @@
-import 'package:d2_remote/core/mp/enrollment/enrollment_status.dart';
-import 'package:d2_remote/core/mp/helpers/result.dart';
 import 'package:d2_remote/modules/data/tracker/entities/event.entity.dart';
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart' as alet;
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity.dart';
-
-import '../../../../../commons/data/event_creation_type.dart';
-import '../../../../../commons/extensions/standard_extensions.dart' as alet;
-import '../../../../../commons/extensions/standard_extensions.dart';
-import '../../../../../commons/extensions/string_extension.dart';
-import '../../../../../core/event/event_editable_status.dart';
-import '../../../../../core/event/event_extensions.dart';
-import '../../../../../core/event/event_status.dart';
-import '../data/event_details_repository.dart';
-import '../models/event_details.dart';
-import '../providers/event_detail_resources_provider.dart';
+import 'package:mass_pro/commons/data/event_creation_type.dart';
+import 'package:mass_pro/commons/extensions/string_extension.dart';
+import 'package:mass_pro/core/event/event_editable_status.dart';
+import 'package:mass_pro/core/event/event_extensions.dart';
+import 'package:mass_pro/core/event/event_status.dart';
+import 'package:mass_pro/main/usescases/events_without_registration/event_details/data/event_details_repository.dart';
+import 'package:mass_pro/main/usescases/events_without_registration/event_details/models/event_details.dart';
+import 'package:mass_pro/main/usescases/events_without_registration/event_details/providers/event_detail_resources_provider.dart';
+import 'package:mass_pro/sdk/core/mp/enrollment/enrollment_status.dart';
+import 'package:mass_pro/sdk/core/mp/helpers/result.dart';
 
 class ConfigureEventDetails {
   const ConfigureEventDetails(

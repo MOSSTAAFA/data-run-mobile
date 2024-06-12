@@ -2,10 +2,10 @@ import 'dart:ui';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../utils/mass_utils/colors.dart';
-import '../constants.dart';
-import 'pref_state.dart';
-import 'ui_state.dart';
+import 'package:mass_pro/utils/mass_utils/colors.dart';
+import 'package:mass_pro/commons/constants.dart';
+import 'package:mass_pro/commons/state/pref_state.dart';
+import 'package:mass_pro/commons/state/ui_state.dart';
 
 part 'app_state.freezed.dart';
 

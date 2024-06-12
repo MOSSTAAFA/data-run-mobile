@@ -12,7 +12,7 @@ part of 'store_result.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$StoreResult {
@@ -72,11 +72,11 @@ class _$StoreResultCopyWithImpl<$Res, $Val extends StoreResult>
 }
 
 /// @nodoc
-abstract class _$$_StoreResultCopyWith<$Res>
+abstract class _$$StoreResultImplCopyWith<$Res>
     implements $StoreResultCopyWith<$Res> {
-  factory _$$_StoreResultCopyWith(
-          _$_StoreResult value, $Res Function(_$_StoreResult) then) =
-      __$$_StoreResultCopyWithImpl<$Res>;
+  factory _$$StoreResultImplCopyWith(
+          _$StoreResultImpl value, $Res Function(_$StoreResultImpl) then) =
+      __$$StoreResultImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -86,11 +86,11 @@ abstract class _$$_StoreResultCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_StoreResultCopyWithImpl<$Res>
-    extends _$StoreResultCopyWithImpl<$Res, _$_StoreResult>
-    implements _$$_StoreResultCopyWith<$Res> {
-  __$$_StoreResultCopyWithImpl(
-      _$_StoreResult _value, $Res Function(_$_StoreResult) _then)
+class __$$StoreResultImplCopyWithImpl<$Res>
+    extends _$StoreResultCopyWithImpl<$Res, _$StoreResultImpl>
+    implements _$$StoreResultImplCopyWith<$Res> {
+  __$$StoreResultImplCopyWithImpl(
+      _$StoreResultImpl _value, $Res Function(_$StoreResultImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -100,7 +100,7 @@ class __$$_StoreResultCopyWithImpl<$Res>
     Object? valueStoreResult = freezed,
     Object? valueStoreResultMessage = freezed,
   }) {
-    return _then(_$_StoreResult(
+    return _then(_$StoreResultImpl(
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
@@ -119,8 +119,8 @@ class __$$_StoreResultCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_StoreResult extends _StoreResult {
-  const _$_StoreResult(
+class _$StoreResultImpl extends _StoreResult {
+  const _$StoreResultImpl(
       {required this.uid, this.valueStoreResult, this.valueStoreResultMessage})
       : super._();
 
@@ -137,10 +137,10 @@ class _$_StoreResult extends _StoreResult {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_StoreResult &&
+            other is _$StoreResultImpl &&
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.valueStoreResult, valueStoreResult) ||
                 other.valueStoreResult == valueStoreResult) &&
@@ -156,15 +156,15 @@ class _$_StoreResult extends _StoreResult {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_StoreResultCopyWith<_$_StoreResult> get copyWith =>
-      __$$_StoreResultCopyWithImpl<_$_StoreResult>(this, _$identity);
+  _$$StoreResultImplCopyWith<_$StoreResultImpl> get copyWith =>
+      __$$StoreResultImplCopyWithImpl<_$StoreResultImpl>(this, _$identity);
 }
 
 abstract class _StoreResult extends StoreResult {
   const factory _StoreResult(
       {required final String uid,
       final ValueStoreResult? valueStoreResult,
-      final String? valueStoreResultMessage}) = _$_StoreResult;
+      final String? valueStoreResultMessage}) = _$StoreResultImpl;
   const _StoreResult._() : super._();
 
   @override
@@ -175,6 +175,6 @@ abstract class _StoreResult extends StoreResult {
   String? get valueStoreResultMessage;
   @override
   @JsonKey(ignore: true)
-  _$$_StoreResultCopyWith<_$_StoreResult> get copyWith =>
+  _$$StoreResultImplCopyWith<_$StoreResultImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

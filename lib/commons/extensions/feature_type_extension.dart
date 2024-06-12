@@ -1,4 +1,4 @@
-import 'package:d2_remote/core/common/feature_type.dart';
+import 'package:mass_pro/sdk/core/common/feature_type.dart';
 
 import '../../commons/extensions/dynamic_extensions.dart';
 

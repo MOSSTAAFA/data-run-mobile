@@ -12,7 +12,7 @@ part of 'option_set_configuration.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$OptionSetConfiguration {
@@ -123,11 +123,11 @@ class _$OptionSetConfigurationCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$DefaultOptionSetCopyWith<$Res>
+abstract class _$$DefaultOptionSetImplCopyWith<$Res>
     implements $OptionSetConfigurationCopyWith<$Res> {
-  factory _$$DefaultOptionSetCopyWith(
-          _$DefaultOptionSet value, $Res Function(_$DefaultOptionSet) then) =
-      __$$DefaultOptionSetCopyWithImpl<$Res>;
+  factory _$$DefaultOptionSetImplCopyWith(_$DefaultOptionSetImpl value,
+          $Res Function(_$DefaultOptionSetImpl) then) =
+      __$$DefaultOptionSetImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -137,11 +137,11 @@ abstract class _$$DefaultOptionSetCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$DefaultOptionSetCopyWithImpl<$Res>
-    extends _$OptionSetConfigurationCopyWithImpl<$Res, _$DefaultOptionSet>
-    implements _$$DefaultOptionSetCopyWith<$Res> {
-  __$$DefaultOptionSetCopyWithImpl(
-      _$DefaultOptionSet _value, $Res Function(_$DefaultOptionSet) _then)
+class __$$DefaultOptionSetImplCopyWithImpl<$Res>
+    extends _$OptionSetConfigurationCopyWithImpl<$Res, _$DefaultOptionSetImpl>
+    implements _$$DefaultOptionSetImplCopyWith<$Res> {
+  __$$DefaultOptionSetImplCopyWithImpl(_$DefaultOptionSetImpl _value,
+      $Res Function(_$DefaultOptionSetImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -151,7 +151,7 @@ class __$$DefaultOptionSetCopyWithImpl<$Res>
     Object? optionsToHide = null,
     Object? optionsToShow = null,
   }) {
-    return _then(_$DefaultOptionSet(
+    return _then(_$DefaultOptionSetImpl(
       options: null == options
           ? _value._options
           : options // ignore: cast_nullable_to_non_nullable
@@ -170,8 +170,8 @@ class __$$DefaultOptionSetCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$DefaultOptionSet extends DefaultOptionSet with DiagnosticableTreeMixin {
-  const _$DefaultOptionSet(
+class _$DefaultOptionSetImpl extends DefaultOptionSet {
+  const _$DefaultOptionSetImpl(
       {required final List<Option> options,
       final List<String> optionsToHide = const <String>[],
       final List<String> optionsToShow = const <String>[]})
@@ -207,26 +207,15 @@ class _$DefaultOptionSet extends DefaultOptionSet with DiagnosticableTreeMixin {
   }
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'OptionSetConfiguration.defaultOptionSet(options: $options, optionsToHide: $optionsToHide, optionsToShow: $optionsToShow)';
   }
 
   @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty(
-          'type', 'OptionSetConfiguration.defaultOptionSet'))
-      ..add(DiagnosticsProperty('options', options))
-      ..add(DiagnosticsProperty('optionsToHide', optionsToHide))
-      ..add(DiagnosticsProperty('optionsToShow', optionsToShow));
-  }
-
-  @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DefaultOptionSet &&
+            other is _$DefaultOptionSetImpl &&
             const DeepCollectionEquality().equals(other._options, _options) &&
             const DeepCollectionEquality()
                 .equals(other._optionsToHide, _optionsToHide) &&
@@ -244,8 +233,9 @@ class _$DefaultOptionSet extends DefaultOptionSet with DiagnosticableTreeMixin {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$DefaultOptionSetCopyWith<_$DefaultOptionSet> get copyWith =>
-      __$$DefaultOptionSetCopyWithImpl<_$DefaultOptionSet>(this, _$identity);
+  _$$DefaultOptionSetImplCopyWith<_$DefaultOptionSetImpl> get copyWith =>
+      __$$DefaultOptionSetImplCopyWithImpl<_$DefaultOptionSetImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -326,7 +316,7 @@ abstract class DefaultOptionSet extends OptionSetConfiguration {
   const factory DefaultOptionSet(
       {required final List<Option> options,
       final List<String> optionsToHide,
-      final List<String> optionsToShow}) = _$DefaultOptionSet;
+      final List<String> optionsToShow}) = _$DefaultOptionSetImpl;
   const DefaultOptionSet._() : super._();
 
   @override
@@ -337,16 +327,16 @@ abstract class DefaultOptionSet extends OptionSetConfiguration {
   List<String> get optionsToShow;
   @override
   @JsonKey(ignore: true)
-  _$$DefaultOptionSetCopyWith<_$DefaultOptionSet> get copyWith =>
+  _$$DefaultOptionSetImplCopyWith<_$DefaultOptionSetImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$BigOptionSetCopyWith<$Res>
+abstract class _$$BigOptionSetImplCopyWith<$Res>
     implements $OptionSetConfigurationCopyWith<$Res> {
-  factory _$$BigOptionSetCopyWith(
-          _$BigOptionSet value, $Res Function(_$BigOptionSet) then) =
-      __$$BigOptionSetCopyWithImpl<$Res>;
+  factory _$$BigOptionSetImplCopyWith(
+          _$BigOptionSetImpl value, $Res Function(_$BigOptionSetImpl) then) =
+      __$$BigOptionSetImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -356,11 +346,11 @@ abstract class _$$BigOptionSetCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$BigOptionSetCopyWithImpl<$Res>
-    extends _$OptionSetConfigurationCopyWithImpl<$Res, _$BigOptionSet>
-    implements _$$BigOptionSetCopyWith<$Res> {
-  __$$BigOptionSetCopyWithImpl(
-      _$BigOptionSet _value, $Res Function(_$BigOptionSet) _then)
+class __$$BigOptionSetImplCopyWithImpl<$Res>
+    extends _$OptionSetConfigurationCopyWithImpl<$Res, _$BigOptionSetImpl>
+    implements _$$BigOptionSetImplCopyWith<$Res> {
+  __$$BigOptionSetImplCopyWithImpl(
+      _$BigOptionSetImpl _value, $Res Function(_$BigOptionSetImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -370,7 +360,7 @@ class __$$BigOptionSetCopyWithImpl<$Res>
     Object? optionsToHide = null,
     Object? optionsToShow = null,
   }) {
-    return _then(_$BigOptionSet(
+    return _then(_$BigOptionSetImpl(
       options: null == options
           ? _value._options
           : options // ignore: cast_nullable_to_non_nullable
@@ -389,8 +379,8 @@ class __$$BigOptionSetCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$BigOptionSet extends BigOptionSet with DiagnosticableTreeMixin {
-  const _$BigOptionSet(
+class _$BigOptionSetImpl extends BigOptionSet {
+  const _$BigOptionSetImpl(
       {final List<Option> options = const <Option>[],
       final List<String> optionsToHide = const <String>[],
       final List<String> optionsToShow = const <String>[]})
@@ -427,25 +417,15 @@ class _$BigOptionSet extends BigOptionSet with DiagnosticableTreeMixin {
   }
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'OptionSetConfiguration.bigOptionSet(options: $options, optionsToHide: $optionsToHide, optionsToShow: $optionsToShow)';
   }
 
   @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'OptionSetConfiguration.bigOptionSet'))
-      ..add(DiagnosticsProperty('options', options))
-      ..add(DiagnosticsProperty('optionsToHide', optionsToHide))
-      ..add(DiagnosticsProperty('optionsToShow', optionsToShow));
-  }
-
-  @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$BigOptionSet &&
+            other is _$BigOptionSetImpl &&
             const DeepCollectionEquality().equals(other._options, _options) &&
             const DeepCollectionEquality()
                 .equals(other._optionsToHide, _optionsToHide) &&
@@ -463,8 +443,8 @@ class _$BigOptionSet extends BigOptionSet with DiagnosticableTreeMixin {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$BigOptionSetCopyWith<_$BigOptionSet> get copyWith =>
-      __$$BigOptionSetCopyWithImpl<_$BigOptionSet>(this, _$identity);
+  _$$BigOptionSetImplCopyWith<_$BigOptionSetImpl> get copyWith =>
+      __$$BigOptionSetImplCopyWithImpl<_$BigOptionSetImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -545,7 +525,7 @@ abstract class BigOptionSet extends OptionSetConfiguration {
   const factory BigOptionSet(
       {final List<Option> options,
       final List<String> optionsToHide,
-      final List<String> optionsToShow}) = _$BigOptionSet;
+      final List<String> optionsToShow}) = _$BigOptionSetImpl;
   const BigOptionSet._() : super._();
 
   @override
@@ -556,6 +536,6 @@ abstract class BigOptionSet extends OptionSetConfiguration {
   List<String> get optionsToShow;
   @override
   @JsonKey(ignore: true)
-  _$$BigOptionSetCopyWith<_$BigOptionSet> get copyWith =>
+  _$$BigOptionSetImplCopyWith<_$BigOptionSetImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

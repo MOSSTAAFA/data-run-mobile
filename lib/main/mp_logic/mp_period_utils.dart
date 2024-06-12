@@ -1,7 +1,7 @@
-import 'package:d2_remote/core/mp/period/period_type.dart';
+import 'package:mass_pro/sdk/core/mp/period/period_type.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../main.dart';
+import 'package:mass_pro/utils/navigator_key.dart';
 
 part 'mp_period_utils.g.dart';
 

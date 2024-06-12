@@ -62,9 +62,6 @@ class _SystemHash {
   }
 }
 
-typedef EventInitialPresenterRef
-    = AutoDisposeProviderRef<EventInitialPresenter>;
-
 /// See also [eventInitialPresenter].
 @ProviderFor(eventInitialPresenter)
 const eventInitialPresenterProvider = EventInitialPresenterFamily();
@@ -112,10 +109,10 @@ class EventInitialPresenterProvider
     extends AutoDisposeProvider<EventInitialPresenter> {
   /// See also [eventInitialPresenter].
   EventInitialPresenterProvider(
-    this.view,
-  ) : super.internal(
+    EventInitialView view,
+  ) : this._internal(
           (ref) => eventInitialPresenter(
-            ref,
+            ref as EventInitialPresenterRef,
             view,
           ),
           from: eventInitialPresenterProvider,
@@ -127,9 +124,43 @@ class EventInitialPresenterProvider
           dependencies: EventInitialPresenterFamily._dependencies,
           allTransitiveDependencies:
               EventInitialPresenterFamily._allTransitiveDependencies,
+          view: view,
         );
 
+  EventInitialPresenterProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.view,
+  }) : super.internal();
+
   final EventInitialView view;
+
+  @override
+  Override overrideWith(
+    EventInitialPresenter Function(EventInitialPresenterRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: EventInitialPresenterProvider._internal(
+        (ref) => create(ref as EventInitialPresenterRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        view: view,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeProviderElement<EventInitialPresenter> createElement() {
+    return _EventInitialPresenterProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -143,6 +174,21 @@ class EventInitialPresenterProvider
 
     return _SystemHash.finish(hash);
   }
+}
+
+mixin EventInitialPresenterRef
+    on AutoDisposeProviderRef<EventInitialPresenter> {
+  /// The parameter `view` of this provider.
+  EventInitialView get view;
+}
+
+class _EventInitialPresenterProviderElement
+    extends AutoDisposeProviderElement<EventInitialPresenter>
+    with EventInitialPresenterRef {
+  _EventInitialPresenterProviderElement(super.provider);
+
+  @override
+  EventInitialView get view => (origin as EventInitialPresenterProvider).view;
 }
 
 String _$preferencesInstanceHash() =>
@@ -162,4 +208,4 @@ final preferencesInstanceProvider = Provider<PreferenceProvider>.internal(
 
 typedef PreferencesInstanceRef = ProviderRef<PreferenceProvider>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

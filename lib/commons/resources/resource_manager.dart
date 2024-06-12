@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'package:mass_pro/main.dart';
+import 'package:mass_pro/utils/navigator_key.dart';
 import 'package:mass_pro/utils/mass_utils/colors.dart';
-import 'package:mass_pro/commons/extensions/standard_extensions.dart';
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import 'package:mass_pro/commons/resources/d2_error_utils.dart';
 
 part 'resource_manager.g.dart';

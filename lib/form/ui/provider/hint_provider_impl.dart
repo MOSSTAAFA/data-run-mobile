@@ -1,6 +1,6 @@
-import 'package:d2_remote/core/common/value_type.dart';
+import 'package:mass_pro/sdk/core/common/value_type.dart';
 
-import '../../../main.dart';
+import 'package:mass_pro/utils/navigator_key.dart';
 import 'hint_provider.dart';
 
 class HintProviderImpl implements HintProvider {

@@ -1,4 +1,4 @@
-import 'package:d2_remote/core/common/value_type.dart';
+import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
 import '../model/field_ui_model.dart';

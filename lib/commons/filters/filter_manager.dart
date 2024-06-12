@@ -1,4 +1,4 @@
-// import 'package:d2_remote/core/mp/enrollment/enrollment_status.dart';
+// import 'package:mass_pro/sdk/core/mp/enrollment/enrollment_status.dart';
 // import 'package:d2_remote/modules/activity_management/activity/entities/activity.entity.dart';
 // import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisation_unit.entity.dart';
 

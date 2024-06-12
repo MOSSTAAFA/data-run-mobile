@@ -1,6 +1,6 @@
-import 'package:d2_remote/core/maintenance/d2_error.dart';
-import 'package:d2_remote/core/maintenance/d2_error_code.dart';
-import 'package:d2_remote/core/maintenance/d2_error_component.dart';
+import 'package:mass_pro/sdk/core/maintenance/d2_error.dart';
+import 'package:mass_pro/sdk/core/maintenance/d2_error_code.dart';
+import 'package:mass_pro/sdk/core/maintenance/d2_error_component.dart';
 import 'package:d2_remote/d2_remote.dart';
 
 import '../../../commons/extensions/string_extension.dart';

@@ -12,7 +12,7 @@ part of 'pref_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$PrefState {
@@ -239,10 +239,11 @@ class _$PrefStateCopyWithImpl<$Res, $Val extends PrefState>
 }
 
 /// @nodoc
-abstract class _$$_PrefStateCopyWith<$Res> implements $PrefStateCopyWith<$Res> {
-  factory _$$_PrefStateCopyWith(
-          _$_PrefState value, $Res Function(_$_PrefState) then) =
-      __$$_PrefStateCopyWithImpl<$Res>;
+abstract class _$$PrefStateImplCopyWith<$Res>
+    implements $PrefStateCopyWith<$Res> {
+  factory _$$PrefStateImplCopyWith(
+          _$PrefStateImpl value, $Res Function(_$PrefStateImpl) then) =
+      __$$PrefStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -275,11 +276,11 @@ abstract class _$$_PrefStateCopyWith<$Res> implements $PrefStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_PrefStateCopyWithImpl<$Res>
-    extends _$PrefStateCopyWithImpl<$Res, _$_PrefState>
-    implements _$$_PrefStateCopyWith<$Res> {
-  __$$_PrefStateCopyWithImpl(
-      _$_PrefState _value, $Res Function(_$_PrefState) _then)
+class __$$PrefStateImplCopyWithImpl<$Res>
+    extends _$PrefStateCopyWithImpl<$Res, _$PrefStateImpl>
+    implements _$$PrefStateImplCopyWith<$Res> {
+  __$$PrefStateImplCopyWithImpl(
+      _$PrefStateImpl _value, $Res Function(_$PrefStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -312,7 +313,7 @@ class __$$_PrefStateCopyWithImpl<$Res>
     Object? persistUI = null,
     Object? customColors = null,
   }) {
-    return _then(_$_PrefState(
+    return _then(_$PrefStateImpl(
       appLayout: null == appLayout
           ? _value.appLayout
           : appLayout // ignore: cast_nullable_to_non_nullable
@@ -423,8 +424,8 @@ class __$$_PrefStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_PrefState extends _PrefState with DiagnosticableTreeMixin {
-  const _$_PrefState(
+class _$PrefStateImpl extends _PrefState with DiagnosticableTreeMixin {
+  const _$PrefStateImpl(
       {required this.appLayout,
       required this.moduleLayout,
       required this.isPreviewVisible,
@@ -562,10 +563,10 @@ class _$_PrefState extends _PrefState with DiagnosticableTreeMixin {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PrefState &&
+            other is _$PrefStateImpl &&
             (identical(other.appLayout, appLayout) ||
                 other.appLayout == appLayout) &&
             (identical(other.moduleLayout, moduleLayout) ||
@@ -656,8 +657,8 @@ class _$_PrefState extends _PrefState with DiagnosticableTreeMixin {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PrefStateCopyWith<_$_PrefState> get copyWith =>
-      __$$_PrefStateCopyWithImpl<_$_PrefState>(this, _$identity);
+  _$$PrefStateImplCopyWith<_$PrefStateImpl> get copyWith =>
+      __$$PrefStateImplCopyWithImpl<_$PrefStateImpl>(this, _$identity);
 }
 
 abstract class _PrefState extends PrefState {
@@ -687,7 +688,7 @@ abstract class _PrefState extends PrefState {
       required final bool showPdfPreview,
       required final bool persistData,
       required final bool persistUI,
-      required final Map<String, String> customColors}) = _$_PrefState;
+      required final Map<String, String> customColors}) = _$PrefStateImpl;
   const _PrefState._() : super._();
 
   @override
@@ -749,7 +750,7 @@ abstract class _PrefState extends PrefState {
   Map<String, String> get customColors;
   @override
   @JsonKey(ignore: true)
-  _$$_PrefStateCopyWith<_$_PrefState> get copyWith =>
+  _$$PrefStateImplCopyWith<_$PrefStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -802,22 +803,22 @@ class _$PrefStateSortFieldCopyWithImpl<$Res, $Val extends PrefStateSortField>
 }
 
 /// @nodoc
-abstract class _$$_PrefStateSortFieldCopyWith<$Res>
+abstract class _$$PrefStateSortFieldImplCopyWith<$Res>
     implements $PrefStateSortFieldCopyWith<$Res> {
-  factory _$$_PrefStateSortFieldCopyWith(_$_PrefStateSortField value,
-          $Res Function(_$_PrefStateSortField) then) =
-      __$$_PrefStateSortFieldCopyWithImpl<$Res>;
+  factory _$$PrefStateSortFieldImplCopyWith(_$PrefStateSortFieldImpl value,
+          $Res Function(_$PrefStateSortFieldImpl) then) =
+      __$$PrefStateSortFieldImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String field, bool ascending});
 }
 
 /// @nodoc
-class __$$_PrefStateSortFieldCopyWithImpl<$Res>
-    extends _$PrefStateSortFieldCopyWithImpl<$Res, _$_PrefStateSortField>
-    implements _$$_PrefStateSortFieldCopyWith<$Res> {
-  __$$_PrefStateSortFieldCopyWithImpl(
-      _$_PrefStateSortField _value, $Res Function(_$_PrefStateSortField) _then)
+class __$$PrefStateSortFieldImplCopyWithImpl<$Res>
+    extends _$PrefStateSortFieldCopyWithImpl<$Res, _$PrefStateSortFieldImpl>
+    implements _$$PrefStateSortFieldImplCopyWith<$Res> {
+  __$$PrefStateSortFieldImplCopyWithImpl(_$PrefStateSortFieldImpl _value,
+      $Res Function(_$PrefStateSortFieldImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -826,7 +827,7 @@ class __$$_PrefStateSortFieldCopyWithImpl<$Res>
     Object? field = null,
     Object? ascending = null,
   }) {
-    return _then(_$_PrefStateSortField(
+    return _then(_$PrefStateSortFieldImpl(
       field: null == field
           ? _value.field
           : field // ignore: cast_nullable_to_non_nullable
@@ -841,9 +842,9 @@ class __$$_PrefStateSortFieldCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_PrefStateSortField extends _PrefStateSortField
+class _$PrefStateSortFieldImpl extends _PrefStateSortField
     with DiagnosticableTreeMixin {
-  const _$_PrefStateSortField({required this.field, required this.ascending})
+  const _$PrefStateSortFieldImpl({required this.field, required this.ascending})
       : super._();
 
   @override
@@ -866,10 +867,10 @@ class _$_PrefStateSortField extends _PrefStateSortField
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PrefStateSortField &&
+            other is _$PrefStateSortFieldImpl &&
             (identical(other.field, field) || other.field == field) &&
             (identical(other.ascending, ascending) ||
                 other.ascending == ascending));
@@ -881,15 +882,15 @@ class _$_PrefStateSortField extends _PrefStateSortField
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PrefStateSortFieldCopyWith<_$_PrefStateSortField> get copyWith =>
-      __$$_PrefStateSortFieldCopyWithImpl<_$_PrefStateSortField>(
+  _$$PrefStateSortFieldImplCopyWith<_$PrefStateSortFieldImpl> get copyWith =>
+      __$$PrefStateSortFieldImplCopyWithImpl<_$PrefStateSortFieldImpl>(
           this, _$identity);
 }
 
 abstract class _PrefStateSortField extends PrefStateSortField {
   const factory _PrefStateSortField(
       {required final String field,
-      required final bool ascending}) = _$_PrefStateSortField;
+      required final bool ascending}) = _$PrefStateSortFieldImpl;
   const _PrefStateSortField._() : super._();
 
   @override
@@ -898,6 +899,6 @@ abstract class _PrefStateSortField extends PrefStateSortField {
   bool get ascending;
   @override
   @JsonKey(ignore: true)
-  _$$_PrefStateSortFieldCopyWith<_$_PrefStateSortField> get copyWith =>
+  _$$PrefStateSortFieldImplCopyWith<_$PrefStateSortFieldImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

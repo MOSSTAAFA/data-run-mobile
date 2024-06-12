@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import 'package:mass_pro/commons/custom_widgets/copy_to_clipboard.dart';
 import 'package:mass_pro/commons/data_run/utils/view_actions.dart';
-import 'package:mass_pro/main.dart';
+import 'package:mass_pro/utils/navigator_key.dart';
 import 'package:mass_pro/main/usescases/general/view_abstract.dart';
 
 /// any screen ActivityGlobalAbstract

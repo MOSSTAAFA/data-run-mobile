@@ -2,9 +2,9 @@
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
-import '../../../../commons/extensions/standard_extensions.dart';
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import '../../../../commons/resources/resource_manager.dart';
-import '../../../../core/arch/call/d2_progress_status.dart';
+import 'package:d2_remote/modules/datarun/sync/call/d2_progress_status.dart';
 import '../../../../core/common/state.dart';
 import '../../../data/service/sync_status_controller.dart';
 import '../../../data/service/sync_status_data.dart';

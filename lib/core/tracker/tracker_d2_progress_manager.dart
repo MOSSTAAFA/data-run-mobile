@@ -1,7 +1,7 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
-import '../arch/call/d2_progress_manager.dart';
-import '../arch/call/d2_progress_status.dart';
+import 'package:d2_remote/modules/datarun/sync/call/d2_progress_manager.dart';
+import 'package:d2_remote/modules/datarun/sync/call/d2_progress_status.dart';
 import 'tracker_d2_progress.dart';
 
 class TrackerD2ProgressManager extends D2ProgressManager {

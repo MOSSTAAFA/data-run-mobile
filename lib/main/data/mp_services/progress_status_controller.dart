@@ -1,6 +1,6 @@
 // import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-// import '../../../core/arch/call/d2_progress.dart';
+// import 'package:d2_remote/modules/datarun/sync/call/d2_progress.dart';
 // part 'progress_status_controller.g.dart';
 
 // /// fun observeDownloadProcess(): LiveData<SyncStatusData> = downloadStatus

@@ -12,7 +12,7 @@ part of 'ui_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$UIState {
@@ -109,10 +109,10 @@ class _$UIStateCopyWithImpl<$Res, $Val extends UIState>
 }
 
 /// @nodoc
-abstract class _$$_UIStateCopyWith<$Res> implements $UIStateCopyWith<$Res> {
-  factory _$$_UIStateCopyWith(
-          _$_UIState value, $Res Function(_$_UIState) then) =
-      __$$_UIStateCopyWithImpl<$Res>;
+abstract class _$$UIStateImplCopyWith<$Res> implements $UIStateCopyWith<$Res> {
+  factory _$$UIStateImplCopyWith(
+          _$UIStateImpl value, $Res Function(_$UIStateImpl) then) =
+      __$$UIStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -127,10 +127,11 @@ abstract class _$$_UIStateCopyWith<$Res> implements $UIStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_UIStateCopyWithImpl<$Res>
-    extends _$UIStateCopyWithImpl<$Res, _$_UIState>
-    implements _$$_UIStateCopyWith<$Res> {
-  __$$_UIStateCopyWithImpl(_$_UIState _value, $Res Function(_$_UIState) _then)
+class __$$UIStateImplCopyWithImpl<$Res>
+    extends _$UIStateCopyWithImpl<$Res, _$UIStateImpl>
+    implements _$$UIStateImplCopyWith<$Res> {
+  __$$UIStateImplCopyWithImpl(
+      _$UIStateImpl _value, $Res Function(_$UIStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -145,7 +146,7 @@ class __$$_UIStateCopyWithImpl<$Res>
     Object? loadingEntityType = freezed,
     Object? filter = freezed,
   }) {
-    return _then(_$_UIState(
+    return _then(_$UIStateImpl(
       currentRoute: null == currentRoute
           ? _value.currentRoute
           : currentRoute // ignore: cast_nullable_to_non_nullable
@@ -184,8 +185,8 @@ class __$$_UIStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_UIState extends _UIState with DiagnosticableTreeMixin {
-  const _$_UIState(
+class _$UIStateImpl extends _UIState with DiagnosticableTreeMixin {
+  const _$UIStateImpl(
       {required this.currentRoute,
       required this.filterClearedAt,
       required this.lastActivityAt,
@@ -249,10 +250,10 @@ class _$_UIState extends _UIState with DiagnosticableTreeMixin {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_UIState &&
+            other is _$UIStateImpl &&
             (identical(other.currentRoute, currentRoute) ||
                 other.currentRoute == currentRoute) &&
             (identical(other.filterClearedAt, filterClearedAt) ||
@@ -285,8 +286,8 @@ class _$_UIState extends _UIState with DiagnosticableTreeMixin {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UIStateCopyWith<_$_UIState> get copyWith =>
-      __$$_UIStateCopyWithImpl<_$_UIState>(this, _$identity);
+  _$$UIStateImplCopyWith<_$UIStateImpl> get copyWith =>
+      __$$UIStateImplCopyWithImpl<_$UIStateImpl>(this, _$identity);
 }
 
 abstract class _UIState extends UIState {
@@ -298,7 +299,7 @@ abstract class _UIState extends UIState {
       required final List<BaseQuery<IdentifiableEntity>> previewStack,
       required final List<IdentifiableEntity> filterStack,
       final BaseQuery<IdentifiableEntity>? loadingEntityType,
-      final String? filter}) = _$_UIState;
+      final String? filter}) = _$UIStateImpl;
   const _UIState._() : super._();
 
   @override
@@ -319,6 +320,6 @@ abstract class _UIState extends UIState {
   String? get filter;
   @override
   @JsonKey(ignore: true)
-  _$$_UIStateCopyWith<_$_UIState> get copyWith =>
+  _$$UIStateImplCopyWith<_$UIStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

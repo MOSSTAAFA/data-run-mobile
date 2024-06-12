@@ -1,9 +1,9 @@
-import 'package:d2_remote/core/mp/period/period_type.dart';
+import 'package:mass_pro/sdk/core/mp/period/period_type.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity.dart';
 
 import '../../../../../commons/data/event_creation_type.dart';
 import '../../../../../commons/date/date_utils.dart';
-import '../../../../../commons/extensions/standard_extensions.dart';
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import '../../../../../commons/extensions/string_extension.dart';
 import '../../../../mp_logic/mp_period_utils.dart';
 import '../data/event_details_repository.dart';

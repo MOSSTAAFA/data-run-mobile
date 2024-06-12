@@ -1,7 +1,7 @@
-import 'package:d2_remote/core/common/feature_type.dart';
-import 'package:d2_remote/core/common/value_type.dart';
-import 'package:d2_remote/core/common/value_type_device_rendering.dart';
-import 'package:d2_remote/core/program/section_rendering_type.dart';
+import 'package:mass_pro/sdk/core/common/feature_type.dart';
+import 'package:mass_pro/sdk/core/common/value_type.dart';
+import 'package:mass_pro/sdk/core/common/value_type_device_rendering.dart';
+import 'package:mass_pro/sdk/core/program/section_rendering_type.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_tracked_entity_attribute.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/tracked_entity_attribute.entity.dart';
 

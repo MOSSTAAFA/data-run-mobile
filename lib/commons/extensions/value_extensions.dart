@@ -1,4 +1,4 @@
-import 'package:d2_remote/core/common/value_type.dart';
+import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/data/tracker/entities/event_data_value.entity.dart';
 import 'package:d2_remote/modules/data/tracker/entities/tracked_entity_attribute_value.entity.dart';

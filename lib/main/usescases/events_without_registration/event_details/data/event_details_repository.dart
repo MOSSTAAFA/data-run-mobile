@@ -1,10 +1,10 @@
 // ignore_for_file: avoid_dynamic_calls
 
-import 'package:d2_remote/core/common/feature_type.dart';
-import 'package:d2_remote/core/common/value_type.dart';
-import 'package:d2_remote/core/maintenance/d2_error.dart';
-import 'package:d2_remote/core/mp/enrollment/enrollment_status.dart';
-import 'package:d2_remote/core/mp/helpers/result.dart';
+import 'package:mass_pro/sdk/core/common/feature_type.dart';
+import 'package:mass_pro/sdk/core/common/value_type.dart';
+import 'package:mass_pro/sdk/core/maintenance/d2_error.dart';
+import 'package:mass_pro/sdk/core/mp/enrollment/enrollment_status.dart';
+import 'package:mass_pro/sdk/core/mp/helpers/result.dart';
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/data/tracker/entities/enrollment.entity.dart';
 import 'package:d2_remote/modules/data/tracker/entities/event.entity.dart';
@@ -17,7 +17,7 @@ import 'package:dartx/dartx_io.dart';
 import '../../../../../commons/date/date_utils.dart';
 import '../../../../../commons/extensions/date_format_extensions.dart';
 import '../../../../../commons/extensions/feature_type_extension.dart';
-import '../../../../../commons/extensions/standard_extensions.dart';
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import '../../../../../commons/resources/d2_error_utils.dart';
 import '../../../../../core/event/event_editable_status.dart';
 import '../../../../../core/event/event_extensions.dart';

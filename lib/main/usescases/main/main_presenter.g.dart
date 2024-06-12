@@ -29,8 +29,6 @@ class _SystemHash {
   }
 }
 
-typedef MainPresenterRef = ProviderRef<MainPresenter>;
-
 /// See also [mainPresenter].
 @ProviderFor(mainPresenter)
 const mainPresenterProvider = MainPresenterFamily();
@@ -77,10 +75,10 @@ class MainPresenterFamily extends Family<MainPresenter> {
 class MainPresenterProvider extends Provider<MainPresenter> {
   /// See also [mainPresenter].
   MainPresenterProvider(
-    this.view,
-  ) : super.internal(
+    MainView view,
+  ) : this._internal(
           (ref) => mainPresenter(
-            ref,
+            ref as MainPresenterRef,
             view,
           ),
           from: mainPresenterProvider,
@@ -92,9 +90,43 @@ class MainPresenterProvider extends Provider<MainPresenter> {
           dependencies: MainPresenterFamily._dependencies,
           allTransitiveDependencies:
               MainPresenterFamily._allTransitiveDependencies,
+          view: view,
         );
 
+  MainPresenterProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.view,
+  }) : super.internal();
+
   final MainView view;
+
+  @override
+  Override overrideWith(
+    MainPresenter Function(MainPresenterRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: MainPresenterProvider._internal(
+        (ref) => create(ref as MainPresenterRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        view: view,
+      ),
+    );
+  }
+
+  @override
+  ProviderElement<MainPresenter> createElement() {
+    return _MainPresenterProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -109,5 +141,18 @@ class MainPresenterProvider extends Provider<MainPresenter> {
     return _SystemHash.finish(hash);
   }
 }
+
+mixin MainPresenterRef on ProviderRef<MainPresenter> {
+  /// The parameter `view` of this provider.
+  MainView get view;
+}
+
+class _MainPresenterProviderElement extends ProviderElement<MainPresenter>
+    with MainPresenterRef {
+  _MainPresenterProviderElement(super.provider);
+
+  @override
+  MainView get view => (origin as MainPresenterProvider).view;
+}
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

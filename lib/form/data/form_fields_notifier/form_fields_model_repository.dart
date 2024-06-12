@@ -1,13 +1,13 @@
 // // NMC created
 // // ignore_for_file: always_specify_types
 //
-// import 'package:d2_remote/core/common/value_type.dart';
+// import 'package:mass_pro/sdk/core/common/value_type.dart';
 // import 'package:equatable/equatable.dart';
 // import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 // import 'package:flutter/material.dart';
 //
 // import '../../../commons/date/field_with_issue.dart';
-// import '../../../commons/extensions/standard_extensions.dart';
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 // import '../../../commons/extensions/string_extension.dart';
 // import '../../../commons/helpers/iterable.dart';
 // import '../../model/action_type.dart';

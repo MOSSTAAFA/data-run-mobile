@@ -30,8 +30,6 @@ class _SystemHash {
   }
 }
 
-typedef DashboardPresenterRef = ProviderRef<DashboardPresenter>;
-
 /// See also [dashboardPresenter].
 @ProviderFor(dashboardPresenter)
 const dashboardPresenterProvider = DashboardPresenterFamily();
@@ -78,10 +76,10 @@ class DashboardPresenterFamily extends Family<DashboardPresenter> {
 class DashboardPresenterProvider extends Provider<DashboardPresenter> {
   /// See also [dashboardPresenter].
   DashboardPresenterProvider(
-    this.view,
-  ) : super.internal(
+    DashboardScreenView view,
+  ) : this._internal(
           (ref) => dashboardPresenter(
-            ref,
+            ref as DashboardPresenterRef,
             view,
           ),
           from: dashboardPresenterProvider,
@@ -93,9 +91,43 @@ class DashboardPresenterProvider extends Provider<DashboardPresenter> {
           dependencies: DashboardPresenterFamily._dependencies,
           allTransitiveDependencies:
               DashboardPresenterFamily._allTransitiveDependencies,
+          view: view,
         );
 
+  DashboardPresenterProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.view,
+  }) : super.internal();
+
   final DashboardScreenView view;
+
+  @override
+  Override overrideWith(
+    DashboardPresenter Function(DashboardPresenterRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: DashboardPresenterProvider._internal(
+        (ref) => create(ref as DashboardPresenterRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        view: view,
+      ),
+    );
+  }
+
+  @override
+  ProviderElement<DashboardPresenter> createElement() {
+    return _DashboardPresenterProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -110,5 +142,18 @@ class DashboardPresenterProvider extends Provider<DashboardPresenter> {
     return _SystemHash.finish(hash);
   }
 }
+
+mixin DashboardPresenterRef on ProviderRef<DashboardPresenter> {
+  /// The parameter `view` of this provider.
+  DashboardScreenView get view;
+}
+
+class _DashboardPresenterProviderElement
+    extends ProviderElement<DashboardPresenter> with DashboardPresenterRef {
+  _DashboardPresenterProviderElement(super.provider);
+
+  @override
+  DashboardScreenView get view => (origin as DashboardPresenterProvider).view;
+}
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

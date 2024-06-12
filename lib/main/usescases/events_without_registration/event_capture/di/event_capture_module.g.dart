@@ -48,9 +48,6 @@ class _SystemHash {
   }
 }
 
-typedef EventCapturePresenterRef
-    = AutoDisposeProviderRef<EventCapturePresenter>;
-
 /// See also [eventCapturePresenter].
 @ProviderFor(eventCapturePresenter)
 const eventCapturePresenterProvider = EventCapturePresenterFamily();
@@ -98,10 +95,10 @@ class EventCapturePresenterProvider
     extends AutoDisposeProvider<EventCapturePresenter> {
   /// See also [eventCapturePresenter].
   EventCapturePresenterProvider(
-    this.view,
-  ) : super.internal(
+    EventCaptureView view,
+  ) : this._internal(
           (ref) => eventCapturePresenter(
-            ref,
+            ref as EventCapturePresenterRef,
             view,
           ),
           from: eventCapturePresenterProvider,
@@ -113,9 +110,43 @@ class EventCapturePresenterProvider
           dependencies: EventCapturePresenterFamily._dependencies,
           allTransitiveDependencies:
               EventCapturePresenterFamily._allTransitiveDependencies,
+          view: view,
         );
 
+  EventCapturePresenterProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.view,
+  }) : super.internal();
+
   final EventCaptureView view;
+
+  @override
+  Override overrideWith(
+    EventCapturePresenter Function(EventCapturePresenterRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: EventCapturePresenterProvider._internal(
+        (ref) => create(ref as EventCapturePresenterRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        view: view,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeProviderElement<EventCapturePresenter> createElement() {
+    return _EventCapturePresenterProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -129,6 +160,21 @@ class EventCapturePresenterProvider
 
     return _SystemHash.finish(hash);
   }
+}
+
+mixin EventCapturePresenterRef
+    on AutoDisposeProviderRef<EventCapturePresenter> {
+  /// The parameter `view` of this provider.
+  EventCaptureView get view;
+}
+
+class _EventCapturePresenterProviderElement
+    extends AutoDisposeProviderElement<EventCapturePresenter>
+    with EventCapturePresenterRef {
+  _EventCapturePresenterProviderElement(super.provider);
+
+  @override
+  EventCaptureView get view => (origin as EventCapturePresenterProvider).view;
 }
 
 String _$eventCaptureResourcesHash() =>
@@ -168,4 +214,4 @@ final configureEventCompletionDialogProvider =
 typedef ConfigureEventCompletionDialogRef
     = AutoDisposeProviderRef<ConfigureEventCompletionDialog>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

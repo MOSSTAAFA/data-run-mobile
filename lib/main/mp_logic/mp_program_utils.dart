@@ -7,7 +7,7 @@ import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart'
 import 'package:d2_remote/modules/metadata/program/entities/tracked_entity_type.entity.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../commons/extensions/standard_extensions.dart';
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import '../../core/common/state.dart';
 import '../../core/program/program_type.dart';
 

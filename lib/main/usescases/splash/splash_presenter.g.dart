@@ -29,8 +29,6 @@ class _SystemHash {
   }
 }
 
-typedef SplashPresenterRef = AutoDisposeProviderRef<SplashPresenter>;
-
 /// See also [splashPresenter].
 @ProviderFor(splashPresenter)
 const splashPresenterProvider = SplashPresenterFamily();
@@ -77,10 +75,10 @@ class SplashPresenterFamily extends Family<SplashPresenter> {
 class SplashPresenterProvider extends AutoDisposeProvider<SplashPresenter> {
   /// See also [splashPresenter].
   SplashPresenterProvider(
-    this.view,
-  ) : super.internal(
+    SplashView view,
+  ) : this._internal(
           (ref) => splashPresenter(
-            ref,
+            ref as SplashPresenterRef,
             view,
           ),
           from: splashPresenterProvider,
@@ -92,9 +90,43 @@ class SplashPresenterProvider extends AutoDisposeProvider<SplashPresenter> {
           dependencies: SplashPresenterFamily._dependencies,
           allTransitiveDependencies:
               SplashPresenterFamily._allTransitiveDependencies,
+          view: view,
         );
 
+  SplashPresenterProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.view,
+  }) : super.internal();
+
   final SplashView view;
+
+  @override
+  Override overrideWith(
+    SplashPresenter Function(SplashPresenterRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: SplashPresenterProvider._internal(
+        (ref) => create(ref as SplashPresenterRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        view: view,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeProviderElement<SplashPresenter> createElement() {
+    return _SplashPresenterProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -109,5 +141,19 @@ class SplashPresenterProvider extends AutoDisposeProvider<SplashPresenter> {
     return _SystemHash.finish(hash);
   }
 }
+
+mixin SplashPresenterRef on AutoDisposeProviderRef<SplashPresenter> {
+  /// The parameter `view` of this provider.
+  SplashView get view;
+}
+
+class _SplashPresenterProviderElement
+    extends AutoDisposeProviderElement<SplashPresenter>
+    with SplashPresenterRef {
+  _SplashPresenterProviderElement(super.provider);
+
+  @override
+  SplashView get view => (origin as SplashPresenterProvider).view;
+}
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -1,9 +1,9 @@
-import 'package:d2_remote/core/mp/helpers/result.dart';
+import 'package:mass_pro/sdk/core/mp/helpers/result.dart';
 import 'package:dio/dio.dart';
 
-import '../../../core/arch/call/d2_progress.dart';
-import 'sync_metadata_worker.dart';
-import 'sync_result.dart';
+import 'package:d2_remote/modules/datarun/sync/call/d2_progress.dart';
+import 'package:mass_pro/main/data/service/sync_metadata_worker.dart';
+import 'package:mass_pro/main/data/service/sync_result.dart';
 
 abstract class SyncPresenter {
   Future<void> syncAndDownloadEvents({Dio? dioTestClient}); // throws Exception;

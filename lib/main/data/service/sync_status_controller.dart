@@ -2,9 +2,9 @@ import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../core/arch/call/d2_progress_status.dart';
-import '../../../main.dart';
-import 'sync_status_data.dart';
+import 'package:d2_remote/modules/datarun/sync/call/d2_progress_status.dart';
+import 'package:mass_pro/utils/navigator_key.dart';
+import 'package:mass_pro/main/data/service/sync_status_data.dart';
 
 part 'sync_status_controller.g.dart';
 

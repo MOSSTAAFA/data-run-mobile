@@ -1,4 +1,4 @@
-import 'package:d2_remote/core/program/section_rendering_type.dart';
+import 'package:mass_pro/sdk/core/program/section_rendering_type.dart';
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/metadata/option_set/entities/option_group.entity.dart';
 import 'package:d2_remote/modules/metadata/option_set/entities/option_group_option.entity.dart';

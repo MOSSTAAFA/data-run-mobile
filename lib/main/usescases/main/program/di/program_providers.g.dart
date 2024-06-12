@@ -29,8 +29,6 @@ class _SystemHash {
   }
 }
 
-typedef ProgramPresenterRef = ProviderRef<ProgramPresenter>;
-
 /// See also [programPresenter].
 @ProviderFor(programPresenter)
 const programPresenterProvider = ProgramPresenterFamily();
@@ -77,10 +75,10 @@ class ProgramPresenterFamily extends Family<ProgramPresenter> {
 class ProgramPresenterProvider extends Provider<ProgramPresenter> {
   /// See also [programPresenter].
   ProgramPresenterProvider(
-    this.view,
-  ) : super.internal(
+    ProgramView view,
+  ) : this._internal(
           (ref) => programPresenter(
-            ref,
+            ref as ProgramPresenterRef,
             view,
           ),
           from: programPresenterProvider,
@@ -92,9 +90,43 @@ class ProgramPresenterProvider extends Provider<ProgramPresenter> {
           dependencies: ProgramPresenterFamily._dependencies,
           allTransitiveDependencies:
               ProgramPresenterFamily._allTransitiveDependencies,
+          view: view,
         );
 
+  ProgramPresenterProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.view,
+  }) : super.internal();
+
   final ProgramView view;
+
+  @override
+  Override overrideWith(
+    ProgramPresenter Function(ProgramPresenterRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: ProgramPresenterProvider._internal(
+        (ref) => create(ref as ProgramPresenterRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        view: view,
+      ),
+    );
+  }
+
+  @override
+  ProviderElement<ProgramPresenter> createElement() {
+    return _ProgramPresenterProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -108,6 +140,19 @@ class ProgramPresenterProvider extends Provider<ProgramPresenter> {
 
     return _SystemHash.finish(hash);
   }
+}
+
+mixin ProgramPresenterRef on ProviderRef<ProgramPresenter> {
+  /// The parameter `view` of this provider.
+  ProgramView get view;
+}
+
+class _ProgramPresenterProviderElement extends ProviderElement<ProgramPresenter>
+    with ProgramPresenterRef {
+  _ProgramPresenterProviderElement(super.provider);
+
+  @override
+  ProgramView get view => (origin as ProgramPresenterProvider).view;
 }
 
 String _$programRepositoryHash() => r'767156dcc27e7cd699338cb8dc4991f2e682cf05';
@@ -126,4 +171,4 @@ final programRepositoryProvider = Provider<ProgramRepository>.internal(
 
 typedef ProgramRepositoryRef = ProviderRef<ProgramRepository>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

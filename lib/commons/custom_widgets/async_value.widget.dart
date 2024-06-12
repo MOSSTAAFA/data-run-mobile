@@ -18,8 +18,7 @@ class AsyncValueWidget<T> extends StatelessWidget {
         child: Text(
           e.toString(),
           style: Theme.of(context)
-              .textTheme
-              .headline6!
+              .textTheme.headlineSmall!
               .copyWith(color: Colors.red),
         ),
       ),

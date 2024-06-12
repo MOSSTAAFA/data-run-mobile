@@ -12,7 +12,7 @@ part of 'ou_tree_node.model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$OuTreeNodeModel {
@@ -93,11 +93,11 @@ class _$OuTreeNodeModelCopyWithImpl<$Res, $Val extends OuTreeNodeModel>
 }
 
 /// @nodoc
-abstract class _$$_OuTreeNodeModelCopyWith<$Res>
+abstract class _$$OuTreeNodeModelImplCopyWith<$Res>
     implements $OuTreeNodeModelCopyWith<$Res> {
-  factory _$$_OuTreeNodeModelCopyWith(
-          _$_OuTreeNodeModel value, $Res Function(_$_OuTreeNodeModel) then) =
-      __$$_OuTreeNodeModelCopyWithImpl<$Res>;
+  factory _$$OuTreeNodeModelImplCopyWith(_$OuTreeNodeModelImpl value,
+          $Res Function(_$OuTreeNodeModelImpl) then) =
+      __$$OuTreeNodeModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -110,11 +110,11 @@ abstract class _$$_OuTreeNodeModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_OuTreeNodeModelCopyWithImpl<$Res>
-    extends _$OuTreeNodeModelCopyWithImpl<$Res, _$_OuTreeNodeModel>
-    implements _$$_OuTreeNodeModelCopyWith<$Res> {
-  __$$_OuTreeNodeModelCopyWithImpl(
-      _$_OuTreeNodeModel _value, $Res Function(_$_OuTreeNodeModel) _then)
+class __$$OuTreeNodeModelImplCopyWithImpl<$Res>
+    extends _$OuTreeNodeModelCopyWithImpl<$Res, _$OuTreeNodeModelImpl>
+    implements _$$OuTreeNodeModelImplCopyWith<$Res> {
+  __$$OuTreeNodeModelImplCopyWithImpl(
+      _$OuTreeNodeModelImpl _value, $Res Function(_$OuTreeNodeModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -127,7 +127,7 @@ class __$$_OuTreeNodeModelCopyWithImpl<$Res>
     Object? level = null,
     Object? selectedChildrenCount = null,
   }) {
-    return _then(_$_OuTreeNodeModel(
+    return _then(_$OuTreeNodeModelImpl(
       content: null == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
@@ -158,8 +158,8 @@ class __$$_OuTreeNodeModelCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_OuTreeNodeModel extends _OuTreeNodeModel {
-  const _$_OuTreeNodeModel(
+class _$OuTreeNodeModelImpl extends _OuTreeNodeModel {
+  const _$OuTreeNodeModelImpl(
       {required this.content,
       this.isOpen = false,
       this.hasChild = false,
@@ -192,10 +192,10 @@ class _$_OuTreeNodeModel extends _OuTreeNodeModel {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_OuTreeNodeModel &&
+            other is _$OuTreeNodeModelImpl &&
             (identical(other.content, content) || other.content == content) &&
             (identical(other.isOpen, isOpen) || other.isOpen == isOpen) &&
             (identical(other.hasChild, hasChild) ||
@@ -214,8 +214,9 @@ class _$_OuTreeNodeModel extends _OuTreeNodeModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_OuTreeNodeModelCopyWith<_$_OuTreeNodeModel> get copyWith =>
-      __$$_OuTreeNodeModelCopyWithImpl<_$_OuTreeNodeModel>(this, _$identity);
+  _$$OuTreeNodeModelImplCopyWith<_$OuTreeNodeModelImpl> get copyWith =>
+      __$$OuTreeNodeModelImplCopyWithImpl<_$OuTreeNodeModelImpl>(
+          this, _$identity);
 }
 
 abstract class _OuTreeNodeModel extends OuTreeNodeModel {
@@ -225,7 +226,7 @@ abstract class _OuTreeNodeModel extends OuTreeNodeModel {
       final bool hasChild,
       final bool isChecked,
       final int level,
-      final int selectedChildrenCount}) = _$_OuTreeNodeModel;
+      final int selectedChildrenCount}) = _$OuTreeNodeModelImpl;
   const _OuTreeNodeModel._() : super._();
 
   @override
@@ -242,6 +243,6 @@ abstract class _OuTreeNodeModel extends OuTreeNodeModel {
   int get selectedChildrenCount;
   @override
   @JsonKey(ignore: true)
-  _$$_OuTreeNodeModelCopyWith<_$_OuTreeNodeModel> get copyWith =>
+  _$$OuTreeNodeModelImplCopyWith<_$OuTreeNodeModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

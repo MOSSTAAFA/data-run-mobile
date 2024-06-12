@@ -1,12 +1,12 @@
-import 'package:d2_remote/core/common/exception/exception.dart';
-import 'package:d2_remote/core/common/feature_type.dart';
-import 'package:d2_remote/core/common/value_type.dart';
-import 'package:d2_remote/core/mp/helpers/result.dart';
+import 'package:mass_pro/sdk/core/common/exception/exception.dart';
+import 'package:mass_pro/sdk/core/common/feature_type.dart';
+import 'package:mass_pro/sdk/core/common/value_type.dart';
+import 'package:mass_pro/sdk/core/mp/helpers/result.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../../commons/extensions/standard_extensions.dart';
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import '../../../../commons/extensions/string_extension.dart';
 import '../../../../commons/logging/logging.dart';
 import '../../../commons/helpers/collections.dart';

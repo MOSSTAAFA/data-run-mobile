@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../main/l10n/app_localizations.dart';
 import '../../../utils/mass_utils/platforms.dart';
-import '../../extensions/standard_extensions.dart';
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import '../../state/app_state.dart';
 import '../../state/app_state_notifier.dart';
 import '../../state/pref_state.dart';
@@ -112,7 +112,7 @@ class NavigationTabBarViewState extends ConsumerState<NavigationTabBarView>
     return WillPopScope(
         onWillPop: () async {
           // ref.read(appStateNotifierProvider.notifier).viewDashboard();
-          return true;
+          return Future.value(true);
         },
         child: FocusTraversalGroup(
           child: Scaffold(

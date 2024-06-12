@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen.widget.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../../../commons/state/app_state_notifier.dart';
@@ -17,7 +18,7 @@ import 'sync_view.dart';
 class SyncScreen extends ConsumerStatefulWidget {
   const SyncScreen({super.key});
 
-  static const String route = '/syncscreen';
+  static const String route = '/sync-screen';
 
   @override
   ConsumerState<SyncScreen> createState() => _SyncScreenState();
@@ -144,7 +145,7 @@ class _SyncScreenState extends ConsumerState<SyncScreen>
   void goToMain() {
     ref
         .read(appStateNotifierProvider.notifier)
-        .gotToNextScreenPopAll(const MainScreen(launchDataSync: true));
+        .gotToNextScreenPopAll(const DashboardScreenWidget(launchDataSync: true));
   }
 
   @override

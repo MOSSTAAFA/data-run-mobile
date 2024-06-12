@@ -1,7 +1,7 @@
 // import 'package:d2_remote/shared/models/request_progress.model.dart';
 // import 'package:equatable/equatable.dart';
 
-// import '../../../core/arch/call/d2_progress_status.dart';
+// import 'package:d2_remote/modules/datarun/sync/call/d2_progress_status.dart';
 
 // /// RequestProgress
 // class D2RequestProgress with EquatableMixin {

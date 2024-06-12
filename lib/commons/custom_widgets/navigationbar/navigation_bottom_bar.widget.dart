@@ -1,4 +1,4 @@
-// import '../../extensions/standard_extensions.dart';
+// import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 // import '../../utils/view_actions.dart';
 // import 'navigation_page.dart';
 // import 'navigation_page_configurator.dart';

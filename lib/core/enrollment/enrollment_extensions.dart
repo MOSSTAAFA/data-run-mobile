@@ -1,4 +1,4 @@
-// import 'package:d2_remote/core/mp/enrollment/enrollment_status.dart';
+// import 'package:mass_pro/sdk/core/mp/enrollment/enrollment_status.dart';
 
 // extension ToEnrollmentStatusExtension on String? {
 //   EnrollmentStatus? get toEnrollmentStatus {

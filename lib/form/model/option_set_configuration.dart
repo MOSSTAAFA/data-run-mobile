@@ -1,5 +1,4 @@
 import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dart';
-import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'option_set_configuration.freezed.dart';

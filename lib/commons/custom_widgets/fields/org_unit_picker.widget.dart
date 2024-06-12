@@ -136,7 +136,7 @@ class OrgUnitPickerState extends State<OrgUnitPicker> {
                 },
               )
             : IconButton(
-                icon: const Icon(MdiIcons.familyTree),
+                icon: const Icon(Icons.account_tree),
                 onPressed: () async => _showOrgUnitPicker(),
               ),
       ),

@@ -1,4 +1,5 @@
-import 'package:d2_remote/core/common/value_type.dart';
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
+import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,7 +11,7 @@ import '../../../form/model/ui_event_type.dart';
 import '../../../form/ui/style/form_ui_color_type.dart';
 import '../../../form/ui/style/form_ui_model_style.dart';
 import '../../../utils/mass_utils/colors.dart';
-import '../../extensions/standard_extensions.dart';
+// import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 
 /// form_edit_text_custom, form_integer, form_integer_negative
 /// form_integer_positive, form_integer_zero, form_letter,

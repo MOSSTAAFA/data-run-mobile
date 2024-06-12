@@ -1,4 +1,4 @@
-import 'package:d2_remote/core/mp/period/period_type.dart';
+import 'package:mass_pro/sdk/core/mp/period/period_type.dart';
 import 'package:equatable/equatable.dart';
 
 /// data class

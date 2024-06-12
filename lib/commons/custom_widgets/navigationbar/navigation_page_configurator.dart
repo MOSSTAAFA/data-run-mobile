@@ -1,6 +1,6 @@
 import 'package:dartx/dartx.dart';
 
-import '../../extensions/standard_extensions.dart';
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import '../../data_run/utils/view_actions.dart';
 import 'navigation_page.dart';
 

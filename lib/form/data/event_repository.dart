@@ -1,8 +1,8 @@
-import 'package:d2_remote/core/arch/helpers/uids_helper.dart';
-import 'package:d2_remote/core/common/feature_type.dart';
-import 'package:d2_remote/core/common/value_type.dart';
-import 'package:d2_remote/core/common/value_type_device_rendering.dart';
-import 'package:d2_remote/core/program/section_rendering_type.dart';
+import 'package:mass_pro/sdk/core/arch/helpers/uids_helper.dart';
+import 'package:mass_pro/sdk/core/common/feature_type.dart';
+import 'package:mass_pro/sdk/core/common/value_type.dart';
+import 'package:mass_pro/sdk/core/common/value_type_device_rendering.dart';
+import 'package:mass_pro/sdk/core/program/section_rendering_type.dart';
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/data/tracker/entities/event.entity.dart';
 import 'package:d2_remote/modules/data/tracker/entities/event_data_value.entity.dart';

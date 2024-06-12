@@ -9,7 +9,7 @@ class Constants {
 
 // const String kApiBaseUrl = 'https://mis.nmcpye.org/staging';
 // const String kApiBaseUrl = 'http://localhost:8080';
-const String kApiBaseUrl = 'http://169.254.62.37:8080';
+const String kApiBaseUrl = 'http://172.21.208.1:8080';
 
 const String kAppVersion = 'v1.0.0';
 const String kAppName = 'Flutter Examples';

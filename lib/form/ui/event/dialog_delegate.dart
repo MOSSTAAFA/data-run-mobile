@@ -1,7 +1,7 @@
-import 'package:d2_remote/core/common/value_type.dart';
+import 'package:mass_pro/sdk/core/common/value_type.dart';
 
 import '../../../commons/date/date_utils.dart';
-import '../../../commons/extensions/standard_extensions.dart';
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import '../intent/form_intent.dart';
 import 'list_view_ui_events.dart';
 

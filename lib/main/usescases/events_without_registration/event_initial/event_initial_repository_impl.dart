@@ -1,10 +1,10 @@
 // ignore_for_file: avoid_dynamic_calls
 
-import 'package:d2_remote/core/arch/helpers/uids_helper.dart';
-import 'package:d2_remote/core/common/feature_type.dart';
-import 'package:d2_remote/core/maintenance/d2_error.dart';
-import 'package:d2_remote/core/mp/enrollment/enrollment_status.dart';
-import 'package:d2_remote/core/program/section_rendering_type.dart';
+import 'package:mass_pro/sdk/core/arch/helpers/uids_helper.dart';
+import 'package:mass_pro/sdk/core/common/feature_type.dart';
+import 'package:mass_pro/sdk/core/maintenance/d2_error.dart';
+import 'package:mass_pro/sdk/core/mp/enrollment/enrollment_status.dart';
+import 'package:mass_pro/sdk/core/program/section_rendering_type.dart';
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/data/tracker/entities/event.entity.dart';
 import 'package:d2_remote/modules/data/tracker/entities/event_data_value.entity.dart';
@@ -17,7 +17,7 @@ import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity
 import 'package:d2_remote/modules/metadata/program/entities/program_stage_data_element.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_stage_section.entity.dart';
 
-import '../../../../commons/extensions/standard_extensions.dart';
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import '../../../../commons/extensions/value_extensions.dart';
 import '../../../../core/di/providers.dart';
 import '../../../../core/event/event_editable_status.dart';

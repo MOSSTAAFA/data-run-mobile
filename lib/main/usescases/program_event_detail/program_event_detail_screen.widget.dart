@@ -7,7 +7,7 @@ import '../../../commons/constants.dart';
 import '../../../commons/custom_widgets/navigationbar/navigation_page_configurator.dart';
 import '../../../commons/custom_widgets/navigationbar/navigation_tab_bar_view.widget.dart';
 import '../../../commons/data/event_creation_type.dart';
-import '../../../commons/extensions/standard_extensions.dart';
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import '../../../commons/helpers/collections.dart';
 import '../../../commons/state/app_state_notifier.dart';
 import '../../../commons/data_run/utils/view_actions.dart';
@@ -164,9 +164,10 @@ class _ProgramEventDetailScreenState
     // ref
     //     .read(appStateNotifierProvider.notifier)
     //     .navigateToScreen(const EventCaptureScreen(), bundle: bundle);
-    ref
-        .read(appStateNotifierProvider.notifier)
-        .navigateToRoute(EventCaptureScreen.route, arguments: bundle);
+    Navigator.of(context).pushNamed(EventCaptureScreen.route);
+    // ref
+    //     .read(appStateNotifierProvider.notifier)
+    //     .navigateToRoute(EventCaptureScreen.route, arguments: bundle);
   }
 
   @override
@@ -238,9 +239,11 @@ class _ProgramEventDetailScreenState
     // set to the  Bundle activityUid
     // ref.read(bundleObjectProvider.notifier).setValue(bundle);
 
-    ref
-        .read(appStateNotifierProvider.notifier)
-        .navigateToRoute(EventInitialScreen.route, arguments: bundle);
+    Navigator.of(context).pushNamed(EventInitialScreen.route);
+
+    // ref
+    //     .read(appStateNotifierProvider.notifier)
+    //     .navigateToRoute(EventInitialScreen.route, arguments: bundle);
   }
 
   @override

@@ -2,28 +2,28 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rounded_loading_button/rounded_loading_button.dart';
-
-import '../../../commons/constants.dart';
-import '../../../commons/custom_widgets/fields/decorated_form_field.dart';
-import '../../../commons/custom_widgets/fields/password_field.dart';
-import '../../../commons/custom_widgets/form_card.dart';
-import '../../../commons/custom_widgets/mixins/keyboard_manager.dart';
-import '../../../commons/extensions/dynamic_extensions.dart';
-import '../../../commons/extensions/string_extension.dart';
-import '../../../commons/network/network_utils.dart';
-import '../../../commons/resources/resource_manager.dart';
-import '../../../commons/state/app_state_notifier.dart';
-import '../../../riverpod/use_on_init_hook.dart';
-import '../../l10n/app_localizations.dart';
-import '../general/view_base.dart';
-import '../main/main_screen.widget.dart';
-import '../sync/sync_screen.widget.dart';
-import 'login_presenter.dart';
-import 'login_view.dart';
-import 'login_view_model.dart';
-import 'widgets/headline1.dart';
-import 'widgets/login_header.dart';
+import 'package:mass_pro/commons/constants.dart';
+import 'package:mass_pro/commons/custom_widgets/fields/decorated_form_field.dart';
+import 'package:mass_pro/commons/custom_widgets/fields/password_field.dart';
+import 'package:mass_pro/commons/custom_widgets/form_card.dart';
+import 'package:mass_pro/commons/custom_widgets/mixins/keyboard_manager.dart';
+import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
+import 'package:mass_pro/commons/extensions/string_extension.dart';
+import 'package:mass_pro/commons/network/network_utils.dart';
+import 'package:mass_pro/commons/resources/resource_manager.dart';
+import 'package:mass_pro/commons/state/app_state_notifier.dart';
+import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen.widget.dart';
+import 'package:mass_pro/main/l10n/app_localizations.dart';
+import 'package:mass_pro/main/usescases/general/view_base.dart';
+import 'package:mass_pro/main/usescases/login/login_presenter.dart';
+import 'package:mass_pro/main/usescases/login/login_view.dart';
+import 'package:mass_pro/main/usescases/login/login_view_model.dart';
+import 'package:mass_pro/main/usescases/login/widgets/headline1.dart';
+import 'package:mass_pro/main/usescases/login/widgets/login_header.dart';
+import 'package:mass_pro/main/usescases/main/main_screen.widget.dart';
+import 'package:mass_pro/main/usescases/sync/sync_screen.widget.dart';
+import 'package:mass_pro/riverpod/use_on_init_hook.dart';
+import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen(
@@ -32,7 +32,7 @@ class LoginScreen extends ConsumerStatefulWidget {
       this.accountsCount = -1,
       this.isDeletion = false});
 
-  static const String route = '/loginscreen';
+  static const String route = '/login-screen';
 
   final bool skipSync;
   final int accountsCount;
@@ -257,7 +257,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
     } else {
       ref
           .read(appStateNotifierProvider.notifier)
-          .gotToNextScreen(const MainScreen());
+          .gotToNextScreen(const DashboardScreenWidget());
     }
   }
 

@@ -2,10 +2,10 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 
-import '../../../commons/resources/color_utils.dart';
-import '../../../main.dart';
-import 'form_ui_color_factory.dart';
-import 'form_ui_color_type.dart';
+import 'package:mass_pro/commons/resources/color_utils.dart';
+import 'package:mass_pro/utils/navigator_key.dart';
+import 'package:mass_pro/form/ui/style/form_ui_color_factory.dart';
+import 'package:mass_pro/form/ui/style/form_ui_color_type.dart';
 
 class FormUiModelColorFactoryImpl implements FormUiColorFactory {
   FormUiModelColorFactoryImpl({this.isBackgroundTransparent = false});
@@ -43,7 +43,7 @@ class FormUiModelColorFactoryImpl implements FormUiColorFactory {
           navigatorKey.currentContext!, ColorType.ACCENT),
       FormUiColorType.WARNING:
           Theme.of(navigatorKey.currentContext!).highlightColor,
-      FormUiColorType.ERROR: Theme.of(navigatorKey.currentContext!).errorColor,
+      FormUiColorType.ERROR: Theme.of(navigatorKey.currentContext!).highlightColor,
       FormUiColorType.ACTION_ICON:
           Theme.of(navigatorKey.currentContext!).iconTheme.color ??
               Theme.of(navigatorKey.currentContext!).primaryColorDark,

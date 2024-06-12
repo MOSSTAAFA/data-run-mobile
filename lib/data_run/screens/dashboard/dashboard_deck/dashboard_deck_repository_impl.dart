@@ -1,12 +1,12 @@
 // ignore_for_file: avoid_dynamic_calls
 
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
+import 'package:d2_remote/modules/datarun/sync/call/d2_progress_status.dart';
 import 'package:d2_remote/modules/metadatarun/project/entities/d_project.entity.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
-import 'package:mass_pro/commons/extensions/standard_extensions.dart';
 import 'package:mass_pro/commons/resources/resource_manager.dart';
 import 'package:mass_pro/commons/ui/metadata_icon_data.dart';
-import 'package:mass_pro/core/arch/call/d2_progress_status.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_deck.providers.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_deck_repository.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_item.model.dart';
@@ -36,9 +36,9 @@ class DashboardDeckRepositoryImpl implements DashboardDeckRepository {
   @override
   Future<IList<DashboardItemModel>> deckItems(
       SyncStatusData syncStatusData) async {
-    final IList<DashboardItemModel> programViewModels = await deckCachedModels(
+    final IList<DashboardItemModel> dashboardItemViewModels = await deckCachedModels(
         syncStatusData) /* .catchError((onError) => IList<ProgramViewModel>()) */;
-    return programViewModels.sort(
+    return dashboardItemViewModels.sort(
         (p1, p2) => p1.title.toLowerCase().compareTo(p2.title.toLowerCase()));
   }
 
@@ -56,7 +56,7 @@ class DashboardDeckRepositoryImpl implements DashboardDeckRepository {
   /// fetch projects and map each project into [DashboardItemModel]
   Future<IList<DashboardItemModel>> _baseDashboardItems() async {
     final projects =
-        await ref.read(projectUtilsProvider).getUserTeamsProjects();
+        await ref.read(projectUtilsProvider).getProjects();
     IList<DashboardItemModel> programModles = IList<DashboardItemModel>();
     for (final DProject project in projects) {
       final state =

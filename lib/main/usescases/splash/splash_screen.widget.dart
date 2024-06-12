@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen.widget.dart';
 
 import '../../../commons/state/app_state_notifier.dart';
 import '../general/view_base.dart';
@@ -56,18 +57,18 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
       //     .gotToNextScreen(MainScreen(launchDataSync: initialDataSyncDone));
       ref
           .read(appStateNotifierProvider.notifier)
-          .gotToNextScreenPopAll(MainScreen(launchDataSync: initialDataSyncDone));
+          .gotToNextScreen(DashboardScreenWidget(launchDataSync: initialDataSyncDone));
     } else if (isUserLogged && !initialSyncDone) {
       ref
           .read(appStateNotifierProvider.notifier)
-          // .gotToNextRoute(SyncScreen.route);
-          .gotToNextScreenPopAll(const SyncScreen());
+          .gotToNextScreen(const SyncScreen());
+          // .gotToNextScreenPopAll(const SyncScreen());
     } else {
       presenter.getAccounts().then((count) {
         ref
             .read(appStateNotifierProvider.notifier)
-            // .gotToNextRoute(LoginScreen.route, arguments: count);
-            .gotToNextScreenPopAll(LoginScreen(accountsCount: count));
+            .gotToNextScreen(LoginScreen(accountsCount: count));
+            // .gotToNextScreenPopAll(LoginScreen(accountsCount: count));
       });
     }
   }

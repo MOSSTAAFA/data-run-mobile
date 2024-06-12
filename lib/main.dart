@@ -7,26 +7,18 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
-import 'package:stack_trace/stack_trace.dart' as stack_trace;
-
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/commons/prefs/preference_provider.dart';
-import 'main.reflectable.dart';
-import 'package:mass_pro/main/di.dart' as di;
 import 'package:mass_pro/main/l10n/app_localizations.dart';
 import 'package:mass_pro/main/usescases/events_without_registration/event_capture/event_capture_screen.widget.dart';
 import 'package:mass_pro/main/usescases/events_without_registration/event_initial/event_initial_screen.widget.dart';
 import 'package:mass_pro/main/usescases/program_event_detail/program_event_detail_screen.widget.dart';
 import 'package:mass_pro/main/usescases/splash/splash_screen.widget.dart';
 import 'package:mass_pro/riverpod/provider_logger.dart';
+import 'package:mass_pro/utils/navigator_key.dart';
+import 'package:stack_trace/stack_trace.dart' as stack_trace;
 
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-
-extension NavigatorKeyUtils on GlobalKey<NavigatorState> {
-  AppLocalization get localization {
-    return AppLocalization.of(currentContext!)!;
-  }
-}
+import 'main.reflectable.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,7 +29,7 @@ Future<void> main() async {
   await D2Remote.initialize();
   // await setUpActivityManagementMocks();
 
-  di.init();
+  // di.init();
 
   FlutterError.demangleStackTrace = (StackTrace stack) {
     if (stack is stack_trace.Trace) {
@@ -53,12 +45,13 @@ Future<void> main() async {
   // will be able to read providers
   runApp(ProviderScope(
     /// log specific provider
-    observers: [ProviderLogger(
-        providersNameToLog:
-        const IListConst(
-            const [/*'formViewModelNotifierProvider', 'formViewIndexProvider'*/])
-    )
+    observers: [
+      ProviderLogger(
+          providersNameToLog: const IListConst(const [
+        /*'formViewModelNotifierProvider', 'formViewIndexProvider'*/
+      ]))
     ],
+
     /// log all providers
     // observers: [ProviderLogger(providerNameToLog: '')],
     child: const App(),
@@ -70,7 +63,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final routeObserver = Get.put<RouteObserver>(RouteObserver<PageRoute>());
+    // final routeObserver = Get.put<RouteObserver>(RouteObserver<PageRoute>());
     final locale = AppLocalization.createLocale('en');
 
     return StyledToast(
@@ -90,7 +83,7 @@ class App extends StatelessWidget {
         // },
         title: 'Flutter Demo',
         navigatorKey: navigatorKey,
-        navigatorObservers: [routeObserver],
+        // navigatorObservers: [routeObserver],
         localizationsDelegates: const [
           AppLocalization.delegate,
           GlobalMaterialLocalizations.delegate,

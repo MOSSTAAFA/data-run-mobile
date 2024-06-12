@@ -30,9 +30,6 @@ class _SystemHash {
   }
 }
 
-typedef EventCaptureFormPresenterRef
-    = AutoDisposeProviderRef<EventCaptureFormPresenter>;
-
 /// See also [eventCaptureFormPresenter].
 @ProviderFor(eventCaptureFormPresenter)
 const eventCaptureFormPresenterProvider = EventCaptureFormPresenterFamily();
@@ -81,10 +78,10 @@ class EventCaptureFormPresenterProvider
     extends AutoDisposeProvider<EventCaptureFormPresenter> {
   /// See also [eventCaptureFormPresenter].
   EventCaptureFormPresenterProvider(
-    this.view,
-  ) : super.internal(
+    EventCaptureFormView view,
+  ) : this._internal(
           (ref) => eventCaptureFormPresenter(
-            ref,
+            ref as EventCaptureFormPresenterRef,
             view,
           ),
           from: eventCaptureFormPresenterProvider,
@@ -96,9 +93,44 @@ class EventCaptureFormPresenterProvider
           dependencies: EventCaptureFormPresenterFamily._dependencies,
           allTransitiveDependencies:
               EventCaptureFormPresenterFamily._allTransitiveDependencies,
+          view: view,
         );
 
+  EventCaptureFormPresenterProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.view,
+  }) : super.internal();
+
   final EventCaptureFormView view;
+
+  @override
+  Override overrideWith(
+    EventCaptureFormPresenter Function(EventCaptureFormPresenterRef provider)
+        create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: EventCaptureFormPresenterProvider._internal(
+        (ref) => create(ref as EventCaptureFormPresenterRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        view: view,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeProviderElement<EventCaptureFormPresenter> createElement() {
+    return _EventCaptureFormPresenterProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -113,5 +145,21 @@ class EventCaptureFormPresenterProvider
     return _SystemHash.finish(hash);
   }
 }
+
+mixin EventCaptureFormPresenterRef
+    on AutoDisposeProviderRef<EventCaptureFormPresenter> {
+  /// The parameter `view` of this provider.
+  EventCaptureFormView get view;
+}
+
+class _EventCaptureFormPresenterProviderElement
+    extends AutoDisposeProviderElement<EventCaptureFormPresenter>
+    with EventCaptureFormPresenterRef {
+  _EventCaptureFormPresenterProviderElement(super.provider);
+
+  @override
+  EventCaptureFormView get view =>
+      (origin as EventCaptureFormPresenterProvider).view;
+}
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

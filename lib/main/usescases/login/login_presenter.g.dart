@@ -30,8 +30,6 @@ class _SystemHash {
   }
 }
 
-typedef LoginScreenPresenterRef = AutoDisposeProviderRef<LoginScreenPresenter>;
-
 /// See also [loginScreenPresenter].
 @ProviderFor(loginScreenPresenter)
 const loginScreenPresenterProvider = LoginScreenPresenterFamily();
@@ -79,10 +77,10 @@ class LoginScreenPresenterProvider
     extends AutoDisposeProvider<LoginScreenPresenter> {
   /// See also [loginScreenPresenter].
   LoginScreenPresenterProvider(
-    this.view,
-  ) : super.internal(
+    LoginView view,
+  ) : this._internal(
           (ref) => loginScreenPresenter(
-            ref,
+            ref as LoginScreenPresenterRef,
             view,
           ),
           from: loginScreenPresenterProvider,
@@ -94,9 +92,43 @@ class LoginScreenPresenterProvider
           dependencies: LoginScreenPresenterFamily._dependencies,
           allTransitiveDependencies:
               LoginScreenPresenterFamily._allTransitiveDependencies,
+          view: view,
         );
 
+  LoginScreenPresenterProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.view,
+  }) : super.internal();
+
   final LoginView view;
+
+  @override
+  Override overrideWith(
+    LoginScreenPresenter Function(LoginScreenPresenterRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: LoginScreenPresenterProvider._internal(
+        (ref) => create(ref as LoginScreenPresenterRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        view: view,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeProviderElement<LoginScreenPresenter> createElement() {
+    return _LoginScreenPresenterProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -110,6 +142,20 @@ class LoginScreenPresenterProvider
 
     return _SystemHash.finish(hash);
   }
+}
+
+mixin LoginScreenPresenterRef on AutoDisposeProviderRef<LoginScreenPresenter> {
+  /// The parameter `view` of this provider.
+  LoginView get view;
+}
+
+class _LoginScreenPresenterProviderElement
+    extends AutoDisposeProviderElement<LoginScreenPresenter>
+    with LoginScreenPresenterRef {
+  _LoginScreenPresenterProviderElement(super.provider);
+
+  @override
+  LoginView get view => (origin as LoginScreenPresenterProvider).view;
 }
 
 String _$showLoginProgressHash() => r'7c6f17a2fcc2273167dfe985e343df182196d35f';
@@ -129,4 +175,4 @@ final showLoginProgressProvider =
 
 typedef _$ShowLoginProgress = AutoDisposeNotifier<bool>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

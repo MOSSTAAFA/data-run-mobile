@@ -30,8 +30,6 @@ class _SystemHash {
   }
 }
 
-typedef SyncScreenPresenterRef = AutoDisposeProviderRef<SyncScreenPresenter>;
-
 /// See also [syncScreenPresenter].
 @ProviderFor(syncScreenPresenter)
 const syncScreenPresenterProvider = SyncScreenPresenterFamily();
@@ -79,10 +77,10 @@ class SyncScreenPresenterProvider
     extends AutoDisposeProvider<SyncScreenPresenter> {
   /// See also [syncScreenPresenter].
   SyncScreenPresenterProvider(
-    this.view,
-  ) : super.internal(
+    SyncView view,
+  ) : this._internal(
           (ref) => syncScreenPresenter(
-            ref,
+            ref as SyncScreenPresenterRef,
             view,
           ),
           from: syncScreenPresenterProvider,
@@ -94,9 +92,43 @@ class SyncScreenPresenterProvider
           dependencies: SyncScreenPresenterFamily._dependencies,
           allTransitiveDependencies:
               SyncScreenPresenterFamily._allTransitiveDependencies,
+          view: view,
         );
 
+  SyncScreenPresenterProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.view,
+  }) : super.internal();
+
   final SyncView view;
+
+  @override
+  Override overrideWith(
+    SyncScreenPresenter Function(SyncScreenPresenterRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: SyncScreenPresenterProvider._internal(
+        (ref) => create(ref as SyncScreenPresenterRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        view: view,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeProviderElement<SyncScreenPresenter> createElement() {
+    return _SyncScreenPresenterProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -111,5 +143,19 @@ class SyncScreenPresenterProvider
     return _SystemHash.finish(hash);
   }
 }
+
+mixin SyncScreenPresenterRef on AutoDisposeProviderRef<SyncScreenPresenter> {
+  /// The parameter `view` of this provider.
+  SyncView get view;
+}
+
+class _SyncScreenPresenterProviderElement
+    extends AutoDisposeProviderElement<SyncScreenPresenter>
+    with SyncScreenPresenterRef {
+  _SyncScreenPresenterProviderElement(super.provider);
+
+  @override
+  SyncView get view => (origin as SyncScreenPresenterProvider).view;
+}
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -66,9 +66,6 @@ class _SystemHash {
   }
 }
 
-typedef EventDetailsViewModelControllerRef
-    = AutoDisposeProviderRef<EventDetailsViewModelController>;
-
 /// See also [eventDetailsViewModelController].
 @ProviderFor(eventDetailsViewModelController)
 const eventDetailsViewModelControllerProvider =
@@ -118,10 +115,10 @@ class EventDetailsViewModelControllerProvider
     extends AutoDisposeProvider<EventDetailsViewModelController> {
   /// See also [eventDetailsViewModelController].
   EventDetailsViewModelControllerProvider(
-    this.view,
-  ) : super.internal(
+    EventDetailsView view,
+  ) : this._internal(
           (ref) => eventDetailsViewModelController(
-            ref,
+            ref as EventDetailsViewModelControllerRef,
             view,
           ),
           from: eventDetailsViewModelControllerProvider,
@@ -133,9 +130,45 @@ class EventDetailsViewModelControllerProvider
           dependencies: EventDetailsViewModelControllerFamily._dependencies,
           allTransitiveDependencies:
               EventDetailsViewModelControllerFamily._allTransitiveDependencies,
+          view: view,
         );
 
+  EventDetailsViewModelControllerProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.view,
+  }) : super.internal();
+
   final EventDetailsView view;
+
+  @override
+  Override overrideWith(
+    EventDetailsViewModelController Function(
+            EventDetailsViewModelControllerRef provider)
+        create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: EventDetailsViewModelControllerProvider._internal(
+        (ref) => create(ref as EventDetailsViewModelControllerRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        view: view,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeProviderElement<EventDetailsViewModelController> createElement() {
+    return _EventDetailsViewModelControllerProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -150,6 +183,22 @@ class EventDetailsViewModelControllerProvider
 
     return _SystemHash.finish(hash);
   }
+}
+
+mixin EventDetailsViewModelControllerRef
+    on AutoDisposeProviderRef<EventDetailsViewModelController> {
+  /// The parameter `view` of this provider.
+  EventDetailsView get view;
+}
+
+class _EventDetailsViewModelControllerProviderElement
+    extends AutoDisposeProviderElement<EventDetailsViewModelController>
+    with EventDetailsViewModelControllerRef {
+  _EventDetailsViewModelControllerProviderElement(super.provider);
+
+  @override
+  EventDetailsView get view =>
+      (origin as EventDetailsViewModelControllerProvider).view;
 }
 
 String _$eventDetailsModelHash() => r'beeceea3330c916f3c224afc7fe2691124753ce9';
@@ -169,4 +218,4 @@ final eventDetailsModelProvider = AutoDisposeNotifierProvider<EventDetailsModel,
 
 typedef _$EventDetailsModel = AutoDisposeNotifier<EventDetailsViewModel>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
