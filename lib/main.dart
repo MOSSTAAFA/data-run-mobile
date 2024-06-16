@@ -5,20 +5,21 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/commons/prefs/preference_provider.dart';
+import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen.widget.dart';
+import 'package:mass_pro/data_run/screens/project_details/project_detail_screen.widget.dart';
+
 import 'package:mass_pro/main/l10n/app_localizations.dart';
-import 'package:mass_pro/main/usescases/events_without_registration/event_capture/event_capture_screen.widget.dart';
-import 'package:mass_pro/main/usescases/events_without_registration/event_initial/event_initial_screen.widget.dart';
-import 'package:mass_pro/main/usescases/program_event_detail/program_event_detail_screen.widget.dart';
+import 'package:mass_pro/main/usescases/login/login_screen.widget.dart';
 import 'package:mass_pro/main/usescases/splash/splash_screen.widget.dart';
+import 'package:mass_pro/main/usescases/sync/sync_screen.widget.dart';
 import 'package:mass_pro/riverpod/provider_logger.dart';
 import 'package:mass_pro/utils/navigator_key.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
 
-import 'main.reflectable.dart';
+import 'main_data_run.reflectable.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,8 +29,6 @@ Future<void> main() async {
 
   await D2Remote.initialize();
   // await setUpActivityManagementMocks();
-
-  // di.init();
 
   FlutterError.demangleStackTrace = (StackTrace stack) {
     if (stack is stack_trace.Trace) {
@@ -63,88 +62,66 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final routeObserver = Get.put<RouteObserver>(RouteObserver<PageRoute>());
+    final routeObserver = Get.put<RouteObserver>(RouteObserver<PageRoute>());
     final locale = AppLocalization.createLocale('en');
 
-    return StyledToast(
+    return GetMaterialApp(
+      navigatorKey: navigatorKey,
+      navigatorObservers: [routeObserver],
+      title: 'Flutter FormBuilder Demo',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData.light().copyWith(
+          appBarTheme: const AppBarTheme()
+              .copyWith(backgroundColor: Colors.blue.shade200)),
+      localizationsDelegates: const [
+        AppLocalization.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: kLanguages
+          .map((String locale) => AppLocalization.createLocale(locale))
+          .toList(),
       locale: locale,
-      child: GetMaterialApp(
-        // builder: (BuildContext context, Widget? child) {
-        //   final MediaQueryData data = MediaQuery.of(context);
-        //   return MediaQuery(
-        //     data:
-        //         data /* .copyWith(
-        //           textScaleFactor: context.select(
-        //               (AppBloc bloc) => bloc.state.prefState.textScaleFactor),
-        //         ) */
-        //     ,
-        //     child: child!,
-        //   );
-        // },
-        title: 'Flutter Demo',
-        navigatorKey: navigatorKey,
-        // navigatorObservers: [routeObserver],
-        localizationsDelegates: const [
-          AppLocalization.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-        ],
-        supportedLocales: kLanguages
-            .map((String locale) => AppLocalization.createLocale(locale))
-            .toList(),
-        locale: locale,
-        // Returns a locale which will be used by the app
-        localeResolutionCallback: (locale, supportedLocales) {
-          if (locale != null) {
-            return locale;
-          }
+      // Returns a locale which will be used by the app
+      localeResolutionCallback: (locale, supportedLocales) {
+        if (locale != null) {
+          return locale;
+        }
 
-          // Check if the current device locale is supported
-          for (final Locale supportedLocale in supportedLocales) {
-            if (supportedLocale.languageCode == locale?.languageCode &&
-                supportedLocale.countryCode == locale?.countryCode) {
-              return supportedLocale;
-            }
+        // Check if the current device locale is supported
+        for (final Locale supportedLocale in supportedLocales) {
+          if (supportedLocale.languageCode == locale?.languageCode &&
+              supportedLocale.countryCode == locale?.countryCode) {
+            return supportedLocale;
           }
-          // If the locale of the device is not supported, use the first one
-          // from the list (English, in this case).
-          return supportedLocales.first;
-        },
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
+        }
+        // If the locale of the device is not supported, use the first one
+        // from the list (English, in this case).
+        return supportedLocales.first;
+      },
+      initialRoute: SplashScreen.route,
+      getPages: [
+        GetPage(
+          name: SplashScreen.route,
+          page: () => const SplashScreen(),
+          transition: Transition.fade,
         ),
-        // home: /* const MainApp(), */ const SplashScreen(),
-        initialRoute: SplashScreen.route,
-        getPages: [
-          GetPage(
-            name: SplashScreen.route,
-            page: () => const SplashScreen(),
-            transition: Transition.fade,
-          ),
-          // GetPage(
-          //   name: MainScreen.route,
-          //   page: () => const MainScreen(),
-          //   transition: Transition.fade,
-          // ),
-          GetPage(
-            name: ProgramEventDetailScreen.route,
-            page: () => const ProgramEventDetailScreen(),
-            transition: Transition.fade,
-          ),
-          GetPage(
-            name: EventInitialScreen.route,
-            page: () => const EventInitialScreen(),
-            transition: Transition.fade,
-          ),
+        GetPage(
+          name: DashboardScreenWidget.route,
+          page: () => const DashboardScreenWidget(),
+          transition: Transition.fade,
+        ),
 
-          GetPage(
-            name: EventCaptureScreen.route,
-            page: () => const EventCaptureScreen(),
-            transition: Transition.fade,
-          ),
-        ],
-      ),
+        GetPage(
+          name: ProjectDetailScreenWidget.route,
+          page: () => const DashboardScreenWidget(),
+          transition: Transition.fade,
+        ),
+
+      ],
+
+      // home: const SplashScreen(),
     );
   }
 }
