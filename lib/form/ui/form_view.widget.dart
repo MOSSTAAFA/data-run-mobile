@@ -475,7 +475,7 @@ class _FormViewWidgetState extends ConsumerState<FormViewWidget>
     return valueType.isNumeric ||
         valueType.isText && renderType?.isPolygon != true ||
         valueType == ValueType.URL ||
-        valueType == ValueType.EMAIL ||
-        valueType == ValueType.PHONE_NUMBER;
+        valueType == ValueType.Email ||
+        valueType == ValueType.PhoneNumber;
   }
 }

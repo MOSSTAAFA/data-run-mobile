@@ -1,65 +1,81 @@
-import 'package:d2_remote/modules/metadatarun/activity/entities/d_activity.entity.dart';
-import 'package:d2_remote/modules/metadatarun/teams/entities/d_team.entity.dart';
+import 'package:d2_remote/modules/datarun/form/entities/dynamic_form.entity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/data_run/repository/activity_data_repository/activity_data_repository.provider.dart';
-import 'package:mass_pro/data_run/screens/data_submission/strategy/activity_type.dart';
-import 'package:mass_pro/data_run/screens/data_submission/strategy/form_creation_strategy/form_creation_strategy.provider.dart';
+import 'package:mass_pro/data_run/screens/data_submission/forms_widget_strategy/form_creation_strategy.provider.dart';
 
-class DataSubmissionScreen extends ConsumerStatefulWidget {
-  DataSubmissionScreen({super.key});
+class DataSubmissionScreen extends ConsumerWidget {
+  DataSubmissionScreen({super.key, required this.form});
 
-  @override
-  ConsumerState<DataSubmissionScreen> createState() =>
-      _DataSubmissionScreenState();
-}
-
-class _DataSubmissionScreenState extends ConsumerState<DataSubmissionScreen> {
-  late final DActivity activity;
-  late final ActivityType activityType;
-  late final DTeam team;
+  final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
+  final DynamicForm form;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final formStrategy = ref.watch(formCreationStrategyProvider);
     final repository = ref.watch(activityDataRepositoryProvider);
 
-    final formFields = formStrategy.createFormFields();
+    final formFields = formStrategy.loadFormFields();
 
     return Scaffold(
-      appBar: AppBar(title: Text('Submit Data for ${activity.name}')),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Form(
-          child: ListView(
-            children: [
-              // Generate form fields dynamically (similar to previous examples)
-              // For example:
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Location'),
-              ),
-              // More fields...
-              ElevatedButton(
-                onPressed: () {
-                  // Collect form data
-                  Map<String, dynamic> formData = {
-                    'location': 'Some Location',
-                    'numberDistributed': 100,
-                    'date': '2023-12-01',
-                  };
-
-                  // Adapt form data
-                  // final adaptedData = adapter.adapt(formData);
-
-                  // Save data using the context
-                  // repository.saveData(adaptedData);
-                },
-                child: Text('Submit'),
-              ),
-            ],
-          ),
+      appBar: AppBar(
+        title: Text(form.name!),
+      ),
+      body: SingleChildScrollView(
+        child: FormBuilder(
+          key: _formKey,
+          child: Column(
+              children: form.fieldsList!
+                  .map<Widget>((field) => FormInputFieldWidget(
+                        field: field,
+                      ))
+                  .toList()),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        mini: true,
+        onPressed: () {
+          if (_formKey.currentState!.saveAndValidate(focusOnInvalid: false)) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: Colors.green,
+                duration: const Duration(seconds: 10),
+                content: Text(
+                  'Form successfully validated and saved. Form data: ${_formKey.currentState!.value}',
+                ),
+              ),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                backgroundColor: Colors.redAccent,
+                content: Text('Form validation failed'),
+              ),
+            );
+          }
+        },
+        child: const Icon(Icons.save),
+      ),
     );
+  }
+}
+
+class _EagerInitialization extends ConsumerWidget {
+  const _EagerInitialization({required this.child});
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final result = ref.watch(myProvider);
+
+    // Handle error states and loading states
+    if (result.isLoading) {
+      return const CircularProgressIndicator();
+    } else if (result.hasError) {
+      return const Text('Oopsy!');
+    }
+
+    return child;
   }
 }

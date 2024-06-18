@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/data_run/screens/project_details/project_detail_deck/project_detail_deck.providers.dart';
-import 'package:mass_pro/data_run/screens/project_details/project_detail_deck/project_detail_item.model.dart';
-import 'package:mass_pro/data_run/screens/project_details/project_detail_deck/project_detail_item.widget.dart';
+import 'package:mass_pro/data_run/screens/project_details/project_detail.providers.dart';
+import 'package:mass_pro/data_run/screens/project_details/project_detail_item.model.dart';
+import 'package:mass_pro/data_run/screens/project_details/project_detail_item.widget.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class ProjectDetailItemsWidget extends ConsumerStatefulWidget {

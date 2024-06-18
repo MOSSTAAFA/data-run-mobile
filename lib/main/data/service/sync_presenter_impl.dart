@@ -11,8 +11,8 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../commons/extensions/dynamic_extensions.dart';
-import 'package:d2_remote/modules/datarun/sync/call/d2_progress.dart';
-import 'package:d2_remote/modules/datarun/sync/call/d2_progress_status.dart';
+import 'package:d2_remote/modules/datarun_shared/sync/call/d2_progress.dart';
+import 'package:d2_remote/modules/datarun_shared/sync/call/d2_progress_status.dart';
 import '../../../core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
 import '../../../core/d2_remote_extensions/tracker/queries/event_query_download_extension.dart';
 import '../../../core/d2_remote_extensions/tracker/queries/event_query_upload_extension.dart';

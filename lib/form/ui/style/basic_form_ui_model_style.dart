@@ -23,13 +23,13 @@ class BasicFormUiModelStyle implements FormUiModelStyle {
   @override
   IconData? getDescriptionIcon() {
     switch (valueType) {
-      case ValueType.DATE:
+      case ValueType.Date:
         return Icons.date_range_outlined;
-      case ValueType.DATETIME:
+      case ValueType.DateTime:
         return Icons.data_exploration_outlined;
-      case ValueType.TIME:
+      case ValueType.Time:
         return Icons.access_time;
-      case ValueType.PERCENTAGE:
+      case ValueType.Percentage:
         return Icons.percent_outlined;
       default:
     }

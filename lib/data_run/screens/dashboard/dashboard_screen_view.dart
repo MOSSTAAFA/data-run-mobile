@@ -1,4 +1,4 @@
-import 'package:mass_pro/data_run/screens/general/view_base.dart';
+import 'package:mass_pro/data_run/screens/view/view_base.dart';
 
 mixin DashboardScreenView implements ViewBase {
   void renderUsername(String username);

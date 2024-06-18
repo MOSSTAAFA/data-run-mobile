@@ -21,27 +21,27 @@ class ItemWidget extends StatelessWidget {
   Widget getWidgetByType(FieldUiModel? item) {
     final valueType = item?.valueType;
     return when(valueType, {
-      ValueType.AGE: () => FormEditText(item: item),
-      [ValueType.DATE, ValueType.TIME, ValueType.DATETIME]: () =>
+      ValueType.Age: () => FormEditText(item: item),
+      [ValueType.Date, ValueType.Time, ValueType.DateTime]: () =>
           FormEditText(item: item),
 
-      ValueType.LONG_TEXT: () => FormEditText(item: item),
-      ValueType.ORGANISATION_UNIT: () => Text(
+      ValueType.LongText: () => FormEditText(item: item),
+      ValueType.OrganisationUnit: () => Text(
             '$valueType Field, value: ${item?.value}',
             style: const TextStyle(fontSize: 20),
           ),
-      ValueType.COORDINATE: () => Text(
+      ValueType.Coordinate: () => Text(
             '$valueType Field, value: ${item?.value}',
             style: const TextStyle(fontSize: 20),
           ),
-      ValueType.IMAGE: () => Text(
+      ValueType.Image: () => Text(
             '$valueType Field, value: ${item?.value}',
             style: const TextStyle(fontSize: 20),
           ), //R.layout.form_picture
-      ValueType.TEXT: () => getLayoutForOptionSet(
+      ValueType.Text: () => getLayoutForOptionSet(
           item, FormEditText(item: item) //R.layout.form_edit_text_custom
           ),
-      [ValueType.TRUE_ONLY, ValueType.BOOLEAN]: () =>
+      [ValueType.TrueOnly, ValueType.Boolean]: () =>
           when(item?.fieldRendering, {
             [
               ValueTypeRenderingType.HORIZONTAL_RADIOBUTTONS,
@@ -52,7 +52,7 @@ class ItemWidget extends StatelessWidget {
                   style: const TextStyle(fontSize: 20),
                 ),
             ValueTypeRenderingType.TOGGLE: () => when(valueType, {
-                  ValueType.TRUE_ONLY: () => Text(
+                  ValueType.TrueOnly: () => Text(
                         '$valueType Field, value: ${item?.value}',
                         style: const TextStyle(fontSize: 20),
                       ),
@@ -72,38 +72,38 @@ class ItemWidget extends StatelessWidget {
                 style: const TextStyle(fontSize: 20),
               )),
 
-      ValueType.LETTER: () => FormEditText(item: item), //R.layout.form_letter
-      ValueType.PHONE_NUMBER: () =>
+      ValueType.Letter: () => FormEditText(item: item), //R.layout.form_letter
+      ValueType.PhoneNumber: () =>
           FormEditText(item: item), //R.layout.form_phone_number
-      ValueType.EMAIL: () => FormEditText(item: item), //R.layout.form_email
-      ValueType.NUMBER: () => getLayoutForOptionSet(
+      ValueType.Email: () => FormEditText(item: item), //R.layout.form_email
+      ValueType.Number: () => getLayoutForOptionSet(
           item, FormEditText(item: item) //R.layout.form_number
           ),
-      ValueType.UNIT_INTERVAL: () => getLayoutForOptionSet(
+      ValueType.UnitInterval: () => getLayoutForOptionSet(
           item, FormEditText(item: item) //R.layout.form_unit_interval
           ),
-      ValueType.PERCENTAGE: () => getLayoutForOptionSet(
+      ValueType.Percentage: () => getLayoutForOptionSet(
           item, FormEditText(item: item) //R.layout.form_percentage
           ),
-      ValueType.INTEGER: () => getLayoutForOptionSet(
+      ValueType.Integer: () => getLayoutForOptionSet(
           item, FormEditText(item: item) //R.layout.form_integer
           ),
-      ValueType.INTEGER_POSITIVE: () => getLayoutForOptionSet(
+      ValueType.IntegerPositive: () => getLayoutForOptionSet(
           item, FormEditText(item: item) //R.layout.form_integer_positive
           ),
-      ValueType.INTEGER_NEGATIVE: () => getLayoutForOptionSet(
+      ValueType.IntegerNegative: () => getLayoutForOptionSet(
           item, FormEditText(item: item) //R.layout.form_integer_negative
           ),
-      ValueType.INTEGER_ZERO_OR_POSITIVE: () => getLayoutForOptionSet(
+      ValueType.IntegerZeroOrPositive: () => getLayoutForOptionSet(
           item, FormEditText(item: item) //R.layout.form_integer_zero_positive
           ),
       ValueType.URL: () => FormEditText(item: item), //R.layout.form_url
       [
-        ValueType.REFERENCE,
-        ValueType.GEOJSON,
-        ValueType.FILE_RESOURCE,
-        ValueType.USERNAME,
-        ValueType.TRACKER_ASSOCIATE
+        ValueType.Reference,
+        ValueType.GeoJson,
+        ValueType.FileResource,
+        ValueType.Username,
+        ValueType.TrackerAssociate
       ]: () => Text(
             '$valueType Field, value: ${item?.value}',
             style: const TextStyle(fontSize: 20),

@@ -4,8 +4,8 @@ import 'package:d2_remote/modules/file_resource/entities/file_resource.entity.da
 import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dart';
 import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisation_unit.entity.dart';
 
-import '../date/date_utils.dart';
-import 'string_extension.dart';
+import 'package:mass_pro/commons/date/date_utils.dart';
+import 'package:mass_pro/commons/extensions/string_extension.dart';
 
 extension CheckValueDynamicExtension on dynamic {
   Future<bool> check(
@@ -31,14 +31,14 @@ extension CheckValueDynamicExtension on dynamic {
         }
       } else {
         switch (valueType) {
-          case ValueType.FILE_RESOURCE:
-          case ValueType.IMAGE:
+          case ValueType.FileResource:
+          case ValueType.Image:
             final FileResource? fileResource = await D2Remote
                 .fileResourceModule.fileResource
                 .byId(value)
                 .getOne();
             return fileResource != null;
-          case ValueType.ORGANISATION_UNIT:
+          case ValueType.OrganisationUnit:
             final OrganisationUnit? orgUnit = await D2Remote
                 .organisationUnitModule.organisationUnit
                 .byId(value)
@@ -67,13 +67,13 @@ extension CheckValueTypeValueDynamicExtension on dynamic {
   Future<String?> checkValueTypeValue(
       ValueType? valueType, String value) async {
     switch (valueType) {
-      case ValueType.ORGANISATION_UNIT:
+      case ValueType.OrganisationUnit:
         return await D2Remote.organisationUnitModule.organisationUnit
             .byId(value)
             .getOne()
             .displayName;
-      case ValueType.IMAGE:
-      case ValueType.FILE_RESOURCE:
+      case ValueType.Image:
+      case ValueType.FileResource:
         final FileResource? fileResource =
             await D2Remote.fileResourceModule.fileResource.byId(value).getOne();
         if (fileResource != null) {
@@ -81,21 +81,21 @@ extension CheckValueTypeValueDynamicExtension on dynamic {
         } else {
           return '';
         }
-      case ValueType.DATE:
+      case ValueType.Date:
         try {
           return DateUtils.uiDateFormat()
               .format(DateUtils.databaseDateFormatNoSeconds().parse(value));
         } catch (e) {
           return '';
         }
-      case ValueType.DATETIME:
+      case ValueType.DateTime:
         try {
           return DateUtils.dateTimeFormat()
               .format(DateUtils.databaseDateFormatNoSeconds().parse(value));
         } catch (e) {
           return '';
         }
-      case ValueType.TIME:
+      case ValueType.Time:
         try {
           return DateUtils.timeFormat()
               .format(DateUtils.timeFormat().parse(value));

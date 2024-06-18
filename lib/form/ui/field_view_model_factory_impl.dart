@@ -151,7 +151,7 @@ class FieldViewModelFactoryImpl implements FieldViewModelFactory {
       fieldMask: trackedEntityAttribute.fieldMask,
       optionSetConfiguration: optionSetConfiguration,
       featureType:
-          trackedEntityAttribute.valueType.toValueType == ValueType.COORDINATE
+          trackedEntityAttribute.valueType.toValueType == ValueType.Coordinate
               ? FeatureType.POINT
               : null,
     );

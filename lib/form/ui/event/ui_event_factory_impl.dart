@@ -34,14 +34,14 @@ class UiEventFactoryImpl implements UiEventFactory {
       switch (uiEventType) {
         case UiEventType.DATE_TIME:
           switch (valueType) {
-            case ValueType.DATE:
+            case ValueType.Date:
               uiEvent = ListViewUiEvents.openCustomCalendar(
                   uid: uid,
                   label: label,
                   date: DateUtils.oldUiDateFormat().parse(value ?? ''),
                   allowFutureDates: allowFutureDates ?? true);
               break;
-            case ValueType.DATETIME:
+            case ValueType.DateTime:
               uiEvent = ListViewUiEvents.openCustomCalendar(
                   uid: uid,
                   label: label,
@@ -50,7 +50,7 @@ class UiEventFactoryImpl implements UiEventFactory {
                   allowFutureDates: allowFutureDates ?? true,
                   isDateTime: true);
               break;
-            case ValueType.TIME:
+            case ValueType.Time:
               uiEvent = ListViewUiEvents.openTimePicker(
                   uid: uid,
                   label: label,

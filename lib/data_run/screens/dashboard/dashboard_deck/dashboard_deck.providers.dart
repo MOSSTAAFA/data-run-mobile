@@ -1,23 +1,15 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_deck.view.dart';
-import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_deck_presenter.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_deck_repository.dart';
-import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_deck_repository_impl.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_item.model.dart';
 import 'package:mass_pro/main/data/service/sync_status_controller.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'dashboard_deck.providers.g.dart';
 
-/// Dashboard Deck Items Providers
 @Riverpod(keepAlive: true)
-DashboardDeckPresenter dashboardDeckPresenter(DashboardDeckPresenterRef ref, DashboardDeckView view) {
-  return DashboardDeckPresenter(ref, view, ref.read(dashboardDeckRepositoryProvider));
-}
-
-@Riverpod(keepAlive: true)
-DashboardDeckRepository dashboardDeckRepository(DashboardDeckRepositoryRef ref) {
-  return DashboardDeckRepositoryImpl(ref);
+DashboardDeckRepository dashboardDeckRepository(
+    DashboardDeckRepositoryRef ref) {
+  return DashboardDeckRepository(ref);
 }
 
 @riverpod

@@ -53,20 +53,20 @@ class DisplayNameProviderImpl implements DisplayNameProvider {
 
   Future<String?> _getValueTypeValue(String value, ValueType? valueType) async {
     switch (valueType) {
-      case ValueType.ORGANISATION_UNIT:
+      case ValueType.OrganisationUnit:
         return orgUnitConfiguration
             .orgUnitByUid(value)
             .then((orgUnit) => orgUnit?.displayName ?? value);
-      case ValueType.DATE:
+      case ValueType.Date:
         return DateUtils.uiDateFormat()
             .format(DateUtils.oldUiDateFormat().parse(value));
-      case ValueType.DATETIME:
+      case ValueType.DateTime:
         return DateUtils.dateTimeFormat().format(
             DateUtils.databaseDateFormatNoSeconds().parseOrNull(value) ??
                 DateTime.parse(
                     '') // this will throw [FormatException], the input string cannot be parsed
             );
-      case ValueType.TIME:
+      case ValueType.Time:
         return DateUtils.timeFormat().format(
             DateUtils.timeFormat().parseOrNull(value) ??
                 DateTime.parse(

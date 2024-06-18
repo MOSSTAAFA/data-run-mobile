@@ -1,4 +1,5 @@
-import '../general/view_base.dart';
+
+import 'package:mass_pro/data_run/screens/view/view_base.dart';
 
 mixin LoginView implements ViewBase {
   void showUnlockButton();

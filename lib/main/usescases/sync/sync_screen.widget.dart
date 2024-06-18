@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen.widget.dart';
+import 'package:mass_pro/data_run/screens/view/view_base.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
-import '../../../commons/state/app_state_notifier.dart';
-import '../../../riverpod/use_on_init_hook.dart';
-import '../../../utils/mass_utils/colors.dart';
-import '../../data/service/work_manager/nmc_worker/work_info.dart';
-import '../../data/service/work_manager/work_manager_controller_impl.dart';
-import '../../l10n/app_localizations.dart';
-import '../general/view_base.dart';
-import '../login/login_screen.widget.dart';
-import '../main/main_screen.widget.dart';
-import 'sync_screen_presenter.dart';
-import 'sync_view.dart';
+import 'package:mass_pro/commons/state/app_state_notifier.dart';
+import 'package:mass_pro/riverpod/use_on_init_hook.dart';
+import 'package:mass_pro/utils/mass_utils/colors.dart';
+import 'package:mass_pro/main/data/service/work_manager/nmc_worker/work_info.dart';
+import 'package:mass_pro/main/data/service/work_manager/work_manager_controller_impl.dart';
+import 'package:mass_pro/main/l10n/app_localizations.dart';
+import 'package:mass_pro/main/usescases/login/login_screen.widget.dart';
+import 'package:mass_pro/main/usescases/sync/sync_screen_presenter.dart';
+import 'package:mass_pro/main/usescases/sync/sync_view.dart';
 
 class SyncScreen extends ConsumerStatefulWidget {
   const SyncScreen({super.key});

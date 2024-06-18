@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
-import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_deck.providers.dart';
-import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_deck.view.dart';
-import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_deck_presenter.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_item.model.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_items.widget.dart';
-import 'package:mass_pro/data_run/screens/general/view_base.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_screen.widget.dart';
+import 'package:mass_pro/data_run/screens/view/view_base.dart';
 import 'package:mass_pro/data_run/utils/screens_constants.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
-
-import '../../../../utils/navigator_key.dart';
+import 'package:mass_pro/utils/navigator_key.dart';
 
 /// ProgramFragment
 class DashboardDeckWidget extends ConsumerStatefulWidget {
@@ -23,42 +19,42 @@ class DashboardDeckWidget extends ConsumerStatefulWidget {
 }
 
 class _DashboardDeckWidgetState extends ConsumerState<DashboardDeckWidget>
-    with DashboardDeckView, ViewBase {
+    with ViewBase {
   Bundle bundle = Bundle();
-  late final KeepAliveLink bundleKeepAliveLink;
-  late final DashboardDeckPresenter presenter;
 
   @override
   Widget build(BuildContext context) {
-    return DashboardItemsWidget(
-      onItemClick: (dashboardItemModel) =>
-          presenter.onItemClick(dashboardItemModel!),
-      onGranularSyncClick: (dashboardItemModel) =>
-          presenter.onSyncStatusClick(dashboardItemModel!),
-      onDescriptionClick: (dashboardItemModel) =>
-          presenter.showDescription(dashboardItemModel?.description),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('DashboardDeckWidget: Project List'),
+      ),
+      body: DashboardItemsWidget(
+        onItemClick: (dashboardItemModel) => navigateTo(dashboardItemModel!),
+        onGranularSyncClick: (dashboardItemModel) =>
+            showSyncDialog(dashboardItemModel!),
+        onDescriptionClick: (dashboardItemModel) =>
+            dashboardItemModel?.description != null
+                ? showDescription(dashboardItemModel!.description!)
+                : null,
+      ),
     );
   }
 
   @override
   void initState() {
-    // bundle = ref.read(bundleObjectProvider.notifier).ref;
-    // bundleKeepAliveLink = ref.read(bundleObjectProvider.notifier).ref.keepAlive();
-    presenter = ref.read(dashboardDeckPresenterProvider(this));
     super.initState();
   }
 
-  @override
   void clearFilters() {
     // TODO: implement clearFilters
   }
 
-  @override
   void navigateTo(DashboardItemModel dashboardItem) {
     bundle = bundle.putString(EXTRA_PROJECT_UID, dashboardItem.uid);
     logInfo(info: '$EXTRA_PROJECT_UID, ${dashboardItem.uid}');
     navigatorKey.currentState!
         .pushNamed(ProjectDetailScreenWidget.route, arguments: bundle);
+    // Get.to(ProjectDetailScreenWidget.route, arguments: bundle);
     // ref
     //     .read(appStateNotifierProvider.notifier)
     //     .gotToNextRoute(ProjectDetailScreenWidget(), arguments: bundle);
@@ -68,12 +64,10 @@ class _DashboardDeckWidgetState extends ConsumerState<DashboardDeckWidget>
     // Navigator.of(context).pushNamed(ProjectDetailScreenWidget.route, arguments: bundle);
   }
 
-  @override
   void showFilterProgress() {
     // TODO: implement showFilterProgress
   }
 
-  @override
   void showHideFilter() {
     // TODO: implement showHideFilter
   }

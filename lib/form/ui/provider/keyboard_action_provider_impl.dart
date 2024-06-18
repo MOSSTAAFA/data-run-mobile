@@ -9,7 +9,7 @@ class KeyboardActionProviderImpl implements KeyboardActionProvider {
   @override
   KeyboardActionType? provideKeyboardAction(ValueType valueType) {
     switch (valueType) {
-      case ValueType.LONG_TEXT:
+      case ValueType.LongText:
         return KeyboardActionType.ENTER;
       default:
     }

@@ -1,30 +1,29 @@
-import 'package:mass_pro/sdk/core/mp/enrollment/enrollment_status.dart';
-import 'package:d2_remote/d2_remote.dart';
-import 'package:d2_remote/modules/data/tracker/entities/event.entity.dart';
 import 'package:d2_remote/modules/data/tracker/models/geometry.dart';
-import 'package:d2_remote/modules/datarun/shared/entities/syncable.entity.dart';
-import 'package:d2_remote/modules/datarun/shared/queries/syncable.query.dart';
-import 'package:d2_remote/shared/utilities/merge_mode.util.dart';
+import 'package:d2_remote/modules/datarun_shared/entities/syncable.entity.dart';
+import 'package:d2_remote/modules/datarun_shared/queries/syncable.query.dart';
 import 'package:mass_pro/commons/date/date_utils.dart';
-import 'package:mass_pro/core/event/event_status.dart';
 import 'package:mass_pro/data_run/repository/activity_data_repository/syncable_status.dart';
 
-class EventObjectRepository<T extends SyncableEntity,
-    Q extends SyncableQuery<T>> {
-  EventObjectRepository(this.uid, this.query);
+class ActivityFormDataRepository<T extends SyncableEntity> {
+  ActivityFormDataRepository(this.uid, this.query);
 
   String uid;
-  Q query;
+  SyncableQuery<T> query;
 
   Future<void> updateObject(T syncable) async {
-    query.mergeMode = MergeMode.Merge;
+    // query.mergeMode = MergeMode.Merge;
     await query.setData(syncable).save();
-    query.mergeMode = MergeMode.Replace;
+    // query.mergeMode = MergeMode.Replace;
   }
 
   ///  throws D2Error
-  Future<void> setOrganisationUnitUid(String organisationUnitUid) async {
-    // return updateObject((await updateBuilder())..orgUnit = organisationUnitUid);
+  Future<void> setTeamUid(String teamUid) async {
+    return updateObject((await updateBuilder())..team = teamUid);
+  }
+
+  ///  throws D2Error
+  Future<void> setActivityUid(String activityUid) async {
+    return updateObject((await updateBuilder())..activity = activityUid);
   }
 
   ///  throws D2Error
@@ -46,7 +45,8 @@ class EventObjectRepository<T extends SyncableEntity,
 
   ///  throws D2Error
   Future<void> setFinishedEntryTime(DateTime finishedEntryTime) async {
-    final String date = DateUtils.databaseDateFormat().format(finishedEntryTime);
+    final String date =
+        DateUtils.databaseDateFormat().format(finishedEntryTime);
     return updateObject((await updateBuilder())..finishedEntryTime = date);
   }
 
@@ -58,19 +58,16 @@ class EventObjectRepository<T extends SyncableEntity,
 
   ///  throws D2Error
   Future<void> setTeam(String team) async {
-    return await updateObject(
-        (await updateBuilder())..team = team);
+    return await updateObject((await updateBuilder())..team = team);
   }
 
   ///  throws D2Error
   Future<void> setActivity(String activity) async {
-    return await updateObject(
-        (await updateBuilder())..activity = activity);
+    return await updateObject((await updateBuilder())..activity = activity);
   }
 
   Future<T> updateBuilder() async {
-    final T syncable =
-        (await query.byId(uid).getOne())!;
+    final T syncable = (await query.byId(uid).getOne())!;
     final String updateDate =
         DateUtils.databaseDateFormat().format(DateTime.now());
 

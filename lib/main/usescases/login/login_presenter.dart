@@ -5,19 +5,17 @@ import 'package:mass_pro/sdk/core/maintenance/d2_error_code.dart';
 import 'package:d2_remote/modules/auth/user/models/login-response.model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../commons/constants.dart';
-import '../../../commons/extensions/dynamic_extensions.dart';
-import '../../../commons/extensions/string_extension.dart';
-import '../../../commons/network/network_utils.dart';
-import '../../../commons/prefs/preference.dart';
-import '../../../commons/prefs/preference_provider.dart';
-import '../../../commons/state/app_state_notifier.dart';
-import '../../data/server/user_manager.dart';
-import '../../data/server/user_manager_impl.dart';
-import '../events_without_registration/event_initial/di/event_initial_module.dart';
-import '../main/main_screen.widget.dart';
-import 'login_view.dart';
-import 'sync_is_performed_interactor.dart';
+import 'package:mass_pro/commons/constants.dart';
+import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
+import 'package:mass_pro/commons/extensions/string_extension.dart';
+import 'package:mass_pro/commons/network/network_utils.dart';
+import 'package:mass_pro/commons/prefs/preference.dart';
+import 'package:mass_pro/commons/prefs/preference_provider.dart';
+import 'package:mass_pro/commons/state/app_state_notifier.dart';
+import 'package:mass_pro/main/data/server/user_manager.dart';
+import 'package:mass_pro/main/data/server/user_manager_impl.dart';
+import 'package:mass_pro/main/usescases/login/login_view.dart';
+import 'package:mass_pro/main/usescases/login/sync_is_performed_interactor.dart';
 
 part 'login_presenter.g.dart';
 

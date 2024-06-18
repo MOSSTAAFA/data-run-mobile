@@ -1,9 +1,17 @@
 import 'package:dartx/dartx_io.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../date/date_utils.dart';
 import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import 'preference.dart';
+
+part 'preference_provider.g.dart';
+
+@Riverpod(keepAlive: true)
+PreferenceProvider preferencesInstance(PreferencesInstanceRef ref) {
+  return PreferenceProvider();
+}
 
 class PreferenceProvider {
   static late final SharedPreferences? _sharedPreferences;

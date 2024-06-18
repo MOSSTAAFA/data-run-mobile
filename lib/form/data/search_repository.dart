@@ -79,8 +79,8 @@ class SearchRepository extends DataEntryBaseRepository {
     }
     return fields
         .filter((item) =>
-            item.valueType != ValueType.IMAGE &&
-            item.valueType != ValueType.COORDINATE)
+            item.valueType != ValueType.Image &&
+            item.valueType != ValueType.Coordinate)
         .toList(growable: false);
   }
 
@@ -127,8 +127,8 @@ class SearchRepository extends DataEntryBaseRepository {
     }
     return fields
         .filter((item) =>
-            item.valueType != ValueType.IMAGE &&
-            item.valueType != ValueType.COORDINATE)
+            item.valueType != ValueType.Image &&
+            item.valueType != ValueType.Coordinate)
         .toList(growable: false);
   }
 }

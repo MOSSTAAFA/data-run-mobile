@@ -1,12 +1,15 @@
 import 'package:d2_remote/d2_remote.dart';
-import 'package:d2_remote/modules/datarun/itns/entities/itns_village.entity.dart';
-import 'package:d2_remote/modules/datarun/shared/entities/syncable.entity.dart';
 import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
+import 'package:d2_remote/modules/datarun/itns/entities/itns_village.entity.dart';
+import 'package:d2_remote/modules/datarun_shared/entities/syncable.entity.dart';
 import 'package:mass_pro/core/common/state.dart';
 import 'package:mass_pro/data_run/repository/activity_data_repository/activity_data_repository.dart';
+import 'package:mass_pro/data_run/repository/activity_data_repository/activity_form_data_repository.dart';
 
 class ActivityDataItnRepository with ActivityDataRepository<ItnsVillage> {
-  ActivityDataItnRepository();
+  ActivityDataItnRepository(this.repository);
+
+  final ActivityFormDataRepository<ItnsVillage> repository;
 
   @override
   Future<State> getState([String? id]) async {

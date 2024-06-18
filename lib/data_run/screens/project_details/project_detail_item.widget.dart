@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/data_run/screens/project_details/project_detail_deck/project_detail_deck.providers.dart';
-import 'package:mass_pro/data_run/screens/project_details/project_detail_deck/project_detail_item.model.dart';
+import 'package:mass_pro/data_run/screens/project_details/project_detail.providers.dart';
+import 'package:mass_pro/data_run/screens/project_details/project_detail_item.model.dart';
 
 class ProjectDetailItemWidget extends ConsumerStatefulWidget {
   const ProjectDetailItemWidget({

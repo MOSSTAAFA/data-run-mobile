@@ -10,16 +10,13 @@ import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/commons/prefs/preference_provider.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_screen.widget.dart';
-
 import 'package:mass_pro/main/l10n/app_localizations.dart';
-import 'package:mass_pro/main/usescases/login/login_screen.widget.dart';
 import 'package:mass_pro/main/usescases/splash/splash_screen.widget.dart';
-import 'package:mass_pro/main/usescases/sync/sync_screen.widget.dart';
 import 'package:mass_pro/riverpod/provider_logger.dart';
 import 'package:mass_pro/utils/navigator_key.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
 
-import 'main_data_run.reflectable.dart';
+import 'main.reflectable.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -112,13 +109,11 @@ class App extends StatelessWidget {
           page: () => const DashboardScreenWidget(),
           transition: Transition.fade,
         ),
-
         GetPage(
           name: ProjectDetailScreenWidget.route,
           page: () => const DashboardScreenWidget(),
           transition: Transition.fade,
         ),
-
       ],
 
       // home: const SplashScreen(),

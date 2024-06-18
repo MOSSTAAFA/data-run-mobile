@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mass_pro/data_run/screens/data_submission/forms_widget_strategy/form_creation_strategy/form_creation_strategy.dart';
+import 'package:mass_pro/data_run/screens/data_submission/forms_widget_strategy/form_creation_strategy.dart';
 
 class CHVPatientFormStrategy implements FormCreationStrategy {
   @override

@@ -119,20 +119,20 @@ class _FormSectionState extends State<FormSection> {
 
   TextInputType? _getInputType(ValueType? valueType) {
     return when(valueType, {
-      ValueType.TEXT: () => TextInputType.text,
-      ValueType.LONG_TEXT: () => TextInputType.multiline,
-      ValueType.LETTER: () => TextInputType.text,
-      ValueType.NUMBER: () =>
+      ValueType.Text: () => TextInputType.text,
+      ValueType.LongText: () => TextInputType.multiline,
+      ValueType.Letter: () => TextInputType.text,
+      ValueType.Number: () =>
           const TextInputType.numberWithOptions(decimal: true, signed: true),
-      ValueType.UNIT_INTERVAL: () =>
+      ValueType.UnitInterval: () =>
           const TextInputType.numberWithOptions(decimal: true),
-      ValueType.PERCENTAGE: () => TextInputType.number,
-      [ValueType.INTEGER_NEGATIVE, ValueType.INTEGER]: () =>
+      ValueType.Percentage: () => TextInputType.number,
+      [ValueType.IntegerNegative, ValueType.Integer]: () =>
           const TextInputType.numberWithOptions(signed: true),
-      [ValueType.INTEGER_POSITIVE, ValueType.INTEGER_ZERO_OR_POSITIVE]: () =>
+      [ValueType.IntegerPositive, ValueType.IntegerZeroOrPositive]: () =>
           TextInputType.number,
-      ValueType.PHONE_NUMBER: () => TextInputType.phone,
-      ValueType.EMAIL: () => TextInputType.emailAddress,
+      ValueType.PhoneNumber: () => TextInputType.phone,
+      ValueType.Email: () => TextInputType.emailAddress,
       ValueType.URL: () => TextInputType.url,
     });
   }

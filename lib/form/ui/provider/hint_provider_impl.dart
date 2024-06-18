@@ -1,6 +1,6 @@
 import 'package:mass_pro/sdk/core/common/value_type.dart';
-
 import 'package:mass_pro/utils/navigator_key.dart';
+
 import 'hint_provider.dart';
 
 class HintProviderImpl implements HintProvider {
@@ -10,51 +10,55 @@ class HintProviderImpl implements HintProvider {
   String provideDateHint(ValueType valueType) {
     final localization = navigatorKey.localization;
     switch (valueType) {
-      case ValueType.TEXT:
+      case ValueType.Text:
         return localization.lookup('enter_text');
-      case ValueType.LONG_TEXT:
+      case ValueType.LongText:
         return localization.lookup('enter_long_text');
-      case ValueType.LETTER:
+      case ValueType.Letter:
         return localization.lookup('enter_letter');
-      case ValueType.NUMBER:
+      case ValueType.Number:
         return localization.lookup('enter_number');
-      case ValueType.UNIT_INTERVAL:
+      case ValueType.UnitInterval:
         return localization.lookup('enter_unit_interval');
-      case ValueType.PERCENTAGE:
+      case ValueType.Percentage:
         return localization.lookup('enter_percentage');
-      case ValueType.INTEGER:
+      case ValueType.Integer:
         return localization.lookup('enter_number');
-      case ValueType.INTEGER_POSITIVE:
+      case ValueType.IntegerPositive:
         return localization.lookup('enter_positive_integer');
-      case ValueType.INTEGER_NEGATIVE:
+      case ValueType.IntegerNegative:
         return localization.lookup('enter_negative_integer');
-      case ValueType.INTEGER_ZERO_OR_POSITIVE:
+      case ValueType.IntegerZeroOrPositive:
         return localization.lookup('enter_positive_integer_or_zero');
-      case ValueType.PHONE_NUMBER:
+      case ValueType.PhoneNumber:
         return localization.lookup('enter_phone_number');
-      case ValueType.EMAIL:
+      case ValueType.Email:
         return localization.lookup('enter_email');
       case ValueType.URL:
         return localization.lookup('enter_url');
-      case ValueType.FILE_RESOURCE:
-      case ValueType.COORDINATE:
-      case ValueType.USERNAME:
-      case ValueType.TRACKER_ASSOCIATE:
-      case ValueType.AGE:
-      case ValueType.IMAGE:
-      case ValueType.BOOLEAN:
-      case ValueType.TRUE_ONLY:
+      case ValueType.FileResource:
+      case ValueType.Coordinate:
+      case ValueType.Username:
+      case ValueType.TrackerAssociate:
+      case ValueType.Age:
+      case ValueType.Image:
+      case ValueType.Boolean:
+      case ValueType.TrueOnly:
         return localization.lookup('enter_value');
-      case ValueType.TIME:
+      case ValueType.Time:
         return localization.lookup('select_time');
-      case ValueType.ORGANISATION_UNIT:
+      case ValueType.OrganisationUnit:
         return localization.lookup('choose_ou');
-      case ValueType.DATETIME:
-      case ValueType.DATE:
+      case ValueType.DateTime:
+      case ValueType.Date:
         return localization.lookup('choose_date');
-      case ValueType.REFERENCE:
+      case ValueType.Reference:
         return '';
-      case ValueType.GEOJSON:
+      case ValueType.GeoJson:
+        return '';
+      case ValueType.SelectMulti:
+        return '';
+      case ValueType.SelectOne:
         return '';
     }
   }

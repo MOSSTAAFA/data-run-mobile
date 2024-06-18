@@ -19,14 +19,14 @@ import 'package:d2_remote/modules/metadata/program/entities/tracked_entity_attri
 import 'package:d2_remote/shared/utilities/sort_order.util.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../commons/extensions/string_extension.dart';
-import '../../commons/extensions/value_extensions.dart';
-import '../model/enrollment_mode.dart';
-import '../model/field_ui_model.dart';
-import '../model/option_set_configuration.dart';
-import '../ui/field_view_model_factory.dart';
-import '../ui/provider/enrollment_form_labels_provider.dart';
-import 'data_entry_base_repository.dart';
+import 'package:mass_pro/commons/extensions/string_extension.dart';
+import 'package:mass_pro/commons/extensions/value_extensions.dart';
+import 'package:mass_pro/form/model/enrollment_mode.dart';
+import 'package:mass_pro/form/model/field_ui_model.dart';
+import 'package:mass_pro/form/model/option_set_configuration.dart';
+import 'package:mass_pro/form/ui/field_view_model_factory.dart';
+import 'package:mass_pro/form/ui/provider/enrollment_form_labels_provider.dart';
+import 'package:mass_pro/form/data/data_entry_base_repository.dart';
 
 class EnrollmentRepository extends DataEntryBaseRepository {
   static const String ENROLLMENT_DATA_SECTION_UID =
@@ -230,7 +230,7 @@ class EnrollmentRepository extends DataEntryBaseRepository {
 
     String? error; // = _getError(conflict, dataValue);
 
-    if ((valueType == ValueType.ORGANISATION_UNIT ||
+    if ((valueType == ValueType.OrganisationUnit ||
             valueType?.isDate == true) &&
         !dataValue.isNullOrEmpty) {
       dataValue = attrValue?.value;
@@ -269,7 +269,7 @@ class EnrollmentRepository extends DataEntryBaseRepository {
         fieldMask: attribute.fieldMask,
         optionSetConfiguration: optionSetConfig,
         featureType:
-            valueType == ValueType.COORDINATE ? FeatureType.POINT : null);
+            valueType == ValueType.Coordinate ? FeatureType.POINT : null);
 
     if (!error.isNullOrEmpty) {
       return fieldViewModel.setError(error);

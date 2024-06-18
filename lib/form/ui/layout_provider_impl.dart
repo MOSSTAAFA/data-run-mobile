@@ -29,46 +29,46 @@ class LayoutProviderImpl implements LayoutProvider {
       /// programStageSection?.renderType()?.mobile()?.type()
       SectionRenderingType? sectionRenderingType]) {
     switch (valueType) {
-      case ValueType.AGE:
+      case ValueType.Age:
         return 0;
       /*Text(
           '$valueType Field',
           style: const TextStyle(fontSize: 20),
         ); */ //R.layout.form_age_custom
-      case ValueType.DATE:
-      case ValueType.TIME:
-      case ValueType.DATETIME:
+      case ValueType.Date:
+      case ValueType.Time:
+      case ValueType.DateTime:
         return 0;
       /*Text(
           '$valueType Field',
           style: const TextStyle(fontSize: 20),
         ); */ //R.layout.form_date_time
-      case ValueType.LONG_TEXT:
+      case ValueType.LongText:
         return 0; //FormEditText(); //R.layout.form_long_text_custom
-      case ValueType.ORGANISATION_UNIT:
+      case ValueType.OrganisationUnit:
         return 0;
       /*Text(
           '$valueType Field',
           style: const TextStyle(fontSize: 20),
         );*/ //R.layout.form_org_unit
-      case ValueType.COORDINATE:
+      case ValueType.Coordinate:
         return 0;
       /*Text(
           '$valueType Field',
           style: const TextStyle(fontSize: 20),
         );*/ //R.layout.form_coordinate_custom
-      case ValueType.IMAGE:
+      case ValueType.Image:
         return 0;
       /*Text(
           '$valueType Field',
           style: const TextStyle(fontSize: 20),
         );*/ //R.layout.form_picture
-      case ValueType.TEXT:
+      case ValueType.Text:
         return getLayoutForOptionSet(optionSet, sectionRenderingType,
             renderingType, 0 /*FormEditText()*/ //R.layout.form_edit_text_custom
             );
-      case ValueType.TRUE_ONLY:
-      case ValueType.BOOLEAN:
+      case ValueType.TrueOnly:
+      case ValueType.Boolean:
         switch (renderingType) {
           case ValueTypeRenderingType.HORIZONTAL_RADIOBUTTONS:
           case ValueTypeRenderingType.VERTICAL_RADIOBUTTONS:
@@ -80,7 +80,7 @@ class LayoutProviderImpl implements LayoutProvider {
             );*/ //R.layout.form_radio_button
           case ValueTypeRenderingType.TOGGLE:
             switch (valueType) {
-              case ValueType.TRUE_ONLY:
+              case ValueType.TrueOnly:
                 return 0;
               /*Text(
                   '$valueType Field',
@@ -107,47 +107,47 @@ class LayoutProviderImpl implements LayoutProvider {
               style: const TextStyle(fontSize: 20),
             ); */ //R.layout.form_radio_button
         }
-      case ValueType.LETTER:
+      case ValueType.Letter:
         return 0; //FormEditText(); //R.layout.form_letter
-      case ValueType.PHONE_NUMBER:
+      case ValueType.PhoneNumber:
         return 0; //FormEditText(); //R.layout.form_phone_number
-      case ValueType.EMAIL:
+      case ValueType.Email:
         return 0; //FormEditText(); //R.layout.form_email
-      case ValueType.NUMBER:
+      case ValueType.Number:
         return getLayoutForOptionSet(optionSet, sectionRenderingType,
             renderingType, 0 //R.layout.form_number
             );
-      case ValueType.UNIT_INTERVAL:
+      case ValueType.UnitInterval:
         return getLayoutForOptionSet(optionSet, sectionRenderingType,
             renderingType, 0 //R.layout.form_unit_interval
             );
-      case ValueType.PERCENTAGE:
+      case ValueType.Percentage:
         return getLayoutForOptionSet(optionSet, sectionRenderingType,
             renderingType, 0 //R.layout.form_percentage
             );
-      case ValueType.INTEGER:
+      case ValueType.Integer:
         return getLayoutForOptionSet(optionSet, sectionRenderingType,
             renderingType, 0 //R.layout.form_integer
             );
-      case ValueType.INTEGER_POSITIVE:
+      case ValueType.IntegerPositive:
         return getLayoutForOptionSet(optionSet, sectionRenderingType,
             renderingType, 0 //R.layout.form_integer_positive
             );
-      case ValueType.INTEGER_NEGATIVE:
+      case ValueType.IntegerNegative:
         return getLayoutForOptionSet(optionSet, sectionRenderingType,
             renderingType, 0 //R.layout.form_integer_negative
             );
-      case ValueType.INTEGER_ZERO_OR_POSITIVE:
+      case ValueType.IntegerZeroOrPositive:
         return getLayoutForOptionSet(optionSet, sectionRenderingType,
             renderingType, 0 //R.layout.form_integer_zero_positive
             );
       case ValueType.URL:
         return 0; //FormEditText(); //R.layout.form_url
-      case ValueType.REFERENCE:
-      case ValueType.GEOJSON:
-      case ValueType.FILE_RESOURCE:
-      case ValueType.USERNAME:
-      case ValueType.TRACKER_ASSOCIATE:
+      case ValueType.Reference:
+      case ValueType.GeoJson:
+      case ValueType.FileResource:
+      case ValueType.Username:
+      case ValueType.TrackerAssociate:
         return 0;
       /*Text(
           '$valueType Field',

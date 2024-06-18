@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'package:d2_remote/modules/datarun/sync/call/d2_progress_status.dart';
+import 'package:d2_remote/modules/datarun_shared/sync/call/d2_progress_status.dart';
 import 'package:mass_pro/utils/navigator_key.dart';
 import 'package:mass_pro/main/data/service/sync_status_data.dart';
 

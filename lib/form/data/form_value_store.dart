@@ -11,18 +11,18 @@ import 'package:d2_remote/modules/metadata/data_element/entities/data_element.en
 import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dart';
 import 'package:d2_remote/modules/metadata/option_set/entities/option_group_option.entity.dart';
 
-import '../../commons/date/entry_mode.dart';
-import '../../commons/extensions/event_data_value_query_extension.dart';
-import '../../commons/extensions/string_extension.dart';
-import '../../commons/extensions/tracked_entity_attribute_value_query_extension.dart';
-import '../../commons/extensions/value_extensions.dart';
-import '../../commons/helpers/lazy.dart';
-import '../../commons/network/network_utils.dart';
-import '../../commons/resources/resource_manager.dart';
-import '../../core/enrollment/enrollment_object_repository.dart';
-import '../model/enrollment_detail.dart';
-import '../model/store_result.dart';
-import '../model/value_store_result.dart';
+import 'package:mass_pro/commons/date/entry_mode.dart';
+import 'package:mass_pro/commons/extensions/event_data_value_query_extension.dart';
+import 'package:mass_pro/commons/extensions/string_extension.dart';
+import 'package:mass_pro/commons/extensions/tracked_entity_attribute_value_query_extension.dart';
+import 'package:mass_pro/commons/extensions/value_extensions.dart';
+import 'package:mass_pro/commons/helpers/lazy.dart';
+import 'package:mass_pro/commons/network/network_utils.dart';
+import 'package:mass_pro/commons/resources/resource_manager.dart';
+import 'package:mass_pro/core/enrollment/enrollment_object_repository.dart';
+import 'package:mass_pro/form/model/enrollment_detail.dart';
+import 'package:mass_pro/form/model/store_result.dart';
+import 'package:mass_pro/form/model/value_store_result.dart';
 
 class FormValueStore {
   FormValueStore(
@@ -174,7 +174,7 @@ class FormValueStore {
 
     String newValue = value.withValueTypeCheck(valueType) ?? '';
 
-    if (valueType == ValueType.IMAGE && value != null) {
+    if (valueType == ValueType.Image && value != null) {
       newValue = await saveFileResource(value);
     }
 
@@ -240,7 +240,7 @@ class FormValueStore {
     final ValueType? valueType = de?.valueType.toValueType;
 
     String newValue = value.withValueTypeCheck(valueType) ?? '';
-    if (valueType == ValueType.IMAGE && value != null) {
+    if (valueType == ValueType.Image && value != null) {
       newValue = await saveFileResource(value);
     }
 

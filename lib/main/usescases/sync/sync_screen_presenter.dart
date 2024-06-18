@@ -6,7 +6,6 @@ import 'package:mass_pro/main/data/server/user_manager.dart';
 import 'package:mass_pro/main/data/server/user_manager_impl.dart';
 import 'package:mass_pro/main/data/service/work_manager/work_manager_controller.dart';
 import 'package:mass_pro/main/data/service/work_manager/work_manager_controller_impl.dart';
-import 'package:mass_pro/main/usescases/events_without_registration/event_initial/di/event_initial_module.dart';
 import 'package:mass_pro/main/usescases/sync/sync_view.dart';
 
 part 'sync_screen_presenter.g.dart';

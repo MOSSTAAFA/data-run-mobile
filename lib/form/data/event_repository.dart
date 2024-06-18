@@ -15,12 +15,12 @@ import 'package:d2_remote/modules/metadata/program/entities/program_stage_sectio
 import 'package:d2_remote/modules/metadata/program/entities/program_stage_section_data_element.entity.dart';
 import 'package:d2_remote/shared/utilities/sort_order.util.dart';
 
-import '../../commons/extensions/string_extension.dart';
-import '../../commons/extensions/value_extensions.dart';
-import '../model/field_ui_model.dart';
-import '../model/option_set_configuration.dart';
-import '../ui/field_view_model_factory.dart';
-import 'data_entry_base_repository.dart';
+import 'package:mass_pro/commons/extensions/string_extension.dart';
+import 'package:mass_pro/commons/extensions/value_extensions.dart';
+import 'package:mass_pro/form/model/field_ui_model.dart';
+import 'package:mass_pro/form/model/option_set_configuration.dart';
+import 'package:mass_pro/form/ui/field_view_model_factory.dart';
+import 'package:mass_pro/form/data/data_entry_base_repository.dart';
 
 // TODO(NMC): avoid asynchronicity using scopes
 /// see:
@@ -186,7 +186,7 @@ class EventRepository extends DataEntryBaseRepository {
         fieldRendering; // = _getValueTypeDeviceRendering(programStageDataElement);
     // var objectStyle = getObjectStyle(de);
     final String error = ''; //checkConflicts(de.uid(), dataValue);
-    final isOrgUnit = valueType == ValueType.ORGANISATION_UNIT;
+    final isOrgUnit = valueType == ValueType.OrganisationUnit;
 
     final isDate = valueType != null && valueType.isDate;
 
@@ -229,7 +229,7 @@ class EventRepository extends DataEntryBaseRepository {
   }
 
   FeatureType? _getFeatureType(ValueType? valueType) {
-    if (valueType == ValueType.COORDINATE) {
+    if (valueType == ValueType.Coordinate) {
       return FeatureType.POINT;
     }
     return null;

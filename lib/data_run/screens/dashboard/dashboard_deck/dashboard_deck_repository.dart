@@ -8,14 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:mass_pro/commons/resources/resource_manager.dart';
 import 'package:mass_pro/commons/ui/metadata_icon_data.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_deck.providers.dart';
-import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_deck_repository.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_item.model.dart';
 import 'package:mass_pro/data_run/utils/utils.providers.dart';
 import 'package:mass_pro/main/data/service/sync_status_controller.dart';
 import 'package:mass_pro/main/data/service/sync_status_data.dart';
 
-class DashboardDeckRepositoryImpl implements DashboardDeckRepository {
-  DashboardDeckRepositoryImpl(this.ref) {
+class DashboardDeckRepository {
+  DashboardDeckRepository(this.ref) {
     _startListeningForLastSyncStatus();
   }
 
@@ -33,16 +32,15 @@ class DashboardDeckRepositoryImpl implements DashboardDeckRepository {
   IList<DashboardItemModel> baseProgramCache = IList<DashboardItemModel>();
   SyncStatusData? lastSyncStatus;
 
-  @override
   Future<IList<DashboardItemModel>> deckItems(
       SyncStatusData syncStatusData) async {
-    final IList<DashboardItemModel> dashboardItemViewModels = await deckCachedModels(
-        syncStatusData) /* .catchError((onError) => IList<ProgramViewModel>()) */;
+    final IList<DashboardItemModel> dashboardItemViewModels =
+        await deckCachedModels(
+            syncStatusData) /* .catchError((onError) => IList<ProgramViewModel>()) */;
     return dashboardItemViewModels.sort(
         (p1, p2) => p1.title.toLowerCase().compareTo(p2.title.toLowerCase()));
   }
 
-  @override
   Future<IList<DashboardItemModel>> deckCachedModels(
       SyncStatusData syncStatusData) async {
     if (baseProgramCache.isEmpty) {
@@ -55,8 +53,7 @@ class DashboardDeckRepositoryImpl implements DashboardDeckRepository {
 
   /// fetch projects and map each project into [DashboardItemModel]
   Future<IList<DashboardItemModel>> _baseDashboardItems() async {
-    final projects =
-        await ref.read(projectUtilsProvider).getProjects();
+    final projects = await ref.read(projectUtilsProvider).getProjects();
     IList<DashboardItemModel> programModles = IList<DashboardItemModel>();
     for (final DProject project in projects) {
       final state =

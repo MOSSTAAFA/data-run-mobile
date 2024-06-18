@@ -6,7 +6,6 @@ import '../../../commons/prefs/preference.dart';
 import '../../../commons/prefs/preference_provider.dart';
 import '../../data/server/user_manager.dart';
 import '../../data/server/user_manager_impl.dart';
-import '../events_without_registration/event_initial/di/event_initial_module.dart';
 import 'splash_view.dart';
 
 part 'splash_presenter.g.dart';

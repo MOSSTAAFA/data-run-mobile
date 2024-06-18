@@ -5,21 +5,22 @@ import 'dart:async';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
-import '../../commons/date/field_with_issue.dart';
+import 'package:mass_pro/commons/date/field_with_issue.dart';
 import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
-import '../../commons/extensions/string_extension.dart';
-import '../../commons/helpers/iterable.dart';
-import '../model/action_type.dart';
-import '../model/field_ui_model.dart';
-import '../model/row_action.dart';
-import '../model/section_ui_model_impl.dart';
-import '../model/store_result.dart';
-import '../ui/provider/display_name_provider.dart';
-import '../ui/validation/field_error_message_provider.dart';
-import 'data_entry_repository.dart';
-import 'data_integrity_check_result.dart';
-import 'form_repository.dart';
-import 'form_value_store.dart';
+import 'package:mass_pro/commons/extensions/string_extension.dart';
+import 'package:mass_pro/commons/helpers/iterable.dart';
+import 'package:mass_pro/form/model/action_type.dart';
+import 'package:mass_pro/form/model/field_ui_model.dart';
+import 'package:mass_pro/form/model/row_action.dart';
+import 'package:mass_pro/form/model/section_ui_model_impl.dart';
+import 'package:mass_pro/form/model/store_result.dart';
+import 'package:mass_pro/form/ui/provider/display_name_provider.dart';
+import 'package:mass_pro/form/ui/validation/field_error_message_provider.dart';
+import 'package:mass_pro/form/data/data_entry_repository.dart';
+import 'package:mass_pro/form/data/data_integrity_check_result.dart';
+import 'package:mass_pro/form/data/form_repository.dart';
+import 'package:mass_pro/form/data/form_value_store.dart';
+
 
 class FormRepositoryImpl implements FormRepository {
   // RuleEngineRepository? ruleEngineRepository;
@@ -266,9 +267,9 @@ class FormRepositoryImpl implements FormRepository {
 
   void _calculateCompletionPercentage(IList<FieldUiModel> list) {
     const List<ValueType> unsupportedValueTypes = [
-      ValueType.FILE_RESOURCE,
-      ValueType.TRACKER_ASSOCIATE,
-      ValueType.USERNAME
+      ValueType.FileResource,
+      ValueType.TrackerAssociate,
+      ValueType.Username
     ];
 
     final Iterable<FieldUiModel> fields = list.where((FieldUiModel it) =>
@@ -414,7 +415,7 @@ class FormRepositoryImpl implements FormRepository {
     if (list.every((FieldUiModel it) => it is SectionUiModelImpl)) {
       final FieldUiModel lastItem = _getLastSectionItem(list);
       if (_usesKeyboard(lastItem.valueType) &&
-          lastItem.valueType != ValueType.LONG_TEXT) {
+          lastItem.valueType != ValueType.LongText) {
         return list.replace(
             list.indexOf(lastItem), lastItem.setKeyBoardActionDone());
       }

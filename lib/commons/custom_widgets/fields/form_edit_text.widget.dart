@@ -142,15 +142,15 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
     _focusNode = FocusNode()..addListener(_focusListener);
 
     switch (widget.item?.valueType) {
-      case ValueType.TEXT:
+      case ValueType.Text:
         _maxLength = 500;
         _maxLengthEnforcement = MaxLengthEnforcement.enforced;
         break;
-      case ValueType.LETTER:
+      case ValueType.Letter:
         _maxLength = 1;
         _maxLengthEnforcement = MaxLengthEnforcement.enforced;
         break;
-      case ValueType.LONG_TEXT:
+      case ValueType.LongText:
         _maxLength = 50000;
         _maxLengthEnforcement = MaxLengthEnforcement.enforced;
         break;
@@ -217,20 +217,20 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
 
   TextInputType? _getInputType(ValueType? valueType) {
     return when(valueType, {
-      ValueType.TEXT: () => TextInputType.text,
-      ValueType.LONG_TEXT: () => TextInputType.multiline,
-      ValueType.LETTER: () => TextInputType.text,
-      ValueType.NUMBER: () =>
+      ValueType.Text: () => TextInputType.text,
+      ValueType.LongText: () => TextInputType.multiline,
+      ValueType.Letter: () => TextInputType.text,
+      ValueType.Number: () =>
           const TextInputType.numberWithOptions(decimal: true, signed: true),
-      ValueType.UNIT_INTERVAL: () =>
+      ValueType.UnitInterval: () =>
           const TextInputType.numberWithOptions(decimal: true),
-      ValueType.PERCENTAGE: () => TextInputType.number,
-      [ValueType.INTEGER_NEGATIVE, ValueType.INTEGER]: () =>
+      ValueType.Percentage: () => TextInputType.number,
+      [ValueType.IntegerNegative, ValueType.Integer]: () =>
           const TextInputType.numberWithOptions(signed: true),
-      [ValueType.INTEGER_POSITIVE, ValueType.INTEGER_ZERO_OR_POSITIVE]: () =>
+      [ValueType.IntegerPositive, ValueType.IntegerZeroOrPositive]: () =>
           TextInputType.number,
-      ValueType.PHONE_NUMBER: () => TextInputType.phone,
-      ValueType.EMAIL: () => TextInputType.emailAddress,
+      ValueType.PhoneNumber: () => TextInputType.phone,
+      ValueType.Email: () => TextInputType.emailAddress,
       ValueType.URL: () => TextInputType.url,
     });
   }

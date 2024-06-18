@@ -5,9 +5,9 @@ import 'package:d2_remote/modules/data/tracker/entities/tracked_entity_attribute
 import 'package:d2_remote/modules/metadata/data_element/entities/data_element.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/tracked_entity_attribute.entity.dart';
 
-import '../../commons/extensions/dynamic_extensions.dart';
-import 'dynamic_value_extensions.dart';
-import 'string_extension.dart';
+import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
+import 'package:mass_pro/commons/extensions/dynamic_value_extensions.dart';
+import 'package:mass_pro/commons/extensions/string_extension.dart';
 
 /// UserFriendlyTrackedEntityAttributeValueExtension
 extension UserFriendlyTrackedEntityAttributeValueExtension
@@ -97,13 +97,13 @@ extension WithValueTypeCheckExtension on String? {
   String? withValueTypeCheck(ValueType? valueType) {
     if (isNullOrEmpty) return this;
     switch (valueType) {
-      case ValueType.PERCENTAGE:
-      case ValueType.INTEGER:
-      case ValueType.INTEGER_POSITIVE:
-      case ValueType.INTEGER_NEGATIVE:
-      case ValueType.INTEGER_ZERO_OR_POSITIVE:
+      case ValueType.Percentage:
+      case ValueType.Integer:
+      case ValueType.IntegerPositive:
+      case ValueType.IntegerNegative:
+      case ValueType.IntegerZeroOrPositive:
         return (int.tryParse(this!) ?? toDouble().toInt()).toString();
-      case ValueType.UNIT_INTERVAL:
+      case ValueType.UnitInterval:
         return (int.tryParse(this!) ?? toDouble()).toString();
       default:
       // break;

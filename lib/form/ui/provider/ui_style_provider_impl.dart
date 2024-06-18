@@ -18,7 +18,7 @@ class UiStyleProviderImpl implements UiStyleProvider {
     final FormUiModelStyle style =
         BasicFormUiModelStyle(colorFactory, valueType);
 
-    if (valueType == ValueType.LONG_TEXT) {
+    if (valueType == ValueType.LongText) {
       return LongTextDecorator(style, longTextColorFactory);
     } else {
       return style;

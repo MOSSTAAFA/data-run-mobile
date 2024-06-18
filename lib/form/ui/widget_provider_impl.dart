@@ -24,35 +24,35 @@ class WidgetProviderImpl implements WidgetProvider {
   Widget getWidgetByType(FieldUiModel item) {
     final valueType = item.valueType;
     switch (valueType) {
-      case ValueType.AGE:
+      case ValueType.Age:
         return FormEditText(item: item);
-      case ValueType.DATE:
-      case ValueType.TIME:
-      case ValueType.DATETIME:
+      case ValueType.Date:
+      case ValueType.Time:
+      case ValueType.DateTime:
         return FormEditText(item: item);
-      case ValueType.LONG_TEXT:
+      case ValueType.LongText:
         return FormEditText(item: item);
-      case ValueType.ORGANISATION_UNIT:
+      case ValueType.OrganisationUnit:
         return Text(
           '$valueType Field, value: ${item.value}',
           style: const TextStyle(fontSize: 20),
         );
-      case ValueType.COORDINATE:
+      case ValueType.Coordinate:
         return Text(
           '$valueType Field, value: ${item.value}',
           style: const TextStyle(fontSize: 20),
         );
-      case ValueType.IMAGE:
+      case ValueType.Image:
         return Text(
           '$valueType Field, value: ${item.value}',
           style: const TextStyle(fontSize: 20),
         ); //R.layout.form_picture
-      case ValueType.TEXT:
+      case ValueType.Text:
         return getLayoutForOptionSet(
             item, FormEditText(item: item) //R.layout.form_edit_text_custom
             );
-      case ValueType.TRUE_ONLY:
-      case ValueType.BOOLEAN:
+      case ValueType.TrueOnly:
+      case ValueType.Boolean:
         switch (item.fieldRendering) {
           case ValueTypeRenderingType.HORIZONTAL_RADIOBUTTONS:
           case ValueTypeRenderingType.VERTICAL_RADIOBUTTONS:
@@ -63,7 +63,7 @@ class WidgetProviderImpl implements WidgetProvider {
             );
           case ValueTypeRenderingType.TOGGLE:
             switch (valueType) {
-              case ValueType.TRUE_ONLY:
+              case ValueType.TrueOnly:
                 return Text(
                   '$valueType Field, value: ${item.value}',
                   style: const TextStyle(fontSize: 20),
@@ -86,47 +86,47 @@ class WidgetProviderImpl implements WidgetProvider {
               style: const TextStyle(fontSize: 20),
             );
         }
-      case ValueType.LETTER:
+      case ValueType.Letter:
         return FormEditText(item: item); //R.layout.form_letter
-      case ValueType.PHONE_NUMBER:
+      case ValueType.PhoneNumber:
         return FormEditText(item: item); //R.layout.form_phone_number
-      case ValueType.EMAIL:
+      case ValueType.Email:
         return FormEditText(item: item); //R.layout.form_email
-      case ValueType.NUMBER:
+      case ValueType.Number:
         return getLayoutForOptionSet(
             item, FormEditText(item: item) //R.layout.form_number
             );
-      case ValueType.UNIT_INTERVAL:
+      case ValueType.UnitInterval:
         return getLayoutForOptionSet(
             item, FormEditText(item: item) //R.layout.form_unit_interval
             );
-      case ValueType.PERCENTAGE:
+      case ValueType.Percentage:
         return getLayoutForOptionSet(
             item, FormEditText(item: item) //R.layout.form_percentage
             );
-      case ValueType.INTEGER:
+      case ValueType.Integer:
         return getLayoutForOptionSet(
             item, FormEditText(item: item) //R.layout.form_integer
             );
-      case ValueType.INTEGER_POSITIVE:
+      case ValueType.IntegerPositive:
         return getLayoutForOptionSet(
             item, FormEditText(item: item) //R.layout.form_integer_positive
             );
-      case ValueType.INTEGER_NEGATIVE:
+      case ValueType.IntegerNegative:
         return getLayoutForOptionSet(
             item, FormEditText(item: item) //R.layout.form_integer_negative
             );
-      case ValueType.INTEGER_ZERO_OR_POSITIVE:
+      case ValueType.IntegerZeroOrPositive:
         return getLayoutForOptionSet(
             item, FormEditText(item: item) //R.layout.form_integer_zero_positive
             );
       case ValueType.URL:
         return FormEditText(item: item); //R.layout.form_url
-      case ValueType.REFERENCE:
-      case ValueType.GEOJSON:
-      case ValueType.FILE_RESOURCE:
-      case ValueType.USERNAME:
-      case ValueType.TRACKER_ASSOCIATE:
+      case ValueType.Reference:
+      case ValueType.GeoJson:
+      case ValueType.FileResource:
+      case ValueType.Username:
+      case ValueType.TrackerAssociate:
         return Text(
           '$valueType Field, value: ${item.value}',
           style: const TextStyle(fontSize: 20),

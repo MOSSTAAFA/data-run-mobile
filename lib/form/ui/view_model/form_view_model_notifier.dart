@@ -156,13 +156,13 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
           _createRowAction(uid: intent.uid, value: null),
       selectLocationFromCoordinates: (SelectLocationFromCoordinates intent) {
         final Exception? error =
-            _checkFieldError(ValueType.COORDINATE, intent.coordinates, null);
+            _checkFieldError(ValueType.Coordinate, intent.coordinates, null);
         return _createRowAction(
             uid: intent.uid,
             value: intent.coordinates,
             extraData: intent.extraData,
             error: error,
-            valueType: ValueType.COORDINATE);
+            valueType: ValueType.Coordinate);
       },
       selectLocationFromMap: (SelectLocationFromMap intent) =>
           _setCoordinateFieldValue(
@@ -171,13 +171,13 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
               coordinates: intent.coordinates),
       saveCurrentLocation: (SaveCurrentLocation intent) {
         final Exception? error =
-            _checkFieldError(ValueType.COORDINATE, intent.value, null);
+            _checkFieldError(ValueType.Coordinate, intent.value, null);
         return _createRowAction(
             uid: intent.uid,
             value: intent.value,
             extraData: intent.featureType,
             error: error,
-            valueType: ValueType.COORDINATE);
+            valueType: ValueType.Coordinate);
       },
       onNext: (OnNext intent) => _createRowAction(
           uid: intent.uid, value: intent.value, actionType: ActionType.ON_NEXT),
@@ -198,7 +198,7 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
           uid: intent.uid,
           value: intent.value,
           actionType: ActionType.ON_TEXT_CHANGE,
-          valueType: ValueType.TEXT),
+          valueType: ValueType.Text),
       onSection: (OnSection intent) => _createRowAction(
           uid: intent.sectionUid,
           value: null,
@@ -231,7 +231,7 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
     switch (action.type) {
       /// upon returning, need to processCalculatedItems() and update state
       case ActionType.ON_SAVE:
-        if (action.valueType == ValueType.COORDINATE) {
+        if (action.valueType == ValueType.Coordinate) {
           _repository.setFieldRequestingCoordinates(action.id, false);
         }
         _repository.updateErrorList(action);
@@ -354,7 +354,7 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
   /// otherwise return FormIntent.onSave(field...)
   FormIntent _getSaveIntent(FieldUiModel field) {
     switch (field.valueType) {
-      case ValueType.COORDINATE:
+      case ValueType.Coordinate:
         return FormIntent.saveCurrentLocation(
             uid: field.uid,
             value: field.value,
@@ -423,8 +423,8 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
     return valueType.isNumeric ||
         valueType.isText && renderType?.isPolygon != true ||
         valueType == ValueType.URL ||
-        valueType == ValueType.EMAIL ||
-        valueType == ValueType.PHONE_NUMBER;
+        valueType == ValueType.Email ||
+        valueType == ValueType.PhoneNumber;
   }
 
   void clearFocus() {
@@ -443,13 +443,13 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
           _createRowAction(uid: intent.uid, value: null),
       selectLocationFromCoordinates: (SelectLocationFromCoordinates intent) {
         final Exception? error =
-            _checkFieldError(ValueType.COORDINATE, intent.coordinates, null);
+            _checkFieldError(ValueType.Coordinate, intent.coordinates, null);
         return _createRowAction(
             uid: intent.uid,
             value: intent.coordinates,
             extraData: intent.extraData,
             error: error,
-            valueType: ValueType.COORDINATE);
+            valueType: ValueType.Coordinate);
       },
       selectLocationFromMap: (SelectLocationFromMap intent) =>
           _setCoordinateFieldValue(
@@ -458,13 +458,13 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
               coordinates: intent.coordinates),
       saveCurrentLocation: (SaveCurrentLocation intent) {
         final Exception? error =
-            _checkFieldError(ValueType.COORDINATE, intent.value, null);
+            _checkFieldError(ValueType.Coordinate, intent.value, null);
         return _createRowAction(
             uid: intent.uid,
             value: intent.value,
             extraData: intent.featureType,
             error: error,
-            valueType: ValueType.COORDINATE);
+            valueType: ValueType.Coordinate);
       },
       onNext: (OnNext intent) => _createRowAction(
           uid: intent.uid, value: intent.value, actionType: ActionType.ON_NEXT),
@@ -485,7 +485,7 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
           uid: intent.uid,
           value: intent.value,
           actionType: ActionType.ON_TEXT_CHANGE,
-          valueType: ValueType.TEXT),
+          valueType: ValueType.Text),
       onSection: (OnSection intent) => _createRowAction(
           uid: intent.sectionUid,
           value: null,
@@ -534,7 +534,7 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
     final ThrowableException? checkResult = fieldValue!.let((String value) {
       ThrowableException? error;
       final Result<String, ThrowableException>? result = valueType
-          ?.takeIf((ValueType item) => item != ValueType.IMAGE)
+          ?.takeIf((ValueType item) => item != ValueType.Image)
           ?.validator
           .validate(value);
       error = result?.fold(
@@ -566,7 +566,7 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
 
     Exception? error;
     if (type == FeatureType.POINT) {
-      error = _checkFieldError(ValueType.COORDINATE, geometryCoordinates, null);
+      error = _checkFieldError(ValueType.Coordinate, geometryCoordinates, null);
     } else {
       error = null;
     }
@@ -576,7 +576,7 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
         value: geometryCoordinates,
         extraData: featureType,
         error: error,
-        valueType: ValueType.COORDINATE);
+        valueType: ValueType.Coordinate);
   }
 }
 

@@ -3,33 +3,35 @@ import 'package:mass_pro/sdk/core/common/value_type/validators/validators.dart';
 import 'exception/exception.dart';
 
 enum ValueType {
-  TEXT(TextValidator()),
-  LONG_TEXT(LongTextValidator()),
-  LETTER(LetterValidator()),
-  PHONE_NUMBER(PhoneNumberValidator()),
-  EMAIL(EmailValidator()),
-  BOOLEAN(BooleanValidator()),
-  TRUE_ONLY(TrueOnlyValidator()),
-  DATE(DateValidator()),
-  DATETIME(DateTimeValidator()),
-  TIME(TimeValidator()),
-  NUMBER(NumberValidator()),
-  UNIT_INTERVAL(UnitIntervalValidator()),
-  PERCENTAGE(PercentageValidator()),
-  INTEGER(IntegerValidator()),
-  INTEGER_POSITIVE(IntegerPositiveValidator()),
-  INTEGER_NEGATIVE(IntegerNegativeValidator()),
-  INTEGER_ZERO_OR_POSITIVE(IntegerZeroOrPositiveValidator()),
-  TRACKER_ASSOCIATE(UidValidator()),
-  USERNAME(TextValidator()),
-  COORDINATE(CoordinateValidator()),
-  ORGANISATION_UNIT(UidValidator()),
-  REFERENCE(TextValidator()),
-  AGE(DateValidator()),
+  Text(TextValidator()),
+  LongText(LongTextValidator()),
+  Letter(LetterValidator()),
+  PhoneNumber(PhoneNumberValidator()),
+  Email(EmailValidator()),
+  Boolean(BooleanValidator()),
+  TrueOnly(TrueOnlyValidator()),
+  Date(DateValidator()),
+  DateTime(DateTimeValidator()),
+  Time(TimeValidator()),
+  Number(NumberValidator()),
+  UnitInterval(UnitIntervalValidator()),
+  Percentage(PercentageValidator()),
+  Integer(IntegerValidator()),
+  IntegerPositive(IntegerPositiveValidator()),
+  IntegerNegative(IntegerNegativeValidator()),
+  IntegerZeroOrPositive(IntegerZeroOrPositiveValidator()),
+  TrackerAssociate(UidValidator()),
+  Username(TextValidator()),
+  Coordinate(CoordinateValidator()),
+  OrganisationUnit(UidValidator()),
+  Reference(TextValidator()),
+  Age(DateValidator()),
   URL(TextValidator()),
-  FILE_RESOURCE(UidValidator()),
-  IMAGE(UidValidator()),
-  GEOJSON(TextValidator());
+  FileResource(UidValidator()),
+  Image(UidValidator()),
+  SelectMulti(TextValidator()),
+  SelectOne(TextValidator()),
+  GeoJson(TextValidator());
 
   const ValueType(this._validator);
 
@@ -38,26 +40,26 @@ enum ValueType {
   ValueTypeValidator<ThrowableException> get validator => _validator;
 
   static List<ValueType> get INTEGER_TYPES =>
-      [INTEGER, INTEGER_POSITIVE, INTEGER_NEGATIVE, INTEGER_ZERO_OR_POSITIVE];
+      [Integer, IntegerPositive, IntegerNegative, IntegerZeroOrPositive];
 
   static List<ValueType> get NUMERIC_TYPES => [
-        INTEGER,
-        NUMBER,
-        INTEGER_POSITIVE,
-        INTEGER_NEGATIVE,
-        INTEGER_ZERO_OR_POSITIVE,
-        UNIT_INTERVAL,
-        PERCENTAGE
+        Integer,
+        Number,
+        IntegerPositive,
+        IntegerNegative,
+        IntegerZeroOrPositive,
+        UnitInterval,
+        Percentage
       ];
 
-  static List<ValueType> get BOOLEAN_TYPES => [BOOLEAN, TRUE_ONLY];
+  static List<ValueType> get BOOLEAN_TYPES => [Boolean, TrueOnly];
 
   static List<ValueType> get TEXT_TYPES =>
-      [TEXT, LONG_TEXT, LETTER, COORDINATE, TIME];
+      [Text, LongText, Letter, Coordinate, Time];
 
-  static List<ValueType> get DATE_TYPES => [DATE, DATETIME];
+  static List<ValueType> get DATE_TYPES => [Date, DateTime];
 
-  static List<ValueType> get FILE_TYPES => [IMAGE, FILE_RESOURCE];
+  static List<ValueType> get FILE_TYPES => [Image, FileResource];
 
   bool get isInteger => INTEGER_TYPES.contains(this);
 
@@ -71,7 +73,7 @@ enum ValueType {
 
   bool get isFile => FILE_TYPES.contains(this);
 
-  bool get isCoordinate => this == COORDINATE;
+  bool get isCoordinate => this == Coordinate;
 
   static ValueType? valueOf(String? str) =>
       ValueType.values.firstWhere((e) => e.toString() == 'ValueType.' + '$str',

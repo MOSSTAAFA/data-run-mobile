@@ -113,6 +113,7 @@ class NavigationTabBarViewState extends ConsumerState<NavigationTabBarView>
         onWillPop: () async {
           // ref.read(appStateNotifierProvider.notifier).viewDashboard();
           return Future.value(true);
+          // return Future.value(false);
         },
         child: FocusTraversalGroup(
           child: Scaffold(

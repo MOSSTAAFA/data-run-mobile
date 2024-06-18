@@ -1,4 +1,4 @@
-import 'package:d2_remote/modules/datarun/shared/entities/syncable.entity.dart';
+import 'package:d2_remote/modules/datarun_shared/entities/syncable.entity.dart';
 import 'package:mass_pro/core/common/state.dart';
 import 'package:mass_pro/data_run/repository/activity_data_repository/activity_data_repository.dart';
 

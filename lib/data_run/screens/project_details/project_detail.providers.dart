@@ -1,25 +1,15 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:mass_pro/data_run/screens/project_details/project_detail_deck/project_detail_deck.view.dart';
-import 'package:mass_pro/data_run/screens/project_details/project_detail_deck/project_detail_deck_presenter.dart';
-import 'package:mass_pro/data_run/screens/project_details/project_detail_deck/project_detail_deck_repository.dart';
-import 'package:mass_pro/data_run/screens/project_details/project_detail_deck/project_detail_deck_repository_impl.dart';
-import 'package:mass_pro/data_run/screens/project_details/project_detail_deck/project_detail_item.model.dart';
+import 'package:mass_pro/data_run/screens/project_details/project_detail_item.model.dart';
+import 'package:mass_pro/data_run/screens/project_details/project_detail_repository.dart';
 import 'package:mass_pro/main/data/service/sync_status_controller.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'project_detail_deck.providers.g.dart';
-
-/// Project Deck Items Providers
-@riverpod
-ProjectDetailDeckPresenter projectDetailDeckPresenter(
-    ProjectDetailDeckPresenterRef ref, ProjectDetailDeckView view) {
-  return ProjectDetailDeckPresenter(ref, view);
-}
+part 'project_detail.providers.g.dart';
 
 @riverpod
-ProjectDetailDeckRepository projectDetailDeckRepository(
-    ProjectDetailDeckRepositoryRef ref) {
-  return ProjectDetailDeckRepositoryImpl(ref);
+ProjectDetailRepository projectDetailRepository(
+    ProjectDetailRepositoryRef ref) {
+  return ProjectDetailRepository(ref);
 }
 
 @riverpod
@@ -28,8 +18,8 @@ Future<IList<ProjectDetailItemModel>> projectDetailItemModels(
   final syncStatusData = ref.watch(syncStatusControllerInstanceProvider
       .select((value) => value.syncStatusData));
   final items = ref
-      .read(projectDetailDeckRepositoryProvider)
-      .projectDetailDeckItems(syncStatusData);
+      .read(projectDetailRepositoryProvider)
+      .projectDetailItems(syncStatusData);
   return items;
 }
 

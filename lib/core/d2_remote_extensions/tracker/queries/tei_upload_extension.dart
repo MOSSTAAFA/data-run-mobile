@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls, cast_nullable_to_non_nullable
 
 import 'package:d2_remote/modules/data/tracker/queries/tracked_entity_instance.query.dart';
-import 'package:d2_remote/modules/datarun/sync/call/d2_progress.dart';
+import 'package:d2_remote/modules/datarun_shared/sync/call/d2_progress.dart';
 import 'package:dio/dio.dart';
 
 import 'package:mass_pro/core/tracker/tracker_d2_progress.dart';

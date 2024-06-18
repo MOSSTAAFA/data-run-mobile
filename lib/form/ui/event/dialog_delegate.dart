@@ -11,7 +11,7 @@ class DialogDelegate {
 
     final date = DateUtils.oldUiDateFormat().format(ageDate);
 
-    return FormIntent.onSave(uid: uid, value: date, valueType: ValueType.DATE);
+    return FormIntent.onSave(uid: uid, value: date, valueType: ValueType.Date);
   }
 
   static FormIntent handleTimeInput(
@@ -30,7 +30,7 @@ class DialogDelegate {
     return FormIntent.onSave(
         uid: uid,
         value: dateValue,
-        valueType: date?.let((it) => ValueType.DATETIME) ?? ValueType.TIME);
+        valueType: date?.let((it) => ValueType.DateTime) ?? ValueType.Time);
   }
 
   static ListViewUiEvents handleDateTimeInput(

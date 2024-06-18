@@ -8,6 +8,8 @@ class FormIntent with _$FormIntent {
   // NMC
   const factory FormIntent.init() = Init;
 
+  /// onSaveClick
+  /// SaveDataEntry
   const factory FormIntent.onFinish([String? extraData]) = OnFinish;
 
   const factory FormIntent.onClear([String? extraData]) = OnClear;
@@ -17,6 +19,7 @@ class FormIntent with _$FormIntent {
   const factory FormIntent.onNext(
       {required String uid, String? value, int? position}) = OnNext;
 
+  /// onSave value whenever text changed
   const factory FormIntent.onSave(
       {required String uid,
       String? value,

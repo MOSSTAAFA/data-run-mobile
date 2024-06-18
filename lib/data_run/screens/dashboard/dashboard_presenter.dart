@@ -9,7 +9,6 @@ import 'package:mass_pro/main/data/service/work_manager/work_manager_controller.
 import 'package:mass_pro/main/data/service/work_manager/work_manager_controller_impl.dart';
 import 'package:mass_pro/main/data/service/work_manager/worker_item.dart';
 import 'package:mass_pro/main/data/service/work_manager/worker_type.dart';
-import 'package:mass_pro/main/usescases/events_without_registration/event_initial/di/event_initial_module.dart';
 import 'package:mass_pro/main/usescases/login/sync_is_performed_interactor.dart';
 import 'package:mass_pro/main/usescases/sync/sync_screen_presenter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -140,10 +139,6 @@ class DashboardPresenter {
     await workManagerController.cancelAllWorkByTag(workerItem.workerName);
     await workManagerController.syncDataForWorkerItem(workerItem);
   }
-
-  // LiveData<SyncStatusData> observeDataSync() {
-  //     return syncStatusController.observeDownloadProcess();
-  // }
 
   Future<bool> wasSyncAlreadyDone() async {
     if (view.hasToNotSync()) {
