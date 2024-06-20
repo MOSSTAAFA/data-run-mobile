@@ -46,6 +46,7 @@ dependencies:
   percent_indicator: ^4.2.3
   scrollable_positioned_list: ^0.3.8
   get: ^4.6.6
+  intl_translation: ^0.20.0
 #  pointer_interceptor: ^0.9.3+2 # used in custom AlertDialog
 #  queue: ^3.1.0+2
 #  freezed_annotation: ^2.1.0
@@ -80,6 +81,7 @@ flutter:
     - lib/sample/dhis/
     - lib/main/l10n/locales_strings/
     - assets/images/
+    - assets/languages/
 # analyzer:
 #   strong-mode: true
 #   language:
