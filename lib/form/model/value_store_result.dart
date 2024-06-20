@@ -6,5 +6,7 @@ enum ValueStoreResult {
   ERROR_UPDATING_VALUE,
   TEXT_CHANGING,
   FINISH,
+  // NMC
+  KEY_IS_NOT_IN_ENTITY,
   INIT
 }

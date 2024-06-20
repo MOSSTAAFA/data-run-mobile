@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_deck.providers.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_item.model.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_item.widget.dart';
+import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_items_models_notifier.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class DashboardItemsWidget extends ConsumerStatefulWidget {
@@ -13,45 +13,44 @@ class DashboardItemsWidget extends ConsumerStatefulWidget {
     this.onDescriptionClick,
   });
 
-  final void Function(DashboardItemModel? programViewModel)? onItemClick;
-  final void Function(DashboardItemModel? programViewModel)?
+  final void Function(DashboardItemModel? dashboardItemModel)? onItemClick;
+  final void Function(DashboardItemModel? dashboardItemModel)?
       onGranularSyncClick;
-  final void Function(DashboardItemModel? programViewModel)? onDescriptionClick;
+  final void Function(DashboardItemModel? dashboardItemModel)?
+      onDescriptionClick;
 
   @override
   ConsumerState<DashboardItemsWidget> createState() =>
       _DashboardItemsWidgetState();
 }
 
-class _DashboardItemsWidgetState
-    extends ConsumerState<DashboardItemsWidget> {
+class _DashboardItemsWidgetState extends ConsumerState<DashboardItemsWidget> {
   final ItemScrollController itemScrollController = ItemScrollController();
 
   @override
   Widget build(BuildContext context) {
-    // final itemCount = ref.watch(programViewModelsProvider
-    //     .select((programModels) => programModels.value?.length ?? 0));
-    final itemCount = ref.watch(dashboardItemModelsListLengthProvider).value;
-    return itemCount != null
-        ? ScrollablePositionedList.builder(
-            shrinkWrap: true,
-            itemCount: itemCount,
-            itemBuilder: (BuildContext context, int index) => ProviderScope(
-              overrides: [
-                dashboardItemModelIndexProvider.overrideWith((_) => index)
-              ],
-              child: DashboardItemWidget(
-                onItemClick: (programViewModel) =>
-                    widget.onItemClick?.call(programViewModel),
-                onGranularSyncClick: (programViewModel) =>
-                    widget.onGranularSyncClick?.call(programViewModel),
-                onDescriptionClick: (programViewModel) =>
-                    widget.onDescriptionClick?.call(programViewModel),
+    final value = ref.watch(dashboardItemsModelsNotifierProvider);
+    return value.when(
+        data: (data) => ScrollablePositionedList.builder(
+              shrinkWrap: true,
+              itemCount: data.length,
+              itemBuilder: (BuildContext context, int index) => ProviderScope(
+                overrides: [
+                  dashboardItemModelProvider.overrideWith((_) => data[index])
+                ],
+                child: DashboardItemWidget(
+                  onItemClick: (dashboardItemModel) =>
+                      widget.onItemClick?.call(dashboardItemModel),
+                  onGranularSyncClick: (dashboardItemModel) =>
+                      widget.onGranularSyncClick?.call(dashboardItemModel),
+                  onDescriptionClick: (dashboardItemModel) =>
+                      widget.onDescriptionClick?.call(dashboardItemModel),
+                ),
               ),
+              itemScrollController: itemScrollController,
+              // itemPositionsListener: itemPositionsListener,
             ),
-            itemScrollController: itemScrollController,
-            // itemPositionsListener: itemPositionsListener,
-          )
-        : const SizedBox.shrink();
+        error: (error, _) => Text('Error: $error'),
+        loading: () => const CircularProgressIndicator());
   }
 }

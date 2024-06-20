@@ -5,8 +5,6 @@ mixin DashboardScreenView implements ViewBase {
 
   void openDrawer(int gravity);
 
-  void goToHome();
-
   void showGranularSync();
 
   void goToLogin(int accountsCount, {bool isDeletion = false});

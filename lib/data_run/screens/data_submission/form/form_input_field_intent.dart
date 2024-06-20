@@ -3,6 +3,11 @@ import 'package:mass_pro/sdk/core/common/value_type.dart';
 
 part 'form_input_field_intent.freezed.dart';
 
+/// This class defines various events that can occur within a
+/// form field. Examples include text changes, focus changes,
+/// and save actions. Fields emit these intents to communicate
+/// with the form logic, decoupling UI interactions from the
+/// underlying logic.
 @freezed
 class FormInputFieldIntent with _$FormInputFieldIntent {
   // NMC

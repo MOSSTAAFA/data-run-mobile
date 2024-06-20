@@ -6,38 +6,40 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
 import 'package:mass_pro/core/program/program_type.dart';
-import 'package:mass_pro/data_run/screens/project_details/project_detail_item.model.dart';
-import 'package:mass_pro/data_run/screens/project_details/project_detail_items.widget.dart';
+import 'package:mass_pro/data_run/screens/activity_data/activity_data_item.model.dart';
+import 'package:mass_pro/data_run/screens/activity_data/activity_data_items.widget.dart';
 import 'package:mass_pro/data_run/screens/view/view_base.dart';
 import 'package:mass_pro/data_run/utils/screens_constants.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 
-/// List Activities of certain project
-class ProjectDetailScreenWidget extends ConsumerStatefulWidget with ViewBase {
-  const ProjectDetailScreenWidget({super.key});
+/// ProgramFragment
+class ActivityDataScreenWidget extends ConsumerStatefulWidget {
+  const ActivityDataScreenWidget({super.key, this.projectUid});
 
   static const String route = '/projects/detail';
 
+  final String? projectUid;
+
   @override
-  ConsumerState<ProjectDetailScreenWidget> createState() =>
-      _ProjectDetailScreenWidgetState();
+  ConsumerState<ActivityDataScreenWidget> createState() =>
+      _ActivityDataScreenWidgetState();
 }
 
-class _ProjectDetailScreenWidgetState
-    extends ConsumerState<ProjectDetailScreenWidget> with ViewBase {
+class _ActivityDataScreenWidgetState
+    extends ConsumerState<ActivityDataScreenWidget> with ViewBase {
   Bundle bundle = Bundle();
   late final String? projectUid;
 
   @override
   Widget build(BuildContext context) {
-    return ProjectDetailItemsWidget(
-      onItemClick: (projectDetailItemModel) =>
-          navigateTo(projectDetailItemModel!),
-      onGranularSyncClick: (projectDetailItemModel) =>
-          showSyncDialog(projectDetailItemModel),
-      onDescriptionClick: (projectDetailItemModel) =>
-          projectDetailItemModel?.description != null
-              ? showDescription(projectDetailItemModel!.description!)
+    return ActivityDataItemsWidget(
+      onItemClick: (activityDataItemModel) =>
+          navigateTo(activityDataItemModel!),
+      onGranularSyncClick: (activityDataItemModel) =>
+          showSyncDialog(activityDataItemModel),
+      onDescriptionClick: (activityDataItemModel) =>
+          activityDataItemModel?.description != null
+              ? showDescription(activityDataItemModel!.description!)
               : null,
     );
   }
@@ -52,8 +54,10 @@ class _ProjectDetailScreenWidgetState
     super.initState();
   }
 
-  void navigateTo(ProjectDetailItemModel project) {
+  void navigateTo(ActivityDataItemModel project) {
     Bundle bundle = Bundle();
+    // Bundle bundle = ref.read(bundleObjectProvider);
+    //
 
     when(project.programType, {
       ProgramType.WITH_REGISTRATION.name: () {
@@ -76,7 +80,7 @@ class _ProjectDetailScreenWidgetState
         // ref
         //     .read(appStateNotifierProvider.notifier)
         //     .navigateToRoute(ProjectScreenWidget.route, arguments: bundle);
-        // Navigator.of(context).pushNamed(ProjectDetailScreenWidget.route);
+        // Navigator.of(context).pushNamed(ActivityDataScreenWidget.route);
         // Navigator.of(context).push(
         //   MaterialPageRoute(
         //     builder: (context) {

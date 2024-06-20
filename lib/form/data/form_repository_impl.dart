@@ -23,37 +23,51 @@ import 'package:mass_pro/form/data/form_value_store.dart';
 
 
 class FormRepositoryImpl implements FormRepository {
-  // RuleEngineRepository? ruleEngineRepository;
-  // RulesUtilsProvider? rulesUtilsProvider;
-  // LegendValueProvider? legendValueProvider;
-
   FormRepositoryImpl({
     this.formValueStore,
     required this.fieldErrorMessageProvider,
     required this.displayNameProvider,
     this.dataEntryRepository,
-    /*this.ruleEngineRepository,
-      this.rulesUtilsProvider,
-      this.legendValueProvider*/
   });
 
   static const int _loopThreshold = 5;
 
+  /// used to save each value to the database and gets the response
   final FormValueStore? formValueStore;
+
+  /// encapsulate error messages returnint a localized user friendly
+  /// message representing the an error message if there are any
   final FieldErrorMessageProvider fieldErrorMessageProvider;
   final DisplayNameProvider displayNameProvider;
+
+  /// used to convert the action field on the database entities into the List of
+  /// List<FieldUiModel> of fields model representing each field
   final DataEntryRepository? dataEntryRepository;
 
+  /// Calculated after each event
   double _completionPercentage = 0;
+
+  /// store fields with errors
   IList<RowAction> _itemsWithError = IList();
+
+  /// map of mandatory Fields Without Value
   IMap<String, String> _mandatoryItemsWithoutValue = IMap({});
   String? _openedSectionUid;
+
+  /// List<FieldUiModel> of fields model representing each field
   IList<FieldUiModel> _itemList = IList();
+
+  /// current focused item
   String? _focusedItemId;
 
-  // RuleUtilsProviderResult? ruleEffectsResult;
+  /// Data Integrity is checking and validating the form entries
+  /// when Data Integrity is run this field is set to true
   bool _runDataIntegrity = false;
   int _calculationLoop = 0;
+
+  /// back up list of IList<FieldUiModel> that represent the value of the database
+  /// so we can know if the value has changed or not so we can ask the user whether it
+  /// want tho save the changes or discared if they don't equal the current [_itemList]
   IList<FieldUiModel> _backupList = IList();
 
   @override
@@ -128,11 +142,9 @@ class FormRepositoryImpl implements FormRepository {
     _runDataIntegrity = true;
     final IList<FieldWithIssue> itemsWithErrors = _getFieldsWithError();
     /*final*/
-    final IList<FieldWithIssue> itemsWithWarning = /*ruleEffectsResult?...??*/
-        IList([]);
-    // final DataIntegrityCheckResult result;
+    final IList<FieldWithIssue> itemsWithWarning = IList([]);
     if (itemsWithErrors
-        .isNotEmpty /*|| ruleEffectsResult?.canComplete == false*/) {
+        .isNotEmpty) {
       return FieldsWithErrorResult(
           mandatoryFields: _mandatoryItemsWithoutValue,
           fieldUidErrorList: itemsWithErrors,

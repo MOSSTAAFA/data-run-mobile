@@ -11,6 +11,7 @@ import 'package:mass_pro/commons/prefs/preference_provider.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_screen.widget.dart';
 import 'package:mass_pro/main/l10n/app_localizations.dart';
+import 'package:mass_pro/main/usescases/splash/splash_presenter.dart';
 import 'package:mass_pro/main/usescases/splash/splash_screen.widget.dart';
 import 'package:mass_pro/riverpod/provider_logger.dart';
 import 'package:mass_pro/utils/navigator_key.dart';
@@ -54,11 +55,11 @@ Future<void> main() async {
   ));
 }
 
-class App extends StatelessWidget {
+class App extends ConsumerWidget {
   const App({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final routeObserver = Get.put<RouteObserver>(RouteObserver<PageRoute>());
     final locale = AppLocalization.createLocale('en');
 
@@ -97,11 +98,14 @@ class App extends StatelessWidget {
         // from the list (English, in this case).
         return supportedLocales.first;
       },
-      initialRoute: SplashScreen.route,
+      // initialRoute: SplashScreen.route,
       getPages: [
         GetPage(
           name: SplashScreen.route,
-          page: () => const SplashScreen(),
+          page: () {
+            ref.read(splashPresenterProvider).init();
+            return const SplashScreen();
+          },
           transition: Transition.fade,
         ),
         GetPage(

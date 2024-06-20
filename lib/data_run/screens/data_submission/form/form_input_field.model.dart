@@ -11,6 +11,10 @@ import 'package:mass_pro/sdk/core/common/value_type_rendering_type.dart';
 
 typedef IntentCallback = void Function(FormInputFieldIntent intent);
 
+/// This class represents a single field in the form. It encapsulates
+/// properties like field type (text, dropdown, etc.), current
+/// value, error state, a mandatory flag indicating if the field
+/// is required, and other relevant information for formatting and behavior.
 @immutable
 class FieldInputModel with EquatableMixin {
   const FieldInputModel(
@@ -26,7 +30,6 @@ class FieldInputModel with EquatableMixin {
       this.warning,
       required this.mandatory,
       required this.label,
-      this.programStageSection,
       this.hint,
       this.description,
       this.valueType,
@@ -36,36 +39,61 @@ class FieldInputModel with EquatableMixin {
       this.isLoadingData = false,
       this.intentCallback});
 
+  /// unique name of the field
   final String key;
+
+  /// if the field is of type select such as
+  /// dropDown checkbox values, or radio Options
   final List<String>? options;
+
   final String? dependentFieldId;
   final List<String>? dependentFieldValues;
 
+  /// the current value of the field
   final dynamic value;
+
   final bool focused;
+
+  /// the error message if it has and error
   final String? error;
+
+  /// is it editable
   final bool editable;
+
+  /// is it visible
   final bool isVisible;
 
+  /// the warning message if it has and warning
   final String? warning;
+
+  /// is it required
   final bool mandatory;
+
+  /// the field label
   final String label;
-  final String? programStageSection;
+
+  /// the field's hint if it has any
   final String? hint;
+
+  /// the field's description if it has any
   final String? description;
 
+  /// the value type such as:
+  /// [SelectOne, Text, Number, Date, Email, SelectMulti, SelectOne ...]
   final ValueType? valueType;
   final bool? allowFutureDates;
 
-  /// NMC added provided here instead to providing it
-  /// to the FieldViewModelFactoryImpl
-  /// from ProgramStageDataElement of the item
-  /// DEFAULT, DROPDOWN, VERTICAL_RADIOBUTTONS, HORIZONTAL_RADIOBUTTONS,
+  /// if the field value type SelectMulti, SelectOne how to render the choices
+  /// is with options and of type VERTICAL, HORIZONTAL...
   final ValueTypeRenderingType? fieldRendering;
 
+  /// keyboard action: { NEXT, DONE, ENTER }
   final KeyboardActionType? keyboardActionType;
   final bool isLoadingData;
 
+  /// intentCallback is a callback defined like: `typedef IntentCallback = void Function(FormInputFieldIntent intent);`
+  /// called with every action happening on the field passing `FormInputFieldIntent` which is a Data class
+  /// represent different events happening whether text changed, value selected, cleared, saved..
   final IntentCallback? intentCallback;
 
   String get formattedLabel => mandatory ? '$label *' : label;
@@ -74,32 +102,39 @@ class FieldInputModel with EquatableMixin {
     return copyWith(intentCallback: intentCallback);
   }
 
-  void onItemClick() {
+  /// invoke FormInputFieldIntent.onFocus
+  void onFieldClick() {
     intentCallback?.call(FormInputFieldIntent.onFocus(key: key, value: value));
   }
 
+  /// invoke FormInputFieldIntent.onNext
   void onNext() {
     intentCallback?.call(FormInputFieldIntent.onNext(key: key, value: value));
   }
 
+  /// invoke FormInputFieldIntent.onTextChange whenever the
+  /// text or value of the field is changed
   void onTextChange(String? value) {
     intentCallback?.call(FormInputFieldIntent.onTextChange(
         key: key, value: (value ?? '').isEmpty == true ? null : value));
   }
 
+  /// invoke FormInputFieldIntent.clearValue
   void onClear() {
-    onItemClick();
+    onFieldClick();
     intentCallback?.call(FormInputFieldIntent.clearValue(key: key));
   }
 
+  /// invoke FormInputFieldIntent.onSave for with value
   void onSave(String? value) {
-    onItemClick();
+    onFieldClick();
     intentCallback?.call(FormInputFieldIntent.onSave(
         key: key, value: value, valueType: valueType));
   }
 
+  /// invoke FormInputFieldIntent.onSave  for Boolean type field
   void onSaveBoolean(bool boolean) {
-    onItemClick();
+    onFieldClick();
     final result = value == null || value != boolean.toString()
         ? boolean.toString()
         : null;
@@ -107,6 +142,7 @@ class FieldInputModel with EquatableMixin {
         key: key, value: result, valueType: valueType));
   }
 
+  /// invoke FormInputFieldIntent.onSave
   void onSaveOption(String option) {
     String? nextValue;
     if (value == option) {
@@ -122,6 +158,7 @@ class FieldInputModel with EquatableMixin {
     intentCallback?.call(intent);
   }
 
+  /// if the field is of type image of file
   bool get hasImage {
     return value != null && File(value ?? '').existsSync();
   }
@@ -153,9 +190,6 @@ class FieldInputModel with EquatableMixin {
   FieldInputModel setWarning(String warning) => copyWith(warning: warning);
 
   FieldInputModel setFieldMandatory() => copyWith(mandatory: true);
-
-  FieldInputModel setDisplayName(String? displayName) =>
-      copyWith(displayName: displayName);
 
   FieldInputModel setKeyBoardActionDone() =>
       copyWith(keyboardActionType: KeyboardActionType.DONE);
@@ -210,7 +244,6 @@ class FieldInputModel with EquatableMixin {
         warning: warning ?? this.warning,
         mandatory: mandatory ?? this.mandatory,
         label: label ?? this.label,
-        programStageSection: programStageSection ?? this.programStageSection,
         hint: hint ?? this.hint,
         description: description ?? this.description,
         valueType: valueType ?? this.valueType,
@@ -235,7 +268,6 @@ class FieldInputModel with EquatableMixin {
         warning,
         mandatory,
         label,
-        programStageSection,
         hint,
         description,
         valueType,

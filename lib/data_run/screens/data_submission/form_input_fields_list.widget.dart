@@ -3,13 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/commons/custom_widgets/mixins/keyboard_manager.dart';
 import 'package:mass_pro/data_run/screens/data_submission/form/form_input_field_intent.dart';
 import 'package:mass_pro/data_run/screens/data_submission/form/syncable_form_repository.dart';
+import 'package:mass_pro/data_run/screens/data_submission/form_input_field.widget.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-
-import '../../commons/custom_widgets/mixins/keyboard_manager.dart';
-import 'data_entry_item.widget.dart';
-import 'event/list_view_ui_events.dart';
-import 'intent/form_intent.dart';
-import 'view_model/form_view_model_notifier.dart';
 
 class FormInputFieldsListWidget extends ConsumerStatefulWidget {
   const FormInputFieldsListWidget(
@@ -17,7 +12,7 @@ class FormInputFieldsListWidget extends ConsumerStatefulWidget {
       required this.itemsCount,
       this.onIntent,
       // required this.records,
-      this.onListViewUiEvents,
+      // this.onListViewUiEvents,
       this.searchStyle = false});
 
   final int itemsCount;
@@ -25,6 +20,7 @@ class FormInputFieldsListWidget extends ConsumerStatefulWidget {
   // final FormRepositoryRecords records;
 
   final void Function(FormInputFieldIntent intent)? onIntent;
+
   // final void Function(ListViewUiEvents uiEvent)? onListViewUiEvents;
 
   final bool searchStyle;
@@ -51,16 +47,18 @@ class FormInputFieldsListWidgetState
             shrinkWrap: true,
             itemCount: widget.itemsCount,
             itemBuilder: (BuildContext context, int index) => ProviderScope(
-              overrides: [formInputFieldListIndexProvider.overrideWith((_) => index)],
-              child: DataEntryItemWidget(
+              overrides: [
+                formInputFieldListIndexProvider.overrideWith((_) => index)
+              ],
+              child: FormInputFieldWidget(
                 onIntent: (intent) {
                   if (intent is OnNext) {
                     // scrollToPosition(intent.position!);
                   }
                   widget.onIntent?.call(intent);
                 },
-                onListViewUiEvents: (uiEvent) =>
-                    widget.onListViewUiEvents?.call(uiEvent),
+                // onListViewUiEvents: (uiEvent) =>
+                //     widget.onListViewUiEvents?.call(uiEvent),
                 // records: widget.records,
               ),
             ),

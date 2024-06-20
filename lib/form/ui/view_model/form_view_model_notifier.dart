@@ -46,20 +46,7 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
     } catch (e) {
       return IList([]);
     }
-    // return IList<FieldUiModel>();
   }
-
-  // @override
-  // bool updateShouldNotify(AsyncValue<IList<FieldUiModel>> previous,
-  //     AsyncValue<IList<FieldUiModel>> next) {
-  //   return previous != next;
-  // }
-
-  // Future<void> loadData() async {
-  //   final _repository = ref.read(formRepositoryProvider);
-  //   logInfo(info: 'itemsProvider: fetchFormItems()');
-  //   state = await AsyncValue.guard(_repository.fetchFormItems);
-  // }
 
   void displayLoopWarningIfNeeded() {
     final result = _repository.calculationLoopOverLimit();
@@ -220,14 +207,12 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
   }
 
   Future<void> processCalculatedItems() async {
-    // final _repository = ref.read(formRepositoryProvider);
     logInfo(info: 'itemsProvider: processCalculatedItems()');
     state = const AsyncLoading();
     state = await AsyncValue.guard(_repository.composeList);
   }
 
   Future<StoreResult> _processUserAction(RowAction action) async {
-    // final _repository = ref.read(formRepositoryProvider);
     switch (action.type) {
       /// upon returning, need to processCalculatedItems() and update state
       case ActionType.ON_SAVE:
@@ -312,7 +297,6 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
   /// it will _repository.updateErrorList, so on runDataIntegrity we get
   /// notified about those validation errors
   Future<StoreResult> _saveLastFocusedItem(RowAction rowAction) async {
-    // final _repository = ref.read(formRepositoryProvider);
     final FieldUiModel? field = _getLastFocusedTextItem();
     if (field != null) {
       final Exception? error =

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/commons/custom_widgets/navigationbar/navigation_page_configurator.dart';
 import 'package:mass_pro/commons/extensions/standard_extensions.dart';
 import 'package:mass_pro/commons/state/app_state_notifier.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_deck.widget.dart';
-import 'package:mass_pro/data_run/screens/dashboard/dashboard_page_configurator.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_presenter.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen_view.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_screen.widget.dart';
@@ -34,8 +32,6 @@ class DashboardScreenWidget extends ConsumerStatefulWidget {
 class _DashboardScreenWidgetState extends ConsumerState<DashboardScreenWidget>
     with DashboardScreenView, ViewBase {
   late final DashboardPresenter presenter;
-  final NavigationPageConfigurator _pageConfigurator =
-      DashboardPageConfigurator();
 
   @override
   Widget build(BuildContext context) {
@@ -50,17 +46,13 @@ class _DashboardScreenWidgetState extends ConsumerState<DashboardScreenWidget>
           initialRoute: '/',
           onGenerateRoute: (RouteSettings settings) {
             WidgetBuilder builder;
-            builder = (_) => ProviderScope(
-                  overrides: [],
-                  child: when(settings.name, {
-                    '/': () => const DashboardDeckWidget(),
-                    ProjectDetailScreenWidget.route: () {
-                      // final id = (settings.arguments as Bundle)['id'];
-                      return const ProjectDetailScreenWidget(
-                          /*projectUid: id*/);
-                    },
-                  }).orElse(() => const DashboardDeckWidget()),
-                );
+            builder = (_) => when(settings.name, {
+                  '/': () => const DashboardDeckWidget(),
+                  ProjectDetailScreenWidget.route: () {
+                    // final id = (settings.arguments as Bundle)['id'];
+                    return const ProjectDetailScreenWidget(/*projectUid: id*/);
+                  },
+                }).orElse(() => const DashboardDeckWidget());
             return MaterialPageRoute(builder: builder, settings: settings);
           }),
     );
@@ -74,11 +66,7 @@ class _DashboardScreenWidgetState extends ConsumerState<DashboardScreenWidget>
         syncStatusControllerInstanceProvider.select((syncStatusController) =>
             syncStatusController.syncStatusData.running), (previous, next) {
       if (next ?? false) {
-        // setFilterButtonVisibility(false);
-        // setBottomNavigationVisibility(false);
       } else {
-        // setFilterButtonVisibility(true);
-        // setBottomNavigationVisibility(true);
         presenter.onDataSuccess();
       }
     });
@@ -87,18 +75,12 @@ class _DashboardScreenWidgetState extends ConsumerState<DashboardScreenWidget>
 
   @override
   void didChangeDependencies() {
-    presenter.init();
     presenter.wasSyncAlreadyDone().then((alreadyDone) {
       if (!alreadyDone) {
         presenter.launchInitialDataSync();
       }
     });
     super.didChangeDependencies();
-  }
-
-  @override
-  void goToHome() {
-    // TODO: implement goToHome
   }
 
   @override

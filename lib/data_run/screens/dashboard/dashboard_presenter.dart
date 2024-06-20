@@ -50,11 +50,6 @@ class DashboardPresenter {
 
   final SyncStatusController syncStatusController;
 
-  Future<void> init() async {
-    preferencesProvider.removeValue(CURRENT_ORG_UNIT);
-    repository.user().then((it) => view.renderUsername(it!.username!));
-  }
-
   Future<String> getUserUid() async {
     try {
       return (await repository.user())!.uid!;
@@ -110,11 +105,6 @@ class DashboardPresenter {
 
   String _username(DUser user) {
     return '${user.firstName} ${user.surname ?? ''}';
-  }
-
-  void onNavigateBackToHome() {
-    view.goToHome();
-    // initFilters();
   }
 
   void onClickSyncManager() {

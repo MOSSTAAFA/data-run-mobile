@@ -1,4 +1,8 @@
 import 'package:d2_remote/d2_remote.dart';
+import 'package:get/get.dart';
+import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen.widget.dart';
+import 'package:mass_pro/main/usescases/login/login_screen.widget.dart';
+import 'package:mass_pro/main/usescases/sync/sync_screen.widget.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../commons/constants.dart';
@@ -6,34 +10,23 @@ import '../../../commons/prefs/preference.dart';
 import '../../../commons/prefs/preference_provider.dart';
 import '../../data/server/user_manager.dart';
 import '../../data/server/user_manager_impl.dart';
-import 'splash_view.dart';
 
 part 'splash_presenter.g.dart';
 
 @riverpod
-SplashPresenter splashPresenter(SplashPresenterRef ref, SplashView view) {
-  return SplashPresenter(view, ref.read(preferencesInstanceProvider),
-      ref.read(userManagerProvider));
+SplashPresenter splashPresenter(SplashPresenterRef ref) {
+  return SplashPresenter(
+      ref.read(preferencesInstanceProvider), ref.read(userManagerProvider));
 }
 
 class SplashPresenter {
-  SplashPresenter(this.view, this.preferenceProvider, this.userManager);
+  SplashPresenter(this.preferenceProvider, this.userManager);
 
-  final SplashView view;
   UserManager? userManager;
+
   final PreferenceProvider preferenceProvider;
 
-  // final CrashReportController crashReportController;
-
   void init() {
-    // PreferenceProvider.sharedPreferences()
-    //     .then((SharedPreferences sharedPreferences) {
-    //   sharedPreferences.getKeys().forEach((key) {
-    //     when(key, {
-    //       [PREFS_URLS, PREFS_USERS]: () => preferenceProvider.setValue(key, value),
-    //     });
-    //   });
-    // });
     _isUserLoggedIn();
   }
 
@@ -50,7 +43,7 @@ class SplashPresenter {
                   .then((userLogged) {
                 if (userLogged) {
                   _trackUserInfo();
-                  view.goToNextScreen(
+                  goToNextScreen(
                       isUserLogged: userLogged,
                       sessionLocked:
                           preferenceProvider.getBoolean(SESSION_LOCKED, false),
@@ -59,7 +52,7 @@ class SplashPresenter {
                       initialDataSyncDone: preferenceProvider.getBoolean(
                           INITIAL_DATA_SYNC_DONE, false));
                 } else {
-                  view.goToNextScreen(
+                  goToNextScreen(
                       isUserLogged: false,
                       sessionLocked: false,
                       initialSyncDone: false,
@@ -67,7 +60,7 @@ class SplashPresenter {
                 }
               }));
     } else {
-      view.goToNextScreen(
+      goToNextScreen(
           isUserLogged: false,
           sessionLocked: false,
           initialSyncDone: false,
@@ -89,5 +82,21 @@ class SplashPresenter {
       return 0;
     }
     return D2Remote.userModule.user.count();
+  }
+
+  void goToNextScreen(
+      {required bool isUserLogged,
+      required bool sessionLocked,
+      required bool initialSyncDone,
+      required bool initialDataSyncDone}) {
+    if (isUserLogged && initialSyncDone && !sessionLocked) {
+      Get.off(DashboardScreenWidget(launchDataSync: initialDataSyncDone));
+    } else if (isUserLogged && !initialSyncDone) {
+      Get.off(const SyncScreen());
+    } else {
+      getAccounts().then((count) {
+        Get.off(LoginScreen(accountsCount: count));
+      });
+    }
   }
 }

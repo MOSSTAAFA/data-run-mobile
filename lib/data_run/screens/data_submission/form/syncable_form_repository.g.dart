@@ -6,6 +6,62 @@ part of 'syncable_form_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+String _$syncableFormRecordsHash() =>
+    r'8a7144b47a5881c72aa81a8cf3a3f596e1764165';
+
+/// Other Providers
+///
+///
+///
+/// Copied from [syncableFormRecords].
+@ProviderFor(syncableFormRecords)
+final syncableFormRecordsProvider =
+    AutoDisposeProvider<SyncableFormRecords>.internal(
+  syncableFormRecords,
+  name: r'syncableFormRecordsProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$syncableFormRecordsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef SyncableFormRecordsRef = AutoDisposeProviderRef<SyncableFormRecords>;
+String _$syncableDataEntryRepositoryHash() =>
+    r'04b5b4e8b98a05e2320465a8c15aa13356b8a414';
+
+/// See also [syncableDataEntryRepository].
+@ProviderFor(syncableDataEntryRepository)
+final syncableDataEntryRepositoryProvider =
+    AutoDisposeProvider<SyncableDataEntryRepository>.internal(
+  syncableDataEntryRepository,
+  name: r'syncableDataEntryRepositoryProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$syncableDataEntryRepositoryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef SyncableDataEntryRepositoryRef
+    = AutoDisposeProviderRef<SyncableDataEntryRepository>;
+String _$fieldErrorMessageHash() => r'17b134ed2a0e67d096059f49a7ecc938cf9ccb9b';
+
+/// See also [fieldErrorMessage].
+@ProviderFor(fieldErrorMessage)
+final fieldErrorMessageProvider =
+    AutoDisposeProvider<FieldErrorMessageProvider>.internal(
+  fieldErrorMessage,
+  name: r'fieldErrorMessageProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$fieldErrorMessageHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef FieldErrorMessageRef
+    = AutoDisposeProviderRef<FieldErrorMessageProvider>;
 String _$formInputFieldListIndexHash() =>
     r'd6e8e6a2d9d6ac7ee4ec97c1a0eb89a157542f6e';
 
@@ -23,12 +79,12 @@ final formInputFieldListIndexProvider = AutoDisposeProvider<int>.internal(
 
 typedef FormInputFieldListIndexRef = AutoDisposeProviderRef<int>;
 String _$syncableFormRepositoryHash() =>
-    r'fff08ea3ef6e1216da37ad4b6eb43dcdc9c5e5df';
+    r'6cd400af8c38976985367204a48f30ea5dc72b76';
 
 /// See also [syncableFormRepository].
 @ProviderFor(syncableFormRepository)
 final syncableFormRepositoryProvider =
-    AutoDisposeFutureProvider<SyncableFormRepository>.internal(
+    AutoDisposeProvider<SyncableFormRepository>.internal(
   syncableFormRepository,
   name: r'syncableFormRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -39,7 +95,7 @@ final syncableFormRepositoryProvider =
 );
 
 typedef SyncableFormRepositoryRef
-    = AutoDisposeFutureProviderRef<SyncableFormRepository>;
+    = AutoDisposeProviderRef<SyncableFormRepository>;
 String _$fieldInputModelNotifierHash() =>
     r'54ee77705ce3cc6febeb19723c341c588471db5d';
 

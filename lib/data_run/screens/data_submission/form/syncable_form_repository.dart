@@ -2,12 +2,56 @@
 
 import 'dart:async';
 
+import 'package:d2_remote/d2_remote.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:mass_pro/data_run/screens/data_submission/form/form_input_field.model.dart';
 import 'package:mass_pro/data_run/screens/data_submission/form/syncable_data_entry_repository.dart';
+import 'package:mass_pro/data_run/screens/data_submission/form/syncable_form_records.dart';
+import 'package:mass_pro/data_run/utils/activity_type.dart';
+import 'package:mass_pro/form/model/row_action.dart';
+import 'package:mass_pro/form/ui/validation/field_error_message_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'syncable_form_repository.g.dart';
+
+/// Other Providers
+///
+///
+@riverpod
+SyncableFormRecords syncableFormRecords(SyncableFormRecordsRef ref) {
+  throw UnimplementedError(
+      'You need to override record information in order to persist your data');
+}
+
+@riverpod
+SyncableDataEntryRepository syncableDataEntryRepository(
+    SyncableDataEntryRepositoryRef ref) {
+  final records = ref.watch(syncableFormRecordsProvider);
+  switch (records.activityType) {
+    case ActivityType.CHV_PATIENT:
+      return ChvPatientDataEntryRepository(
+          syncableQuery: D2Remote.iccmModule.chvRegister,
+          entityUid: records.uid);
+    case ActivityType.CHV_SESSION:
+      return ChvSessionDataEntryRepository(
+          syncableQuery: D2Remote.iccmModule.chvSession,
+          entityUid: records.uid);
+    case ActivityType.ITN:
+      return ItnsDataEntryRepository(
+          syncableQuery: D2Remote.itnsVillageModule.itnsVillage,
+          entityUid: records.uid);
+    default:
+  }
+  return ItnsDataEntryRepository(
+      syncableQuery: D2Remote.itnsVillageModule.itnsVillage,
+      entityUid: records.uid);
+}
+
+@riverpod
+FieldErrorMessageProvider fieldErrorMessage(FieldErrorMessageRef ref) {
+  return const FieldErrorMessageProvider();
+}
+
 @riverpod
 int formInputFieldListIndex(FormInputFieldListIndexRef ref) {
   throw UnimplementedError();
@@ -31,32 +75,31 @@ class FormInputFieldsListNotifier extends _$FormInputFieldsListNotifier {
 }
 
 @riverpod
-Future<SyncableFormRepository> syncableFormRepository(
-    SyncableFormRepositoryRef ref) {
-  throw UnimplementedError();
+SyncableFormRepository syncableFormRepository(SyncableFormRepositoryRef ref) {
+  return SyncableFormRepository(ref.watch(syncableDataEntryRepositoryProvider));
 }
 
 class SyncableFormRepository {
-  SyncableFormRepository({
+  SyncableFormRepository(
     this.syncableDataEntryRepository,
-  });
+  );
 
   final SyncableDataEntryRepository? syncableDataEntryRepository;
 
   //
-  // double _completionPercentage = 0;
-  // IList<RowAction> _itemsWithError = IList();
-  // IMap<String, String> _mandatoryItemsWithoutValue = IMap({});
+  double _completionPercentage = 0;
+  IList<RowAction> _itemsWithError = IList();
+  IMap<String, String> _mandatoryItemsWithoutValue = IMap({});
 
   // String? _openedSectionUid;
-  // IList<FieldInputModel> _itemList = IList();
+  IList<FieldInputModel> _itemList = IList();
 
-  // String? _focusedItemId;
+  String? _focusedItemId;
 
   // RuleUtilsProviderResult? ruleEffectsResult;
-  // bool _runDataIntegrity = false;
-  // int _calculationLoop = 0;
-  // IList<FieldInputModel> _backupList = IList();
+  bool _runDataIntegrity = false;
+  int _calculationLoop = 0;
+  IList<FieldInputModel> _backupList = IList();
 
   Future<IList<FieldInputModel>> fetchFormItems() async {
     return await syncableDataEntryRepository?.list() ?? IList();
