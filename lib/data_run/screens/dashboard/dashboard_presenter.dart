@@ -86,7 +86,7 @@ class DashboardPresenter {
     }
   }
 
-  void onSyncAllClick() {
+  Future<void> onSyncAllClick() async {
     view.showGranularSync();
   }
 
@@ -107,7 +107,8 @@ class DashboardPresenter {
     return '${user.firstName} ${user.surname ?? ''}';
   }
 
-  void onClickSyncManager() {
+  Future<void> onClickSyncManager() async {
+    await preferencesProvider.setValue(WAS_INITIAL_SYNC_DONE, false);
     // matomoAnalyticsController.trackEvent(HOME, SETTINGS, CLICK)
   }
 

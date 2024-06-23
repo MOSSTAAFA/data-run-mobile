@@ -21,19 +21,19 @@ MpProgramUtils mpProgramUtils(MpProgramUtilsRef ref, EventQuery eventQuery) {
 class MpProgramUtils {
   MpProgramUtils(this.eventQuery);
   final EventQuery eventQuery;
-  Future<State> getProgramState(Program? program) {
+  Future<SyncableEntityState> getProgramState(Program? program) {
     final programType = program?.programType.toProgramType;
     return when(programType, {
       ProgramType.WITH_REGISTRATION: () {
         // TODO(NMC): implement getTrackerProgramState
         // getTrackerProgramState(program);
-        return Future.value(State.WARNING);
+        return Future.value(SyncableEntityState.WARNING);
       },
       ProgramType.WITHOUT_REGISTRATION: () => getEventProgramState(program),
     }).orElse(() => throw Exception('Unsupported program type'));
   }
 
-  Future<State> getProgramStateByUid(String programUid) async {
+  Future<SyncableEntityState> getProgramStateByUid(String programUid) async {
     return getProgramState(
         await D2Remote.programModule.program.byId(programUid).getOne());
   }
@@ -46,7 +46,7 @@ class MpProgramUtils {
     //     .get().toFlowable()
   }
 
-  Future<State> getEventProgramState(Program? program) async {
+  Future<SyncableEntityState> getEventProgramState(Program? program) async {
     if (program != null) {
       final bool hasEventWithErrorState =
           await _hasEventWithErrorState(program.uid!);
@@ -54,12 +54,12 @@ class MpProgramUtils {
       final bool hasEventWithNotSyncedStateOrDeleted =
           await _hasEventWithNotSyncedStateOrDeleted(program.uid!);
       return when(true, {
-        hasEventWithErrorState: () => State.WARNING,
-        hasEventWithSMSState: () => State.SENT_VIA_SMS,
-        hasEventWithNotSyncedStateOrDeleted: () => State.TO_UPDATE
-      }).orElse(() => State.SYNCED);
+        hasEventWithErrorState: () => SyncableEntityState.WARNING,
+        hasEventWithSMSState: () => SyncableEntityState.SENT_VIA_SMS,
+        hasEventWithNotSyncedStateOrDeleted: () => SyncableEntityState.TO_UPDATE
+      }).orElse(() => SyncableEntityState.SYNCED);
     } else {
-      return State.SYNCED;
+      return SyncableEntityState.SYNCED;
     }
   }
 

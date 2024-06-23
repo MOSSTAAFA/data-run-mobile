@@ -14,10 +14,10 @@ class ProjectActivityChvRepository with ProjectActivityRepository<DActivity> {
   }
 
   @override
-  Future<State> getState([String? id]) async {
+  Future<SyncableEntityState> getState([String? id]) async {
     final withSyncErrorStateRegisters =
-        await D2Remote.iccmModule.patientInfo.withSyncErrorState().count();
-    final withUpdateErrorStateRegisters = await D2Remote.iccmModule.patientInfo
+        await D2Remote.iccmModule.chvRegister.withSyncErrorState().count();
+    final withUpdateErrorStateRegisters = await D2Remote.iccmModule.chvRegister
         .withUpdateSyncedErrorState()
         .count();
 
@@ -33,9 +33,9 @@ class ProjectActivityChvRepository with ProjectActivityRepository<DActivity> {
         withSyncErrorStateSessions > 0 || withUpdateErrorStateSessions > 0;
 
     final withToPostStateRegisters =
-        await D2Remote.iccmModule.patientInfo.withToPostState().count();
+        await D2Remote.iccmModule.chvRegister.withToPostState().count();
     final withToUpdateStateRegisters =
-        await D2Remote.iccmModule.patientInfo.withToUpdateState().count();
+        await D2Remote.iccmModule.chvRegister.withToUpdateState().count();
 
     final withToPostStateSessions =
         await D2Remote.iccmModule.chvSession.withToPostState().count();
@@ -48,9 +48,9 @@ class ProjectActivityChvRepository with ProjectActivityRepository<DActivity> {
         withToUpdateStateRegisters > 0 || withToUpdateStateSessions > 0;
 
     return when(true, {
-      withUpdateErrorState || withSyncErrorState: () => State.WARNING,
-      withToPostState: () => State.TO_POST,
-      withToUpdateState: () => State.TO_UPDATE,
-    }).orElse(() => State.SYNCED);
+      withUpdateErrorState || withSyncErrorState: () => SyncableEntityState.WARNING,
+      withToPostState: () => SyncableEntityState.TO_POST,
+      withToUpdateState: () => SyncableEntityState.TO_UPDATE,
+    }).orElse(() => SyncableEntityState.SYNCED);
   }
 }

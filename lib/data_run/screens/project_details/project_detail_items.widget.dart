@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mass_pro/data_run/screens/project_details/activity_item_expansion_tile.widget.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_item.model.dart';
-import 'package:mass_pro/data_run/screens/project_details/project_detail_item.widget.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_items_models_notifier.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
@@ -41,9 +41,7 @@ class _ProjectItemsWidgetState extends ConsumerState<ProjectDetailItemsWidget> {
                   projectDetailItemModelProvider
                       .overrideWith((_) => data[index])
                 ],
-                child: ProjectDetailItemWidget(
-                  onItemClick: (programViewModel) =>
-                      widget.onItemClick?.call(programViewModel),
+                child: ActivityItemsExpansionTiles(
                   onGranularSyncClick: (programViewModel) =>
                       widget.onGranularSyncClick?.call(programViewModel),
                   onDescriptionClick: (programViewModel) =>

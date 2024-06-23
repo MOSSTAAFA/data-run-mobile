@@ -24,11 +24,11 @@ final dashboardItemModelProvider =
 
 typedef DashboardItemModelRef = AutoDisposeProviderRef<DashboardItemModel>;
 String _$dashboardItemsModelsNotifierHash() =>
-    r'a8415fb8e18e91a5c06dd770803e22e72e30865c';
+    r'4d42ee4fe2aaa616f1aa3af0092b086f057da64e';
 
 /// See also [DashboardItemsModelsNotifier].
 @ProviderFor(DashboardItemsModelsNotifier)
-final dashboardItemsModelsNotifierProvider = AsyncNotifierProvider<
+final dashboardItemsModelsNotifierProvider = AutoDisposeAsyncNotifierProvider<
     DashboardItemsModelsNotifier, IList<DashboardItemModel>>.internal(
   DashboardItemsModelsNotifier.new,
   name: r'dashboardItemsModelsNotifierProvider',
@@ -40,6 +40,6 @@ final dashboardItemsModelsNotifierProvider = AsyncNotifierProvider<
 );
 
 typedef _$DashboardItemsModelsNotifier
-    = AsyncNotifier<IList<DashboardItemModel>>;
+    = AutoDisposeAsyncNotifier<IList<DashboardItemModel>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

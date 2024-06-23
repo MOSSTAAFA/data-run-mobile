@@ -46,7 +46,7 @@ class AppLocalization {
     localized = lookupAppLocalizations(locale);
 
     String defaultJsonString =
-        await rootBundle.loadString('lib/main/l10n/locales_strings/app_en.arb');
+        await rootBundle.loadString('lib/l10n/intl_en.arb');
     Map<String, dynamic> defaultJsonMap = json.decode(defaultJsonString);
 
     _defaultLocalizedStrings = defaultJsonMap.map((key, value) {

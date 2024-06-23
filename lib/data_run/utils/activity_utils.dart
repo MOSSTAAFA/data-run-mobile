@@ -13,35 +13,35 @@ class ActivityUtils {
 
   final ActivityUtilsRef ref;
 
-  Future<State> getActivityState(DActivity? activity,
+  Future<SyncableEntityState> getActivityState(DActivity? activity,
       {bool includeInActive = true}) async {
     final projectId = activity!.project as String;
     final DProject? project =
         await D2Remote.projectModuleD.project.byId(projectId).getOne();
     return when(project!.name.toProjectType, {
-      ProjectType.CHVs: () async {
+      ProjectType.CHVS: () async {
         return await getChvActivityState();
       },
-      ProjectType.ITNs: () => getItnActivityState(activity: activity),
+      ProjectType.ITNS: () => getItnActivityState(activity: activity),
       ProjectType.IRS: () async {
         // Unimplemented
-        return State.SYNCED;
+        return SyncableEntityState.SYNCED;
       },
-      ProjectType.AMDs: () async {
+      ProjectType.AMDS: () async {
         // Unimplemented
-        return State.SYNCED;
+        return SyncableEntityState.SYNCED;
       },
       ProjectType.UNITS: () async {
         // Unimplemented
-        return State.SYNCED;
+        return SyncableEntityState.SYNCED;
       },
-    }).orElse(() => throw Exception('Unsupported project type'));
+    }).orElse(() async => SyncableEntityState.SYNCED);
   }
 
-  Future<State> getChvActivityState() async {
+  Future<SyncableEntityState> getChvActivityState() async {
     final withSyncErrorStateRegisters =
-        await D2Remote.iccmModule.patientInfo.withSyncErrorState().count();
-    final withUpdateErrorStateRegisters = await D2Remote.iccmModule.patientInfo
+        await D2Remote.iccmModule.chvRegister.withSyncErrorState().count();
+    final withUpdateErrorStateRegisters = await D2Remote.iccmModule.chvRegister
         .withUpdateSyncedErrorState()
         .count();
 
@@ -57,9 +57,9 @@ class ActivityUtils {
         withSyncErrorStateSessions > 0 || withUpdateErrorStateSessions > 0;
 
     final withToPostStateRegisters =
-        await D2Remote.iccmModule.patientInfo.withToPostState().count();
+        await D2Remote.iccmModule.chvRegister.withToPostState().count();
     final withToUpdateStateRegisters =
-        await D2Remote.iccmModule.patientInfo.withToUpdateState().count();
+        await D2Remote.iccmModule.chvRegister.withToUpdateState().count();
 
     final withToPostStateSessions =
         await D2Remote.iccmModule.chvSession.withToPostState().count();
@@ -72,13 +72,13 @@ class ActivityUtils {
         withToUpdateStateRegisters > 0 || withToUpdateStateSessions > 0;
 
     return when(true, {
-      withUpdateErrorState || withSyncErrorState: () => State.WARNING,
-      withToPostState: () => State.TO_POST,
-      withToUpdateState: () => State.TO_UPDATE,
-    }).orElse(() => State.SYNCED);
+      withUpdateErrorState || withSyncErrorState: () => SyncableEntityState.WARNING,
+      withToPostState: () => SyncableEntityState.TO_POST,
+      withToUpdateState: () => SyncableEntityState.TO_UPDATE,
+    }).orElse(() => SyncableEntityState.SYNCED);
   }
 
-  Future<State> getItnActivityState({DActivity? activity}) async {
+  Future<SyncableEntityState> getItnActivityState({DActivity? activity}) async {
     final query = D2Remote.itnsVillageModule.itnsVillage;
 
     if (activity != null) {
@@ -94,13 +94,13 @@ class ActivityUtils {
     final withToUpdateState = await query.withToUpdateState().count();
 
     return when(true, {
-      withUpdateErrorState > 0 || withSyncErrorState > 0: () => State.WARNING,
-      withToPostState > 0: () => State.TO_POST,
-      withToUpdateState > 0: () => State.TO_UPDATE,
-    }).orElse(() => State.SYNCED);
+      withUpdateErrorState > 0 || withSyncErrorState > 0: () => SyncableEntityState.WARNING,
+      withToPostState > 0: () => SyncableEntityState.TO_POST,
+      withToUpdateState > 0: () => SyncableEntityState.TO_UPDATE,
+    }).orElse(() => SyncableEntityState.SYNCED);
   }
 
-  Future<State> getActivityStateByUid(String activityUid) async {
+  Future<SyncableEntityState> getActivityStateByUid(String activityUid) async {
     return getActivityState(
         await D2Remote.activityModuleD.activity.byId(activityUid).getOne());
   }

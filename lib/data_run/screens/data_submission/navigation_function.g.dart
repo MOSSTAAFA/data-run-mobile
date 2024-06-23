@@ -169,7 +169,7 @@ class _FormsProviderElement
 }
 
 String _$activityDataRepositoryHash() =>
-    r'b7e4728bc3bb3b99de111d0d56f469f8433f8cb9';
+    r'2776d56989e58542560c52951eea4cd6f54bfdbf';
 
 /// See also [_activityDataRepository].
 @ProviderFor(_activityDataRepository)
@@ -304,7 +304,7 @@ class _ActivityDataRepositoryProviderElement
 }
 
 String _$formCreationStrategyHash() =>
-    r'2ae5003f97f12452eb1aa63c6a1ccb13cc76fac3';
+    r'a057de3f3b0c4e5df37e6e25f285759d48f5c99c';
 
 /// See also [_formCreationStrategy].
 @ProviderFor(_formCreationStrategy)

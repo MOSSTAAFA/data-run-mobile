@@ -1,6 +1,6 @@
 import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
 
-enum ProjectType { ITNs, IRS, CHVs, AMDs, UNITS }
+enum ProjectType { ITNS, IRS, CHVS, AMDS, UNITS }
 
 extension ToProgramTypeExtension on String? {
   ProjectType? get toProjectType {

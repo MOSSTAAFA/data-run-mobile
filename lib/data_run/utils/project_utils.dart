@@ -25,14 +25,14 @@ class ProjectUtils {
     return count as int;
   }
 
-  Future<State> getProjectState(DProject? project,
+  Future<SyncableEntityState> getProjectState(DProject? project,
       {bool includeInActive = true}) async {
     return when(project!.name.toProjectType, {
-      ProjectType.CHVs: () async {
+      ProjectType.CHVS: () async {
         final withSyncErrorStateRegisters =
-            await D2Remote.iccmModule.patientInfo.withSyncErrorState().count();
+            await D2Remote.iccmModule.chvRegister.withSyncErrorState().count();
         final withUpdateErrorStateRegisters = await D2Remote
-            .iccmModule.patientInfo
+            .iccmModule.chvRegister
             .withUpdateSyncedErrorState()
             .count();
 
@@ -49,9 +49,9 @@ class ProjectUtils {
             withSyncErrorStateSessions > 0 || withUpdateErrorStateSessions > 0;
 
         final withToPostStateRegisters =
-            await D2Remote.iccmModule.patientInfo.withToPostState().count();
+            await D2Remote.iccmModule.chvRegister.withToPostState().count();
         final withToUpdateStateRegisters =
-            await D2Remote.iccmModule.patientInfo.withToUpdateState().count();
+            await D2Remote.iccmModule.chvRegister.withToUpdateState().count();
 
         final withToPostStateSessions =
             await D2Remote.iccmModule.chvSession.withToPostState().count();
@@ -64,12 +64,12 @@ class ProjectUtils {
             withToUpdateStateRegisters > 0 || withToUpdateStateSessions > 0;
 
         return when(true, {
-          withUpdateErrorState || withSyncErrorState: () => State.WARNING,
-          withToPostState: () => State.TO_POST,
-          withToUpdateState: () => State.TO_UPDATE,
-        }).orElse(() => State.SYNCED);
+          withUpdateErrorState || withSyncErrorState: () => SyncableEntityState.WARNING,
+          withToPostState: () => SyncableEntityState.TO_POST,
+          withToUpdateState: () => SyncableEntityState.TO_UPDATE,
+        }).orElse(() => SyncableEntityState.SYNCED);
       },
-      ProjectType.ITNs: () async {
+      ProjectType.ITNS: () async {
         final withSyncErrorState = await D2Remote.itnsVillageModule.itnsVillage
             .withSyncErrorState()
             .count();
@@ -88,24 +88,24 @@ class ProjectUtils {
 
         return when(true, {
           withUpdateErrorState > 0 || withSyncErrorState > 0: () =>
-              State.WARNING,
-          withToPostState > 0: () => State.TO_POST,
-          withToUpdateState > 0: () => State.TO_UPDATE,
-        }).orElse(() => State.SYNCED);
+              SyncableEntityState.WARNING,
+          withToPostState > 0: () => SyncableEntityState.TO_POST,
+          withToUpdateState > 0: () => SyncableEntityState.TO_UPDATE,
+        }).orElse(() => SyncableEntityState.SYNCED);
       },
       ProjectType.IRS: () async {
-        return State.SYNCED;
+        return SyncableEntityState.SYNCED;
       },
-      ProjectType.AMDs: () async {
-        return State.SYNCED;
+      ProjectType.AMDS: () async {
+        return SyncableEntityState.SYNCED;
       },
       ProjectType.UNITS: () async {
-        return State.SYNCED;
+        return SyncableEntityState.SYNCED;
       },
-    }).orElse(() => throw Exception('Unsupported project type'));
+    }).orElse(() async => SyncableEntityState.SYNCED);
   }
 
-  Future<State> getProjectStateByUid(String projectUid) async {
+  Future<SyncableEntityState> getProjectStateByUid(String projectUid) async {
     return getProjectState(
         await D2Remote.projectModuleD.project.byId(projectUid).getOne());
   }

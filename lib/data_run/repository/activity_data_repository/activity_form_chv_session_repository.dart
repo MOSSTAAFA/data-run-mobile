@@ -12,7 +12,7 @@ class ActivityDataChvSessionRepository with ActivityDataRepository<ChvSession> {
   // final ActivityFormDataRepository<ChvSession> repository;
 
   @override
-  Future<State> getState([String? id]) async {
+  Future<SyncableEntityState> getState([String? id]) async {
     final query = D2Remote.iccmModule.chvSession;
 
     final withSyncErrorState = await query.withSyncErrorState().count();
@@ -24,10 +24,10 @@ class ActivityDataChvSessionRepository with ActivityDataRepository<ChvSession> {
     final withToUpdateState = await query.withToUpdateState().count();
 
     return when(true, {
-      withUpdateErrorState > 0 || withSyncErrorState > 0: () => State.WARNING,
-      withToPostState > 0: () => State.TO_POST,
-      withToUpdateState > 0: () => State.TO_UPDATE,
-    }).orElse(() => State.SYNCED);
+      withUpdateErrorState > 0 || withSyncErrorState > 0: () => SyncableEntityState.WARNING,
+      withToPostState > 0: () => SyncableEntityState.TO_POST,
+      withToUpdateState > 0: () => SyncableEntityState.TO_UPDATE,
+    }).orElse(() => SyncableEntityState.SYNCED);
   }
 
   @override

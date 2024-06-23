@@ -4,7 +4,7 @@ import 'package:d2_remote/shared/entities/base.entity.dart';
 import 'package:mass_pro/core/common/state.dart';
 
 mixin ProjectActivityRepository<T extends BaseEntity> {
-  Future<State> getState([String? id]);
+  Future<SyncableEntityState> getState([String? id]);
 
   Future<List<DActivity>> get([String? id]) {
     final query = D2Remote.activityModuleD.activity;

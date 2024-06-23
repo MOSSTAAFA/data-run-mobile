@@ -20,7 +20,7 @@ DashboardItemModel dashboardItemModel(DashboardItemModelRef ref) {
   throw UnimplementedError();
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 class DashboardItemsModelsNotifier extends _$DashboardItemsModelsNotifier {
   @override
   Future<IList<DashboardItemModel>> build() async {

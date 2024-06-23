@@ -1,123 +1,137 @@
 import 'package:equatable/equatable.dart';
 import 'package:mass_pro/commons/ui/metadata_icon_data.dart';
 import 'package:mass_pro/core/common/state.dart';
-import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_item.model.dart';
 
-class ProjectDetailItemModel with EquatableMixin {
-  ProjectDetailItemModel({
-    this.uid = '',
-    this.title = '',
-    this.metadataIconData,
-    this.count = 0,
-    this.type,
-    this.typeName = '',
-    this.programType = '',
-    this.description,
-    this.onlyEnrollOnce = true,
-    this.accessDataWrite = true,
-    this.dirty = false,
-    required this.state,
-    this.hasOverdueEvent = false,
-    this.filtersAreActive = false,
-    this.downloadState = ProjectDownloadState.DOWNLOADED,
-    this.downloadActive = false,
-    this.hasShownCompleteSyncAnimation = false,
-  });
+class FormListItemModel with EquatableMixin {
+  FormListItemModel(
+      {
+      /// form uid
+      required this.form,
+      required this.formCode,
+      this.formName,
+      this.activity,
+      this.entitiesToPost = 0,
+      this.entitiesToUpdate = 0,
+      this.entitiesSynced = 0,
+      this.entitiesWithError = 0,
+      this.canAddNewEvent = true,
+      this.description,
+      required this.state});
 
-  final String uid;
-  final String title;
-
-  // final MetadataIconData metadataIconData;
-  final MetadataIconData? metadataIconData;
-
-  final int count;
-  final String? type;
-  final String typeName;
-  final String programType;
+  final String form;
+  final String formCode;
+  final String? formName;
+  final String? activity;
   final String? description;
-  final bool onlyEnrollOnce;
-  final bool accessDataWrite;
+  final int entitiesToPost;
+  final int entitiesToUpdate;
+  final int entitiesSynced;
+  final int entitiesWithError;
+  final bool canAddNewEvent;
+  final SyncableEntityState state;
 
-  final State state;
-  final bool dirty;
-  final bool hasOverdueEvent;
-  final bool filtersAreActive;
-  final ProjectDownloadState downloadState;
-  final bool downloadActive; //: Boolean = false
-
-  /// var
-  final bool hasShownCompleteSyncAnimation;
-
-  bool hasShowCompleteSyncAnimation() => hasShownCompleteSyncAnimation;
-
-  bool translucent() {
-    return (filtersAreActive && count == 0) ||
-        downloadState == ProjectDownloadState.DOWNLOADING;
-  }
-
-  String countDescription() => '$count $typeName';
-
-  bool isDownloading() =>
-      downloadActive || downloadState == ProjectDownloadState.DOWNLOADING;
-
-  double getAlphaValue() => isDownloading() ? 0.5 : 1;
-
-  ProjectDetailItemModel copyWith(
-          {final String? uid,
-          String? title,
-          MetadataIconData? metadataIconData,
-          int? count,
-          String? type,
-          String? typeName,
-          String? programType,
+  FormListItemModel copyWith(
+          {String? form,
+          String? formCode,
+          String? formName,
+          String? activity,
           String? description,
-          bool? onlyEnrollOnce,
-          bool? accessDataWrite,
-          State? state,
-          bool? dirty,
-          bool? hasOverdueEvent,
-          bool? filtersAreActive,
-          ProjectDownloadState? downloadState,
-          bool? downloadActive,
-          bool? hasShownCompleteSyncAnimation}) =>
-      ProjectDetailItemModel(
-          uid: uid ?? this.uid,
-          title: title ?? this.title,
-          metadataIconData: metadataIconData ?? this.metadataIconData,
-          count: count ?? this.count,
-          type: type ?? this.type,
-          state: state ?? this.state,
-          typeName: typeName ?? this.typeName,
-          programType: programType ?? this.programType,
-          description: description ?? this.description,
-          onlyEnrollOnce: onlyEnrollOnce ?? this.onlyEnrollOnce,
-          accessDataWrite: accessDataWrite ?? this.accessDataWrite,
-          dirty: dirty ?? this.dirty,
-          hasOverdueEvent: hasOverdueEvent ?? this.hasOverdueEvent,
-          filtersAreActive: filtersAreActive ?? this.filtersAreActive,
-          downloadState: downloadState ?? this.downloadState,
-          downloadActive: downloadActive ?? this.downloadActive,
-          hasShownCompleteSyncAnimation: hasShownCompleteSyncAnimation ??
-              this.hasShownCompleteSyncAnimation);
+          int? entitiesToPost,
+          int? entitiesToUpdate,
+          int? entitiesSynced,
+          int? entitiesWithError,
+          bool? canAddNewEvent,
+          SyncableEntityState? state}) =>
+      FormListItemModel(
+        form: form ?? this.form,
+        formCode: formCode ?? this.formCode,
+        formName: formName ?? this.formName,
+        activity: activity ?? this.activity,
+        description: description ?? this.description,
+        entitiesToPost: entitiesToPost ?? this.entitiesToPost,
+        entitiesToUpdate: entitiesToUpdate ?? this.entitiesToUpdate,
+        entitiesSynced: entitiesSynced ?? this.entitiesSynced,
+        entitiesWithError: entitiesWithError ?? this.entitiesWithError,
+        canAddNewEvent: canAddNewEvent ?? this.canAddNewEvent,
+        state: state ?? this.state,
+      );
 
   @override
   List<Object?> get props => [
-        uid,
-        title,
-        metadataIconData,
-        count,
-        type,
-        state,
-        typeName,
-        programType,
+        form,
+        formCode,
+        formName,
+        activity,
+        entitiesToPost,
+        entitiesToUpdate,
+        entitiesSynced,
+        entitiesWithError,
+        canAddNewEvent,
         description,
-        onlyEnrollOnce,
-        accessDataWrite,
-        dirty,
-        hasOverdueEvent,
-        filtersAreActive,
-        downloadState,
-        downloadActive,
-        hasShownCompleteSyncAnimation
+        state
+      ];
+}
+
+class ProjectDetailItemModel with EquatableMixin {
+  ProjectDetailItemModel(
+      {
+      /// activity uid
+      required this.activity,
+      required this.activityName,
+      // this.team,
+      this.activeFormCount = 0,
+      this.isSelected = false,
+      this.valueListIsOpen = true,
+      this.metadataIconData,
+      this.description,
+      required this.state});
+
+  final String activity;
+  final String activityName;
+
+  // final String? team;
+
+  final int activeFormCount;
+  final String? description;
+
+  final bool isSelected;
+  final bool valueListIsOpen;
+  final MetadataIconData? metadataIconData;
+  final SyncableEntityState state;
+
+  ProjectDetailItemModel copyWith(
+          {String? activity,
+          String? activityName,
+          // String? team,
+          int? activeFormCount,
+          bool? isSelected,
+          bool? valueListIsOpen,
+          MetadataIconData? metadataIconData,
+          String? description,
+          SyncableEntityState? state}) =>
+      ProjectDetailItemModel(
+          activity: activity ?? this.activity,
+          activityName: activityName ?? this.activityName,
+          // team: team ?? this.team,
+          metadataIconData: metadataIconData ?? this.metadataIconData,
+          activeFormCount: activeFormCount ?? this.activeFormCount,
+          state: state ?? this.state,
+          description: description ?? this.description,
+          isSelected: isSelected ?? this.isSelected,
+          valueListIsOpen: valueListIsOpen ?? this.valueListIsOpen);
+
+  @override
+  List<Object?> get props => [
+        activity,
+        activityName,
+        // team,
+        activeFormCount,
+        description,
+        isSelected,
+        valueListIsOpen,
+        metadataIconData,
+        activeFormCount,
+        state,
+        description,
       ];
 }

@@ -98,7 +98,7 @@ class App extends ConsumerWidget {
         // from the list (English, in this case).
         return supportedLocales.first;
       },
-      // initialRoute: SplashScreen.route,
+      initialRoute: SplashScreen.route,
       getPages: [
         GetPage(
           name: SplashScreen.route,

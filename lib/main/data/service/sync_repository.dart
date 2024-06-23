@@ -14,10 +14,10 @@ SyncRepository syncRepository(SyncRepositoryRef ref) {
 
 abstract class SyncRepository {
   Future<List<TrackedEntityInstance>> getTeiByNotInStates(
-      String uid, List<State> states);
+      String uid, List<SyncableEntityState> states);
 
   Future<List<TrackedEntityInstance>> getTeiByInStates(
-      String uid, List<State> states);
+      String uid, List<SyncableEntityState> states);
 
   Future<List<Event>> getEventsFromEnrollmentByNotInSyncState(
       String uid /* , List<State> states */);

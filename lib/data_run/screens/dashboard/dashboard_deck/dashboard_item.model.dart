@@ -13,7 +13,7 @@ class DashboardItemModel with EquatableMixin {
       /// Count of activities
       this.count = 0,
       this.description,
-      this.state = State.SYNCED,
+      this.state = SyncableEntityState.SYNCED,
       this.accessDataWrite = true,
       this.dirty = false,
       this.hasOverdueEvent = false,
@@ -36,7 +36,7 @@ class DashboardItemModel with EquatableMixin {
   final String? description;
   final bool accessDataWrite;
 
-  final State state;
+  final SyncableEntityState state;
   final bool dirty;
   final bool hasOverdueEvent;
   final bool filtersAreActive;
@@ -70,7 +70,7 @@ class DashboardItemModel with EquatableMixin {
           String? description,
           bool? onlyEnrollOnce,
           bool? accessDataWrite,
-          State? state,
+          SyncableEntityState? state,
           bool? dirty,
           bool? hasOverdueEvent,
           bool? filtersAreActive,

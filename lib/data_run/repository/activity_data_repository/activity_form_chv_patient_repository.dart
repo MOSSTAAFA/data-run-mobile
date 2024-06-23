@@ -1,5 +1,5 @@
 import 'package:d2_remote/d2_remote.dart';
-import 'package:d2_remote/modules/datarun/iccm/entities/patient_info.entity.dart';
+import 'package:d2_remote/modules/datarun/iccm/entities/chv_register.entity.dart';
 import 'package:d2_remote/modules/datarun_shared/entities/syncable.entity.dart';
 import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import 'package:mass_pro/core/common/state.dart';
@@ -7,14 +7,14 @@ import 'package:mass_pro/data_run/repository/activity_data_repository/activity_d
 import 'package:mass_pro/data_run/repository/activity_data_repository/activity_form_data_repository.dart';
 
 class ActivityDataChvPatientRepository
-    with ActivityDataRepository<PatientInfo> {
+    with ActivityDataRepository<ChvRegister> {
   ActivityDataChvPatientRepository(this.repository);
 
-  final ActivityFormDataRepository<PatientInfo> repository;
+  final ActivityFormDataRepository<ChvRegister> repository;
 
   @override
-  Future<State> getState([String? id]) async {
-    final query = D2Remote.iccmModule.patientInfo;
+  Future<SyncableEntityState> getState([String? id]) async {
+    final query = D2Remote.iccmModule.chvRegister;
 
     final withSyncErrorState = await query.withSyncErrorState().count();
 
@@ -25,19 +25,19 @@ class ActivityDataChvPatientRepository
     final withToUpdateState = await query.withToUpdateState().count();
 
     return when(true, {
-      withUpdateErrorState > 0 || withSyncErrorState > 0: () => State.WARNING,
-      withToPostState > 0: () => State.TO_POST,
-      withToUpdateState > 0: () => State.TO_UPDATE,
-    }).orElse(() => State.SYNCED);
+      withUpdateErrorState > 0 || withSyncErrorState > 0: () => SyncableEntityState.WARNING,
+      withToPostState > 0: () => SyncableEntityState.TO_POST,
+      withToUpdateState > 0: () => SyncableEntityState.TO_UPDATE,
+    }).orElse(() => SyncableEntityState.SYNCED);
   }
 
   @override
-  Future<List<PatientInfo>> fetchData([String? id]) {
-    return D2Remote.iccmModule.patientInfo.get();
+  Future<List<ChvRegister>> fetchData([String? id]) {
+    return D2Remote.iccmModule.chvRegister.get();
   }
 
   @override
-  Future<PatientInfo> saveData(SyncableEntity data) {
+  Future<ChvRegister> saveData(SyncableEntity data) {
     // TODO: implement saveData
     throw UnimplementedError();
   }

@@ -24,13 +24,35 @@ final projectDetailItemModelProvider =
 
 typedef ProjectDetailItemModelRef
     = AutoDisposeProviderRef<ProjectDetailItemModel>;
+String _$formListItemModelsHash() =>
+    r'61334a0291bb46ef0b511c59ecf2dd2dea563350';
+
+/// See also [formListItemModels].
+@ProviderFor(formListItemModels)
+final formListItemModelsProvider =
+    AutoDisposeFutureProvider<IList<FormListItemModel>>.internal(
+  formListItemModels,
+  name: r'formListItemModelsProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$formListItemModelsHash,
+  dependencies: <ProviderOrFamily>[projectDetailItemModelProvider],
+  allTransitiveDependencies: <ProviderOrFamily>{
+    projectDetailItemModelProvider,
+    ...?projectDetailItemModelProvider.allTransitiveDependencies
+  },
+);
+
+typedef FormListItemModelsRef
+    = AutoDisposeFutureProviderRef<IList<FormListItemModel>>;
 String _$projectDetailItemsModelsNotifierHash() =>
-    r'73f1adbae20aa0f286d5f9423806a7e7fff9a27e';
+    r'f3468e9ffc41b14c752f1f9ba92b9cc30337f7e2';
 
 /// See also [ProjectDetailItemsModelsNotifier].
 @ProviderFor(ProjectDetailItemsModelsNotifier)
-final projectDetailItemsModelsNotifierProvider = AsyncNotifierProvider<
-    ProjectDetailItemsModelsNotifier, IList<ProjectDetailItemModel>>.internal(
+final projectDetailItemsModelsNotifierProvider =
+    AutoDisposeAsyncNotifierProvider<ProjectDetailItemsModelsNotifier,
+        IList<ProjectDetailItemModel>>.internal(
   ProjectDetailItemsModelsNotifier.new,
   name: r'projectDetailItemsModelsNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -41,6 +63,6 @@ final projectDetailItemsModelsNotifierProvider = AsyncNotifierProvider<
 );
 
 typedef _$ProjectDetailItemsModelsNotifier
-    = AsyncNotifier<IList<ProjectDetailItemModel>>;
+    = AutoDisposeAsyncNotifier<IList<ProjectDetailItemModel>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

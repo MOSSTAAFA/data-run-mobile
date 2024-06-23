@@ -58,11 +58,12 @@ bool? _checkActivityType(String? code, ActivityType type) {
 }
 
 @riverpod
+@deprecated
 Future<SyncableQuery> _activityDataRepository(
     _ActivityDataRepositoryRef ref, DActivity activity) async {
   return when(true, <bool?, SyncableQuery Function()>{
     _checkActivityType(activity.code, ActivityType.CHV_PATIENT): () =>
-        D2Remote.iccmModule.patientInfo,
+        D2Remote.iccmModule.chvRegister,
     _checkActivityType(activity.code, ActivityType.CHV_SESSION): () =>
         D2Remote.iccmModule.chvSession,
     _checkActivityType(activity.code, ActivityType.ITN): () =>
@@ -71,6 +72,7 @@ Future<SyncableQuery> _activityDataRepository(
 }
 
 @riverpod
+@deprecated
 Future<FormCreationStrategy> _formCreationStrategy(
     _FormCreationStrategyRef ref, DActivity activity) async {
   return when(true, <bool?, FormCreationStrategy Function()>{

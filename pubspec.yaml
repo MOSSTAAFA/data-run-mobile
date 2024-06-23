@@ -46,33 +46,17 @@ dependencies:
   percent_indicator: ^4.2.3
   scrollable_positioned_list: ^0.3.8
   get: ^4.6.6
-  intl_translation: ^0.20.0
-#  pointer_interceptor: ^0.9.3+2 # used in custom AlertDialog
-#  queue: ^3.1.0+2
-#  freezed_annotation: ^2.1.0
-#  provider: ^6.0.5
-#  flutter_riverpod: ^2.3.6
-#  riverpod_annotation: ^2.1.1
+
 
 dev_dependencies:
+#  auto_route_generator: ^8.0.0
   build_runner: ^2.4.11
   custom_lint: ^0.6.4
   flutter_test:
     sdk: flutter
   riverpod_generator: ^2.4.0
   riverpod_lint: ^2.3.10
-#  build_runner: ^2.4.11
-
-#  flutter_lints: ^2.0.0
-#  build_runner: ^2.2.0
-#  freezed: ^2.1.0+1
-#  built_value_generator: ^8.4.1
   #  sealed_generators: ^1.13.0
-#  riverpod_generator: ^2.1.5
-#  riverpod_generator: ^2.2.4
-#  riverpod_lint: ^1.1.7
-#  riverpod_lint: ^1.4.0
-#  custom_lint: ^0.4.0
 
 flutter:
   uses-material-design: true
@@ -80,9 +64,12 @@ flutter:
   assets:
     - lib/sample/dhis/
     - lib/main/l10n/locales_strings/
+    - lib/l10n/
     - assets/images/
     - assets/languages/
 # analyzer:
 #   strong-mode: true
 #   language:
 #     enableSuperMixins: true
+flutter_intl:
+  enabled: true

@@ -7,7 +7,7 @@ class ActivityDataRepositoryContext {
 
   final ActivityDataRepository<SyncableEntity> repository;
 
-  Future<State> getState([String? id]) {
+  Future<SyncableEntityState> getState([String? id]) {
     return repository.getState(id);
   }
 
