@@ -4,12 +4,12 @@ import 'package:mass_pro/data_run/screens/data_submission/form/form_input_field_
 import 'package:mass_pro/data_run/screens/data_submission/form/syncable_form_repository.dart';
 
 class FormInputFieldWidget extends ConsumerWidget {
-  const FormInputFieldWidget({
-    super.key,
-    this.onIntent,
-    // this.onListViewUiEvents,
-    // required this.records,
-  });
+  const FormInputFieldWidget({super.key, this.onIntent, required this.index
+      // this.onListViewUiEvents,
+      // required this.records,
+      });
+
+  final int index;
 
   // final FormRepositoryRecords records;
 
@@ -19,7 +19,7 @@ class FormInputFieldWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final itemIndex = ref.watch(formInputFieldListIndexProvider);
+    final item = ref.watch(fieldInputModelNotifierProvider(index));
     // final FormInputFieldIntent? item = ref.watch(formViewModelNotifierProvider.select(
     //     (asyncList) => asyncList.value?.isNotEmpty ?? false
     //         ? asyncList.value![itemIndex]

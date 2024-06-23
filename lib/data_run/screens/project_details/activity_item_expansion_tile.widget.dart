@@ -34,8 +34,13 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
 
     /// Get the icon based on Synced/synced status
     final Widget statusActionButton = when(projectDetailItemModel.state, {
-      item_state.SyncableEntityState.uploadableStates: () => OutlinedButton.icon(
-          label: Icon(Icons.sync, color: Colors.green[300]),
+      item_state.SyncableEntityState.uploadableStates: () => IconButton(
+          // iconSize: 30,
+          style: IconButton.styleFrom(
+            // backgroundColor: Colors.grey,
+            foregroundColor: Colors.grey,
+          ),
+          icon: Icon(Icons.cloud_sync),
           onPressed: () => onGranularSyncClick?.call(projectDetailItemModel)),
       item_state.SyncableEntityState.ERROR: () =>
           Icon(Icons.warning_amber, color: Colors.red),
@@ -56,6 +61,7 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
               .toggleExpansion(projectDetailItemModel);
         },
         leading: const Icon(Icons.event_note_sharp),
+        trailing: statusActionButton,
         title: Row(
           children: [
             Expanded(
@@ -73,7 +79,7 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
                 ],
               ),
             ),
-            statusActionButton,
+            // statusActionButton,
           ],
         ),
         subtitle: projectDetailItemModel.valueListIsOpen
@@ -85,6 +91,7 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
         backgroundColor: cardColor,
         children: projectDetailItemModel.activeFormCount > 0
             ? [
+                // Divider(),
                 FormsTiles(
                   onList: navigateToEntitiesList,
                   onAdd: navigateToAddScreen,
@@ -96,7 +103,9 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
   }
 
   void navigateToEntitiesList(FormListItemModel? formModel) {
-    Get.to(EntitiesListScreen(formModel: formModel!,));
+    Get.to(EntitiesListScreen(
+      formModel: formModel!,
+    ));
   }
 
   void navigateToAddScreen(FormListItemModel? formModel) {}
@@ -152,7 +161,7 @@ class FormsTiles extends ConsumerWidget {
                                 ),
                                 Chip(
                                   avatar: const CircleAvatar(
-                                    child: Icon(Icons.check_circle),
+                                    child: Icon(Icons.cloud_upload),
                                   ),
                                   label:
                                       Text('${t.entitiesToPost}' /*Finished*/),
@@ -180,16 +189,17 @@ class FormsTiles extends ConsumerWidget {
                                 ElevatedButton.icon(
                                   onPressed: () => onList?.call(t),
                                   icon: const Icon(Icons.list),
-                                  label: const Text('View Entities'),
+                                  label: const Text('View List'),
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.blue,
                                     foregroundColor: Colors.white,
                                   ),
                                 ),
+
                                 ElevatedButton.icon(
                                   onPressed: () => onAdd?.call(t),
                                   icon: const Icon(Icons.add),
-                                  label: const Text('Add Entity'),
+                                  label: const Text('Add New'),
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.green,
                                     foregroundColor: Colors.white,

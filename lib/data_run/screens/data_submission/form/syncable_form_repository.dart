@@ -2,48 +2,37 @@
 
 import 'dart:async';
 
-import 'package:d2_remote/d2_remote.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:get/get.dart';
+import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/data_run/screens/data_submission/form/form_input_field.model.dart';
 import 'package:mass_pro/data_run/screens/data_submission/form/syncable_data_entry_repository.dart';
 import 'package:mass_pro/data_run/screens/data_submission/form/syncable_form_records.dart';
-import 'package:mass_pro/data_run/utils/activity_type.dart';
+import 'package:mass_pro/data_run/screens/project_details/form_entity_mapped_repository.dart';
 import 'package:mass_pro/form/model/row_action.dart';
 import 'package:mass_pro/form/ui/validation/field_error_message_provider.dart';
+import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'syncable_form_repository.g.dart';
 
-/// Other Providers
-///
-///
-@riverpod
-SyncableFormRecords syncableFormRecords(SyncableFormRecordsRef ref) {
-  throw UnimplementedError(
-      'You need to override record information in order to persist your data');
-}
-
 @riverpod
 SyncableDataEntryRepository syncableDataEntryRepository(
     SyncableDataEntryRepositoryRef ref) {
-  final records = ref.watch(syncableFormRecordsProvider);
-  switch (records.activityType) {
-    case ActivityType.CHV_PATIENT:
-      return ChvPatientDataEntryRepository(
-          syncableQuery: D2Remote.iccmModule.chvRegister,
-          entityUid: records.uid);
-    case ActivityType.CHV_SESSION:
-      return ChvSessionDataEntryRepository(
-          syncableQuery: D2Remote.iccmModule.chvSession,
-          entityUid: records.uid);
-    case ActivityType.ITN:
-      return ItnsDataEntryRepository(
-          syncableQuery: D2Remote.itnsVillageModule.itnsVillage,
-          entityUid: records.uid);
-    default:
+  final Bundle eventBundle = Get.arguments as Bundle;
+  final records = eventBundle.getObject(RECORDS);
+
+  if (records == null) {
+    throw Exception(
+        'You need to set record information in order to persist your data');
   }
-  return ItnsDataEntryRepository(
-      syncableQuery: D2Remote.itnsVillageModule.itnsVillage,
+
+  records as SyncableFormRecords;
+
+  return SyncableDataEntryRepository(
+      syncableQuery: ref
+          .watch(formEntityMappedRepositoryProvider(records.formCode))
+          .getEntityQuery(),
       entityUid: records.uid);
 }
 
@@ -53,15 +42,11 @@ FieldErrorMessageProvider fieldErrorMessage(FieldErrorMessageRef ref) {
 }
 
 @riverpod
-int formInputFieldListIndex(FormInputFieldListIndexRef ref) {
-  throw UnimplementedError();
-}
-
-@riverpod
 class FieldInputModelNotifier extends _$FieldInputModelNotifier {
   @override
-  FieldInputModel build() {
-    throw UnimplementedError();
+  Future<FieldInputModel> build(int index) {
+    return ref.watch(
+        formInputFieldsListNotifierProvider.selectAsync((list) => list[index]));
   }
 }
 
@@ -69,8 +54,8 @@ class FieldInputModelNotifier extends _$FieldInputModelNotifier {
 @riverpod
 class FormInputFieldsListNotifier extends _$FormInputFieldsListNotifier {
   @override
-  IList<FieldInputModel> build() {
-    throw UnimplementedError();
+  Future<IList<FieldInputModel>> build() {
+    return ref.watch(syncableFormRepositoryProvider).fetchFormItems();
   }
 }
 

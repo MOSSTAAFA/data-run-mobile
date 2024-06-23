@@ -1,12 +1,11 @@
 import 'package:equatable/equatable.dart';
-import 'package:mass_pro/data_run/utils/activity_type.dart';
 
 class SyncableFormRecords with EquatableMixin {
-  const SyncableFormRecords({required this.uid, required this.activityType});
+  const SyncableFormRecords({required this.uid, required this.formCode});
 
   final String uid;
-  final ActivityType activityType;
+  final String formCode;
 
   @override
-  List<Object?> get props => [uid, activityType];
+  List<Object?> get props => [uid, formCode];
 }

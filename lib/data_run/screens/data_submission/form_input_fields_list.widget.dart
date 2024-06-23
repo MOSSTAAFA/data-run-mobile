@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/commons/custom_widgets/mixins/keyboard_manager.dart';
 import 'package:mass_pro/data_run/screens/data_submission/form/form_input_field_intent.dart';
-import 'package:mass_pro/data_run/screens/data_submission/form/syncable_form_repository.dart';
 import 'package:mass_pro/data_run/screens/data_submission/form_input_field.widget.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
@@ -46,21 +45,18 @@ class FormInputFieldsListWidgetState
         ? ScrollablePositionedList.builder(
             shrinkWrap: true,
             itemCount: widget.itemsCount,
-            itemBuilder: (BuildContext context, int index) => ProviderScope(
-              overrides: [
-                formInputFieldListIndexProvider.overrideWith((_) => index)
-              ],
-              child: FormInputFieldWidget(
-                onIntent: (intent) {
-                  if (intent is OnNext) {
-                    // scrollToPosition(intent.position!);
-                  }
-                  widget.onIntent?.call(intent);
-                },
-                // onListViewUiEvents: (uiEvent) =>
-                //     widget.onListViewUiEvents?.call(uiEvent),
-                // records: widget.records,
-              ),
+            itemBuilder: (BuildContext context, int index) =>
+                FormInputFieldWidget(
+              index: index,
+              onIntent: (intent) {
+                if (intent is OnNext) {
+                  // scrollToPosition(intent.position!);
+                }
+                widget.onIntent?.call(intent);
+              },
+              // onListViewUiEvents: (uiEvent) =>
+              //     widget.onListViewUiEvents?.call(uiEvent),
+              // records: widget.records,
             ),
             itemScrollController: itemScrollController,
             // itemPositionsListener: itemPositionsListener,

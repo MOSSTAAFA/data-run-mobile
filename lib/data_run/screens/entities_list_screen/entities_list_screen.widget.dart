@@ -22,7 +22,7 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Entities List'),
+        title: Text(widget.formModel.formCode),
       ),
       body: Column(
         children: [
@@ -41,23 +41,25 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            _buildFilterChip(EntityFilterStatus.All, Icons.all_inclusive),
-            _buildFilterChip(EntityFilterStatus.Sent, Icons.cloud_done),
-            _buildFilterChip(EntityFilterStatus.Completed, Icons.check_circle),
-            _buildFilterChip(EntityFilterStatus.ToComplete, Icons.update),
-            _buildFilterChip(EntityFilterStatus.Error, Icons.error),
+            _buildFilterChip(EntityFilterStatus.All),
+            _buildFilterChip(EntityFilterStatus.Sent),
+            _buildFilterChip(EntityFilterStatus.Completed),
+            _buildFilterChip(EntityFilterStatus.ToComplete),
+            _buildFilterChip(EntityFilterStatus.Error),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildFilterChip(EntityFilterStatus status, IconData icon) {
+  Widget _buildFilterChip(EntityFilterStatus status) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4.0),
       child: ChoiceChip(
         label: Text(status.name),
-        avatar: Icon(icon),
+        showCheckmark: false,
+        tooltip: status.name,
+        avatar: _buildStatusIcon(EntityFilterStatus.getSyncableStatus(status)),
         selected: _selectedStatus == status,
         onSelected: (bool selected) {
           setState(() {
@@ -83,8 +85,7 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
                     SyncableEntityState.getEntityStatus(entity);
 
                 return ListTile(
-                  leading: _buildStatusIcon(
-                      EntityFilterStatus.getFilterStatus(entitySyncableStatus)),
+                  leading: _buildStatusIcon(entitySyncableStatus),
                   title: Text(entity.name ?? entity.uid!),
                   subtitle: Text(
                       EntityFilterStatus.getFilterStatus(entitySyncableStatus)
@@ -99,18 +100,18 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
         loading: () => const CircularProgressIndicator());
   }
 
-  Widget _buildStatusIcon(EntityFilterStatus? status) {
+  Widget _buildStatusIcon(SyncableEntityState? status) {
     switch (status) {
-      case EntityFilterStatus.Sent:
-        return const Icon(Icons.cloud_done, color: Colors.blue);
-      case EntityFilterStatus.Completed:
-        return const Icon(Icons.check_circle, color: Colors.green);
-      case EntityFilterStatus.ToComplete:
+      case SyncableEntityState.SYNCED:
+        return const Icon(Icons.cloud_done, color: Colors.green);
+      case SyncableEntityState.TO_POST:
+        return const Icon(Icons.cloud_upload, color: Colors.blue);
+      case SyncableEntityState.TO_UPDATE:
         return const Icon(Icons.update, color: Colors.orange);
-      case EntityFilterStatus.Error:
+      case SyncableEntityState.ERROR:
         return const Icon(Icons.error, color: Colors.red);
       default:
-        return const Icon(Icons.help, color: Colors.grey);
+        return const Icon(Icons.all_inclusive);
     }
   }
 }

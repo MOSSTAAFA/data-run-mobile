@@ -14,37 +14,33 @@ import 'package:mass_pro/commons/date/date_utils.dart';
 import 'package:mass_pro/commons/extensions/string_extension.dart';
 import 'package:mass_pro/commons/extensions/value_extensions.dart';
 import 'package:mass_pro/commons/helpers/iterable.dart';
-import 'package:mass_pro/data_run/screens/data_submission/form/form_data_state_notifier.dart';
 import 'package:mass_pro/data_run/screens/data_submission/form/form_input_field.model.dart';
-import 'package:mass_pro/data_run/utils/activity_type.dart';
 import 'package:mass_pro/form/model/store_result.dart';
 import 'package:mass_pro/form/model/value_store_result.dart';
-import 'package:mass_pro/form/ui/validation/field_error_message_provider.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 /// from DataEntryRepository
 ///
-class ChvPatientDataEntryRepository extends SyncableDataEntryRepository {
-  ChvPatientDataEntryRepository({
-    required super.syncableQuery,
-    required super.entityUid,
-  });
-}
+// class ChvPatientDataEntryRepository extends SyncableDataEntryRepository {
+//   ChvPatientDataEntryRepository({
+//     required super.syncableQuery,
+//     required super.entityUid,
+//   });
+// }
+//
+// class ChvSessionDataEntryRepository extends SyncableDataEntryRepository {
+//   ChvSessionDataEntryRepository({
+//     required super.syncableQuery,
+//     required super.entityUid,
+//   });
+// }
+//
+// class ItnsDataEntryRepository extends SyncableDataEntryRepository {
+//   ItnsDataEntryRepository(
+//       {required super.syncableQuery, required super.entityUid});
+// }
 
-class ChvSessionDataEntryRepository extends SyncableDataEntryRepository {
-  ChvSessionDataEntryRepository({
-    required super.syncableQuery,
-    required super.entityUid,
-  });
-}
-
-class ItnsDataEntryRepository extends SyncableDataEntryRepository {
-  ItnsDataEntryRepository(
-      {required super.syncableQuery, required super.entityUid});
-}
-
-abstract class SyncableDataEntryRepository {
+class SyncableDataEntryRepository {
   SyncableDataEntryRepository({
     required this.syncableQuery,
     required String entityUid,

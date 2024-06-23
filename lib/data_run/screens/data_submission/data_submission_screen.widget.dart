@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/data_run/utils/activity_type.dart';
 
 class DataSubmissionScreen extends StatelessWidget {
-  DataSubmissionScreen(
-      {super.key, required this.entityUid, required this.activityType});
+  DataSubmissionScreen({super.key});
 
   // final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
   // final DynamicForm form;
-  final String entityUid;
-  final ActivityType activityType;
 
   @override
   Widget build(BuildContext context) {
