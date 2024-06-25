@@ -6,7 +6,7 @@ part of 'entities_riverpod_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$entitiesByStatusHash() => r'aa085b92f4d493cb926b7fd17453a500b54d1b20';
+String _$entitiesByStatusHash() => r'3cc4ef8d39288344164a8681106d90cce098bf7c';
 
 /// Copied from Dart SDK
 class _SystemHash {

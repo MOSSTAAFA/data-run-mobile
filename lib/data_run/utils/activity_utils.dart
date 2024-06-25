@@ -8,11 +8,13 @@ import 'package:mass_pro/core/common/state.dart';
 import 'package:mass_pro/data_run/utils/project_type.dart';
 import 'package:mass_pro/data_run/utils/utils.providers.dart';
 
+@Deprecated('Use the ones provided in [ActivitiesAccessRepository]')
 class ActivityUtils {
   ActivityUtils(this.ref);
 
   final ActivityUtilsRef ref;
 
+  @deprecated
   Future<SyncableEntityState> getActivityState(DActivity? activity,
       {bool includeInActive = true}) async {
     final projectId = activity!.project as String;
@@ -38,6 +40,7 @@ class ActivityUtils {
     }).orElse(() async => SyncableEntityState.SYNCED);
   }
 
+  @Deprecated('Use the ones provided in [ActivitiesAccessRepository]')
   Future<SyncableEntityState> getChvActivityState() async {
     final withSyncErrorStateRegisters =
         await D2Remote.iccmModule.chvRegister.withSyncErrorState().count();
@@ -78,6 +81,7 @@ class ActivityUtils {
     }).orElse(() => SyncableEntityState.SYNCED);
   }
 
+  @Deprecated('Use the ones provided in [ActivitiesAccessRepository]')
   Future<SyncableEntityState> getItnActivityState({DActivity? activity}) async {
     final query = D2Remote.itnsVillageModule.itnsVillage;
 
@@ -100,6 +104,7 @@ class ActivityUtils {
     }).orElse(() => SyncableEntityState.SYNCED);
   }
 
+  @Deprecated('Use the ones provided in [ActivitiesAccessRepository]')
   Future<SyncableEntityState> getActivityStateByUid(String activityUid) async {
     return getActivityState(
         await D2Remote.activityModuleD.activity.byId(activityUid).getOne());
@@ -107,6 +112,7 @@ class ActivityUtils {
 
   /// get Activities the user has teams assignedhave
   /// Assignments in assigned to him
+  @Deprecated('Use the ones provided in [ActivitiesAccessRepository]')
   Future<List<DActivity>> getActivities(
       {DProject? project, bool includeInactive = false}) async {
     final query = D2Remote.activityModuleD.activity;
@@ -134,6 +140,7 @@ class ActivityUtils {
 
   /// get Activities the user have
   /// Assignments in assigned to him and Active
+  @Deprecated('Use the ones provided in [ActivitiesAccessRepository]')
   Future<List<DActivity>> getActivitiesByProject(DProject? project,
       {bool includeInactive = false}) {
     return getActivities(project: project, includeInactive: includeInactive);

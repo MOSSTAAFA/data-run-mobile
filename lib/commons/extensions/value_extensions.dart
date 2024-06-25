@@ -76,16 +76,20 @@ extension UserFriendlyEventDataValueExtension on EventDataValue? {
 }
 
 extension ToValueType on String {
+
+  // for(var typevalue in values) {
+  //
+  // }
+
   ValueType? get toValueType {
-    try {
-      return ValueType.values.byName(this);
-      // return ValueType.values.firstWhere((valueType) => valueType.name == this,
-      //     orElse: throw ArgumentError(
-      //         'The ValueType $this does not match any Value type'));
-    } catch (e) {
-      logInfo(info: 'The ValueType $this does not match any Enum Value');
-      return null;
+    const List<ValueType> values  = ValueType.values;
+    for (final value in values) {
+      if(value.name.toLowerCase() == this.toLowerCase()) {
+        return value;
+      }
     }
+    logInfo(info: 'The ValueType $this does not match any Enum Value');
+    return null;
   }
 }
 

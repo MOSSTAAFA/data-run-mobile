@@ -1,29 +1,29 @@
 // import 'package:d2_remote/d2_remote.dart';
+// import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 // import 'package:equatable/equatable.dart';
 // import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+// import 'package:mass_pro/commons/date/field_with_issue.dart';
 // import 'package:mass_pro/commons/helpers/iterable.dart';
-// import 'package:mass_pro/data_run/screens/data_submission/form/form_input_field.model.dart';
-// import 'package:mass_pro/data_run/screens/data_submission/form/form_states.dart';
-// import 'package:mass_pro/data_run/screens/data_submission/form/input_action.dart';
-// import 'package:mass_pro/data_run/screens/data_submission/form/syncable_data_entry_repository.dart';
+// import 'package:mass_pro/data_run/form/form_input_field.model.dart';
+// import 'package:mass_pro/data_run/form/form_states.dart';
+// import 'package:mass_pro/data_run/form/input_action.dart';
+// import 'package:mass_pro/data_run/form/syncable_entity_mapping_repository.dart';
 // import 'package:mass_pro/data_run/utils/activity_type.dart';
 // import 'package:mass_pro/form/ui/validation/field_error_message_provider.dart';
 // import 'package:mass_pro/sdk/core/common/value_type.dart';
 // import 'package:riverpod_annotation/riverpod_annotation.dart';
 //
-// part 'form_data_state_notifier.g.dart';
+// part 'form_interactor.g.dart';
 //
 // /// handle data fetching, saving, and updating operations.
 // @riverpod
 // class FormDataStateNotifier extends _$FormDataStateNotifier {
 //   @override
-//   FutureOr<FormDataState> build() async {
-//     final IList<FieldInputModel> items =
-//         await ref.watch(syncableDataEntryRepositoryProvider).list();
-//     return FormDataState(
-//       itemList: items,
-//       backupList: items,
-//     );
+//   FormDataState build() {
+//     // final IList<FieldInputModel>? items =
+//     //     await syncableDataEntryRepository?.list();
+//     // state.copyWithPrevious(previous)
+//     return FormDataState();
 //   }
 //
 //   static const int _loopThreshold = 5;
@@ -31,10 +31,10 @@
 //   Future<FormDataState> fetchFormItems() async {
 //     FormDataState formDataState = FormDataState()
 //         .setItemList(
-//             await ref.watch(syncableDataEntryRepositoryProvider).list())
+//             await ref.watch(syncableEntityMappingRepositoryProvider).list())
 //         .setBackupList();
 //     final IList<FieldInputModel>? items =
-//         await ref.watch(syncableDataEntryRepositoryProvider).list();
+//         await ref.watch(syncableEntityMappingRepositoryProvider).list();
 //
 //     formDataState = formDataState.setItemList(items);
 //     formDataState = formDataState.setBackupList(items);
@@ -44,18 +44,18 @@
 //   Future<FormDataState> _composeListInternal(FormDataState formDataState) {
 //     formDataState = formDataState.setCalculationLoop(0);
 //
-//     return _mergeListWithErrorFields(formDataState);
-//     // .then((FormDataState formDataState) =>
-//     //     _calculateCompletionPercentage(formDataState))
-//     // .then((FormDataState formDataState) => _setOpenedSection(formDataState))
-//     // .then((FormDataState formDataState) => _setFocusedItem(formDataState))
-//     // .then((FormDataState formDataState) => _setLastItem(formDataState));
+//     return _mergeListWithErrorFields(formDataState)
+//         .then((FormDataState formDataState) =>
+//             _calculateCompletionPercentage(formDataState))
+//         .then((FormDataState formDataState) => _setOpenedSection(formDataState))
+//         .then((FormDataState formDataState) => _setFocusedItem(formDataState))
+//         .then((FormDataState formDataState) => _setLastItem(formDataState));
 //   }
 //
-//   // Future<void> composeList() async {
-//   //   final FormDataState formDataState = state;
-//   //   state = await _composeListInternal(formDataState);
-//   // }
+//   Future<void> composeList() async {
+//     final FormDataState formDataState = state;
+//     state = await _composeListInternal(formDataState);
+//   }
 //
 //   Future<FormDataState> _mergeListWithErrorFields(
 //       FormDataState formDataState) async {
@@ -206,24 +206,24 @@
 //   //   }).orElse(() => _focusedItemId = action.id);
 //   // }
 //
-//   // void updateErrorList(InputAction action) {
-//   //   FormDataState formDataState = state;
-//   //   if (action.error != null) {
-//   //     if (formDataState.itemsWithError
-//   //             .firstOrNullWhere((InputAction item) => item.id == action.id) ==
-//   //         null) {
-//   //       formDataState = formDataState
-//   //           .setItemsWithError(formDataState.itemsWithError.add(action));
-//   //     }
-//   //   } else {
-//   //     formDataState.itemsWithError
-//   //         .firstOrNullWhere((InputAction item) => item.id == action.id)
-//   //         ?.let((InputAction item) => formDataState = formDataState
-//   //             .setItemsWithError(formDataState.itemsWithError.remove(item)));
-//   //   }
-//   //
-//   //   state = formDataState;
-//   // }
+//   void updateErrorList(InputAction action) {
+//     FormDataState formDataState = state;
+//     if (action.error != null) {
+//       if (formDataState.itemsWithError
+//               .firstOrNullWhere((InputAction item) => item.id == action.id) ==
+//           null) {
+//         formDataState = formDataState
+//             .setItemsWithError(formDataState.itemsWithError.add(action));
+//       }
+//     } else {
+//       formDataState.itemsWithError
+//           .firstOrNullWhere((InputAction item) => item.id == action.id)
+//           ?.let((InputAction item) => formDataState = formDataState
+//               .setItemsWithError(formDataState.itemsWithError.remove(item)));
+//     }
+//
+//     state = formDataState;
+//   }
 //
 //   // void updateSectionOpened(InputAction action) {
 //   //   _openedSectionUid = action.id;
@@ -269,19 +269,19 @@
 //     }
 //   }
 //
-//   // Future<FormDataState> _setOpenedSection(FormDataState formDataState) async {
-//   //   IList<FieldInputModel> fields = IList([]);
-//   //   for (final FieldInputModel field in formDataState.itemList) {
-//   //     // if (field.isSection()) {
-//   //     //   fields.add(_updateSection(field, list));
-//   //     // } else {
-//   //     final FieldInputModel item = await _updateField(field);
-//   //     fields = fields.add(item);
-//   //     // }
-//   //   }
-//   //
-//   //   return formDataState.setItemList(fields);
-//   // }
+//   Future<FormDataState> _setOpenedSection(FormDataState formDataState) async {
+//     IList<FieldInputModel> fields = IList([]);
+//     for (final FieldInputModel field in formDataState.itemList) {
+//       // if (field.isSection()) {
+//       //   fields.add(_updateSection(field, list));
+//       // } else {
+//       final FieldInputModel item = await _updateField(field);
+//       fields = fields.add(item);
+//       // }
+//     }
+//
+//     return formDataState.setItemList(fields);
+//   }
 //
 //   // FieldInputModel _updateSection(
 //   //     FieldInputModel sectionFieldUiModel, IList<FieldInputModel> fields) {
@@ -334,53 +334,53 @@
 //   //   return sectionFieldUiModel;
 //   // }
 //
-//   // FutureOr<FieldInputModel> _updateField(FieldInputModel fieldUiModel) {
-//   //   // final FormDataState formDataState = state;
-//   //   IMap<String, String> mandatoryItemsWithoutValue =
-//   //       state.mandatoryItemsWithoutValue;
-//   //
-//   //   final bool needsMandatoryWarning =
-//   //       fieldUiModel.mandatory && fieldUiModel.value == null;
-//   //
-//   //   if (needsMandatoryWarning) {
-//   //     mandatoryItemsWithoutValue = mandatoryItemsWithoutValue.add(
-//   //         fieldUiModel.label, /*fieldUiModel.programStageSection ??*/ '');
-//   //   }
-//   //
-//   //   if (ref.watch(syncableDataEntryRepositoryProvider) != null) {
-//   //     final mandatoryWarning = needsMandatoryWarning && state.runDataIntegrity
-//   //         ? ref.watch(_fieldErrorMessageProvider).mandatoryWarning()
-//   //         : null;
-//   //     return ref.watch(syncableDataEntryRepositoryProvider).updateField(
-//   //           fieldUiModel,
-//   //           mandatoryWarning,
-//   //           // /*ruleEffectsResult?.optionsToHide(fieldUiModel.uid) ?:*/ [],
-//   //           // /*ruleEffectsResult?.optionGroupsToHide(fieldUiModel.uid) ?:*/ [],
-//   //           // /*ruleEffectsResult?.optionGroupsToShow(fieldUiModel.uid) ?:*/ []
-//   //         );
-//   //   }
-//   //   return fieldUiModel;
-//   // }
+//   FutureOr<FieldInputModel> _updateField(FieldInputModel fieldUiModel) {
+//     // final FormDataState formDataState = state;
+//     IMap<String, String> mandatoryItemsWithoutValue =
+//         state.mandatoryItemsWithoutValue;
 //
-//   // IList<FieldWithIssue> _getFieldsWithError(/*FormDataState formDataState*/) {
-//   //   // final FormDataState formDataState = state.value!;
-//   //   return state.itemsWithError.mapNotNull((InputAction? errorItem) {
-//   //     final FieldInputModel? item = state.itemList.firstOrNullWhere(
-//   //         (FieldInputModel item) => item.key == errorItem?.id);
-//   //     if (item != null) {
-//   //       return FieldWithIssue(
-//   //           fieldUid: item.key,
-//   //           fieldName: item.label,
-//   //           issueType: IssueType.ERROR,
-//   //           message: errorItem?.error != null
-//   //               ? ref
-//   //                   .watch(_fieldErrorMessageProvider)
-//   //                   .getFriendlyErrorMessage(errorItem!.error!)
-//   //               : '');
-//   //     }
-//   //     return null;
-//   //   }).toIList();
-//   // }
+//     final bool needsMandatoryWarning =
+//         fieldUiModel.mandatory && fieldUiModel.value == null;
+//
+//     if (needsMandatoryWarning) {
+//       mandatoryItemsWithoutValue = mandatoryItemsWithoutValue.add(
+//           fieldUiModel.label, /*fieldUiModel.programStageSection ??*/ '');
+//     }
+//
+//     if (ref.watch(syncableEntityMappingRepositoryProvider) != null) {
+//       final mandatoryWarning = needsMandatoryWarning && state.runDataIntegrity
+//           ? ref.watch(_fieldErrorMessageProvider).mandatoryWarning()
+//           : null;
+//       return ref.watch(syncableEntityMappingRepositoryProvider).updateField(
+//             fieldUiModel,
+//             mandatoryWarning,
+//             // /*ruleEffectsResult?.optionsToHide(fieldUiModel.uid) ?:*/ [],
+//             // /*ruleEffectsResult?.optionGroupsToHide(fieldUiModel.uid) ?:*/ [],
+//             // /*ruleEffectsResult?.optionGroupsToShow(fieldUiModel.uid) ?:*/ []
+//           );
+//     }
+//     return fieldUiModel;
+//   }
+//
+//   IList<FieldWithIssue> _getFieldsWithError(/*FormDataState formDataState*/) {
+//     // final FormDataState formDataState = state.value!;
+//     return state.itemsWithError.mapNotNull((InputAction? errorItem) {
+//       final FieldInputModel? item = state.itemList.firstOrNullWhere(
+//           (FieldInputModel item) => item.key == errorItem?.id);
+//       if (item != null) {
+//         return FieldWithIssue(
+//             fieldUid: item.key,
+//             fieldName: item.label,
+//             issueType: IssueType.ERROR,
+//             message: errorItem?.error != null
+//                 ? ref
+//                     .watch(_fieldErrorMessageProvider)
+//                     .getFriendlyErrorMessage(errorItem!.error!)
+//                 : '');
+//       }
+//       return null;
+//     }).toIList();
+//   }
 //
 //   FormDataState _setFocusedItem(FormDataState formDataState) {
 //     if (formDataState.focusedItemId != null) {
@@ -424,18 +424,18 @@
 //         : false;
 //   }
 //
-// // String? _getNextItem(String currentItemUid) {
-// //   // final FormDataState formDataState = state.value!;
-// //   state.itemList.let((IList<FieldInputModel> fields) {
-// //     // final oldItem = fields.firstOrNullWhere((item) => item.uid == currentItemUid);
-// //     final int pos = fields.indexWhere(
-// //         (FieldInputModel oldItem) => oldItem.key == currentItemUid);
-// //     if (pos < fields.length - 1) {
-// //       return fields[pos + 1].key;
-// //     }
-// //   });
-// //   return null;
-// // }
+//   String? _getNextItem(String currentItemUid) {
+//     // final FormDataState formDataState = state.value!;
+//     state.itemList.let((IList<FieldInputModel> fields) {
+//       // final oldItem = fields.firstOrNullWhere((item) => item.uid == currentItemUid);
+//       final int pos = fields.indexWhere(
+//           (FieldInputModel oldItem) => oldItem.key == currentItemUid);
+//       if (pos < fields.length - 1) {
+//         return fields[pos + 1].key;
+//       }
+//     });
+//     return null;
+//   }
 // }
 //
 // class SyncableFormRecords with EquatableMixin {
@@ -453,4 +453,43 @@
 //   List<Object?> get props {
 //     return [uid, activityType];
 //   }
+// }
+//
+// /// Other Providers
+// ///
+// ///
+// @riverpod
+// SyncableFormRecords syncableFormRecords(SyncableFormRecordsRef ref) {
+//   throw UnimplementedError(
+//       'You need to override record information in order to persist your data');
+// }
+//
+// @riverpod
+// SyncableDataEntryRepository syncableDataEntryRepository(
+//     SyncableDataEntryRepositoryRef ref) {
+//   final records = ref.watch(syncableFormRecordsProvider);
+//
+//   switch (records.activityType) {
+//     case ActivityType.CHV_PATIENT:
+//       return ChvPatientDataEntryRepository(
+//           syncableQuery: D2Remote.iccmModule.chvRegister,
+//           entityUid: records.uid);
+//     case ActivityType.CHV_SESSION:
+//       return ChvSessionDataEntryRepository(
+//           syncableQuery: D2Remote.iccmModule.chvSession,
+//           entityUid: records.uid);
+//     case ActivityType.ITN:
+//       return ItnsDataEntryRepository(
+//           syncableQuery: D2Remote.itnsVillageModule.itnsVillage,
+//           entityUid: records.uid);
+//     default:
+//   }
+//   return ItnsDataEntryRepository(
+//       syncableQuery: D2Remote.itnsVillageModule.itnsVillage,
+//       entityUid: records.uid);
+// }
+//
+// @riverpod
+// FieldErrorMessageProvider _fieldErrorMessage(_FieldErrorMessageRef ref) {
+//   return const FieldErrorMessageProvider();
 // }

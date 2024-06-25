@@ -80,7 +80,7 @@ class EnrollmentObjectRepository {
     // bool? state = enrollment.synced;
     // state = state == State.TO_POST ? state : State.TO_UPDATE;
 
-    enrollment.lastUpdated = updateDate;
+    enrollment.lastModifiedDate = updateDate;
     enrollment.lastUpdatedAtClient = updateDate;
 
     enrollment.synced = false;

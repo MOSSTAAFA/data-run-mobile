@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/commons/custom_widgets/mixins/keyboard_manager.dart';
-import 'package:mass_pro/data_run/screens/data_submission/form/form_input_field_intent.dart';
+import 'package:mass_pro/data_run/form/form_input_field_intent.dart';
 import 'package:mass_pro/data_run/screens/data_submission/form_input_field.widget.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 

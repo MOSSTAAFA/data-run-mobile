@@ -263,14 +263,20 @@ const String LAST_META_SYNC_STATUS = 'last_meta_sync_status';
 const String LAST_META_SYNC_NO_NETWORK = 'last_meta_sync_no_network';
 const String EVENT_UID = 'EVENT_UID';
 const String EVENT_MODE = 'EVENT_MODE';
-const String RECORDS = 'RECORDS';
-
 const String EVENT_CREATION_TYPE = 'EVENT_CREATION_TYPE';
+
+const String RECORDS = 'RECORDS';
+const String SYNCABLE_CREATION_TYPE = 'SYNCABLE_CREATION_TYPE';
+const String SYNCABLE_UID = 'SYNCABLE_UID';
+const String FORM_UID = 'FORM_UID';
+const String FORM_CODE = 'FORM_CODE';
+const String TEAM_UID = 'TEAM_UID';
+const String ACTIVITY_UID = 'ACTIVITY_UID';
+
 const String EVENT_SCHEDULE_INTERVAL = 'EVENT_SCHEDULE_INTERVAL';
 const String TRACKED_ENTITY_INSTANCE = 'TRACKED_ENTITY_INSTANCE';
 const String PROGRAM_UID = 'PROGRAM_UID';
 const String ORG_UNIT = 'ORG_UNIT';
-const String ACTIVITY_UID = 'ACTIVITY_UID';
 const String ORG_UNIT_NAME = 'ORG_UNIT_NAME';
 const String ONE_TIME = 'ONE_TIME';
 const String PERMANENT = 'PERMANENT';

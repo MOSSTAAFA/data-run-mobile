@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
-import 'package:mass_pro/data_run/screens/data_submission/form/form_input_field.model.dart';
-import 'package:mass_pro/data_run/screens/data_submission/form/input_action.dart';
+import 'package:mass_pro/data_run/form/form_input_field.model.dart';
+import 'package:mass_pro/data_run/form/input_action.dart';
 
 @immutable
 class FormDataState with EquatableMixin {
@@ -19,8 +19,8 @@ class FormDataState with EquatableMixin {
 
   final IList<InputAction> itemsWithError;
   final IMap<String, String> mandatoryItemsWithoutValue;
-  final IList<FieldInputModel> backupList;
-  final IList<FieldInputModel> itemList;
+  final IList<FormFieldModel> backupList;
+  final IList<FormFieldModel> itemList;
   final String? focusedItemId;
   final double completionPercentage;
   final bool runDataIntegrity;
@@ -29,9 +29,9 @@ class FormDataState with EquatableMixin {
   FormDataState copyWith(
       {IList<InputAction>? itemsWithError,
       IMap<String, String>? mandatoryItemsWithoutValue,
-      IList<FieldInputModel>? backupList,
+      IList<FormFieldModel>? backupList,
       String? focusedItemId,
-      IList<FieldInputModel>? itemList,
+      IList<FormFieldModel>? itemList,
       double? completionPercentage,
       bool? runDataIntegrity,
       bool clearFocusedItem = false,
@@ -49,10 +49,10 @@ class FormDataState with EquatableMixin {
         calculationLoop: calculationLoop ?? this.calculationLoop);
   }
 
-  FormDataState setItemList(IList<FieldInputModel>? itemList) =>
+  FormDataState setItemList(IList<FormFieldModel>? itemList) =>
       copyWith(itemList: itemList);
 
-  FormDataState setBackupList([IList<FieldInputModel>? backupList]) =>
+  FormDataState setBackupList([IList<FormFieldModel>? backupList]) =>
       copyWith(backupList: backupList ?? itemList);
 
   FormDataState setItemsWithError(IList<InputAction>? itemsWithError) =>

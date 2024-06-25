@@ -25,7 +25,7 @@ final projectDetailItemModelProvider =
 typedef ProjectDetailItemModelRef
     = AutoDisposeProviderRef<ProjectDetailItemModel>;
 String _$formListItemModelsHash() =>
-    r'61334a0291bb46ef0b511c59ecf2dd2dea563350';
+    r'6a9c0e6246fadf0b2578f0b4827c4579c203fa50';
 
 /// See also [formListItemModels].
 @ProviderFor(formListItemModels)
@@ -46,7 +46,7 @@ final formListItemModelsProvider =
 typedef FormListItemModelsRef
     = AutoDisposeFutureProviderRef<IList<FormListItemModel>>;
 String _$projectDetailItemsModelsNotifierHash() =>
-    r'f3468e9ffc41b14c752f1f9ba92b9cc30337f7e2';
+    r'041418201bbd87d1cc125d2b08c2164de2df11a3';
 
 /// See also [ProjectDetailItemsModelsNotifier].
 @ProviderFor(ProjectDetailItemsModelsNotifier)

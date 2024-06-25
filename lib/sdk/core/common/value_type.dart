@@ -31,6 +31,7 @@ enum ValueType {
   Image(UidValidator()),
   SelectMulti(TextValidator()),
   SelectOne(TextValidator()),
+  YesNo(TextValidator()),
   GeoJson(TextValidator());
 
   const ValueType(this._validator);

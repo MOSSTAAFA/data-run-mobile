@@ -1,22 +1,35 @@
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
+import 'package:d2_remote/modules/datarun/form/entities/dynamic_form.entity.dart';
 import 'package:d2_remote/modules/datarun_shared/entities/syncable.entity.dart';
 import 'package:d2_remote/modules/datarun_shared/queries/syncable.query.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:mass_pro/core/common/state.dart';
 import 'package:mass_pro/core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
+import 'package:mass_pro/data_run/form/syncable_entity_initial_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'form_entity_mapped_repository.g.dart';
+part 'syncable_query_mapping_repository.g.dart';
 
 @riverpod
-FormEntityMappedRepository formEntityMappedRepository(
-    FormEntityMappedRepositoryRef ref, String formCode) {
-  return FormEntityMappedRepository(formCode);
+SyncableEntityInitialRepository syncableEntityInitialRepository(
+    SyncableEntityInitialRepositoryRef ref,
+    {required String formCode,
+      String? syncableUid}) {
+  return SyncableEntityInitialRepository(ref,
+      syncableQueryMappingRepository:
+      ref.watch(syncableQueryMappingRepositoryProvider(formCode)),
+      syncableUid: syncableUid);
 }
 
-class FormEntityMappedRepository {
-  FormEntityMappedRepository(this.formCode);
+@riverpod
+SyncableQueryMappingRepository syncableQueryMappingRepository(
+    SyncableQueryMappingRepositoryRef ref, String formCode) {
+  return SyncableQueryMappingRepository(formCode);
+}
+
+class SyncableQueryMappingRepository {
+  SyncableQueryMappingRepository(this.formCode);
 
   final String formCode;
 
@@ -29,8 +42,15 @@ class FormEntityMappedRepository {
       'CHV_PATIENTS_FORM': () => D2Remote.iccmModule.chvRegister,
       'CHV_SESSIONS_FORM': () => D2Remote.iccmModule.chvSession,
       'ITN_DISTRIBUTION_FORM': () => D2Remote.itnsVillageModule.itnsVillage,
-    }).orElse(() => throw Exception('unAvailable'));
+    }).orElse(() => throw Exception('UnAvailable Entity for Form: $formCode'));
     return query;
+  }
+
+  /// returns all entities
+  Future<DynamicForm?> getForm() async {
+    return D2Remote.formModule.form
+        .where(attribute: 'code', value: formCode)
+        .getOne();
   }
 
   /// returns all entities
@@ -56,7 +76,8 @@ class FormEntityMappedRepository {
         await getEntityQuery().resetFilters().withToUpdateState().count();
 
     return when(true, {
-      withUpdateErrorState > 0 || withSyncErrorState > 0: () => SyncableEntityState.WARNING,
+      withUpdateErrorState > 0 || withSyncErrorState > 0: () =>
+          SyncableEntityState.WARNING,
       withToPostState > 0: () => SyncableEntityState.TO_POST,
       withToUpdateState > 0: () => SyncableEntityState.TO_UPDATE,
     }).orElse(() => SyncableEntityState.SYNCED);
@@ -64,7 +85,8 @@ class FormEntityMappedRepository {
 
   /// returns entities by a specified State, and if not specified
   /// returns all entities
-  Future<IList<SyncableEntity>> getEntitiesByState({SyncableEntityState? state}) async {
+  Future<IList<SyncableEntity>> getEntitiesByState(
+      {SyncableEntityState? state}) async {
     final IList<SyncableEntity> entities =
         await when<SyncableEntityState?, Future<IList<SyncableEntity>>>(state, {
       SyncableEntityState.TO_UPDATE: () => getEntitiesToUpdate(),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/data_run/screens/data_submission/form/form_input_field_intent.dart';
-import 'package:mass_pro/data_run/screens/data_submission/form/syncable_form_repository.dart';
+import 'package:mass_pro/data_run/form/form_input_field.model.dart';
+import 'package:mass_pro/data_run/form/form_input_field_intent.dart';
 
 class FormInputFieldWidget extends ConsumerWidget {
   const FormInputFieldWidget({super.key, this.onIntent, required this.index

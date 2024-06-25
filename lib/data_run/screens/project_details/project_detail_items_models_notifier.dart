@@ -12,7 +12,7 @@ import 'package:get/get.dart';
 import 'package:mass_pro/commons/resources/resource_manager.dart';
 import 'package:mass_pro/commons/ui/metadata_icon_data.dart';
 import 'package:mass_pro/core/common/state.dart' as item_state;
-import 'package:mass_pro/data_run/screens/project_details/form_entity_mapped_repository.dart';
+import 'package:mass_pro/data_run/form/syncable_query_mapping_repository.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_item.model.dart';
 import 'package:mass_pro/data_run/utils/activities_access_repository.dart';
 import 'package:mass_pro/data_run/utils/screens_constants.dart';
@@ -40,28 +40,29 @@ Future<IList<FormListItemModel>> formListItemModels(
 
   for (final form in activeForms) {
     final entitiesToPost = await ref
-        .watch(formEntityMappedRepositoryProvider(form.code!))
+        .watch(syncableQueryMappingRepositoryProvider(form.code!))
         .getEntitiesCount(state: item_state.SyncableEntityState.TO_POST);
 
     final entitiesToUpdate = await ref
-        .watch(formEntityMappedRepositoryProvider(form.code!))
+        .watch(syncableQueryMappingRepositoryProvider(form.code!))
         .getEntitiesCount(state: item_state.SyncableEntityState.TO_UPDATE);
 
     final entitiesSynced = await ref
-        .watch(formEntityMappedRepositoryProvider(form.code!))
+        .watch(syncableQueryMappingRepositoryProvider(form.code!))
         .getEntitiesCount(state: item_state.SyncableEntityState.SYNCED);
 
     final entitiesWithError = await ref
-        .watch(formEntityMappedRepositoryProvider(form.code!))
+        .watch(syncableQueryMappingRepositoryProvider(form.code!))
         .getEntitiesCount(state: item_state.SyncableEntityState.ERROR);
 
     final entitiesStatus = await ref
-        .watch(formEntityMappedRepositoryProvider(form.code!))
+        .watch(syncableQueryMappingRepositoryProvider(form.code!))
         .getStatus();
 
     formListItemModels = formListItemModels.add(FormListItemModel(
         form: form.id!,
         formCode: form.code!,
+        team: model.team,
         formName: form.name,
         activity: model.activity,
         entitiesToPost: entitiesToPost,
@@ -82,14 +83,20 @@ class ProjectDetailItemsModelsNotifier
   Future<IList<ProjectDetailItemModel>> build() async {
     final projectUid = (Get.arguments as Bundle).getString(EXTRA_PROJECT_UID)!;
 
+    /// get the list of active activities
     final IList<DActivity> activeActivities = await ref
         .watch(activitiesAccessRepositoryProvider)
         .getActiveActivities();
 
+    /// Filter activities By project Id
     final Iterable<DActivity> projectActivities =
         activeActivities.where((t) => t.project == projectUid);
+
+    /// create initial programModels that will hold the ui models
     IList<ProjectDetailItemModel> programModles =
         IList<ProjectDetailItemModel>();
+
+    /// iterate over all activities
     for (final activity in projectActivities) {
       final state =
           await ref.read(activityUtilsProvider).getActivityState(activity);
@@ -98,11 +105,17 @@ class ProjectDetailItemsModelsNotifier
           .where(attribute: 'activity', value: activity.id)
           .get();
 
+      /// get Team associated with the activity
+      final team = await ref
+              .watch(activitiesAccessRepositoryProvider)
+              .getActivityTeam(activity.id!);
+
       final ProjectDetailItemModel programModel = ProjectDetailItemModel(
           activity: activity.id!,
           activityName: activity.name!,
           activeFormCount: activeFormCount.length,
           // description: activity.description,
+          team: team!.id,
           metadataIconData: MetadataIconData(
               programColor: ref
                   .read(resourceManagerProvider)

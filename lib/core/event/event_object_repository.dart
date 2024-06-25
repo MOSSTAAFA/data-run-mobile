@@ -5,8 +5,8 @@ import 'package:d2_remote/modules/data/tracker/models/geometry.dart';
 import 'package:d2_remote/shared/utilities/merge_mode.util.dart';
 import 'package:d2_remote/shared/utilities/save_option.util.dart';
 
-import '../../commons/date/date_utils.dart';
-import 'event_status.dart';
+import 'package:mass_pro/commons/date/date_utils.dart';
+import 'package:mass_pro/core/event/event_status.dart';
 
 class EventObjectRepository {
   EventObjectRepository(this.uid);
@@ -84,7 +84,7 @@ class EventObjectRepository {
     // bool? state = enrollment.synced;
     // state = state == State.TO_POST ? state : State.TO_UPDATE;
 
-    event.lastUpdated = updateDate;
+    event.lastModifiedDate = updateDate;
     // enrollment.lastUpdatedAtClient = updateDate;
 
     event.synced = false;

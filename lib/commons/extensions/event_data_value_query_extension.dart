@@ -66,7 +66,7 @@ extension SetCheckTrackedEntityAttributeValueExtension on EventDataValueQuery {
             ..value = value
             ..synced = false
             ..dirty = true
-            ..lastUpdated = date)
+            ..lastModifiedDate = date)
           .save(saveOptions: SaveOptions(skipLocalSyncStatus: true));
       mergeMode = MergeMode.Replace;
     }
@@ -77,8 +77,8 @@ extension SetCheckTrackedEntityAttributeValueExtension on EventDataValueQuery {
             event: event!,
             value: value,
             providedElsewhere: false,
-            created: date,
-            lastUpdated: date))
+            createdDate: date,
+            lastModifiedDate: date))
         .save(saveOptions: SaveOptions(skipLocalSyncStatus: true));
   }
 

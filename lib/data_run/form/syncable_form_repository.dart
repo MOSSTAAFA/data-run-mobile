@@ -5,10 +5,9 @@ import 'dart:async';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:get/get.dart';
 import 'package:mass_pro/commons/constants.dart';
-import 'package:mass_pro/data_run/screens/data_submission/form/form_input_field.model.dart';
-import 'package:mass_pro/data_run/screens/data_submission/form/syncable_data_entry_repository.dart';
-import 'package:mass_pro/data_run/screens/data_submission/form/syncable_form_records.dart';
-import 'package:mass_pro/data_run/screens/project_details/form_entity_mapped_repository.dart';
+import 'package:mass_pro/data_run/form/form_input_field.model.dart';
+import 'package:mass_pro/data_run/form/syncable_entity_mapping_repository.dart';
+import 'package:mass_pro/data_run/form/syncable_query_mapping_repository.dart';
 import 'package:mass_pro/form/model/row_action.dart';
 import 'package:mass_pro/form/ui/validation/field_error_message_provider.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
@@ -17,23 +16,26 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'syncable_form_repository.g.dart';
 
 @riverpod
-SyncableDataEntryRepository syncableDataEntryRepository(
-    SyncableDataEntryRepositoryRef ref) {
+SyncableEntityMappingRepository syncableEntityMappingRepository(
+    SyncableEntityMappingRepositoryRef ref) {
   final Bundle eventBundle = Get.arguments as Bundle;
-  final records = eventBundle.getObject(RECORDS);
+  // final records = eventBundle.getObject(RECORDS);
+  //
+  // if (records == null) {
+  //   throw Exception(
+  //       'You need to set record information in order to persist your data');
+  // }
+  //
+  // records as SyncableFormRecords;
 
-  if (records == null) {
-    throw Exception(
-        'You need to set record information in order to persist your data');
-  }
+  final formCode = eventBundle.getString(FORM_CODE)!;
+  final syncableUid = eventBundle.getString(SYNCABLE_UID)!;
 
-  records as SyncableFormRecords;
-
-  return SyncableDataEntryRepository(
+  return SyncableEntityMappingRepository(
       syncableQuery: ref
-          .watch(formEntityMappedRepositoryProvider(records.formCode))
+          .watch(syncableQueryMappingRepositoryProvider(formCode))
           .getEntityQuery(),
-      entityUid: records.uid);
+      entityUid: syncableUid);
 }
 
 @riverpod
@@ -42,26 +44,10 @@ FieldErrorMessageProvider fieldErrorMessage(FieldErrorMessageRef ref) {
 }
 
 @riverpod
-class FieldInputModelNotifier extends _$FieldInputModelNotifier {
-  @override
-  Future<FieldInputModel> build(int index) {
-    return ref.watch(
-        formInputFieldsListNotifierProvider.selectAsync((list) => list[index]));
-  }
-}
-
-/// fetchFormItems
-@riverpod
-class FormInputFieldsListNotifier extends _$FormInputFieldsListNotifier {
-  @override
-  Future<IList<FieldInputModel>> build() {
-    return ref.watch(syncableFormRepositoryProvider).fetchFormItems();
-  }
-}
-
-@riverpod
 SyncableFormRepository syncableFormRepository(SyncableFormRepositoryRef ref) {
-  return SyncableFormRepository(ref.watch(syncableDataEntryRepositoryProvider));
+  final repository = ref.watch(syncableEntityMappingRepositoryProvider);
+  return SyncableFormRepository(
+      ref.watch(syncableEntityMappingRepositoryProvider));
 }
 
 class SyncableFormRepository {
@@ -69,7 +55,7 @@ class SyncableFormRepository {
     this.syncableDataEntryRepository,
   );
 
-  final SyncableDataEntryRepository? syncableDataEntryRepository;
+  final SyncableEntityMappingRepository? syncableDataEntryRepository;
 
   //
   double _completionPercentage = 0;
@@ -77,16 +63,20 @@ class SyncableFormRepository {
   IMap<String, String> _mandatoryItemsWithoutValue = IMap({});
 
   // String? _openedSectionUid;
-  IList<FieldInputModel> _itemList = IList();
+  IList<FormFieldModel> _itemList = IList();
 
   String? _focusedItemId;
 
   // RuleUtilsProviderResult? ruleEffectsResult;
   bool _runDataIntegrity = false;
   int _calculationLoop = 0;
-  IList<FieldInputModel> _backupList = IList();
+  IList<FormFieldModel> _backupList = IList();
 
-  Future<IList<FieldInputModel>> fetchFormItems() async {
+  void disposeControllers() {
+    syncableDataEntryRepository?.disposeControllers(_itemList);
+  }
+
+  Future<IList<FormFieldModel>> fetchFormItems() async {
     return await syncableDataEntryRepository?.list() ?? IList();
 
     // final IList<String>? sectionUids =

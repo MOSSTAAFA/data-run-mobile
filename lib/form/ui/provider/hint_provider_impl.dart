@@ -60,6 +60,8 @@ class HintProviderImpl implements HintProvider {
         return '';
       case ValueType.SelectOne:
         return '';
+      default:
+        return '';
     }
   }
 }

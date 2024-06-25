@@ -1,66 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'syncable_form_repository.dart';
+part of 'form_input_field.model.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$syncableDataEntryRepositoryHash() =>
-    r'3c0e5fb6b19d62e8e4c9352cd7efde4f59680747';
-
-/// See also [syncableDataEntryRepository].
-@ProviderFor(syncableDataEntryRepository)
-final syncableDataEntryRepositoryProvider =
-    AutoDisposeProvider<SyncableDataEntryRepository>.internal(
-  syncableDataEntryRepository,
-  name: r'syncableDataEntryRepositoryProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$syncableDataEntryRepositoryHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef SyncableDataEntryRepositoryRef
-    = AutoDisposeProviderRef<SyncableDataEntryRepository>;
-String _$fieldErrorMessageHash() => r'17b134ed2a0e67d096059f49a7ecc938cf9ccb9b';
-
-/// See also [fieldErrorMessage].
-@ProviderFor(fieldErrorMessage)
-final fieldErrorMessageProvider =
-    AutoDisposeProvider<FieldErrorMessageProvider>.internal(
-  fieldErrorMessage,
-  name: r'fieldErrorMessageProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$fieldErrorMessageHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef FieldErrorMessageRef
-    = AutoDisposeProviderRef<FieldErrorMessageProvider>;
-String _$syncableFormRepositoryHash() =>
-    r'6cd400af8c38976985367204a48f30ea5dc72b76';
-
-/// See also [syncableFormRepository].
-@ProviderFor(syncableFormRepository)
-final syncableFormRepositoryProvider =
-    AutoDisposeProvider<SyncableFormRepository>.internal(
-  syncableFormRepository,
-  name: r'syncableFormRepositoryProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$syncableFormRepositoryHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef SyncableFormRepositoryRef
-    = AutoDisposeProviderRef<SyncableFormRepository>;
 String _$fieldInputModelNotifierHash() =>
-    r'5ad653656c83e76450b36f2dee3dd67e5e58c627';
+    r'5fdf5861a55e06a33f99f7cd792ac54d1f550751';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -84,10 +31,10 @@ class _SystemHash {
 }
 
 abstract class _$FieldInputModelNotifier
-    extends BuildlessAutoDisposeAsyncNotifier<FieldInputModel> {
+    extends BuildlessAutoDisposeAsyncNotifier<FormFieldModel> {
   late final int index;
 
-  FutureOr<FieldInputModel> build(
+  FutureOr<FormFieldModel> build(
     int index,
   );
 }
@@ -97,8 +44,7 @@ abstract class _$FieldInputModelNotifier
 const fieldInputModelNotifierProvider = FieldInputModelNotifierFamily();
 
 /// See also [FieldInputModelNotifier].
-class FieldInputModelNotifierFamily
-    extends Family<AsyncValue<FieldInputModel>> {
+class FieldInputModelNotifierFamily extends Family<AsyncValue<FormFieldModel>> {
   /// See also [FieldInputModelNotifier].
   const FieldInputModelNotifierFamily();
 
@@ -138,7 +84,7 @@ class FieldInputModelNotifierFamily
 /// See also [FieldInputModelNotifier].
 class FieldInputModelNotifierProvider
     extends AutoDisposeAsyncNotifierProviderImpl<FieldInputModelNotifier,
-        FieldInputModel> {
+        FormFieldModel> {
   /// See also [FieldInputModelNotifier].
   FieldInputModelNotifierProvider(
     int index,
@@ -169,7 +115,7 @@ class FieldInputModelNotifierProvider
   final int index;
 
   @override
-  FutureOr<FieldInputModel> runNotifierBuild(
+  FutureOr<FormFieldModel> runNotifierBuild(
     covariant FieldInputModelNotifier notifier,
   ) {
     return notifier.build(
@@ -195,7 +141,7 @@ class FieldInputModelNotifierProvider
 
   @override
   AutoDisposeAsyncNotifierProviderElement<FieldInputModelNotifier,
-      FieldInputModel> createElement() {
+      FormFieldModel> createElement() {
     return _FieldInputModelNotifierProviderElement(this);
   }
 
@@ -214,14 +160,14 @@ class FieldInputModelNotifierProvider
 }
 
 mixin FieldInputModelNotifierRef
-    on AutoDisposeAsyncNotifierProviderRef<FieldInputModel> {
+    on AutoDisposeAsyncNotifierProviderRef<FormFieldModel> {
   /// The parameter `index` of this provider.
   int get index;
 }
 
 class _FieldInputModelNotifierProviderElement
     extends AutoDisposeAsyncNotifierProviderElement<FieldInputModelNotifier,
-        FieldInputModel> with FieldInputModelNotifierRef {
+        FormFieldModel> with FieldInputModelNotifierRef {
   _FieldInputModelNotifierProviderElement(super.provider);
 
   @override
@@ -229,14 +175,14 @@ class _FieldInputModelNotifierProviderElement
 }
 
 String _$formInputFieldsListNotifierHash() =>
-    r'3943e0ca610edf1f5b86f868975f486e84b326d4';
+    r'2de0d9d971d94681eeccecb57b75a0a63e7b166c';
 
 /// fetchFormItems
 ///
 /// Copied from [FormInputFieldsListNotifier].
 @ProviderFor(FormInputFieldsListNotifier)
 final formInputFieldsListNotifierProvider = AutoDisposeAsyncNotifierProvider<
-    FormInputFieldsListNotifier, IList<FieldInputModel>>.internal(
+    FormInputFieldsListNotifier, IList<FormFieldModel>>.internal(
   FormInputFieldsListNotifier.new,
   name: r'formInputFieldsListNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -247,6 +193,6 @@ final formInputFieldsListNotifierProvider = AutoDisposeAsyncNotifierProvider<
 );
 
 typedef _$FormInputFieldsListNotifier
-    = AutoDisposeAsyncNotifier<IList<FieldInputModel>>;
+    = AutoDisposeAsyncNotifier<IList<FormFieldModel>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

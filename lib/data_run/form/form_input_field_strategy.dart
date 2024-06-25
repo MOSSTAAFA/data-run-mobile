@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:mass_pro/commons/extensions/standard_extensions.dart';
-import 'package:mass_pro/data_run/screens/data_submission/form/form_input_field.model.dart';
+import 'package:mass_pro/data_run/form/form_input_field.model.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:mass_pro/sdk/core/common/value_type_rendering_type.dart';
 
@@ -12,11 +12,11 @@ import 'package:mass_pro/sdk/core/common/value_type_rendering_type.dart';
 typedef FieldValidator<T> = String? Function(T? value);
 
 class FormInputFieldContext {
-  const FormInputFieldContext({required this.field});
+  const FormInputFieldContext({required this.fieldModel});
 
-  final FieldInputModel field;
+  final FormFieldModel fieldModel;
 
-  FormInputFieldStrategy getFormInputFieldStrategy(FieldInputModel field) {
+  FormInputFieldStrategy getFormInputFieldStrategy(FormFieldModel field) {
     return when(field.valueType, {
       [ValueType.Text, ValueType.Number]: () => TextFieldStrategy(),
       ValueType.SelectMulti: () => CheckboxGroupFieldStrategy(),
@@ -27,7 +27,7 @@ class FormInputFieldContext {
 }
 
 abstract class FormInputFieldStrategy {
-  Widget buildField(FieldInputModel field, Map<String, dynamic> formState);
+  Widget buildField(FormFieldModel field, Map<String, dynamic> formState);
 
   TextInputType _getInputType(ValueType? type) {
     if (type?.isNumeric ?? false) {
@@ -39,7 +39,7 @@ abstract class FormInputFieldStrategy {
     return TextInputType.text;
   }
 
-  OptionsOrientation _getOptionsOrientation(FieldInputModel field) {
+  OptionsOrientation _getOptionsOrientation(FormFieldModel field) {
     final orientation = when(field.fieldRendering, {
       [
         ValueTypeRenderingType.VERTICAL_RADIOBUTTONS,
@@ -56,7 +56,7 @@ abstract class FormInputFieldStrategy {
 
 class UnknownFieldStrategy with FormInputFieldStrategy {
   @override
-  Widget buildField(FieldInputModel field, Map<String, dynamic> formState) {
+  Widget buildField(FormFieldModel field, Map<String, dynamic> formState) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Text(
@@ -72,32 +72,32 @@ class UnknownFieldStrategy with FormInputFieldStrategy {
 
 class TextFieldStrategy with FormInputFieldStrategy {
   @override
-  Widget buildField(FieldInputModel field, Map<String, dynamic> formState) {
+  Widget buildField(FormFieldModel fieldModel, Map<String, dynamic> formState) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
       child: FormBuilderTextField(
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          name: field.key,
+          name: fieldModel.key,
           decoration: InputDecoration(
-              labelText: field.label,
+              labelText: fieldModel.label,
               focusedBorder: const OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.blue, width: 2.0),
               )),
-          keyboardType: _getInputType(field.valueType)),
+          keyboardType: _getInputType(fieldModel.valueType)),
     );
   }
 }
 
 class DateFieldStrategy with FormInputFieldStrategy {
   @override
-  Widget buildField(FieldInputModel field, Map<String, dynamic> formState) {
+  Widget buildField(FormFieldModel fieldModel, Map<String, dynamic> formState) {
     return FormBuilderDateTimePicker(
-        name: field.key,
+        name: fieldModel.key,
         initialEntryMode: DatePickerEntryMode.calendar,
         initialValue: DateTime.now(),
         inputType: InputType.both,
         decoration: InputDecoration(
-          labelText: field.label,
+          labelText: fieldModel.label,
           focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.blue, width: 2.0),
           ),
@@ -114,15 +114,15 @@ class DateFieldStrategy with FormInputFieldStrategy {
 
 class RadioGroupFieldStrategy with FormInputFieldStrategy {
   @override
-  Widget buildField(FieldInputModel field, Map<String, dynamic> formState) {
-    final List<FormBuilderFieldOption>? options = field.options
+  Widget buildField(FormFieldModel fieldModel, Map<String, dynamic> formState) {
+    final List<FormBuilderFieldOption>? options = fieldModel.options
         ?.map((option) => FormBuilderFieldOption(
               value: option,
               child: Container(
                   padding: const EdgeInsets.all(5.0),
                   child: Column(
                     children: [
-                      Text(field.label),
+                      Text(fieldModel.label),
                       const Icon(Icons.airplanemode_on),
                       SizedBox(width: 0.0 /*forceMinWidth*/, height: 0.0),
                     ],
@@ -130,10 +130,10 @@ class RadioGroupFieldStrategy with FormInputFieldStrategy {
             ))
         .toList();
     return FormBuilderRadioGroup(
-      name: field.key,
+      name: fieldModel.key,
       options: options!,
       wrapSpacing: 10.0,
-      orientation: _getOptionsOrientation(field),
+      orientation: _getOptionsOrientation(fieldModel),
       wrapRunSpacing: 10.0,
       decoration: InputDecoration(
           border: const OutlineInputBorder(),
@@ -151,15 +151,15 @@ class RadioGroupFieldStrategy with FormInputFieldStrategy {
 
 class CheckboxGroupFieldStrategy with FormInputFieldStrategy {
   @override
-  Widget buildField(FieldInputModel field, Map<String, dynamic> formState) {
-    final List<FormBuilderFieldOption>? options = field.options
+  Widget buildField(FormFieldModel fieldModel, Map<String, dynamic> formState) {
+    final List<FormBuilderFieldOption>? options = fieldModel.options
         ?.map((option) => FormBuilderFieldOption(
               value: option,
               child: Container(
                   padding: const EdgeInsets.all(5.0),
                   child: Column(
                     children: [
-                      Text(field.label),
+                      Text(fieldModel.label),
                       const Icon(Icons.airplanemode_on),
                       SizedBox(width: 0.0 /*forceMinWidth*/, height: 0.0),
                     ],
@@ -167,10 +167,10 @@ class CheckboxGroupFieldStrategy with FormInputFieldStrategy {
             ))
         .toList();
     return FormBuilderCheckboxGroup(
-      name: field.key,
+      name: fieldModel.key,
       options: options!,
       wrapSpacing: 5.0,
-      orientation: _getOptionsOrientation(field),
+      orientation: _getOptionsOrientation(fieldModel),
       itemDecoration: BoxDecoration(
           color: Colors.grey.shade300,
 //                border: Border.all(color: Colors.blueAccent),
@@ -181,16 +181,16 @@ class CheckboxGroupFieldStrategy with FormInputFieldStrategy {
 
 class DropdownFieldStrategy with FormInputFieldStrategy {
   @override
-  Widget buildField(FieldInputModel field, Map<String, dynamic> formState) {
+  Widget buildField(FormFieldModel fieldModel, Map<String, dynamic> formState) {
     return FormBuilderDropdown(
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      name: field.key,
+      name: fieldModel.key,
       decoration: InputDecoration(
-          labelText: field.label,
+          labelText: fieldModel.label,
           focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.blue, width: 2.0),
           )),
-      items: field.options!
+      items: fieldModel.options!
           .map<DropdownMenuItem<String>>(
             (String value) => DropdownMenuItem(
               value: value,

@@ -9,6 +9,7 @@ class FormListItemModel with EquatableMixin {
       required this.form,
       required this.formCode,
       this.formName,
+      this.team,
       this.activity,
       this.entitiesToPost = 0,
       this.entitiesToUpdate = 0,
@@ -21,6 +22,7 @@ class FormListItemModel with EquatableMixin {
   final String form;
   final String formCode;
   final String? formName;
+  final String? team;
   final String? activity;
   final String? description;
   final int entitiesToPost;
@@ -34,6 +36,7 @@ class FormListItemModel with EquatableMixin {
           {String? form,
           String? formCode,
           String? formName,
+          String? team,
           String? activity,
           String? description,
           int? entitiesToPost,
@@ -46,6 +49,7 @@ class FormListItemModel with EquatableMixin {
         form: form ?? this.form,
         formCode: formCode ?? this.formCode,
         formName: formName ?? this.formName,
+        team: team ?? this.team,
         activity: activity ?? this.activity,
         description: description ?? this.description,
         entitiesToPost: entitiesToPost ?? this.entitiesToPost,
@@ -61,6 +65,7 @@ class FormListItemModel with EquatableMixin {
         form,
         formCode,
         formName,
+        team,
         activity,
         entitiesToPost,
         entitiesToUpdate,
@@ -78,7 +83,7 @@ class ProjectDetailItemModel with EquatableMixin {
       /// activity uid
       required this.activity,
       required this.activityName,
-      // this.team,
+      this.team,
       this.activeFormCount = 0,
       this.isSelected = false,
       this.valueListIsOpen = true,
@@ -89,7 +94,7 @@ class ProjectDetailItemModel with EquatableMixin {
   final String activity;
   final String activityName;
 
-  // final String? team;
+  final String? team;
 
   final int activeFormCount;
   final String? description;
@@ -102,7 +107,7 @@ class ProjectDetailItemModel with EquatableMixin {
   ProjectDetailItemModel copyWith(
           {String? activity,
           String? activityName,
-          // String? team,
+          String? team,
           int? activeFormCount,
           bool? isSelected,
           bool? valueListIsOpen,
@@ -112,7 +117,7 @@ class ProjectDetailItemModel with EquatableMixin {
       ProjectDetailItemModel(
           activity: activity ?? this.activity,
           activityName: activityName ?? this.activityName,
-          // team: team ?? this.team,
+          team: team ?? this.team,
           metadataIconData: metadataIconData ?? this.metadataIconData,
           activeFormCount: activeFormCount ?? this.activeFormCount,
           state: state ?? this.state,
@@ -124,7 +129,7 @@ class ProjectDetailItemModel with EquatableMixin {
   List<Object?> get props => [
         activity,
         activityName,
-        // team,
+        team,
         activeFormCount,
         description,
         isSelected,

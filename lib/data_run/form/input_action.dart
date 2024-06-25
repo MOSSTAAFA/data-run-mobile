@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:mass_pro/data_run/screens/data_submission/form/input_action_type.dart';
+import 'package:mass_pro/data_run/form/input_action_type.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 
 /// **InputAction and StoreResult:** These classes work hand-in-hand
