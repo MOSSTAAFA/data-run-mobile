@@ -10,6 +10,6 @@ part 'entities_riverpod_providers.g.dart';
 Future<IList<SyncableEntity>> entitiesByStatus(EntitiesByStatusRef ref,
     {required String formCode, SyncableEntityState? entityStatus}) async {
   return ref
-      .watch(syncableQueryMappingRepositoryProvider(formCode))
+      .watch(entityFormListingRepositoryProvider(formCode))
       .getEntitiesByState(state: entityStatus);
 }

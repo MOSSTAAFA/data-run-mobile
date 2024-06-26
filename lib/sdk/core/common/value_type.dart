@@ -32,6 +32,7 @@ enum ValueType {
   SelectMulti(TextValidator()),
   SelectOne(TextValidator()),
   YesNo(TextValidator()),
+  Unknown(TextValidator()),
   GeoJson(TextValidator());
 
   const ValueType(this._validator);
@@ -80,4 +81,72 @@ enum ValueType {
       ValueType.values.firstWhere((e) => e.toString() == 'ValueType.' + '$str',
           orElse: () => throw ArgumentError(
               'ValueTypeOfString There is no ValueType of Type: $str'));
+
+  static ValueType getValueType(String? valueType) {
+    switch (valueType?.toLowerCase()) {
+      case 'text':
+        return ValueType.Text;
+      case 'longtext':
+        return ValueType.LongText;
+      case 'letter':
+        return ValueType.Letter;
+      case 'phonenumber':
+        return ValueType.PhoneNumber;
+      case 'email':
+        return ValueType.Email;
+      case 'boolean':
+        return ValueType.Boolean;
+      case 'trueonly':
+        return ValueType.TrueOnly;
+      case 'date':
+        return ValueType.Date;
+      case 'datetime':
+        return ValueType.DateTime;
+      case 'time':
+        return ValueType.Time;
+      case 'number':
+        return ValueType.Number;
+      case 'unitinterval':
+        return ValueType.UnitInterval;
+      case 'percentage':
+        return ValueType.Percentage;
+      case 'integer':
+        return ValueType.Integer;
+      case 'integerpositive':
+        return ValueType.IntegerPositive;
+      case 'integernegative':
+        return ValueType.IntegerNegative;
+      case 'integerzeroorpositive':
+        return ValueType.IntegerZeroOrPositive;
+      case 'trackerassociate':
+        return ValueType.TrackerAssociate;
+      case 'username':
+        return ValueType.Username;
+      case 'coordinate':
+        return ValueType.Coordinate;
+      case 'organisationunit':
+        return ValueType.OrganisationUnit;
+      case 'reference':
+        return ValueType.Reference;
+      case 'age':
+        return ValueType.Age;
+      case 'url':
+        return ValueType.URL;
+      case 'fileresource':
+        return ValueType.FileResource;
+      case 'image':
+        return ValueType.Image;
+      case 'selectmulti':
+        return ValueType.SelectMulti;
+      case 'selectone':
+        return ValueType.SelectOne;
+      case 'yesno':
+        return ValueType.YesNo;
+      case 'geojson':
+        return ValueType.GeoJson;
+      default:
+        return ValueType.Unknown;
+        // throw ArgumentError('Invalid value type: $valueType');
+    }
+  }
 }

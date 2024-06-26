@@ -1,15 +1,16 @@
 import 'package:d2_remote/modules/datarun_shared/entities/syncable.entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
+import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/core/common/state.dart';
 import 'package:mass_pro/data_run/screens/entities_list_screen/entities_riverpod_providers.dart';
 import 'package:mass_pro/data_run/screens/entities_list_screen/entity_filter_status.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_item.model.dart';
+import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 
 class EntitiesListScreen extends ConsumerStatefulWidget {
-  const EntitiesListScreen({super.key, required this.formModel});
-
-  final FormListItemModel formModel;
+  const EntitiesListScreen({super.key});
 
   @override
   EntitiesListScreenState createState() => EntitiesListScreenState();
@@ -17,12 +18,21 @@ class EntitiesListScreen extends ConsumerStatefulWidget {
 
 class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
   EntityFilterStatus? _selectedStatus;
+  late final String formCode;
+
+
+  @override
+  void initState() {
+    final Bundle eventBundle = Get.arguments as Bundle;
+    formCode = eventBundle.getString(FORM_CODE)!;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.formModel.formCode),
+        title: Text(formCode),
       ),
       body: Column(
         children: [
@@ -74,7 +84,7 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
     final filteringStatus =
         EntityFilterStatus.getSyncableStatus(_selectedStatus);
     final entitiesByStatus = ref.watch(entitiesByStatusProvider(
-        formCode: widget.formModel.formCode, entityStatus: filteringStatus));
+        formCode: formCode, entityStatus: filteringStatus));
 
     return entitiesByStatus.when(
         data: (filteredEntities) => ListView.builder(

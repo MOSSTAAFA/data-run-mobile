@@ -7,11 +7,11 @@ Future<void> showLoading(BuildContext context) async {
   await showDialog(
     context: context,
     barrierDismissible: false,
-    builder: (context) => SimpleDialog(
+    builder: (context) => const SimpleDialog(
       children: <Widget>[
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
+          children: <Widget>[
             CircularProgressIndicator(),
             SizedBox(height: 10),
             Text('R.string.wait', textAlign: TextAlign.center),

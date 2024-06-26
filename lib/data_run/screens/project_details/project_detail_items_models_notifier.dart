@@ -11,9 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mass_pro/commons/resources/resource_manager.dart';
 import 'package:mass_pro/commons/ui/metadata_icon_data.dart';
-import 'package:mass_pro/core/common/state.dart' as item_state;
-import 'package:mass_pro/data_run/form/syncable_query_mapping_repository.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_item.model.dart';
+import 'package:mass_pro/data_run/screens/project_details/form_listing_models_mapper.dart';
 import 'package:mass_pro/data_run/utils/activities_access_repository.dart';
 import 'package:mass_pro/data_run/utils/screens_constants.dart';
 import 'package:mass_pro/data_run/utils/utils.providers.dart';
@@ -29,51 +28,16 @@ ProjectDetailItemModel projectDetailItemModel(ProjectDetailItemModelRef ref) {
 }
 
 @Riverpod(dependencies: [projectDetailItemModel])
+FormListingModelsMapper formListingModelsMapper(
+    FormListingModelsMapperRef ref) {
+  return FormListingModelsMapper(
+      ref, ref.watch(projectDetailItemModelProvider));
+}
+
+@Riverpod(dependencies: [formListingModelsMapper])
 Future<IList<FormListItemModel>> formListItemModels(
     FormListItemModelsRef ref) async {
-  final model = ref.watch(projectDetailItemModelProvider);
-  final List<DynamicForm> activeForms = await D2Remote.formModule.form
-      .where(attribute: 'activity', value: model.activity)
-      .get();
-
-  IList<FormListItemModel> formListItemModels = IList([]);
-
-  for (final form in activeForms) {
-    final entitiesToPost = await ref
-        .watch(syncableQueryMappingRepositoryProvider(form.code!))
-        .getEntitiesCount(state: item_state.SyncableEntityState.TO_POST);
-
-    final entitiesToUpdate = await ref
-        .watch(syncableQueryMappingRepositoryProvider(form.code!))
-        .getEntitiesCount(state: item_state.SyncableEntityState.TO_UPDATE);
-
-    final entitiesSynced = await ref
-        .watch(syncableQueryMappingRepositoryProvider(form.code!))
-        .getEntitiesCount(state: item_state.SyncableEntityState.SYNCED);
-
-    final entitiesWithError = await ref
-        .watch(syncableQueryMappingRepositoryProvider(form.code!))
-        .getEntitiesCount(state: item_state.SyncableEntityState.ERROR);
-
-    final entitiesStatus = await ref
-        .watch(syncableQueryMappingRepositoryProvider(form.code!))
-        .getStatus();
-
-    formListItemModels = formListItemModels.add(FormListItemModel(
-        form: form.id!,
-        formCode: form.code!,
-        team: model.team,
-        formName: form.name,
-        activity: model.activity,
-        entitiesToPost: entitiesToPost,
-        entitiesToUpdate: entitiesToUpdate,
-        entitiesSynced: entitiesSynced,
-        entitiesWithError: entitiesWithError,
-        canAddNewEvent: true,
-        description: '',
-        state: entitiesStatus));
-  }
-  return formListItemModels;
+  return ref.watch(formListingModelsMapperProvider).formListItemModels();
 }
 
 @riverpod
@@ -107,8 +71,8 @@ class ProjectDetailItemsModelsNotifier
 
       /// get Team associated with the activity
       final team = await ref
-              .watch(activitiesAccessRepositoryProvider)
-              .getActivityTeam(activity.id!);
+          .watch(activitiesAccessRepositoryProvider)
+          .getActivityTeam(activity.id!);
 
       final ProjectDetailItemModel programModel = ProjectDetailItemModel(
           activity: activity.id!,
@@ -126,7 +90,7 @@ class ProjectDetailItemsModelsNotifier
                       /* program.style()?.icon() */
                       null,
                       Icons.question_mark)),
-          state: state);
+          syncablesState: state);
 
       programModles = programModles.add(programModel);
     }

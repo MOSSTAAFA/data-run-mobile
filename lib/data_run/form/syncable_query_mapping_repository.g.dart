@@ -7,7 +7,7 @@ part of 'syncable_query_mapping_repository.dart';
 // **************************************************************************
 
 String _$syncableEntityInitialRepositoryHash() =>
-    r'c87e1a0ec8667dba28a803d2cbef96d04b823307';
+    r'9b7550defb7aadbbb664a60e1229c7ba40908e7f';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -182,32 +182,31 @@ class _SyncableEntityInitialRepositoryProviderElement
       (origin as SyncableEntityInitialRepositoryProvider).syncableUid;
 }
 
-String _$syncableQueryMappingRepositoryHash() =>
-    r'27dfc0625d3573d626006de1bb32ab42b3492541';
+String _$entityFormListingRepositoryHash() =>
+    r'5e0b41ba255a10fe032b97ac38351cf8163da2bb';
 
-/// See also [syncableQueryMappingRepository].
-@ProviderFor(syncableQueryMappingRepository)
-const syncableQueryMappingRepositoryProvider =
-    SyncableQueryMappingRepositoryFamily();
+/// See also [entityFormListingRepository].
+@ProviderFor(entityFormListingRepository)
+const entityFormListingRepositoryProvider = EntityFormListingRepositoryFamily();
 
-/// See also [syncableQueryMappingRepository].
-class SyncableQueryMappingRepositoryFamily
-    extends Family<SyncableQueryMappingRepository> {
-  /// See also [syncableQueryMappingRepository].
-  const SyncableQueryMappingRepositoryFamily();
+/// See also [entityFormListingRepository].
+class EntityFormListingRepositoryFamily
+    extends Family<EntityFormListingRepository> {
+  /// See also [entityFormListingRepository].
+  const EntityFormListingRepositoryFamily();
 
-  /// See also [syncableQueryMappingRepository].
-  SyncableQueryMappingRepositoryProvider call(
+  /// See also [entityFormListingRepository].
+  EntityFormListingRepositoryProvider call(
     String formCode,
   ) {
-    return SyncableQueryMappingRepositoryProvider(
+    return EntityFormListingRepositoryProvider(
       formCode,
     );
   }
 
   @override
-  SyncableQueryMappingRepositoryProvider getProviderOverride(
-    covariant SyncableQueryMappingRepositoryProvider provider,
+  EntityFormListingRepositoryProvider getProviderOverride(
+    covariant EntityFormListingRepositoryProvider provider,
   ) {
     return call(
       provider.formCode,
@@ -226,33 +225,33 @@ class SyncableQueryMappingRepositoryFamily
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'syncableQueryMappingRepositoryProvider';
+  String? get name => r'entityFormListingRepositoryProvider';
 }
 
-/// See also [syncableQueryMappingRepository].
-class SyncableQueryMappingRepositoryProvider
-    extends AutoDisposeProvider<SyncableQueryMappingRepository> {
-  /// See also [syncableQueryMappingRepository].
-  SyncableQueryMappingRepositoryProvider(
+/// See also [entityFormListingRepository].
+class EntityFormListingRepositoryProvider
+    extends AutoDisposeProvider<EntityFormListingRepository> {
+  /// See also [entityFormListingRepository].
+  EntityFormListingRepositoryProvider(
     String formCode,
   ) : this._internal(
-          (ref) => syncableQueryMappingRepository(
-            ref as SyncableQueryMappingRepositoryRef,
+          (ref) => entityFormListingRepository(
+            ref as EntityFormListingRepositoryRef,
             formCode,
           ),
-          from: syncableQueryMappingRepositoryProvider,
-          name: r'syncableQueryMappingRepositoryProvider',
+          from: entityFormListingRepositoryProvider,
+          name: r'entityFormListingRepositoryProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$syncableQueryMappingRepositoryHash,
-          dependencies: SyncableQueryMappingRepositoryFamily._dependencies,
+                  : _$entityFormListingRepositoryHash,
+          dependencies: EntityFormListingRepositoryFamily._dependencies,
           allTransitiveDependencies:
-              SyncableQueryMappingRepositoryFamily._allTransitiveDependencies,
+              EntityFormListingRepositoryFamily._allTransitiveDependencies,
           formCode: formCode,
         );
 
-  SyncableQueryMappingRepositoryProvider._internal(
+  EntityFormListingRepositoryProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -266,14 +265,14 @@ class SyncableQueryMappingRepositoryProvider
 
   @override
   Override overrideWith(
-    SyncableQueryMappingRepository Function(
-            SyncableQueryMappingRepositoryRef provider)
+    EntityFormListingRepository Function(
+            EntityFormListingRepositoryRef provider)
         create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: SyncableQueryMappingRepositoryProvider._internal(
-        (ref) => create(ref as SyncableQueryMappingRepositoryRef),
+      override: EntityFormListingRepositoryProvider._internal(
+        (ref) => create(ref as EntityFormListingRepositoryRef),
         from: from,
         name: null,
         dependencies: null,
@@ -285,13 +284,13 @@ class SyncableQueryMappingRepositoryProvider
   }
 
   @override
-  AutoDisposeProviderElement<SyncableQueryMappingRepository> createElement() {
-    return _SyncableQueryMappingRepositoryProviderElement(this);
+  AutoDisposeProviderElement<EntityFormListingRepository> createElement() {
+    return _EntityFormListingRepositoryProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is SyncableQueryMappingRepositoryProvider &&
+    return other is EntityFormListingRepositoryProvider &&
         other.formCode == formCode;
   }
 
@@ -304,20 +303,20 @@ class SyncableQueryMappingRepositoryProvider
   }
 }
 
-mixin SyncableQueryMappingRepositoryRef
-    on AutoDisposeProviderRef<SyncableQueryMappingRepository> {
+mixin EntityFormListingRepositoryRef
+    on AutoDisposeProviderRef<EntityFormListingRepository> {
   /// The parameter `formCode` of this provider.
   String get formCode;
 }
 
-class _SyncableQueryMappingRepositoryProviderElement
-    extends AutoDisposeProviderElement<SyncableQueryMappingRepository>
-    with SyncableQueryMappingRepositoryRef {
-  _SyncableQueryMappingRepositoryProviderElement(super.provider);
+class _EntityFormListingRepositoryProviderElement
+    extends AutoDisposeProviderElement<EntityFormListingRepository>
+    with EntityFormListingRepositoryRef {
+  _EntityFormListingRepositoryProviderElement(super.provider);
 
   @override
   String get formCode =>
-      (origin as SyncableQueryMappingRepositoryProvider).formCode;
+      (origin as EntityFormListingRepositoryProvider).formCode;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

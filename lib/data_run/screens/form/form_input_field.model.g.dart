@@ -177,7 +177,7 @@ class _FieldInputModelNotifierProviderElement
 String _$formInputFieldsListNotifierHash() =>
     r'87f419f3051173da4ed8556996806aaf36cd438f';
 
-/// fetchFormItems
+/// fetchFormItems using [syncableEntityMappingRepositoryProvider]
 ///
 /// Copied from [FormInputFieldsListNotifier].
 @ProviderFor(FormInputFieldsListNotifier)

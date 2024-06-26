@@ -24,8 +24,29 @@ final projectDetailItemModelProvider =
 
 typedef ProjectDetailItemModelRef
     = AutoDisposeProviderRef<ProjectDetailItemModel>;
+String _$formListingModelsMapperHash() =>
+    r'5ff9f3ad7f86d836f4c0d87a2335ef9e2fe1a33a';
+
+/// See also [formListingModelsMapper].
+@ProviderFor(formListingModelsMapper)
+final formListingModelsMapperProvider =
+    AutoDisposeProvider<FormListingModelsMapper>.internal(
+  formListingModelsMapper,
+  name: r'formListingModelsMapperProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$formListingModelsMapperHash,
+  dependencies: <ProviderOrFamily>[projectDetailItemModelProvider],
+  allTransitiveDependencies: <ProviderOrFamily>{
+    projectDetailItemModelProvider,
+    ...?projectDetailItemModelProvider.allTransitiveDependencies
+  },
+);
+
+typedef FormListingModelsMapperRef
+    = AutoDisposeProviderRef<FormListingModelsMapper>;
 String _$formListItemModelsHash() =>
-    r'6a9c0e6246fadf0b2578f0b4827c4579c203fa50';
+    r'fb16f17b23a3b8e496e441921edfed0191ef54c2';
 
 /// See also [formListItemModels].
 @ProviderFor(formListItemModels)
@@ -36,17 +57,17 @@ final formListItemModelsProvider =
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
       : _$formListItemModelsHash,
-  dependencies: <ProviderOrFamily>[projectDetailItemModelProvider],
+  dependencies: <ProviderOrFamily>[formListingModelsMapperProvider],
   allTransitiveDependencies: <ProviderOrFamily>{
-    projectDetailItemModelProvider,
-    ...?projectDetailItemModelProvider.allTransitiveDependencies
+    formListingModelsMapperProvider,
+    ...?formListingModelsMapperProvider.allTransitiveDependencies
   },
 );
 
 typedef FormListItemModelsRef
     = AutoDisposeFutureProviderRef<IList<FormListItemModel>>;
 String _$projectDetailItemsModelsNotifierHash() =>
-    r'041418201bbd87d1cc125d2b08c2164de2df11a3';
+    r'12d792106f493daad9444c004cddb1070b78236b';
 
 /// See also [ProjectDetailItemsModelsNotifier].
 @ProviderFor(ProjectDetailItemsModelsNotifier)

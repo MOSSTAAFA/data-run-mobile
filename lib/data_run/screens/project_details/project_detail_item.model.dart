@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:mass_pro/commons/ui/metadata_icon_data.dart';
 import 'package:mass_pro/core/common/state.dart';
+import 'package:mass_pro/data_run/screens/form/form_input_field.model.dart';
 
 class FormListItemModel with EquatableMixin {
   FormListItemModel(
@@ -17,6 +19,7 @@ class FormListItemModel with EquatableMixin {
       this.entitiesWithError = 0,
       this.canAddNewEvent = true,
       this.description,
+      this.fields,
       required this.state});
 
   final String form;
@@ -31,6 +34,14 @@ class FormListItemModel with EquatableMixin {
   final int entitiesWithError;
   final bool canAddNewEvent;
   final SyncableEntityState state;
+  final IList<FormFieldModel>? fields;
+
+  FormListItemModel setFields(List<FormFieldModel>? fields) {
+    FormFieldModel model;
+
+    copyWith(fields: fields);
+    throw UnimplementedError();
+  }
 
   FormListItemModel copyWith(
           {String? form,
@@ -44,6 +55,7 @@ class FormListItemModel with EquatableMixin {
           int? entitiesSynced,
           int? entitiesWithError,
           bool? canAddNewEvent,
+          List<FormFieldModel>? fields,
           SyncableEntityState? state}) =>
       FormListItemModel(
         form: form ?? this.form,
@@ -57,6 +69,7 @@ class FormListItemModel with EquatableMixin {
         entitiesSynced: entitiesSynced ?? this.entitiesSynced,
         entitiesWithError: entitiesWithError ?? this.entitiesWithError,
         canAddNewEvent: canAddNewEvent ?? this.canAddNewEvent,
+        fields: IList.orNull(fields),
         state: state ?? this.state,
       );
 
@@ -73,6 +86,7 @@ class FormListItemModel with EquatableMixin {
         entitiesWithError,
         canAddNewEvent,
         description,
+        fields,
         state
       ];
 }
@@ -89,7 +103,7 @@ class ProjectDetailItemModel with EquatableMixin {
       this.valueListIsOpen = true,
       this.metadataIconData,
       this.description,
-      required this.state});
+      required this.syncablesState});
 
   final String activity;
   final String activityName;
@@ -102,7 +116,7 @@ class ProjectDetailItemModel with EquatableMixin {
   final bool isSelected;
   final bool valueListIsOpen;
   final MetadataIconData? metadataIconData;
-  final SyncableEntityState state;
+  final SyncableEntityState syncablesState;
 
   ProjectDetailItemModel copyWith(
           {String? activity,
@@ -120,7 +134,7 @@ class ProjectDetailItemModel with EquatableMixin {
           team: team ?? this.team,
           metadataIconData: metadataIconData ?? this.metadataIconData,
           activeFormCount: activeFormCount ?? this.activeFormCount,
-          state: state ?? this.state,
+          syncablesState: syncablesState ?? this.syncablesState,
           description: description ?? this.description,
           isSelected: isSelected ?? this.isSelected,
           valueListIsOpen: valueListIsOpen ?? this.valueListIsOpen);
@@ -136,7 +150,7 @@ class ProjectDetailItemModel with EquatableMixin {
         valueListIsOpen,
         metadataIconData,
         activeFormCount,
-        state,
+    syncablesState,
         description,
       ];
 }

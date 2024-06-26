@@ -7,6 +7,8 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:mass_pro/core/common/state.dart';
 import 'package:mass_pro/core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
 import 'package:mass_pro/data_run/form/syncable_entity_initial_repository.dart';
+import 'package:mass_pro/data_run/form/syncable_entity_mapping_repository.dart';
+import 'package:mass_pro/data_run/form/database_syncable_query.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'syncable_query_mapping_repository.g.dart';
@@ -15,41 +17,37 @@ part 'syncable_query_mapping_repository.g.dart';
 SyncableEntityInitialRepository syncableEntityInitialRepository(
     SyncableEntityInitialRepositoryRef ref,
     {required String formCode,
-      String? syncableUid}) {
+    String? syncableUid}) {
   return SyncableEntityInitialRepository(ref,
-      syncableQueryMappingRepository:
-      ref.watch(syncableQueryMappingRepositoryProvider(formCode)),
+      syncableQueryProvider: ref.watch(databaseSyncableQueryProvider(formCode)),
       syncableUid: syncableUid);
 }
 
 @riverpod
-SyncableQueryMappingRepository syncableQueryMappingRepository(
-    SyncableQueryMappingRepositoryRef ref, String formCode) {
-  return SyncableQueryMappingRepository(formCode);
+EntityFormListingRepository entityFormListingRepository(
+    EntityFormListingRepositoryRef ref, String formCode) {
+  return EntityFormListingRepository(
+      ref.watch(databaseSyncableQueryProvider(formCode)));
 }
 
-class SyncableQueryMappingRepository {
-  SyncableQueryMappingRepository(this.formCode);
+/// TODO("dRun"): rename to SyncableEntityListingRepository
+class EntityFormListingRepository {
+  EntityFormListingRepository(this.syncableQueryProvider);
 
-  final String formCode;
+  final DatabaseSyncableQuery syncableQueryProvider;
 
   /// Getting the Query, latter we need to make it more Dynamic depending on the
   /// form and permissions, now we need to provide one of the
   /// following available forms:
   /// ['CHV_PATIENTS_FORM', 'CHV_SESSIONS_FORM', 'ITN_DISTRIBUTION_FORM']
   SyncableQuery getEntityQuery() {
-    final SyncableQuery query = when<String?, SyncableQuery>(formCode, {
-      'CHV_PATIENTS_FORM': () => D2Remote.iccmModule.chvRegister,
-      'CHV_SESSIONS_FORM': () => D2Remote.iccmModule.chvSession,
-      'ITN_DISTRIBUTION_FORM': () => D2Remote.itnsVillageModule.itnsVillage,
-    }).orElse(() => throw Exception('UnAvailable Entity for Form: $formCode'));
-    return query;
+    return syncableQueryProvider.getEntityQuery();
   }
 
   /// returns all entities
   Future<DynamicForm?> getForm() async {
     return D2Remote.formModule.form
-        .where(attribute: 'code', value: formCode)
+        .where(attribute: 'code', value: syncableQueryProvider.formCode)
         .getOne();
   }
 

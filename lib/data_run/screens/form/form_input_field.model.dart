@@ -1,12 +1,11 @@
 import 'dart:io';
 
-import 'package:d2_remote/modules/datarun_shared/utilities/field_rule.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_rule.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
-import 'package:mass_pro/data_run/form/form_input_field_intent.dart';
 import 'package:mass_pro/data_run/form/syncable_entity_mapping_repository.dart';
-import 'package:mass_pro/data_run/form/syncable_form_repository.dart';
+import 'package:mass_pro/data_run/screens/form/form_input_field_intent.dart';
 import 'package:mass_pro/form/model/key_board_action_type.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:mass_pro/sdk/core/common/value_type_rendering_type.dart';
@@ -39,7 +38,7 @@ class FieldInputModelNotifier extends _$FieldInputModelNotifier {
   }
 }
 
-/// fetchFormItems
+/// fetchFormItems using [syncableEntityMappingRepositoryProvider]
 @riverpod
 class FormInputFieldsListNotifier extends _$FormInputFieldsListNotifier {
   @override
@@ -177,9 +176,11 @@ class FormFieldModel with EquatableMixin {
         File(controller?.text ?? '').existsSync();
   }
 
-  FormFieldModel setValue(String value) {
-    controller?.text = value;
-    return this;
+  FormFieldModel setValue(String? value) {
+    if (value != null) {
+      controller?.text = value;
+    }
+    return copyWith(value: value);
   }
 
   FormFieldModel setIsLoadingData(bool isLoading) =>

@@ -2,7 +2,7 @@ import 'package:fast_immutable_collections/src/ilist/ilist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/data_run/form/form_input_field.model.dart';
+import 'package:mass_pro/data_run/screens/form/form_input_field.model.dart';
 import 'package:mass_pro/data_run/screens/form/form_field.widget.dart';
 
 class FormScreen extends ConsumerStatefulWidget {

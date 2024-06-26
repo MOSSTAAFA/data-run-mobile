@@ -8,11 +8,14 @@ class SyncableObjectRepository {
   SyncableObjectRepository(this.uid, this.query);
 
   String uid;
-  SyncableQuery<SyncableEntity> query;
+  SyncableQuery query;
 
   Future<int> updateObject(SyncableEntity syncable) async {
     // query.mergeMode = MergeMode.Merge;
-    final int savedEntitiesNumber = await query.setData(syncable).save();
+    final int savedEntitiesNumber = await query
+        .byId(uid)
+        .setData(syncable)
+        .save();
     // query.mergeMode = MergeMode.Replace;
     return savedEntitiesNumber;
   }

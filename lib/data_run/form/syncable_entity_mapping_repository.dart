@@ -4,33 +4,66 @@ import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/datarun/form/entities/dynamic_form.entity.dart';
 import 'package:d2_remote/modules/datarun_shared/entities/syncable.entity.dart';
 import 'package:d2_remote/modules/datarun_shared/queries/syncable.query.dart';
-import 'package:d2_remote/modules/datarun_shared/utilities/dynamic_form_field.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
 import 'package:d2_remote/shared/utilities/merge_mode.util.dart';
 import 'package:d2_remote/shared/utilities/save_option.util.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/commons/date/date_utils.dart' as sdk;
 import 'package:mass_pro/commons/extensions/string_extension.dart';
 import 'package:mass_pro/commons/extensions/value_extensions.dart';
 import 'package:mass_pro/commons/extensions/value_type_rendering_extension.dart';
 import 'package:mass_pro/commons/helpers/iterable.dart';
-import 'package:mass_pro/data_run/form/form_input_field.model.dart';
+import 'package:mass_pro/data_run/form/database_syncable_query.dart';
+import 'package:mass_pro/data_run/screens/form/form_input_field.model.dart';
 import 'package:mass_pro/form/model/store_result.dart';
 import 'package:mass_pro/form/model/value_store_result.dart';
+import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'syncable_entity_mapping_repository.g.dart';
+
+@riverpod
+DatabaseSyncableQuery databaseSyncableQuery(
+    DatabaseSyncableQueryRef ref, String formCode) {
+  return DatabaseSyncableQuery(formCode);
+}
+
+/// Depends on Bundle from the route
+///
+@riverpod
+SyncableEntityMappingRepository syncableEntityMappingRepository(
+    SyncableEntityMappingRepositoryRef ref) {
+  final Bundle eventBundle = Get.arguments as Bundle;
+  final formCode = eventBundle.getString(FORM_CODE)!;
+  final syncableUid = eventBundle.getString(SYNCABLE_UID)!;
+
+  return SyncableEntityMappingRepository(
+      entityUid: syncableUid,
+      syncableQueryProvider:
+          ref.watch(databaseSyncableQueryProvider(formCode)));
+}
 
 class SyncableEntityMappingRepository {
   final String _entityUid;
-  final SyncableQuery syncableQuery;
+
+  final DatabaseSyncableQuery _syncableQueryProvider;
 
   SyncableEntityMappingRepository({
-    required this.syncableQuery,
+    required DatabaseSyncableQuery syncableQueryProvider,
     required String entityUid,
-  }) : _entityUid = entityUid;
+  })  : _entityUid = entityUid,
+        _syncableQueryProvider = syncableQueryProvider;
+
+  SyncableQuery getQuery() {
+    return _syncableQueryProvider.getEntityQuery();
+  }
 
   Future<IList<FormFieldModel>> list() async {
     final SyncableEntity syncableEntity =
-        (await syncableQuery.byId(_entityUid).getOne())!;
+        (await getQuery().byId(_entityUid).getOne())!;
     final DynamicForm form = (await D2Remote.formModule.form
         .where(attribute: 'activity', value: syncableEntity.activity)
         .getOne())!;
@@ -54,20 +87,15 @@ class SyncableEntityMappingRepository {
       isEditable: true,
       isMandatory: field.required,
       label: field.label,
-      controller: TextEditingController(
-        text: value is String ? value : value?.toString(),
-      ),
+      // controller: TextEditingController(
+      //   text: value is String ? value : value?.toString(),
+      // ),
+      value: value is String ? value : value?.toString(),
       valueType: field.type.toValueType,
       options: field.options?.lock,
       fieldRendering: field.fieldValueRenderingType.toValueTypeRenderingType,
       relevantFields: field.fieldRules?.lock,
     );
-  }
-
-  void disposeControllers(IList<FormFieldModel> formFields) {
-    for (var field in formFields) {
-      field.controller.dispose();
-    }
   }
 
   Future<FormFieldModel> updateField(
@@ -79,7 +107,7 @@ class SyncableEntityMappingRepository {
 
   Future<StoreResult> save(String fieldKey, String? value) async {
     final SyncableEntity syncableEntity =
-        (await syncableQuery.byId(_entityUid).getOne())!;
+        (await getQuery().byId(_entityUid).getOne())!;
     final DynamicForm form = (await D2Remote.formModule.form
         .where(attribute: 'activity', value: syncableEntity.activity)
         .getOne())!;
@@ -101,11 +129,11 @@ class SyncableEntityMappingRepository {
 
     final storedDataValue = entityMap.get(fieldKey);
     if (storedDataValue != newValue) {
-      syncableQuery.mergeMode =
+      getQuery().mergeMode =
           value != null ? MergeMode.Merge : MergeMode.Replace;
       entityMap = entityMap.add(fieldKey, value);
-      final newEntity = syncableQuery.fromJsonInstance(entityMap.unlock);
-      final updatedEntityCount = await syncableQuery
+      final newEntity = getQuery().fromJsonInstance(entityMap.unlock);
+      final updatedEntityCount = await getQuery()
           .setData(newEntity)
           .save(saveOptions: SaveOptions(skipLocalSyncStatus: true));
 
