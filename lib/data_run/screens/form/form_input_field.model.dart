@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:mass_pro/data_run/form/form_input_field_intent.dart';
+import 'package:mass_pro/data_run/form/syncable_entity_mapping_repository.dart';
 import 'package:mass_pro/data_run/form/syncable_form_repository.dart';
 import 'package:mass_pro/form/model/key_board_action_type.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
@@ -43,9 +44,9 @@ class FieldInputModelNotifier extends _$FieldInputModelNotifier {
 class FormInputFieldsListNotifier extends _$FormInputFieldsListNotifier {
   @override
   Future<IList<FormFieldModel>> build() {
-    final repository = ref.watch(syncableFormRepositoryProvider);
-    ref.onDispose(() => repository.disposeControllers());
-    return repository.fetchFormItems();
+    final repository = ref.watch(syncableEntityMappingRepositoryProvider);
+    // ref.onDispose(() => repository.disposeControllers());
+    return repository.list();
   }
 }
 
@@ -62,7 +63,8 @@ class FormFieldModel with EquatableMixin {
     this.options,
     this.isVisible = true,
     this.relevantFields,
-    required this.controller,
+    this.controller,
+    this.value,
     required this.isFocused,
     this.error,
     required this.isEditable,
@@ -82,11 +84,12 @@ class FormFieldModel with EquatableMixin {
   final String key;
   final IList<String>? options;
   final IList<FieldRule>? relevantFields;
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final bool isFocused;
   final String? error;
   final bool isEditable;
   final bool isVisible;
+  final dynamic value;
   final String? warning;
   final bool isMandatory;
   final String label;
@@ -105,16 +108,20 @@ class FormFieldModel with EquatableMixin {
     return copyWith(intentCallback: intentCallback);
   }
 
+  bool controllerTextIsEmpty() => (controller?.text ?? '').isEmpty;
+
+  void disposeController() => controller?.dispose();
+
   /// invoke FormInputFieldIntent.onFocus
   void onFieldClick() {
     intentCallback
-        ?.call(FormInputFieldIntent.onFocus(key: key, value: controller.text));
+        ?.call(FormInputFieldIntent.onFocus(key: key, value: controller?.text));
   }
 
   /// invoke FormInputFieldIntent.onNext
   void onNext() {
     intentCallback
-        ?.call(FormInputFieldIntent.onNext(key: key, value: controller.text));
+        ?.call(FormInputFieldIntent.onNext(key: key, value: controller?.text));
   }
 
   /// invoke FormInputFieldIntent.onTextChange whenever the
@@ -141,7 +148,7 @@ class FormFieldModel with EquatableMixin {
   void onSaveBoolean(bool boolean) {
     onFieldClick();
     final result =
-        controller.text.isEmpty || controller.text != boolean.toString()
+        controllerTextIsEmpty() || controller?.text != boolean.toString()
             ? boolean.toString()
             : null;
     intentCallback?.call(FormInputFieldIntent.onSave(
@@ -151,7 +158,7 @@ class FormFieldModel with EquatableMixin {
   /// invoke FormInputFieldIntent.onSave
   void onSaveOption(String option) {
     String? nextValue;
-    if (controller.text == option) {
+    if (controller?.text == option) {
       nextValue = null;
     } else {
       nextValue = option;
@@ -166,12 +173,12 @@ class FormFieldModel with EquatableMixin {
 
   /// if the field is of type image of file
   bool get hasImage {
-    return controller.text.isNotEmpty &&
-        File(controller.text ?? '').existsSync();
+    return !controllerTextIsEmpty() &&
+        File(controller?.text ?? '').existsSync();
   }
 
   FormFieldModel setValue(String value) {
-    controller.text = value;
+    controller?.text = value;
     return this;
   }
 
@@ -208,7 +215,7 @@ class FormFieldModel with EquatableMixin {
           IList<FieldRule>? relevantFields,
           IList<String>? options,
           bool? isVisible,
-          // dynamic value,
+          dynamic value,
           int? layoutId,
           bool? focused,
           String? error,
@@ -242,7 +249,7 @@ class FormFieldModel with EquatableMixin {
         options: options ?? this.options,
         isVisible: isVisible ?? this.isVisible,
         relevantFields: relevantFields ?? this.relevantFields,
-        // value: value ?? this.value,
+        value: value ?? this.value,
         isFocused: focused ?? this.isFocused,
         controller: controller,
         error: error ?? this.error,
