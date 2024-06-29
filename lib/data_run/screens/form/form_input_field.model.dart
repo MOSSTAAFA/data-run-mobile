@@ -1,55 +1,15 @@
 import 'dart:io';
 
-import 'package:d2_remote/modules/datarun/form/shared/field_rule.dart';
+import 'package:d2_remote/modules/datarun/form/shared/rule.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
-import 'package:mass_pro/data_run/form/syncable_entity_mapping_repository.dart';
-import 'package:mass_pro/data_run/screens/form/form_input_field_intent.dart';
 import 'package:mass_pro/form/model/key_board_action_type.dart';
+import 'package:mass_pro/form/ui/intent/form_intent.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:mass_pro/sdk/core/common/value_type_rendering_type.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'form_input_field.model.g.dart';
-
-@riverpod
-class FieldInputModelNotifier extends _$FieldInputModelNotifier {
-  @override
-  Future<FormFieldModel> build(int index) async {
-    final FormFieldModel field = await ref.watch(
-        formInputFieldsListNotifierProvider.selectAsync((list) => list[index]));
-
-    // // if it depends on another field register this as listener
-    // if (field.relevantFields != null && field.relevantFields!.isNotEmpty) {
-    //   final allRelevantsExists = await ref.watch(
-    //       formInputFieldsListNotifierProvider
-    //           .selectAsync((list) {
-    //             final keys =
-    //         field.relevantFields.firstWhere(test);
-    //       }));
-    // }
-    //   final decidingFieldExist = ref.watch(formInputFieldsListNotifierProvider
-    //       .selectAsync((list) => list.containsAny(index, map)));
-    //   final dependsOnField = ref.watch(formInputFieldsListNotifierProvider
-    //       .selectAsync((list) => list.getAndMap(index, map)));
-    // }
-    return field;
-  }
-}
-
-/// fetchFormItems using [syncableEntityMappingRepositoryProvider]
-@riverpod
-class FormInputFieldsListNotifier extends _$FormInputFieldsListNotifier {
-  @override
-  Future<IList<FormFieldModel>> build() {
-    final repository = ref.watch(syncableEntityMappingRepositoryProvider);
-    // ref.onDispose(() => repository.disposeControllers());
-    return repository.list();
-  }
-}
-
-typedef IntentCallback = void Function(FormInputFieldIntent intent);
+typedef IntentCallback = void Function(FormIntent intent);
 
 /// This class represents a single field in the form. It encapsulates
 /// properties like field type (text, dropdown, etc.), current
@@ -58,11 +18,10 @@ typedef IntentCallback = void Function(FormInputFieldIntent intent);
 @immutable
 class FormFieldModel with EquatableMixin {
   const FormFieldModel({
-    required this.key,
+    required this.uid,
     this.options,
     this.isVisible = true,
-    this.relevantFields,
-    this.controller,
+    this.fieldRules,
     this.value,
     required this.isFocused,
     this.error,
@@ -70,6 +29,7 @@ class FormFieldModel with EquatableMixin {
     this.warning,
     required this.isMandatory,
     required this.label,
+    this.fieldMask,
     this.hint,
     this.description,
     this.valueType,
@@ -80,17 +40,17 @@ class FormFieldModel with EquatableMixin {
     this.intentCallback,
   });
 
-  final String key;
+  final String uid;
   final IList<String>? options;
-  final IList<FieldRule>? relevantFields;
-  final TextEditingController? controller;
+  final IList<Rule>? fieldRules;
   final bool isFocused;
   final String? error;
   final bool isEditable;
   final bool isVisible;
-  final dynamic value;
+  final String? value;
   final String? warning;
   final bool isMandatory;
+  final String? fieldMask;
   final String label;
   final String? hint;
   final String? description;
@@ -103,88 +63,10 @@ class FormFieldModel with EquatableMixin {
 
   String get formattedLabel => isMandatory ? '$label *' : label;
 
-  FormFieldModel setCallback({IntentCallback? intentCallback}) {
-    return copyWith(intentCallback: intentCallback);
-  }
+  FormFieldModel setValue(String? value) => copyWith(value: value);
 
-  bool controllerTextIsEmpty() => (controller?.text ?? '').isEmpty;
-
-  void disposeController() => controller?.dispose();
-
-  /// invoke FormInputFieldIntent.onFocus
-  void onFieldClick() {
-    intentCallback
-        ?.call(FormInputFieldIntent.onFocus(key: key, value: controller?.text));
-  }
-
-  /// invoke FormInputFieldIntent.onNext
-  void onNext() {
-    intentCallback
-        ?.call(FormInputFieldIntent.onNext(key: key, value: controller?.text));
-  }
-
-  /// invoke FormInputFieldIntent.onTextChange whenever the
-  /// text or value of the field is changed
-  void onTextChange(String? value) {
-    intentCallback?.call(FormInputFieldIntent.onTextChange(
-        key: key, value: (value ?? '').isEmpty == true ? null : value));
-  }
-
-  /// invoke FormInputFieldIntent.clearValue
-  void onClear() {
-    onFieldClick();
-    intentCallback?.call(FormInputFieldIntent.clearValue(key: key));
-  }
-
-  /// invoke FormInputFieldIntent.onSave for with value
-  void onSave(String? value) {
-    onFieldClick();
-    intentCallback?.call(FormInputFieldIntent.onSave(
-        key: key, value: value, valueType: valueType));
-  }
-
-  /// invoke FormInputFieldIntent.onSave  for Boolean type field
-  void onSaveBoolean(bool boolean) {
-    onFieldClick();
-    final result =
-        controllerTextIsEmpty() || controller?.text != boolean.toString()
-            ? boolean.toString()
-            : null;
-    intentCallback?.call(FormInputFieldIntent.onSave(
-        key: key, value: result, valueType: valueType));
-  }
-
-  /// invoke FormInputFieldIntent.onSave
-  void onSaveOption(String option) {
-    String? nextValue;
-    if (controller?.text == option) {
-      nextValue = null;
-    } else {
-      nextValue = option;
-    }
-    intentCallback?.call(FormInputFieldIntent.onSave(
-        key: key, value: nextValue, valueType: valueType));
-  }
-
-  void invokeIntent(FormInputFieldIntent intent) {
-    intentCallback?.call(intent);
-  }
-
-  /// if the field is of type image of file
-  bool get hasImage {
-    return !controllerTextIsEmpty() &&
-        File(controller?.text ?? '').existsSync();
-  }
-
-  FormFieldModel setValue(String? value) {
-    if (value != null) {
-      controller?.text = value;
-    }
-    return copyWith(value: value);
-  }
-
-  FormFieldModel setIsLoadingData(bool isLoading) =>
-      copyWith(isLoading: isLoading);
+  FormFieldModel setIsLoadingData(bool isLoadingData) =>
+      copyWith(isLoading: isLoadingData);
 
   FormFieldModel setFocus() => copyWith(focused: true);
 
@@ -192,29 +74,93 @@ class FormFieldModel with EquatableMixin {
 
   FormFieldModel setEditable(bool editable) => copyWith(isEditable: editable);
 
-  FormFieldModel setIsVisible(bool isVisible) => copyWith(isVisible: isVisible);
+  // @override
+  // FieldUiModel setLegend(LegendValue? legendValue) =>
+  //     copyWith(legend: legendValue);
 
   FormFieldModel setWarning(String warning) => copyWith(warning: warning);
 
   FormFieldModel setFieldMandatory() => copyWith(isMandatory: true);
 
+  FormFieldModel setDisplayName(String? displayName) =>
+      copyWith(displayName: displayName);
+
   FormFieldModel setKeyBoardActionDone() =>
       copyWith(keyboardActionType: KeyboardActionType.DONE);
 
-  FormFieldModel applyRelevantEffects(IList<FieldRule>? newValue) {
-    // if (newValue == null || newValue.isEmpty) {
-    return copyWith(isVisible: false, isEditable: false, isMandatory: false);
-    // }
+  FormFieldModel setCallback({IntentCallback? intentCallback}) {
+    return copyWith(intentCallback: intentCallback);
+  }
 
-    // FormFieldModel newFieldModelConfig = this;
+  bool _valueIsEmpty() => (value ?? '').isEmpty;
+
+  /// invoke FormInputFieldIntent.onFocus
+  void onFieldClick() {
+    intentCallback?.call(FormIntent.onFocus(uid, value));
+  }
+
+  /// invoke FormInputFieldIntent.onNext
+  void onNext() {
+    intentCallback?.call(FormIntent.onNext(uid: uid, value: value));
+  }
+
+  /// invoke FormInputFieldIntent.onTextChange whenever the
+  /// text or value of the field is changed
+  void onTextChange(String? value) {
+    intentCallback?.call(FormIntent.onTextChange(
+        uid, (value ?? '').isEmpty == true ? null : value));
+  }
+
+  /// invoke FormInputFieldIntent.clearValue
+  void onClear() {
+    onFieldClick();
+    intentCallback?.call(FormIntent.clearValue(uid));
+  }
+
+  /// invoke FormInputFieldIntent.onSave for with value
+  void onSave(String? value) {
+    onFieldClick();
+    intentCallback
+        ?.call(FormIntent.onSave(uid: uid, value: value, valueType: valueType));
+  }
+
+  /// invoke FormInputFieldIntent.onSave  for Boolean type field
+  void onSaveBoolean(bool boolean) {
+    onFieldClick();
+    final result = _valueIsEmpty() || value != boolean.toString()
+        ? boolean.toString()
+        : null;
+    intentCallback?.call(
+        FormIntent.onSave(uid: uid, value: result, valueType: valueType));
+  }
+
+  /// invoke FormInputFieldIntent.onSave
+  void onSaveOption(String option) {
+    String? nextValue;
+    if (value == option) {
+      nextValue = null;
+    } else {
+      nextValue = option;
+    }
+    intentCallback?.call(
+        FormIntent.onSave(uid: uid, value: nextValue, valueType: valueType));
+  }
+
+  void invokeIntent(FormIntent intent) {
+    intentCallback?.call(intent);
+  }
+
+  /// if the field is of type image of file
+  bool get hasImage {
+    return !_valueIsEmpty() && File(value ?? '').existsSync();
   }
 
   bool isSectionWithFields() => false;
 
   FormFieldModel copyWith(
           {String? key,
-          IList<FieldRule>? relevantFields,
-          IList<String>? options,
+          List<Rule>? fieldRules,
+          List<String>? options,
           bool? isVisible,
           dynamic value,
           int? layoutId,
@@ -246,18 +192,18 @@ class FormFieldModel with EquatableMixin {
           bool? lastPositionShouldChangeHeight,
           IntentCallback? intentCallback}) =>
       FormFieldModel(
-        key: key ?? this.key,
-        options: options ?? this.options,
+        uid: key ?? this.uid,
+        options: IList.orNull(options) ?? this.options,
         isVisible: isVisible ?? this.isVisible,
-        relevantFields: relevantFields ?? this.relevantFields,
+        fieldRules: IList.orNull(fieldRules) ?? this.fieldRules,
         value: value ?? this.value,
-        isFocused: focused ?? this.isFocused,
-        controller: controller,
+        isFocused: focused ?? isFocused,
         error: error ?? this.error,
         isEditable: isEditable ?? this.isEditable,
         warning: warning ?? this.warning,
         isMandatory: isMandatory ?? this.isMandatory,
         label: label ?? this.label,
+        fieldMask: fieldMask ?? this.fieldMask,
         hint: hint ?? this.hint,
         description: description ?? this.description,
         valueType: valueType ?? this.valueType,
@@ -269,24 +215,18 @@ class FormFieldModel with EquatableMixin {
 
   @override
   List<Object?> get props => [
-        key,
+        uid,
         options,
         isVisible,
-        relevantFields,
-        // layoutId,
-        // value,
+        value,
         isFocused,
         error,
+        fieldMask,
         isEditable,
         warning,
         isMandatory,
-        label,
-        hint,
-        description,
-        valueType,
-        // legend,
         allowFutureDates,
-        // callback
+        isLoading,
         intentCallback,
       ];
 }

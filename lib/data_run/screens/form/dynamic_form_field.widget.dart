@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:mass_pro/commons/date/date_utils.dart' as sdk;
-import 'package:mass_pro/commons/extensions/string_extension.dart';
 import 'package:mass_pro/data_run/screens/form/form_input_field.model.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:mass_pro/sdk/core/common/value_type_rendering_type.dart';
@@ -43,8 +41,8 @@ class DynamicFormFieldWidget extends StatelessWidget {
       case ValueType.Letter:
       case ValueType.LongText:
         return FormBuilderTextField(
-            name: fieldModel.key,
-            controller: fieldModel.controller,
+            name: fieldModel.uid,
+            // controller: fieldModel.controller,
             enabled: fieldModel.isEditable,
             validator: fieldModel.isMandatory
                 ? FormBuilderValidators.required()
@@ -56,13 +54,13 @@ class DynamicFormFieldWidget extends StatelessWidget {
                 focusedBorder: const OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.blue, width: 2.0),
                 )),
-            onChanged: (value) => fieldModel.setValue(value),
+            // onChanged: (value) => fieldModel.setValue(value),
             keyboardType: _getInputType(fieldModel.valueType));
       case ValueType.Boolean:
         return FormBuilderSwitch(
-          name: fieldModel.key,
+          name: fieldModel.uid,
           enabled: fieldModel.isEditable,
-          initialValue: fieldModel.controller?.text.toLowerCase() == 'true',
+          initialValue: fieldModel.value?.toLowerCase() == 'true',
           decoration: InputDecoration(
               border: const OutlineInputBorder(),
               contentPadding: const EdgeInsets.only(left: 20, top: 40),
@@ -70,7 +68,7 @@ class DynamicFormFieldWidget extends StatelessWidget {
               icon: const Icon(Icons.access_alarm_outlined),
               fillColor: Colors.red.shade200),
           onChanged: (bool? value) {
-            fieldModel.controller?.text = value.toString();
+            // fieldModel.controller?.text = value.toString();
           },
           title: Text(fieldModel.label),
         );
@@ -83,18 +81,18 @@ class DynamicFormFieldWidget extends StatelessWidget {
                 ? InputType.time
                 : InputType.both;
         return FormBuilderDateTimePicker(
-            name: fieldModel.key,
+            name: fieldModel.uid,
             enabled: fieldModel.isEditable,
             validator: fieldModel.isMandatory
                 ? FormBuilderValidators.required()
                 : null,
             initialEntryMode: DatePickerEntryMode.calendar,
-            initialValue: fieldModel.controller?.text.toDate(),
+            // initialValue: fieldModel.controller?.text.toDate(),
             inputType: inputType,
             onChanged: (DateTime? pickedDate) {
               if (pickedDate != null) {
-                fieldModel.controller?.text =
-                    sdk.DateUtils.databaseDateFormat().format(pickedDate);
+                // fieldModel.controller?.text =
+                //     sdk.DateUtils.databaseDateFormat().format(pickedDate);
               }
             },
             decoration: InputDecoration(
@@ -105,20 +103,20 @@ class DynamicFormFieldWidget extends StatelessWidget {
             ));
       case ValueType.SelectOne:
         return FormBuilderRadioGroup<String?>(
-          name: fieldModel.key,
+          name: fieldModel.uid,
           enabled: fieldModel.isEditable,
           validator:
               fieldModel.isMandatory ? FormBuilderValidators.required() : null,
-          initialValue: (fieldModel.controller?.text ?? '').isNotEmpty
-              ? fieldModel.controller!.text
-              : null,
+          // initialValue: (fieldModel.controller?.text ?? '').isNotEmpty
+          //     ? fieldModel.controller!.text
+          //     : null,
           options: _getFieldOptions(fieldModel.options!.unlock),
           wrapSpacing: 10.0,
           orientation: _getOptionsOrientation(fieldModel),
           wrapRunSpacing: 10.0,
           onChanged: (String? value) {
             if (value != null) {
-              fieldModel.controller?.text = value;
+              // fieldModel.controller?.text = value;
             }
           },
           decoration: InputDecoration(

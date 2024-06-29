@@ -1,57 +1,72 @@
-import 'package:fast_immutable_collections/src/ilist/ilist.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/data_run/screens/form/form_input_field.model.dart';
+import 'package:mass_pro/data_run/form/form_fields_repository.dart';
+import 'package:mass_pro/data_run/screens/data_submission/data_submission_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/form/form_field.widget.dart';
+import 'package:mass_pro/data_run/screens/form/form_input_field.model.dart';
+import 'package:mass_pro/data_run/screens/form/form_state/form_state_notifier.dart';
 
-class FormScreen extends ConsumerStatefulWidget {
+class FormScreen extends ConsumerWidget {
   const FormScreen({super.key});
 
   @override
-  ConsumerState<FormScreen> createState() => _FormScreenState();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final fieldsRepository = ref.watch(formFieldsRepositoryProvider);
+    return const EagerInitialization(
+      child: FormScreenScaffold(),
+    );
+  }
 }
 
-class _FormScreenState extends ConsumerState<FormScreen> {
-  final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
-  // final GlobalKey<FormBuilderState> _listKey = GlobalKey<FormBuilderState>();
+class FormScreenScaffold extends ConsumerStatefulWidget {
+  const FormScreenScaffold({super.key});
 
-@override
+  @override
+  ConsumerState<FormScreenScaffold> createState() => FormScreenScaffoldState();
+}
+
+class FormScreenScaffoldState extends ConsumerState<FormScreenScaffold> {
+  final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
+
+  @override
   Widget build(BuildContext context) {
-    final fields = ref.watch(formInputFieldsListNotifierProvider);
+    final fields = ref.watch(formStateNotifierProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text('Dynamic Form')),
+      appBar: AppBar(title: Text('Activity Form')),
       body: fields.maybeWhen(
-        data: (IList<FormFieldModel> data) {
+        data: (IList<FormFieldModel> formState) {
           return Stack(children: [
             FormBuilder(
               onPopInvoked: (bool value) {
                 /// show confirm, save, complete
-              } ,
+              },
               key: _formKey,
               onChanged: () {
                 _formKey.currentState!.save();
-                // Map<String, dynamic> representing all fields
-                ///{visitDate: 2024-06-25 00:00:00.000, patientName: , patientAge: , patientLocation: , gender: Male, testResult: null, detectionType: null, severity: null, treatment: null}
-                debugPrint('form _formKey State Changed: ${_formKey.currentState!.value.toString()}');
-                // debugPrint('form _listKey State Changed: ${_listKey.currentState!.value.toString()}');
+                // final key = _formKey.currentState!.value;
+                // ref
+                //     .read(formStateNotifierProvider.notifier)
+                // .updateValue(index, value)
+                //     .updateValues(_formKey.currentState!.value);
+                // debugPrint(
+                //     'form _formKey State Changed: ${_formKey.currentState!.value.toString()}');
               },
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: ListView.builder(
-                  // key: _listKey,
-                  itemCount: data.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: FormFieldWidget(
-                        fieldModel: data[index],
-                        fieldModelIndex: index,
-                      ),
-                    );
-                  },
-                ),
+                    itemCount: formState.length,
+                    // key: _listKey,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: FormFieldWidget(
+                          fieldIndex: index,
+                        ),
+                      );
+                    }),
               ),
             ),
             if (fields.isLoading)
