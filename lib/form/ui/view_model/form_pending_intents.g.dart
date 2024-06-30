@@ -7,7 +7,7 @@ part of 'form_pending_intents.dart';
 // **************************************************************************
 
 String _$formPendingIntentsHash() =>
-    r'8aa6e8f1b13df4b540bd9fe8f933cc91948ae024';
+    r'98ea52b59e7674f536a7afbdabc4b24a485dd708';
 
 /// See also [FormPendingIntents].
 @ProviderFor(FormPendingIntents)

@@ -4,6 +4,7 @@ import 'package:d2_remote/modules/datarun/form/shared/rule.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
+import 'package:mass_pro/commons/global_functions/global_functions.dart';
 import 'package:mass_pro/form/model/key_board_action_type.dart';
 import 'package:mass_pro/form/ui/intent/form_intent.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
@@ -17,28 +18,28 @@ typedef IntentCallback = void Function(FormIntent intent);
 /// is required, and other relevant information for formatting and behavior.
 @immutable
 class FormFieldModel with EquatableMixin {
-  const FormFieldModel({
-    required this.uid,
-    this.options,
-    this.isVisible = true,
-    this.fieldRules,
-    this.value,
-    required this.isFocused,
-    this.error,
-    required this.isEditable,
-    this.warning,
-    required this.isMandatory,
-    required this.label,
-    this.fieldMask,
-    this.hint,
-    this.description,
-    this.valueType,
-    this.allowFutureDates,
-    this.fieldRendering,
-    this.keyboardActionType,
-    this.isLoading = false,
-    this.intentCallback,
-  });
+  const FormFieldModel(
+      {required this.uid,
+      this.options,
+      this.isVisible = true,
+      this.fieldRules,
+      this.value,
+      required this.isFocused,
+      this.error,
+      required this.isEditable,
+      this.warning,
+      required this.isMandatory,
+      required this.label,
+      this.fieldMask,
+      this.hint,
+      this.description,
+      this.valueType,
+      this.allowFutureDates,
+      this.fieldRendering,
+      this.keyboardActionType,
+      this.isLoading = false,
+      this.intentCallback,
+      this.focusNode});
 
   final String uid;
   final IList<String>? options;
@@ -60,6 +61,7 @@ class FormFieldModel with EquatableMixin {
   final KeyboardActionType? keyboardActionType;
   final bool isLoading;
   final IntentCallback? intentCallback;
+  final FocusNode? focusNode;
 
   String get formattedLabel => isMandatory ? '$label *' : label;
 
@@ -190,7 +192,8 @@ class FormFieldModel with EquatableMixin {
           int? sectionNumber,
           bool? showBottomShadow,
           bool? lastPositionShouldChangeHeight,
-          IntentCallback? intentCallback}) =>
+          IntentCallback? intentCallback,
+          FocusNode? focusNode}) =>
       FormFieldModel(
         uid: key ?? this.uid,
         options: IList.orNull(options) ?? this.options,
@@ -211,7 +214,23 @@ class FormFieldModel with EquatableMixin {
         keyboardActionType: keyboardActionType ?? this.keyboardActionType,
         isLoading: isLoading ?? this.isLoading,
         intentCallback: intentCallback ?? this.intentCallback,
+        focusNode: focusNode ?? this.focusNode,
       );
+
+  @override
+  String toString() {
+    return mapPropsToString(runtimeType, [
+      'uid: $uid',
+      'value: $value',
+      'isVisible: $isVisible',
+      'isLoading:  $isLoading',
+      'isFocused:  $isFocused',
+      'dataIntegrityResult: $isMandatory',
+      'error:  $error',
+      'warning:  $warning',
+      'options:  $options',
+    ]);
+  }
 
   @override
   List<Object?> get props => [

@@ -14,7 +14,7 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:mass_pro/commons/extensions/standard_extensions.dart';
 import 'package:mass_pro/data_run/form/database_syncable_query.dart';
 import 'package:mass_pro/data_run/form/syncable_object_repository.dart';
-import 'package:mass_pro/data_run/form/syncable_query_mapping_repository.dart';
+import 'package:mass_pro/data_run/form/entity_form_listing_repository.dart';
 import 'package:mass_pro/data_run/form/syncable_status.dart';
 import 'package:mass_pro/data_run/screens/form/form_input_field.model.dart';
 import 'package:mass_pro/sdk/core/maintenance/d2_error.dart';

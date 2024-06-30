@@ -2,15 +2,14 @@ import 'dart:async';
 
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/datarun/form/entities/dynamic_form.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
 import 'package:d2_remote/modules/datarun_shared/entities/syncable.entity.dart';
 import 'package:d2_remote/modules/datarun_shared/queries/syncable.query.dart';
-import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
 import 'package:d2_remote/shared/utilities/merge_mode.util.dart';
 import 'package:d2_remote/shared/utilities/save_option.util.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:get/get.dart';
 import 'package:mass_pro/commons/constants.dart';
-import 'package:mass_pro/commons/date/date_utils.dart' as sdk;
 import 'package:mass_pro/commons/extensions/string_extension.dart';
 import 'package:mass_pro/commons/extensions/value_extensions.dart';
 import 'package:mass_pro/commons/extensions/value_type_rendering_extension.dart';
@@ -61,16 +60,38 @@ class SyncableEntityMappingRepository {
     return _syncableQueryProvider.getEntityQuery();
   }
 
-  Future<IList<FormFieldModel>> list() async {
-    final SyncableEntity syncableEntity =
-        (await getQuery().byId(_entityUid).getOne())!;
-    final DynamicForm form = (await D2Remote.formModule.form
-        .where(attribute: 'activity', value: syncableEntity.activity)
+  Future<SyncableEntity> getSyncableEntity() async {
+    return (await getQuery().byId(_entityUid).getOne())!;
+  }
+
+  Future<DynamicForm> getForm() async {
+    return (await D2Remote.formModule.form
+        .where(attribute: 'code', value: _syncableQueryProvider.formCode)
         .getOne())!;
+  }
+
+  Future<IMap<String, FormFieldModel>> map() async {
+    final form = await getForm();
+    final syncableEntity = await getSyncableEntity();
+
+    final entityMap = IMapConst(syncableEntity.toJson());
+
+    IMap<String, FormFieldModel> fieldsModelsMap = IMap({});
+    for (final field in form.fields!) {
+      fieldsModelsMap = fieldsModelsMap.add(field.name,
+          mapToModel(field: field, value: entityMap.get(field.name)));
+    }
+    return fieldsModelsMap;
+  }
+
+  Future<IList<FormFieldModel>> list() async {
+    final form = await getForm();
+    final syncableEntity = await getSyncableEntity();
+
     final entityMap = IMapConst(syncableEntity.toJson());
 
     IList<FormFieldModel> fieldsModels = IList([]);
-    for (final field in form.fields ?? []) {
+    for (final field in form.fields!) {
       fieldsModels = fieldsModels
           .add(mapToModel(field: field, value: entityMap.get(field.name)));
     }
@@ -82,7 +103,7 @@ class SyncableEntityMappingRepository {
     dynamic value,
   }) {
     return FormFieldModel(
-      key: field.name,
+      uid: field.name,
       isFocused: false,
       isEditable: true,
       isMandatory: field.required,
@@ -94,14 +115,14 @@ class SyncableEntityMappingRepository {
       valueType: field.type.toValueType,
       options: field.options?.lock,
       fieldRendering: field.fieldValueRenderingType.toValueTypeRenderingType,
-      relevantFields: field.fieldRules?.lock,
+      fieldRules: field.rules?.lock,
     );
   }
 
   Future<FormFieldModel> updateField(
       FormFieldModel fieldUiModel, String? warningMessage) async {
     return warningMessage != null
-        ? fieldUiModel.setError(warningMessage)
+        ? fieldUiModel.copyWith(error: warningMessage)
         : fieldUiModel;
   }
 
@@ -195,15 +216,6 @@ class SyncableEntityMappingRepository {
         final fileResource =
             await D2Remote.fileResourceModule.fileResource.byId(value).getOne();
         return fileResource?.localFilePath ?? '';
-      case ValueType.Date:
-        return sdk.DateUtils.uiDateFormat()
-            .format(sdk.DateUtils.databaseDateFormatNoSeconds().parse(value));
-      case ValueType.DateTime:
-        return sdk.DateUtils.dateTimeFormat()
-            .format(sdk.DateUtils.databaseDateFormatNoSeconds().parse(value));
-      case ValueType.Time:
-        return sdk.DateUtils.timeFormat()
-            .format(sdk.DateUtils.timeFormat().parse(value));
       default:
         return value;
     }

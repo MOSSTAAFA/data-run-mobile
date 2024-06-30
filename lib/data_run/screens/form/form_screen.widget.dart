@@ -2,11 +2,20 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:mass_pro/commons/extensions/standard_extensions.dart';
 import 'package:mass_pro/data_run/form/form_fields_repository.dart';
 import 'package:mass_pro/data_run/screens/data_submission/data_submission_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/form/form_field.widget.dart';
 import 'package:mass_pro/data_run/screens/form/form_input_field.model.dart';
+import 'package:mass_pro/data_run/screens/form/form_state/focus_manager.dart';
 import 'package:mass_pro/data_run/screens/form/form_state/form_state_notifier.dart';
+import 'package:mass_pro/form/model/key_board_action_type.dart';
+import 'package:mass_pro/form/ui/intent/form_intent.dart';
+import 'package:mass_pro/form/ui/view_model/form_pending_intents.dart';
+import 'package:mass_pro/sdk/core/common/value_type.dart';
+import 'package:mass_pro/commons/date/date_utils.dart' as sdk;
+import 'package:mass_pro/sdk/core/common/value_type_rendering_type.dart';
 
 class FormScreen extends ConsumerWidget {
   const FormScreen({super.key});
@@ -29,10 +38,16 @@ class FormScreenScaffold extends ConsumerStatefulWidget {
 
 class FormScreenScaffoldState extends ConsumerState<FormScreenScaffold> {
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
+  @override
+  void dispose() {
+    // ref.read(focusManagerProvider).dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final fields = ref.watch(formStateNotifierProvider);
+    final focusManager = ref.watch(focusManagerProvider);
 
     return Scaffold(
       appBar: AppBar(title: Text('Activity Form')),
@@ -46,19 +61,11 @@ class FormScreenScaffoldState extends ConsumerState<FormScreenScaffold> {
               key: _formKey,
               onChanged: () {
                 _formKey.currentState!.save();
-                // final key = _formKey.currentState!.value;
-                // ref
-                //     .read(formStateNotifierProvider.notifier)
-                // .updateValue(index, value)
-                //     .updateValues(_formKey.currentState!.value);
-                // debugPrint(
-                //     'form _formKey State Changed: ${_formKey.currentState!.value.toString()}');
               },
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: ListView.builder(
                     itemCount: formState.length,
-                    // key: _listKey,
                     itemBuilder: (BuildContext context, int index) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),

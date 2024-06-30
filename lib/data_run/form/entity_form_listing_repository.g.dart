@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'syncable_query_mapping_repository.dart';
+part of 'entity_form_listing_repository.dart';
 
 // **************************************************************************
 // RiverpodGenerator

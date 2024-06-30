@@ -11,7 +11,7 @@ import 'package:mass_pro/data_run/form/syncable_entity_mapping_repository.dart';
 import 'package:mass_pro/data_run/form/database_syncable_query.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'syncable_query_mapping_repository.g.dart';
+part 'entity_form_listing_repository.g.dart';
 
 @riverpod
 SyncableEntityInitialRepository syncableEntityInitialRepository(
@@ -30,7 +30,6 @@ EntityFormListingRepository entityFormListingRepository(
       ref.watch(databaseSyncableQueryProvider(formCode)));
 }
 
-/// TODO("dRun"): rename to SyncableEntityListingRepository
 class EntityFormListingRepository {
   EntityFormListingRepository(this.syncableQueryProvider);
 

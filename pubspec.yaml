@@ -46,6 +46,7 @@ dependencies:
   percent_indicator: ^4.2.3
   scrollable_positioned_list: ^0.3.8
   get: ^4.6.6
+  expressions: ^0.2.5+1
 
 
 dev_dependencies:
@@ -54,6 +55,7 @@ dev_dependencies:
   custom_lint: ^0.6.4
   flutter_test:
     sdk: flutter
+  mockito: ^5.4.4
   riverpod_generator: ^2.4.0
   riverpod_lint: ^2.3.10
   #  sealed_generators: ^1.13.0

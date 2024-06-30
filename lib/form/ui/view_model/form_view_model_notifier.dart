@@ -1,28 +1,27 @@
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:flutter/material.dart';
+import 'package:mass_pro/commons/extensions/string_extension.dart';
+import 'package:mass_pro/commons/helpers/collections.dart';
+import 'package:mass_pro/commons/logging/logging.dart';
+import 'package:mass_pro/form/data/form_repository.dart';
+import 'package:mass_pro/form/di/injector.dart';
+import 'package:mass_pro/form/model/Ui_render_type.dart';
+import 'package:mass_pro/form/model/action_type.dart';
+import 'package:mass_pro/form/model/field_ui_model.dart';
+import 'package:mass_pro/form/model/info_ui_model.dart';
+import 'package:mass_pro/form/model/row_action.dart';
+import 'package:mass_pro/form/model/store_result.dart';
+import 'package:mass_pro/form/model/value_store_result.dart';
+import 'package:mass_pro/form/ui/intent/form_intent.dart';
+import 'package:mass_pro/form/ui/validation/validators/field_mask_validator.dart';
+import 'package:mass_pro/form/ui/view_model/form_model_notifier.dart';
+import 'package:mass_pro/form/ui/view_model/form_pending_intents.dart';
 import 'package:mass_pro/sdk/core/common/exception/exception.dart';
 import 'package:mass_pro/sdk/core/common/feature_type.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:mass_pro/sdk/core/mp/helpers/result.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
-import '../../../../commons/extensions/string_extension.dart';
-import '../../../../commons/logging/logging.dart';
-import '../../../commons/helpers/collections.dart';
-import '../../data/form_repository.dart';
-import '../../di/injector.dart';
-import '../../model/Ui_render_type.dart';
-import '../../model/action_type.dart';
-import '../../model/field_ui_model.dart';
-import '../../model/info_ui_model.dart';
-import '../../model/row_action.dart';
-import '../../model/store_result.dart';
-import '../../model/value_store_result.dart';
-import '../intent/form_intent.dart';
-import '../validation/validators/field_mask_validator.dart';
-import 'form_model_notifier.dart';
-import 'form_pending_intents.dart';
 
 part 'form_view_model_notifier.g.dart';
 
@@ -133,77 +132,6 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
 
     final StoreResult result = await _processUserAction(rowAction);
     return Pair(rowAction, result);
-  }
-
-  RowAction _rowActionFromIntent(FormIntent intent) {
-    return intent.map(
-      onClear: (OnClear intent) => _createRowAction(
-          uid: '', value: null, actionType: ActionType.ON_CLEAR),
-      clearValue: (ClearValue intent) =>
-          _createRowAction(uid: intent.uid, value: null),
-      selectLocationFromCoordinates: (SelectLocationFromCoordinates intent) {
-        final Exception? error =
-            _checkFieldError(ValueType.Coordinate, intent.coordinates, null);
-        return _createRowAction(
-            uid: intent.uid,
-            value: intent.coordinates,
-            extraData: intent.extraData,
-            error: error,
-            valueType: ValueType.Coordinate);
-      },
-      selectLocationFromMap: (SelectLocationFromMap intent) =>
-          _setCoordinateFieldValue(
-              fieldUid: intent.uid,
-              featureType: intent.featureType,
-              coordinates: intent.coordinates),
-      saveCurrentLocation: (SaveCurrentLocation intent) {
-        final Exception? error =
-            _checkFieldError(ValueType.Coordinate, intent.value, null);
-        return _createRowAction(
-            uid: intent.uid,
-            value: intent.value,
-            extraData: intent.featureType,
-            error: error,
-            valueType: ValueType.Coordinate);
-      },
-      onNext: (OnNext intent) => _createRowAction(
-          uid: intent.uid, value: intent.value, actionType: ActionType.ON_NEXT),
-      onSave: (OnSave intent) {
-        final Exception? error =
-            _checkFieldError(intent.valueType, intent.value, intent.fieldMask);
-        return _createRowAction(
-            uid: intent.uid,
-            value: intent.value,
-            error: error,
-            valueType: intent.valueType);
-      },
-      onFocus: (OnFocus intent) => _createRowAction(
-          uid: intent.uid,
-          value: intent.value,
-          actionType: ActionType.ON_FOCUS),
-      onTextChange: (OnTextChange intent) => _createRowAction(
-          uid: intent.uid,
-          value: intent.value,
-          actionType: ActionType.ON_TEXT_CHANGE,
-          valueType: ValueType.Text),
-      onSection: (OnSection intent) => _createRowAction(
-          uid: intent.sectionUid,
-          value: null,
-          actionType: ActionType.ON_SECTION_CHANGE),
-      onFinish: (OnFinish intent) => _createRowAction(
-          uid: '', value: null, actionType: ActionType.ON_FINISH),
-      onRequestCoordinates: (OnRequestCoordinates intent) => _createRowAction(
-          uid: intent.uid,
-          value: null,
-          actionType: ActionType.ON_REQUEST_COORDINATES),
-      onCancelRequestCoordinates: (OnCancelRequestCoordinates intent) =>
-          _createRowAction(
-              uid: intent.uid,
-              value: null,
-              actionType: ActionType.ON_CANCELL_REQUEST_COORDINATES),
-      init: (Init intent) => _createRowAction(
-          uid: '', value: null, actionType: ActionType.ON_INIT),
-    );
   }
 
   Future<void> processCalculatedItems() async {
@@ -419,10 +347,84 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
     return _repository.calculationLoopOverLimit();
   }
 
-  RowAction _getRowActionFromIntent(FormIntent intent) {
+  RowAction _rowActionFromIntent(FormIntent intent) {
     return intent.map(
       onClear: (OnClear intent) => _createRowAction(
           uid: '', value: null, actionType: ActionType.ON_CLEAR),
+      clearValue: (ClearValue intent) =>
+          _createRowAction(uid: intent.uid, value: null),
+      selectLocationFromCoordinates: (SelectLocationFromCoordinates intent) {
+        final Exception? error =
+            _checkFieldError(ValueType.Coordinate, intent.coordinates, null);
+        return _createRowAction(
+            uid: intent.uid,
+            value: intent.coordinates,
+            extraData: intent.extraData,
+            error: error,
+            valueType: ValueType.Coordinate);
+      },
+      selectLocationFromMap: (SelectLocationFromMap intent) =>
+          _setCoordinateFieldValue(
+              fieldUid: intent.uid,
+              featureType: intent.featureType,
+              coordinates: intent.coordinates),
+      saveCurrentLocation: (SaveCurrentLocation intent) {
+        final Exception? error =
+            _checkFieldError(ValueType.Coordinate, intent.value, null);
+        return _createRowAction(
+            uid: intent.uid,
+            value: intent.value,
+            extraData: intent.featureType,
+            error: error,
+            valueType: ValueType.Coordinate);
+      },
+      onNext: (OnNext intent) => _createRowAction(
+          uid: intent.uid, value: intent.value, actionType: ActionType.ON_NEXT),
+      onSave: (OnSave intent) {
+        final Exception? error =
+            _checkFieldError(intent.valueType, intent.value, intent.fieldMask);
+        return _createRowAction(
+            uid: intent.uid,
+            value: intent.value,
+            error: error,
+            valueType: intent.valueType);
+      },
+      onFocus: (OnFocus intent) => _createRowAction(
+          uid: intent.uid,
+          value: intent.value,
+          actionType: ActionType.ON_FOCUS),
+      onTextChange: (OnTextChange intent) => _createRowAction(
+          uid: intent.uid,
+          value: intent.value,
+          actionType: ActionType.ON_TEXT_CHANGE,
+          valueType: ValueType.Text),
+      onSection: (OnSection intent) => _createRowAction(
+          uid: intent.sectionUid,
+          value: null,
+          actionType: ActionType.ON_SECTION_CHANGE),
+      onFinish: (OnFinish intent) => _createRowAction(
+          uid: '', value: null, actionType: ActionType.ON_FINISH),
+      onRequestCoordinates: (OnRequestCoordinates intent) => _createRowAction(
+          uid: intent.uid,
+          value: null,
+          actionType: ActionType.ON_REQUEST_COORDINATES),
+      onCancelRequestCoordinates: (OnCancelRequestCoordinates intent) =>
+          _createRowAction(
+              uid: intent.uid,
+              value: null,
+              actionType: ActionType.ON_CANCELL_REQUEST_COORDINATES),
+      init: (Init intent) => _createRowAction(
+          uid: '', value: null, actionType: ActionType.ON_INIT),
+    );
+  }
+
+  RowAction _getRowActionFromIntent(FormIntent intent) {
+    return intent.map(
+      /// on removing all form values
+      onClear: (OnClear intent) => _createRowAction(
+          uid: '', value: null, actionType: ActionType.ON_CLEAR),
+
+      /// on removing single field value
       clearValue: (ClearValue intent) =>
           _createRowAction(uid: intent.uid, value: null),
       selectLocationFromCoordinates: (SelectLocationFromCoordinates intent) {

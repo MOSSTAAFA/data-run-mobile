@@ -81,7 +81,7 @@ void main() {
             label: 'Field 2'),
       ]);
 
-      final rulesMap = ruleEngine.getFieldRules(fields);
+      final rulesMap = ruleEngine.getRules(fields);
 
       expect(rulesMap.get('field1'), IList([rule1]));
       expect(rulesMap.get('field2'), IList([rule2]));

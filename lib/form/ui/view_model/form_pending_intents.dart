@@ -12,20 +12,20 @@ class FormPendingIntents extends _$FormPendingIntents {
     return const FormIntent.init();
   }
 
-  @override
-  bool updateShouldNotify(FormIntent previous, FormIntent next) {
-    logInfo(
-        info:
-            'FormPendingIntents: updateShouldNotify(oldI,newI): oldI: $previous, newI: $next');
-    if (next is Init || (previous is OnFinish && next is OnFinish)) {
-      return false;
-    } else {
-      return previous != next;
-    }
-  }
+  // @override
+  // bool updateShouldNotify(FormIntent previous, FormIntent next) {
+  //   // logInfo(
+  //   //     info:
+  //   //         'FormPendingIntents: updateShouldNotify(oldI,newI): oldI: $previous, newI: $next');
+  //   if (next is Init || (previous is OnFinish && next is OnFinish)) {
+  //     return false;
+  //   } else {
+  //     return previous != next;
+  //   }
+  // }
 
   void submitIntent(FormIntent Function(FormIntent current) updateCallback) {
-    logInfo(info: 'FormPendingIntents: submitIntent(), current: $state');
+    // logInfo(info: 'FormPendingIntents: submitIntent(), current: $state');
     state = updateCallback.call(state);
   }
 }

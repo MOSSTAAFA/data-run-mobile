@@ -5,20 +5,20 @@ import 'package:mass_pro/sdk/core/program/section_rendering_type.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_tracked_entity_attribute.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/tracked_entity_attribute.entity.dart';
 
-import '../../commons/extensions/dynamic_extensions.dart';
-import '../../commons/extensions/value_extensions.dart';
-import '../../commons/extensions/value_type_rendering_extension.dart';
-import '../model/field_ui_model.dart';
-import '../model/field_ui_model_impl.dart';
-import '../model/option_set_configuration.dart';
-import '../model/section_ui_model_impl.dart';
-import 'event/ui_event_factory_impl.dart';
-import 'field_view_model_factory.dart';
-import 'provider/display_name_provider.dart';
-import 'provider/hint_provider.dart';
-import 'provider/keyboard_action_provider.dart';
-import 'provider/ui_event_types_provider.dart';
-import 'provider/ui_style_provider.dart';
+import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
+import 'package:mass_pro/commons/extensions/value_extensions.dart';
+import 'package:mass_pro/commons/extensions/value_type_rendering_extension.dart';
+import 'package:mass_pro/form/model/field_ui_model.dart';
+import 'package:mass_pro/form/model/field_ui_model_impl.dart';
+import 'package:mass_pro/form/model/option_set_configuration.dart';
+import 'package:mass_pro/form/model/section_ui_model_impl.dart';
+import 'package:mass_pro/form/ui/event/ui_event_factory_impl.dart';
+import 'package:mass_pro/form/ui/field_view_model_factory.dart';
+import 'package:mass_pro/form/ui/provider/display_name_provider.dart';
+import 'package:mass_pro/form/ui/provider/hint_provider.dart';
+import 'package:mass_pro/form/ui/provider/keyboard_action_provider.dart';
+import 'package:mass_pro/form/ui/provider/ui_event_types_provider.dart';
+import 'package:mass_pro/form/ui/provider/ui_style_provider.dart';
 
 class FieldViewModelFactoryImpl implements FieldViewModelFactory {
   // LegendValueProvider legendValueProvider;

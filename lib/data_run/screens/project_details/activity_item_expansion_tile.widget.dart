@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/core/common/state.dart' as item_state;
-import 'package:mass_pro/data_run/form/syncable_query_mapping_repository.dart';
+import 'package:mass_pro/data_run/form/entity_form_listing_repository.dart';
 import 'package:mass_pro/data_run/screens/entities_list_screen/entities_list_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/form/dynamic_form_field.widget.dart';
 import 'package:mass_pro/data_run/screens/form/form_screen.widget.dart';

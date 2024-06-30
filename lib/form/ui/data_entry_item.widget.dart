@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../commons/custom_widgets/fields/form_edit_text.widget.dart';
-import '../model/field_ui_model.dart';
-import 'event/list_view_ui_events.dart';
-import 'intent/form_intent.dart';
-import 'item_widget.widget.dart';
-import 'view_model/form_view_model_notifier.dart';
+import 'package:mass_pro/commons/custom_widgets/fields/form_edit_text.widget.dart';
+import 'package:mass_pro/form/model/field_ui_model.dart';
+import 'package:mass_pro/form/ui/event/list_view_ui_events.dart';
+import 'package:mass_pro/form/ui/intent/form_intent.dart';
+import 'package:mass_pro/form/ui/item_widget.widget.dart';
+import 'package:mass_pro/form/ui/view_model/form_view_model_notifier.dart';
 
 class DataEntryItemWidget extends ConsumerWidget {
   const DataEntryItemWidget({

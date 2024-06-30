@@ -239,9 +239,13 @@ class FormRepositoryImpl implements FormRepository {
     }).orElse(() => _focusedItemId = action.id);
   }
 
+  /// if action has error and its item is not yet in _itemsWithError, it adds
+  /// it to it. Else which means it was _itemsWithError, it then removes it.
   @override
   void updateErrorList(RowAction action) {
+    /// if action has error
     if (action.error != null) {
+      /// if item is not in _itemsWithError
       if (_itemsWithError
               .firstOrNullWhere((RowAction item) => item.id == action.id) ==
           null) {
@@ -260,6 +264,7 @@ class FormRepositoryImpl implements FormRepository {
     _openedSectionUid = action.id;
   }
 
+  /// updates the field model in _itemList with the value based on the uid
   @override
   Future<void> updateValueOnList(
       String uid, String? value, ValueType? valueType) async {

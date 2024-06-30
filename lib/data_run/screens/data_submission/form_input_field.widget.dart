@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/data_run/screens/form/form_input_field.model.dart';
-import 'package:mass_pro/data_run/screens/form/form_input_field_intent.dart';
+import 'package:mass_pro/form/ui/intent/form_intent.dart';
 
 class FormInputFieldWidget extends ConsumerWidget {
   const FormInputFieldWidget({super.key, this.onIntent, required this.index
@@ -13,13 +13,13 @@ class FormInputFieldWidget extends ConsumerWidget {
 
   // final FormRepositoryRecords records;
 
-  final void Function(FormInputFieldIntent intent)? onIntent;
+  final void Function(FormIntent intent)? onIntent;
 
   // final void Function(ListViewUiEvents uiEvent)? onListViewUiEvents;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final item = ref.watch(fieldInputModelNotifierProvider(index));
+    // final item = ref.watch(fieldInputModelNotifierProvider(index));
     // final FormInputFieldIntent? item = ref.watch(formViewModelNotifierProvider.select(
     //     (asyncList) => asyncList.value?.isNotEmpty ?? false
     //         ? asyncList.value![itemIndex]

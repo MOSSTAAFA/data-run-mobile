@@ -53,17 +53,11 @@ class FormStateNotifier extends _$FormStateNotifier {
     final RowAction? rowAction = _rowActionFromIntent(intent);
 
     if (rowAction?.type == ActionType.ON_FOCUS) {
-      // focused.postValue(true);
-      // ref
-      //     .read(formModelNotifierProvider.notifier)
-      //     .updateValue((current) => current.copyWith(focused: true));
+      // TODO Notify the form focus
     } else if (rowAction?.type == ActionType.ON_SAVE) {
       /// (rowAction?.type == ActionType.ON_SAVE) when
       /// intent.onSave and intent.onClear a Field Value
-      // ref
-      //     .read(formModelNotifierProvider.notifier)
-      //     .updateValue((current) => current.copyWith(loading: true));
-      // loading.postValue(true);
+      // TODO
     }
 
     /// this where it triggers the save
@@ -102,6 +96,7 @@ class FormStateNotifier extends _$FormStateNotifier {
     switch (action?.type) {
       /// upon returning, need to processCalculatedItems() and update state
       case ActionType.ON_SAVE:
+        // TODO
         // if (action.valueType == ValueType.Coordinate) {
         //   repository.setFieldRequestingCoordinates(action.id, false);
         // }
@@ -144,6 +139,7 @@ class FormStateNotifier extends _$FormStateNotifier {
 
       /// upon returning, need to processCalculatedItems() and update state
       case ActionType.ON_SECTION_CHANGE:
+        // TODO
         // repository.updateSectionOpened(action);
         return StoreResult(
             uid: action!.id,
@@ -164,7 +160,7 @@ class FormStateNotifier extends _$FormStateNotifier {
 
       /// upon returning, need to processCalculatedItems() and update state
       case ActionType.ON_REQUEST_COORDINATES:
-        // repository.setFieldRequestingCoordinates(action.id, true);
+        // TODO repository.setFieldRequestingCoordinates(action.id, true);
 
         return StoreResult(
             uid: action!.id,
@@ -172,7 +168,7 @@ class FormStateNotifier extends _$FormStateNotifier {
 
       /// upon returning, need to processCalculatedItems() and update state
       case ActionType.ON_CANCELL_REQUEST_COORDINATES:
-        // repository.setFieldRequestingCoordinates(action.id, false);
+        // TODO repository.setFieldRequestingCoordinates(action.id, false);
 
         return StoreResult(
             uid: action!.id,
@@ -320,8 +316,7 @@ class FormStateNotifier extends _$FormStateNotifier {
   Future<void> processCalculatedItems() async {
     final repository = ref.read(formFieldsRepositoryProvider);
     logInfo(info: 'itemsProvider: processCalculatedItems()');
-    final previousState = future;
-    // state = const AsyncLoading();
+    state = const AsyncLoading();
     state = await AsyncValue.guard(repository.composeFields);
   }
 
@@ -351,31 +346,33 @@ class FormStateNotifier extends _$FormStateNotifier {
   ///
   void _displayResult(Pair<RowAction?, StoreResult> result) {
     switch (result.second.valueStoreResult) {
-      /// To notify the main screen on ItemChanged
+      /// To notify the main screen on
       case ValueStoreResult.VALUE_CHANGED:
+        // TODO Notify about it
         processCalculatedItems();
         break;
 
-      ///
       case ValueStoreResult.ERROR_UPDATING_VALUE:
-        // Notify that ERROR_UPDATING_VALUE
+        // TODO Notify about it
         break;
 
-      ///
       case ValueStoreResult.UID_IS_NOT_DE_OR_ATTR:
+        // TODO Notify about it
         processCalculatedItems();
         break;
       case ValueStoreResult.VALUE_NOT_UNIQUE:
+        // TODO Notify about it
         processCalculatedItems();
         break;
 
-      ///
       case ValueStoreResult.VALUE_HAS_NOT_CHANGED:
+        // TODO Notify about it
         processCalculatedItems();
         break;
 
       /// Listen from widget to send to main widget when needToForceUpdate
       case ValueStoreResult.TEXT_CHANGING:
+        // TODO Notify about it
         break;
       case ValueStoreResult.FINISH:
         processCalculatedItems();
@@ -389,16 +386,14 @@ class FormStateNotifier extends _$FormStateNotifier {
     final repository = ref.read(formFieldsRepositoryProvider);
     final currentFocusedItem = repository.currentFocusedItem()?.takeIf(
         (FormFieldModel item) =>
-            item.valueType?.let((ValueType valueType) =>
-                valueTypeIsTextField(valueType)) ??
+            item.valueType?.let(
+                (ValueType valueType) => valueTypeIsTextField(valueType)) ??
             false);
     return currentFocusedItem;
   }
 
-  bool valueTypeIsTextField(
-      ValueType valueType /*, [UiRenderType? renderType]*/) {
+  bool valueTypeIsTextField(ValueType valueType) {
     return valueType.isNumeric ||
-        // valueType.isText && renderType?.isPolygon != true ||
         valueType == ValueType.URL ||
         valueType == ValueType.Email ||
         valueType == ValueType.PhoneNumber;
@@ -441,10 +436,9 @@ class FormStateNotifier extends _$FormStateNotifier {
   /// [ActionType.ON_FINISH], which then converted to a [StoreResult] of
   /// [ValueStoreResult.FINISH]
   void runDataIntegrityCheck({bool? backButtonPressed}) {
+    // TODO
     // final result = _repository.runDataIntegrityCheck(
     //     allowDiscard: backButtonPressed ?? false);
-    // ref.read(formModelNotifierProvider.notifier).updateValue(
-    //         (current) => current.copyWith(dataIntegrityResult: result));
     processCalculatedItems();
   }
 }

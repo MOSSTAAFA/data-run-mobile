@@ -5,6 +5,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:mass_pro/commons/date/date_utils.dart' as sdk;
 import 'package:mass_pro/commons/extensions/standard_extensions.dart';
 import 'package:mass_pro/data_run/screens/form/form_input_field.model.dart';
+import 'package:mass_pro/data_run/screens/form/form_state/focus_manager.dart';
 import 'package:mass_pro/data_run/screens/form/form_state/form_state_notifier.dart';
 import 'package:mass_pro/form/model/key_board_action_type.dart';
 import 'package:mass_pro/form/ui/intent/form_intent.dart';
@@ -22,79 +23,21 @@ class FormFieldWidget extends ConsumerStatefulWidget {
 }
 
 class _FormFieldWidgetState extends ConsumerState<FormFieldWidget> {
-  late FocusNode _focusNode;
-
-  @override
-  void initState() {
-    super.initState();
-    _focusNode = FocusNode();
-    _focusNode.addListener(_onFocusChange);
-  }
-
-  @override
-  void dispose() {
-    _focusNode.removeListener(_onFocusChange);
-    _focusNode.dispose();
-    super.dispose();
-  }
-
-  void _onFocusChange() {
-    if (!_focusNode.hasFocus) {
-      // Trigger validation and rule evaluation
-      // ref
-      //     .read(formPendingIntentsProvider.notifier)
-      //     .submitIntent((_) => const FormIntent.onFocus(uid, value));
+  void onIntent(FormIntent intent) {
+    FormIntent formIntent = intent;
+    if (intent is OnNext) {
+      formIntent = intent.copyWith(position: widget.fieldIndex);
     }
+
+    ref
+        .read(formPendingIntentsProvider.notifier)
+        .submitIntent((current) => formIntent);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final indexedFieldModel =
-        ref.watch(indexedFieldInputProvider(widget.fieldIndex));
-    return indexedFieldModel.maybeWhen(
-      data: (FormFieldModel fieldModel) {
-        return Visibility(
-            visible: fieldModel.isVisible,
-            child: Stack(
-              children: [
-                _buildFormField(context,
-                    fieldModel.copyWith(intentCallback: (intent) {
-                  FormIntent formIntent = intent;
-                  if (intent is OnNext) {
-                    formIntent = intent.copyWith(position: widget.fieldIndex);
-                  }
+  Widget buildFormField(FormFieldModel fieldModel) {
+    final focusManager = ref.watch(focusManagerProvider);
+    focusManager.addFocusListener(widget.fieldIndex, fieldModel);
 
-                  ref
-                      .read(formPendingIntentsProvider.notifier)
-                      .submitIntent((current) => formIntent);
-                })),
-                if (fieldModel.isLoading)
-                  const Positioned(
-                    top: 0,
-                    right: 0,
-                    child: SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    ),
-                  ),
-              ],
-            ));
-      },
-      error: (Object e, _) => Center(
-        child: Text(
-          e.toString(),
-          style: Theme.of(context)
-              .textTheme
-              .headlineSmall!
-              .copyWith(color: Colors.red),
-        ),
-      ),
-      orElse: () => const SizedBox.shrink(),
-    );
-  }
-
-  Widget _buildFormField(BuildContext context, FormFieldModel fieldModel) {
     switch (fieldModel.valueType) {
       case ValueType.Text:
       case ValueType.Number:
@@ -103,6 +46,8 @@ class _FormFieldWidgetState extends ConsumerState<FormFieldWidget> {
       case ValueType.LongText:
         return FormBuilderTextField(
             name: fieldModel.uid,
+            focusNode:
+                ref.watch(focusManagerProvider).getFocusNode(widget.fieldIndex),
             // controller: fieldModel.controller,
             enabled: fieldModel.isEditable,
             textInputAction: _getInputAction(fieldModel.keyboardActionType),
@@ -119,10 +64,18 @@ class _FormFieldWidgetState extends ConsumerState<FormFieldWidget> {
                 hintText: fieldModel.hint,
                 errorText: fieldModel.error),
             onChanged: fieldModel.onTextChange,
+            onTapOutside: (PointerDownEvent event) {
+              debugPrint('####Debug FormBuilderTextField.onTapOutside: $event');
+            },
+            onSubmitted: (value) {
+              debugPrint('####Debug FormBuilderTextField.onSubmitted: $value');
+            },
             keyboardType: _getInputType(fieldModel.valueType));
       case ValueType.Boolean:
         return FormBuilderSwitch(
           name: fieldModel.uid,
+          focusNode:
+              ref.watch(focusManagerProvider).getFocusNode(widget.fieldIndex),
           enabled: fieldModel.isEditable,
           initialValue: fieldModel.value?.toLowerCase() == 'true',
           decoration: InputDecoration(
@@ -131,8 +84,10 @@ class _FormFieldWidgetState extends ConsumerState<FormFieldWidget> {
               labelText: fieldModel.label,
               icon: const Icon(Icons.access_alarm_outlined),
               fillColor: Colors.red.shade200),
+
           onChanged: (bool? value) {
             fieldModel.onTextChange(value?.toString());
+            fieldModel.onSaveOption(option)
           },
           title: Text(fieldModel.label),
         );
@@ -146,6 +101,8 @@ class _FormFieldWidgetState extends ConsumerState<FormFieldWidget> {
                 : InputType.both;
         return FormBuilderDateTimePicker(
             format: sdk.DateUtils.uiDateFormat(),
+            focusNode:
+                ref.watch(focusManagerProvider).getFocusNode(widget.fieldIndex),
             name: fieldModel.uid,
             enabled: fieldModel.isEditable,
             validator: fieldModel.isMandatory
@@ -171,6 +128,8 @@ class _FormFieldWidgetState extends ConsumerState<FormFieldWidget> {
       case ValueType.SelectOne:
         return FormBuilderRadioGroup<String?>(
           name: fieldModel.uid,
+          focusNode:
+              ref.watch(focusManagerProvider).getFocusNode(widget.fieldIndex),
           enabled: fieldModel.isEditable,
           validator:
               fieldModel.isMandatory ? FormBuilderValidators.required() : null,
@@ -200,6 +159,46 @@ class _FormFieldWidgetState extends ConsumerState<FormFieldWidget> {
       default:
         return const Text('Unsupported field type');
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final indexedFieldModel =
+        ref.watch(indexedFieldInputProvider(widget.fieldIndex));
+
+    return indexedFieldModel.when(
+      data: (FormFieldModel fieldModel) {
+        final fieldWithIntentCallback =
+            fieldModel.copyWith(intentCallback: onIntent);
+        return Visibility(
+            visible: fieldModel.isVisible,
+            child: Stack(
+              children: [
+                buildFormField(fieldWithIntentCallback),
+                if (fieldModel.isLoading)
+                  const Positioned(
+                    top: 0,
+                    right: 0,
+                    child: SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    ),
+                  ),
+              ],
+            ));
+      },
+      error: (Object e, _) => Center(
+        child: Text(
+          e.toString(),
+          style: Theme.of(context)
+              .textTheme
+              .headlineSmall!
+              .copyWith(color: Colors.red),
+        ),
+      ),
+      loading: () => const CircularProgressIndicator(strokeWidth: 4),
+    );
   }
 
   int? _getMaxLength(ValueType? type) {

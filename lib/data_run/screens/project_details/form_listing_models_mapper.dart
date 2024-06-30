@@ -1,11 +1,9 @@
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/datarun/form/entities/dynamic_form.entity.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:flutter/material.dart';
-import 'package:mass_pro/commons/extensions/value_extensions.dart';
 import 'package:mass_pro/commons/extensions/value_type_rendering_extension.dart';
 import 'package:mass_pro/core/common/state.dart' as item_state;
-import 'package:mass_pro/data_run/form/syncable_query_mapping_repository.dart';
+import 'package:mass_pro/data_run/form/entity_form_listing_repository.dart';
 import 'package:mass_pro/data_run/screens/form/form_input_field.model.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_item.model.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_items_models_notifier.dart';
@@ -75,7 +73,7 @@ class FormListingModelsMapper {
   IList<FormFieldModel>? getFormFieldModels(DynamicForm dynamicForm) {
     return dynamicForm.mainFields
         ?.map((field) => FormFieldModel(
-              key: field.name,
+              uid: field.name,
               isFocused: false,
               isEditable: true,
               isMandatory: field.required,
@@ -84,13 +82,10 @@ class FormListingModelsMapper {
               valueType: ValueType.getValueType(field.type),
               fieldRendering:
                   field.fieldValueRenderingType.toValueTypeRenderingType,
-              relevantFields: field.fieldRules?.lock,
-              controller: TextEditingController(),
+              fieldRules: field.rules?.lock,
+              // value: ,
+              // controller: TextEditingController(),
             ))
         .toIList();
-  }
-
-  void disposeTextEditingControllers(List<FormFieldModel>? fieldModels) {
-    fieldModels?.forEach((field) => field.controller?.dispose);
   }
 }

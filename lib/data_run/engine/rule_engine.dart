@@ -14,7 +14,7 @@ class RuleEngine {
         keyMapper: (field) => field.uid, valueMapper: (field) => field.value);
   }
 
-  IMap<String, IList<Rule>?> getFieldRules(IList<FormFieldModel> fields) {
+  IMap<String, IList<Rule>?> getRules(IList<FormFieldModel> fields) {
     if (fieldRulesMap.isNotEmpty) {
       return fieldRulesMap;
     }
@@ -28,7 +28,7 @@ class RuleEngine {
 
   Future<IList<FormFieldModel>> applyRules(IList<FormFieldModel> fields) async {
     final context = getContext(fields);
-    final rulesMap = getFieldRules(fields);
+    final rulesMap = getRules(fields);
 
     IList<FormFieldModel> updatedFields =
         initializeFieldVisibility(fields, rulesMap);
