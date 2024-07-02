@@ -101,25 +101,25 @@ class FormsTiles extends ConsumerWidget {
                                     foregroundColor: Colors.white,
                                   ),
                                 ),
-                                OverlayConfirmButton(
-                                  label: 'Add New',
-                                  icon: Icons.add,
-                                  color: Colors.green,
-                                  onConfirm: () {
-                                    onAdd?.call(t);
-                                  },
-                                ),
-                                // ElevatedButton.icon(
-                                //   onPressed: () {
+                                // OverlayConfirmButton(
+                                //   label: 'Add New',
+                                //   icon: Icons.add,
+                                //   color: Colors.green,
+                                //   onConfirm: () {
                                 //     onAdd?.call(t);
                                 //   },
-                                //   icon: const Icon(Icons.add),
-                                //   label: const Text('Add New'),
-                                //   style: ElevatedButton.styleFrom(
-                                //     backgroundColor: Colors.green,
-                                //     foregroundColor: Colors.white,
-                                //   ),
                                 // ),
+                                ElevatedButton.icon(
+                                  onPressed: () {
+                                    onAdd?.call(t);
+                                  },
+                                  icon: const Icon(Icons.add),
+                                  label: const Text('Add New'),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.green,
+                                    foregroundColor: Colors.white,
+                                  ),
+                                ),
                               ],
                             ),
                           ],

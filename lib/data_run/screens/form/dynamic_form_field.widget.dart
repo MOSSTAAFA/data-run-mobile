@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:mass_pro/data_run/screens/form/form_input_field.model.dart';
+import 'package:mass_pro/commons/date/date_utils.dart' as sdk;
+import 'package:mass_pro/data_run/form/map_field_value_to_user.dart';
+import 'package:mass_pro/data_run/screens/form/fields_widgets/q_field.model.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:mass_pro/sdk/core/common/value_type_rendering_type.dart';
 
 class DynamicFormFieldWidget extends StatelessWidget {
   const DynamicFormFieldWidget({super.key, required this.fieldModel});
 
-  final FormFieldModel fieldModel;
+  final QFieldModel fieldModel;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class DynamicFormFieldWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildFormField(BuildContext context, FormFieldModel fieldModel) {
+  Widget _buildFormField(BuildContext context, QFieldModel fieldModel) {
     switch (fieldModel.valueType) {
       case ValueType.Text:
       case ValueType.Number:
@@ -43,6 +45,11 @@ class DynamicFormFieldWidget extends StatelessWidget {
         return FormBuilderTextField(
             name: fieldModel.uid,
             // controller: fieldModel.controller,
+            valueTransformer: (value) {
+              if (fieldModel.valueType?.isNumeric ?? false) {
+                return mapFieldToValueType(fieldModel);
+              }
+            },
             enabled: fieldModel.isEditable,
             validator: fieldModel.isMandatory
                 ? FormBuilderValidators.required()
@@ -83,6 +90,9 @@ class DynamicFormFieldWidget extends StatelessWidget {
         return FormBuilderDateTimePicker(
             name: fieldModel.uid,
             enabled: fieldModel.isEditable,
+            valueTransformer: (DateTime? date) => date != null
+                ? sdk.DateUtils.databaseDateFormat().format(date)
+                : null,
             validator: fieldModel.isMandatory
                 ? FormBuilderValidators.required()
                 : null,
@@ -155,7 +165,7 @@ class DynamicFormFieldWidget extends StatelessWidget {
     return null;
   }
 
-  OptionsOrientation _getOptionsOrientation(FormFieldModel field) {
+  OptionsOrientation _getOptionsOrientation(QFieldModel field) {
     switch (field.fieldRendering) {
       case ValueTypeRenderingType.VERTICAL_RADIOBUTTONS:
       case ValueTypeRenderingType.VERTICAL_CHECKBOXES:

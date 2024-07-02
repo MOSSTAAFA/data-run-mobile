@@ -5,15 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/core/common/state.dart' as item_state;
-import 'package:mass_pro/data_run/form/entity_form_listing_repository.dart';
 import 'package:mass_pro/data_run/screens/entities_list_screen/entities_list_screen.widget.dart';
-import 'package:mass_pro/data_run/screens/form/dynamic_form_field.widget.dart';
 import 'package:mass_pro/data_run/screens/form/form_screen.widget.dart';
-import 'package:mass_pro/data_run/screens/project_details/entity_creation_dialog.widget.dart';
+import 'package:mass_pro/data_run/screens/project_details/entity_creation_dialog/entity_creation_dialog.widget.dart';
 import 'package:mass_pro/data_run/screens/project_details/form_tiles/form_tiles.widget.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_item.model.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_items_models_notifier.dart';
-import 'package:mass_pro/data_run/screens/shared_widgets/overlay_confirm_button.widget.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 import 'package:mass_pro/utils/mass_utils/utils.dart';
 
@@ -40,7 +37,8 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
         : convertHexStringToColor('#FAFAFA');
 
     /// Get the icon based on Synced/synced status
-    final Widget statusActionButton = when(projectDetailItemModel.syncablesState, {
+    final Widget statusActionButton =
+        when(projectDetailItemModel.syncablesState, {
       item_state.SyncableEntityState.uploadableStates: () => IconButton(
           style: IconButton.styleFrom(
             foregroundColor: Colors.grey,
@@ -242,4 +240,3 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
     Get.to(const EntitiesListScreen(), arguments: bundle);
   }
 }
-

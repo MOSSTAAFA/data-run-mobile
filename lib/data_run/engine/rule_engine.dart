@@ -1,7 +1,8 @@
 import 'package:d2_remote/modules/datarun/form/shared/rule.dart';
 import 'package:expressions/expressions.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:mass_pro/data_run/screens/form/form_input_field.model.dart';
+import 'package:mass_pro/data_run/form/map_field_value_to_user.dart';
+import 'package:mass_pro/data_run/screens/form/fields_widgets/q_field.model.dart';
 
 class RuleEngine {
   RuleEngine(this._evaluator);
@@ -9,37 +10,38 @@ class RuleEngine {
   IMap<String, IList<Rule>?> fieldRulesMap = IMap({});
   final ExpressionEvaluator _evaluator;
 
-  IMap<String, dynamic> getContext(IList<FormFieldModel> fields) {
-    return IMap.fromIterable<String, dynamic, FormFieldModel>(fields,
-        keyMapper: (field) => field.uid, valueMapper: (field) => field.value);
+  IMap<String, dynamic> getContext(IList<QFieldModel> fields) {
+    return IMap.fromIterable<String, dynamic, QFieldModel>(fields,
+        keyMapper: (field) => field.uid,
+        valueMapper: (field) => mapFieldToValueType(field));
   }
 
-  IMap<String, IList<Rule>?> getRules(IList<FormFieldModel> fields) {
+  IMap<String, IList<Rule>?> getRules(IList<QFieldModel> fields) {
     if (fieldRulesMap.isNotEmpty) {
       return fieldRulesMap;
     }
 
-    fieldRulesMap = IMap.fromIterable<String, IList<Rule>?, FormFieldModel>(
+    fieldRulesMap = IMap.fromIterable<String, IList<Rule>?, QFieldModel>(
         fields,
         keyMapper: (field) => field.uid,
         valueMapper: (field) => field.fieldRules);
     return fieldRulesMap;
   }
 
-  Future<IList<FormFieldModel>> applyRules(IList<FormFieldModel> fields) async {
+  Future<IList<QFieldModel>> applyRules(IList<QFieldModel> fields) async {
     final context = getContext(fields);
     final rulesMap = getRules(fields);
 
-    IList<FormFieldModel> updatedFields =
+    IList<QFieldModel> updatedFields =
         initializeFieldVisibility(fields, rulesMap);
     return evaluateAndApplyRules(updatedFields, rulesMap, context);
   }
 
   /// Initializes the visibility of fields based on 'show' rules, hide when
   /// starting iteration
-  IList<FormFieldModel> initializeFieldVisibility(
-      IList<FormFieldModel> fields, IMap<String, IList<Rule>?> rulesMap) {
-    IList<FormFieldModel> updatedFields = fields;
+  IList<QFieldModel> initializeFieldVisibility(
+      IList<QFieldModel> fields, IMap<String, IList<Rule>?> rulesMap) {
+    IList<QFieldModel> updatedFields = fields;
     for (final field in fields) {
       final rules = rulesMap.get(field.uid);
       if (rules != null) {
@@ -56,11 +58,11 @@ class RuleEngine {
   }
 
   /// Evaluates rules and applies actions to fields
-  Future<IList<FormFieldModel>> evaluateAndApplyRules(
-      IList<FormFieldModel> fields,
+  Future<IList<QFieldModel>> evaluateAndApplyRules(
+      IList<QFieldModel> fields,
       IMap<String, IList<Rule>?> rulesMap,
       IMap<String, dynamic> context) async {
-    IList<FormFieldModel> updatedFields = fields;
+    IList<QFieldModel> updatedFields = fields;
     for (final field in fields) {
       final rules = rulesMap.get(field.uid);
       if (rules != null) {
@@ -81,7 +83,7 @@ class RuleEngine {
     return updatedFields;
   }
 
-  IList<FormFieldModel> applyAction(IList<FormFieldModel> fields, String uid,
+  IList<QFieldModel> applyAction(IList<QFieldModel> fields, String uid,
       String? action, String? message) {
     final fieldsMap = _getFieldsModelMap(fields);
     switch (action) {
@@ -110,9 +112,9 @@ class RuleEngine {
     }
   }
 
-  IMap<String, FormFieldModel> _getFieldsModelMap(
-      IList<FormFieldModel> fields) {
-    return IMap.fromIterable<String, FormFieldModel, FormFieldModel>(fields,
+  IMap<String, QFieldModel> _getFieldsModelMap(
+      IList<QFieldModel> fields) {
+    return IMap.fromIterable<String, QFieldModel, QFieldModel>(fields,
         keyMapper: (field) => field.uid, valueMapper: (field) => field);
   }
 }

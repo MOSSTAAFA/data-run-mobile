@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:mass_pro/commons/ui/metadata_icon_data.dart';
 import 'package:mass_pro/core/common/state.dart';
-import 'package:mass_pro/data_run/screens/form/form_input_field.model.dart';
+import 'package:mass_pro/data_run/screens/form/fields_widgets/q_field.model.dart';
 
 class FormListItemModel with EquatableMixin {
   FormListItemModel(
@@ -34,13 +34,10 @@ class FormListItemModel with EquatableMixin {
   final int entitiesWithError;
   final bool canAddNewEvent;
   final SyncableEntityState state;
-  final IList<FormFieldModel>? fields;
+  final IList<QFieldModel>? fields;
 
-  FormListItemModel setFields(List<FormFieldModel>? fields) {
-    FormFieldModel model;
-
-    copyWith(fields: fields);
-    throw UnimplementedError();
+  FormListItemModel setFields(List<QFieldModel>? fields) {
+    return copyWith(fields: fields);
   }
 
   FormListItemModel copyWith(
@@ -55,7 +52,7 @@ class FormListItemModel with EquatableMixin {
           int? entitiesSynced,
           int? entitiesWithError,
           bool? canAddNewEvent,
-          List<FormFieldModel>? fields,
+          List<QFieldModel>? fields,
           SyncableEntityState? state}) =>
       FormListItemModel(
         form: form ?? this.form,
@@ -150,7 +147,7 @@ class ProjectDetailItemModel with EquatableMixin {
         valueListIsOpen,
         metadataIconData,
         activeFormCount,
-    syncablesState,
+        syncablesState,
         description,
       ];
 }

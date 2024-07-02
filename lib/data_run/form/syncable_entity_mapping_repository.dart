@@ -15,7 +15,7 @@ import 'package:mass_pro/commons/extensions/value_extensions.dart';
 import 'package:mass_pro/commons/extensions/value_type_rendering_extension.dart';
 import 'package:mass_pro/commons/helpers/iterable.dart';
 import 'package:mass_pro/data_run/form/database_syncable_query.dart';
-import 'package:mass_pro/data_run/screens/form/form_input_field.model.dart';
+import 'package:mass_pro/data_run/screens/form/fields_widgets/q_field.model.dart';
 import 'package:mass_pro/form/model/store_result.dart';
 import 'package:mass_pro/form/model/value_store_result.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
@@ -70,13 +70,13 @@ class SyncableEntityMappingRepository {
         .getOne())!;
   }
 
-  Future<IMap<String, FormFieldModel>> map() async {
+  Future<IMap<String, QFieldModel>> map() async {
     final form = await getForm();
     final syncableEntity = await getSyncableEntity();
 
     final entityMap = IMapConst(syncableEntity.toJson());
 
-    IMap<String, FormFieldModel> fieldsModelsMap = IMap({});
+    IMap<String, QFieldModel> fieldsModelsMap = IMap({});
     for (final field in form.fields!) {
       fieldsModelsMap = fieldsModelsMap.add(field.name,
           mapToModel(field: field, value: entityMap.get(field.name)));
@@ -84,13 +84,13 @@ class SyncableEntityMappingRepository {
     return fieldsModelsMap;
   }
 
-  Future<IList<FormFieldModel>> list() async {
+  Future<IList<QFieldModel>> list() async {
     final form = await getForm();
     final syncableEntity = await getSyncableEntity();
 
     final entityMap = IMapConst(syncableEntity.toJson());
 
-    IList<FormFieldModel> fieldsModels = IList([]);
+    IList<QFieldModel> fieldsModels = IList([]);
     for (final field in form.fields!) {
       fieldsModels = fieldsModels
           .add(mapToModel(field: field, value: entityMap.get(field.name)));
@@ -98,11 +98,11 @@ class SyncableEntityMappingRepository {
     return fieldsModels;
   }
 
-  FormFieldModel mapToModel({
+  QFieldModel mapToModel({
     required DynamicFormField field,
     dynamic value,
   }) {
-    return FormFieldModel(
+    return QFieldModel(
       uid: field.name,
       isFocused: false,
       isEditable: true,
@@ -119,8 +119,8 @@ class SyncableEntityMappingRepository {
     );
   }
 
-  Future<FormFieldModel> updateField(
-      FormFieldModel fieldUiModel, String? warningMessage) async {
+  Future<QFieldModel> updateField(
+      QFieldModel fieldUiModel, String? warningMessage) async {
     return warningMessage != null
         ? fieldUiModel.copyWith(error: warningMessage)
         : fieldUiModel;

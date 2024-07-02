@@ -6,6 +6,7 @@ import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/core/common/state.dart';
 import 'package:mass_pro/data_run/screens/entities_list_screen/entities_riverpod_providers.dart';
 import 'package:mass_pro/data_run/screens/entities_list_screen/entity_filter_status.dart';
+import 'package:mass_pro/data_run/screens/form/form_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_item.model.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 
@@ -102,6 +103,7 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
                           .name),
                   onTap: () {
                     // Handle entity tap
+                    goToTappedEntityForm(entity.uid!);
                   },
                 );
               },
@@ -123,5 +125,13 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
       default:
         return const Icon(Icons.all_inclusive);
     }
+  }
+
+  void goToTappedEntityForm(String uid) {
+    final Bundle eventBundle = Get.arguments as Bundle;
+    final bundle = eventBundle.putString(SYNCABLE_UID, uid);
+
+    /// navigate to the form screen to fill the rest of the fields
+    Get.to(const FormScreen(), arguments: bundle);
   }
 }

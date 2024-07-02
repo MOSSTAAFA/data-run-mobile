@@ -2,7 +2,7 @@ import 'package:d2_remote/modules/datarun/form/shared/rule.dart';
 import 'package:mass_pro/data_run/engine/rule_handler/error_rule_handler.dart';
 import 'package:mass_pro/data_run/engine/rule_handler/visibility_rule_handler.dart';
 import 'package:mass_pro/data_run/engine/rule_handler/warning_rule_handler.dart';
-import 'package:mass_pro/data_run/screens/form/form_input_field.model.dart';
+import 'package:mass_pro/data_run/screens/form/fields_widgets/q_field.model.dart';
 
 /// Chain of handler
 abstract class FormRuleHandler {
@@ -12,7 +12,7 @@ abstract class FormRuleHandler {
     nextHandler = handler;
   }
 
-  void handle(FormFieldModel field, List<FormFieldModel> allFields);
+  void handle(QFieldModel field, List<QFieldModel> allFields);
 
   static FormRuleHandler buildRuleHandlerChain() {
     final visibilityHandler = VisibilityRuleHandler();

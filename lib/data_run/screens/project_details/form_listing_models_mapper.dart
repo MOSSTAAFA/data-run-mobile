@@ -4,7 +4,7 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:mass_pro/commons/extensions/value_type_rendering_extension.dart';
 import 'package:mass_pro/core/common/state.dart' as item_state;
 import 'package:mass_pro/data_run/form/entity_form_listing_repository.dart';
-import 'package:mass_pro/data_run/screens/form/form_input_field.model.dart';
+import 'package:mass_pro/data_run/screens/form/fields_widgets/q_field.model.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_item.model.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_items_models_notifier.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
@@ -70,9 +70,9 @@ class FormListingModelsMapper {
     return formListItemModels;
   }
 
-  IList<FormFieldModel>? getFormFieldModels(DynamicForm dynamicForm) {
+  IList<QFieldModel>? getFormFieldModels(DynamicForm dynamicForm) {
     return dynamicForm.mainFields
-        ?.map((field) => FormFieldModel(
+        ?.map((field) => QFieldModel(
               uid: field.name,
               isFocused: false,
               isEditable: true,

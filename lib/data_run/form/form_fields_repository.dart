@@ -6,7 +6,7 @@ import 'package:mass_pro/data_run/engine/rule_engine.dart';
 import 'package:mass_pro/data_run/form/display_name_provider.dart';
 import 'package:mass_pro/data_run/form/org_unit_d_configuration.dart';
 import 'package:mass_pro/data_run/form/syncable_entity_mapping_repository.dart';
-import 'package:mass_pro/data_run/screens/form/form_input_field.model.dart';
+import 'package:mass_pro/data_run/screens/form/fields_widgets/q_field.model.dart';
 import 'package:mass_pro/form/model/action_type.dart';
 import 'package:mass_pro/form/model/row_action.dart';
 import 'package:mass_pro/form/ui/validation/field_error_message_provider.dart';
@@ -43,8 +43,8 @@ class FormFieldsRepository {
       required this.fieldErrorMessageProvider,
       required this.displayNameProvider});
 
-  IList<FormFieldModel> _itemList = IList([]);
-  IList<FormFieldModel> _backupList = IList([]);
+  IList<QFieldModel> _itemList = IList([]);
+  IList<QFieldModel> _backupList = IList([]);
   IList<RowAction> _itemsWithError = IList([]);
   final RuleEngine ruleEngine = RuleEngine(const ExpressionEvaluator());
 
@@ -71,45 +71,96 @@ class FormFieldsRepository {
   /// when Data Integrity is run this field is set to true
   bool _runDataIntegrity = false;
 
-  Future<IList<FormFieldModel>> fetchFieldsList() async {
+  Future<IList<QFieldModel>> fetchFieldsList() async {
     _itemList = await syncableEntityMappingRepository.list();
     _backupList = _itemList;
-    return composeFields();
+    return composeFieldsList();
   }
 
-  Future<IList<FormFieldModel>> composeFields() {
+  Future<IList<QFieldModel>> composeFieldsList() {
     return applyRuleEffects(_itemList)
-        .then((IList<FormFieldModel> listOfItems) =>
+        .then((IList<QFieldModel> listOfItems) =>
             _mergeListWithErrorFields(listOfItems, _itemsWithError))
         .then(
-            (IList<FormFieldModel> listOfItems) => _setFocusedItem(listOfItems))
-        .then((IList<FormFieldModel> listOfItems) => _setLastItem(listOfItems));
+            (IList<QFieldModel> listOfItems) => _setFocusedItem(listOfItems))
+        .then((IList<QFieldModel> listOfItems) =>
+            _setLastItemKeyboardAction(listOfItems));
   }
 
-  Future<IList<FormFieldModel>> applyRuleEffects(
-      IList<FormFieldModel> list) async {
+  Future<IMap<String, QFieldModel>> composeFieldsMap() async {
+    final fieldList = await applyRuleEffects(_itemList)
+        .then((IList<QFieldModel> listOfItems) =>
+            _mergeListWithErrorFields(listOfItems, _itemsWithError))
+        .then(
+            (IList<QFieldModel> listOfItems) => _setFocusedItem(listOfItems))
+        .then((IList<QFieldModel> listOfItems) =>
+            _setLastItemKeyboardAction(listOfItems));
+
+    return IMap.fromIterable<String, QFieldModel, QFieldModel>(fieldList,
+        keyMapper: (field) => field.uid, valueMapper: (field) => field);
+  }
+
+  Future<IList<QFieldModel>> applyRuleEffects(
+      IList<QFieldModel> list) async {
     return ruleEngine.applyRules(list);
   }
 
-  Future<IList<FormFieldModel>> _mergeListWithErrorFields(
-      IList<FormFieldModel> list, IList<RowAction> fieldsWithError) async {
+  Future<IList<QFieldModel>> _mergeListWithErrorFields(
+      IList<QFieldModel> list, IList<RowAction> fieldsWithError) async {
+    _mandatoryItemsWithoutValue = _mandatoryItemsWithoutValue.clear();
+    final List<QFieldModel> mergedList =
+        // await Future.wait<FormFieldModel>(
+        list.map((QFieldModel item) /*async*/ {
+      if (item.isMandatory && item.value == null) {
+        _mandatoryItemsWithoutValue =
+            _mandatoryItemsWithoutValue.add(item.label, 'sectionName');
+      }
+
+      return fieldsWithError
+              .firstOrNullWhere((RowAction action) => action.id == item.uid)
+              ?.takeIf((RowAction action) => action.error != null)
+              ?.also((RowAction action) => item.setValue(action.value))
+              .let((RowAction action) => fieldErrorMessageProvider
+                  .getFriendlyErrorMessage(action.error!))
+              .also((String y) {})
+              .let((String friendlyError) => item.setError(friendlyError)) ??
+          item;
+
+      /// if field has error in fieldsWithError
+      // if (action != null) {
+      //   final String? error = action.error != null
+      //       ? fieldErrorMessageProvider.getFriendlyErrorMessage(action.error!)
+      //       : null;
+      //
+      //   /// if orgunit returns its name
+      //   // final String? displayName = await displayNameProvider
+      //   //     .provideDisplayName(action.valueType, action.value);
+      //   return item
+      //       .setValue(action.value)
+      //       .setError(error) /*.setDisplayName(displayName)*/;
+      // } else {
+      //   return item;
+      // }
+    }).toList();
+    // );
+    return mergedList.lock;
+  }
+
+  IList<QFieldModel> _setLastItemKeyboardAction(IList<QFieldModel> list) {
+    if (list.isEmpty) {
+      return list;
+    }
+
+    final QFieldModel lastItem = _getLastSectionItem(list);
+    if (_usesKeyboard(lastItem.valueType) &&
+        lastItem.valueType != ValueType.LongText) {
+      return list.replace(
+          list.indexOf(lastItem), lastItem.setKeyBoardActionDone());
+    }
     return list;
   }
 
-  IList<FormFieldModel> _setLastItem(IList<FormFieldModel> list) {
-    // if (list.isEmpty) {
-    //   return list;
-    // }
-    // final FormFieldModel lastItem = _getLastSectionItem(list);
-    // if (_usesKeyboard(lastItem.valueType) &&
-    //     lastItem.valueType != ValueType.LongText) {
-    //   return list.replace(
-    //       list.indexOf(lastItem), lastItem.setKeyBoardActionDone());
-    // }
-    return list;
-  }
-
-  IList<FormFieldModel> _setFocusedItem(IList<FormFieldModel> list) {
+  IList<QFieldModel> _setFocusedItem(IList<QFieldModel> list) {
     // if (_focusedItemId != null) {
     //   final FormFieldModel? item = list.firstOrNullWhere(
     //       (FormFieldModel item) => item.uid == _focusedItemId);
@@ -122,21 +173,21 @@ class FormFieldsRepository {
 
   /// when discharge changes take this and save override what was
   /// already saved during entry
-  IList<FormFieldModel> backupOfChangedItems() {
+  IList<QFieldModel> backupOfChangedItems() {
     // return backupList.minus(itemList.applyRuleEffects());
     return _backupList;
   }
 
   void removeAllValues() {
     _itemList = _itemList
-        .map((FormFieldModel fieldUiModel) =>
+        .map((QFieldModel fieldUiModel) =>
             fieldUiModel.setValue(null).setDisplayName(null))
         .toIList();
   }
 
-  FormFieldModel? currentFocusedItem() {
+  QFieldModel? currentFocusedItem() {
     return _itemList
-        .firstOrNullWhere((FormFieldModel item) => _focusedItemId == item.uid);
+        .firstOrNullWhere((QFieldModel item) => _focusedItemId == item.uid);
   }
 
   void clearFocusItem() {
@@ -147,10 +198,10 @@ class FormFieldsRepository {
   Future<void> updateValueOnList(
       String uid, String? value, ValueType? valueType) async {
     final int itemIndex =
-        _itemList.indexWhere((FormFieldModel item) => item.uid == uid);
+        _itemList.indexWhere((QFieldModel item) => item.uid == uid);
     if (itemIndex >= 0) {
       // TODO(NMC): improve
-      final FormFieldModel item = _itemList[itemIndex];
+      final QFieldModel item = _itemList[itemIndex];
       _itemList = _itemList.replace(
           itemIndex,
           item.setValue(value).setDisplayName(
@@ -168,25 +219,26 @@ class FormFieldsRepository {
   /// if action has error and its item is not yet in _itemsWithError, it adds
   /// it to it. Else which means it was _itemsWithError, it then removes it.
   void updateErrorList(RowAction? action) {
+    final itemIndex =
+        _itemsWithError.indexWhere((RowAction item) => item.id == action!.id);
+
     /// if action has error
     if (action?.error != null) {
       /// if item is not in _itemsWithError
-      if (_itemsWithError
-              .firstOrNullWhere((RowAction item) => item.id == action!.id) ==
-          null) {
+      if (itemIndex == -1) {
         _itemsWithError = _itemsWithError.add(action!);
       }
     } else {
-      _itemsWithError
-          .firstOrNullWhere((RowAction item) => item.id == action!.id)
-          ?.let((RowAction item) =>
-              _itemsWithError = _itemsWithError.remove(item));
+      /// if item is not in _itemsWithError
+      if (itemIndex != -1) {
+        _itemsWithError = _itemsWithError.removeAt(itemIndex);
+      }
     }
   }
 
-  FormFieldModel _getLastSectionItem(IList<FormFieldModel> list) {
+  QFieldModel _getLastSectionItem(IList<QFieldModel> list) {
     return list.reversed
-        .firstWhere((FormFieldModel item) => item.valueType != null);
+        .firstWhere((QFieldModel item) => item.valueType != null);
   }
 
   bool _usesKeyboard(ValueType? valueType) {
@@ -196,10 +248,10 @@ class FormFieldsRepository {
   }
 
   String? _getNextItem(String currentItemUid) {
-    _itemList.let((IList<FormFieldModel> fields) {
+    _itemList.let((IList<QFieldModel> fields) {
       // final oldItem = fields.firstOrNullWhere((item) => item.uid == currentItemUid);
       final int pos = fields.indexWhere(
-          (FormFieldModel oldItem) => oldItem.uid == currentItemUid);
+          (QFieldModel oldItem) => oldItem.uid == currentItemUid);
       if (pos < fields.length - 1) {
         return fields[pos + 1].uid;
       }
@@ -208,4 +260,6 @@ class FormFieldsRepository {
   }
 
   save(String id, String? value, String? extraData) {}
+
+  Future<void> saveFormData() async{}
 }

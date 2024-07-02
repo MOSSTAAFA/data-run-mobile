@@ -17,8 +17,8 @@ typedef IntentCallback = void Function(FormIntent intent);
 /// value, error state, a mandatory flag indicating if the field
 /// is required, and other relevant information for formatting and behavior.
 @immutable
-class FormFieldModel with EquatableMixin {
-  const FormFieldModel(
+class QFieldModel with EquatableMixin {
+  const QFieldModel(
       {required this.uid,
       this.options,
       this.isVisible = true,
@@ -65,32 +65,33 @@ class FormFieldModel with EquatableMixin {
 
   String get formattedLabel => isMandatory ? '$label *' : label;
 
-  FormFieldModel setValue(String? value) => copyWith(value: value);
+  QFieldModel setValue(String? value) => copyWith(value: value);
 
-  FormFieldModel setIsLoadingData(bool isLoadingData) =>
+  QFieldModel setIsLoadingData(bool isLoadingData) =>
       copyWith(isLoading: isLoadingData);
 
-  FormFieldModel setFocus() => copyWith(focused: true);
+  QFieldModel setFocus() => copyWith(focused: true);
 
-  FormFieldModel setError(String? error) => copyWith(error: error);
+  QFieldModel setError(String? error) => copyWith(error: error);
 
-  FormFieldModel setEditable(bool editable) => copyWith(isEditable: editable);
+  QFieldModel setEditable(bool editable) => copyWith(isEditable: editable);
 
   // @override
   // FieldUiModel setLegend(LegendValue? legendValue) =>
   //     copyWith(legend: legendValue);
 
-  FormFieldModel setWarning(String warning) => copyWith(warning: warning);
+  QFieldModel setWarning(String warning) => copyWith(warning: warning);
 
-  FormFieldModel setFieldMandatory() => copyWith(isMandatory: true);
+  QFieldModel setFieldMandatory(bool? isMandatory) =>
+      copyWith(isMandatory: isMandatory);
 
-  FormFieldModel setDisplayName(String? displayName) =>
+  QFieldModel setDisplayName(String? displayName) =>
       copyWith(displayName: displayName);
 
-  FormFieldModel setKeyBoardActionDone() =>
+  QFieldModel setKeyBoardActionDone() =>
       copyWith(keyboardActionType: KeyboardActionType.DONE);
 
-  FormFieldModel setCallback({IntentCallback? intentCallback}) {
+  QFieldModel setCallback({IntentCallback? intentCallback}) {
     return copyWith(intentCallback: intentCallback);
   }
 
@@ -129,9 +130,8 @@ class FormFieldModel with EquatableMixin {
   /// invoke FormInputFieldIntent.onSave  for Boolean type field
   void onSaveBoolean(bool boolean) {
     onFieldClick();
-    final result = _valueIsEmpty() || value != boolean.toString()
-        ? boolean.toString()
-        : null;
+    final result =
+        _valueIsEmpty() || value != boolean ? boolean.toString() : null;
     intentCallback?.call(
         FormIntent.onSave(uid: uid, value: result, valueType: valueType));
   }
@@ -159,8 +159,9 @@ class FormFieldModel with EquatableMixin {
 
   bool isSectionWithFields() => false;
 
-  FormFieldModel copyWith(
+  QFieldModel copyWith(
           {String? key,
+          bool? clearValue,
           List<Rule>? fieldRules,
           List<String>? options,
           bool? isVisible,
@@ -194,12 +195,12 @@ class FormFieldModel with EquatableMixin {
           bool? lastPositionShouldChangeHeight,
           IntentCallback? intentCallback,
           FocusNode? focusNode}) =>
-      FormFieldModel(
+      QFieldModel(
         uid: key ?? this.uid,
         options: IList.orNull(options) ?? this.options,
         isVisible: isVisible ?? this.isVisible,
         fieldRules: IList.orNull(fieldRules) ?? this.fieldRules,
-        value: value ?? this.value,
+        value: value ?? (clearValue == true ? null : this.value),
         isFocused: focused ?? isFocused,
         error: error ?? this.error,
         isEditable: isEditable ?? this.isEditable,
@@ -238,14 +239,14 @@ class FormFieldModel with EquatableMixin {
         options,
         isVisible,
         value,
-        isFocused,
+        // isFocused,
         error,
-        fieldMask,
+        // fieldMask,
         isEditable,
         warning,
-        isMandatory,
-        allowFutureDates,
-        isLoading,
-        intentCallback,
+        // isMandatory,
+        // allowFutureDates,
+        // isLoading,
+        // intentCallback
       ];
 }

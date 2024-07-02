@@ -4,7 +4,7 @@ import 'package:mass_pro/commons/extensions/string_extension.dart';
 import 'package:mass_pro/commons/helpers/collections.dart';
 import 'package:mass_pro/commons/logging/logging.dart';
 import 'package:mass_pro/data_run/form/form_fields_repository.dart';
-import 'package:mass_pro/data_run/screens/form/form_input_field.model.dart';
+import 'package:mass_pro/data_run/screens/form/fields_widgets/q_field.model.dart';
 import 'package:mass_pro/form/model/action_type.dart';
 import 'package:mass_pro/form/model/row_action.dart';
 import 'package:mass_pro/form/model/store_result.dart';
@@ -17,19 +17,29 @@ import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:mass_pro/sdk/core/mp/helpers/result.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'form_state_notifier.g.dart';
+part 'form_fields_state_notifier.g.dart';
 
+// @riverpod
+// Future<int> formStateLength(FormStateLengthRef ref) {
+//   return ref
+//       .watch(formStateNotifierProvider.selectAsync((list) => list.length));
+// }
+
+/// using riverpod generation this will generate the [indexedFieldInputProvider]
+/// watched in [FormFieldWidget] widget
 @riverpod
-Future<FormFieldModel> indexedFieldInput(IndexedFieldInputRef ref, int index) {
-  final indexedFieldModel =
-      ref.watch(formStateNotifierProvider.selectAsync((list) => list[index]));
+Future<QFieldModel> indexedFieldInput(IndexedFieldInputRef ref, String key) {
+  final Future<QFieldModel> indexedFieldModel =
+      ref.watch(formFieldsStateNotifierProvider.selectAsync((list) => list[key]!));
   return indexedFieldModel;
 }
 
+/// using riverpod generation this will generate the [formStateNotifierProvider]
+/// watched in [FormScreenScaffoldState] widget
 @riverpod
-class FormStateNotifier extends _$FormStateNotifier {
+class FormFieldsStateNotifier extends _$FormFieldsStateNotifier {
   @override
-  Future<IList<FormFieldModel>> build() async {
+  Future<IMap<String, QFieldModel>> build() async {
     final repository = ref.watch(formFieldsRepositoryProvider);
     ref.listen<FormIntent>(formPendingIntentsProvider, (previous, next) {
       logInfo(info: next.toString());
@@ -37,8 +47,24 @@ class FormStateNotifier extends _$FormStateNotifier {
           .then((Pair<RowAction?, StoreResult> event) => _displayResult(event));
     });
 
-    final list = await repository.fetchFieldsList();
-    return list;
+    final IList<QFieldModel> fieldsList = await repository.fetchFieldsList();
+    final IMap<String, QFieldModel> fieldMap =
+        IMap.fromIterable<String, QFieldModel, QFieldModel>(fieldsList,
+            keyMapper: (field) => field.uid, valueMapper: (field) => field);
+    return fieldMap;
+  }
+
+  /// whenever called it updates the state with the updated list of fields
+  /// usually on whole the list only some field are updated such as from
+  /// isVisible = true to isVisible = false for some field after running the
+  /// ruleEngine
+  Future<void> processCalculatedItems() async {
+    /// the repository will return the new updated list
+    final repository = ref.read(formFieldsRepositoryProvider);
+
+    /// updating the state
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(repository.composeFieldsMap);
   }
 
   /// This method is the entry point that does the whole thing
@@ -100,8 +126,12 @@ class FormStateNotifier extends _$FormStateNotifier {
         // if (action.valueType == ValueType.Coordinate) {
         //   repository.setFieldRequestingCoordinates(action.id, false);
         // }
-        repository.updateErrorList(action!);
-        if (action.error != null) {
+        repository.updateErrorList(action);
+
+        /// if field has error, if not save and value changed
+        ///
+        if (action!.error != null) {
+          /// won't update the state
           return StoreResult(
               uid: action.id,
               valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);
@@ -116,7 +146,6 @@ class FormStateNotifier extends _$FormStateNotifier {
                   valueStoreResult: ValueStoreResult.VALUE_CHANGED);
         }
 
-      /// upon returning, need to processCalculatedItems() and update state
       /// loading, save data, validate and store result of validation on errorsMap,
       /// so when we want to run integrity check it give us the errors, but it still
       /// has saved the data into the database. it will only
@@ -154,6 +183,9 @@ class FormStateNotifier extends _$FormStateNotifier {
       /// upon returning, need to processCalculatedItems() and update state
       case ActionType.ON_FINISH:
         repository.setFocusedItem(action!);
+
+        /// new Add
+        await repository.saveFormData();
 
         return const StoreResult(
             uid: '', valueStoreResult: ValueStoreResult.FINISH);
@@ -193,7 +225,7 @@ class FormStateNotifier extends _$FormStateNotifier {
   /// notified about those validation errors
   Future<StoreResult> _saveLastFocusedItem(RowAction rowAction) async {
     final repository = ref.read(formFieldsRepositoryProvider);
-    final FormFieldModel? field = _getLastFocusedTextItem();
+    final QFieldModel? field = _getLastFocusedTextItem();
     if (field != null) {
       final Exception? error =
           _checkFieldError(field.valueType, field.value, field.fieldMask);
@@ -313,79 +345,10 @@ class FormStateNotifier extends _$FormStateNotifier {
           type: actionType,
           valueType: valueType);
 
-  Future<void> processCalculatedItems() async {
-    final repository = ref.read(formFieldsRepositoryProvider);
-    logInfo(info: 'itemsProvider: processCalculatedItems()');
-    state = const AsyncLoading();
-    state = await AsyncValue.guard(repository.composeFields);
-  }
-
-  /// This method will notify the screen with the result:
-  ///
-  /// To notify the main screen on ItemChanged when ValueStoreResult.VALUE_CHANGED
-  /// , it will **[processCalculatedItems()]** after all [ValueStoreResult]
-  /// types and will run integrity check at the end.
-  /// ValueStoreResult.TEXT_CHANGING: will update **queryData**
-  /// and [processCalculatedItems()], **queryData** is listened to from
-  /// widget to send to main widget when needToForceUpdate:
-  ///
-  /// ```dart
-  /// if (widget.needToForceUpdate) {
-  ///   widget.onItemChangeListener?.let((it) => it(rowAction));
-  /// }
-  ///```
-  /// ValueStoreResult.FINISH: will trigger [runDataIntegrityCheck();] and [processCalculatedItems()]
-  ///
-  /// ValueStoreResult.VALUE_HAS_NOT_CHANGED: will do nothing just [processCalculatedItems()]
-  ///
-  /// ValueStoreResult.VALUE_CHANGED: will update the **savedValue**,
-  /// To notify the main screen on ItemChanged
-  ///
-  /// ValueStoreResult.ERROR_UPDATING_VALUE: will show a toast
-  ///
-  ///
-  void _displayResult(Pair<RowAction?, StoreResult> result) {
-    switch (result.second.valueStoreResult) {
-      /// To notify the main screen on
-      case ValueStoreResult.VALUE_CHANGED:
-        // TODO Notify about it
-        processCalculatedItems();
-        break;
-
-      case ValueStoreResult.ERROR_UPDATING_VALUE:
-        // TODO Notify about it
-        break;
-
-      case ValueStoreResult.UID_IS_NOT_DE_OR_ATTR:
-        // TODO Notify about it
-        processCalculatedItems();
-        break;
-      case ValueStoreResult.VALUE_NOT_UNIQUE:
-        // TODO Notify about it
-        processCalculatedItems();
-        break;
-
-      case ValueStoreResult.VALUE_HAS_NOT_CHANGED:
-        // TODO Notify about it
-        processCalculatedItems();
-        break;
-
-      /// Listen from widget to send to main widget when needToForceUpdate
-      case ValueStoreResult.TEXT_CHANGING:
-        // TODO Notify about it
-        break;
-      case ValueStoreResult.FINISH:
-        processCalculatedItems();
-        runDataIntegrityCheck();
-        break;
-      default:
-    }
-  }
-
-  FormFieldModel? _getLastFocusedTextItem() {
+  QFieldModel? _getLastFocusedTextItem() {
     final repository = ref.read(formFieldsRepositoryProvider);
     final currentFocusedItem = repository.currentFocusedItem()?.takeIf(
-        (FormFieldModel item) =>
+        (QFieldModel item) =>
             item.valueType?.let(
                 (ValueType valueType) => valueTypeIsTextField(valueType)) ??
             false);
@@ -440,5 +403,61 @@ class FormStateNotifier extends _$FormStateNotifier {
     // final result = _repository.runDataIntegrityCheck(
     //     allowDiscard: backButtonPressed ?? false);
     processCalculatedItems();
+  }
+
+  /// This method decide whether to Update the FormStateNotifier
+  /// or not based on **[StoreResult.ValueStoreResult]** state, will notify
+  /// the screen with the result:
+  ///
+  /// To notify the main screen on ItemChanged when ValueStoreResult.VALUE_CHANGED
+  /// , it will **[processCalculatedItems()]** after all [ValueStoreResult]
+  /// types and will run integrity check at the end.
+  /// ValueStoreResult.TEXT_CHANGING: will update **queryData**
+  /// and [processCalculatedItems()], **queryData** is listened to from
+  /// widget to send to main widget when needToForceUpdate:
+  ///
+  /// ```dart
+  /// if (widget.needToForceUpdate) {
+  ///   widget.onItemChangeListener?.let((it) => it(rowAction));
+  /// }
+  ///```
+  /// ValueStoreResult.FINISH: will trigger [runDataIntegrityCheck();] and [processCalculatedItems()]
+  ///
+  /// ValueStoreResult.VALUE_HAS_NOT_CHANGED: will do nothing just [processCalculatedItems()]
+  ///
+  /// ValueStoreResult.VALUE_CHANGED: will update the **savedValue**,
+  /// To notify the main screen on ItemChanged
+  ///
+  /// ValueStoreResult.ERROR_UPDATING_VALUE: will show a toast
+  ///
+  ///
+  void _displayResult(Pair<RowAction?, StoreResult> result) {
+    switch (result.second.valueStoreResult) {
+      /// To notify the main screen on
+      case ValueStoreResult.VALUE_CHANGED:
+        processCalculatedItems();
+        break;
+
+      case ValueStoreResult.ERROR_UPDATING_VALUE:
+        break;
+
+      case ValueStoreResult.UID_IS_NOT_DE_OR_ATTR:
+        processCalculatedItems();
+        break;
+      case ValueStoreResult.VALUE_NOT_UNIQUE:
+        processCalculatedItems();
+        break;
+
+      case ValueStoreResult.VALUE_HAS_NOT_CHANGED:
+        processCalculatedItems();
+        break;
+      case ValueStoreResult.TEXT_CHANGING:
+        break;
+      case ValueStoreResult.FINISH:
+        processCalculatedItems();
+        runDataIntegrityCheck();
+        break;
+      default:
+    }
   }
 }

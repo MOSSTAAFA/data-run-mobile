@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'form_state_notifier.dart';
+part of 'form_fields_state_notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$indexedFieldInputHash() => r'7b7f3b0fd24ec75206d320370441581cf407e54e';
+String _$indexedFieldInputHash() => r'acae32b946ae175af848eac15bdf230237796302';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,21 +29,33 @@ class _SystemHash {
   }
 }
 
-/// See also [indexedFieldInput].
+/// using riverpod generation this will generate the [indexedFieldInputProvider]
+/// watched in [FormFieldWidget] widget
+///
+/// Copied from [indexedFieldInput].
 @ProviderFor(indexedFieldInput)
 const indexedFieldInputProvider = IndexedFieldInputFamily();
 
-/// See also [indexedFieldInput].
-class IndexedFieldInputFamily extends Family<AsyncValue<FormFieldModel>> {
-  /// See also [indexedFieldInput].
+/// using riverpod generation this will generate the [indexedFieldInputProvider]
+/// watched in [FormFieldWidget] widget
+///
+/// Copied from [indexedFieldInput].
+class IndexedFieldInputFamily extends Family<AsyncValue<QFieldModel>> {
+  /// using riverpod generation this will generate the [indexedFieldInputProvider]
+  /// watched in [FormFieldWidget] widget
+  ///
+  /// Copied from [indexedFieldInput].
   const IndexedFieldInputFamily();
 
-  /// See also [indexedFieldInput].
+  /// using riverpod generation this will generate the [indexedFieldInputProvider]
+  /// watched in [FormFieldWidget] widget
+  ///
+  /// Copied from [indexedFieldInput].
   IndexedFieldInputProvider call(
-    int index,
+    String key,
   ) {
     return IndexedFieldInputProvider(
-      index,
+      key,
     );
   }
 
@@ -52,7 +64,7 @@ class IndexedFieldInputFamily extends Family<AsyncValue<FormFieldModel>> {
     covariant IndexedFieldInputProvider provider,
   ) {
     return call(
-      provider.index,
+      provider.key,
     );
   }
 
@@ -71,16 +83,21 @@ class IndexedFieldInputFamily extends Family<AsyncValue<FormFieldModel>> {
   String? get name => r'indexedFieldInputProvider';
 }
 
-/// See also [indexedFieldInput].
-class IndexedFieldInputProvider
-    extends AutoDisposeFutureProvider<FormFieldModel> {
-  /// See also [indexedFieldInput].
+/// using riverpod generation this will generate the [indexedFieldInputProvider]
+/// watched in [FormFieldWidget] widget
+///
+/// Copied from [indexedFieldInput].
+class IndexedFieldInputProvider extends AutoDisposeFutureProvider<QFieldModel> {
+  /// using riverpod generation this will generate the [indexedFieldInputProvider]
+  /// watched in [FormFieldWidget] widget
+  ///
+  /// Copied from [indexedFieldInput].
   IndexedFieldInputProvider(
-    int index,
+    String key,
   ) : this._internal(
           (ref) => indexedFieldInput(
             ref as IndexedFieldInputRef,
-            index,
+            key,
           ),
           from: indexedFieldInputProvider,
           name: r'indexedFieldInputProvider',
@@ -91,7 +108,7 @@ class IndexedFieldInputProvider
           dependencies: IndexedFieldInputFamily._dependencies,
           allTransitiveDependencies:
               IndexedFieldInputFamily._allTransitiveDependencies,
-          index: index,
+          key: key,
         );
 
   IndexedFieldInputProvider._internal(
@@ -101,14 +118,14 @@ class IndexedFieldInputProvider
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.index,
+    required this.key,
   }) : super.internal();
 
-  final int index;
+  final String key;
 
   @override
   Override overrideWith(
-    FutureOr<FormFieldModel> Function(IndexedFieldInputRef provider) create,
+    FutureOr<QFieldModel> Function(IndexedFieldInputRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -119,59 +136,64 @@ class IndexedFieldInputProvider
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        index: index,
+        key: key,
       ),
     );
   }
 
   @override
-  AutoDisposeFutureProviderElement<FormFieldModel> createElement() {
+  AutoDisposeFutureProviderElement<QFieldModel> createElement() {
     return _IndexedFieldInputProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is IndexedFieldInputProvider && other.index == index;
+    return other is IndexedFieldInputProvider && other.key == key;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, index.hashCode);
+    hash = _SystemHash.combine(hash, key.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
-mixin IndexedFieldInputRef on AutoDisposeFutureProviderRef<FormFieldModel> {
-  /// The parameter `index` of this provider.
-  int get index;
+mixin IndexedFieldInputRef on AutoDisposeFutureProviderRef<QFieldModel> {
+  /// The parameter `key` of this provider.
+  String get key;
 }
 
 class _IndexedFieldInputProviderElement
-    extends AutoDisposeFutureProviderElement<FormFieldModel>
+    extends AutoDisposeFutureProviderElement<QFieldModel>
     with IndexedFieldInputRef {
   _IndexedFieldInputProviderElement(super.provider);
 
   @override
-  int get index => (origin as IndexedFieldInputProvider).index;
+  String get key => (origin as IndexedFieldInputProvider).key;
 }
 
-String _$formStateNotifierHash() => r'fff5a69114a569d5520a89a98505024fc23dc6e5';
+String _$formFieldsStateNotifierHash() =>
+    r'c6667233f160dfb3102f77160f04d89f54b8766a';
 
-/// See also [FormStateNotifier].
-@ProviderFor(FormStateNotifier)
-final formStateNotifierProvider = AutoDisposeAsyncNotifierProvider<
-    FormStateNotifier, IList<FormFieldModel>>.internal(
-  FormStateNotifier.new,
-  name: r'formStateNotifierProvider',
+/// using riverpod generation this will generate the [formStateNotifierProvider]
+/// watched in [FormScreenScaffoldState] widget
+///
+/// Copied from [FormFieldsStateNotifier].
+@ProviderFor(FormFieldsStateNotifier)
+final formFieldsStateNotifierProvider = AutoDisposeAsyncNotifierProvider<
+    FormFieldsStateNotifier, IMap<String, QFieldModel>>.internal(
+  FormFieldsStateNotifier.new,
+  name: r'formFieldsStateNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$formStateNotifierHash,
+      : _$formFieldsStateNotifierHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$FormStateNotifier = AutoDisposeAsyncNotifier<IList<FormFieldModel>>;
+typedef _$FormFieldsStateNotifier
+    = AutoDisposeAsyncNotifier<IMap<String, QFieldModel>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

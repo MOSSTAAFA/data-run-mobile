@@ -3,6 +3,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/data_run/form/entity_form_listing_repository.dart';
 import 'package:mass_pro/data_run/screens/form/dynamic_form_field.widget.dart';
+import 'package:mass_pro/data_run/screens/form/fields_widgets/q_field.model.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_item.model.dart';
 
 class EntityCreationDialog extends ConsumerStatefulWidget {
@@ -20,6 +21,7 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
 
   bool _isLoading = false;
+  List<QFieldModel>? _fields;
 
   @override
   void dispose() {
@@ -45,7 +47,14 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
     try {
       if (_formKey.currentState?.validate() ?? false) {
         // Call the function to create entity
-        syncableId = await _createEntity(widget.formModel);
+        _formKey.currentState!.save();
+        final updatedFields = widget.formModel.fields
+            ?.map((QFieldModel field) =>
+                field.setValue(_formKey.currentState!.value[field.uid] ?? field.value))
+            .toList();
+        final updatedModel = widget.formModel.copyWith(fields: updatedFields);
+
+        syncableId = await _createEntity(updatedModel);
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
           Navigator.of(context).pop(syncableId);

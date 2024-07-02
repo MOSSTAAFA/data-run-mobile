@@ -1,27 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'form_pending_intents.dart';
+part of 'q_field_widget_factory.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$formPendingIntentsHash() =>
-    r'c9e71e07db8fa508ceec65d4eb477bc22e25101c';
+String _$fieldWidgetFactoryHash() =>
+    r'554fe667bf7b5de84513015251bc1110d0aa73d1';
 
-/// See also [FormPendingIntents].
-@ProviderFor(FormPendingIntents)
-final formPendingIntentsProvider =
-    AutoDisposeNotifierProvider<FormPendingIntents, FormIntent>.internal(
-  FormPendingIntents.new,
-  name: r'formPendingIntentsProvider',
+/// See also [fieldWidgetFactory].
+@ProviderFor(fieldWidgetFactory)
+final fieldWidgetFactoryProvider =
+    AutoDisposeProvider<QFieldWidgetFactory>.internal(
+  fieldWidgetFactory,
+  name: r'fieldWidgetFactoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$formPendingIntentsHash,
+      : _$fieldWidgetFactoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$FormPendingIntents = AutoDisposeNotifier<FormIntent>;
+typedef FieldWidgetFactoryRef = AutoDisposeProviderRef<QFieldWidgetFactory>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

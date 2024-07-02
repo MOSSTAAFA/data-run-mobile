@@ -1,7 +1,7 @@
 import 'package:mass_pro/commons/extensions/standard_extensions.dart';
 import 'package:mass_pro/commons/extensions/string_extension.dart';
 import 'package:mass_pro/commons/resources/resource_manager.dart';
-import 'package:mass_pro/data_run/screens/form/form_input_field.model.dart';
+import 'package:mass_pro/data_run/screens/form/fields_widgets/q_field.model.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 
 class MapFieldValueToUser {
@@ -10,28 +10,56 @@ class MapFieldValueToUser {
   final ResourceManager resources;
 
 // final DataValueRepository repository;
-  String? map(FormFieldModel field) {
-    final String? value = when<dynamic, String?>(field.valueType, {
-      [ValueType.Boolean, ValueType.TrueOnly, ValueType.YesNo]: () {
-        if (!field.value.isNullOrEmpty) {
-          if (field.value.toBoolean()) {
-            return resources.getString('Yes');
-          }
-          return resources.getString('No');
-        }
-        return null;
-      },
-      // ValueType.Age: () {},
-      // [
-      //   ValueType.Image,
-      //   ValueType.FileResource,
-      //   ValueType.TrackerAssociate,
-      //   ValueType.Reference,
-      //   ValueType.Username,
-      //   ValueType.OrganisationUnit
-      // ]: () {}
-    });
+}
 
-    return value;
+String? mapValueToUser(QFieldModel field) {
+  final String? value = when<dynamic, String?>(field.valueType, {
+    [ValueType.Boolean, ValueType.TrueOnly, ValueType.YesNo]: () {
+      if (!field.value.isNullOrEmpty) {
+        if (field.value.toBoolean()) {
+          return /*resources.getString(*/ 'Yes' /*)*/;
+        }
+        return /*resources.getString(*/ 'No' /*)*/;
+      }
+      return field.value;
+    },
+    // ValueType.Age: () {},
+    // [
+    //   ValueType.Image,
+    //   ValueType.FileResource,
+    //   ValueType.TrackerAssociate,
+    //   ValueType.Reference,
+    //   ValueType.Username,
+    //   ValueType.OrganisationUnit
+    // ]: () {}
+  });
+
+  return value;
+}
+
+dynamic mapFieldToValueType(QFieldModel? field) {
+  switch (field?.valueType) {
+    case ValueType.Percentage:
+    case ValueType.Integer:
+    case ValueType.Number:
+    case ValueType.IntegerPositive:
+    case ValueType.IntegerNegative:
+    case ValueType.IntegerZeroOrPositive:
+      return int.tryParse(field?.value ?? '') ??
+          double.tryParse(field?.value ?? '') ??
+          0;
+    case ValueType.UnitInterval:
+      return int.tryParse(field?.value ?? '') ??
+          double.tryParse(field?.value ?? '') ??
+          0;
+    // case ValueType.Date:
+    // case ValueType.DateTime:
+    //   return field?.value.toDate();
+    case ValueType.Boolean:
+    case ValueType.TrueOnly:
+      // case ValueType.YesNo:
+      return field?.value.toBoolean() ?? field?.value;
+    default:
+      return field?.value;
   }
 }

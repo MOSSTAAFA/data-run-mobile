@@ -3,7 +3,7 @@ import 'package:expressions/expressions.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mass_pro/data_run/engine/rule_engine.dart';
-import 'package:mass_pro/data_run/screens/form/form_input_field.model.dart';
+import 'package:mass_pro/data_run/screens/form/fields_widgets/q_field.model.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
@@ -28,14 +28,14 @@ void main() {
 
     test('Context is correctly built from fields', () {
       final fields = IList(const [
-        FormFieldModel(
+        QFieldModel(
             uid: 'field1',
             value: 'value1',
             isFocused: false,
             isEditable: true,
             isMandatory: true,
             label: 'Field 1'),
-        FormFieldModel(
+        QFieldModel(
             uid: 'field2',
             value: 'value2',
             isFocused: false,
@@ -65,14 +65,14 @@ void main() {
           action: 'hide');
 
       final fields = IList([
-        FormFieldModel(
+        QFieldModel(
             uid: 'field1',
             fieldRules: IList([rule1]),
             isFocused: false,
             isEditable: true,
             isMandatory: true,
             label: 'Field 1'),
-        FormFieldModel(
+        QFieldModel(
             uid: 'field2',
             fieldRules: IList([rule2]),
             isFocused: false,
@@ -91,7 +91,7 @@ void main() {
       final rule1 = Rule(
           id: 'rule1', field: 'field1', expression: 'true', action: 'show');
       final fields = IList([
-        FormFieldModel(
+        QFieldModel(
             uid: 'field1',
             value: 'value1',
             isVisible: false,
@@ -111,7 +111,7 @@ void main() {
 
     test('Actions (show, hide, error, warning) are correctly executed', () {
       final fields = IList(const [
-        FormFieldModel(
+        QFieldModel(
             uid: 'field1',
             isVisible: false,
             isFocused: false,
@@ -159,7 +159,7 @@ void main() {
     test('Fields with show rules are initially hidden if condition is not met', () async {
       final rule1 = Rule(id: 'rule1', field: 'field1', expression: 'false', action: 'show');
       final fields = IList([
-        FormFieldModel(uid: 'field1', isVisible: true, fieldRules: IList([rule1]), isFocused: false, isEditable: true, isMandatory: true, label: 'Field 1'),
+        QFieldModel(uid: 'field1', isVisible: true, fieldRules: IList([rule1]), isFocused: false, isEditable: true, isMandatory: true, label: 'Field 1'),
       ]);
 
       when(mockEvaluator.eval(any, any)).thenReturn(false);

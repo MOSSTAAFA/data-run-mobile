@@ -3,41 +3,70 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:mass_pro/commons/date/date_utils.dart' as sdk;
-import 'package:mass_pro/commons/extensions/standard_extensions.dart';
-import 'package:mass_pro/data_run/screens/form/form_input_field.model.dart';
-import 'package:mass_pro/data_run/screens/form/form_state/focus_manager.dart';
-import 'package:mass_pro/data_run/screens/form/form_state/form_state_notifier.dart';
-import 'package:mass_pro/form/model/key_board_action_type.dart';
+import 'package:mass_pro/commons/extensions/string_extension.dart';
+import 'package:mass_pro/data_run/screens/form/fields_widgets/q_field.model.dart';
+import 'package:mass_pro/data_run/screens/form/fields_widgets/q_field.model.extension.dart';
+import 'package:mass_pro/data_run/screens/form/fields_widgets/q_field_validator.dart';
+import 'package:mass_pro/data_run/screens/form/form_state/form_fields_state_notifier.dart';
 import 'package:mass_pro/form/ui/intent/form_intent.dart';
 import 'package:mass_pro/form/ui/view_model/form_pending_intents.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:mass_pro/sdk/core/common/value_type_rendering_type.dart';
 
 class FormFieldWidget extends ConsumerStatefulWidget {
-  const FormFieldWidget({super.key, required this.fieldIndex});
+  const FormFieldWidget({super.key, required this.fieldKey});
 
-  final int fieldIndex;
+  final String fieldKey;
 
   @override
   ConsumerState<FormFieldWidget> createState() => _FormFieldWidgetState();
 }
 
 class _FormFieldWidgetState extends ConsumerState<FormFieldWidget> {
+  @override
+  Widget build(BuildContext context) {
+    // a Field Model provider Notifier
+    final indexedFieldModel =
+        ref.watch(indexedFieldInputProvider(widget.fieldKey));
+
+    return indexedFieldModel.when(
+        data: (QFieldModel fieldModel) {
+          final fieldWithIntentCallback =
+              fieldModel.copyWith(intentCallback: onIntent);
+          return Visibility(
+            visible: fieldModel.isVisible,
+            child: Padding(
+                padding: const EdgeInsets.only(top: 30.0),
+                child: buildFormField(fieldWithIntentCallback)),
+          );
+        },
+        error: (Object e, _) => Center(
+              child: Text(
+                e.toString(),
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineSmall!
+                    .copyWith(color: Colors.red),
+              ),
+            ),
+        loading: () => const CircularProgressIndicator(strokeWidth: 2));
+  }
+
   void onIntent(FormIntent intent) {
     FormIntent formIntent = intent;
-    if (intent is OnNext) {
-      formIntent = intent.copyWith(position: widget.fieldIndex);
-    }
-
     ref
         .read(formPendingIntentsProvider.notifier)
         .submitIntent((current) => formIntent);
   }
 
-  Widget buildFormField(FormFieldModel fieldModel) {
-    final focusManager = ref.watch(focusManagerProvider);
-    focusManager.addFocusListener(widget.fieldIndex, fieldModel);
-
+  /* Refactoring Suggestion:
+  *  **3. Leverage State Management:** -
+  * using multiple checks for `fieldModel.isEditable` throughout
+  * the widget. Consider using a `Consumer` widget inside `buildFormField`
+  * to access the latest value of `isEditable` from the state provider.
+  * This avoids unnecessary checks and potential rebuilds.
+  * */
+  Widget buildFormField(QFieldModel fieldModel) {
     switch (fieldModel.valueType) {
       case ValueType.Text:
       case ValueType.Number:
@@ -45,16 +74,17 @@ class _FormFieldWidgetState extends ConsumerState<FormFieldWidget> {
       case ValueType.Letter:
       case ValueType.LongText:
         return FormBuilderTextField(
+            // valueTransformer: (text) => mapFieldToValueType(fieldModel),
+            key: ValueKey(fieldModel.uid),
+            textInputAction: fieldModel.textInputAction,
             name: fieldModel.uid,
-            focusNode:
-                ref.watch(focusManagerProvider).getFocusNode(widget.fieldIndex),
-            // controller: fieldModel.controller,
+            autovalidateMode: fieldModel.valueType?.isNumeric ?? false
+                ? AutovalidateMode.onUserInteraction
+                : AutovalidateMode.disabled,
+            initialValue: fieldModel.value,
             enabled: fieldModel.isEditable,
-            textInputAction: _getInputAction(fieldModel.keyboardActionType),
-            validator: fieldModel.isMandatory
-                ? FormBuilderValidators.required()
-                : null,
-            maxLength: _getMaxLength(fieldModel.valueType),
+            validator: QFieldValidators.getValidators(fieldModel),
+            maxLength: fieldModel.maxLength,
             maxLines: fieldModel.valueType == ValueType.Letter ? 7 : null,
             decoration: InputDecoration(
                 labelText: fieldModel.label,
@@ -70,24 +100,24 @@ class _FormFieldWidgetState extends ConsumerState<FormFieldWidget> {
             onSubmitted: (value) {
               debugPrint('####Debug FormBuilderTextField.onSubmitted: $value');
             },
-            keyboardType: _getInputType(fieldModel.valueType));
+            keyboardType: fieldModel.inputType);
       case ValueType.Boolean:
         return FormBuilderSwitch(
+          key: ValueKey(fieldModel.uid),
           name: fieldModel.uid,
-          focusNode:
-              ref.watch(focusManagerProvider).getFocusNode(widget.fieldIndex),
           enabled: fieldModel.isEditable,
-          initialValue: fieldModel.value?.toLowerCase() == 'true',
+          initialValue: fieldModel.value.toBoolean(),
           decoration: InputDecoration(
               border: const OutlineInputBorder(),
               contentPadding: const EdgeInsets.only(left: 20, top: 40),
               labelText: fieldModel.label,
               icon: const Icon(Icons.access_alarm_outlined),
               fillColor: Colors.red.shade200),
-
           onChanged: (bool? value) {
             fieldModel.onTextChange(value?.toString());
-            fieldModel.onSaveOption(option)
+            if (value != null) {
+              fieldModel.onSaveBoolean(value);
+            }
           },
           title: Text(fieldModel.label),
         );
@@ -100,21 +130,27 @@ class _FormFieldWidgetState extends ConsumerState<FormFieldWidget> {
                 ? InputType.time
                 : InputType.both;
         return FormBuilderDateTimePicker(
+            key: ValueKey(fieldModel.uid),
             format: sdk.DateUtils.uiDateFormat(),
-            focusNode:
-                ref.watch(focusManagerProvider).getFocusNode(widget.fieldIndex),
+            initialValue: fieldModel.value.toDate(),
             name: fieldModel.uid,
             enabled: fieldModel.isEditable,
             validator: fieldModel.isMandatory
                 ? FormBuilderValidators.required()
                 : null,
             initialEntryMode: DatePickerEntryMode.calendar,
-            // initialValue: fieldModel.controller?.text.toDate(),
             inputType: inputType,
+            onFieldSubmitted: (DateTime? pickedDate) {
+              if (pickedDate != null) {
+                debugPrint(
+                    '####Debug FormBuilderDateTimePicker.onFieldSubmitted:'
+                    ' $pickedDate');
+                fieldModel.onTextChange(
+                    sdk.DateUtils.databaseDateFormat().format(pickedDate));
+              }
+            },
             onChanged: (DateTime? pickedDate) {
               if (pickedDate != null) {
-                // fieldModel.controller?.text =
-                //     sdk.DateUtils.databaseDateFormat().format(pickedDate);
                 fieldModel.onTextChange(
                     sdk.DateUtils.databaseDateFormat().format(pickedDate));
               }
@@ -126,79 +162,33 @@ class _FormFieldWidgetState extends ConsumerState<FormFieldWidget> {
               ),
             ));
       case ValueType.SelectOne:
-        return FormBuilderRadioGroup<String?>(
+        // case ValueType.Boolean:
+        return FormBuilderChoiceChip<String>(
+          key: ValueKey(fieldModel.uid),
+          selectedColor: Colors.lightGreenAccent,
+          onReset: () => fieldModel.onClear(),
           name: fieldModel.uid,
-          focusNode:
-              ref.watch(focusManagerProvider).getFocusNode(widget.fieldIndex),
           enabled: fieldModel.isEditable,
           validator:
               fieldModel.isMandatory ? FormBuilderValidators.required() : null,
           initialValue:
               (fieldModel.value ?? '').isNotEmpty ? fieldModel.value : null,
-          options: _getFieldOptions(fieldModel.options!.unlock),
-          wrapSpacing: 10.0,
-          orientation: _getOptionsOrientation(fieldModel),
-          wrapRunSpacing: 10.0,
+          options: _getChipOptions(fieldModel.options!.unlock, wide: true),
           onChanged: (String? value) {
             if (value != null) {
-              fieldModel.onTextChange(value);
-              // fieldModel.controller?.text = value;
+              fieldModel.onSaveOption(value);
             }
           },
           decoration: InputDecoration(
               border: const OutlineInputBorder(),
-              contentPadding: const EdgeInsets.only(left: 20, top: 40),
+              contentPadding: const EdgeInsets.only(left: 10, top: 30),
               labelText: fieldModel.label,
-              icon: const Icon(Icons.access_alarm_outlined),
+              labelStyle: Theme.of(context).textTheme.headlineSmall,
               fillColor: Colors.red.shade200),
-          itemDecoration: BoxDecoration(
-              color: Colors.blueGrey.shade200,
-              border: Border.all(color: Colors.blueAccent),
-              borderRadius: BorderRadius.circular(5.0)),
         );
       default:
         return const Text('Unsupported field type');
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final indexedFieldModel =
-        ref.watch(indexedFieldInputProvider(widget.fieldIndex));
-
-    return indexedFieldModel.when(
-      data: (FormFieldModel fieldModel) {
-        final fieldWithIntentCallback =
-            fieldModel.copyWith(intentCallback: onIntent);
-        return Visibility(
-            visible: fieldModel.isVisible,
-            child: Stack(
-              children: [
-                buildFormField(fieldWithIntentCallback),
-                if (fieldModel.isLoading)
-                  const Positioned(
-                    top: 0,
-                    right: 0,
-                    child: SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    ),
-                  ),
-              ],
-            ));
-      },
-      error: (Object e, _) => Center(
-        child: Text(
-          e.toString(),
-          style: Theme.of(context)
-              .textTheme
-              .headlineSmall!
-              .copyWith(color: Colors.red),
-        ),
-      ),
-      loading: () => const CircularProgressIndicator(strokeWidth: 4),
-    );
   }
 
   int? _getMaxLength(ValueType? type) {
@@ -211,7 +201,7 @@ class _FormFieldWidgetState extends ConsumerState<FormFieldWidget> {
     return null;
   }
 
-  OptionsOrientation _getOptionsOrientation(FormFieldModel field) {
+  OptionsOrientation _getOptionsOrientation(QFieldModel field) {
     switch (field.fieldRendering) {
       case ValueTypeRenderingType.VERTICAL_RADIOBUTTONS:
       case ValueTypeRenderingType.VERTICAL_CHECKBOXES:
@@ -240,34 +230,25 @@ class _FormFieldWidgetState extends ConsumerState<FormFieldWidget> {
         .toList();
   }
 
-  TextInputType? _getInputType(ValueType? valueType) {
-    return when(valueType, {
-      ValueType.Text: () => TextInputType.text,
-      ValueType.LongText: () => TextInputType.multiline,
-      ValueType.Letter: () => TextInputType.text,
-      ValueType.Number: () =>
-          const TextInputType.numberWithOptions(decimal: true, signed: true),
-      ValueType.UnitInterval: () =>
-          const TextInputType.numberWithOptions(decimal: true),
-      ValueType.Percentage: () => TextInputType.number,
-      [ValueType.IntegerNegative, ValueType.Integer]: () =>
-          const TextInputType.numberWithOptions(signed: true),
-      [ValueType.IntegerPositive, ValueType.IntegerZeroOrPositive]: () =>
-          TextInputType.number,
-      ValueType.PhoneNumber: () => TextInputType.phone,
-      ValueType.Email: () => TextInputType.emailAddress,
-      ValueType.URL: () => TextInputType.url,
-    });
-  }
-
-  TextInputAction? _getInputAction(KeyboardActionType? type) {
-    if (type != null) {
-      return when(type, {
-        KeyboardActionType.NEXT: () => TextInputAction.next,
-        KeyboardActionType.DONE: () => TextInputAction.done,
-        KeyboardActionType.ENTER: () => TextInputAction.none
-      });
-    }
-    return null;
+  List<FormBuilderChipOption<T>> _getChipOptions<T>(List<T> options,
+      {bool? wide}) {
+    return options
+        .map((option) => FormBuilderChipOption(
+              value: option,
+              avatar: !(wide ?? false)
+                  ? const CircleAvatar(child: Icon(Icons.airplanemode_on))
+                  : null,
+              child: wide ?? false
+                  ? Container(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Column(
+                        children: [
+                          Text(option.toString().toUpperCase()),
+                          const Icon(Icons.airplanemode_on)
+                        ],
+                      ))
+                  : null,
+            ))
+        .toList();
   }
 }
