@@ -29,9 +29,9 @@ class _QSwitchFieldState extends State<QSwitchField> {
       ),
       onChanged: (bool? value) {
         // widget.fieldModel.onTextChange(value?.toString());
-        if (value != null) {
+        // if (value != null) {
           widget.fieldModel.onSaveBoolean(value);
-        }
+        // }
       },
       title: Text(widget.fieldModel.label),
     );

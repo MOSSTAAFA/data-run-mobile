@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:mass_pro/data_run/screens/form/form_state/q_field.model.dart';
 import 'package:mass_pro/data_run/screens/form/form_state/q_field.model.extension.dart';
-import 'package:mass_pro/data_run/screens/form/form_state/q_field_validator.dart';
+import 'package:mass_pro/data_run/screens/shared_widgets/form/q_field_validator.dart';
 import 'package:mass_pro/form/ui/intent/form_intent.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 
@@ -75,12 +75,18 @@ class _QTextFieldState extends State<QTextField> {
       maxLines: widget.fieldModel.valueType == ValueType.Letter ? 7 : null,
       decoration: InputDecoration(
         labelText: widget.fieldModel.label,
-        labelStyle: Theme.of(context).textTheme.headlineSmall,
+        labelStyle: Theme.of(context).textTheme.labelLarge,
         focusedBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: Colors.blue, width: 2.0),
         ),
         hintText: widget.fieldModel.hint,
         errorText: widget.fieldModel.error,
+        suffixIcon: (widget.fieldModel.value ?? '').isNotEmpty
+            ? IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: widget.fieldModel.onClear,
+              )
+            : null,
       ),
       onChanged: widget.fieldModel.onTextChange,
       keyboardType: widget.fieldModel.inputType,

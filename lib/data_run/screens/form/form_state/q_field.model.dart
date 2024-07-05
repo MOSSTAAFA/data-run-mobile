@@ -145,25 +145,25 @@ class QFieldModel with EquatableMixin {
   }
 
   /// invoke FormInputFieldIntent.onSave  for Boolean type field
-  void onSaveBoolean(bool boolean) {
-    // onFieldClick();
-    final result = _valueIsEmpty() || value != boolean.toString()
-        ? boolean.toString()
-        : null;
+  void onSaveBoolean(bool? boolean) {
+    // // onFieldClick();
+    // final result = _valueIsEmpty() || value != boolean.toString()
+    //     ? boolean.toString()
+    //     : null;
     intentCallback?.call(
-        FormIntent.onSave(uid: uid, value: result, valueType: valueType));
+        FormIntent.onSave(uid: uid, value: boolean.toString(), valueType: valueType));
   }
 
   /// invoke FormInputFieldIntent.onSave
-  void onSaveOption(String option) {
-    String? nextValue;
-    if (value == option) {
-      nextValue = null;
-    } else {
-      nextValue = option;
-    }
+  void onSaveOption(String? option) {
+    // String? nextValue;
+    // if (value == option) {
+    //   nextValue = null;
+    // } else {
+    //   nextValue = option;
+    // }
     intentCallback?.call(
-        FormIntent.onSave(uid: uid, value: nextValue, valueType: valueType));
+        FormIntent.onSave(uid: uid, value: option, valueType: valueType));
   }
 
   void invokeIntent(FormIntent intent) {

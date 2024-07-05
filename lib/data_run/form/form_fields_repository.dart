@@ -7,6 +7,7 @@ import 'package:expressions/expressions.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:get/get.dart';
 import 'package:mass_pro/commons/constants.dart';
+import 'package:mass_pro/commons/date/field_with_issue.dart';
 import 'package:mass_pro/commons/extensions/standard_extensions.dart';
 import 'package:mass_pro/commons/helpers/iterable.dart';
 import 'package:mass_pro/data_run/engine/rule_engine.dart';
@@ -14,8 +15,8 @@ import 'package:mass_pro/data_run/form/database_syncable_query.dart';
 import 'package:mass_pro/data_run/form/display_name_provider.dart';
 import 'package:mass_pro/data_run/form/org_unit_d_configuration.dart';
 import 'package:mass_pro/data_run/form/syncable_entity_mapping_repository.dart';
+import 'package:mass_pro/data_run/screens/form/form_state/q_data_integrity_check_result.dart';
 import 'package:mass_pro/data_run/screens/form/form_state/q_field.model.dart';
-import 'package:mass_pro/form/model/action_type.dart';
 import 'package:mass_pro/form/model/row_action.dart';
 import 'package:mass_pro/form/model/store_result.dart';
 import 'package:mass_pro/form/ui/validation/field_error_message_provider.dart';
@@ -77,7 +78,6 @@ class FormFieldsRepository {
   });
 
   IList<QFieldModel> _pendingUpdates = IList([]);
-  List<QFieldModel> _pendingUpdatesList = [];
   IList<QFieldModel> _backupList = IList([]);
   IList<RowAction> _itemsWithError = IList([]);
   final RuleEngine ruleEngine = RuleEngine(const ExpressionEvaluator());
@@ -108,21 +108,8 @@ class FormFieldsRepository {
   /// updates the field model in _itemList with the value based on the uid
   Future<void> updateValueOnList(
       String uid, String? value, ValueType? valueType) async {
-    Map<String, dynamic> pendingFieldDataMap = <String, dynamic>{
-      for (final field in _pendingUpdates) field.uid: field.value
-    };
-    // /// check if field exist or throw an error
-    // _pendingUpdates.firstWhere((field) => field.uid == uid,
-    //     orElse: () =>
-    //     throw Exception('field: $uid, with value: $value does not exist!'));
-
     final displayName =
         await displayNameProvider.provideDisplayName(valueType, value);
-    //
-    // _pendingUpdates = _pendingUpdates.replaceFirstWhere(
-    //     (field) => field.uid == uid,
-    //     (field) =>
-    //         field!.copyWith(value: value).copyWith(displayName: displayName));
 
     final toUpdatedItem = _pendingUpdates.unlock
         .firstWhere((t) => t.uid == uid)
@@ -133,43 +120,32 @@ class FormFieldsRepository {
 
     _pendingUpdates =
         _pendingUpdates.updateById([toUpdatedItem], (id) => id.uid);
-
-    pendingFieldDataMap = <String, dynamic>{
-      for (final field in _pendingUpdates) field.uid: field.value
-    };
   }
 
-  // save(String id, String? value, String? extraData) {}
   Future<StoreResult> batchUpdateValues(Map<String, dynamic>? formData) async {
-    // Implement logic to update all values in the list in a single call
-    // This could involve iterating through the list and performing bulk updates
-    // based on your data storage mechanism (e.g., SQL queries)
-    final map = formData;
     return syncableEntityMappingRepository.saveFormData(_pendingUpdates);
   }
 
   FutureOr<IList<QFieldModel>> fetchFieldsList() async {
     _pendingUpdates = await syncableEntityMappingRepository.list();
-    _pendingUpdatesList = _pendingUpdates.unlock;
     _backupList = _pendingUpdates;
     return composeFieldsList();
   }
 
   FutureOr<IList<QFieldModel>> composeFieldsList() async {
     final composedList = await applyRuleEffects(_pendingUpdates)
-        .then((IList<QFieldModel> listOfItems) =>
-            _mergeListWithErrorFields(listOfItems, _itemsWithError))
-        .then((IList<QFieldModel> listOfItems) => _setFocusedItem(listOfItems))
+        // .then((IList<QFieldModel> listOfItems) =>
+        // _mergeListWithErrorFields(listOfItems, _itemsWithError))
+        // .then((IList<QFieldModel> listOfItems) => _setFocusedItem(listOfItems))
         .then((IList<QFieldModel> listOfItems) =>
             _setLastItemKeyboardAction(listOfItems));
-    _pendingUpdatesList = composedList.unlock;
     return composedList;
   }
 
   FutureOr<IMap<String, QFieldModel>> composeFieldsMap() async {
     final fieldList = await applyRuleEffects(_pendingUpdates)
-        // .then((IList<QFieldModel> listOfItems) =>
-        //     _mergeListWithErrorFields(listOfItems, _itemsWithError))
+        .then((IList<QFieldModel> listOfItems) =>
+            _mergeListWithErrorFields(listOfItems, _itemsWithError))
         // .then((IList<QFieldModel> listOfItems) => _setFocusedItem(listOfItems))
         .then((IList<QFieldModel> listOfItems) =>
             _setLastItemKeyboardAction(listOfItems));
@@ -202,24 +178,7 @@ class FormFieldsRepository {
               .also((String y) {})
               .let((String friendlyError) => item.setError(friendlyError)) ??
           item;
-
-      /// if field has error in fieldsWithError
-      // if (action != null) {
-      //   final String? error = action.error != null
-      //       ? fieldErrorMessageProvider.getFriendlyErrorMessage(action.error!)
-      //       : null;
-      //
-      //   /// if orgunit returns its name
-      //   // final String? displayName = await displayNameProvider
-      //   //     .provideDisplayName(action.valueType, action.value);
-      //   return item
-      //       .setValue(action.value)
-      //       .setError(error) /*.setDisplayName(displayName)*/;
-      // } else {
-      //   return item;
-      // }
     }).toList();
-    // );
     return mergedList.lock;
   }
 
@@ -237,24 +196,6 @@ class FormFieldsRepository {
     return list;
   }
 
-  IList<QFieldModel> _setFocusedItem(IList<QFieldModel> list) {
-    // if (_focusedItemId != null) {
-    //   final FormFieldModel? item = list.firstOrNullWhere(
-    //       (FormFieldModel item) => item.uid == _focusedItemId);
-    //   if (item != null) {
-    //     list = list.replace(list.indexOf(item), item.copyWith(focused: true));
-    //   }
-    // }
-    return list;
-  }
-
-  /// when discharge changes take this and save override what was
-  /// already saved during entry
-  IList<QFieldModel> backupOfChangedItems() {
-    // return backupList.minus(itemList.applyRuleEffects());
-    return _backupList;
-  }
-
   void removeAllValues() {
     _pendingUpdates = _pendingUpdates
         .map((QFieldModel fieldUiModel) =>
@@ -267,31 +208,20 @@ class FormFieldsRepository {
         .firstOrNullWhere((QFieldModel item) => _focusedItemId == item.uid);
   }
 
-  void clearFocusItem() {
-    _focusedItemId = null;
-  }
-
-  void setFocusedItem(RowAction action) {
-    when(action.type, {
-      ActionType.ON_NEXT: () => _focusedItemId = _getNextItem(action.id),
-      ActionType.ON_FINISH: () => _focusedItemId = null,
-    }).orElse(() => _focusedItemId = action.id);
-  }
-
   /// if action has error and its item is not yet in _itemsWithError, it adds
   /// it to it. Else which means it was _itemsWithError, it then removes it.
   void updateErrorList(RowAction? action) {
     final itemIndex =
         _itemsWithError.indexWhere((RowAction item) => item.id == action!.id);
 
-    /// if action has error
+    // if action has error
     if (action?.error != null) {
-      /// if item is not in _itemsWithError
+      // if item is not in _itemsWithError
       if (itemIndex == -1) {
         _itemsWithError = _itemsWithError.add(action!);
       }
     } else {
-      /// if item is not in _itemsWithError
+      // if item is not in _itemsWithError
       if (itemIndex != -1) {
         _itemsWithError = _itemsWithError.removeAt(itemIndex);
       }
@@ -311,19 +241,70 @@ class FormFieldsRepository {
     }
   }
 
-  String? _getNextItem(String currentItemUid) {
-    _pendingUpdates.let((IList<QFieldModel> fields) {
-      // final oldItem = fields.firstOrNullWhere((item) => item.uid == currentItemUid);
-      final int pos = fields
-          .indexWhere((QFieldModel oldItem) => oldItem.uid == currentItemUid);
-      if (pos < fields.length - 1) {
-        return fields[pos + 1].uid;
-      }
-    });
-    return null;
+  /// pure function doesn't effect this class variables
+  /// runs at finishing data entry, either by clicking back key
+  /// or save key, if there are errors it will notify in the UI
+  QDataIntegrityCheckResult runDataIntegrityCheck(
+      {required bool allowDiscard}) {
+    _runDataIntegrity = true;
+    final IList<FieldWithIssue> itemsWithErrors = _getFieldsWithError();
+    /*final*/
+    final IList<FieldWithIssue> itemsWithWarning = IList([]);
+    if (itemsWithErrors.isNotEmpty) {
+      return FieldsWithErrorResult(
+          mandatoryFields: _mandatoryItemsWithoutValue,
+          fieldUidErrorList: itemsWithErrors,
+          warningFields: itemsWithWarning,
+          canComplete: /*ruleEffectsResult?.canComplete ??*/ true,
+          onCompleteMessage: /*ruleEffectsResult?.messageOnComplete*/ null,
+          allowDiscard: allowDiscard);
+    }
+
+    if (_mandatoryItemsWithoutValue.isNotEmpty) {
+      return MissingMandatoryResult(
+          mandatoryFields: _mandatoryItemsWithoutValue,
+          errorFields: itemsWithErrors,
+          warningFields: itemsWithWarning,
+          canComplete: /*ruleEffectsResult?.canComplete ??*/ true,
+          onCompleteMessage: /*ruleEffectsResult?.messageOnComplete*/ null,
+          allowDiscard: allowDiscard);
+    }
+
+    if (itemsWithWarning.isNotEmpty) {
+      return FieldsWithWarningResult(
+          fieldUidWarningList: itemsWithWarning,
+          canComplete: /*ruleEffectsResult?.canComplete ??*/ true,
+          onCompleteMessage: /*ruleEffectsResult?.messageOnComplete*/ null);
+    }
+
+    if (backupOfChangedItems().isNotEmpty && allowDiscard) {
+      return const NotSavedResult();
+    }
+
+    return const SuccessfulResult(
+        canComplete: /*ruleEffectsResult?.canComplete ?? */ true,
+        onCompleteMessage: /*ruleEffectsResult?.messageOnComplete*/ null);
   }
 
-  IList<QFieldModel> getFields() {
-    return _pendingUpdates;
+  IList<QFieldModel> backupOfChangedItems() {
+    return _backupList;
+  }
+
+  IList<FieldWithIssue> _getFieldsWithError() {
+    return _itemsWithError.mapNotNull((RowAction? errorItem) {
+      final QFieldModel? item = _pendingUpdates
+          .firstOrNullWhere((QFieldModel item) => item.uid == errorItem?.id);
+      if (item != null) {
+        return FieldWithIssue(
+            fieldUid: item.uid,
+            fieldName: item.label,
+            issueType: IssueType.ERROR,
+            message: errorItem?.error != null
+                ? fieldErrorMessageProvider
+                    .getFriendlyErrorMessage(errorItem!.error!)
+                : '');
+      }
+      return null;
+    }).toIList();
   }
 }

@@ -1,8 +1,8 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:mass_pro/commons/extensions/standard_extensions.dart';
 import 'package:mass_pro/commons/helpers/collections.dart';
 import 'package:mass_pro/commons/logging/logging.dart';
 import 'package:mass_pro/data_run/form/form_fields_repository.dart';
+import 'package:mass_pro/data_run/screens/form/form_state/q_data_integrity_check_result.dart';
 import 'package:mass_pro/data_run/screens/form/form_state/q_field.model.dart';
 import 'package:mass_pro/form/model/action_type.dart';
 import 'package:mass_pro/form/model/row_action.dart';
@@ -126,8 +126,7 @@ class FormFieldsStateNotifier extends _$FormFieldsStateNotifier {
         // TODO ValueType.Coordinate then setFieldRequestingCoordinates
         repository.updateErrorList(action);
 
-        /// if field has error, do not update the finalized list for fields
-        ///
+        // if field has error, do not update the finalized list for fields
         if (action!.hasError) {
           return StoreResult(
               uid: action.id,
@@ -236,7 +235,6 @@ class FormFieldsStateNotifier extends _$FormFieldsStateNotifier {
             actionType: ActionType.ON_FINISH));
   }
 
-  /// _createRowAction Global to this file function
   RowAction _createRowAction(
           {required String uid,
           String? value,
@@ -254,24 +252,6 @@ class FormFieldsStateNotifier extends _$FormFieldsStateNotifier {
           type: actionType,
           valueType: valueType);
 
-  QFieldModel? _getLastFocusedTextItem() {
-    final repository = getFormRepository();
-    final QFieldModel? currentFocusedItem = repository
-        .currentFocusedItem()
-        ?.takeIf((QFieldModel item) =>
-            item.valueType?.let(
-                (ValueType valueType) => valueTypeIsTextField(valueType)) ??
-            false);
-    return currentFocusedItem;
-  }
-
-  bool valueTypeIsTextField(ValueType valueType) {
-    return valueType.isNumeric ||
-        valueType == ValueType.URL ||
-        valueType == ValueType.Email ||
-        valueType == ValueType.PhoneNumber;
-  }
-
   ValidationException? _checkFieldError(
       ValueType? valueType, String? fieldValue, String? fieldMask) {
     if ((fieldValue ?? '').isNotEmpty) {
@@ -285,25 +265,12 @@ class FormFieldsStateNotifier extends _$FormFieldsStateNotifier {
     }
 
     return null;
-    // /// for debugging or directly return it
-    // final ValidationException? checkResult = fieldValue!.let((String value) {
-    //   ValidationException? error;
-    //
-    //   final Result<String, ValidationException>? result = valueType
-    //       ?.takeIf((ValueType item) => item != ValueType.Image)
-    //       ?.validator
-    //       .validate(value);
-    //
-    //   /// if result is failure return it or null otherwise.
-    //   if(result?.isFailure ?? false){
-    //
-    //   }
-    //   error = result?.fold((failure) => failure, (String success) => null);
-    //
-    //   return error;
-    // });
-    //
-    // return checkResult;
+  }
+
+  void submitIntent(FormIntent intent) {
+    ref
+        .read(formPendingIntentsProvider.notifier)
+        .submitIntent((current) => intent);
   }
 
   /// called when:
@@ -314,11 +281,20 @@ class FormFieldsStateNotifier extends _$FormFieldsStateNotifier {
   /// of [OnFinish] which gets converted to [RowAction] of
   /// [ActionType.ON_FINISH], which then converted to a [StoreResult] of
   /// [ValueStoreResult.FINISH]
-  void runDataIntegrityCheck({bool? backButtonPressed}) {
-    // TODO
-    // final result = _repository.runDataIntegrityCheck(
-    //     allowDiscard: backButtonPressed ?? false);
-    processCalculatedItems();
+  QDataIntegrityCheckResult runDataIntegrityCheck({bool? backButtonPressed}) {
+    final result = getFormRepository()
+        .runDataIntegrityCheck(allowDiscard: backButtonPressed ?? false);
+    // processCalculatedItems();
+    return result;
+  }
+
+  void discardChanges() {
+    getFormRepository().backupOfChangedItems().forEach((QFieldModel item) =>
+        submitIntent(FormIntent.onSave(
+            uid: item.uid,
+            value: item.value,
+            valueType: item.valueType,
+            fieldMask: item.fieldMask)));
   }
 
   /// This method decide whether to Update the FormStateNotifier

@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/data_run/screens/form/form_state/form_fields_state_notifier.dart';
 import 'package:mass_pro/data_run/screens/form/form_state/q_field.model.dart';
-import 'package:mass_pro/data_run/screens/form/form_state/q_field_widget_factory.dart';
+import 'package:mass_pro/data_run/screens/shared_widgets/form/q_field_widget_factory.dart';
 import 'package:mass_pro/form/ui/intent/form_intent.dart';
-import 'package:mass_pro/form/ui/view_model/form_pending_intents.dart';
 
 class FormFieldWidget extends ConsumerStatefulWidget {
   const FormFieldWidget({super.key, required this.fieldModel});
@@ -68,9 +67,7 @@ class _FormFieldWidgetState extends ConsumerState<FormFieldWidget> {
 
   void onIntent(FormIntent intent) {
     final FormIntent formIntent = intent;
-    ref
-        .read(formPendingIntentsProvider.notifier)
-        .submitIntent((current) => formIntent);
+    ref.read(formFieldsStateNotifierProvider.notifier).submitIntent(formIntent);
   }
 
 // /* Refactoring Suggestion:

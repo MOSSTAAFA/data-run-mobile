@@ -217,9 +217,7 @@ class __$$MissingMandatoryResultImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$MissingMandatoryResultImpl
-    with DiagnosticableTreeMixin
-    implements MissingMandatoryResult {
+class _$MissingMandatoryResultImpl implements MissingMandatoryResult {
   const _$MissingMandatoryResultImpl(
       {required this.mandatoryFields,
       required this.errorFields,
@@ -245,22 +243,8 @@ class _$MissingMandatoryResultImpl
   final bool allowDiscard;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'QDataIntegrityCheckResult.missingMandatoryResult(mandatoryFields: $mandatoryFields, errorFields: $errorFields, warningFields: $warningFields, canComplete: $canComplete, onCompleteMessage: $onCompleteMessage, allowDiscard: $allowDiscard)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty(
-          'type', 'QDataIntegrityCheckResult.missingMandatoryResult'))
-      ..add(DiagnosticsProperty('mandatoryFields', mandatoryFields))
-      ..add(DiagnosticsProperty('errorFields', errorFields))
-      ..add(DiagnosticsProperty('warningFields', warningFields))
-      ..add(DiagnosticsProperty('canComplete', canComplete))
-      ..add(DiagnosticsProperty('onCompleteMessage', onCompleteMessage))
-      ..add(DiagnosticsProperty('allowDiscard', allowDiscard));
   }
 
   @override
@@ -526,9 +510,7 @@ class __$$FieldsWithErrorResultImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$FieldsWithErrorResultImpl
-    with DiagnosticableTreeMixin
-    implements FieldsWithErrorResult {
+class _$FieldsWithErrorResultImpl implements FieldsWithErrorResult {
   const _$FieldsWithErrorResultImpl(
       {required this.mandatoryFields,
       required this.fieldUidErrorList,
@@ -554,22 +536,8 @@ class _$FieldsWithErrorResultImpl
   final bool allowDiscard;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'QDataIntegrityCheckResult.fieldsWithErrorResult(mandatoryFields: $mandatoryFields, fieldUidErrorList: $fieldUidErrorList, warningFields: $warningFields, canComplete: $canComplete, onCompleteMessage: $onCompleteMessage, allowDiscard: $allowDiscard)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty(
-          'type', 'QDataIntegrityCheckResult.fieldsWithErrorResult'))
-      ..add(DiagnosticsProperty('mandatoryFields', mandatoryFields))
-      ..add(DiagnosticsProperty('fieldUidErrorList', fieldUidErrorList))
-      ..add(DiagnosticsProperty('warningFields', warningFields))
-      ..add(DiagnosticsProperty('canComplete', canComplete))
-      ..add(DiagnosticsProperty('onCompleteMessage', onCompleteMessage))
-      ..add(DiagnosticsProperty('allowDiscard', allowDiscard));
   }
 
   @override
@@ -824,9 +792,7 @@ class __$$FieldsWithWarningResultImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$FieldsWithWarningResultImpl
-    with DiagnosticableTreeMixin
-    implements FieldsWithWarningResult {
+class _$FieldsWithWarningResultImpl implements FieldsWithWarningResult {
   const _$FieldsWithWarningResultImpl(
       {required this.fieldUidWarningList,
       this.canComplete = false,
@@ -846,20 +812,8 @@ class _$FieldsWithWarningResultImpl
   final bool allowDiscard;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'QDataIntegrityCheckResult.fieldsWithWarningResult(fieldUidWarningList: $fieldUidWarningList, canComplete: $canComplete, onCompleteMessage: $onCompleteMessage, allowDiscard: $allowDiscard)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty(
-          'type', 'QDataIntegrityCheckResult.fieldsWithWarningResult'))
-      ..add(DiagnosticsProperty('fieldUidWarningList', fieldUidWarningList))
-      ..add(DiagnosticsProperty('canComplete', canComplete))
-      ..add(DiagnosticsProperty('onCompleteMessage', onCompleteMessage))
-      ..add(DiagnosticsProperty('allowDiscard', allowDiscard));
   }
 
   @override
@@ -1102,9 +1056,7 @@ class __$$SuccessfulResultImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SuccessfulResultImpl
-    with DiagnosticableTreeMixin
-    implements SuccessfulResult {
+class _$SuccessfulResultImpl implements SuccessfulResult {
   const _$SuccessfulResultImpl(
       {this.extraData,
       this.canComplete = false,
@@ -1124,20 +1076,8 @@ class _$SuccessfulResultImpl
   final bool allowDiscard;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'QDataIntegrityCheckResult.successfulResult(extraData: $extraData, canComplete: $canComplete, onCompleteMessage: $onCompleteMessage, allowDiscard: $allowDiscard)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty(
-          'type', 'QDataIntegrityCheckResult.successfulResult'))
-      ..add(DiagnosticsProperty('extraData', extraData))
-      ..add(DiagnosticsProperty('canComplete', canComplete))
-      ..add(DiagnosticsProperty('onCompleteMessage', onCompleteMessage))
-      ..add(DiagnosticsProperty('allowDiscard', allowDiscard));
   }
 
   @override
@@ -1341,21 +1281,12 @@ class __$$NotSavedResultImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$NotSavedResultImpl
-    with DiagnosticableTreeMixin
-    implements NotSavedResult {
+class _$NotSavedResultImpl implements NotSavedResult {
   const _$NotSavedResultImpl();
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'QDataIntegrityCheckResult.notSavedResult()';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty(
-        'type', 'QDataIntegrityCheckResult.notSavedResult'));
   }
 
   @override

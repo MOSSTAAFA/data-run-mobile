@@ -11,10 +11,8 @@ import 'package:mass_pro/data_run/screens/form/bottom_sheet.widget.dart';
 import 'package:mass_pro/data_run/screens/form/form_field.widget.dart';
 import 'package:mass_pro/data_run/screens/form/form_state/form_fields_state_notifier.dart';
 import 'package:mass_pro/data_run/screens/form/form_state/q_field.model.dart';
-import 'package:mass_pro/data_run/screens/form/form_state/q_field_widget_factory.dart';
-import 'package:mass_pro/data_run/screens/form/show_dialog.dart';
+import 'package:mass_pro/data_run/screens/shared_widgets/form/q_field_widget_factory.dart';
 import 'package:mass_pro/form/ui/intent/form_intent.dart';
-import 'package:mass_pro/form/ui/view_model/form_pending_intents.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 import 'package:mass_pro/utils/mass_utils/colors.dart';
 
@@ -140,22 +138,8 @@ class FormScreenScaffoldState extends ConsumerState<FormScreenScaffold>
     );
   }
 
-  Future<void> popInvoked(BuildContext context) async {
-    final bool saveAndPop = await showConfirmationDialog(
-        context: context,
-        title: 'Unsaved Changes',
-        content: 'Do you want to save changes before leaving?',
-        confirmButtonText: 'Save',
-        cancelButtonText: 'Discard',
-        // save
-        onConfirm: () {
-          // call save
-          _onSaveForm();
-        });
-    if (context.mounted) {
-      // then pop
-      Navigator.pop(context);
-    }
+  Future<void> backButtonPressed(BuildContext context) async {
+    // Data integrity and discard
   }
 
   Future<void> _saveAndShowBottomSheet(BuildContext context) async {
@@ -168,8 +152,9 @@ class FormScreenScaffoldState extends ConsumerState<FormScreenScaffold>
   /// Save the form
   Future<void> _onSaveForm() async {
     _formKey.currentState!.save();
-    ref.read(formPendingIntentsProvider.notifier).submitIntent(
-        (_) => FormIntent.onFinish(_formKey.currentState?.value));
+    ref
+        .read(formFieldsStateNotifierProvider.notifier)
+        .submitIntent(FormIntent.onFinish(_formKey.currentState?.value));
     debugPrint('Form State: ${_formKey.currentState?.value}');
   }
 
@@ -195,8 +180,8 @@ class FormScreenScaffoldState extends ConsumerState<FormScreenScaffold>
     if (_formKey.currentState!.validate()) {
       // markFormAsComplete;
       ref
-          .read(formPendingIntentsProvider.notifier)
-          .submitIntent((_) => FormIntent.onFinish(_formKey.currentState?.value));
+          .read(formFieldsStateNotifierProvider.notifier)
+          .submitIntent(FormIntent.onFinish(_formKey.currentState?.value));
       if (context.mounted) {
         Navigator.pop(context);
       }
