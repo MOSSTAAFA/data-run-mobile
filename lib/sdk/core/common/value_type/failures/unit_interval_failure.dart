@@ -1,30 +1,26 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../exception/exception.dart';
+import '../../exception/validation_exception.dart';
 
 part 'unit_interval_failure.freezed.dart';
 
 @freezed
 class UnitIntervalFailure
     with _$UnitIntervalFailure
-    implements ThrowableException {
-  @Implements<ThrowableException>()
+    implements ValidationException {
+  @Implements<ValidationException>()
   const factory UnitIntervalFailure.scientificNotationException(
-      [@Default('Exception') String message,
-      CaughtException? cause]) = ScientificNotationException;
+      [@Default('ValidationException') String message]) = ScientificNotationException;
 
-  @Implements<ThrowableException>()
+  @Implements<ValidationException>()
   const factory UnitIntervalFailure.numberFormatException(
-      [@Default('Exception') String message,
-      CaughtException? cause]) = NumberFormatException;
+      [@Default('ValidationException') String message]) = NumberFormatException;
 
-  @Implements<ThrowableException>()
+  @Implements<ValidationException>()
   const factory UnitIntervalFailure.greaterThanOneException(
-      [@Default('Exception') String message,
-      CaughtException? cause]) = GreaterThanOneException;
+      [@Default('ValidationException') String message]) = GreaterThanOneException;
 
-  @Implements<ThrowableException>()
+  @Implements<ValidationException>()
   const factory UnitIntervalFailure.smallerThanZeroException(
-      [@Default('Exception') String message,
-      CaughtException? cause]) = SmallerThanZeroException;
+      [@Default('ValidationException') String message]) = SmallerThanZeroException;
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/data_run/screens/form/fields_widgets/q_field.model.dart';
+import 'package:mass_pro/data_run/screens/form/form_state/q_field.model.dart';
 import 'package:mass_pro/form/ui/intent/form_intent.dart';
 
 class FormInputFieldWidget extends ConsumerWidget {

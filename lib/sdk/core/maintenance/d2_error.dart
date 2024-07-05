@@ -1,4 +1,4 @@
-import 'package:mass_pro/sdk/core/common/exception/exception.dart';
+import 'package:mass_pro/sdk/core/common/exception/validation_exception.dart';
 import 'package:mass_pro/sdk/core/maintenance/d2_error_code.dart';
 import 'package:mass_pro/sdk/core/maintenance/d2_error_component.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

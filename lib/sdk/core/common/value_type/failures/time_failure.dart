@@ -1,13 +1,12 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../exception/exception.dart';
+import '../../exception/validation_exception.dart';
 
 part 'time_failure.freezed.dart';
 
 @freezed
-class TimeFailure with _$TimeFailure implements ThrowableException {
-  @Implements<ThrowableException>()
+class TimeFailure with _$TimeFailure implements ValidationException {
+  @Implements<ValidationException>()
   const factory TimeFailure.parseException(
-      [@Default('Exception') String message,
-      CaughtException? cause]) = ParseException;
+      [@Default('ValidationException') String message]) = ParseException;
 }

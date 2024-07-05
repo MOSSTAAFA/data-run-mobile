@@ -1,13 +1,12 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../exception/exception.dart';
+import 'package:mass_pro/sdk/core/common/exception/validation_exception.dart';
 
 part 'date_failure.freezed.dart';
 
 @freezed
-class DateFailure with _$DateFailure implements ThrowableException {
-  @Implements<ThrowableException>()
+class DateFailure with _$DateFailure implements ValidationException {
+  @Implements<ValidationException>()
   const factory DateFailure.parseException(
-      [@Default('Exception') String message,
-      CaughtException? cause]) = ParseException;
+      [@Default('ValidationException') String message]) = ParseException;
 }

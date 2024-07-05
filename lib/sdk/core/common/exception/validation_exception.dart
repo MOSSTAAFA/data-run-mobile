@@ -2,12 +2,18 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+class ValidationException implements Exception {
+  ValidationException(this.message);
+
+  final String message;
+}
+
 /// An exception that occurred during the analysis of one or more sources.
 class ThrowableException implements Exception {
-
   /// Initialize a newly created exception to have the given [message] and
   /// [cause].
   ThrowableException([this.message = 'Exception', this.cause]);
+
   /// The message that explains why the exception occurred.
   final String message;
 
@@ -33,7 +39,6 @@ class ThrowableException implements Exception {
 
 /// An exception that was caught and has an associated stack trace.
 class CaughtException implements Exception {
-
   /// Initialize a newly created caught exception to have the given [exception]
   /// and [stackTrace].
   CaughtException(Object exception, StackTrace? stackTrace)
@@ -42,6 +47,7 @@ class CaughtException implements Exception {
   /// Initialize a newly created caught exception to have the given [exception],
   /// [stackTrace], and [message].
   CaughtException.withMessage(this.message, this.exception, this.stackTrace);
+
   /// The exception that was caught.
   final Object exception;
 

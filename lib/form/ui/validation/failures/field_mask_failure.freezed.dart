@@ -160,6 +160,11 @@ class _$WrongPatternExceptionImpl extends WrongPatternException {
   final CaughtException? cause;
 
   @override
+  String toString() {
+    return 'FieldMaskFailure.wrongPatternException(message: $message, cause: $cause)';
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -317,6 +322,11 @@ class _$InvalidPatternExceptionImpl extends InvalidPatternException {
   final String message;
   @override
   final CaughtException? cause;
+
+  @override
+  String toString() {
+    return 'FieldMaskFailure.invalidPatternException(message: $message, cause: $cause)';
+  }
 
   @override
   bool operator ==(Object other) {

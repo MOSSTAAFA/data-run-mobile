@@ -1,6 +1,6 @@
 import 'package:mass_pro/data_run/engine/rule_handler/expression_evaluator_util.dart';
 import 'package:mass_pro/data_run/engine/rule_handler/field_rule_handler.dart';
-import 'package:mass_pro/data_run/screens/form/fields_widgets/q_field.model.dart';
+import 'package:mass_pro/data_run/screens/form/form_state/q_field.model.dart';
 
 class WarningRuleHandler extends FormRuleHandler {
   FormRuleHandler? nextHandler;
@@ -14,7 +14,7 @@ class WarningRuleHandler extends FormRuleHandler {
         if (rule.action == 'warning') {
           if (_expressionEvaluatorUtil.evaluate(rule.expression!, allFields)) {
             // Apply the warning logic
-            field = field.copyWith(warning: 'Warning message');
+            field = field.setWarning('Warning message');
           }
         }
       }

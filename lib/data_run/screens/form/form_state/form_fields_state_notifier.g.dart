@@ -29,28 +29,16 @@ class _SystemHash {
   }
 }
 
-/// using riverpod generation this will generate the [indexedFieldInputProvider]
-/// watched in [FormFieldWidget] widget
-///
-/// Copied from [indexedFieldInput].
+/// See also [indexedFieldInput].
 @ProviderFor(indexedFieldInput)
 const indexedFieldInputProvider = IndexedFieldInputFamily();
 
-/// using riverpod generation this will generate the [indexedFieldInputProvider]
-/// watched in [FormFieldWidget] widget
-///
-/// Copied from [indexedFieldInput].
+/// See also [indexedFieldInput].
 class IndexedFieldInputFamily extends Family<AsyncValue<QFieldModel>> {
-  /// using riverpod generation this will generate the [indexedFieldInputProvider]
-  /// watched in [FormFieldWidget] widget
-  ///
-  /// Copied from [indexedFieldInput].
+  /// See also [indexedFieldInput].
   const IndexedFieldInputFamily();
 
-  /// using riverpod generation this will generate the [indexedFieldInputProvider]
-  /// watched in [FormFieldWidget] widget
-  ///
-  /// Copied from [indexedFieldInput].
+  /// See also [indexedFieldInput].
   IndexedFieldInputProvider call(
     String key,
   ) {
@@ -83,15 +71,9 @@ class IndexedFieldInputFamily extends Family<AsyncValue<QFieldModel>> {
   String? get name => r'indexedFieldInputProvider';
 }
 
-/// using riverpod generation this will generate the [indexedFieldInputProvider]
-/// watched in [FormFieldWidget] widget
-///
-/// Copied from [indexedFieldInput].
+/// See also [indexedFieldInput].
 class IndexedFieldInputProvider extends AutoDisposeFutureProvider<QFieldModel> {
-  /// using riverpod generation this will generate the [indexedFieldInputProvider]
-  /// watched in [FormFieldWidget] widget
-  ///
-  /// Copied from [indexedFieldInput].
+  /// See also [indexedFieldInput].
   IndexedFieldInputProvider(
     String key,
   ) : this._internal(
@@ -175,12 +157,9 @@ class _IndexedFieldInputProviderElement
 }
 
 String _$formFieldsStateNotifierHash() =>
-    r'c6667233f160dfb3102f77160f04d89f54b8766a';
+    r'bca4db5c2ffcf9bc9e6245ad64b5b00c879b9517';
 
-/// using riverpod generation this will generate the [formStateNotifierProvider]
-/// watched in [FormScreenScaffoldState] widget
-///
-/// Copied from [FormFieldsStateNotifier].
+/// See also [FormFieldsStateNotifier].
 @ProviderFor(FormFieldsStateNotifier)
 final formFieldsStateNotifierProvider = AutoDisposeAsyncNotifierProvider<
     FormFieldsStateNotifier, IMap<String, QFieldModel>>.internal(

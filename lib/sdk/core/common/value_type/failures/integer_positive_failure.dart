@@ -1,35 +1,30 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../exception/exception.dart';
+import '../../exception/validation_exception.dart';
 
 part 'integer_positive_failure.freezed.dart';
 
 @freezed
 class IntegerPositiveFailure
     with _$IntegerPositiveFailure
-    implements ThrowableException {
-  @Implements<ThrowableException>()
+    implements ValidationException {
+  @Implements<ValidationException>()
   const factory IntegerPositiveFailure.numberFormatException(
-      [@Default('Exception') String message,
-      CaughtException? cause]) = NumberFormatException;
+      [@Default('ValidationException') String message]) = NumberFormatException;
 
-  @Implements<ThrowableException>()
+  @Implements<ValidationException>()
   const factory IntegerPositiveFailure.integerOverflow(
-      [@Default('Exception') String message,
-      CaughtException? cause]) = IntegerOverflow;
+      [@Default('ValidationException') String message]) = IntegerOverflow;
 
-  @Implements<ThrowableException>()
+  @Implements<ValidationException>()
   const factory IntegerPositiveFailure.valueIsZero(
-      [@Default('Exception') String message,
-      CaughtException? cause]) = ValueIsZero;
+      [@Default('ValidationException') String message]) = ValueIsZero;
 
-  @Implements<ThrowableException>()
+  @Implements<ValidationException>()
   const factory IntegerPositiveFailure.valueIsNegative(
-      [@Default('Exception') String message,
-      CaughtException? cause]) = ValueIsNegative;
+      [@Default('ValidationException') String message]) = ValueIsNegative;
 
-  @Implements<ThrowableException>()
+  @Implements<ValidationException>()
   const factory IntegerPositiveFailure.leadingZeroException(
-      [@Default('Exception') String message,
-      CaughtException? cause]) = LeadingZeroException;
+      [@Default('ValidationException') String message]) = LeadingZeroException;
 }

@@ -1,23 +1,20 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../exception/exception.dart';
+import '../../exception/validation_exception.dart';
 
 part 'percentage_failure.freezed.dart';
 
 @freezed
-class PercentageFailure with _$PercentageFailure implements ThrowableException {
-  @Implements<ThrowableException>()
+class PercentageFailure with _$PercentageFailure implements ValidationException {
+  @Implements<ValidationException>()
   const factory PercentageFailure.numberFormatException(
-      [@Default('Exception') String message,
-      CaughtException? cause]) = NumberFormatException;
+      [@Default('ValidationException') String message]) = NumberFormatException;
 
-  @Implements<ThrowableException>()
+  @Implements<ValidationException>()
   const factory PercentageFailure.valueGreaterThan100(
-      [@Default('Exception') String message,
-      CaughtException? cause]) = ValueGreaterThan100;
+      [@Default('ValidationException') String message]) = ValueGreaterThan100;
 
-  @Implements<ThrowableException>()
+  @Implements<ValidationException>()
   const factory PercentageFailure.valueIsNegative(
-      [@Default('Exception') String message,
-      CaughtException? cause]) = ValueIsNegative;
+      [@Default('ValidationException') String message]) = ValueIsNegative;
 }

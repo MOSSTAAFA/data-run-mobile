@@ -1,6 +1,5 @@
+import 'package:mass_pro/sdk/core/common/exception/validation_exception.dart';
 import 'package:mass_pro/sdk/core/common/value_type/validators/validators.dart';
-
-import 'exception/exception.dart';
 
 enum ValueType {
   Text(TextValidator()),
@@ -37,12 +36,17 @@ enum ValueType {
 
   const ValueType(this._validator);
 
-  final ValueTypeValidator<ThrowableException> _validator;
+  final ValueTypeValidator<ValidationException> _validator;
 
-  ValueTypeValidator<ThrowableException> get validator => _validator;
+  ValueTypeValidator<ValidationException> get validator => _validator;
 
-  static List<ValueType> get INTEGER_TYPES =>
-      [Integer, IntegerPositive, IntegerNegative, IntegerZeroOrPositive];
+  static List<ValueType> get INTEGER_TYPES => [
+        Integer,
+        Number,
+        IntegerPositive,
+        IntegerNegative,
+        IntegerZeroOrPositive
+      ];
 
   static List<ValueType> get NUMERIC_TYPES => [
         Integer,
@@ -146,7 +150,7 @@ enum ValueType {
         return ValueType.GeoJson;
       default:
         return ValueType.Unknown;
-        // throw ArgumentError('Invalid value type: $valueType');
+      // throw ArgumentError('Invalid value type: $valueType');
     }
   }
 }

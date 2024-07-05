@@ -1,8 +1,8 @@
 {
   "appTitle": "NMCP Yemen",
-  "yes": "yes",
-  "no": "no",
-  "save": "save",
+  "yes": "نعم",
+  "no": "لا",
+  "save": "حفظ",
   "edit": "Edit",
   "accept": "Accept",
   "clear": "Clear",

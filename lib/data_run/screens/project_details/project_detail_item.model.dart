@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:mass_pro/commons/ui/metadata_icon_data.dart';
 import 'package:mass_pro/core/common/state.dart';
-import 'package:mass_pro/data_run/screens/form/fields_widgets/q_field.model.dart';
+import 'package:mass_pro/data_run/screens/form/form_state/q_field.model.dart';
 
 class FormListItemModel with EquatableMixin {
   FormListItemModel(
@@ -66,7 +66,7 @@ class FormListItemModel with EquatableMixin {
         entitiesSynced: entitiesSynced ?? this.entitiesSynced,
         entitiesWithError: entitiesWithError ?? this.entitiesWithError,
         canAddNewEvent: canAddNewEvent ?? this.canAddNewEvent,
-        fields: IList.orNull(fields),
+        fields: IList.orNull(fields) ?? this.fields,
         state: state ?? this.state,
       );
 
@@ -124,7 +124,7 @@ class ProjectDetailItemModel with EquatableMixin {
           bool? valueListIsOpen,
           MetadataIconData? metadataIconData,
           String? description,
-          SyncableEntityState? state}) =>
+          SyncableEntityState? syncablesState}) =>
       ProjectDetailItemModel(
           activity: activity ?? this.activity,
           activityName: activityName ?? this.activityName,

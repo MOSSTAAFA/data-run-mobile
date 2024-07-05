@@ -1,23 +1,20 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../exception/exception.dart';
+import '../../exception/validation_exception.dart';
 
 part 'true_only_failure.freezed.dart';
 
 @freezed
-class TrueOnlyFailure with _$TrueOnlyFailure implements ThrowableException {
-  @Implements<ThrowableException>()
+class TrueOnlyFailure with _$TrueOnlyFailure implements ValidationException {
+  @Implements<ValidationException>()
   const factory TrueOnlyFailure.oneIsNotTrueException(
-      [@Default('Exception') String message,
-      CaughtException? cause]) = OneIsNotTrueException;
+      [@Default('ValidationException') String message]) = OneIsNotTrueException;
 
-  @Implements<ThrowableException>()
+  @Implements<ValidationException>()
   const factory TrueOnlyFailure.falseIsNotAValidValueException(
-      [@Default('Exception') String message,
-      CaughtException? cause]) = FalseIsNotAValidValueException;
+      [@Default('ValidationException') String message]) = FalseIsNotAValidValueException;
 
-  @Implements<ThrowableException>()
+  @Implements<ValidationException>()
   const factory TrueOnlyFailure.booleanMalformedException(
-      [@Default('Exception') String message,
-      CaughtException? cause]) = BooleanMalformedException;
+      [@Default('ValidationException') String message]) = BooleanMalformedException;
 }

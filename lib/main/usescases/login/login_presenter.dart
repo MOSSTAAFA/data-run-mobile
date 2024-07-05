@@ -1,5 +1,5 @@
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen.widget.dart';
-import 'package:mass_pro/sdk/core/common/exception/exception.dart';
+import 'package:mass_pro/sdk/core/common/exception/validation_exception.dart';
 import 'package:mass_pro/sdk/core/maintenance/d2_error.dart';
 import 'package:mass_pro/sdk/core/maintenance/d2_error_code.dart';
 import 'package:d2_remote/modules/auth/user/models/login-response.model.dart';

@@ -21,7 +21,7 @@ class DisplayNameProvider {
             .orgUnitByUid(value)
             .then((orgUnit) => orgUnit?.displayName ?? orgUnit?.name ?? value);
       default:
+        return value;
     }
-    return value;
   }
 }

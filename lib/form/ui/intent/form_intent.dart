@@ -1,5 +1,5 @@
-import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:mass_pro/sdk/core/common/value_type.dart';
 
 part 'form_intent.freezed.dart';
 
@@ -8,12 +8,8 @@ class FormIntent with _$FormIntent {
   // NMC
   const factory FormIntent.init() = Init;
 
-  /// Similar to on save() called on the form state
-  /// clear all form's fields' values
-  /// Invoked when the form's GlobalKey's currentState.save() method is called.
-  /// Ideal for capturing data from the field for further processing or storage (e.g., sending to a server, saving to local storage).
-  /// Doesn't trigger any immediate UI changes or validation.
-  const factory FormIntent.onFinish([String? extraData]) = OnFinish;
+  const factory FormIntent.onFinish(
+      [Map<String, dynamic>? formData, String? extraData]) = OnFinish;
 
   /// clear all form's fields' values
   const factory FormIntent.onClear([String? extraData]) = OnClear;
@@ -51,8 +47,11 @@ class FormIntent with _$FormIntent {
       ValueType? valueType,
       String? fieldMask}) = OnSave;
 
-  const factory FormIntent.onTextChange(String uid, String? value) =
-      OnTextChange;
+  const factory FormIntent.onTextChange(
+      {required String uid,
+      String? value,
+      ValueType? valueType,
+      String? fieldMask}) = OnTextChange;
 
   /// Clear single field value
   const factory FormIntent.clearValue(String uid) = ClearValue;

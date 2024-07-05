@@ -1,23 +1,20 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../exception/exception.dart';
+import '../../exception/validation_exception.dart';
 
 part 'uid_failure.freezed.dart';
 
 @freezed
-class UidFailure with _$UidFailure implements ThrowableException {
-  @Implements<ThrowableException>()
+class UidFailure with _$UidFailure implements ValidationException {
+  @Implements<ValidationException>()
   const factory UidFailure.moreThanElevenCharsException(
-      [@Default('Exception') String message,
-      CaughtException? cause]) = MoreThanElevenCharsException;
+      [@Default('ValidationException') String message]) = MoreThanElevenCharsException;
 
-  @Implements<ThrowableException>()
+  @Implements<ValidationException>()
   const factory UidFailure.lessThanElevenCharsException(
-      [@Default('Exception') String message,
-      CaughtException? cause]) = LessThanElevenCharsException;
+      [@Default('ValidationException') String message]) = LessThanElevenCharsException;
 
-  @Implements<ThrowableException>()
+  @Implements<ValidationException>()
   const factory UidFailure.malformedUidException(
-      [@Default('Exception') String message,
-      CaughtException? cause]) = MalformedUidException;
+      [@Default('ValidationException') String message]) = MalformedUidException;
 }

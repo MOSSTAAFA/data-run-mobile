@@ -1,46 +1,34 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:mass_pro/commons/extensions/standard_extensions.dart';
-import 'package:mass_pro/commons/extensions/string_extension.dart';
 import 'package:mass_pro/commons/helpers/collections.dart';
 import 'package:mass_pro/commons/logging/logging.dart';
 import 'package:mass_pro/data_run/form/form_fields_repository.dart';
-import 'package:mass_pro/data_run/screens/form/fields_widgets/q_field.model.dart';
+import 'package:mass_pro/data_run/screens/form/form_state/q_field.model.dart';
 import 'package:mass_pro/form/model/action_type.dart';
 import 'package:mass_pro/form/model/row_action.dart';
 import 'package:mass_pro/form/model/store_result.dart';
 import 'package:mass_pro/form/model/value_store_result.dart';
 import 'package:mass_pro/form/ui/intent/form_intent.dart';
-import 'package:mass_pro/form/ui/validation/validators/field_mask_validator.dart';
 import 'package:mass_pro/form/ui/view_model/form_pending_intents.dart';
-import 'package:mass_pro/sdk/core/common/exception/exception.dart';
+import 'package:mass_pro/sdk/core/common/exception/validation_exception.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:mass_pro/sdk/core/mp/helpers/result.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'form_fields_state_notifier.g.dart';
 
-// @riverpod
-// Future<int> formStateLength(FormStateLengthRef ref) {
-//   return ref
-//       .watch(formStateNotifierProvider.selectAsync((list) => list.length));
-// }
-
-/// using riverpod generation this will generate the [indexedFieldInputProvider]
-/// watched in [FormFieldWidget] widget
 @riverpod
 Future<QFieldModel> indexedFieldInput(IndexedFieldInputRef ref, String key) {
-  final Future<QFieldModel> indexedFieldModel =
-      ref.watch(formFieldsStateNotifierProvider.selectAsync((list) => list[key]!));
+  final Future<QFieldModel> indexedFieldModel = ref
+      .watch(formFieldsStateNotifierProvider.selectAsync((list) => list[key]!));
   return indexedFieldModel;
 }
 
-/// using riverpod generation this will generate the [formStateNotifierProvider]
-/// watched in [FormScreenScaffoldState] widget
 @riverpod
 class FormFieldsStateNotifier extends _$FormFieldsStateNotifier {
   @override
   Future<IMap<String, QFieldModel>> build() async {
-    final repository = ref.watch(formFieldsRepositoryProvider);
+    final FormFieldsRepository repository = getFormRepository();
     ref.listen<FormIntent>(formPendingIntentsProvider, (previous, next) {
       logInfo(info: next.toString());
       _createRowActionStore(next)
@@ -54,17 +42,21 @@ class FormFieldsStateNotifier extends _$FormFieldsStateNotifier {
     return fieldMap;
   }
 
+  FormFieldsRepository getFormRepository() {
+    return ref.watch(formFieldsRepositoryProvider).requireValue;
+  }
+
   /// whenever called it updates the state with the updated list of fields
   /// usually on whole the list only some field are updated such as from
   /// isVisible = true to isVisible = false for some field after running the
   /// ruleEngine
   Future<void> processCalculatedItems() async {
     /// the repository will return the new updated list
-    final repository = ref.read(formFieldsRepositoryProvider);
+    final repository = getFormRepository();
 
     /// updating the state
-    state = const AsyncLoading();
-    state = await AsyncValue.guard(repository.composeFieldsMap);
+    state = await AsyncValue.guard(
+        () => Future.value(repository.composeFieldsMap()));
   }
 
   /// This method is the entry point that does the whole thing
@@ -79,6 +71,7 @@ class FormFieldsStateNotifier extends _$FormFieldsStateNotifier {
     final RowAction? rowAction = _rowActionFromIntent(intent);
 
     if (rowAction?.type == ActionType.ON_FOCUS) {
+      final jj = 1;
       // TODO Notify the form focus
     } else if (rowAction?.type == ActionType.ON_SAVE) {
       /// (rowAction?.type == ActionType.ON_SAVE) when
@@ -118,34 +111,8 @@ class FormFieldsStateNotifier extends _$FormFieldsStateNotifier {
   /// _repository.updateErrorList, so on runDataIntegrity we get
   /// notified about those validation errors
   Future<StoreResult> _processUserAction(RowAction? action) async {
-    final repository = ref.read(formFieldsRepositoryProvider);
+    final repository = getFormRepository();
     switch (action?.type) {
-      /// upon returning, need to processCalculatedItems() and update state
-      case ActionType.ON_SAVE:
-        // TODO
-        // if (action.valueType == ValueType.Coordinate) {
-        //   repository.setFieldRequestingCoordinates(action.id, false);
-        // }
-        repository.updateErrorList(action);
-
-        /// if field has error, if not save and value changed
-        ///
-        if (action!.error != null) {
-          /// won't update the state
-          return StoreResult(
-              uid: action.id,
-              valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);
-        } else {
-          final StoreResult? saveResult =
-              await repository.save(action.id, action.value, action.extraData);
-          await repository.updateValueOnList(
-              action.id, action.value, action.valueType);
-          return saveResult ??
-              StoreResult(
-                  uid: action.id,
-                  valueStoreResult: ValueStoreResult.VALUE_CHANGED);
-        }
-
       /// loading, save data, validate and store result of validation on errorsMap,
       /// so when we want to run integrity check it give us the errors, but it still
       /// has saved the data into the database. it will only
@@ -154,22 +121,37 @@ class FormFieldsStateNotifier extends _$FormFieldsStateNotifier {
       /// validate it for errors, when it has error in its entered item
       /// it will repository.updateErrorList, so on runDataIntegrity we get
       /// notified about those validation errors
-      case ActionType.ON_FOCUS:
-      case ActionType.ON_NEXT:
-        final StoreResult storeResult = await _saveLastFocusedItem(action!);
-        repository.setFocusedItem(action);
-        return storeResult;
+      /// upon returning, need to processCalculatedItems() and update state
+      case ActionType.ON_SAVE:
+        // TODO ValueType.Coordinate then setFieldRequestingCoordinates
+        repository.updateErrorList(action);
+
+        /// if field has error, do not update the finalized list for fields
+        ///
+        if (action!.hasError) {
+          return StoreResult(
+              uid: action.id,
+              valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);
+        } else {
+          await repository.updateValueOnList(
+              action.id, action.value, action.valueType);
+          return StoreResult(
+              uid: action.id, valueStoreResult: ValueStoreResult.VALUE_CHANGED);
+        }
 
       case ActionType.ON_TEXT_CHANGE:
+        if (action!.hasError) {
+          return StoreResult(
+              uid: action.id,
+              valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);
+        }
         await repository.updateValueOnList(
-            action!.id, action.value, action.valueType);
+            action.id, action.value, action.valueType);
         return StoreResult(
             uid: action.id, valueStoreResult: ValueStoreResult.TEXT_CHANGING);
 
-      /// upon returning, need to processCalculatedItems() and update state
       case ActionType.ON_SECTION_CHANGE:
-        // TODO
-        // repository.updateSectionOpened(action);
+        // TODO repository.updateSectionOpened(action);
         return StoreResult(
             uid: action!.id,
             valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);
@@ -180,17 +162,12 @@ class FormFieldsStateNotifier extends _$FormFieldsStateNotifier {
         return StoreResult(
             uid: action!.id, valueStoreResult: ValueStoreResult.VALUE_CHANGED);
 
-      /// upon returning, need to processCalculatedItems() and update state
       case ActionType.ON_FINISH:
-        repository.setFocusedItem(action!);
-
-        /// new Add
-        await repository.saveFormData();
+        repository.batchUpdateValues(action!.formData);
 
         return const StoreResult(
             uid: '', valueStoreResult: ValueStoreResult.FINISH);
 
-      /// upon returning, need to processCalculatedItems() and update state
       case ActionType.ON_REQUEST_COORDINATES:
         // TODO repository.setFieldRequestingCoordinates(action.id, true);
 
@@ -198,102 +175,25 @@ class FormFieldsStateNotifier extends _$FormFieldsStateNotifier {
             uid: action!.id,
             valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);
 
-      /// upon returning, need to processCalculatedItems() and update state
       case ActionType.ON_CANCELL_REQUEST_COORDINATES:
         // TODO repository.setFieldRequestingCoordinates(action.id, false);
 
         return StoreResult(
             uid: action!.id,
             valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);
+
       default:
-
-        /// upon returning, need to processCalculatedItems() and update state
         return StoreResult(
-            uid: action!.id,
+            uid: 'action!.id',
             valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);
     }
   }
 
-  /// upon returning, need to processCalculatedItems() and update state
-  /// loading, save data, validate and store result of validation on errorsMap,
-  /// so when we want to run integrity check it give us the errors, but it still
-  /// has saved the data into the database. it will only
-  ///
-  /// When change focus, if last LastFocusedTextItem is not null,
-  /// validate it for errors, when it has error in its entered item
-  /// it will _repository.updateErrorList, so on runDataIntegrity we get
-  /// notified about those validation errors
-  Future<StoreResult> _saveLastFocusedItem(RowAction rowAction) async {
-    final repository = ref.read(formFieldsRepositoryProvider);
-    final QFieldModel? field = _getLastFocusedTextItem();
-    if (field != null) {
-      final Exception? error =
-          _checkFieldError(field.valueType, field.value, field.fieldMask);
-      if (error != null) {
-        final RowAction? action = _rowActionFromIntent(FormIntent.onSave(
-            uid: field.uid,
-            value: field.value,
-            valueType: field.valueType,
-            fieldMask: field.fieldMask));
-        repository.updateErrorList(action);
-
-        /// upon returning, need to processCalculatedItems() and update state
-        return StoreResult(
-            uid: rowAction.id,
-            valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);
-      } else {
-        // _getSaveIntent
-        final FormIntent intent = FormIntent.onSave(
-            uid: field.uid,
-            value: field.value,
-            valueType: field.valueType,
-            fieldMask: field.fieldMask);
-        final RowAction? action = _rowActionFromIntent(intent);
-        final StoreResult? result =
-            await repository.save(field.uid, field.value, action?.extraData);
-        await repository.updateValueOnList(
-            field.uid, field.value, field.valueType);
-        repository.updateErrorList(action);
-        if (result != null) {
-          return result;
-        }
-      }
-    }
-
-    /// upon returning, need to processCalculatedItems() and update state
-    return StoreResult(
-        uid: rowAction.id,
-        valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);
-  }
-
-  /// This method doesn't make any save to the database
-  /// it runs value type validators and store the result in **[RowAction.error]**
-  /// and determines the action type from the passed **[FormIntent]**.
-  ///
-  /// Intents that will result in an action of Type **[ActionType.ON_SAVE]**
-  /// which will trigger a save for the field in the database are:
-  ///
-  /// **[FormIntent.clearValue(uid)]**, and **[FormIntent.onSave(uid: uid)]**,
-  /// the remaining intents will return an **ActionType** with the same name:
-  ///
-  /// **[FormIntent.onClear()]**` => will clear uid and value and set type to [ActionType.ON_CLEAR].
-  ///
-  /// **[FormIntent.clearValue(uid)]**` => will clear value and set type to [ActionType.ON_CLEAR].
-  ///
-  /// **[FormIntent.onNext(uid: uid)]** => will type set to [ActionType.ON_NEXT].
-  ///
-  /// **[FormIntent.onFocus(uid, value)]** => [ActionType.ON_FOCUS].
-  ///
-  /// **[FormIntent.onTextChange(uid, value)]** => [ActionType.ON_TEXT_CHANGE].
-  ///
-  /// **[FormIntent.onFinish()]** => [ActionType.ON_FINISH].
-  ///
-  /// ...
-  ///
   RowAction? _rowActionFromIntent(FormIntent intent) {
     return intent.mapOrNull(
         onClear: (OnClear intent) => _createRowAction(
             uid: '', value: null, actionType: ActionType.ON_CLEAR),
+        // OnSave
         clearValue: (ClearValue intent) =>
             _createRowAction(uid: intent.uid, value: null),
         onNext: (OnNext intent) => _createRowAction(
@@ -314,31 +214,40 @@ class FormFieldsStateNotifier extends _$FormFieldsStateNotifier {
             uid: intent.uid,
             value: intent.value,
             actionType: ActionType.ON_FOCUS),
-        onTextChange: (OnTextChange intent) => _createRowAction(
-            uid: intent.uid,
-            value: intent.value,
-            actionType: ActionType.ON_TEXT_CHANGE,
-            valueType: ValueType.Text),
+        onTextChange: (OnTextChange intent) {
+          /// validate against valueType defined validators
+          final Exception? error = _checkFieldError(
+              intent.valueType, intent.value, intent.fieldMask);
+          return _createRowAction(
+              uid: intent.uid,
+              value: intent.value,
+              error: error,
+              actionType: ActionType.ON_TEXT_CHANGE,
+              valueType: ValueType.Text);
+        },
         onSection: (OnSection intent) => _createRowAction(
             uid: intent.sectionUid,
             value: null,
             actionType: ActionType.ON_SECTION_CHANGE),
         onFinish: (OnFinish intent) => _createRowAction(
-            uid: '', value: null, actionType: ActionType.ON_FINISH),
-        init: (Init intent) => _createRowAction(
-            uid: '', value: null, actionType: ActionType.ON_INIT));
+            uid: '',
+            value: null,
+            formData: intent.formData,
+            actionType: ActionType.ON_FINISH));
   }
 
   /// _createRowAction Global to this file function
   RowAction _createRowAction(
           {required String uid,
           String? value,
+          Map<String, dynamic>? formData,
           String? extraData,
           Exception? error,
           ActionType actionType = ActionType.ON_SAVE,
           ValueType? valueType}) =>
       RowAction(
           id: uid,
+          formData: formData,
           value: value,
           extraData: extraData,
           error: error,
@@ -346,9 +255,10 @@ class FormFieldsStateNotifier extends _$FormFieldsStateNotifier {
           valueType: valueType);
 
   QFieldModel? _getLastFocusedTextItem() {
-    final repository = ref.read(formFieldsRepositoryProvider);
-    final currentFocusedItem = repository.currentFocusedItem()?.takeIf(
-        (QFieldModel item) =>
+    final repository = getFormRepository();
+    final QFieldModel? currentFocusedItem = repository
+        .currentFocusedItem()
+        ?.takeIf((QFieldModel item) =>
             item.valueType?.let(
                 (ValueType valueType) => valueTypeIsTextField(valueType)) ??
             false);
@@ -362,32 +272,38 @@ class FormFieldsStateNotifier extends _$FormFieldsStateNotifier {
         valueType == ValueType.PhoneNumber;
   }
 
-  ThrowableException? _checkFieldError(
+  ValidationException? _checkFieldError(
       ValueType? valueType, String? fieldValue, String? fieldMask) {
-    if (fieldValue.isNullOrEmpty) {
-      return null;
+    if ((fieldValue ?? '').isNotEmpty) {
+      final Result<String, ValidationException>? result =
+          valueType?.validator.validate(fieldValue!);
+
+      final errorOrNull =
+          result?.fold((failure) => failure, (String success) => null);
+
+      return errorOrNull;
     }
 
-    /// for debugging or directly return it
-    final ThrowableException? checkResult = fieldValue!.let((String value) {
-      ThrowableException? error;
-      final Result<String, ThrowableException>? result = valueType
-          ?.takeIf((ValueType item) => item != ValueType.Image)
-          ?.validator
-          .validate(value);
-      error = result?.fold(
-          (ThrowableException failure) => failure, (String success) => null);
-
-      fieldMask?.let((String mask) {
-        final Result<String, ThrowableException> result =
-            FieldMaskValidator(mask).validate(value);
-        error = result.fold(
-            (ThrowableException failure) => failure, (String success) => error);
-      });
-      return error;
-    });
-
-    return checkResult;
+    return null;
+    // /// for debugging or directly return it
+    // final ValidationException? checkResult = fieldValue!.let((String value) {
+    //   ValidationException? error;
+    //
+    //   final Result<String, ValidationException>? result = valueType
+    //       ?.takeIf((ValueType item) => item != ValueType.Image)
+    //       ?.validator
+    //       .validate(value);
+    //
+    //   /// if result is failure return it or null otherwise.
+    //   if(result?.isFailure ?? false){
+    //
+    //   }
+    //   error = result?.fold((failure) => failure, (String success) => null);
+    //
+    //   return error;
+    // });
+    //
+    // return checkResult;
   }
 
   /// called when:
@@ -452,6 +368,7 @@ class FormFieldsStateNotifier extends _$FormFieldsStateNotifier {
         processCalculatedItems();
         break;
       case ValueStoreResult.TEXT_CHANGING:
+        processCalculatedItems();
         break;
       case ValueStoreResult.FINISH:
         processCalculatedItems();

@@ -1,6 +1,6 @@
 import 'package:dartlin/control_flow.dart';
 import 'package:mass_pro/main/l10n/app_localizations.dart';
-import 'package:mass_pro/sdk/core/common/exception/exception.dart';
+import 'package:mass_pro/sdk/core/common/exception/validation_exception.dart';
 import 'package:mass_pro/sdk/core/maintenance/d2_error.dart';
 import 'package:mass_pro/sdk/core/maintenance/d2_error_code.dart';
 import 'package:mass_pro/utils/navigator_key.dart';

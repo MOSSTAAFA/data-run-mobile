@@ -45,7 +45,7 @@ Future<void> main() async {
     observers: [
       ProviderLogger(
           providersNameToLog: const IListConst(const [
-        /*'formViewModelNotifierProvider', 'formViewIndexProvider'*/
+        'formFieldsRepositoryProvider'
       ]))
     ],
 

@@ -210,7 +210,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "newChvStockMovement":
             MessageLookupByLibrary.simpleMessage("New Stock Movement"),
         "newUser": MessageLookupByLibrary.simpleMessage("New user"),
-        "no": MessageLookupByLibrary.simpleMessage("no"),
+        "no": MessageLookupByLibrary.simpleMessage("لا"),
         "noRecordSelected":
             MessageLookupByLibrary.simpleMessage("No record selected"),
         "none": MessageLookupByLibrary.simpleMessage("none"),
@@ -274,7 +274,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "reset": MessageLookupByLibrary.simpleMessage("reset"),
         "restore": MessageLookupByLibrary.simpleMessage("Restore"),
         "reviewApp": MessageLookupByLibrary.simpleMessage("reviewApp"),
-        "save": MessageLookupByLibrary.simpleMessage("save"),
+        "save": MessageLookupByLibrary.simpleMessage("حفظ"),
         "savedSettings": MessageLookupByLibrary.simpleMessage("savedSettings"),
         "searchChvMalariaCases":
             MessageLookupByLibrary.simpleMessage("Search Malaria Cases"),
@@ -353,7 +353,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "warning": MessageLookupByLibrary.simpleMessage("warning"),
         "whyAreYouLeaving":
             MessageLookupByLibrary.simpleMessage("Why are you leaving?"),
-        "yes": MessageLookupByLibrary.simpleMessage("yes"),
+        "yes": MessageLookupByLibrary.simpleMessage("نعم"),
         "yourMessageHasBeenReceived":
             MessageLookupByLibrary.simpleMessage("yourMessageHasBeenReceived")
       };

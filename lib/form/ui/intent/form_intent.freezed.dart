@@ -19,14 +19,17 @@ mixin _$FormIntent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function(String? extraData) onFinish,
+    required TResult Function(Map<String, dynamic>? formData, String? extraData)
+        onFinish,
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
     required TResult Function(String uid, String? value, int? position) onNext,
     required TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)
         onSave,
-    required TResult Function(String uid, String? value) onTextChange,
+    required TResult Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)
+        onTextChange,
     required TResult Function(String uid) clearValue,
     required TResult Function(String uid, String? coordinates, String extraData)
         selectLocationFromCoordinates,
@@ -43,14 +46,17 @@ mixin _$FormIntent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
-    TResult? Function(String? extraData)? onFinish,
+    TResult? Function(Map<String, dynamic>? formData, String? extraData)?
+        onFinish,
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
     TResult? Function(String uid, String? value, int? position)? onNext,
     TResult? Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
         onSave,
-    TResult? Function(String uid, String? value)? onTextChange,
+    TResult? Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)?
+        onTextChange,
     TResult? Function(String uid)? clearValue,
     TResult? Function(String uid, String? coordinates, String extraData)?
         selectLocationFromCoordinates,
@@ -66,14 +72,17 @@ mixin _$FormIntent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function(String? extraData)? onFinish,
+    TResult Function(Map<String, dynamic>? formData, String? extraData)?
+        onFinish,
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
     TResult Function(String uid, String? value, int? position)? onNext,
     TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
         onSave,
-    TResult Function(String uid, String? value)? onTextChange,
+    TResult Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)?
+        onTextChange,
     TResult Function(String uid)? clearValue,
     TResult Function(String uid, String? coordinates, String extraData)?
         selectLocationFromCoordinates,
@@ -207,14 +216,17 @@ class _$InitImpl extends Init {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function(String? extraData) onFinish,
+    required TResult Function(Map<String, dynamic>? formData, String? extraData)
+        onFinish,
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
     required TResult Function(String uid, String? value, int? position) onNext,
     required TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)
         onSave,
-    required TResult Function(String uid, String? value) onTextChange,
+    required TResult Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)
+        onTextChange,
     required TResult Function(String uid) clearValue,
     required TResult Function(String uid, String? coordinates, String extraData)
         selectLocationFromCoordinates,
@@ -234,14 +246,17 @@ class _$InitImpl extends Init {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
-    TResult? Function(String? extraData)? onFinish,
+    TResult? Function(Map<String, dynamic>? formData, String? extraData)?
+        onFinish,
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
     TResult? Function(String uid, String? value, int? position)? onNext,
     TResult? Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
         onSave,
-    TResult? Function(String uid, String? value)? onTextChange,
+    TResult? Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)?
+        onTextChange,
     TResult? Function(String uid)? clearValue,
     TResult? Function(String uid, String? coordinates, String extraData)?
         selectLocationFromCoordinates,
@@ -260,14 +275,17 @@ class _$InitImpl extends Init {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function(String? extraData)? onFinish,
+    TResult Function(Map<String, dynamic>? formData, String? extraData)?
+        onFinish,
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
     TResult Function(String uid, String? value, int? position)? onNext,
     TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
         onSave,
-    TResult Function(String uid, String? value)? onTextChange,
+    TResult Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)?
+        onTextChange,
     TResult Function(String uid)? clearValue,
     TResult Function(String uid, String? coordinates, String extraData)?
         selectLocationFromCoordinates,
@@ -372,7 +390,7 @@ abstract class _$$OnFinishImplCopyWith<$Res> {
           _$OnFinishImpl value, $Res Function(_$OnFinishImpl) then) =
       __$$OnFinishImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String? extraData});
+  $Res call({Map<String, dynamic>? formData, String? extraData});
 }
 
 /// @nodoc
@@ -386,9 +404,14 @@ class __$$OnFinishImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? formData = freezed,
     Object? extraData = freezed,
   }) {
     return _then(_$OnFinishImpl(
+      freezed == formData
+          ? _value._formData
+          : formData // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
       freezed == extraData
           ? _value.extraData
           : extraData // ignore: cast_nullable_to_non_nullable
@@ -400,14 +423,26 @@ class __$$OnFinishImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$OnFinishImpl extends OnFinish {
-  const _$OnFinishImpl([this.extraData]) : super._();
+  const _$OnFinishImpl([final Map<String, dynamic>? formData, this.extraData])
+      : _formData = formData,
+        super._();
+
+  final Map<String, dynamic>? _formData;
+  @override
+  Map<String, dynamic>? get formData {
+    final value = _formData;
+    if (value == null) return null;
+    if (_formData is EqualUnmodifiableMapView) return _formData;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
 
   @override
   final String? extraData;
 
   @override
   String toString() {
-    return 'FormIntent.onFinish(extraData: $extraData)';
+    return 'FormIntent.onFinish(formData: $formData, extraData: $extraData)';
   }
 
   @override
@@ -415,12 +450,14 @@ class _$OnFinishImpl extends OnFinish {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$OnFinishImpl &&
+            const DeepCollectionEquality().equals(other._formData, _formData) &&
             (identical(other.extraData, extraData) ||
                 other.extraData == extraData));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, extraData);
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_formData), extraData);
 
   @JsonKey(ignore: true)
   @override
@@ -432,14 +469,17 @@ class _$OnFinishImpl extends OnFinish {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function(String? extraData) onFinish,
+    required TResult Function(Map<String, dynamic>? formData, String? extraData)
+        onFinish,
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
     required TResult Function(String uid, String? value, int? position) onNext,
     required TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)
         onSave,
-    required TResult Function(String uid, String? value) onTextChange,
+    required TResult Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)
+        onTextChange,
     required TResult Function(String uid) clearValue,
     required TResult Function(String uid, String? coordinates, String extraData)
         selectLocationFromCoordinates,
@@ -452,21 +492,24 @@ class _$OnFinishImpl extends OnFinish {
     required TResult Function(String uid) onRequestCoordinates,
     required TResult Function(String uid) onCancelRequestCoordinates,
   }) {
-    return onFinish(extraData);
+    return onFinish(formData, extraData);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
-    TResult? Function(String? extraData)? onFinish,
+    TResult? Function(Map<String, dynamic>? formData, String? extraData)?
+        onFinish,
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
     TResult? Function(String uid, String? value, int? position)? onNext,
     TResult? Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
         onSave,
-    TResult? Function(String uid, String? value)? onTextChange,
+    TResult? Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)?
+        onTextChange,
     TResult? Function(String uid)? clearValue,
     TResult? Function(String uid, String? coordinates, String extraData)?
         selectLocationFromCoordinates,
@@ -478,21 +521,24 @@ class _$OnFinishImpl extends OnFinish {
     TResult? Function(String uid)? onRequestCoordinates,
     TResult? Function(String uid)? onCancelRequestCoordinates,
   }) {
-    return onFinish?.call(extraData);
+    return onFinish?.call(formData, extraData);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function(String? extraData)? onFinish,
+    TResult Function(Map<String, dynamic>? formData, String? extraData)?
+        onFinish,
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
     TResult Function(String uid, String? value, int? position)? onNext,
     TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
         onSave,
-    TResult Function(String uid, String? value)? onTextChange,
+    TResult Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)?
+        onTextChange,
     TResult Function(String uid)? clearValue,
     TResult Function(String uid, String? coordinates, String extraData)?
         selectLocationFromCoordinates,
@@ -506,7 +552,7 @@ class _$OnFinishImpl extends OnFinish {
     required TResult orElse(),
   }) {
     if (onFinish != null) {
-      return onFinish(extraData);
+      return onFinish(formData, extraData);
     }
     return orElse();
   }
@@ -587,9 +633,12 @@ class _$OnFinishImpl extends OnFinish {
 }
 
 abstract class OnFinish extends FormIntent {
-  const factory OnFinish([final String? extraData]) = _$OnFinishImpl;
+  const factory OnFinish(
+      [final Map<String, dynamic>? formData,
+      final String? extraData]) = _$OnFinishImpl;
   const OnFinish._() : super._();
 
+  Map<String, dynamic>? get formData;
   String? get extraData;
   @JsonKey(ignore: true)
   _$$OnFinishImplCopyWith<_$OnFinishImpl> get copyWith =>
@@ -662,14 +711,17 @@ class _$OnClearImpl extends OnClear {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function(String? extraData) onFinish,
+    required TResult Function(Map<String, dynamic>? formData, String? extraData)
+        onFinish,
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
     required TResult Function(String uid, String? value, int? position) onNext,
     required TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)
         onSave,
-    required TResult Function(String uid, String? value) onTextChange,
+    required TResult Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)
+        onTextChange,
     required TResult Function(String uid) clearValue,
     required TResult Function(String uid, String? coordinates, String extraData)
         selectLocationFromCoordinates,
@@ -689,14 +741,17 @@ class _$OnClearImpl extends OnClear {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
-    TResult? Function(String? extraData)? onFinish,
+    TResult? Function(Map<String, dynamic>? formData, String? extraData)?
+        onFinish,
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
     TResult? Function(String uid, String? value, int? position)? onNext,
     TResult? Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
         onSave,
-    TResult? Function(String uid, String? value)? onTextChange,
+    TResult? Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)?
+        onTextChange,
     TResult? Function(String uid)? clearValue,
     TResult? Function(String uid, String? coordinates, String extraData)?
         selectLocationFromCoordinates,
@@ -715,14 +770,17 @@ class _$OnClearImpl extends OnClear {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function(String? extraData)? onFinish,
+    TResult Function(Map<String, dynamic>? formData, String? extraData)?
+        onFinish,
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
     TResult Function(String uid, String? value, int? position)? onNext,
     TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
         onSave,
-    TResult Function(String uid, String? value)? onTextChange,
+    TResult Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)?
+        onTextChange,
     TResult Function(String uid)? clearValue,
     TResult Function(String uid, String? coordinates, String extraData)?
         selectLocationFromCoordinates,
@@ -899,14 +957,17 @@ class _$OnFocusImpl extends OnFocus {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function(String? extraData) onFinish,
+    required TResult Function(Map<String, dynamic>? formData, String? extraData)
+        onFinish,
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
     required TResult Function(String uid, String? value, int? position) onNext,
     required TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)
         onSave,
-    required TResult Function(String uid, String? value) onTextChange,
+    required TResult Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)
+        onTextChange,
     required TResult Function(String uid) clearValue,
     required TResult Function(String uid, String? coordinates, String extraData)
         selectLocationFromCoordinates,
@@ -926,14 +987,17 @@ class _$OnFocusImpl extends OnFocus {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
-    TResult? Function(String? extraData)? onFinish,
+    TResult? Function(Map<String, dynamic>? formData, String? extraData)?
+        onFinish,
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
     TResult? Function(String uid, String? value, int? position)? onNext,
     TResult? Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
         onSave,
-    TResult? Function(String uid, String? value)? onTextChange,
+    TResult? Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)?
+        onTextChange,
     TResult? Function(String uid)? clearValue,
     TResult? Function(String uid, String? coordinates, String extraData)?
         selectLocationFromCoordinates,
@@ -952,14 +1016,17 @@ class _$OnFocusImpl extends OnFocus {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function(String? extraData)? onFinish,
+    TResult Function(Map<String, dynamic>? formData, String? extraData)?
+        onFinish,
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
     TResult Function(String uid, String? value, int? position)? onNext,
     TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
         onSave,
-    TResult Function(String uid, String? value)? onTextChange,
+    TResult Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)?
+        onTextChange,
     TResult Function(String uid)? clearValue,
     TResult Function(String uid, String? coordinates, String extraData)?
         selectLocationFromCoordinates,
@@ -1147,14 +1214,17 @@ class _$OnNextImpl extends OnNext {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function(String? extraData) onFinish,
+    required TResult Function(Map<String, dynamic>? formData, String? extraData)
+        onFinish,
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
     required TResult Function(String uid, String? value, int? position) onNext,
     required TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)
         onSave,
-    required TResult Function(String uid, String? value) onTextChange,
+    required TResult Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)
+        onTextChange,
     required TResult Function(String uid) clearValue,
     required TResult Function(String uid, String? coordinates, String extraData)
         selectLocationFromCoordinates,
@@ -1174,14 +1244,17 @@ class _$OnNextImpl extends OnNext {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
-    TResult? Function(String? extraData)? onFinish,
+    TResult? Function(Map<String, dynamic>? formData, String? extraData)?
+        onFinish,
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
     TResult? Function(String uid, String? value, int? position)? onNext,
     TResult? Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
         onSave,
-    TResult? Function(String uid, String? value)? onTextChange,
+    TResult? Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)?
+        onTextChange,
     TResult? Function(String uid)? clearValue,
     TResult? Function(String uid, String? coordinates, String extraData)?
         selectLocationFromCoordinates,
@@ -1200,14 +1273,17 @@ class _$OnNextImpl extends OnNext {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function(String? extraData)? onFinish,
+    TResult Function(Map<String, dynamic>? formData, String? extraData)?
+        onFinish,
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
     TResult Function(String uid, String? value, int? position)? onNext,
     TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
         onSave,
-    TResult Function(String uid, String? value)? onTextChange,
+    TResult Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)?
+        onTextChange,
     TResult Function(String uid)? clearValue,
     TResult Function(String uid, String? coordinates, String extraData)?
         selectLocationFromCoordinates,
@@ -1411,14 +1487,17 @@ class _$OnSaveImpl extends OnSave {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function(String? extraData) onFinish,
+    required TResult Function(Map<String, dynamic>? formData, String? extraData)
+        onFinish,
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
     required TResult Function(String uid, String? value, int? position) onNext,
     required TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)
         onSave,
-    required TResult Function(String uid, String? value) onTextChange,
+    required TResult Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)
+        onTextChange,
     required TResult Function(String uid) clearValue,
     required TResult Function(String uid, String? coordinates, String extraData)
         selectLocationFromCoordinates,
@@ -1438,14 +1517,17 @@ class _$OnSaveImpl extends OnSave {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
-    TResult? Function(String? extraData)? onFinish,
+    TResult? Function(Map<String, dynamic>? formData, String? extraData)?
+        onFinish,
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
     TResult? Function(String uid, String? value, int? position)? onNext,
     TResult? Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
         onSave,
-    TResult? Function(String uid, String? value)? onTextChange,
+    TResult? Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)?
+        onTextChange,
     TResult? Function(String uid)? clearValue,
     TResult? Function(String uid, String? coordinates, String extraData)?
         selectLocationFromCoordinates,
@@ -1464,14 +1546,17 @@ class _$OnSaveImpl extends OnSave {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function(String? extraData)? onFinish,
+    TResult Function(Map<String, dynamic>? formData, String? extraData)?
+        onFinish,
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
     TResult Function(String uid, String? value, int? position)? onNext,
     TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
         onSave,
-    TResult Function(String uid, String? value)? onTextChange,
+    TResult Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)?
+        onTextChange,
     TResult Function(String uid)? clearValue,
     TResult Function(String uid, String? coordinates, String extraData)?
         selectLocationFromCoordinates,
@@ -1588,7 +1673,8 @@ abstract class _$$OnTextChangeImplCopyWith<$Res> {
           _$OnTextChangeImpl value, $Res Function(_$OnTextChangeImpl) then) =
       __$$OnTextChangeImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String uid, String? value});
+  $Res call(
+      {String uid, String? value, ValueType? valueType, String? fieldMask});
 }
 
 /// @nodoc
@@ -1604,15 +1690,25 @@ class __$$OnTextChangeImplCopyWithImpl<$Res>
   $Res call({
     Object? uid = null,
     Object? value = freezed,
+    Object? valueType = freezed,
+    Object? fieldMask = freezed,
   }) {
     return _then(_$OnTextChangeImpl(
-      null == uid
+      uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
               as String,
-      freezed == value
+      value: freezed == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
+              as String?,
+      valueType: freezed == valueType
+          ? _value.valueType
+          : valueType // ignore: cast_nullable_to_non_nullable
+              as ValueType?,
+      fieldMask: freezed == fieldMask
+          ? _value.fieldMask
+          : fieldMask // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -1621,16 +1717,22 @@ class __$$OnTextChangeImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$OnTextChangeImpl extends OnTextChange {
-  const _$OnTextChangeImpl(this.uid, this.value) : super._();
+  const _$OnTextChangeImpl(
+      {required this.uid, this.value, this.valueType, this.fieldMask})
+      : super._();
 
   @override
   final String uid;
   @override
   final String? value;
+  @override
+  final ValueType? valueType;
+  @override
+  final String? fieldMask;
 
   @override
   String toString() {
-    return 'FormIntent.onTextChange(uid: $uid, value: $value)';
+    return 'FormIntent.onTextChange(uid: $uid, value: $value, valueType: $valueType, fieldMask: $fieldMask)';
   }
 
   @override
@@ -1639,11 +1741,16 @@ class _$OnTextChangeImpl extends OnTextChange {
         (other.runtimeType == runtimeType &&
             other is _$OnTextChangeImpl &&
             (identical(other.uid, uid) || other.uid == uid) &&
-            (identical(other.value, value) || other.value == value));
+            (identical(other.value, value) || other.value == value) &&
+            (identical(other.valueType, valueType) ||
+                other.valueType == valueType) &&
+            (identical(other.fieldMask, fieldMask) ||
+                other.fieldMask == fieldMask));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, uid, value);
+  int get hashCode =>
+      Object.hash(runtimeType, uid, value, valueType, fieldMask);
 
   @JsonKey(ignore: true)
   @override
@@ -1655,14 +1762,17 @@ class _$OnTextChangeImpl extends OnTextChange {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function(String? extraData) onFinish,
+    required TResult Function(Map<String, dynamic>? formData, String? extraData)
+        onFinish,
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
     required TResult Function(String uid, String? value, int? position) onNext,
     required TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)
         onSave,
-    required TResult Function(String uid, String? value) onTextChange,
+    required TResult Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)
+        onTextChange,
     required TResult Function(String uid) clearValue,
     required TResult Function(String uid, String? coordinates, String extraData)
         selectLocationFromCoordinates,
@@ -1675,21 +1785,24 @@ class _$OnTextChangeImpl extends OnTextChange {
     required TResult Function(String uid) onRequestCoordinates,
     required TResult Function(String uid) onCancelRequestCoordinates,
   }) {
-    return onTextChange(uid, value);
+    return onTextChange(uid, value, valueType, fieldMask);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
-    TResult? Function(String? extraData)? onFinish,
+    TResult? Function(Map<String, dynamic>? formData, String? extraData)?
+        onFinish,
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
     TResult? Function(String uid, String? value, int? position)? onNext,
     TResult? Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
         onSave,
-    TResult? Function(String uid, String? value)? onTextChange,
+    TResult? Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)?
+        onTextChange,
     TResult? Function(String uid)? clearValue,
     TResult? Function(String uid, String? coordinates, String extraData)?
         selectLocationFromCoordinates,
@@ -1701,21 +1814,24 @@ class _$OnTextChangeImpl extends OnTextChange {
     TResult? Function(String uid)? onRequestCoordinates,
     TResult? Function(String uid)? onCancelRequestCoordinates,
   }) {
-    return onTextChange?.call(uid, value);
+    return onTextChange?.call(uid, value, valueType, fieldMask);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function(String? extraData)? onFinish,
+    TResult Function(Map<String, dynamic>? formData, String? extraData)?
+        onFinish,
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
     TResult Function(String uid, String? value, int? position)? onNext,
     TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
         onSave,
-    TResult Function(String uid, String? value)? onTextChange,
+    TResult Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)?
+        onTextChange,
     TResult Function(String uid)? clearValue,
     TResult Function(String uid, String? coordinates, String extraData)?
         selectLocationFromCoordinates,
@@ -1729,7 +1845,7 @@ class _$OnTextChangeImpl extends OnTextChange {
     required TResult orElse(),
   }) {
     if (onTextChange != null) {
-      return onTextChange(uid, value);
+      return onTextChange(uid, value, valueType, fieldMask);
     }
     return orElse();
   }
@@ -1810,12 +1926,17 @@ class _$OnTextChangeImpl extends OnTextChange {
 }
 
 abstract class OnTextChange extends FormIntent {
-  const factory OnTextChange(final String uid, final String? value) =
-      _$OnTextChangeImpl;
+  const factory OnTextChange(
+      {required final String uid,
+      final String? value,
+      final ValueType? valueType,
+      final String? fieldMask}) = _$OnTextChangeImpl;
   const OnTextChange._() : super._();
 
   String get uid;
   String? get value;
+  ValueType? get valueType;
+  String? get fieldMask;
   @JsonKey(ignore: true)
   _$$OnTextChangeImplCopyWith<_$OnTextChangeImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -1886,14 +2007,17 @@ class _$ClearValueImpl extends ClearValue {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function(String? extraData) onFinish,
+    required TResult Function(Map<String, dynamic>? formData, String? extraData)
+        onFinish,
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
     required TResult Function(String uid, String? value, int? position) onNext,
     required TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)
         onSave,
-    required TResult Function(String uid, String? value) onTextChange,
+    required TResult Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)
+        onTextChange,
     required TResult Function(String uid) clearValue,
     required TResult Function(String uid, String? coordinates, String extraData)
         selectLocationFromCoordinates,
@@ -1913,14 +2037,17 @@ class _$ClearValueImpl extends ClearValue {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
-    TResult? Function(String? extraData)? onFinish,
+    TResult? Function(Map<String, dynamic>? formData, String? extraData)?
+        onFinish,
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
     TResult? Function(String uid, String? value, int? position)? onNext,
     TResult? Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
         onSave,
-    TResult? Function(String uid, String? value)? onTextChange,
+    TResult? Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)?
+        onTextChange,
     TResult? Function(String uid)? clearValue,
     TResult? Function(String uid, String? coordinates, String extraData)?
         selectLocationFromCoordinates,
@@ -1939,14 +2066,17 @@ class _$ClearValueImpl extends ClearValue {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function(String? extraData)? onFinish,
+    TResult Function(Map<String, dynamic>? formData, String? extraData)?
+        onFinish,
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
     TResult Function(String uid, String? value, int? position)? onNext,
     TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
         onSave,
-    TResult Function(String uid, String? value)? onTextChange,
+    TResult Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)?
+        onTextChange,
     TResult Function(String uid)? clearValue,
     TResult Function(String uid, String? coordinates, String extraData)?
         selectLocationFromCoordinates,
@@ -2140,14 +2270,17 @@ class _$SelectLocationFromCoordinatesImpl
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function(String? extraData) onFinish,
+    required TResult Function(Map<String, dynamic>? formData, String? extraData)
+        onFinish,
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
     required TResult Function(String uid, String? value, int? position) onNext,
     required TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)
         onSave,
-    required TResult Function(String uid, String? value) onTextChange,
+    required TResult Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)
+        onTextChange,
     required TResult Function(String uid) clearValue,
     required TResult Function(String uid, String? coordinates, String extraData)
         selectLocationFromCoordinates,
@@ -2167,14 +2300,17 @@ class _$SelectLocationFromCoordinatesImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
-    TResult? Function(String? extraData)? onFinish,
+    TResult? Function(Map<String, dynamic>? formData, String? extraData)?
+        onFinish,
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
     TResult? Function(String uid, String? value, int? position)? onNext,
     TResult? Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
         onSave,
-    TResult? Function(String uid, String? value)? onTextChange,
+    TResult? Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)?
+        onTextChange,
     TResult? Function(String uid)? clearValue,
     TResult? Function(String uid, String? coordinates, String extraData)?
         selectLocationFromCoordinates,
@@ -2193,14 +2329,17 @@ class _$SelectLocationFromCoordinatesImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function(String? extraData)? onFinish,
+    TResult Function(Map<String, dynamic>? formData, String? extraData)?
+        onFinish,
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
     TResult Function(String uid, String? value, int? position)? onNext,
     TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
         onSave,
-    TResult Function(String uid, String? value)? onTextChange,
+    TResult Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)?
+        onTextChange,
     TResult Function(String uid)? clearValue,
     TResult Function(String uid, String? coordinates, String extraData)?
         selectLocationFromCoordinates,
@@ -2397,14 +2536,17 @@ class _$SelectLocationFromMapImpl extends SelectLocationFromMap {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function(String? extraData) onFinish,
+    required TResult Function(Map<String, dynamic>? formData, String? extraData)
+        onFinish,
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
     required TResult Function(String uid, String? value, int? position) onNext,
     required TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)
         onSave,
-    required TResult Function(String uid, String? value) onTextChange,
+    required TResult Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)
+        onTextChange,
     required TResult Function(String uid) clearValue,
     required TResult Function(String uid, String? coordinates, String extraData)
         selectLocationFromCoordinates,
@@ -2424,14 +2566,17 @@ class _$SelectLocationFromMapImpl extends SelectLocationFromMap {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
-    TResult? Function(String? extraData)? onFinish,
+    TResult? Function(Map<String, dynamic>? formData, String? extraData)?
+        onFinish,
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
     TResult? Function(String uid, String? value, int? position)? onNext,
     TResult? Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
         onSave,
-    TResult? Function(String uid, String? value)? onTextChange,
+    TResult? Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)?
+        onTextChange,
     TResult? Function(String uid)? clearValue,
     TResult? Function(String uid, String? coordinates, String extraData)?
         selectLocationFromCoordinates,
@@ -2450,14 +2595,17 @@ class _$SelectLocationFromMapImpl extends SelectLocationFromMap {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function(String? extraData)? onFinish,
+    TResult Function(Map<String, dynamic>? formData, String? extraData)?
+        onFinish,
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
     TResult Function(String uid, String? value, int? position)? onNext,
     TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
         onSave,
-    TResult Function(String uid, String? value)? onTextChange,
+    TResult Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)?
+        onTextChange,
     TResult Function(String uid)? clearValue,
     TResult Function(String uid, String? coordinates, String extraData)?
         selectLocationFromCoordinates,
@@ -2651,14 +2799,17 @@ class _$SaveCurrentLocationImpl extends SaveCurrentLocation {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function(String? extraData) onFinish,
+    required TResult Function(Map<String, dynamic>? formData, String? extraData)
+        onFinish,
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
     required TResult Function(String uid, String? value, int? position) onNext,
     required TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)
         onSave,
-    required TResult Function(String uid, String? value) onTextChange,
+    required TResult Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)
+        onTextChange,
     required TResult Function(String uid) clearValue,
     required TResult Function(String uid, String? coordinates, String extraData)
         selectLocationFromCoordinates,
@@ -2678,14 +2829,17 @@ class _$SaveCurrentLocationImpl extends SaveCurrentLocation {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
-    TResult? Function(String? extraData)? onFinish,
+    TResult? Function(Map<String, dynamic>? formData, String? extraData)?
+        onFinish,
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
     TResult? Function(String uid, String? value, int? position)? onNext,
     TResult? Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
         onSave,
-    TResult? Function(String uid, String? value)? onTextChange,
+    TResult? Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)?
+        onTextChange,
     TResult? Function(String uid)? clearValue,
     TResult? Function(String uid, String? coordinates, String extraData)?
         selectLocationFromCoordinates,
@@ -2704,14 +2858,17 @@ class _$SaveCurrentLocationImpl extends SaveCurrentLocation {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function(String? extraData)? onFinish,
+    TResult Function(Map<String, dynamic>? formData, String? extraData)?
+        onFinish,
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
     TResult Function(String uid, String? value, int? position)? onNext,
     TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
         onSave,
-    TResult Function(String uid, String? value)? onTextChange,
+    TResult Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)?
+        onTextChange,
     TResult Function(String uid)? clearValue,
     TResult Function(String uid, String? coordinates, String extraData)?
         selectLocationFromCoordinates,
@@ -2886,14 +3043,17 @@ class _$OnSectionImpl extends OnSection {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function(String? extraData) onFinish,
+    required TResult Function(Map<String, dynamic>? formData, String? extraData)
+        onFinish,
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
     required TResult Function(String uid, String? value, int? position) onNext,
     required TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)
         onSave,
-    required TResult Function(String uid, String? value) onTextChange,
+    required TResult Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)
+        onTextChange,
     required TResult Function(String uid) clearValue,
     required TResult Function(String uid, String? coordinates, String extraData)
         selectLocationFromCoordinates,
@@ -2913,14 +3073,17 @@ class _$OnSectionImpl extends OnSection {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
-    TResult? Function(String? extraData)? onFinish,
+    TResult? Function(Map<String, dynamic>? formData, String? extraData)?
+        onFinish,
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
     TResult? Function(String uid, String? value, int? position)? onNext,
     TResult? Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
         onSave,
-    TResult? Function(String uid, String? value)? onTextChange,
+    TResult? Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)?
+        onTextChange,
     TResult? Function(String uid)? clearValue,
     TResult? Function(String uid, String? coordinates, String extraData)?
         selectLocationFromCoordinates,
@@ -2939,14 +3102,17 @@ class _$OnSectionImpl extends OnSection {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function(String? extraData)? onFinish,
+    TResult Function(Map<String, dynamic>? formData, String? extraData)?
+        onFinish,
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
     TResult Function(String uid, String? value, int? position)? onNext,
     TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
         onSave,
-    TResult Function(String uid, String? value)? onTextChange,
+    TResult Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)?
+        onTextChange,
     TResult Function(String uid)? clearValue,
     TResult Function(String uid, String? coordinates, String extraData)?
         selectLocationFromCoordinates,
@@ -3117,14 +3283,17 @@ class _$OnRequestCoordinatesImpl extends OnRequestCoordinates {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function(String? extraData) onFinish,
+    required TResult Function(Map<String, dynamic>? formData, String? extraData)
+        onFinish,
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
     required TResult Function(String uid, String? value, int? position) onNext,
     required TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)
         onSave,
-    required TResult Function(String uid, String? value) onTextChange,
+    required TResult Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)
+        onTextChange,
     required TResult Function(String uid) clearValue,
     required TResult Function(String uid, String? coordinates, String extraData)
         selectLocationFromCoordinates,
@@ -3144,14 +3313,17 @@ class _$OnRequestCoordinatesImpl extends OnRequestCoordinates {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
-    TResult? Function(String? extraData)? onFinish,
+    TResult? Function(Map<String, dynamic>? formData, String? extraData)?
+        onFinish,
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
     TResult? Function(String uid, String? value, int? position)? onNext,
     TResult? Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
         onSave,
-    TResult? Function(String uid, String? value)? onTextChange,
+    TResult? Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)?
+        onTextChange,
     TResult? Function(String uid)? clearValue,
     TResult? Function(String uid, String? coordinates, String extraData)?
         selectLocationFromCoordinates,
@@ -3170,14 +3342,17 @@ class _$OnRequestCoordinatesImpl extends OnRequestCoordinates {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function(String? extraData)? onFinish,
+    TResult Function(Map<String, dynamic>? formData, String? extraData)?
+        onFinish,
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
     TResult Function(String uid, String? value, int? position)? onNext,
     TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
         onSave,
-    TResult Function(String uid, String? value)? onTextChange,
+    TResult Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)?
+        onTextChange,
     TResult Function(String uid)? clearValue,
     TResult Function(String uid, String? coordinates, String extraData)?
         selectLocationFromCoordinates,
@@ -3350,14 +3525,17 @@ class _$OnCancelRequestCoordinatesImpl extends OnCancelRequestCoordinates {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function(String? extraData) onFinish,
+    required TResult Function(Map<String, dynamic>? formData, String? extraData)
+        onFinish,
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
     required TResult Function(String uid, String? value, int? position) onNext,
     required TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)
         onSave,
-    required TResult Function(String uid, String? value) onTextChange,
+    required TResult Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)
+        onTextChange,
     required TResult Function(String uid) clearValue,
     required TResult Function(String uid, String? coordinates, String extraData)
         selectLocationFromCoordinates,
@@ -3377,14 +3555,17 @@ class _$OnCancelRequestCoordinatesImpl extends OnCancelRequestCoordinates {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
-    TResult? Function(String? extraData)? onFinish,
+    TResult? Function(Map<String, dynamic>? formData, String? extraData)?
+        onFinish,
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
     TResult? Function(String uid, String? value, int? position)? onNext,
     TResult? Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
         onSave,
-    TResult? Function(String uid, String? value)? onTextChange,
+    TResult? Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)?
+        onTextChange,
     TResult? Function(String uid)? clearValue,
     TResult? Function(String uid, String? coordinates, String extraData)?
         selectLocationFromCoordinates,
@@ -3403,14 +3584,17 @@ class _$OnCancelRequestCoordinatesImpl extends OnCancelRequestCoordinates {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function(String? extraData)? onFinish,
+    TResult Function(Map<String, dynamic>? formData, String? extraData)?
+        onFinish,
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
     TResult Function(String uid, String? value, int? position)? onNext,
     TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
         onSave,
-    TResult Function(String uid, String? value)? onTextChange,
+    TResult Function(
+            String uid, String? value, ValueType? valueType, String? fieldMask)?
+        onTextChange,
     TResult Function(String uid)? clearValue,
     TResult Function(String uid, String? coordinates, String extraData)?
         selectLocationFromCoordinates,

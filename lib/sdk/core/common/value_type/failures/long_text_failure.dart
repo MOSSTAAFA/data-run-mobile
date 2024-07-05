@@ -1,5 +1,5 @@
-import '../../exception/exception.dart';
+import '../../exception/validation_exception.dart';
 
-abstract class LongTextFailure implements ThrowableException {
+abstract class LongTextFailure implements ValidationException {
   // Long texts do not need validation and cannot produce errors
 }

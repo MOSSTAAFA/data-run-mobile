@@ -1,16 +1,22 @@
-import 'package:fast_immutable_collections/src/imap/imap.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/commons/custom_widgets/async_value.widget.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:get/get.dart';
+import 'package:mass_pro/commons/constants.dart';
+import 'package:mass_pro/commons/custom_widgets/mixins/keyboard_manager.dart';
 import 'package:mass_pro/data_run/form/form_fields_repository.dart';
 import 'package:mass_pro/data_run/screens/form/bottom_sheet.widget.dart';
-import 'package:mass_pro/data_run/screens/form/fields_widgets/q_field.model.dart';
 import 'package:mass_pro/data_run/screens/form/form_field.widget.dart';
 import 'package:mass_pro/data_run/screens/form/form_state/form_fields_state_notifier.dart';
+import 'package:mass_pro/data_run/screens/form/form_state/q_field.model.dart';
+import 'package:mass_pro/data_run/screens/form/form_state/q_field_widget_factory.dart';
 import 'package:mass_pro/data_run/screens/form/show_dialog.dart';
 import 'package:mass_pro/form/ui/intent/form_intent.dart';
 import 'package:mass_pro/form/ui/view_model/form_pending_intents.dart';
+import 'package:mass_pro/main/usescases/bundle/bundle.dart';
+import 'package:mass_pro/utils/mass_utils/colors.dart';
 
 class FormScreen extends ConsumerWidget {
   const FormScreen({super.key});
@@ -31,10 +37,45 @@ class FormScreenScaffold extends ConsumerStatefulWidget {
 }
 
 class FormScreenScaffoldState extends ConsumerState<FormScreenScaffold>
-    with WidgetsBindingObserver {
+    with WidgetsBindingObserver, KeyboardManager {
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _isKeyboardVisible = false;
+  late final String formCode;
+
+  @override
+  void initState() {
+    final Bundle eventBundle = Get.arguments as Bundle;
+    formCode = eventBundle.getString(FORM_CODE)!;
+    super.initState();
+  }
+
+  Widget getLoadingWidget() {
+    return LinearProgressIndicator(
+      valueColor:
+          AlwaysStoppedAnimation<Color>(convertHexStringToColor('#FF9800')!),
+      semanticsLabel: 'Loading progress indicator',
+      minHeight: 8,
+    );
+  }
+
+  // void _handleKeyBoardOnFocusChange(IList<FieldUiModel> items) {
+  //   items.firstOrNullWhere((FieldUiModel it) => it.focused)?.let(
+  //           (FieldUiModel fieldUiModel) =>
+  //           fieldUiModel.valueType?.let((ValueType valueType) {
+  //             if (!valueTypeIsTextField(valueType)) {
+  //               hideTheKeyboard(context);
+  //             }
+  //           }));
+  // }
+
+  // bool valueTypeIsTextField(ValueType valueType, [UiRenderType? renderType]) {
+  //   return valueType.isNumeric ||
+  //       valueType.isText && renderType?.isPolygon != true ||
+  //       valueType == ValueType.URL ||
+  //       valueType == ValueType.Email ||
+  //       valueType == ValueType.PhoneNumber;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -50,36 +91,51 @@ class FormScreenScaffoldState extends ConsumerState<FormScreenScaffold>
         if (didPop) {
           return;
         }
-        await popInvoked(context);
+        await _saveAndShowBottomSheet(context);
       },
       child: Scaffold(
         key: _scaffoldKey,
-        appBar: AppBar(title: const Text('Activity Form')),
-        body: AsyncValueWidget<IMap<String, QFieldModel>>(
-          value: fields,
-          data: (data) => FormBuilder(
-            key: _formKey,
-            onChanged: () {
-              _formKey.currentState!.save();
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: ListView(
-                children: data.keys
-                    .map(
-                      (key) => FormFieldWidget(fieldKey: key),
-                    )
-                    .toList(),
+        appBar: AppBar(title: Text(formCode)),
+        body: switch (fields) {
+          AsyncValue(:final error?) => ErrorWidget(error),
+          AsyncValue(:final valueOrNull?) => FormBuilder(
+              key: _formKey,
+              onChanged: () {
+                _formKey.currentState!.save();
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: ListView(
+                  children: valueOrNull.entries
+                      .map(
+                        (entry) => GestureDetector(
+                          onTap: () => hideTheKeyboard(context),
+                          child: Column(
+                            children: [
+                              if (fields.isLoading) getLoadingWidget(),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 20.0),
+                                child: FormFieldWidget(
+                                  key: ValueKey<String>(entry.key),
+                                  fieldModel: entry.value,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                      .toList(),
+                ),
               ),
             ),
-          ),
-        ),
+          _ => const SizedBox.shrink(),
+        },
         floatingActionButton: _isKeyboardVisible
             ? const SizedBox.shrink()
             : FloatingActionButton(
-          onPressed: () => _showBottomSheet(context),
-          child: const Icon(Icons.save),
-        ),
+                onPressed: () => _saveAndShowBottomSheet(context),
+                child: const Icon(Icons.save),
+              ),
       ),
     );
   }
@@ -94,12 +150,27 @@ class FormScreenScaffoldState extends ConsumerState<FormScreenScaffold>
         // save
         onConfirm: () {
           // call save
-          onSaveForm();
+          _onSaveForm();
         });
     if (context.mounted) {
       // then pop
       Navigator.pop(context);
     }
+  }
+
+  Future<void> _saveAndShowBottomSheet(BuildContext context) async {
+    await _onSaveForm();
+    if (context.mounted) {
+      return _showBottomSheet(context);
+    }
+  }
+
+  /// Save the form
+  Future<void> _onSaveForm() async {
+    _formKey.currentState!.save();
+    ref.read(formPendingIntentsProvider.notifier).submitIntent(
+        (_) => FormIntent.onFinish(_formKey.currentState?.value));
+    debugPrint('Form State: ${_formKey.currentState?.value}');
   }
 
   Future<void> _showBottomSheet(BuildContext context) async {
@@ -111,7 +182,7 @@ class FormScreenScaffoldState extends ConsumerState<FormScreenScaffold>
           uiModel: bottomSheetUiModel,
           // complete
           // exit
-          onMainClicked: () => onFinalDataClicked(),
+          onMainClicked: () => _onFinalDataClicked(context),
           // Not now
           // exit Form
           onSecondaryClicked: () => Navigator.pop(context),
@@ -120,25 +191,18 @@ class FormScreenScaffoldState extends ConsumerState<FormScreenScaffold>
     );
   }
 
-  Future<void> onFinalDataClicked() async {
-    if (_formKey.currentState!.saveAndValidate()) {
-      print(_formKey.currentState!.value);
+  Future<void> _onFinalDataClicked(BuildContext context) async {
+    if (_formKey.currentState!.validate()) {
+      // markFormAsComplete;
+      ref
+          .read(formPendingIntentsProvider.notifier)
+          .submitIntent((_) => FormIntent.onFinish(_formKey.currentState?.value));
       if (context.mounted) {
-        // then pop
         Navigator.pop(context);
       }
     } else {
-      print("Validation failed");
+      showToast('Form contains some errors', alignment: Alignment.center);
     }
-  }
-
-  /// Save the form
-  Future<void> onSaveForm() async {
-    _formKey.currentState!.save();
-    ref
-        .read(formPendingIntentsProvider.notifier)
-        .submitIntent((_) => const FormIntent.onFinish());
-    debugPrint('Form State: ${_formKey.currentState?.value}');
   }
 }
 
@@ -149,15 +213,25 @@ class _EagerInitialization extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final fieldsRepository = ref.watch(formFieldsRepositoryProvider);
-    // final AsyncValue<IMap<String, QFieldModel>> result =
-    //     ref.watch(formFieldsStateNotifierProvider);
+    final loadingFieldsRepositoryResult =
+        ref.watch(formFieldsRepositoryProvider);
 
-    // if (result.isLoading) {
-    //   return const CircularProgressIndicator();
-    // } else if (result.hasError) {
-    //   return const Text('Oopsy!');
-    // }
+    ref.watch(fieldWidgetFactoryProvider);
+
+    // Handle error states and loading states
+    if (loadingFieldsRepositoryResult.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    } else if (loadingFieldsRepositoryResult.hasError) {
+      return Center(
+        child: Text(
+          'Error Loading formFields',
+          style: Theme.of(context)
+              .textTheme
+              .headlineSmall!
+              .copyWith(color: Colors.red),
+        ),
+      );
+    }
 
     return child;
   }

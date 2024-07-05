@@ -6,8 +6,8 @@ part of 'syncable_entity_mapping_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$databaseSyncableQueryHash() =>
-    r'b44568b917d4f833300eea0948f6ee6907ab60fa';
+String _$syncableEntityMappingRepositoryHash() =>
+    r'92fbd4f5a80897019de820f2e2389f5d9b496f48';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -30,30 +30,50 @@ class _SystemHash {
   }
 }
 
-/// See also [databaseSyncableQuery].
-@ProviderFor(databaseSyncableQuery)
-const databaseSyncableQueryProvider = DatabaseSyncableQueryFamily();
+/// Depends on Bundle from the route
+///
+///
+/// Copied from [syncableEntityMappingRepository].
+@ProviderFor(syncableEntityMappingRepository)
+const syncableEntityMappingRepositoryProvider =
+    SyncableEntityMappingRepositoryFamily();
 
-/// See also [databaseSyncableQuery].
-class DatabaseSyncableQueryFamily extends Family<DatabaseSyncableQuery> {
-  /// See also [databaseSyncableQuery].
-  const DatabaseSyncableQueryFamily();
+/// Depends on Bundle from the route
+///
+///
+/// Copied from [syncableEntityMappingRepository].
+class SyncableEntityMappingRepositoryFamily
+    extends Family<SyncableEntityMappingRepository> {
+  /// Depends on Bundle from the route
+  ///
+  ///
+  /// Copied from [syncableEntityMappingRepository].
+  const SyncableEntityMappingRepositoryFamily();
 
-  /// See also [databaseSyncableQuery].
-  DatabaseSyncableQueryProvider call(
-    String formCode,
-  ) {
-    return DatabaseSyncableQueryProvider(
-      formCode,
+  /// Depends on Bundle from the route
+  ///
+  ///
+  /// Copied from [syncableEntityMappingRepository].
+  SyncableEntityMappingRepositoryProvider call({
+    required DynamicForm form,
+    required SyncableEntity syncableEntity,
+    required SyncableQuery<SyncableEntity> d2SyncableQuery,
+  }) {
+    return SyncableEntityMappingRepositoryProvider(
+      form: form,
+      syncableEntity: syncableEntity,
+      d2SyncableQuery: d2SyncableQuery,
     );
   }
 
   @override
-  DatabaseSyncableQueryProvider getProviderOverride(
-    covariant DatabaseSyncableQueryProvider provider,
+  SyncableEntityMappingRepositoryProvider getProviderOverride(
+    covariant SyncableEntityMappingRepositoryProvider provider,
   ) {
     return call(
-      provider.formCode,
+      form: provider.form,
+      syncableEntity: provider.syncableEntity,
+      d2SyncableQuery: provider.d2SyncableQuery,
     );
   }
 
@@ -69,116 +89,132 @@ class DatabaseSyncableQueryFamily extends Family<DatabaseSyncableQuery> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'databaseSyncableQueryProvider';
+  String? get name => r'syncableEntityMappingRepositoryProvider';
 }
 
-/// See also [databaseSyncableQuery].
-class DatabaseSyncableQueryProvider
-    extends AutoDisposeProvider<DatabaseSyncableQuery> {
-  /// See also [databaseSyncableQuery].
-  DatabaseSyncableQueryProvider(
-    String formCode,
-  ) : this._internal(
-          (ref) => databaseSyncableQuery(
-            ref as DatabaseSyncableQueryRef,
-            formCode,
+/// Depends on Bundle from the route
+///
+///
+/// Copied from [syncableEntityMappingRepository].
+class SyncableEntityMappingRepositoryProvider
+    extends AutoDisposeProvider<SyncableEntityMappingRepository> {
+  /// Depends on Bundle from the route
+  ///
+  ///
+  /// Copied from [syncableEntityMappingRepository].
+  SyncableEntityMappingRepositoryProvider({
+    required DynamicForm form,
+    required SyncableEntity syncableEntity,
+    required SyncableQuery<SyncableEntity> d2SyncableQuery,
+  }) : this._internal(
+          (ref) => syncableEntityMappingRepository(
+            ref as SyncableEntityMappingRepositoryRef,
+            form: form,
+            syncableEntity: syncableEntity,
+            d2SyncableQuery: d2SyncableQuery,
           ),
-          from: databaseSyncableQueryProvider,
-          name: r'databaseSyncableQueryProvider',
+          from: syncableEntityMappingRepositoryProvider,
+          name: r'syncableEntityMappingRepositoryProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$databaseSyncableQueryHash,
-          dependencies: DatabaseSyncableQueryFamily._dependencies,
+                  : _$syncableEntityMappingRepositoryHash,
+          dependencies: SyncableEntityMappingRepositoryFamily._dependencies,
           allTransitiveDependencies:
-              DatabaseSyncableQueryFamily._allTransitiveDependencies,
-          formCode: formCode,
+              SyncableEntityMappingRepositoryFamily._allTransitiveDependencies,
+          form: form,
+          syncableEntity: syncableEntity,
+          d2SyncableQuery: d2SyncableQuery,
         );
 
-  DatabaseSyncableQueryProvider._internal(
+  SyncableEntityMappingRepositoryProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.formCode,
+    required this.form,
+    required this.syncableEntity,
+    required this.d2SyncableQuery,
   }) : super.internal();
 
-  final String formCode;
+  final DynamicForm form;
+  final SyncableEntity syncableEntity;
+  final SyncableQuery<SyncableEntity> d2SyncableQuery;
 
   @override
   Override overrideWith(
-    DatabaseSyncableQuery Function(DatabaseSyncableQueryRef provider) create,
+    SyncableEntityMappingRepository Function(
+            SyncableEntityMappingRepositoryRef provider)
+        create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: DatabaseSyncableQueryProvider._internal(
-        (ref) => create(ref as DatabaseSyncableQueryRef),
+      override: SyncableEntityMappingRepositoryProvider._internal(
+        (ref) => create(ref as SyncableEntityMappingRepositoryRef),
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        formCode: formCode,
+        form: form,
+        syncableEntity: syncableEntity,
+        d2SyncableQuery: d2SyncableQuery,
       ),
     );
   }
 
   @override
-  AutoDisposeProviderElement<DatabaseSyncableQuery> createElement() {
-    return _DatabaseSyncableQueryProviderElement(this);
+  AutoDisposeProviderElement<SyncableEntityMappingRepository> createElement() {
+    return _SyncableEntityMappingRepositoryProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is DatabaseSyncableQueryProvider && other.formCode == formCode;
+    return other is SyncableEntityMappingRepositoryProvider &&
+        other.form == form &&
+        other.syncableEntity == syncableEntity &&
+        other.d2SyncableQuery == d2SyncableQuery;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, formCode.hashCode);
+    hash = _SystemHash.combine(hash, form.hashCode);
+    hash = _SystemHash.combine(hash, syncableEntity.hashCode);
+    hash = _SystemHash.combine(hash, d2SyncableQuery.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
-mixin DatabaseSyncableQueryRef
-    on AutoDisposeProviderRef<DatabaseSyncableQuery> {
-  /// The parameter `formCode` of this provider.
-  String get formCode;
+mixin SyncableEntityMappingRepositoryRef
+    on AutoDisposeProviderRef<SyncableEntityMappingRepository> {
+  /// The parameter `form` of this provider.
+  DynamicForm get form;
+
+  /// The parameter `syncableEntity` of this provider.
+  SyncableEntity get syncableEntity;
+
+  /// The parameter `d2SyncableQuery` of this provider.
+  SyncableQuery<SyncableEntity> get d2SyncableQuery;
 }
 
-class _DatabaseSyncableQueryProviderElement
-    extends AutoDisposeProviderElement<DatabaseSyncableQuery>
-    with DatabaseSyncableQueryRef {
-  _DatabaseSyncableQueryProviderElement(super.provider);
+class _SyncableEntityMappingRepositoryProviderElement
+    extends AutoDisposeProviderElement<SyncableEntityMappingRepository>
+    with SyncableEntityMappingRepositoryRef {
+  _SyncableEntityMappingRepositoryProviderElement(super.provider);
 
   @override
-  String get formCode => (origin as DatabaseSyncableQueryProvider).formCode;
+  DynamicForm get form =>
+      (origin as SyncableEntityMappingRepositoryProvider).form;
+  @override
+  SyncableEntity get syncableEntity =>
+      (origin as SyncableEntityMappingRepositoryProvider).syncableEntity;
+  @override
+  SyncableQuery<SyncableEntity> get d2SyncableQuery =>
+      (origin as SyncableEntityMappingRepositoryProvider).d2SyncableQuery;
 }
-
-String _$syncableEntityMappingRepositoryHash() =>
-    r'4e28bf3facebe55c2be123068c2666af234fb71b';
-
-/// Depends on Bundle from the route
-///
-///
-/// Copied from [syncableEntityMappingRepository].
-@ProviderFor(syncableEntityMappingRepository)
-final syncableEntityMappingRepositoryProvider =
-    AutoDisposeProvider<SyncableEntityMappingRepository>.internal(
-  syncableEntityMappingRepository,
-  name: r'syncableEntityMappingRepositoryProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$syncableEntityMappingRepositoryHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef SyncableEntityMappingRepositoryRef
-    = AutoDisposeProviderRef<SyncableEntityMappingRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

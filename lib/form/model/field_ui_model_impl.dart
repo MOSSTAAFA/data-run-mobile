@@ -128,7 +128,10 @@ class FieldUiModelImpl
   @override
   void onTextChange(String? value) {
     intentCallback?.call(FormIntent.onTextChange(
-        uid, (value ?? '').isEmpty == true ? null : value));
+        uid: uid,
+        value: (value ?? '').isEmpty == true ? null : value,
+        valueType: valueType,
+        fieldMask: fieldMask));
   }
 
   @override

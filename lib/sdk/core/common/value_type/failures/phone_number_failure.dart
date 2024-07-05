@@ -1,15 +1,14 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../exception/exception.dart';
+import '../../exception/validation_exception.dart';
 
 part 'phone_number_failure.freezed.dart';
 
 @freezed
 class PhoneNumberFailure
     with _$PhoneNumberFailure
-    implements ThrowableException {
-  @Implements<ThrowableException>()
+    implements ValidationException {
+  @Implements<ValidationException>()
   const factory PhoneNumberFailure.malformedPhoneNumberException(
-      [@Default('Exception') String message,
-      CaughtException? cause]) = MalformedPhoneNumberException;
+      [@Default('ValidationException') String message]) = MalformedPhoneNumberException;
 }

@@ -1,13 +1,12 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../exception/exception.dart';
+import '../../exception/validation_exception.dart';
 
 part 'url_failure.freezed.dart';
 
 @freezed
-class UrlFailure with _$UrlFailure implements ThrowableException {
-  @Implements<ThrowableException>()
+class UrlFailure with _$UrlFailure implements ValidationException {
+  @Implements<ValidationException>()
   const factory UrlFailure.malformedUrlException(
-      [@Default('Exception') String message,
-      CaughtException? cause]) = MalformedUrlException;
+      [@Default('ValidationException') String message]) = MalformedUrlException;
 }

@@ -1,14 +1,11 @@
-import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
-import 'package:d2_remote/modules/datarun/form/entities/dynamic_form.entity.dart';
 import 'package:d2_remote/modules/datarun_shared/entities/syncable.entity.dart';
 import 'package:d2_remote/modules/datarun_shared/queries/syncable.query.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:mass_pro/core/common/state.dart';
 import 'package:mass_pro/core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
+import 'package:mass_pro/data_run/form/form_fields_repository.dart';
 import 'package:mass_pro/data_run/form/syncable_entity_initial_repository.dart';
-import 'package:mass_pro/data_run/form/syncable_entity_mapping_repository.dart';
-import 'package:mass_pro/data_run/form/database_syncable_query.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'entity_form_listing_repository.g.dart';
@@ -18,59 +15,46 @@ SyncableEntityInitialRepository syncableEntityInitialRepository(
     SyncableEntityInitialRepositoryRef ref,
     {required String formCode,
     String? syncableUid}) {
+  final d2SyncableQuery =
+      ref.watch(databaseSyncableQueryProvider(formCode)).provideQuery();
   return SyncableEntityInitialRepository(ref,
-      syncableQueryProvider: ref.watch(databaseSyncableQueryProvider(formCode)),
-      syncableUid: syncableUid);
+      d2SyncableQuery: d2SyncableQuery, syncableUid: syncableUid);
 }
 
 @riverpod
 EntityFormListingRepository entityFormListingRepository(
     EntityFormListingRepositoryRef ref, String formCode) {
-  return EntityFormListingRepository(
-      ref.watch(databaseSyncableQueryProvider(formCode)));
+  final d2SyncableQuery =
+      ref.watch(databaseSyncableQueryProvider(formCode)).provideQuery();
+  return EntityFormListingRepository(d2SyncableQuery: d2SyncableQuery);
 }
 
 class EntityFormListingRepository {
-  EntityFormListingRepository(this.syncableQueryProvider);
+  EntityFormListingRepository({required this.d2SyncableQuery});
 
-  final DatabaseSyncableQuery syncableQueryProvider;
-
-  /// Getting the Query, latter we need to make it more Dynamic depending on the
-  /// form and permissions, now we need to provide one of the
-  /// following available forms:
-  /// ['CHV_PATIENTS_FORM', 'CHV_SESSIONS_FORM', 'ITN_DISTRIBUTION_FORM']
-  SyncableQuery getEntityQuery() {
-    return syncableQueryProvider.getEntityQuery();
-  }
-
-  /// returns all entities
-  Future<DynamicForm?> getForm() async {
-    return D2Remote.formModule.form
-        .where(attribute: 'code', value: syncableQueryProvider.formCode)
-        .getOne();
-  }
+  final SyncableQuery d2SyncableQuery;
 
   /// returns all entities
   Future<IList<SyncableEntity>> getEntities() async {
     final List<SyncableEntity> entities =
-        await getEntityQuery().resetFilters().get();
+        await d2SyncableQuery.resetFilters().get();
     return entities.lock;
   }
 
   /// get status based on the status of All entities
   Future<SyncableEntityState> getStatus() async {
     final withSyncErrorState =
-        await getEntityQuery().resetFilters().withSyncErrorState().count();
+        await d2SyncableQuery.resetFilters().withSyncErrorState().count();
 
-    final withUpdateErrorState = await getEntityQuery()
+    final withUpdateErrorState = await d2SyncableQuery
         .resetFilters()
         .withUpdateSyncedErrorState()
         .count();
 
     final withToPostState =
-        await getEntityQuery().resetFilters().withToPostState().count();
+        await d2SyncableQuery.resetFilters().withToPostState().count();
     final withToUpdateState =
-        await getEntityQuery().resetFilters().withToUpdateState().count();
+        await d2SyncableQuery.resetFilters().withToUpdateState().count();
 
     return when(true, {
       withUpdateErrorState > 0 || withSyncErrorState > 0: () =>
@@ -112,7 +96,7 @@ class EntityFormListingRepository {
   /// Entities that Entry needs to be finished and status turned to 'COMPLETED'
   /// Entities that are unsynced, dirty and status is not 'COMPLETED'
   Future<IList<SyncableEntity>> getEntitiesToUpdate() async {
-    final List<SyncableEntity> entities = await getEntityQuery()
+    final List<SyncableEntity> entities = await d2SyncableQuery
         .resetFilters()
         .whereNeq(attribute: 'status', value: 'COMPLETED')
         .where(attribute: 'synced', value: false)
@@ -122,7 +106,7 @@ class EntityFormListingRepository {
 
   /// Entities that are unsynced, dirty and status is 'COMPLETED'
   Future<IList<SyncableEntity>> getEntitiesToPost() async {
-    final List<SyncableEntity> entities = await getEntityQuery()
+    final List<SyncableEntity> entities = await d2SyncableQuery
         .resetFilters()
         .where(attribute: 'status', value: 'COMPLETED')
         .where(attribute: 'synced', value: false)
@@ -134,23 +118,21 @@ class EntityFormListingRepository {
   /// State = to_post but have errors
   Future<IList<SyncableEntity>> getEntitiesWithSyncErrorState() async {
     final List<SyncableEntity> entities =
-        await getEntityQuery().resetFilters().withSyncErrorState().get();
+        await d2SyncableQuery.resetFilters().withSyncErrorState().get();
     return entities.lock;
   }
 
   /// Synced entities couldn't be updated for updates that have errors,
   /// State = to_update but have errors
   Future<IList<SyncableEntity>> getEntitiesWithUpdateErrorState() async {
-    final List<SyncableEntity> entities = await getEntityQuery()
-        .resetFilters()
-        .withUpdateSyncedErrorState()
-        .get();
+    final List<SyncableEntity> entities =
+        await d2SyncableQuery.resetFilters().withUpdateSyncedErrorState().get();
     return entities.lock;
   }
 
   /// Entities that are unsynced, dirty and status is 'COMPLETED'
   Future<IList<SyncableEntity>> getEntitiesWithSyncedState() async {
-    final List<SyncableEntity> entities = await getEntityQuery()
+    final List<SyncableEntity> entities = await d2SyncableQuery
         .resetFilters()
         .where(attribute: 'synced', value: true)
         .get();

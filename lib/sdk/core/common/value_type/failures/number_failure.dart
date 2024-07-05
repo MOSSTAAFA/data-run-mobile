@@ -1,23 +1,20 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../exception/exception.dart';
+import '../../exception/validation_exception.dart';
 
 part 'number_failure.freezed.dart';
 
 @freezed
-class NumberFailure with _$NumberFailure implements ThrowableException {
-  @Implements<ThrowableException>()
+class NumberFailure with _$NumberFailure implements ValidationException {
+  @Implements<ValidationException>()
   const factory NumberFailure.scientificNotationException(
-      [@Default('Exception') String message,
-      CaughtException? cause]) = ScientificNotationException;
+      [@Default('ValidationException') String message]) = ScientificNotationException;
 
-  @Implements<ThrowableException>()
+  @Implements<ValidationException>()
   const factory NumberFailure.numberFormatException(
-      [@Default('Exception') String message,
-      CaughtException? cause]) = NumberFormatException;
+      [@Default('ValidationException') String message]) = NumberFormatException;
 
-  @Implements<ThrowableException>()
+  @Implements<ValidationException>()
   const factory NumberFailure.leadingZeroException(
-      [@Default('Exception') String message,
-      CaughtException? cause]) = LeadingZeroException;
+      [@Default('ValidationException') String message]) = LeadingZeroException;
 }

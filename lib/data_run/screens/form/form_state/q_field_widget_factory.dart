@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mass_pro/data_run/screens/form/fields_widgets/q_field.model.dart';
-import 'package:mass_pro/data_run/screens/shared_widgets/q_choice_chip.widget.dart';
-import 'package:mass_pro/data_run/screens/shared_widgets/q_date_time_picker.widget.dart';
-import 'package:mass_pro/data_run/screens/shared_widgets/q_switch_field.widget.dart';
-import 'package:mass_pro/data_run/screens/shared_widgets/q_text_field%20.dart';
+import 'package:mass_pro/data_run/screens/form/form_state/q_field.model.dart';
+import 'package:mass_pro/data_run/screens/shared_widgets/form/form.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

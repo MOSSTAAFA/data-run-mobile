@@ -1,15 +1,25 @@
+import 'dart:async';
+
+import 'package:d2_remote/d2_remote.dart';
+import 'package:d2_remote/modules/datarun/form/entities/dynamic_form.entity.dart';
+import 'package:d2_remote/modules/datarun_shared/entities/syncable.entity.dart';
 import 'package:expressions/expressions.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:get/get.dart';
+import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/commons/extensions/standard_extensions.dart';
 import 'package:mass_pro/commons/helpers/iterable.dart';
 import 'package:mass_pro/data_run/engine/rule_engine.dart';
+import 'package:mass_pro/data_run/form/database_syncable_query.dart';
 import 'package:mass_pro/data_run/form/display_name_provider.dart';
 import 'package:mass_pro/data_run/form/org_unit_d_configuration.dart';
 import 'package:mass_pro/data_run/form/syncable_entity_mapping_repository.dart';
-import 'package:mass_pro/data_run/screens/form/fields_widgets/q_field.model.dart';
+import 'package:mass_pro/data_run/screens/form/form_state/q_field.model.dart';
 import 'package:mass_pro/form/model/action_type.dart';
 import 'package:mass_pro/form/model/row_action.dart';
+import 'package:mass_pro/form/model/store_result.dart';
 import 'package:mass_pro/form/ui/validation/field_error_message_provider.dart';
+import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -27,10 +37,32 @@ FieldErrorMessageProvider fieldErrorMessageProvider(
 }
 
 @riverpod
-FormFieldsRepository formFieldsRepository(FormFieldsRepositoryRef ref) {
+DatabaseSyncableQuery databaseSyncableQuery(
+    DatabaseSyncableQueryRef ref, String formCode) {
+  return DatabaseSyncableQuery(formCode);
+}
+
+@riverpod
+Future<FormFieldsRepository> formFieldsRepository(
+    FormFieldsRepositoryRef ref) async {
+  final Bundle eventBundle = Get.arguments as Bundle;
+  final syncableUid = eventBundle.getString(SYNCABLE_UID)!;
+  final formCode = eventBundle.getString(FORM_CODE)!;
+  final DynamicForm? form = await D2Remote.formModule.form
+      .where(attribute: 'code', value: formCode)
+      .getOne();
+
+  final d2SyncableQuery =
+      ref.watch(databaseSyncableQueryProvider(formCode)).provideQuery();
+  final SyncableEntity? syncableEntity =
+      await d2SyncableQuery.byId(syncableUid).getOne();
+
   return FormFieldsRepository(
-      syncableEntityMappingRepository:
-          ref.watch(syncableEntityMappingRepositoryProvider),
+      syncableEntityMappingRepository: ref.watch(
+          syncableEntityMappingRepositoryProvider(
+              form: form!,
+              syncableEntity: syncableEntity!,
+              d2SyncableQuery: d2SyncableQuery)),
       displayNameProvider: ref.watch(displayNameProviderProvider),
       fieldErrorMessageProvider: ref.watch(fieldErrorMessageProviderProvider));
 }
@@ -38,12 +70,14 @@ FormFieldsRepository formFieldsRepository(FormFieldsRepositoryRef ref) {
 /// Maps Database entity fields key, value map to List<FormFieldModels>,
 /// that [FormStateNotifier] will use and update
 class FormFieldsRepository {
-  FormFieldsRepository(
-      {required this.syncableEntityMappingRepository,
-      required this.fieldErrorMessageProvider,
-      required this.displayNameProvider});
+  FormFieldsRepository({
+    required this.syncableEntityMappingRepository,
+    required this.fieldErrorMessageProvider,
+    required this.displayNameProvider,
+  });
 
-  IList<QFieldModel> _itemList = IList([]);
+  IList<QFieldModel> _pendingUpdates = IList([]);
+  List<QFieldModel> _pendingUpdatesList = [];
   IList<QFieldModel> _backupList = IList([]);
   IList<RowAction> _itemsWithError = IList([]);
   final RuleEngine ruleEngine = RuleEngine(const ExpressionEvaluator());
@@ -71,28 +105,72 @@ class FormFieldsRepository {
   /// when Data Integrity is run this field is set to true
   bool _runDataIntegrity = false;
 
-  Future<IList<QFieldModel>> fetchFieldsList() async {
-    _itemList = await syncableEntityMappingRepository.list();
-    _backupList = _itemList;
+  /// updates the field model in _itemList with the value based on the uid
+  Future<void> updateValueOnList(
+      String uid, String? value, ValueType? valueType) async {
+    Map<String, dynamic> pendingFieldDataMap = <String, dynamic>{
+      for (final field in _pendingUpdates) field.uid: field.value
+    };
+    // /// check if field exist or throw an error
+    // _pendingUpdates.firstWhere((field) => field.uid == uid,
+    //     orElse: () =>
+    //     throw Exception('field: $uid, with value: $value does not exist!'));
+
+    final displayName =
+        await displayNameProvider.provideDisplayName(valueType, value);
+    //
+    // _pendingUpdates = _pendingUpdates.replaceFirstWhere(
+    //     (field) => field.uid == uid,
+    //     (field) =>
+    //         field!.copyWith(value: value).copyWith(displayName: displayName));
+
+    final toUpdatedItem = _pendingUpdates.unlock
+        .firstWhere((t) => t.uid == uid)
+        .builder()
+        .setValue(value)
+        .setDisplayName(displayName)
+        .build();
+
+    _pendingUpdates =
+        _pendingUpdates.updateById([toUpdatedItem], (id) => id.uid);
+
+    pendingFieldDataMap = <String, dynamic>{
+      for (final field in _pendingUpdates) field.uid: field.value
+    };
+  }
+
+  // save(String id, String? value, String? extraData) {}
+  Future<StoreResult> batchUpdateValues(Map<String, dynamic>? formData) async {
+    // Implement logic to update all values in the list in a single call
+    // This could involve iterating through the list and performing bulk updates
+    // based on your data storage mechanism (e.g., SQL queries)
+    final map = formData;
+    return syncableEntityMappingRepository.saveFormData(_pendingUpdates);
+  }
+
+  FutureOr<IList<QFieldModel>> fetchFieldsList() async {
+    _pendingUpdates = await syncableEntityMappingRepository.list();
+    _pendingUpdatesList = _pendingUpdates.unlock;
+    _backupList = _pendingUpdates;
     return composeFieldsList();
   }
 
-  Future<IList<QFieldModel>> composeFieldsList() {
-    return applyRuleEffects(_itemList)
+  FutureOr<IList<QFieldModel>> composeFieldsList() async {
+    final composedList = await applyRuleEffects(_pendingUpdates)
         .then((IList<QFieldModel> listOfItems) =>
             _mergeListWithErrorFields(listOfItems, _itemsWithError))
-        .then(
-            (IList<QFieldModel> listOfItems) => _setFocusedItem(listOfItems))
+        .then((IList<QFieldModel> listOfItems) => _setFocusedItem(listOfItems))
         .then((IList<QFieldModel> listOfItems) =>
             _setLastItemKeyboardAction(listOfItems));
+    _pendingUpdatesList = composedList.unlock;
+    return composedList;
   }
 
-  Future<IMap<String, QFieldModel>> composeFieldsMap() async {
-    final fieldList = await applyRuleEffects(_itemList)
-        .then((IList<QFieldModel> listOfItems) =>
-            _mergeListWithErrorFields(listOfItems, _itemsWithError))
-        .then(
-            (IList<QFieldModel> listOfItems) => _setFocusedItem(listOfItems))
+  FutureOr<IMap<String, QFieldModel>> composeFieldsMap() async {
+    final fieldList = await applyRuleEffects(_pendingUpdates)
+        // .then((IList<QFieldModel> listOfItems) =>
+        //     _mergeListWithErrorFields(listOfItems, _itemsWithError))
+        // .then((IList<QFieldModel> listOfItems) => _setFocusedItem(listOfItems))
         .then((IList<QFieldModel> listOfItems) =>
             _setLastItemKeyboardAction(listOfItems));
 
@@ -100,8 +178,7 @@ class FormFieldsRepository {
         keyMapper: (field) => field.uid, valueMapper: (field) => field);
   }
 
-  Future<IList<QFieldModel>> applyRuleEffects(
-      IList<QFieldModel> list) async {
+  Future<IList<QFieldModel>> applyRuleEffects(IList<QFieldModel> list) async {
     return ruleEngine.applyRules(list);
   }
 
@@ -179,34 +256,19 @@ class FormFieldsRepository {
   }
 
   void removeAllValues() {
-    _itemList = _itemList
+    _pendingUpdates = _pendingUpdates
         .map((QFieldModel fieldUiModel) =>
             fieldUiModel.setValue(null).setDisplayName(null))
         .toIList();
   }
 
   QFieldModel? currentFocusedItem() {
-    return _itemList
+    return _pendingUpdates
         .firstOrNullWhere((QFieldModel item) => _focusedItemId == item.uid);
   }
 
   void clearFocusItem() {
     _focusedItemId = null;
-  }
-
-  /// updates the field model in _itemList with the value based on the uid
-  Future<void> updateValueOnList(
-      String uid, String? value, ValueType? valueType) async {
-    final int itemIndex =
-        _itemList.indexWhere((QFieldModel item) => item.uid == uid);
-    if (itemIndex >= 0) {
-      // TODO(NMC): improve
-      final QFieldModel item = _itemList[itemIndex];
-      _itemList = _itemList.replace(
-          itemIndex,
-          item.setValue(value).setDisplayName(
-              await displayNameProvider.provideDisplayName(valueType, value)));
-    }
   }
 
   void setFocusedItem(RowAction action) {
@@ -242,16 +304,18 @@ class FormFieldsRepository {
   }
 
   bool _usesKeyboard(ValueType? valueType) {
-    return valueType != null
-        ? valueType.isText || valueType.isNumeric || valueType.isInteger
-        : false;
+    if (valueType != null) {
+      return valueType.isText || valueType.isNumeric || valueType.isInteger;
+    } else {
+      return false;
+    }
   }
 
   String? _getNextItem(String currentItemUid) {
-    _itemList.let((IList<QFieldModel> fields) {
+    _pendingUpdates.let((IList<QFieldModel> fields) {
       // final oldItem = fields.firstOrNullWhere((item) => item.uid == currentItemUid);
-      final int pos = fields.indexWhere(
-          (QFieldModel oldItem) => oldItem.uid == currentItemUid);
+      final int pos = fields
+          .indexWhere((QFieldModel oldItem) => oldItem.uid == currentItemUid);
       if (pos < fields.length - 1) {
         return fields[pos + 1].uid;
       }
@@ -259,7 +323,7 @@ class FormFieldsRepository {
     return null;
   }
 
-  save(String id, String? value, String? extraData) {}
-
-  Future<void> saveFormData() async{}
+  IList<QFieldModel> getFields() {
+    return _pendingUpdates;
+  }
 }

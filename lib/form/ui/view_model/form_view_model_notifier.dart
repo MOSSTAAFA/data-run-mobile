@@ -17,7 +17,7 @@ import 'package:mass_pro/form/ui/intent/form_intent.dart';
 import 'package:mass_pro/form/ui/validation/validators/field_mask_validator.dart';
 import 'package:mass_pro/form/ui/view_model/form_model_notifier.dart';
 import 'package:mass_pro/form/ui/view_model/form_pending_intents.dart';
-import 'package:mass_pro/sdk/core/common/exception/exception.dart';
+import 'package:mass_pro/sdk/core/common/exception/validation_exception.dart';
 import 'package:mass_pro/sdk/core/common/feature_type.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:mass_pro/sdk/core/mp/helpers/result.dart';
@@ -212,7 +212,6 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
             uid: action.id,
             valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);
       case ActionType.ON_INIT:
-
         /// upon returning, need to processCalculatedItems() and update state
         return StoreResult(
             uid: action.id,
@@ -420,76 +419,78 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
 
   RowAction _getRowActionFromIntent(FormIntent intent) {
     return intent.map(
-      /// on removing all form values
-      onClear: (OnClear intent) => _createRowAction(
-          uid: '', value: null, actionType: ActionType.ON_CLEAR),
 
-      /// on removing single field value
-      clearValue: (ClearValue intent) =>
-          _createRowAction(uid: intent.uid, value: null),
-      selectLocationFromCoordinates: (SelectLocationFromCoordinates intent) {
-        final Exception? error =
-            _checkFieldError(ValueType.Coordinate, intent.coordinates, null);
-        return _createRowAction(
-            uid: intent.uid,
-            value: intent.coordinates,
-            extraData: intent.extraData,
-            error: error,
-            valueType: ValueType.Coordinate);
-      },
-      selectLocationFromMap: (SelectLocationFromMap intent) =>
-          _setCoordinateFieldValue(
-              fieldUid: intent.uid,
-              featureType: intent.featureType,
-              coordinates: intent.coordinates),
-      saveCurrentLocation: (SaveCurrentLocation intent) {
-        final Exception? error =
-            _checkFieldError(ValueType.Coordinate, intent.value, null);
-        return _createRowAction(
-            uid: intent.uid,
-            value: intent.value,
-            extraData: intent.featureType,
-            error: error,
-            valueType: ValueType.Coordinate);
-      },
-      onNext: (OnNext intent) => _createRowAction(
-          uid: intent.uid, value: intent.value, actionType: ActionType.ON_NEXT),
-      onSave: (OnSave intent) {
-        final Exception? error =
-            _checkFieldError(intent.valueType, intent.value, intent.fieldMask);
-        return _createRowAction(
-            uid: intent.uid,
-            value: intent.value,
-            error: error,
-            valueType: intent.valueType);
-      },
-      onFocus: (OnFocus intent) => _createRowAction(
-          uid: intent.uid,
-          value: intent.value,
-          actionType: ActionType.ON_FOCUS),
-      onTextChange: (OnTextChange intent) => _createRowAction(
-          uid: intent.uid,
-          value: intent.value,
-          actionType: ActionType.ON_TEXT_CHANGE,
-          valueType: ValueType.Text),
-      onSection: (OnSection intent) => _createRowAction(
-          uid: intent.sectionUid,
-          value: null,
-          actionType: ActionType.ON_SECTION_CHANGE),
-      onFinish: (OnFinish intent) => _createRowAction(
-          uid: '', value: null, actionType: ActionType.ON_FINISH),
-      onRequestCoordinates: (OnRequestCoordinates intent) => _createRowAction(
-          uid: intent.uid,
-          value: null,
-          actionType: ActionType.ON_REQUEST_COORDINATES),
-      onCancelRequestCoordinates: (OnCancelRequestCoordinates intent) =>
-          _createRowAction(
+        /// on removing all form values
+        onClear: (OnClear intent) => _createRowAction(
+            uid: '', value: null, actionType: ActionType.ON_CLEAR),
+
+        /// on removing single field value
+        clearValue: (ClearValue intent) =>
+            _createRowAction(uid: intent.uid, value: null),
+        selectLocationFromCoordinates: (SelectLocationFromCoordinates intent) {
+          final Exception? error =
+              _checkFieldError(ValueType.Coordinate, intent.coordinates, null);
+          return _createRowAction(
               uid: intent.uid,
-              value: null,
-              actionType: ActionType.ON_CANCELL_REQUEST_COORDINATES),
-      init: (Init intent) => _createRowAction(
-          uid: '', value: null, actionType: ActionType.ON_INIT),
-    );
+              value: intent.coordinates,
+              extraData: intent.extraData,
+              error: error,
+              valueType: ValueType.Coordinate);
+        },
+        selectLocationFromMap: (SelectLocationFromMap intent) =>
+            _setCoordinateFieldValue(
+                fieldUid: intent.uid,
+                featureType: intent.featureType,
+                coordinates: intent.coordinates),
+        saveCurrentLocation: (SaveCurrentLocation intent) {
+          final Exception? error =
+              _checkFieldError(ValueType.Coordinate, intent.value, null);
+          return _createRowAction(
+              uid: intent.uid,
+              value: intent.value,
+              extraData: intent.featureType,
+              error: error,
+              valueType: ValueType.Coordinate);
+        },
+        onNext: (OnNext intent) => _createRowAction(
+            uid: intent.uid,
+            value: intent.value,
+            actionType: ActionType.ON_NEXT),
+        onSave: (OnSave intent) {
+          final Exception? error = _checkFieldError(
+              intent.valueType, intent.value, intent.fieldMask);
+          return _createRowAction(
+              uid: intent.uid,
+              value: intent.value,
+              error: error,
+              valueType: intent.valueType);
+        },
+        onFocus: (OnFocus intent) => _createRowAction(
+            uid: intent.uid,
+            value: intent.value,
+            actionType: ActionType.ON_FOCUS),
+        onTextChange: (OnTextChange intent) => _createRowAction(
+            uid: intent.uid,
+            value: intent.value,
+            actionType: ActionType.ON_TEXT_CHANGE,
+            valueType: ValueType.Text),
+        onSection: (OnSection intent) => _createRowAction(
+            uid: intent.sectionUid,
+            value: null,
+            actionType: ActionType.ON_SECTION_CHANGE),
+        onFinish: (OnFinish intent) => _createRowAction(
+            uid: '', value: null, actionType: ActionType.ON_FINISH),
+        onRequestCoordinates: (OnRequestCoordinates intent) => _createRowAction(
+            uid: intent.uid,
+            value: null,
+            actionType: ActionType.ON_REQUEST_COORDINATES),
+        onCancelRequestCoordinates: (OnCancelRequestCoordinates intent) =>
+            _createRowAction(
+                uid: intent.uid,
+                value: null,
+                actionType: ActionType.ON_CANCELL_REQUEST_COORDINATES),
+        init: (Init intent) => _createRowAction(
+            uid: '', value: null, actionType: ActionType.ON_INIT));
   }
 
   /// _createRowAction Global to this file function
@@ -510,27 +511,27 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
 
   /// When Field has a value it will
   /// Validate the value against all validation rules
-  ThrowableException? _checkFieldError(
+  ValidationException? _checkFieldError(
       ValueType? valueType, String? fieldValue, String? fieldMask) {
     if (fieldValue.isNullOrEmpty) {
       return null;
     }
 
     /// for debugging or directly return it
-    final ThrowableException? checkResult = fieldValue!.let((String value) {
-      ThrowableException? error;
-      final Result<String, ThrowableException>? result = valueType
+    final ValidationException? checkResult = fieldValue!.let((String value) {
+      ValidationException? error;
+      final Result<String, ValidationException>? result = valueType
           ?.takeIf((ValueType item) => item != ValueType.Image)
           ?.validator
           .validate(value);
       error = result?.fold(
-          (ThrowableException failure) => failure, (String success) => null);
+          (ValidationException failure) => failure, (String success) => null);
 
       fieldMask?.let((String mask) {
-        final Result<String, ThrowableException> result =
+        final Result<String, ValidationException> result =
             FieldMaskValidator(mask).validate(value);
         error = result.fold(
-            (ThrowableException failure) => failure, (String success) => error);
+            (ValidationException failure) => failure, (String success) => error);
       });
       return error;
     });

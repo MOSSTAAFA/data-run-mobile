@@ -11,7 +11,7 @@ class DatabaseSyncableQuery {
   /// form and permissions, now we need to provide one of the
   /// following available forms:
   /// ['CHV_PATIENTS_FORM', 'CHV_SESSIONS_FORM', 'ITN_DISTRIBUTION_FORM']
-  SyncableQuery getEntityQuery() {
+  SyncableQuery provideQuery() {
     final SyncableQuery query = when<String?, SyncableQuery>(formCode, {
       'CHV_PATIENTS_FORM': () => D2Remote.iccmModule.chvRegister,
       'CHV_SESSIONS_FORM': () => D2Remote.iccmModule.chvSession,
