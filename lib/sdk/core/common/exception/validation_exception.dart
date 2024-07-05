@@ -4,16 +4,16 @@
 
 /// An exception that occurred during the analysis of one or more sources.
 class ThrowableException implements Exception {
+
+  /// Initialize a newly created exception to have the given [message] and
+  /// [cause].
+  ThrowableException([this.message = 'Exception', this.cause]);
   /// The message that explains why the exception occurred.
   final String message;
 
   /// The exception that caused this exception, or `null` if this exception was
   /// not caused by another exception.
   final CaughtException? cause;
-
-  /// Initialize a newly created exception to have the given [message] and
-  /// [cause].
-  ThrowableException([this.message = 'Exception', this.cause]);
 
   @override
   String toString() {
@@ -33,14 +33,6 @@ class ThrowableException implements Exception {
 
 /// An exception that was caught and has an associated stack trace.
 class CaughtException implements Exception {
-  /// The exception that was caught.
-  final Object exception;
-
-  /// The message describing where/how/why this was caught.
-  final String? message;
-
-  /// The stack trace associated with the exception.
-  StackTrace? stackTrace;
 
   /// Initialize a newly created caught exception to have the given [exception]
   /// and [stackTrace].
@@ -50,6 +42,14 @@ class CaughtException implements Exception {
   /// Initialize a newly created caught exception to have the given [exception],
   /// [stackTrace], and [message].
   CaughtException.withMessage(this.message, this.exception, this.stackTrace);
+  /// The exception that was caught.
+  final Object exception;
+
+  /// The message describing where/how/why this was caught.
+  final String? message;
+
+  /// The stack trace associated with the exception.
+  StackTrace? stackTrace;
 
   /// Recursively unwrap this [CaughtException] if it itself contains a
   /// [CaughtException].

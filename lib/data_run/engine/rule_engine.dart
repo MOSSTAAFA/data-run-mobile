@@ -1,8 +1,10 @@
+import 'dart:async';
+
 import 'package:d2_remote/modules/datarun/form/shared/rule.dart';
 import 'package:expressions/expressions.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:mass_pro/data_run/form/map_field_value_to_user.dart';
-import 'package:mass_pro/data_run/screens/form/fields_widgets/q_field.model.dart';
+import 'package:mass_pro/data_run/screens/form/form_state/q_field.model.dart';
 
 class RuleEngine {
   RuleEngine(this._evaluator);
@@ -21,14 +23,13 @@ class RuleEngine {
       return fieldRulesMap;
     }
 
-    fieldRulesMap = IMap.fromIterable<String, IList<Rule>?, QFieldModel>(
-        fields,
+    fieldRulesMap = IMap.fromIterable<String, IList<Rule>?, QFieldModel>(fields,
         keyMapper: (field) => field.uid,
         valueMapper: (field) => field.fieldRules);
     return fieldRulesMap;
   }
 
-  Future<IList<QFieldModel>> applyRules(IList<QFieldModel> fields) async {
+  FutureOr<IList<QFieldModel>> applyRules(IList<QFieldModel> fields) {
     final context = getContext(fields);
     final rulesMap = getRules(fields);
 
@@ -58,10 +59,8 @@ class RuleEngine {
   }
 
   /// Evaluates rules and applies actions to fields
-  Future<IList<QFieldModel>> evaluateAndApplyRules(
-      IList<QFieldModel> fields,
-      IMap<String, IList<Rule>?> rulesMap,
-      IMap<String, dynamic> context) async {
+  FutureOr<IList<QFieldModel>> evaluateAndApplyRules(IList<QFieldModel> fields,
+      IMap<String, IList<Rule>?> rulesMap, IMap<String, dynamic> context) {
     IList<QFieldModel> updatedFields = fields;
     for (final field in fields) {
       final rules = rulesMap.get(field.uid);
@@ -75,6 +74,10 @@ class RuleEngine {
             if (conditionMet) {
               updatedFields = applyAction(
                   updatedFields, field.uid, rule.action, rule.message);
+            } else {
+              // Reset action if condition is not met
+              updatedFields = _resetAction(
+                  updatedFields, field.uid, rule.action, rule.message);
             }
           }
         }
@@ -83,28 +86,28 @@ class RuleEngine {
     return updatedFields;
   }
 
-  IList<QFieldModel> applyAction(IList<QFieldModel> fields, String uid,
-      String? action, String? message) {
+  IList<QFieldModel> applyAction(
+      IList<QFieldModel> fields, String uid, String? action, String? message) {
     final fieldsMap = _getFieldsModelMap(fields);
     switch (action) {
       case 'show':
         return fieldsMap
-            .update(uid, (field) => field.copyWith(isVisible: true))
+            .update(uid, (field) => field.builder().setIsVisible(true).build())
             .values
             .toIList();
       case 'hide':
         return fieldsMap
-            .update(uid, (field) => field.copyWith(isVisible: false))
+            .update(uid, (field) => field.builder().setIsVisible(false).build())
             .values
             .toIList();
       case 'error':
         return fieldsMap
-            .update(uid, (field) => field.copyWith(error: message))
+            .update(uid, (field) => field.builder().setError(message).build())
             .values
             .toIList();
       case 'warning':
         return fieldsMap
-            .update(uid, (field) => field.copyWith(warning: message))
+            .update(uid, (field) => field.builder().setWarning(message).build())
             .values
             .toIList();
       default:
@@ -112,8 +115,36 @@ class RuleEngine {
     }
   }
 
-  IMap<String, QFieldModel> _getFieldsModelMap(
-      IList<QFieldModel> fields) {
+  IList<QFieldModel> _resetAction(
+      IList<QFieldModel> fields, String uid, String? action, String? message) {
+    final fieldsMap = _getFieldsModelMap(fields);
+    switch (action) {
+      case 'show':
+        return fieldsMap
+            .update(uid, (field) => field.builder().setIsVisible(false).build())
+            .values
+            .toIList();
+      case 'hide':
+        return fieldsMap
+            .update(uid, (field) => field.builder().setIsVisible(false).build())
+            .values
+            .toIList();
+      case 'error':
+        return fieldsMap
+            .update(uid, (field) => field.builder().setError(null).build())
+            .values
+            .toIList();
+      case 'warning':
+        return fieldsMap
+            .update(uid, (field) => field.builder().setWarning(null).build())
+            .values
+            .toIList();
+      default:
+        return fields;
+    }
+  }
+
+  IMap<String, QFieldModel> _getFieldsModelMap(IList<QFieldModel> fields) {
     return IMap.fromIterable<String, QFieldModel, QFieldModel>(fields,
         keyMapper: (field) => field.uid, valueMapper: (field) => field);
   }

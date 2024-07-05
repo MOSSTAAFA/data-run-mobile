@@ -17,9 +17,9 @@ QFieldWidgetFactory fieldWidgetFactory(FieldWidgetFactoryRef ref) {
 typedef QFormFieldBuilder = Widget Function(QFieldModel fieldState);
 
 class QFieldWidgetFactory {
-  final Map<ValueType, QFormFieldBuilder> _cache = {};
+  final Map<ValueType?, QFormFieldBuilder> _cache = {};
 
-  QFormFieldBuilder getBuilder(ValueType valueType) {
+  QFormFieldBuilder getBuilder(ValueType? valueType) {
     if (_cache.containsKey(valueType)) {
       return _cache[valueType]!;
     }
@@ -29,7 +29,7 @@ class QFieldWidgetFactory {
     return builder;
   }
 
-  QFormFieldBuilder _createBuilder(ValueType valueType) {
+  QFormFieldBuilder _createBuilder(ValueType? valueType) {
     switch (valueType) {
       case ValueType.Text:
       case ValueType.Number:
@@ -37,19 +37,25 @@ class QFieldWidgetFactory {
       case ValueType.Letter:
       case ValueType.LongText:
         return (fieldModel) => QTextField(
-              key: ValueKey(fieldModel.uid),
-              fieldKey: fieldModel.uid,
+              // key: ValueKey<String>(fieldModel.uid),
+              fieldModel: fieldModel,
             );
       case ValueType.Boolean:
-        return (fieldModel) => QSwitchField(fieldModel: fieldModel);
+        return (fieldModel) => QSwitchField(
+            // key: ValueKey<String>(fieldModel.uid),
+            fieldModel: fieldModel);
       case ValueType.Date:
       case ValueType.DateTime:
       case ValueType.Time:
-        return (fieldModel) => QDateTimePicker(fieldModel: fieldModel);
+        return (fieldModel) => QDateTimePicker(
+            // key: ValueKey<String>(fieldModel.uid),
+            fieldModel: fieldModel);
       case ValueType.SelectOne:
-        return (fieldModel) => QChoiceChip(fieldModel: fieldModel);
+        return (fieldModel) => QChoiceChip(
+            // key: ValueKey<String>(fieldModel.uid),
+            fieldModel: fieldModel);
       default:
-        throw UnsupportedError('Unsupported field type');
+        return (fieldModel) => const Text('Unsupported field type');
     }
   }
 }

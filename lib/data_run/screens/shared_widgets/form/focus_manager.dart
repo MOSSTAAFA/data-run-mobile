@@ -1,7 +1,7 @@
 // FocusManager.dart
 
 import 'package:flutter/material.dart';
-import 'package:mass_pro/data_run/screens/form/fields_widgets/q_field.model.dart';
+import 'package:mass_pro/data_run/screens/form/form_state/q_field.model.dart';
 import 'package:mass_pro/form/ui/intent/form_intent.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
