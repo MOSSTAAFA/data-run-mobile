@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-
-enum SyncState {
-  synced,
-  unsynced,
-  error,
-}
+import 'package:mass_pro/core/common/state.dart';
 
 class QSyncIconButton extends StatelessWidget {
-  final SyncState state;
+  final SyncableEntityState? state;
   final VoidCallback? onUnsyncedPressed;
   final VoidCallback? onErrorPressed;
 
@@ -21,21 +16,24 @@ class QSyncIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     switch (state) {
-      case SyncState.synced:
-        return IconButton(
-          icon: Icon(Icons.check, color: Colors.green),
-          onPressed: null, // Do nothing
+      case SyncableEntityState.SYNCED:
+        return const IconButton(
+          icon: Icon(Icons.cloud_done, color: Colors.green),
+          onPressed: null,
         );
-      case SyncState.unsynced:
+      case SyncableEntityState.TO_POST:
+      case SyncableEntityState.TO_UPDATE:
         return IconButton(
-          icon: Icon(Icons.sync, color: Colors.blue),
+          icon: const Icon(Icons.sync, color: Colors.blue),
           onPressed: onUnsyncedPressed,
         );
-      case SyncState.error:
+      case SyncableEntityState.ERROR:
         return IconButton(
-          icon: Icon(Icons.error, color: Colors.red),
+          icon: const Icon(Icons.error, color: Colors.red),
           onPressed: onErrorPressed,
         );
+      default:
+        return const Icon(Icons.all_inclusive);
     }
   }
 }

@@ -42,15 +42,8 @@ class FormListingModelsMapper {
       final entitiesStatus = await ref
           .watch(entityFormListingRepositoryProvider(form.code!))
           .getStatus();
-      //
-      // final DynamicForm? dynamicForm = await ref
-      //     .watch(syncableQueryMappingRepositoryProvider(form.code!))
-      //     .getForm();
-      final DynamicForm? dynamicForm = await D2Remote.formModule.form
-          .where(attribute: 'code', value: form.code!)
-          .getOne();
 
-      final formFieldModels = getFormFieldModels(dynamicForm!);
+      final formFieldModels = getFormFieldModels(form);
 
       formListItemModels = formListItemModels.add(FormListItemModel(
           form: form.id!,
@@ -83,8 +76,6 @@ class FormListingModelsMapper {
               fieldRendering: FieldValueRenderingUtil.getFieldValueRendering(
                   field.fieldValueRenderingType),
               fieldRules: field.rules?.lock,
-              // value: ,
-              // controller: TextEditingController(),
             ))
         .toIList();
   }

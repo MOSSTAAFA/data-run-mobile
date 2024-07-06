@@ -289,8 +289,9 @@ class FormFieldsStateNotifier extends _$FormFieldsStateNotifier {
   }
 
   void discardChanges() {
-    getFormRepository().backupOfChangedItems().forEach((QFieldModel item) =>
-        submitIntent(FormIntent.onSave(
+    getFormRepository().backupOfChangedItems().forEach((QFieldModel item) => ref
+        .read(formPendingIntentsProvider.notifier)
+        .submitIntent((current) => FormIntent.onSave(
             uid: item.uid,
             value: item.value,
             valueType: item.valueType,

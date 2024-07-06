@@ -111,8 +111,6 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
       return;
     }
 
-    final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
-
     await showDialog<String?>(
       context: context,
       builder: (BuildContext context) {

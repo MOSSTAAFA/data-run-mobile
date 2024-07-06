@@ -1,13 +1,13 @@
 import 'package:d2_remote/modules/datarun_shared/entities/syncable.entity.dart';
+import 'package:fast_immutable_collections/src/ilist/ilist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/core/common/state.dart';
 import 'package:mass_pro/data_run/screens/entities_list_screen/entities_riverpod_providers.dart';
-import 'package:mass_pro/data_run/screens/entities_list_screen/entity_filter_status.dart';
 import 'package:mass_pro/data_run/screens/form/form_screen.widget.dart';
-import 'package:mass_pro/data_run/screens/project_details/project_detail_item.model.dart';
+import 'package:mass_pro/data_run/screens/shared_widgets/q_sync_icon_button.widget.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 
 class EntitiesListScreen extends ConsumerStatefulWidget {
@@ -18,9 +18,8 @@ class EntitiesListScreen extends ConsumerStatefulWidget {
 }
 
 class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
-  EntityFilterStatus? _selectedStatus;
+  SyncableEntityState? _selectedStatus;
   late final String formCode;
-
 
   @override
   void initState() {
@@ -51,30 +50,26 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
         scrollDirection: Axis.horizontal,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            _buildFilterChip(EntityFilterStatus.All),
-            _buildFilterChip(EntityFilterStatus.Sent),
-            _buildFilterChip(EntityFilterStatus.Completed),
-            _buildFilterChip(EntityFilterStatus.ToComplete),
-            _buildFilterChip(EntityFilterStatus.Error),
-          ],
+          children: SyncableEntityState.statusFilterItems()
+              .map((status) => _buildFilterChip(status))
+              .toList(),
         ),
       ),
     );
   }
 
-  Widget _buildFilterChip(EntityFilterStatus status) {
+  Widget _buildFilterChip(SyncableEntityState status) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4.0),
       child: ChoiceChip(
         label: Text(status.name),
         showCheckmark: false,
         tooltip: status.name,
-        avatar: _buildStatusIcon(EntityFilterStatus.getSyncableStatus(status)),
+        avatar: _buildStatusIcon(status),
         selected: _selectedStatus == status,
         onSelected: (bool selected) {
           setState(() {
-            _selectedStatus = selected ? status : EntityFilterStatus.All;
+            _selectedStatus = selected ? status : null;
           });
         },
       ),
@@ -82,10 +77,9 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
   }
 
   Widget _buildEntitiesList() {
-    final filteringStatus =
-        EntityFilterStatus.getSyncableStatus(_selectedStatus);
-    final entitiesByStatus = ref.watch(entitiesByStatusProvider(
-        formCode: formCode, entityStatus: filteringStatus));
+    final AsyncValue<IList<SyncableEntity>> entitiesByStatus = ref.watch(
+        entitiesByStatusProvider(
+            formCode: formCode, entityStatus: _selectedStatus));
 
     return entitiesByStatus.when(
         data: (filteredEntities) => ListView.builder(
@@ -94,17 +88,26 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
                 final SyncableEntity entity = filteredEntities[index];
                 final SyncableEntityState? entitySyncableStatus =
                     SyncableEntityState.getEntityStatus(entity);
+                final summary = generateFormSummary(entity.toJson());
 
-                return ListTile(
-                  leading: _buildStatusIcon(entitySyncableStatus),
-                  title: Text(entity.name ?? entity.uid!),
-                  subtitle: Text(
-                      EntityFilterStatus.getFilterStatus(entitySyncableStatus)
-                          .name),
-                  onTap: () {
-                    // Handle entity tap
-                    goToTappedEntityForm(entity.uid!);
-                  },
+                return Card(
+                  elevation: 2,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                  ),
+                  child: ListTile(
+                    leading: _buildStatusIcon(entitySyncableStatus),
+                    title: Text(entity.name ?? entity.uid!),
+                    subtitle: Text(summary),
+                    trailing: QSyncIconButton(
+                      state: entitySyncableStatus,
+                      onUnsyncedPressed: () => handleSyncAction(entity),
+                      onErrorPressed: () => handleSyncAction(entity),
+                    ),
+                    onTap: () {
+                      goToTappedEntityForm(entity.uid!);
+                    },
+                  ),
                 );
               },
             ),
@@ -117,9 +120,8 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
       case SyncableEntityState.SYNCED:
         return const Icon(Icons.cloud_done, color: Colors.green);
       case SyncableEntityState.TO_POST:
-        return const Icon(Icons.cloud_upload, color: Colors.blue);
       case SyncableEntityState.TO_UPDATE:
-        return const Icon(Icons.update, color: Colors.orange);
+        return const Icon(Icons.sync, color: Colors.blue);
       case SyncableEntityState.ERROR:
         return const Icon(Icons.error, color: Colors.red);
       default:
@@ -131,7 +133,45 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
     final Bundle eventBundle = Get.arguments as Bundle;
     final bundle = eventBundle.putString(SYNCABLE_UID, uid);
 
-    /// navigate to the form screen to fill the rest of the fields
     Get.to(const FormScreen(), arguments: bundle);
   }
+
+  void handleSyncAction(SyncableEntity entity) {
+    // Implement your sync logic here
+    print('Sync action triggered for entity: ${entity.uid}');
+  }
 }
+
+String generateFormSummary(Map<String, dynamic> fields) {
+  final String fieldSummary = fields.entries
+      .where((entry) =>
+          entry.key != 'name' &&
+          entry.value != null &&
+          !syncableVariable.contains(entry.key))
+      .take(3)
+      .map((entry) => '${entry.key}: ${entry.value}')
+      .join(', ');
+
+  return fieldSummary.isNotEmpty ? fieldSummary : 'No additional data';
+}
+
+final syncableVariable = [
+  'id',
+  'uid',
+  'code',
+  'name',
+  'createdDate',
+  'lastModifiedDate',
+  'deleted',
+  'synced',
+  'syncFailed',
+  'lastSyncSummary',
+  'lastSyncDate',
+  'startEntryTime',
+  'finishedEntryTime',
+  'activity',
+  'team',
+  'status',
+  'geometry',
+  'dirty'
+];

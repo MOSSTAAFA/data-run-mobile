@@ -1,5 +1,4 @@
 import 'package:d2_remote/modules/datarun_shared/entities/syncable.entity.dart';
-import 'package:mass_pro/commons/extensions/standard_extensions.dart';
 
 enum SyncableEntityState {
   TO_POST,
@@ -28,12 +27,15 @@ enum SyncableEntityState {
     return uploadableStates.contains(this);
   }
 
-  static  SyncableEntityState? getEntityStatus(SyncableEntity entity) {
-    return when(true, {
-      entity.synced ?? false: () => SYNCED,
-      entity.status == 'COMPLETED': () => TO_POST,
-      entity.syncFailed ?? false: () => ERROR,
-      entity.dirty: () => TO_UPDATE,
-    });
+  static SyncableEntityState? getEntityStatus(SyncableEntity entity) {
+    if (entity.synced ?? false) return SYNCED;
+    if (entity.status == 'COMPLETED') return TO_POST;
+    if (entity.syncFailed ?? false) return ERROR;
+    if (entity.dirty) return TO_UPDATE;
+    return null;
+  }
+
+  static List<SyncableEntityState> statusFilterItems() {
+    return [SYNCED, TO_POST, TO_UPDATE, ERROR];
   }
 }

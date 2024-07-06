@@ -18,6 +18,7 @@ class QTextField extends StatefulWidget {
 class _QTextFieldState extends State<QTextField> {
   late final FocusNode _focusNode;
 
+  //
   // onClearButton
   // _fieldController.clear();
   //    _focusNode.unfocus(
@@ -84,15 +85,16 @@ class _QTextFieldState extends State<QTextField> {
         suffixIcon: (widget.fieldModel.value ?? '').isNotEmpty
             ? IconButton(
                 icon: const Icon(Icons.close),
-                onPressed: widget.fieldModel.onClear,
+                onPressed: () {
+                  FormBuilder.of(context)
+                      ?.fields[widget.fieldModel.uid]
+                      ?.didChange(null);
+                },
               )
             : null,
       ),
       onChanged: widget.fieldModel.onTextChange,
       keyboardType: widget.fieldModel.inputType,
-      // onEditingComplete: () {
-      //   FocusScope.of(context).unfocus();
-      // },
     );
   }
 }

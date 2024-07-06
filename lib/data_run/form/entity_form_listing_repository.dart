@@ -18,7 +18,9 @@ SyncableEntityInitialRepository syncableEntityInitialRepository(
   final d2SyncableQuery =
       ref.watch(databaseSyncableQueryProvider(formCode)).provideQuery();
   return SyncableEntityInitialRepository(ref,
-      d2SyncableQuery: d2SyncableQuery, syncableUid: syncableUid);
+      d2SyncableQuery: d2SyncableQuery,
+      syncableUid: syncableUid,
+      formCode: formCode);
 }
 
 @riverpod
@@ -67,7 +69,7 @@ class EntityFormListingRepository {
   /// returns entities by a specified State, and if not specified
   /// returns all entities
   Future<IList<SyncableEntity>> getEntitiesByState(
-      {SyncableEntityState? state}) async {
+      {SyncableEntityState? state, String sortBy = 'name'}) async {
     final IList<SyncableEntity> entities =
         await when<SyncableEntityState?, Future<IList<SyncableEntity>>>(state, {
       SyncableEntityState.TO_UPDATE: () => getEntitiesToUpdate(),
@@ -83,7 +85,11 @@ class EntityFormListingRepository {
 
       /// orElse getAll
     }).orElse(() => getEntities());
-    return entities;
+    final sorted = entities.sort((a, b) => (b.finishedEntryTime ??
+            b.startEntryTime ?? b.name ?? '')
+        .compareTo(a.finishedEntryTime ??
+            a.startEntryTime ?? a.name ?? ''));
+    return sorted;
   }
 
   /// returns the count of entities by a specified State, and if not specified

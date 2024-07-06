@@ -8,7 +8,7 @@ part 'entities_riverpod_providers.g.dart';
 
 @riverpod
 Future<IList<SyncableEntity>> entitiesByStatus(EntitiesByStatusRef ref,
-    {required String formCode, SyncableEntityState? entityStatus}) async {
+    {required String formCode, SyncableEntityState? entityStatus, String sortBy = 'name'}) async {
   return ref
       .watch(entityFormListingRepositoryProvider(formCode))
       .getEntitiesByState(state: entityStatus);

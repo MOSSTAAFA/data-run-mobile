@@ -383,19 +383,19 @@ class _FormViewWidgetState extends ConsumerState<FormViewWidget>
     }
   }
 
-  // void _showDataEntryResultDialog(DataIntegrityCheckResult result) {
-  //   resultDialogUiProvider?.provideDataEntryUiModel(result)?.let {
-  //       BottomSheetDialog(
-  //           bottomSheetDialogUiModel = it,
-  //           onSecondaryButtonClicked = {
-  //               if (result.allowDiscard) {
-  //                   viewModel.discardChanges()
-  //               }
-  //               onFinishDataEntry?.invoke()
-  //           }
-  //       ).show(childFragmentManager, AlertBottomDialog::class.java.simpleName)
-  //   }
-  // }
+  void _showDataEntryResultDialog(DataIntegrityCheckResult result) {
+    // resultDialogUiProvider?.provideDataEntryUiModel(result)?.let {
+    //     BottomSheetDialog(
+    //         bottomSheetDialogUiModel = it,
+    //         onSecondaryButtonClicked = {
+    //             if (result.allowDiscard) {
+    //                 viewModel.discardChanges()
+    //             }
+    //             onFinishDataEntry?.invoke()
+    //         }
+    //     ).show(childFragmentManager, AlertBottomDialog::class.java.simpleName)
+    // }
+  }
 
   _showLoopWarning() {}
 

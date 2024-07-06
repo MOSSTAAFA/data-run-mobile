@@ -27,9 +27,7 @@ class _QChoiceChipState extends State<QChoiceChip> {
           (widget.fieldModel.value ?? '').isNotEmpty ? widget.fieldModel.value : null,
       options: _getChipOptions(widget.fieldModel.options!.unlock, wide: true),
       onChanged: (String? value) {
-        // if (value != null) {
           widget.fieldModel.onSaveOption(value);
-        // }
       },
 
       decoration: InputDecoration(
