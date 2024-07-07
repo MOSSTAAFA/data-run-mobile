@@ -1,9 +1,11 @@
+import 'dart:async';
+
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:mass_pro/commons/helpers/collections.dart';
 import 'package:mass_pro/commons/logging/logging.dart';
 import 'package:mass_pro/data_run/form/form_fields_repository.dart';
-import 'package:mass_pro/data_run/screens/form/form_state/q_data_integrity_check_result.dart';
-import 'package:mass_pro/data_run/screens/form/form_state/q_field.model.dart';
+import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
+import 'package:mass_pro/data_run/screens/data_submission_form/model/q_data_integrity_check_result.dart';
 import 'package:mass_pro/form/model/action_type.dart';
 import 'package:mass_pro/form/model/row_action.dart';
 import 'package:mass_pro/form/model/store_result.dart';

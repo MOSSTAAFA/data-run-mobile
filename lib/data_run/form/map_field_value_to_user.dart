@@ -1,7 +1,7 @@
 import 'package:mass_pro/commons/extensions/standard_extensions.dart';
 import 'package:mass_pro/commons/extensions/string_extension.dart';
 import 'package:mass_pro/commons/resources/resource_manager.dart';
-import 'package:mass_pro/data_run/screens/form/form_state/q_field.model.dart';
+import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 
 class MapFieldValueToUser {

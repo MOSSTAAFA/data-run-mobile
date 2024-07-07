@@ -1,5 +1,6 @@
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/datarun/form/entities/dynamic_form.entity.dart';
+import 'package:d2_remote/modules/datarun/form/queries/dynamic_form.query.dart';
 import 'package:d2_remote/modules/metadatarun/activity/entities/d_activity.entity.dart';
 import 'package:d2_remote/modules/metadatarun/project/entities/d_project.entity.dart';
 import 'package:d2_remote/modules/metadatarun/teams/entities/d_team.entity.dart';
@@ -161,6 +162,10 @@ class ActivitiesAccessRepository {
   /// that has active activity and active team
   Future<IList<DynamicForm>> getActiveFormsByActivity(
       [String? activityUid]) async {
+    DynamicFormQuery query = D2Remote.formModule.form;
+    if(activityUid != null) {
+      query = query.where(attribute: 'activity', value: activityUid);
+    }
     final List<DynamicForm> forms = await D2Remote.formModule.form.get();
 
     final List<DynamicForm> enabledForms = [];

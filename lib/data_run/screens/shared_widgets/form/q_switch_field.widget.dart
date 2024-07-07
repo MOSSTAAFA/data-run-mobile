@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:mass_pro/commons/extensions/string_extension.dart';
-import 'package:mass_pro/data_run/screens/form/form_state/q_field.model.dart';
+import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
 
 class QSwitchField extends StatefulWidget {
   const QSwitchField({super.key, required this.fieldModel});
@@ -30,7 +30,7 @@ class _QSwitchFieldState extends State<QSwitchField> {
       onChanged: (bool? value) {
         // widget.fieldModel.onTextChange(value?.toString());
         // if (value != null) {
-          widget.fieldModel.onSaveBoolean(value);
+        widget.fieldModel.onSaveBoolean(value);
         // }
       },
       title: Text(widget.fieldModel.label),

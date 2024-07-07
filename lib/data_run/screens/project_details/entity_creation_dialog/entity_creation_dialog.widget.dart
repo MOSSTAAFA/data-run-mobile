@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/data_run/form/entity_form_listing_repository.dart';
-import 'package:mass_pro/data_run/screens/form/dynamic_form_field.widget.dart';
-import 'package:mass_pro/data_run/screens/form/form_state/q_field.model.dart';
+import 'package:mass_pro/data_run/screens/project_details/entity_creation_dialog/dynamic_form_field.widget.dart';
+import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_item.model.dart';
 
 class EntityCreationDialog extends ConsumerStatefulWidget {
@@ -105,7 +105,7 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: widget.formModel.fields
-                        ?.map((fieldModel) =>
+                        ?.map((QFieldModel fieldModel) =>
                             DynamicFormFieldWidget(fieldModel: fieldModel))
                         .toList() ??
                     [],

@@ -4,7 +4,7 @@ import 'package:d2_remote/modules/datarun/form/shared/rule.dart';
 import 'package:expressions/expressions.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:mass_pro/data_run/form/map_field_value_to_user.dart';
-import 'package:mass_pro/data_run/screens/form/form_state/q_field.model.dart';
+import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
 
 class RuleEngine {
   RuleEngine(this._evaluator);

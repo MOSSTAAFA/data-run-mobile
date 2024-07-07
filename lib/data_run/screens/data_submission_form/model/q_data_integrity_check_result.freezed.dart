@@ -525,7 +525,6 @@ class _$FieldsWithErrorResultImpl implements FieldsWithErrorResult {
   final IList<FieldWithIssue> fieldUidErrorList;
   @override
   final IList<FieldWithIssue> warningFields;
-// override
   @override
   @JsonKey()
   final bool canComplete;
@@ -728,7 +727,7 @@ abstract class FieldsWithErrorResult implements QDataIntegrityCheckResult {
 
   IMap<String, String> get mandatoryFields;
   IList<FieldWithIssue> get fieldUidErrorList;
-  IList<FieldWithIssue> get warningFields; // override
+  IList<FieldWithIssue> get warningFields;
   bool get canComplete;
   String? get onCompleteMessage;
   bool get allowDiscard;
@@ -801,7 +800,6 @@ class _$FieldsWithWarningResultImpl implements FieldsWithWarningResult {
 
   @override
   final IList<FieldWithIssue> fieldUidWarningList;
-// override
   @override
   @JsonKey()
   final bool canComplete;
@@ -994,7 +992,7 @@ abstract class FieldsWithWarningResult implements QDataIntegrityCheckResult {
       final String? onCompleteMessage,
       final bool allowDiscard}) = _$FieldsWithWarningResultImpl;
 
-  IList<FieldWithIssue> get fieldUidWarningList; // override
+  IList<FieldWithIssue> get fieldUidWarningList;
   bool get canComplete;
   String? get onCompleteMessage;
   bool get allowDiscard;
@@ -1065,7 +1063,6 @@ class _$SuccessfulResultImpl implements SuccessfulResult {
 
   @override
   final String? extraData;
-// override
   @override
   @JsonKey()
   final bool canComplete;
@@ -1254,7 +1251,7 @@ abstract class SuccessfulResult implements QDataIntegrityCheckResult {
       final String? onCompleteMessage,
       final bool allowDiscard}) = _$SuccessfulResultImpl;
 
-  String? get extraData; // override
+  String? get extraData;
   bool get canComplete;
   String? get onCompleteMessage;
   bool get allowDiscard;

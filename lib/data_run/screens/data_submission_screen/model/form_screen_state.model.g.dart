@@ -1,28 +1,28 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'bottom_sheet.widget.dart';
+part of 'form_screen_state.model.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$bottomSheetUiModelHash() =>
-    r'448eb35b5597700d5db4c509db8f7b1459ded9b2';
+String _$formScreenStateModelHash() =>
+    r'072747366e721c5500aaddaa7c175d562420cac5';
 
-/// See also [bottomSheetUiModel].
-@ProviderFor(bottomSheetUiModel)
-final bottomSheetUiModelProvider =
-    AutoDisposeProvider<QBottomSheetDialogUiModel>.internal(
-  bottomSheetUiModel,
-  name: r'bottomSheetUiModelProvider',
+/// See also [formScreenStateModel].
+@ProviderFor(formScreenStateModel)
+final formScreenStateModelProvider =
+    AutoDisposeFutureProvider<FormScreenStateModel>.internal(
+  formScreenStateModel,
+  name: r'formScreenStateModelProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$bottomSheetUiModelHash,
+      : _$formScreenStateModelHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef BottomSheetUiModelRef
-    = AutoDisposeProviderRef<QBottomSheetDialogUiModel>;
+typedef FormScreenStateModelRef
+    = AutoDisposeFutureProviderRef<FormScreenStateModel>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -3,7 +3,7 @@ import 'package:expressions/expressions.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mass_pro/data_run/engine/rule_engine.dart';
-import 'package:mass_pro/data_run/screens/form/form_state/q_field.model.dart';
+import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 

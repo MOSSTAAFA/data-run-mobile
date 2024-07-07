@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/data_run/screens/form/form_state/form_fields_state_notifier.dart';
-import 'package:mass_pro/data_run/screens/form/form_state/q_field.model.dart';
+import 'package:mass_pro/data_run/screens/data_submission_form/model/form_fields_state_notifier.dart';
+import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/form/q_field_widget_factory.dart';
 import 'package:mass_pro/form/ui/intent/form_intent.dart';
 import 'package:mass_pro/form/ui/view_model/form_pending_intents.dart';
@@ -30,34 +30,14 @@ class _FormFieldWidgetState extends ConsumerState<FormFieldWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // // a Field Model provider Notifier
-    // final AsyncValue<QFieldModel> indexedFieldModel =
-    // ref.watch(indexedFieldInputProvider(widget.fieldKey));
-    //
-    // final AsyncValue<ValueType?> valueTypeAsync = ref.watch(
-    //     indexedFieldInputProvider(widget.fieldKey).select((fieldAsyncValut) {
-    //       return fieldAsyncValut.whenData((field) => field.valueType);
-    //     }));
+
     final QFormFieldBuilder builder = ref
         .watch(fieldWidgetFactoryProvider)
         .getBuilder(widget.fieldModel.valueType);
 
-    final AsyncValue<bool> isVisibleAsync = ref.watch(
-        indexedFieldInputProvider(widget.fieldModel.uid)
-            .select((fieldAsyncValut) {
-      return fieldAsyncValut.whenData((field) => field.isVisible);
-    }));
 
     final fieldWidget =
         builder.call(widget.fieldModel.setCallback(intentCallback: onIntent));
-
-    // // We can use the AsyncValue to handle loading/error states and show the data.
-    // final fieldet = switch (isVisibleAsync) {
-    //   AsyncValue(:final error?) => getErrorWidget(error),
-    //   AsyncValue(:final valueOrNull?) =>
-    //     builder.call(widget.fieldModel.copyWith(intentCallback: onIntent)),
-    //   _ => const CircularProgressIndicator(),
-    // };
 
     if (!widget.fieldModel.isVisible) {
       return const SizedBox.shrink();

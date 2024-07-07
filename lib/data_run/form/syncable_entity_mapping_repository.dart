@@ -11,7 +11,7 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:mass_pro/commons/extensions/string_extension.dart';
 import 'package:mass_pro/commons/extensions/value_extensions.dart';
 import 'package:mass_pro/commons/helpers/iterable.dart';
-import 'package:mass_pro/data_run/screens/form/form_state/q_field.model.dart';
+import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
 import 'package:mass_pro/form/model/key_board_action_type.dart';
 import 'package:mass_pro/form/model/store_result.dart';
 import 'package:mass_pro/form/model/value_store_result.dart';
@@ -151,7 +151,10 @@ class SyncableEntityMappingRepository {
         final SyncableEntity newEntity =
             getQuery().fromJsonInstance(storedEntityMap.unlock);
         final updatedEntityCount = await getQuery()
-            .setData(newEntity)
+            .setData(newEntity
+              ..synced = false
+              ..dirty = true
+        )
             .save(saveOptions: SaveOptions(skipLocalSyncStatus: false));
 
         // successfully saved

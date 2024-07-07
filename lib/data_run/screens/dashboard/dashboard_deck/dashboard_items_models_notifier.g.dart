@@ -24,7 +24,7 @@ final dashboardItemModelProvider =
 
 typedef DashboardItemModelRef = AutoDisposeProviderRef<DashboardItemModel>;
 String _$dashboardItemsModelsNotifierHash() =>
-    r'4d42ee4fe2aaa616f1aa3af0092b086f057da64e';
+    r'3f4c3cb4aedd825529de78a93f2109d59a7d1034';
 
 /// See also [DashboardItemsModelsNotifier].
 @ProviderFor(DashboardItemsModelsNotifier)

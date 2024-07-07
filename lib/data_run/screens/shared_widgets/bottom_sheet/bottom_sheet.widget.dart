@@ -1,19 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mass_pro/data_run/form/bottomsheet/q_bottom_sheet_dialog_ui_model.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-part 'bottom_sheet.widget.g.dart';
-
-@riverpod
-QBottomSheetDialogUiModel bottomSheetUiModel(BottomSheetUiModelRef ref) {
-  return QBottomSheetDialogUiModel(
-    title: 'Final Data',
-    subtitle: 'Make the form Final before exiting.',
-    iconResource: Icons.info,
-    mainButton: QDialogButtonStyle.completeButton(),
-    secondaryButton: QDialogButtonStyle.neutralButton(textResource: 'Not Now'),
-  );
-}
+import 'package:mass_pro/data_run/screens/shared_widgets/bottom_sheet/q_bottom_sheet_dialog_ui_model.dart';
 
 class QBottomSheetDialog extends StatelessWidget {
   const QBottomSheetDialog(

@@ -18,13 +18,14 @@ class QSyncIconButton extends StatelessWidget {
     switch (state) {
       case SyncableEntityState.SYNCED:
         return const IconButton(
-          icon: Icon(Icons.cloud_done, color: Colors.green),
+          icon: Icon(Icons.check, color: Colors.white60),
           onPressed: null,
         );
       case SyncableEntityState.TO_POST:
       case SyncableEntityState.TO_UPDATE:
         return IconButton(
-          icon: const Icon(Icons.sync, color: Colors.blue),
+          enableFeedback: true,
+          icon: const Icon(Icons.sync, color: Colors.black45, size: 30),
           onPressed: onUnsyncedPressed,
         );
       case SyncableEntityState.ERROR:

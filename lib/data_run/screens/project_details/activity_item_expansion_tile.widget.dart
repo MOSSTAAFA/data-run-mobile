@@ -1,12 +1,11 @@
 import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/core/common/state.dart' as item_state;
+import 'package:mass_pro/data_run/screens/data_submission_screen/data_submission_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/entities_list_screen/entities_list_screen.widget.dart';
-import 'package:mass_pro/data_run/screens/form/form_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/project_details/entity_creation_dialog/entity_creation_dialog.widget.dart';
 import 'package:mass_pro/data_run/screens/project_details/form_tiles/form_tiles.widget.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_item.model.dart';
@@ -183,7 +182,7 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
     bundle = bundle.putString(SYNCABLE_UID, createdEntityUid);
 
     /// navigate to the form screen to fill the rest of the fields
-    Get.to(const FormScreen(), arguments: bundle);
+    Get.to(const DataSubmissionScreen(), arguments: bundle);
   }
 
   // Future<void> _createEntity(

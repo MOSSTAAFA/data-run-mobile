@@ -6,7 +6,7 @@ part of 'entities_riverpod_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$entitiesByStatusHash() => r'cc63827fcddefe2a5af0e9f4cc0e7972fa9126e5';
+String _$entitiesByStatusHash() => r'5c483eff8332d7d5804ab259ecb936a28c35b0d3';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -42,10 +42,12 @@ class EntitiesByStatusFamily extends Family<AsyncValue<IList<SyncableEntity>>> {
   EntitiesByStatusProvider call({
     required String formCode,
     SyncableEntityState? entityStatus,
+    String sortBy = 'name',
   }) {
     return EntitiesByStatusProvider(
       formCode: formCode,
       entityStatus: entityStatus,
+      sortBy: sortBy,
     );
   }
 
@@ -56,6 +58,7 @@ class EntitiesByStatusFamily extends Family<AsyncValue<IList<SyncableEntity>>> {
     return call(
       formCode: provider.formCode,
       entityStatus: provider.entityStatus,
+      sortBy: provider.sortBy,
     );
   }
 
@@ -81,11 +84,13 @@ class EntitiesByStatusProvider
   EntitiesByStatusProvider({
     required String formCode,
     SyncableEntityState? entityStatus,
+    String sortBy = 'name',
   }) : this._internal(
           (ref) => entitiesByStatus(
             ref as EntitiesByStatusRef,
             formCode: formCode,
             entityStatus: entityStatus,
+            sortBy: sortBy,
           ),
           from: entitiesByStatusProvider,
           name: r'entitiesByStatusProvider',
@@ -98,6 +103,7 @@ class EntitiesByStatusProvider
               EntitiesByStatusFamily._allTransitiveDependencies,
           formCode: formCode,
           entityStatus: entityStatus,
+          sortBy: sortBy,
         );
 
   EntitiesByStatusProvider._internal(
@@ -109,10 +115,12 @@ class EntitiesByStatusProvider
     required super.from,
     required this.formCode,
     required this.entityStatus,
+    required this.sortBy,
   }) : super.internal();
 
   final String formCode;
   final SyncableEntityState? entityStatus;
+  final String sortBy;
 
   @override
   Override overrideWith(
@@ -130,6 +138,7 @@ class EntitiesByStatusProvider
         debugGetCreateSourceHash: null,
         formCode: formCode,
         entityStatus: entityStatus,
+        sortBy: sortBy,
       ),
     );
   }
@@ -143,7 +152,8 @@ class EntitiesByStatusProvider
   bool operator ==(Object other) {
     return other is EntitiesByStatusProvider &&
         other.formCode == formCode &&
-        other.entityStatus == entityStatus;
+        other.entityStatus == entityStatus &&
+        other.sortBy == sortBy;
   }
 
   @override
@@ -151,6 +161,7 @@ class EntitiesByStatusProvider
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, formCode.hashCode);
     hash = _SystemHash.combine(hash, entityStatus.hashCode);
+    hash = _SystemHash.combine(hash, sortBy.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -163,6 +174,9 @@ mixin EntitiesByStatusRef
 
   /// The parameter `entityStatus` of this provider.
   SyncableEntityState? get entityStatus;
+
+  /// The parameter `sortBy` of this provider.
+  String get sortBy;
 }
 
 class _EntitiesByStatusProviderElement
@@ -175,6 +189,8 @@ class _EntitiesByStatusProviderElement
   @override
   SyncableEntityState? get entityStatus =>
       (origin as EntitiesByStatusProvider).entityStatus;
+  @override
+  String get sortBy => (origin as EntitiesByStatusProvider).sortBy;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

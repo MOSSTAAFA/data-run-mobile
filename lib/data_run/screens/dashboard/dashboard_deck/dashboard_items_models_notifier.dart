@@ -6,9 +6,9 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:mass_pro/commons/resources/resource_manager.dart';
 import 'package:mass_pro/commons/ui/metadata_icon_data.dart';
+import 'package:mass_pro/core/common/state.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_item.model.dart';
 import 'package:mass_pro/data_run/utils/activities_access_repository.dart';
-import 'package:mass_pro/data_run/utils/utils.providers.dart';
 import 'package:mass_pro/main/data/service/sync_status_controller.dart';
 import 'package:mass_pro/main/data/service/sync_status_data.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -32,11 +32,11 @@ class DashboardItemsModelsNotifier extends _$DashboardItemsModelsNotifier {
 
     IList<DashboardItemModel> programModles = IList<DashboardItemModel>();
     for (final DProject project in projects) {
-      final state =
-          await ref.read(projectUtilsProvider).getProjectState(project);
+      final SyncableEntityState state = SyncableEntityState.SYNCED;
+      // await ref.read(projectUtilsProvider).getProjectState(project);
 
-      final count =
-          await ref.read(projectUtilsProvider).getActivitiesCount(project);
+      // final count =
+      //     await ref.read(projectUtilsProvider).getActivitiesCount(project);
 
       final DashboardItemModel programModel = DashboardItemModel(
           uid: project.uid!,
@@ -51,7 +51,7 @@ class DashboardItemsModelsNotifier extends _$DashboardItemsModelsNotifier {
                       /* program.style()?.icon() */
                       null,
                       Icons.question_mark)),
-          count: count,
+          // count: count,
           type: project.name,
           dirty: project.dirty,
           state: state,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mass_pro/commons/extensions/standard_extensions.dart';
-import 'package:mass_pro/data_run/screens/form/form_state/q_field.model.dart';
+import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
 import 'package:mass_pro/form/model/key_board_action_type.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 

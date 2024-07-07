@@ -2,34 +2,11 @@ import 'package:d2_remote/modules/datarun/form/shared/field_value_rendering_type
 import 'package:d2_remote/modules/datarun/form/shared/rule.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
-import 'package:mass_pro/data_run/screens/form/form_state/q_field.model.dart';
+import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
 import 'package:mass_pro/form/model/key_board_action_type.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 
 class QFieldModelBuilder {
-  String? uid;
-  IList<String>? options;
-  IList<Rule>? fieldRules;
-  bool? isFocused;
-  String? error;
-  bool? isEditable;
-  bool? isVisible;
-  String? value;
-  String? displayName;
-  String? warning;
-  bool? isMandatory;
-  String? fieldMask;
-  String? label;
-  String? hint;
-  String? description;
-  ValueType? valueType;
-  bool? allowFutureDates;
-  FieldValueRenderingType? fieldRendering;
-  KeyboardActionType? keyboardActionType;
-  bool? isLoading;
-  IntentCallback? intentCallback;
-  FocusNode? focusNode;
-
   QFieldModelBuilder(QFieldModel model) {
     uid = model.uid;
     options = model.options;
@@ -54,6 +31,29 @@ class QFieldModelBuilder {
     intentCallback = model.intentCallback;
     focusNode = model.focusNode;
   }
+
+  String? uid;
+  IList<String>? options;
+  IList<Rule>? fieldRules;
+  bool? isFocused;
+  String? error;
+  bool? isEditable;
+  bool? isVisible;
+  String? value;
+  String? displayName;
+  String? warning;
+  bool? isMandatory;
+  String? fieldMask;
+  String? label;
+  String? hint;
+  String? description;
+  ValueType? valueType;
+  bool? allowFutureDates;
+  FieldValueRenderingType? fieldRendering;
+  KeyboardActionType? keyboardActionType;
+  bool? isLoading;
+  IntentCallback? intentCallback;
+  FocusNode? focusNode;
 
   QFieldModelBuilder setUid(String uid) {
     this.uid = uid;

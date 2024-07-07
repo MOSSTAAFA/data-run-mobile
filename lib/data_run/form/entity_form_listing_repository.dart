@@ -48,18 +48,13 @@ class EntityFormListingRepository {
     final withSyncErrorState =
         await d2SyncableQuery.resetFilters().withSyncErrorState().count();
 
-    final withUpdateErrorState = await d2SyncableQuery
-        .resetFilters()
-        .withUpdateSyncedErrorState()
-        .count();
-
     final withToPostState =
-        await d2SyncableQuery.resetFilters().withToPostState().count();
+        await d2SyncableQuery.resetFilters().withCompleteState().count();
     final withToUpdateState =
-        await d2SyncableQuery.resetFilters().withToUpdateState().count();
+        await d2SyncableQuery.resetFilters().withActiveState().count();
 
     return when(true, {
-      withUpdateErrorState > 0 || withSyncErrorState > 0: () =>
+      /*withUpdateErrorState > 0 ||*/ withSyncErrorState > 0: () =>
           SyncableEntityState.WARNING,
       withToPostState > 0: () => SyncableEntityState.TO_POST,
       withToUpdateState > 0: () => SyncableEntityState.TO_UPDATE,
@@ -74,21 +69,16 @@ class EntityFormListingRepository {
         await when<SyncableEntityState?, Future<IList<SyncableEntity>>>(state, {
       SyncableEntityState.TO_UPDATE: () => getEntitiesToUpdate(),
       SyncableEntityState.TO_POST: () => getEntitiesToPost(),
-      SyncableEntityState.ERROR: () async {
-        IList<SyncableEntity> withSyncErrorState =
-            await getEntitiesWithSyncErrorState();
-        withSyncErrorState =
-            withSyncErrorState.addAll(await getEntitiesWithUpdateErrorState());
-        return withSyncErrorState;
-      },
+      SyncableEntityState.ERROR: () => getEntitiesWithSyncErrorState(),
       SyncableEntityState.SYNCED: () => getEntitiesWithSyncedState(),
 
       /// orElse getAll
     }).orElse(() => getEntities());
     final sorted = entities.sort((a, b) => (b.finishedEntryTime ??
-            b.startEntryTime ?? b.name ?? '')
-        .compareTo(a.finishedEntryTime ??
-            a.startEntryTime ?? a.name ?? ''));
+            b.startEntryTime ??
+            b.name ??
+            '')
+        .compareTo(a.finishedEntryTime ?? a.startEntryTime ?? a.name ?? ''));
     return sorted;
   }
 
@@ -102,11 +92,8 @@ class EntityFormListingRepository {
   /// Entities that Entry needs to be finished and status turned to 'COMPLETED'
   /// Entities that are unsynced, dirty and status is not 'COMPLETED'
   Future<IList<SyncableEntity>> getEntitiesToUpdate() async {
-    final List<SyncableEntity> entities = await d2SyncableQuery
-        .resetFilters()
-        .whereNeq(attribute: 'status', value: 'COMPLETED')
-        .where(attribute: 'synced', value: false)
-        .get();
+    final List<SyncableEntity> entities =
+        await d2SyncableQuery.resetFilters().withActiveState().get();
     return entities.lock;
   }
 
@@ -114,7 +101,8 @@ class EntityFormListingRepository {
   Future<IList<SyncableEntity>> getEntitiesToPost() async {
     final List<SyncableEntity> entities = await d2SyncableQuery
         .resetFilters()
-        .where(attribute: 'status', value: 'COMPLETED')
+        .withCompleteState()
+        // .where(attribute: 'status', value: 'COMPLETED')
         .where(attribute: 'synced', value: false)
         .get();
     return entities.lock;
@@ -128,13 +116,15 @@ class EntityFormListingRepository {
     return entities.lock;
   }
 
-  /// Synced entities couldn't be updated for updates that have errors,
-  /// State = to_update but have errors
-  Future<IList<SyncableEntity>> getEntitiesWithUpdateErrorState() async {
-    final List<SyncableEntity> entities =
-        await d2SyncableQuery.resetFilters().withUpdateSyncedErrorState().get();
-    return entities.lock;
-  }
+  // /// Synced entities couldn't be updated for updates that have errors,
+  // /// State = to_update but have errors
+  // Future<IList<SyncableEntity>> getEntitiesWithUpdateErrorState() async {
+  //   final List<SyncableEntity> entities = await d2SyncableQuery
+  //       // .resetFilters()
+  //       .withUpdateSyncedErrorState()
+  //       .get();
+  //   return entities.lock;
+  // }
 
   /// Entities that are unsynced, dirty and status is 'COMPLETED'
   Future<IList<SyncableEntity>> getEntitiesWithSyncedState() async {
