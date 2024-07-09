@@ -2,12 +2,12 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/commons/custom_widgets/mixins/keyboard_manager.dart';
 import 'package:mass_pro/data_run/form/form_fields_repository.dart';
-import 'package:mass_pro/data_run/screens/data_submission_form/form.widget.dart';
+import 'package:mass_pro/data_run/form/syncable_object_repository.dart';
+import 'package:mass_pro/data_run/form/syncable_status.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/form_field.widget.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/form_fields_state_notifier.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
@@ -97,78 +97,61 @@ class DataSubmissionScaffoldState extends ConsumerState<DataSubmissionScaffold>
           AsyncValue(:final error?) => ErrorWidget(error),
           AsyncValue(:final valueOrNull?) => GestureDetector(
               onTap: () => hideTheKeyboard(context),
-              child: FormWidget(
+              child: FormBuilder(
                 key: _formKey,
-                fields: valueOrNull,
+                onChanged: () {
+                  _formKey.currentState!.save();
+                },
                 enabled: widget.formScreenStateModel.canEditForm,
-                onFormStateChanged: (formData) {},
-              ),
-            ),
+                child: Padding(
+                  padding: const EdgeInsets.all(30.0),
+                  child: ListView(
+                    children: valueOrNull.entries
+                        .map(
+                          (entry) => Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 20.0),
+                                child: FormFieldWidget(
+                                  key: ValueKey<String>(entry.key),
+                                  fieldModel: entry.value,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
+              )),
           _ => const SizedBox.shrink(),
         },
-        floatingActionButton:
-            isShowFloatButton() ? const SizedBox.shrink() : getFloatButton(),
+        floatingActionButton: _isKeyboardVisible
+            ? const SizedBox.shrink()
+            : FloatingActionButton(
+                onPressed: () async {
+                  await _saveAndShowBottomSheet(context);
+                },
+                child: getFloatIcon(),
+              ),
       ),
     );
   }
 
-  Widget getFloatButton() {
-    final editableFormButton = FloatingActionButton(
-      onPressed: () => _saveAndShowBottomSheet(context),
-      child: const Icon(Icons.save),
-    );
-
-    final unEditableFormButton = FloatingActionButton(
-      onPressed: () => _saveAndShowBottomSheet(context),
-      child: const Icon(Icons.arrow_back),
-    );
-
+  Widget getFloatIcon() {
     return widget.formScreenStateModel.canEditForm
-        ? editableFormButton
-        : unEditableFormButton;
+        ? const Icon(Icons.save)
+        : const Icon(Icons.arrow_back);
   }
 
-  bool isShowFloatButton() {
-    return _isKeyboardVisible;
-  }
-
-  FormBuilder buildFormBuilder(
-      IMap<String, QFieldModel> value, BuildContext context) {
-    return FormBuilder(
-      key: _formKey,
-      onChanged: () {
-        _formKey.currentState!.save();
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: ListView(
-          children: value.entries
-              .map(
-                (entry) => Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: FormFieldWidget(
-                        key: ValueKey<String>(entry.key),
-                        fieldModel: entry.value,
-                      ),
-                    ),
-                  ],
-                ),
-              )
-              .toList(),
-        ),
-      ),
-    );
-  }
-
-  Future<void> backButtonPressed(BuildContext context) async {
-    await _saveAndShowBottomSheet(context);
+  Future<void> backButtonPressed(BuildContext context) {
+    return _saveAndShowBottomSheet(context);
     // Data integrity and discard
   }
 
   Future<void> _saveAndShowBottomSheet(BuildContext context) async {
-    if (widget.formScreenStateModel.canEditForm) {
+    if (widget.formScreenStateModel.canEditForm &&
+        _formKey.currentState!.isDirty) {
       await _onSaveForm();
       if (context.mounted) {
         return _showBottomSheet(context);
@@ -204,15 +187,28 @@ class DataSubmissionScaffoldState extends ConsumerState<DataSubmissionScaffold>
   }
 
   Future<void> _onFinalDataClicked(BuildContext context) async {
-    if (_formKey.currentState!.validate()) {
+    if (_formKey.currentState!.validate(focusOnInvalid: false)) {
+      await _markEntityAsFinal();
       ref.read(formPendingIntentsProvider.notifier).submitIntent(
           (current) => FormIntent.onFinish(_formKey.currentState?.value));
       if (context.mounted) {
         Navigator.pop(context);
       }
     } else {
-      showToast('Form contains some errors', alignment: Alignment.center);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text(
+                'Form contains some errors: ${_formKey.currentState!.errors}')),
+      );
     }
+  }
+
+  Future<int> _markEntityAsFinal() async {
+    final SyncableObjectRepository syncableRepository =
+        SyncableObjectRepository(entityUid,
+            ref.read(databaseSyncableQueryProvider(formCode)).provideQuery());
+
+    return syncableRepository.setStatus(SyncableStatus.COMPLETED);
   }
 }
 

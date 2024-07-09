@@ -1,3 +1,4 @@
+import 'package:d2_remote/core/datarun/utilities/date_utils.dart';
 import 'package:d2_remote/modules/data/tracker/entities/event.entity.dart';
 import 'package:d2_remote/shared/utilities/dhis_uid_generator.util.dart';
 import 'package:mass_pro/core/arch/handlers/transformer.dart';
@@ -51,7 +52,7 @@ class _EventTransformer implements Transformer<EventCreateProjection, Event> {
   @override
   Event transform(EventCreateProjection projection) {
     // String generatedUid = DhisUidGenerator.generate();
-    final String creationDate = DateTime.now().toIso8601String().split('.')[0];
+    final String creationDate = DateUtils.databaseDateFormat().format(DateTime.now().toUtc());
 
     return Event(
         id: DhisUidGenerator.generate(),

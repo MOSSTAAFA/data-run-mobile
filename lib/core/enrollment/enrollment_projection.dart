@@ -1,3 +1,4 @@
+import 'package:d2_remote/core/datarun/utilities/date_utils.dart';
 import 'package:d2_remote/modules/data/tracker/entities/enrollment.entity.dart';
 
 import '../arch/handlers/transformer.dart';
@@ -48,7 +49,7 @@ class _EnrollmentTransformer
   @override
   Enrollment transform(EnrollmentCreateProjection projection) {
     // String generatedUid = DhisUidGenerator.generate();
-    String creationDate = DateTime.now().toIso8601String().split('.')[0];
+    String creationDate = DateUtils.databaseDateFormat().format(DateTime.now().toUtc());
 
     return Enrollment(
         activity: projection._activity,

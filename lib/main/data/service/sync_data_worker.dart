@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:mass_pro/commons/constants.dart';
-import 'package:mass_pro/commons/date/date_utils.dart';
+import 'package:d2_remote/core/datarun/utilities/date_utils.dart';
 import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
 import 'package:mass_pro/commons/network/network_utils.dart';
 import 'package:mass_pro/commons/prefs/preference_provider.dart';
@@ -95,7 +95,7 @@ class SyncDataWorker extends Worker {
     presenter.logTimeToFinish(DateTime.now().millisecond - init, DATA_TIME);
 
     final String lastDataSyncDate =
-        DateUtils.dateTimeFormat().format(DateTime.now());
+        DateUtils.databaseDateFormat().format(DateTime.now().toUtc());
     final SyncResult syncResult = await presenter.checkSyncStatus();
 
     prefs.setValue(LAST_DATA_SYNC, lastDataSyncDate);

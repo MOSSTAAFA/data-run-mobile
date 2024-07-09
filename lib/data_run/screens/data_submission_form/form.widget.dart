@@ -7,9 +7,10 @@ import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.mod
 
 typedef OnFormStateChanged = void Function(Map<String, dynamic> formValue);
 
-class FormWidget extends ConsumerStatefulWidget {
+class FormWidget extends StatefulWidget {
   const FormWidget(
       {super.key,
+      required this.formKey,
       required this.fields,
       this.onFormStateChanged,
       this.autovalidateMode,
@@ -25,21 +26,23 @@ class FormWidget extends ConsumerStatefulWidget {
   final bool skipDisabled;
   final bool enabled;
   final bool clearValueOnUnregister;
+  final GlobalKey<FormBuilderState> formKey;
 
   @override
-  ConsumerState<FormWidget> createState() => FormWidgetState();
+  State<FormWidget> createState() => FormWidgetState(formKey);
 }
 
-class FormWidgetState extends ConsumerState<FormWidget> {
-  final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
+class FormWidgetState extends State<FormWidget> {
+  FormWidgetState(this.formKey);
 
-  @override
+final GlobalKey<FormBuilderState> formKey;
+@override
   Widget build(BuildContext context) {
     return FormBuilder(
-      key: _formKey,
+      key: widget.formKey,
       onChanged: () {
-        widget.onFormStateChanged?.call(_formKey.currentState!.value);
-        _formKey.currentState!.save();
+        widget.onFormStateChanged?.call(widget.formKey.currentState!.value);
+        widget.formKey.currentState!.save();
       },
       enabled: widget.enabled,
       initialValue: widget.initialValue,

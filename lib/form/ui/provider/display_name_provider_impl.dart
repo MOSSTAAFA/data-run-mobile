@@ -1,10 +1,10 @@
+import 'package:d2_remote/core/datarun/utilities/date_utils.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 
-import '../../../commons/date/date_utils.dart';
-import '../../../commons/extensions/date_format_extensions.dart';
-import '../../data/metadata/option_set_configuration.dart';
-import '../../data/metadata/org_unit_configuration.dart';
-import 'display_name_provider.dart';
+import 'package:mass_pro/commons/extensions/date_format_extensions.dart';
+import 'package:mass_pro/form/data/metadata/option_set_configuration.dart';
+import 'package:mass_pro/form/data/metadata/org_unit_configuration.dart';
+import 'package:mass_pro/form/ui/provider/display_name_provider.dart';
 
 class DisplayNameProviderImpl implements DisplayNameProvider {
   const DisplayNameProviderImpl(
@@ -62,13 +62,13 @@ class DisplayNameProviderImpl implements DisplayNameProvider {
             .format(DateUtils.oldUiDateFormat().parse(value));
       case ValueType.DateTime:
         return DateUtils.dateTimeFormat().format(
-            DateUtils.databaseDateFormatNoSeconds().parseOrNull(value) ??
+            DateUtils.databaseDateFormat().parseOrNull(value)?.toUtc() ??
                 DateTime.parse(
                     '') // this will throw [FormatException], the input string cannot be parsed
             );
       case ValueType.Time:
         return DateUtils.timeFormat().format(
-            DateUtils.timeFormat().parseOrNull(value) ??
+            DateUtils.timeFormat().parseOrNull(value)?.toUtc() ??
                 DateTime.parse(
                     '') // this will throw [FormatException], the input string cannot be parsed
             );

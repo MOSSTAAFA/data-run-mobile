@@ -4,7 +4,7 @@ import 'package:d2_remote/modules/file_resource/entities/file_resource.entity.da
 import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dart';
 import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisation_unit.entity.dart';
 
-import 'package:mass_pro/commons/date/date_utils.dart';
+import 'package:d2_remote/core/datarun/utilities/date_utils.dart';
 import 'package:mass_pro/commons/extensions/string_extension.dart';
 
 extension CheckValueDynamicExtension on dynamic {
@@ -84,14 +84,14 @@ extension CheckValueTypeValueDynamicExtension on dynamic {
       case ValueType.Date:
         try {
           return DateUtils.uiDateFormat()
-              .format(DateUtils.databaseDateFormatNoSeconds().parse(value));
+              .format(DateUtils.databaseDateFormat().parse(value));
         } catch (e) {
           return '';
         }
       case ValueType.DateTime:
         try {
           return DateUtils.dateTimeFormat()
-              .format(DateUtils.databaseDateFormatNoSeconds().parse(value));
+              .format(DateUtils.databaseDateFormat().parse(value));
         } catch (e) {
           return '';
         }

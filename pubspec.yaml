@@ -49,8 +49,8 @@ dependencies:
   get: ^4.6.6
   expressions: ^0.2.5+1
 
-
 dev_dependencies:
+  flutter_launcher_icons: ^0.13.1
 #  auto_route_generator: ^8.0.0
   build_runner: ^2.4.11
   custom_lint: ^0.6.4

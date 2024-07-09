@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_dynamic_calls, cast_nullable_to_non_nullable
 
+import 'package:d2_remote/core/datarun/utilities/date_utils.dart';
 import 'package:d2_remote/modules/activity_management/activity/entities/activity.entity.dart';
 import 'package:d2_remote/modules/activity_management/activity/queries/activity.query.dart';
 import 'package:d2_remote/modules/data/tracker/entities/event.entity.dart';
@@ -149,7 +150,7 @@ extension EventQueryUploadExtension on EventQuery {
                 : 'Success'));
         event.dirty = true;
         event.syncFailed = syncFailed;
-        event.lastSyncDate = DateTime.now().toIso8601String().split('.')[0];
+        event.lastSyncDate = DateUtils.databaseDateFormat().format(DateTime.now().toUtc());
         event.lastSyncSummary = EventImportSummary.fromJson(importSummary);
         await queue.add(() => EventQuery().setData(event).save());
       }

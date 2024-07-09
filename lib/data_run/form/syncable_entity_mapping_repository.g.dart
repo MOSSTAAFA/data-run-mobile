@@ -7,7 +7,7 @@ part of 'syncable_entity_mapping_repository.dart';
 // **************************************************************************
 
 String _$syncableEntityMappingRepositoryHash() =>
-    r'92fbd4f5a80897019de820f2e2389f5d9b496f48';
+    r'ea4926a48fd543036eed122220e3be54fdb3cdd9';
 
 /// Copied from Dart SDK
 class _SystemHash {

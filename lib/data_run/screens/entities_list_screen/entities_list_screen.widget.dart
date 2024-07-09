@@ -8,6 +8,8 @@ import 'package:mass_pro/core/common/state.dart';
 import 'package:mass_pro/data_run/screens/data_submission_screen/data_submission_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/entities_list_screen/entities_riverpod_providers.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/q_sync_icon_button.widget.dart';
+import 'package:mass_pro/data_run/screens/sync_dialog/sync_dialog.widget.dart';
+import 'package:mass_pro/data_run/screens/sync_dialog/sync_dialog_repository.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 
 class EntitiesListScreen extends ConsumerStatefulWidget {
@@ -44,9 +46,8 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
   }
 
   Widget _buildFilterBar() {
-    final AsyncValue<IList<SyncableEntity>> allEntities =
-    ref.watch(entitiesByStatusProvider(
-        formCode: formCode, entityStatus: null));
+    final AsyncValue<IList<SyncableEntity>> allEntities = ref.watch(
+        entitiesByStatusProvider(formCode: formCode, entityStatus: null));
 
     return allEntities.when(
       data: (entities) {
@@ -59,7 +60,8 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: SyncableEntityState.statusFilterItems()
-                  .map((status) => _buildFilterChip(status, counts[status] ?? 0))
+                  .map(
+                      (status) => _buildFilterChip(status, counts[status] ?? 0))
                   .toList(),
             ),
           ),
@@ -88,7 +90,8 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
     );
   }
 
-  Map<SyncableEntityState, int> _calculateCounts(IList<SyncableEntity> entities) {
+  Map<SyncableEntityState, int> _calculateCounts(
+      IList<SyncableEntity> entities) {
     final Map<SyncableEntityState, int> counts = {};
 
     for (final entity in entities) {
@@ -108,34 +111,34 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
 
     return entitiesByStatus.when(
         data: (filteredEntities) => ListView.builder(
-          itemCount: filteredEntities.length,
-          itemBuilder: (context, index) {
-            final SyncableEntity entity = filteredEntities[index];
-            final SyncableEntityState? entitySyncableStatus =
-            SyncableEntityState.getEntityStatus(entity);
-            final summary = generateFormSummary(entity.toJson());
+              itemCount: filteredEntities.length,
+              itemBuilder: (context, index) {
+                final SyncableEntity entity = filteredEntities[index];
+                final SyncableEntityState? entitySyncableStatus =
+                    SyncableEntityState.getEntityStatus(entity);
+                final summary = generateFormSummary(entity.toJson());
 
-            return Card(
-              elevation: .7,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-              ),
-              child: ListTile(
-                leading: _buildStatusIcon(entitySyncableStatus),
-                title: Text(entity.name ?? entity.uid!),
-                subtitle: Text(summary),
-                trailing: QSyncIconButton(
-                  state: entitySyncableStatus,
-                  onUnsyncedPressed: () => handleSyncAction(entity),
-                  onErrorPressed: () => handleSyncAction(entity),
-                ),
-                onTap: () {
-                  goToTappedEntityForm(entity.uid!);
-                },
-              ),
-            );
-          },
-        ),
+                return Card(
+                  elevation: .7,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+                  child: ListTile(
+                    leading: _buildStatusIcon(entitySyncableStatus),
+                    title: Text(entity.name ?? entity.uid!),
+                    subtitle: Text(summary),
+                    trailing: QSyncIconButton(
+                      state: entitySyncableStatus,
+                      onUnsyncedPressed: () => _showSyncDialog([entity.uid!]),
+                      // onErrorPressed: () => _showSyncDialog([entity.uid!]),
+                    ),
+                    onTap: () {
+                      goToTappedEntityForm(entity.uid!);
+                    },
+                  ),
+                );
+              },
+            ),
         error: (error, _) => Text('Error: $error'),
         loading: () => const CircularProgressIndicator());
   }
@@ -147,7 +150,7 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
       case SyncableEntityState.TO_POST:
         return const Icon(Icons.cloud_upload, color: Colors.blue);
       case SyncableEntityState.TO_UPDATE:
-        return const Icon(Icons.watch_later_outlined, color: Colors.orange);
+        return const Icon(Icons.update, color: Colors.orange);
       case SyncableEntityState.ERROR:
         return const Icon(Icons.error, color: Colors.red);
       default:
@@ -155,25 +158,40 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
     }
   }
 
-  void goToTappedEntityForm(String uid) {
+  Future<void> goToTappedEntityForm(String uid) async {
     final Bundle eventBundle = Get.arguments as Bundle;
     final bundle = eventBundle.putString(SYNCABLE_UID, uid);
 
-    Get.to(const DataSubmissionScreen(), arguments: bundle);
+    await Get.to(const DataSubmissionScreen(), arguments: bundle);
+    ref.invalidate(entitiesByStatusProvider);
   }
 
-  void handleSyncAction(SyncableEntity entity) {
-    // Implement your sync logic here
-    print('Sync action triggered for entity: ${entity.uid}');
+  void _showSyncDialog(List<String> entityUids) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return SyncDialog(
+          entityUids: entityUids,
+          syncEntity: (uid) async {
+            // Implement your sync logic here using the repository
+            // Example:
+            await ref
+                .read(syncDialogRepositoryProvider(formCode: formCode))
+                .syncEntities([uid]);
+            // await myRepository.syncEntity(uid);
+          },
+        );
+      },
+    );
   }
 }
 
 String generateFormSummary(Map<String, dynamic> fields) {
   final String fieldSummary = fields.entries
       .where((entry) =>
-  entry.key != 'name' &&
-      entry.value != null &&
-      !syncableVariable.contains(entry.key))
+          entry.key != 'name' &&
+          entry.value != null &&
+          !syncableVariable.contains(entry.key))
       .take(3)
       .map((entry) => '${entry.key}: ${entry.value}')
       .join(', ');
@@ -183,6 +201,7 @@ String generateFormSummary(Map<String, dynamic> fields) {
 
 final syncableVariable = [
   'id',
+  'lastSyncMessage',
   'uid',
   'code',
   'name',

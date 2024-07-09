@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:mass_pro/commons/date/date_utils.dart' as sdk;
+import 'package:d2_remote/core/datarun/utilities/date_utils.dart' as sdk;
 import 'package:mass_pro/commons/extensions/string_extension.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
@@ -22,6 +22,9 @@ class QDateTimePicker extends StatelessWidget {
       key: ValueKey(fieldModel.uid),
       format: sdk.DateUtils.uiDateFormat(),
       initialValue: fieldModel.value.toDate(),
+      valueTransformer: (DateTime? date) => date != null
+          ? sdk.DateUtils.databaseDateFormat().format(date.toUtc())
+          : null,
       name: fieldModel.uid,
       enabled: fieldModel.isEditable,
       validator:
@@ -33,7 +36,7 @@ class QDateTimePicker extends StatelessWidget {
           debugPrint(
               '####Debug FormBuilderDateTimePicker.onFieldSubmitted: $pickedDate');
           fieldModel.onSaveOption(
-              sdk.DateUtils.databaseDateFormat().format(pickedDate));
+              sdk.DateUtils.databaseDateFormat().format(pickedDate.toUtc()));
         }
       },
       onChanged: (DateTime? pickedDate) {
@@ -41,7 +44,7 @@ class QDateTimePicker extends StatelessWidget {
           // fieldModel.onTextChange(
           //     sdk.DateUtils.databaseDateFormat().format(pickedDate));
           fieldModel.onSaveOption(
-              sdk.DateUtils.databaseDateFormatNoZone().format(pickedDate));
+              sdk.DateUtils.databaseDateFormat().format(pickedDate.toUtc()));
         } else {
           fieldModel.onSaveOption(null);
         }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:mass_pro/commons/date/date_utils.dart' as sdk;
+import 'package:d2_remote/core/datarun/utilities/date_utils.dart' as sdk;
 import 'package:mass_pro/data_run/form/map_field_value_to_user.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
@@ -91,7 +91,7 @@ class DynamicFormFieldWidget extends StatelessWidget {
             name: fieldModel.uid,
             enabled: fieldModel.isEditable,
             valueTransformer: (DateTime? date) => date != null
-                ? sdk.DateUtils.databaseDateFormat().format(date)
+                ? sdk.DateUtils.databaseDateFormat().format(date.toUtc())
                 : null,
             validator: fieldModel.isMandatory
                 ? FormBuilderValidators.required()

@@ -1,19 +1,18 @@
 import 'dart:async';
 
-import 'package:mass_pro/sdk/core/common/exception/validation_exception.dart';
-import 'package:mass_pro/sdk/core/maintenance/d2_error.dart';
+import 'package:d2_remote/core/datarun/utilities/date_utils.dart';
 import 'package:d2_remote/d2_remote.dart';
 import 'package:dio/dio.dart';
-
-import '../../../commons/constants.dart';
-import '../../../commons/date/date_utils.dart';
-import '../../../commons/extensions/dynamic_extensions.dart';
-import '../../../commons/network/network_utils.dart';
-import '../../../commons/prefs/preference_provider.dart';
-import '../../../commons/resources/resource_manager.dart';
-import 'sync_presenter.dart';
-import 'work_manager/nmc_worker/work_info.dart';
-import 'work_manager/nmc_worker/worker.dart';
+import 'package:mass_pro/commons/constants.dart';
+import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
+import 'package:mass_pro/commons/network/network_utils.dart';
+import 'package:mass_pro/commons/prefs/preference_provider.dart';
+import 'package:mass_pro/commons/resources/resource_manager.dart';
+import 'package:mass_pro/main/data/service/sync_presenter.dart';
+import 'package:mass_pro/main/data/service/work_manager/nmc_worker/work_info.dart';
+import 'package:mass_pro/main/data/service/work_manager/nmc_worker/worker.dart';
+import 'package:mass_pro/sdk/core/common/exception/validation_exception.dart';
+import 'package:mass_pro/sdk/core/maintenance/d2_error.dart';
 
 typedef OnProgressUpdate = Function(int progress);
 
@@ -73,7 +72,7 @@ class SyncMetadataWorker extends Worker {
       }
 
       final String lastDataSyncDate =
-          DateUtils.dateTimeFormat().format(DateTime.now());
+          DateUtils.dateTimeFormat().format(DateTime.now().toUtc());
 
       prefs.setValue(LAST_META_SYNC, lastDataSyncDate);
       prefs.setValue(LAST_META_SYNC_STATUS, isMetaOk);

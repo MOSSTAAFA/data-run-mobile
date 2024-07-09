@@ -1,3 +1,4 @@
+import 'package:d2_remote/core/datarun/utilities/date_utils.dart';
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/data/tracker/entities/event_data_value.entity.dart';
 import 'package:d2_remote/modules/data/tracker/queries/event_data_value.query.dart';
@@ -6,10 +7,10 @@ import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dar
 import 'package:d2_remote/shared/utilities/merge_mode.util.dart';
 import 'package:d2_remote/shared/utilities/save_option.util.dart';
 
-import '../../core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
-import '../date/date_utils.dart';
-import 'dynamic_value_extensions.dart';
-import 'value_extensions.dart';
+import 'package:mass_pro/core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
+import 'package:mass_pro/commons/date/date_utils.dart';
+import 'package:mass_pro/commons/extensions/dynamic_value_extensions.dart';
+import 'package:mass_pro/commons/extensions/value_extensions.dart';
 
 /// BlockingSetCheckTrackedEntityAttributeValueExtension
 /// TODO BaseQueryWithValue extends BaseQuery on which these extension are put
@@ -50,7 +51,7 @@ extension SetCheckTrackedEntityAttributeValueExtension on EventDataValueQuery {
 
   // NMC: TODO throws D2Error
   Future<void> blockingSet(String value) async {
-    final String date = DateUtils.databaseDateFormat().format(DateTime.now());
+    final String date = DateUtils.databaseDateFormat().format(DateTime.now().toUtc());
     final toUpdate = await getOne();
     // updateOrInsert
     if (toUpdate != null) {

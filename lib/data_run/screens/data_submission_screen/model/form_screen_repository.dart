@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/data_run/form/form_fields_repository.dart';
+import 'package:mass_pro/data_run/form/syncable_object_repository.dart';
+import 'package:mass_pro/data_run/form/syncable_status.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/bottom_sheet/q_bottom_sheet_dialog_ui_model.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -15,21 +17,24 @@ FormScreenRepository formScreenRepository(FormScreenRepositoryRef ref) {
   final Bundle eventBundle = Get.arguments as Bundle;
   final syncableUid = eventBundle.getString(SYNCABLE_UID)!;
   final formCode = eventBundle.getString(FORM_CODE)!;
-  final SyncableQuery<SyncableEntity> d2SyncableQuery =
+  final SyncableQuery d2SyncableQuery =
       ref.watch(databaseSyncableQueryProvider(formCode)).provideQuery();
 
   return FormScreenRepository(
-      entityUid: syncableUid, d2SyncableQuery: d2SyncableQuery);
+      ref: ref, entityUid: syncableUid, d2SyncableQuery: d2SyncableQuery);
 }
 
 class FormScreenRepository {
   FormScreenRepository(
-      {required String entityUid, required SyncableQuery d2SyncableQuery})
+      {required this.ref,
+      required String entityUid,
+      required SyncableQuery d2SyncableQuery})
       : _entityUid = entityUid,
         _d2SyncableQuery = d2SyncableQuery;
 
   final String _entityUid;
   final SyncableQuery _d2SyncableQuery;
+  final FormScreenRepositoryRef ref;
 
   Future<bool> canEditForm() async {
     return _d2SyncableQuery.byId(_entityUid).canEdit();

@@ -1,14 +1,13 @@
+import 'package:d2_remote/core/datarun/utilities/date_utils.dart';
+import 'package:flutter/foundation.dart';
+import 'package:mass_pro/commons/extensions/string_extension.dart';
+import 'package:mass_pro/form/model/Ui_render_type.dart';
+import 'package:mass_pro/form/model/field_ui_model.dart';
+import 'package:mass_pro/form/model/ui_event_type.dart';
+import 'package:mass_pro/form/ui/event/list_view_ui_events.dart';
+import 'package:mass_pro/form/ui/event/ui_event_factory.dart';
 import 'package:mass_pro/sdk/core/common/feature_type.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
-import 'package:flutter/foundation.dart';
-
-import '../../../commons/date/date_utils.dart';
-import '../../../commons/extensions/string_extension.dart';
-import '../../model/Ui_render_type.dart';
-import '../../model/field_ui_model.dart';
-import '../../model/ui_event_type.dart';
-import 'list_view_ui_events.dart';
-import 'ui_event_factory.dart';
 
 class UiEventFactoryImpl implements UiEventFactory {
   const UiEventFactoryImpl(
@@ -38,15 +37,15 @@ class UiEventFactoryImpl implements UiEventFactory {
               uiEvent = ListViewUiEvents.openCustomCalendar(
                   uid: uid,
                   label: label,
-                  date: DateUtils.oldUiDateFormat().parse(value ?? ''),
+                  date: DateUtils.oldUiDateFormat().parse(value ?? '').toUtc(),
                   allowFutureDates: allowFutureDates ?? true);
               break;
             case ValueType.DateTime:
               uiEvent = ListViewUiEvents.openCustomCalendar(
                   uid: uid,
                   label: label,
-                  date: DateUtils.databaseDateFormatNoSeconds()
-                      .parse(value ?? ''),
+                  date:
+                      DateUtils.databaseDateFormat().parse(value ?? '').toUtc(),
                   allowFutureDates: allowFutureDates ?? true,
                   isDateTime: true);
               break;

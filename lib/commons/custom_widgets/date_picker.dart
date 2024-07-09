@@ -1,12 +1,11 @@
 // Flutter imports:
 // ignore_for_file: unnecessary_null_checks
 
+import 'package:d2_remote/core/datarun/utilities/date_utils.dart';
 import 'package:flutter/material.dart' hide DateUtils;
-
-import '../../utils/mass_utils/formatting.dart';
-import '../../utils/mass_utils/strings.dart';
-import '../date/date_utils.dart';
-import 'fields/decorated_form_field.dart';
+import 'package:mass_pro/commons/custom_widgets/fields/decorated_form_field.dart';
+import 'package:mass_pro/utils/mass_utils/formatting.dart';
+import 'package:mass_pro/utils/mass_utils/strings.dart';
 
 // D:\Hamza\Learn\my-projects\Flutter\mass_pro\lib\commons\date\field_with_issue.dart
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -75,7 +74,7 @@ class _DatePickerState extends State<DatePicker> {
       // _textController.text = formatDate(widget.selectedDate, context);
       // ignore: avoid_dynamic_calls
       _textController.text =
-          DateUtils.oldUiDateFormat().format(widget.initialDate!);
+          DateUtils.databaseDateFormat().format(widget.initialDate!.toUtc());
     }
 
     super.didChangeDependencies();

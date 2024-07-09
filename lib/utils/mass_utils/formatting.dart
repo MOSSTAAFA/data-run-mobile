@@ -1,9 +1,6 @@
-// Dart imports:
 import 'dart:math';
-
-// Flutter imports:
 import 'package:flutter/material.dart';
-// Package imports:
+import 'package:d2_remote/core/datarun/utilities/date_utils.dart' as sdk;
 import 'package:intl/intl.dart';
 import 'package:intl/number_symbols.dart';
 import 'package:intl/number_symbols_data.dart';
@@ -58,7 +55,7 @@ String formatSize(int size) {
 
 String convertDateTimeToSqlDate([DateTime? date]) {
   date = date ?? DateTime.now();
-  return date.toIso8601String().split('T').first;
+  return sdk.DateUtils.databaseDateFormat().format(date.toUtc());
 }
 
 DateTime convertSqlDateToDateTime([String? date]) {

@@ -11,7 +11,7 @@ class Constants {
 // const String kApiBaseUrl = 'http://localhost:8080';
 // VM IP for localhost
 // const String kApiBaseUrl = 'http://10.0.2.2:8080';
-const String kApiBaseUrl = 'http://192.168.8.50:8080';
+const String kApiBaseUrl = 'http://api.nmcpye.org';
 
 const String kAppVersion = 'v1.0.0';
 const String kAppName = 'Flutter Examples';

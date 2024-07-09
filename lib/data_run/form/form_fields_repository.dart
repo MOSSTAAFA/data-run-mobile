@@ -15,6 +15,7 @@ import 'package:mass_pro/data_run/form/database_syncable_query.dart';
 import 'package:mass_pro/data_run/form/display_name_provider.dart';
 import 'package:mass_pro/data_run/form/org_unit_d_configuration.dart';
 import 'package:mass_pro/data_run/form/syncable_entity_mapping_repository.dart';
+import 'package:mass_pro/data_run/form/syncable_status.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/q_data_integrity_check_result.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
 import 'package:mass_pro/form/model/row_action.dart';
@@ -122,7 +123,8 @@ class FormFieldsRepository {
         _pendingUpdates.updateById([toUpdatedItem], (id) => id.uid);
   }
 
-  Future<StoreResult> batchUpdateValues(Map<String, dynamic>? formData) async {
+  Future<int> batchUpdateValues(
+      Map<String, dynamic>? formData) async {
     return syncableEntityMappingRepository.saveFormData(_pendingUpdates);
   }
 
@@ -306,5 +308,9 @@ class FormFieldsRepository {
       }
       return null;
     }).toIList();
+  }
+
+  bool formIsDirty() {
+    return _pendingUpdates != _backupList;
   }
 }
