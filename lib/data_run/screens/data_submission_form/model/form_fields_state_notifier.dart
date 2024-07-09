@@ -48,7 +48,7 @@ class FormFieldsStateNotifier extends _$FormFieldsStateNotifier {
     return ref.watch(formFieldsRepositoryProvider).requireValue;
   }
 
-  /// whenever called it updates the state with the updated list of fields
+  /// whenever called it updates the state with the updated states of fields
   /// usually on whole the list only some field are updated such as from
   /// isVisible = true to isVisible = false for some field after running the
   /// ruleEngine
