@@ -22,341 +22,124 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "about": MessageLookupByLibrary.simpleMessage("about"),
-        "accept": MessageLookupByLibrary.simpleMessage("Accept"),
-        "act20": MessageLookupByLibrary.simpleMessage("ACT 20"),
-        "act40": MessageLookupByLibrary.simpleMessage("ACT 40"),
-        "act60": MessageLookupByLibrary.simpleMessage("ACT 60"),
-        "act80": MessageLookupByLibrary.simpleMessage("ACT 80"),
-        "actions": MessageLookupByLibrary.simpleMessage("actions"),
-        "active": MessageLookupByLibrary.simpleMessage("Active"),
-        "addColumn": MessageLookupByLibrary.simpleMessage("addColumn"),
-        "addItem": MessageLookupByLibrary.simpleMessage("addItem"),
-        "address": MessageLookupByLibrary.simpleMessage("address"),
-        "age": MessageLookupByLibrary.simpleMessage("Age"),
-        "analytics": MessageLookupByLibrary.simpleMessage("Analytics"),
-        "andMore": MessageLookupByLibrary.simpleMessage("and more"),
-        "appPlatforms": MessageLookupByLibrary.simpleMessage("appPlatforms"),
-        "appTitle": MessageLookupByLibrary.simpleMessage("NMCP Yemen"),
-        "approve": MessageLookupByLibrary.simpleMessage("Approve"),
-        "approved": MessageLookupByLibrary.simpleMessage("Approved"),
-        "archive": MessageLookupByLibrary.simpleMessage("Archive"),
-        "areYouSure": MessageLookupByLibrary.simpleMessage("Are you sure?"),
-        "ascending": MessageLookupByLibrary.simpleMessage("Ascending"),
-        "authenticate": MessageLookupByLibrary.simpleMessage("Authenticate"),
-        "back": MessageLookupByLibrary.simpleMessage("Back"),
-        "basicInfo": MessageLookupByLibrary.simpleMessage("basic info"),
-        "basicSettings": MessageLookupByLibrary.simpleMessage("Basic Settings"),
-        "cancel": MessageLookupByLibrary.simpleMessage("cancel"),
-        "cancelChvMalariaCase":
-            MessageLookupByLibrary.simpleMessage("Cancel Malaria Case"),
-        "caseNo": MessageLookupByLibrary.simpleMessage("Case No."),
-        "change": MessageLookupByLibrary.simpleMessage("change"),
-        "changeToDekstopLayout":
-            MessageLookupByLibrary.simpleMessage("changeToDekstopLayout"),
-        "changeToMobileLayout":
-            MessageLookupByLibrary.simpleMessage("changeToMobileLayout"),
-        "chv": MessageLookupByLibrary.simpleMessage("Chv"),
-        "chvMalariaCase": MessageLookupByLibrary.simpleMessage("Malaria Case"),
-        "chvMalariaCases":
-            MessageLookupByLibrary.simpleMessage("chvMalariaCases"),
-        "chvStockMovement":
-            MessageLookupByLibrary.simpleMessage("Stock Movement"),
-        "chvStockMovements":
-            MessageLookupByLibrary.simpleMessage("chvStockMovements"),
-        "chvs": MessageLookupByLibrary.simpleMessage("C. Health Workers"),
-        "clear": MessageLookupByLibrary.simpleMessage("Clear"),
-        "clickPlusToAddItem":
-            MessageLookupByLibrary.simpleMessage("clickPlusToAddItem"),
-        "close": MessageLookupByLibrary.simpleMessage("close"),
-        "code": MessageLookupByLibrary.simpleMessage("Code"),
-        "columns": MessageLookupByLibrary.simpleMessage("columns"),
-        "comment": MessageLookupByLibrary.simpleMessage("comment"),
-        "comments": MessageLookupByLibrary.simpleMessage("comments"),
-        "companyDisabledWarning":
-            MessageLookupByLibrary.simpleMessage("companyDisabledWarning"),
-        "completed": MessageLookupByLibrary.simpleMessage("Completed"),
-        "contactUs": MessageLookupByLibrary.simpleMessage("contactUs"),
-        "contacts": MessageLookupByLibrary.simpleMessage("contacts"),
-        "continueEditing":
-            MessageLookupByLibrary.simpleMessage("Continue editing?"),
-        "copiedToClipboard":
-            MessageLookupByLibrary.simpleMessage("copied to clipboard"),
-        "copy": MessageLookupByLibrary.simpleMessage("Copy"),
-        "copyError": MessageLookupByLibrary.simpleMessage("Copy error"),
-        "couldNotLaunch":
-            MessageLookupByLibrary.simpleMessage("couldNotLaunch"),
-        "countSelected":
-            MessageLookupByLibrary.simpleMessage(":count selected"),
-        "create": MessageLookupByLibrary.simpleMessage("Create"),
-        "createNew": MessageLookupByLibrary.simpleMessage("createNew"),
-        "created": MessageLookupByLibrary.simpleMessage("Created"),
-        "createdBy": MessageLookupByLibrary.simpleMessage("CreatedBy"),
-        "createdChvMalariaCase":
-            MessageLookupByLibrary.simpleMessage("Created Malaria case"),
-        "cronsNotEnabled":
-            MessageLookupByLibrary.simpleMessage("cronsNotEnabled"),
-        "dashboard": MessageLookupByLibrary.simpleMessage("Dashboard"),
-        "dataEntry": MessageLookupByLibrary.simpleMessage("Data Entry"),
-        "dateOfExamination": MessageLookupByLibrary.simpleMessage("Date"),
-        "debugModeIsEnabled":
-            MessageLookupByLibrary.simpleMessage("debugModeIsEnabled"),
-        "debugModeIsEnabledHelp":
-            MessageLookupByLibrary.simpleMessage("debugModeIsEnabledHelp"),
-        "delete": MessageLookupByLibrary.simpleMessage("delete"),
-        "deletedChv": MessageLookupByLibrary.simpleMessage("Deleted Chv"),
-        "deletedChvMalariaCase":
-            MessageLookupByLibrary.simpleMessage("Deleted chv Malaria Case"),
-        "deletedChvMalariaCases":
-            MessageLookupByLibrary.simpleMessage("Deleted chv Malaria Cases"),
-        "deletedChvStockMovement":
-            MessageLookupByLibrary.simpleMessage("deleted Movement"),
-        "deletedChvStockMovements":
-            MessageLookupByLibrary.simpleMessage(":value deleted movements"),
-        "deletedChvs": MessageLookupByLibrary.simpleMessage("deletedChvs"),
-        "deletedUser": MessageLookupByLibrary.simpleMessage("Deleted user"),
-        "deletedUsers":
-            MessageLookupByLibrary.simpleMessage(":value deleted user"),
-        "descending": MessageLookupByLibrary.simpleMessage("Descending"),
-        "description": MessageLookupByLibrary.simpleMessage("Description"),
-        "desktop": MessageLookupByLibrary.simpleMessage("Desktop"),
-        "details": MessageLookupByLibrary.simpleMessage("Details"),
-        "diagnoseInfo": MessageLookupByLibrary.simpleMessage("Diagnose info"),
-        "disabled": MessageLookupByLibrary.simpleMessage("disabled"),
-        "disapprove": MessageLookupByLibrary.simpleMessage("Disapprove"),
-        "discardChanges":
-            MessageLookupByLibrary.simpleMessage("Discard changes?"),
-        "dismiss": MessageLookupByLibrary.simpleMessage("Dismiss"),
-        "documentation": MessageLookupByLibrary.simpleMessage("documentation"),
-        "documents": MessageLookupByLibrary.simpleMessage("Documents"),
-        "done": MessageLookupByLibrary.simpleMessage("done"),
-        "download": MessageLookupByLibrary.simpleMessage("download"),
-        "draft": MessageLookupByLibrary.simpleMessage("Draft"),
-        "drugType": MessageLookupByLibrary.simpleMessage("Drug type"),
-        "drugsTypes": MessageLookupByLibrary.simpleMessage("drugsTypes"),
-        "edit": MessageLookupByLibrary.simpleMessage("Edit"),
-        "editChvMalariaCase":
-            MessageLookupByLibrary.simpleMessage("editChvMalariaCase"),
-        "editColumns": MessageLookupByLibrary.simpleMessage("edit columns"),
-        "editRecord": MessageLookupByLibrary.simpleMessage("Edit record"),
-        "email": MessageLookupByLibrary.simpleMessage("email"),
-        "emailSignIn": MessageLookupByLibrary.simpleMessage("emailSignIn"),
-        "emailSignUp": MessageLookupByLibrary.simpleMessage("Email signUp"),
-        "enabled": MessageLookupByLibrary.simpleMessage("enabled"),
-        "enter_text": MessageLookupByLibrary.simpleMessage("enter_text"),
-        "enter_value": MessageLookupByLibrary.simpleMessage("enter_value"),
-        "entityState": MessageLookupByLibrary.simpleMessage("Entity state"),
-        "error": MessageLookupByLibrary.simpleMessage("Error"),
-        "errorUnsavedChanges":
-            MessageLookupByLibrary.simpleMessage("Error unsaved changes"),
-        "events": MessageLookupByLibrary.simpleMessage("Events"),
-        "failedToFindRecord":
-            MessageLookupByLibrary.simpleMessage("Failed to find record!"),
-        "female": MessageLookupByLibrary.simpleMessage("Female"),
-        "filter": MessageLookupByLibrary.simpleMessage("filter"),
-        "filteredBy":
-            MessageLookupByLibrary.simpleMessage("Filtered by :value"),
-        "forceUpdate": MessageLookupByLibrary.simpleMessage("forceUpdate"),
-        "forms": MessageLookupByLibrary.simpleMessage("forms"),
-        "from": MessageLookupByLibrary.simpleMessage("from"),
-        "gender": MessageLookupByLibrary.simpleMessage("Gender"),
-        "googleSignIn": MessageLookupByLibrary.simpleMessage("googleSignIn"),
-        "googleSignUp": MessageLookupByLibrary.simpleMessage("googleSignUp"),
-        "healthCheck": MessageLookupByLibrary.simpleMessage("healthCheck"),
-        "hideMenu": MessageLookupByLibrary.simpleMessage("hideMenu"),
-        "hidePassword": MessageLookupByLibrary.simpleMessage("Hide password"),
-        "history": MessageLookupByLibrary.simpleMessage("History"),
-        "id": MessageLookupByLibrary.simpleMessage("id"),
-        "inactive": MessageLookupByLibrary.simpleMessage("Inactive"),
-        "includeRecentErrors":
-            MessageLookupByLibrary.simpleMessage("includeRecentErrors"),
-        "invalid": MessageLookupByLibrary.simpleMessage("Invalid"),
-        "irs": MessageLookupByLibrary.simpleMessage("IRS"),
-        "isFemalePregnant":
-            MessageLookupByLibrary.simpleMessage("Is this female pregnant?"),
-        "isPregnant": MessageLookupByLibrary.simpleMessage("Is pregnant?"),
-        "isSynced": MessageLookupByLibrary.simpleMessage("Is synced?"),
-        "itn": MessageLookupByLibrary.simpleMessage("ITN"),
-        "lastSynced": MessageLookupByLibrary.simpleMessage("lastSynced"),
-        "learnMore": MessageLookupByLibrary.simpleMessage("learnMore"),
-        "level": MessageLookupByLibrary.simpleMessage("Level"),
-        "list": MessageLookupByLibrary.simpleMessage("list"),
-        "listView": MessageLookupByLibrary.simpleMessage("List View"),
-        "loading": MessageLookupByLibrary.simpleMessage("loading"),
-        "locked": MessageLookupByLibrary.simpleMessage("Locked"),
-        "login": MessageLookupByLibrary.simpleMessage("Login"),
-        "logout": MessageLookupByLibrary.simpleMessage("Logout"),
-        "malariaMidGiven": MessageLookupByLibrary.simpleMessage("Drugs"),
-        "malariaMidsGiven":
-            MessageLookupByLibrary.simpleMessage("Malaria drugs given"),
-        "malariaTestResult":
-            MessageLookupByLibrary.simpleMessage("Test result"),
-        "male": MessageLookupByLibrary.simpleMessage("Male"),
-        "mapView": MessageLookupByLibrary.simpleMessage("Map View"),
-        "menu": MessageLookupByLibrary.simpleMessage("Menu"),
-        "menuSidebar": MessageLookupByLibrary.simpleMessage("menuSidebar"),
-        "message": MessageLookupByLibrary.simpleMessage("message"),
-        "microsoftSignIn":
-            MessageLookupByLibrary.simpleMessage("microsoftSignIn"),
-        "microsoftSignUp":
-            MessageLookupByLibrary.simpleMessage("microsoftSignUp"),
-        "mix": MessageLookupByLibrary.simpleMessage("MIX"),
-        "mobile": MessageLookupByLibrary.simpleMessage("Mobile"),
-        "more": MessageLookupByLibrary.simpleMessage("more"),
-        "multiselect": MessageLookupByLibrary.simpleMessage("multiselect"),
-        "name": MessageLookupByLibrary.simpleMessage("Name"),
-        "negative": MessageLookupByLibrary.simpleMessage("negative"),
-        "newChv": MessageLookupByLibrary.simpleMessage("New Chv"),
-        "newChvMalariaCase":
-            MessageLookupByLibrary.simpleMessage("New Malaria Case"),
-        "newChvStockMovement":
-            MessageLookupByLibrary.simpleMessage("New Stock Movement"),
-        "newUser": MessageLookupByLibrary.simpleMessage("New user"),
-        "no": MessageLookupByLibrary.simpleMessage("no"),
-        "noRecordSelected":
-            MessageLookupByLibrary.simpleMessage("No record selected"),
-        "none": MessageLookupByLibrary.simpleMessage("none"),
-        "notCompleted": MessageLookupByLibrary.simpleMessage("New"),
-        "notes": MessageLookupByLibrary.simpleMessage("Notes"),
-        "ok": MessageLookupByLibrary.simpleMessage("Ok!"),
-        "orgUnit": MessageLookupByLibrary.simpleMessage("Organisation Unit"),
-        "organisationUnit":
-            MessageLookupByLibrary.simpleMessage("Organisation unit"),
-        "organisationUnits":
-            MessageLookupByLibrary.simpleMessage("Organisation Units"),
-        "overview": MessageLookupByLibrary.simpleMessage("Overview"),
-        "password": MessageLookupByLibrary.simpleMessage("Password"),
-        "passwordIsTooEasy":
-            MessageLookupByLibrary.simpleMessage("Password is too easy"),
-        "passwordIsTooShort":
-            MessageLookupByLibrary.simpleMessage("Password is too short"),
-        "patientName": MessageLookupByLibrary.simpleMessage("Patient Name"),
-        "pdfMinRequirements": MessageLookupByLibrary.simpleMessage(
-            "pdf Min Requirements version :version"),
-        "pending": MessageLookupByLibrary.simpleMessage("pending"),
-        "person": MessageLookupByLibrary.simpleMessage("Person"),
-        "pf": MessageLookupByLibrary.simpleMessage("P.F"),
-        "pleaseEnterACaseNumber": MessageLookupByLibrary.simpleMessage(
-            "Please, enter a case number!"),
-        "pleaseEnterAPatientNumber": MessageLookupByLibrary.simpleMessage(
-            "Please, enter a patient name!"),
-        "pleaseEnterAge": MessageLookupByLibrary.simpleMessage(
-            "Please, enter patient\'s age!"),
-        "pleaseEnterYourEmail":
-            MessageLookupByLibrary.simpleMessage("Please, enter your email!"),
-        "pleaseEnterYourPassword": MessageLookupByLibrary.simpleMessage(
-            "Please, enter your password!"),
-        "pleaseEnterYourUsername": MessageLookupByLibrary.simpleMessage(
-            "Please, enter your username!"),
-        "pleaseSelectAVillage":
-            MessageLookupByLibrary.simpleMessage("Please, select a village!"),
-        "pleaseSelectAnOrgUnit":
-            MessageLookupByLibrary.simpleMessage("Please, select an orgUnit"),
-        "pleaseTypeToConfirm":
-            MessageLookupByLibrary.simpleMessage("Please, type to confirm"),
-        "programs": MessageLookupByLibrary.simpleMessage("Programs"),
-        "pv": MessageLookupByLibrary.simpleMessage("P.V"),
-        "quantity": MessageLookupByLibrary.simpleMessage("quantity"),
-        "recommendDesktop":
-            MessageLookupByLibrary.simpleMessage("recommendDesktop"),
-        "recommendMobile":
-            MessageLookupByLibrary.simpleMessage("recommendMobile"),
-        "recoverPassword":
-            MessageLookupByLibrary.simpleMessage("Recover password"),
-        "recoverPasswordEmailSent":
-            MessageLookupByLibrary.simpleMessage("Recover password email sent"),
-        "referral": MessageLookupByLibrary.simpleMessage("Referral"),
-        "refreshComplete":
-            MessageLookupByLibrary.simpleMessage("Refresh complete"),
-        "refreshData": MessageLookupByLibrary.simpleMessage("Refresh data"),
-        "relationships": MessageLookupByLibrary.simpleMessage("Relationships"),
-        "remindMe": MessageLookupByLibrary.simpleMessage("remindMe"),
-        "remove": MessageLookupByLibrary.simpleMessage("remove"),
-        "reports": MessageLookupByLibrary.simpleMessage("Reports"),
-        "reset": MessageLookupByLibrary.simpleMessage("reset"),
-        "restore": MessageLookupByLibrary.simpleMessage("Restore"),
-        "reviewApp": MessageLookupByLibrary.simpleMessage("reviewApp"),
-        "save": MessageLookupByLibrary.simpleMessage("save"),
-        "savedSettings": MessageLookupByLibrary.simpleMessage("savedSettings"),
-        "searchChvMalariaCases":
-            MessageLookupByLibrary.simpleMessage("Search Malaria Cases"),
-        "searchOrganisationUnits":
-            MessageLookupByLibrary.simpleMessage("Search organisation units"),
-        "searchStockTypes":
-            MessageLookupByLibrary.simpleMessage("Search Stock"),
-        "select": MessageLookupByLibrary.simpleMessage("select"),
-        "selectOne": MessageLookupByLibrary.simpleMessage("Select one"),
-        "selectUserAction":
-            MessageLookupByLibrary.simpleMessage("Select a user action"),
-        "send": MessageLookupByLibrary.simpleMessage("send"),
-        "sent": MessageLookupByLibrary.simpleMessage("Sent"),
-        "settings": MessageLookupByLibrary.simpleMessage("Settings"),
-        "severe": MessageLookupByLibrary.simpleMessage("Severe"),
-        "severity": MessageLookupByLibrary.simpleMessage("Severity"),
-        "share": MessageLookupByLibrary.simpleMessage("Share"),
-        "shortName": MessageLookupByLibrary.simpleMessage("Short Name"),
-        "showHelp": MessageLookupByLibrary.simpleMessage("Show Help"),
-        "showList": MessageLookupByLibrary.simpleMessage("show list"),
-        "showMenu": MessageLookupByLibrary.simpleMessage("showMenu"),
-        "showPassword": MessageLookupByLibrary.simpleMessage("Show password"),
-        "showTable": MessageLookupByLibrary.simpleMessage("show table"),
-        "simple": MessageLookupByLibrary.simpleMessage("Simple"),
-        "sort": MessageLookupByLibrary.simpleMessage("sort"),
-        "sourceCode": MessageLookupByLibrary.simpleMessage("sourceCode"),
-        "standing": MessageLookupByLibrary.simpleMessage("standing"),
-        "status": MessageLookupByLibrary.simpleMessage("Status"),
-        "stockQuantity": MessageLookupByLibrary.simpleMessage("Stock quantity"),
-        "stockType": MessageLookupByLibrary.simpleMessage("Stock Type"),
-        "stockTypes": MessageLookupByLibrary.simpleMessage("Stock types"),
-        "subVillage": MessageLookupByLibrary.simpleMessage("subVillage"),
-        "submit": MessageLookupByLibrary.simpleMessage("Submit"),
-        "supportForum": MessageLookupByLibrary.simpleMessage("supportForum"),
-        "sync": MessageLookupByLibrary.simpleMessage("Sync"),
-        "syncChv": MessageLookupByLibrary.simpleMessage("syncChv"),
-        "syncChvMalariaCase":
-            MessageLookupByLibrary.simpleMessage("Sync chv Malaria Case"),
-        "syncChvMalariaCases":
-            MessageLookupByLibrary.simpleMessage("Sync chv Malaria Cases"),
-        "syncChvStockMovement":
-            MessageLookupByLibrary.simpleMessage("sync Movement"),
-        "syncChvStockMovements":
-            MessageLookupByLibrary.simpleMessage(":value sync movements"),
-        "syncChvs": MessageLookupByLibrary.simpleMessage("syncChvs"),
-        "synced": MessageLookupByLibrary.simpleMessage("Synced"),
-        "table": MessageLookupByLibrary.simpleMessage("table"),
-        "tableView": MessageLookupByLibrary.simpleMessage("Table View"),
-        "tasks": MessageLookupByLibrary.simpleMessage("Tasks"),
-        "tei": MessageLookupByLibrary.simpleMessage("tei"),
-        "testBarImage": MessageLookupByLibrary.simpleMessage("Test bar image"),
-        "treatment": MessageLookupByLibrary.simpleMessage("Treatment"),
-        "unAnswered": MessageLookupByLibrary.simpleMessage("Unanswered"),
-        "unapproved": MessageLookupByLibrary.simpleMessage("Unapproved"),
-        "updateApp": MessageLookupByLibrary.simpleMessage("updateApp"),
-        "updateAvailable":
-            MessageLookupByLibrary.simpleMessage("updateAvailable"),
-        "updated": MessageLookupByLibrary.simpleMessage("Updated"),
-        "updatedChvMalariaCase":
-            MessageLookupByLibrary.simpleMessage("Updated Malaria case"),
-        "upgrade": MessageLookupByLibrary.simpleMessage("Upgrade"),
-        "uploadedDocument":
-            MessageLookupByLibrary.simpleMessage("Uploaded document"),
-        "user": MessageLookupByLibrary.simpleMessage("User"),
-        "userGuide": MessageLookupByLibrary.simpleMessage("userGuide"),
-        "username": MessageLookupByLibrary.simpleMessage("Username"),
-        "verifyPhoneNumberHelp":
-            MessageLookupByLibrary.simpleMessage("Verify phone number help"),
-        "viewLicenses": MessageLookupByLibrary.simpleMessage("viewLicenses"),
-        "viewSettings": MessageLookupByLibrary.simpleMessage("viewSettings"),
-        "village": MessageLookupByLibrary.simpleMessage("Village"),
-        "waitForData": MessageLookupByLibrary.simpleMessage("waitForData"),
-        "waitForLoading":
-            MessageLookupByLibrary.simpleMessage("waitForLoading"),
-        "waitForSaving": MessageLookupByLibrary.simpleMessage("waitForSaving"),
-        "warning": MessageLookupByLibrary.simpleMessage("warning"),
-        "whyAreYouLeaving":
-            MessageLookupByLibrary.simpleMessage("Why are you leaving?"),
-        "yes": MessageLookupByLibrary.simpleMessage("yes"),
-        "yourMessageHasBeenReceived":
-            MessageLookupByLibrary.simpleMessage("yourMessageHasBeenReceived")
+        "app_name": MessageLookupByLibrary.simpleMessage("ماس برو"),
+        "error_access_keystore": MessageLookupByLibrary.simpleMessage(
+            "لا يمكن الوصول إلى مستودع المفاتيح"),
+        "error_account_disabled":
+            MessageLookupByLibrary.simpleMessage("تم تعطيل حساب المستخدم"),
+        "error_account_locked":
+            MessageLookupByLibrary.simpleMessage("تم قفل حساب المستخدم"),
+        "error_already_authenticated":
+            MessageLookupByLibrary.simpleMessage("المستخدم مصادق عليه بالفعل"),
+        "error_already_executed":
+            MessageLookupByLibrary.simpleMessage("الإجراء تم تنفيذه بالفعل"),
+        "error_api_invalid_query":
+            MessageLookupByLibrary.simpleMessage("استعلام API غير صالح"),
+        "error_app_name_not_set":
+            MessageLookupByLibrary.simpleMessage("اسم التطبيق غير مضبوط"),
+        "error_app_version_not_set":
+            MessageLookupByLibrary.simpleMessage("إصدار التطبيق غير مضبوط"),
+        "error_create_existing_error": MessageLookupByLibrary.simpleMessage(
+            "لا يمكن إنشاء كائن موجود بالفعل"),
+        "error_delete_non_existing_object":
+            MessageLookupByLibrary.simpleMessage("لا يمكن حذف كائن غير موجود"),
+        "error_different_offline_user": MessageLookupByLibrary.simpleMessage(
+            "مستخدم آخر مصادق عليه بشكل غير متصل"),
+        "error_export_encrypted":
+            MessageLookupByLibrary.simpleMessage("لا يتم دعم التصدير المشفر"),
+        "error_export_login":
+            MessageLookupByLibrary.simpleMessage("يرجى تسجيل الدخول للتصدير"),
+        "error_file_not_found":
+            MessageLookupByLibrary.simpleMessage("الملف غير موجود"),
+        "error_file_resize":
+            MessageLookupByLibrary.simpleMessage("فشل تغيير حجم الصورة"),
+        "error_generate_coordinate":
+            MessageLookupByLibrary.simpleMessage("تعذر إنشاء الإحداثيات"),
+        "error_import_exist":
+            MessageLookupByLibrary.simpleMessage("الاستيراد موجود بالفعل"),
+        "error_import_logout": MessageLookupByLibrary.simpleMessage(
+            "الرجاء تسجيل الخروج قبل الاستيراد"),
+        "error_import_version": MessageLookupByLibrary.simpleMessage(
+            "إصدار الاستيراد أعلى من المدعوم"),
+        "error_instance_keystore": MessageLookupByLibrary.simpleMessage(
+            "لا يمكن إنشاء مثيل مستودع المفاتيح"),
+        "error_invalid_characters":
+            MessageLookupByLibrary.simpleMessage("أحرف غير صالحة"),
+        "error_invalid_geometry":
+            MessageLookupByLibrary.simpleMessage("قيمة هندسية غير صالحة"),
+        "error_job":
+            MessageLookupByLibrary.simpleMessage("تقرير العمل غير متاح"),
+        "error_low_on_available_values":
+            MessageLookupByLibrary.simpleMessage("نقص القيم المتاحة"),
+        "error_many_requests":
+            MessageLookupByLibrary.simpleMessage("الكثير من الطلبات"),
+        "error_max_tei_count_reached": MessageLookupByLibrary.simpleMessage(
+            "تم الوصول إلى الحد الأقصى لعدد TEI"),
+        "error_min_attributes": MessageLookupByLibrary.simpleMessage(
+            "الحد الأدنى للسمات المطلوبة في البحث"),
+        "error_no_reserved_values":
+            MessageLookupByLibrary.simpleMessage("لا توجد قيم محجوزة"),
+        "error_no_values_left_on_server": MessageLookupByLibrary.simpleMessage(
+            "لا توجد قيم متبقية للحجز على الخادم"),
+        "error_null_url": MessageLookupByLibrary.simpleMessage(
+            "عنوان URL للخادم لا يمكن أن يكون فارغًا"),
+        "error_object_insert":
+            MessageLookupByLibrary.simpleMessage("لا يمكن إدراج الكائن"),
+        "error_object_update":
+            MessageLookupByLibrary.simpleMessage("لا يمكن تحديث الكائن"),
+        "error_org_unit_scope": MessageLookupByLibrary.simpleMessage(
+            "الوحدة التنظيمية غير مشمولة في نطاق البحث"),
+        "error_ownership_access":
+            MessageLookupByLibrary.simpleMessage("تم رفض وصول الملكية"),
+        "error_relationship_updated":
+            MessageLookupByLibrary.simpleMessage("لا يمكن تحديث العلاقات"),
+        "error_reserve_value_on_server": MessageLookupByLibrary.simpleMessage(
+            "تعذر الحجز على القيمة على الخادم"),
+        "error_server_malformed":
+            MessageLookupByLibrary.simpleMessage("عنوان URL للخادم غير صحيح"),
+        "error_set_value":
+            MessageLookupByLibrary.simpleMessage("لا يمكن تعيين القيمة"),
+        "error_settings_app_not_intalled":
+            MessageLookupByLibrary.simpleMessage("تطبيق الإعدادات غير مثبت"),
+        "error_settings_app_not_supported":
+            MessageLookupByLibrary.simpleMessage("تطبيق الإعدادات غير مدعوم"),
+        "error_sms_not_supported": MessageLookupByLibrary.simpleMessage(
+            "غير مدعومة خدمة الرسائل القصيرة"),
+        "error_socket_timeout":
+            MessageLookupByLibrary.simpleMessage("انتهاء مهلة الاتصال"),
+        "error_ssl": MessageLookupByLibrary.simpleMessage("خطأ SSL"),
+        "error_too_manu_org_units": MessageLookupByLibrary.simpleMessage(
+            "عدد كبير جدًا من الوحدات التنظيمية"),
+        "error_too_many_periods":
+            MessageLookupByLibrary.simpleMessage("عدد كبير جدًا من الفترات"),
+        "error_unexpected":
+            MessageLookupByLibrary.simpleMessage("حدث خطأ غير متوقع"),
+        "error_url_not_found":
+            MessageLookupByLibrary.simpleMessage("عنوان URL غير موجود"),
+        "error_user_no_authenticated":
+            MessageLookupByLibrary.simpleMessage("لا يوجد مستخدم مصادق عليه"),
+        "error_user_no_authenticated_offline":
+            MessageLookupByLibrary.simpleMessage(
+                "لا يوجد مستخدم مصادق عليه حاليًا"),
+        "error_value_reservation_time": MessageLookupByLibrary.simpleMessage(
+            "استغرق حجز القيم وقتًا طويلاً"),
+        "login_error_bad_credentials":
+            MessageLookupByLibrary.simpleMessage("بيانات اعتماد غير صالحة"),
+        "login_error_error_response":
+            MessageLookupByLibrary.simpleMessage("خطأ في معالجة الاستجابة"),
+        "login_error_no_am_instance": MessageLookupByLibrary.simpleMessage(
+            "لم يتم العثور على مثيل للخادم"),
+        "login_error_null_pass": MessageLookupByLibrary.simpleMessage(
+            "لا يمكن أن تكون كلمة المرور فارغة"),
+        "login_error_null_username": MessageLookupByLibrary.simpleMessage(
+            "لا يمكن أن يكون اسم المستخدم فارغًا"),
+        "login_error_unknown_host":
+            MessageLookupByLibrary.simpleMessage("مضيف غير معروف"),
+        "login_error_unsuccessful_response":
+            MessageLookupByLibrary.simpleMessage("استجابة غير ناجحة من الخادم"),
+        "not_mapped_error":
+            MessageLookupByLibrary.simpleMessage("خطأ غير معتمد"),
+        "online_search_parsing_error":
+            MessageLookupByLibrary.simpleMessage("خطأ في تحليل بحث الشبكة")
       };
 }

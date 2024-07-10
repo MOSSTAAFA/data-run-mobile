@@ -10,7 +10,6 @@ class SelectableError extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalization.of(context)!.localized!;
     return Container(
       padding: const EdgeInsets.only(top: 20, left: 16, right: 16),
       child: Row(
@@ -25,7 +24,7 @@ class SelectableError extends StatelessWidget {
           ),
           IconButton(
               icon: const Icon(Icons.content_copy),
-              tooltip: localization.copyError,
+              tooltip: L.of(context)!.lookup('copyError'),
               onPressed: () {
                 Clipboard.setData(ClipboardData(text: errorMessage));
               }),

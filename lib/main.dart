@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
-import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/commons/prefs/preference_provider.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_screen.widget.dart';
@@ -24,9 +23,7 @@ Future<void> main() async {
   initializeReflectable();
 
   await PreferenceProvider.initialize();
-
   await D2Remote.initialize();
-  // await setUpActivityManagementMocks();
 
   FlutterError.demangleStackTrace = (StackTrace stack) {
     if (stack is stack_trace.Trace) {
@@ -38,19 +35,12 @@ Future<void> main() async {
     return stack;
   };
 
-  // wrap the entire app with a ProviderScope so that widgets
-  // will be able to read providers
   runApp(ProviderScope(
-    /// log specific provider
     observers: [
       ProviderLogger(
-          providersNameToLog: const IListConst(const [
-        'formFieldsRepositoryProvider'
-      ]))
+          providersNameToLog:
+              const IListConst(const ['formFieldsRepositoryProvider']))
     ],
-
-    /// log all providers
-    // observers: [ProviderLogger(providerNameToLog: '')],
     child: const App(),
   ));
 }
@@ -60,44 +50,39 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final routeObserver = Get.put<RouteObserver>(RouteObserver<PageRoute>());
-    final locale = AppLocalization.createLocale('en');
+    final locale = const Locale('ar', '');
 
     return GetMaterialApp(
       navigatorKey: navigatorKey,
-      navigatorObservers: [routeObserver],
-      title: 'Flutter FormBuilder Demo',
+      title: 'MASS PRO',
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light().copyWith(
-          appBarTheme: const AppBarTheme()
-              .copyWith(backgroundColor: Colors.blue.shade200)),
+        appBarTheme:
+            const AppBarTheme().copyWith(backgroundColor: Colors.blue.shade200),
+      ),
       localizationsDelegates: const [
-        AppLocalization.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
+        L.delegate,
       ],
-      supportedLocales: kLanguages
-          .map((String locale) => AppLocalization.createLocale(locale))
-          .toList(),
+      supportedLocales: const [
+        Locale('ar', ''),
+        Locale('en', ''),
+      ],
       locale: locale,
-      // Returns a locale which will be used by the app
-      localeResolutionCallback: (locale, supportedLocales) {
-        if (locale != null) {
-          return locale;
-        }
-
-        // Check if the current device locale is supported
-        for (final Locale supportedLocale in supportedLocales) {
-          if (supportedLocale.languageCode == locale?.languageCode &&
-              supportedLocale.countryCode == locale?.countryCode) {
-            return supportedLocale;
-          }
-        }
-        // If the locale of the device is not supported, use the first one
-        // from the list (English, in this case).
-        return supportedLocales.first;
-      },
+      // localeResolutionCallback: (locale, supportedLocales) {
+      //   if (locale != null) {
+      //     return locale;
+      //   }
+      //   for (final Locale supportedLocale in supportedLocales) {
+      //     if (supportedLocale.languageCode == locale?.languageCode &&
+      //         supportedLocale.countryCode == locale?.countryCode) {
+      //       return supportedLocale;
+      //     }
+      //   }
+      //   return supportedLocales.first;
+      // },
       initialRoute: SplashScreen.route,
       getPages: [
         GetPage(
@@ -115,12 +100,10 @@ class App extends ConsumerWidget {
         ),
         GetPage(
           name: ProjectDetailScreenWidget.route,
-          page: () => const DashboardScreenWidget(),
+          page: () => const ProjectDetailScreenWidget(),
           transition: Transition.fade,
         ),
       ],
-
-      // home: const SplashScreen(),
     );
   }
 }

@@ -81,7 +81,7 @@
 //                                 appState.uiState.filterEntityType.toString();
 
 //                         return AppTextButton(
-//                           label: localization.edit,
+//                           label: L.of(context)!edit,
 //                           isInHeader: true,
 //                           onPressed: isDisabled
 //                               ? null
@@ -102,7 +102,7 @@
 //           ),
 //           body: SafeArea(
 //             child: eventMode == EventMode.NEW
-//                 ? BlankScreen(localization.noRecordSelected)
+//                 ? BlankScreen(L.of(context)!noRecordSelected)
 //                 : body,
 //           ),
 //         ),

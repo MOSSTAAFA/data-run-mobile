@@ -60,7 +60,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalization.of(context)!;
+    final localization = L.of(context)!;
 
     return Scaffold(
       body: Builder(
@@ -72,7 +72,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   LoginHeader(),
-                  Headline1(text: localization.lookup('login')),
+                  Headline1(text: L.of(context)!.lookup('login')),
                   Padding(
                     padding: const EdgeInsets.all(32),
                     child: Form(
@@ -91,14 +91,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                             .read(loginModelProvider.notifier)
                                             .onUserChanged(value),
                                         controller: _userController,
-                                        label: localization.lookup('username'),
+                                        label: L.of(context)!.lookup('username'),
                                         keyboardType: TextInputType.name,
                                         readOnly: ref
                                             .watch(showLoginProgressProvider),
                                         validator: (String? val) {
                                           return val?.trim().isNullOrEmpty ??
                                                   false
-                                              ? localization.lookup(
+                                              ? L.of(context)!.lookup(
                                                   'pleaseEnterYourUsername')
                                               : null;
                                         },
@@ -145,7 +145,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                                 color: Colors.white),
                                             const SizedBox(width: 10),
                                             Text(
-                                              localization.lookup('user'),
+                                              L.of(context)!.lookup('user'),
                                               style: const TextStyle(
                                                   fontSize: 18,
                                                   color: Colors.white),
@@ -220,7 +220,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
   void renderError(Exception throwable) {
     showInfoDialog(
         title: 'Error',
-        prefix: AppLocalization.of(context)!.lookup('login_error'),
+        prefix: L.of(context)!.lookup('login_error'),
         message: ref.read(resourceManagerProvider).parseD2Error(throwable));
     // Get.dialog(
     //     SelectableError(
@@ -319,19 +319,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
 
   @override
   void showEmptyCredentialsMessage() {
-    final localization = AppLocalization.of(context)!;
+    final localization = L.of(context)!;
     showInfoDialog(
-        title: localization.lookup('R.biometrics_dialog_title'),
-        message: localization.lookup('R.biometrics_first_use_text'));
+        title: L.of(context)!.lookup('R.biometrics_dialog_title'),
+        message: L.of(context)!.lookup('R.biometrics_first_use_text'));
   }
 
   @override
   void showNoConnectionDialog() {
-    final localization = AppLocalization.of(context)!;
+    final localization = L.of(context)!;
     showInfoDialog(
-        title: localization.lookup('R.network_unavailable'),
-        message: localization.lookup('R.no_network_to_recover_account'),
-        positiveButtonText: localization.lookup('ok'));
+        title: L.of(context)!.lookup('R.network_unavailable'),
+        message: L.of(context)!.lookup('R.no_network_to_recover_account'),
+        positiveButtonText: L.of(context)!.lookup('ok'));
   }
 
   @override

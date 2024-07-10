@@ -81,7 +81,7 @@ class NavigationTabBarViewState extends ConsumerState<NavigationTabBarView>
       return widget.stub ?? const SizedBox();
     }
 
-    final localization = AppLocalization.of(context)!.localized!;
+    final localization = L.of(context)!.localized!;
 
     Widget? leadingActions;
     Widget? drawerHamburger;
@@ -90,7 +90,7 @@ class NavigationTabBarViewState extends ConsumerState<NavigationTabBarView>
         builder: (context) => InkWell(
           onLongPress: widget.onHamburgerLongPress,
           child: IconButton(
-            tooltip: localization.menuSidebar,
+            tooltip: L.of(context)!.lookup('menuSidebar'),
             icon: const Icon(Icons.menu),
             onPressed: () {
               Scaffold.of(context).openDrawer();

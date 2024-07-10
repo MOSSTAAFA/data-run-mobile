@@ -39,7 +39,7 @@ class _FormSectionState extends State<FormSection> {
           child: Align(
             alignment: AlignmentDirectional.centerEnd,
             child: AppTextButton(
-                label: AppLocalization.of(context)!.lookup('next')),
+                label: L.of(context)!.lookup('next')),
           ),
         ),
         Card(

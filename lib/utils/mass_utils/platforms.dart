@@ -85,10 +85,9 @@ String getLegacyAppURL(BuildContext context) => isAndroid()
     : 'https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=1220337560&mt=8';
 
 String getPdfRequirements(BuildContext context) {
-  final localization = AppLocalization.of(context)!.localized!;
   if (isMobile(context)) {
     final version = isAndroid() ? 'Android 5.0+' : 'iOS 11.0+';
-    return localization.pdfMinRequirements.replaceFirst(':version', version);
+    return L.of(context)!.lookup('pdfMinRequirements').replaceFirst(':version', version);
   } else {
     return '';
   }

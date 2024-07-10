@@ -10,15 +10,12 @@ class LoadingDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations localization =
-        AppLocalization.of(context)!.localized!;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Text('${localization.loading}...'),
+          child: Text('${L.of(context)!.lookup('loading')}...'),
         ),
         const Padding(
             padding: EdgeInsets.all(16.0),

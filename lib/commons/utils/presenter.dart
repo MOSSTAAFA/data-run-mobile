@@ -20,12 +20,12 @@ class EntityPresenter {
   late BuildContext context;
 
   String? title({bool isNarrow = false}) {
-    final AppLocalization localization = AppLocalization.of(context)!;
+    final L localization = L.of(context)!;
     String? name = entity?.displayName;
 
     // TODO replace with this: https://github.com/flutter/flutter/issues/45336
     if ((name ?? '').isEmpty) {
-      name = AppLocalization.of(context)!.localized!.pending;
+      name = L.of(context)!.lookup('pending');
     } //else if (name.length > 10) {
     return name;
     //}
@@ -53,22 +53,22 @@ class EntityPresenter {
   }
 
   Widget getField({required String field, required BuildContext context}) {
-    final AppLocalization localization = AppLocalization.of(context)!;
+    final L localization = L.of(context)!;
     return when(field, {
       EntityBaseFields.status.name: () => Text(entity?.dirty ?? false
-          ? localization.lookup('not_synced')
-          : localization.lookup('synced')),
-      EntityBaseFields.created.name: () => Text(localization.lookup('created')),
+          ? L.of(context)!.lookup('not_synced')
+          : L.of(context)!.lookup('synced')),
+      EntityBaseFields.created.name: () => Text(L.of(context)!.lookup('created')),
       EntityBaseFields.last_updated.name: () =>
-          Text(localization.lookup('last_updated')),
-      EntityBaseFields.uid.name: () => Text(localization.lookup('uid')),
+          Text(L.of(context)!.lookup('last_updated')),
+      EntityBaseFields.uid.name: () => Text(L.of(context)!.lookup('uid')),
     }).orElse(() => Text('Error: $field not found'));
   }
 
   String presentCustomField(BuildContext context, String value) {
     if (['yes', 'no'].contains(value)) {
-      final localization = AppLocalization.of(context)!;
-      return localization.lookup(value);
+      final localization = L.of(context)!;
+      return L.of(context)!.lookup(value);
     } else if (RegExp(r'^\d{4}-\d{2}-\d{2}$').hasMatch(value)) {
       return formatDate(value, context);
     }

@@ -39,22 +39,22 @@ class _PasswordFormFieldState extends State<PasswordFormField> {
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalization.of(context)!.localized!;
+    final localization = L.of(context)!.localized!;
 
     return DecoratedFormField(
-      key: ValueKey(widget.labelText ?? localization.password),
+      key: ValueKey(widget.labelText ?? L.of(context)!.lookup('password')),
       controller: widget.controller,
       readOnly: widget.readOnly,
       onSavePressed: widget.onSavePressed,
       autocorrect: false,
       autoValidate: widget.autoValidate,
       decoration: InputDecoration(
-        labelText: widget.labelText ?? localization.password,
+        labelText: widget.labelText ?? L.of(context)!.lookup('password'),
         suffixIcon: IconButton(
           alignment: Alignment.bottomCenter,
           tooltip: _isPasswordObscured
-              ? localization.showPassword
-              : localization.hidePassword,
+              ? L.of(context)!.lookup('showPassword')
+              : L.of(context)!.lookup('hidePassword'),
           icon: Icon(
             _isPasswordObscured ? Icons.visibility : Icons.visibility_off,
             color: Colors.grey,
@@ -74,7 +74,7 @@ class _PasswordFormFieldState extends State<PasswordFormField> {
         if (value == null || value.isEmpty || value.trim().isEmpty) {
           return widget.newPassword
               ? null
-              : localization.pleaseEnterYourPassword;
+              : L.of(context)!.lookup('pleaseEnterYourPassword');
         }
 
         if (!widget.newPassword) {
@@ -82,11 +82,11 @@ class _PasswordFormFieldState extends State<PasswordFormField> {
         }
 
         if (value.length < 4) {
-          return localization.passwordIsTooShort;
+          return L.of(context)!.lookup('passwordIsTooShort');
         }
 
         if (!_validatePassword(value)) {
-          return localization.passwordIsTooEasy;
+          return L.of(context)!.lookup('passwordIsTooEasy');
         }
 
         return null;

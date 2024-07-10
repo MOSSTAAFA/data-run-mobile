@@ -37,7 +37,7 @@ class CopyToClipboard extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
         );
     final AppLocalizations localization =
-        AppLocalization.of(context)!.localized!;
+        L.of(context)!.localized!;
 
     void onTap() => _onTap(context);
 
@@ -62,7 +62,7 @@ class CopyToClipboard extends StatelessWidget {
   void _onTap(BuildContext context) {
     Clipboard.setData(ClipboardData(text: value ?? ''));
     showToast(
-      AppLocalization.of(context)!.localized!.copiedToClipboard.replaceFirst(
+      L.of(context)!.lookup('copiedToClipboard').replaceFirst(
             ':value',
             value!.replaceAll('\n', ' '),
           ),

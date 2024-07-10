@@ -34,7 +34,7 @@ class _DashboardScreenWidgetState extends ConsumerState<DashboardScreenWidget>
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalization.of(context)!;
+    final localization = L.of(context)!;
 
     return Scaffold(
         appBar: AppBar(

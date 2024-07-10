@@ -58,7 +58,7 @@ class ActionMenuButton extends StatelessWidget {
               const SizedBox(width: 16.0),
               Expanded(
                 child: Text(
-                    AppLocalization.of(context)!.lookup(action.toString())),
+                    L.of(context)!.lookup(action.toString())),
               ),
             ],
           ),

@@ -19,7 +19,6 @@ class MessageDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalization.of(context)!.localized!;
 
     return Padding(
       padding: const EdgeInsets.only(left: 16, top: 24, right: 16, bottom: 24),
@@ -58,7 +57,7 @@ class MessageDialog extends StatelessWidget {
                               onDismiss!();
                             }
                           },
-                          child: Text((dismissLabel ?? localization.dismiss)
+                          child: Text((dismissLabel ?? L.of(context)!.lookup('dismiss'))
                               .toUpperCase()),
                         ),
                       ),
@@ -66,7 +65,7 @@ class MessageDialog extends StatelessWidget {
                         TextButton(
                             autofocus: true,
                             child:
-                                Text(localization.discardChanges.toUpperCase()),
+                                Text(L.of(context)!.lookup('discardChanges').toUpperCase()),
                             onPressed: () {
                               Navigator.of(context).pop();
                               onDiscard!();

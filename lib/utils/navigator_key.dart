@@ -8,8 +8,8 @@ final productsKey = GlobalKey<NavigatorState>();
 final profileKey = GlobalKey<NavigatorState>();
 
 extension NavigatorKeyUtils on GlobalKey<NavigatorState> {
-  AppLocalization get localization {
-    return AppLocalization.of(currentContext!)!;
+  L get localization {
+    return L.of(currentContext!)!;
   }
 }
 

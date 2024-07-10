@@ -48,7 +48,7 @@
 //         builder: (context) => InkWell(
 //           onLongPress: onHamburgerLongPress,
 //           child: IconButton(
-//             tooltip: localization.menuSidebar,
+//             tooltip: L.of(context)!menuSidebar,
 //             icon: const Icon(Icons.menu),
 //             onPressed: () {
 //               Scaffold.of(context).openDrawer();
@@ -65,7 +65,7 @@
 //           Expanded(
 //               child: IconButton(
 //             icon: const Icon(Icons.check_box),
-//             tooltip: prefState.enableTooltips ? localization.multiselect : null,
+//             tooltip: prefState.enableTooltips ? L.of(context)!multiselect : null,
 //             onPressed: () => onCheckboxPressed!(),
 //           )),
 //         ...appBarLeadingActions,

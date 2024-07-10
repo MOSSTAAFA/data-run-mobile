@@ -29,7 +29,7 @@ class _SyncScreenState extends ConsumerState<SyncScreen>
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalization.of(context)!;
+    final localization = L.of(context)!;
     final syncProgressInfo = ref.watch(syncProgressProvider);
 
     return Scaffold(
@@ -67,7 +67,7 @@ class _SyncScreenState extends ConsumerState<SyncScreen>
                   child: Text(
                     syncProgressInfo.state != WorkInfoState.SUCCEEDED
                         ? syncProgressInfo.message
-                        : localization.lookup('R.configuration_ready'),
+                        : L.of(context)!.lookup('R.configuration_ready'),
                     style: const TextStyle(fontSize: 13.0, color: Colors.white),
                   ),
                 ),
@@ -121,13 +121,13 @@ class _SyncScreenState extends ConsumerState<SyncScreen>
 
   @override
   void showMetadataFailedMessage(String? message) {
-    final localization = AppLocalization.of(context)!;
+    final localization = L.of(context)!;
     showInfoDialog(
-      title: localization.lookup('R.something_wrong'),
-      prefix: localization.lookup('R.metada_first_sync_error'),
+      title: L.of(context)!.lookup('R.something_wrong'),
+      prefix: L.of(context)!.lookup('R.metada_first_sync_error'),
       message: message ?? '',
-      // positiveButtonText: localization.lookup('R.share'),
-      negativeButtonText: localization.lookup('R.go_back'),
+      // positiveButtonText: L.of(context)!.lookup('R.share'),
+      negativeButtonText: L.of(context)!.lookup('R.go_back'),
       // onPositiveClick: () => message?.let((it) => share(it)),
       onNegativeClick: () => presenter.onLogout(),
     );

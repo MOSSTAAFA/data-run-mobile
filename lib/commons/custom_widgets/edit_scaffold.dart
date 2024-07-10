@@ -127,7 +127,7 @@
 //                   isHeader: true,
 //                   isCancelEnabled: isCancelEnabled,
 //                   saveLabel: saveLabel,
-//                   cancelLabel: localization.cancel,
+//                   cancelLabel: L.of(context)!cancel,
 //                   onSavePressed: (context) {
 //                     // Clear focus now to prevent un-focus after save from
 //                     // marking the form as changed and to hide the keyboard

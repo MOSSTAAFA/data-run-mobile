@@ -27,7 +27,7 @@ class D2ErrorUtils {
   }
 
   String _handleD2Error(D2Error? d2Error) {
-    final AppLocalization localization = navigatorKey.localization;
+    final L localization = navigatorKey.localization;
 
     return when(d2Error?.errorCode, {
       D2ErrorCode.LOGIN_PASSWORD_NULL: () =>
