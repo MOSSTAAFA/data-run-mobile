@@ -67,7 +67,7 @@ class _SyncScreenState extends ConsumerState<SyncScreen>
                   child: Text(
                     syncProgressInfo.state != WorkInfoState.SUCCEEDED
                         ? syncProgressInfo.message
-                        : L.of(context)!.lookup('R.configuration_ready'),
+                        : L.of(context)!.lookup('configuration_ready'),
                     style: const TextStyle(fontSize: 13.0, color: Colors.white),
                   ),
                 ),
@@ -123,11 +123,11 @@ class _SyncScreenState extends ConsumerState<SyncScreen>
   void showMetadataFailedMessage(String? message) {
     final localization = L.of(context)!;
     showInfoDialog(
-      title: L.of(context)!.lookup('R.something_wrong'),
-      prefix: L.of(context)!.lookup('R.metada_first_sync_error'),
+      title: L.of(context)!.lookup('something_wrong'),
+      prefix: L.of(context)!.lookup('metada_first_sync_error'),
       message: message ?? '',
-      // positiveButtonText: L.of(context)!.lookup('R.share'),
-      negativeButtonText: L.of(context)!.lookup('R.go_back'),
+      // positiveButtonText: L.of(context)!.lookup('share'),
+      negativeButtonText: L.of(context)!.lookup('go_back'),
       // onPositiveClick: () => message?.let((it) => share(it)),
       onNegativeClick: () => presenter.onLogout(),
     );

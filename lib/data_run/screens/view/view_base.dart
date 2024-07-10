@@ -22,7 +22,7 @@ mixin ViewBase implements ViewAbstract {
     //     }
     // }
 
-    // if (!getResources().getBoolean(R.bool.is_tablet))
+    // if (!getResources().getBoolean(bool.is_tablet))
     //     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
 
     // SharedPreferences prefs = getSharedPreferences();
@@ -41,7 +41,7 @@ mixin ViewBase implements ViewAbstract {
     //     if (serverComponent != null) {
     //         setTheme(serverComponent.themeManager().getProgramTheme());
     //     } else {
-    //         setTheme(R.style.AppTheme);
+    //         setTheme(style.AppTheme);
     //     }
     // }
   }

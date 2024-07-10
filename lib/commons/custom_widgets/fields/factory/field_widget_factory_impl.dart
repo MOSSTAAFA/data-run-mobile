@@ -38,34 +38,34 @@ class FieldWidgetFactoryImpl {
         return Text(
           '$valueType Field',
           style: const TextStyle(fontSize: 20),
-        ); //R.layout.form_age_custom
+        ); //layout.form_age_custom
       case ValueType.Date:
       case ValueType.Time:
       case ValueType.DateTime:
         return Text(
           '$valueType Field',
           style: const TextStyle(fontSize: 20),
-        ); //R.layout.form_date_time
+        ); //layout.form_date_time
       case ValueType.LongText:
-        return const FormEditText(); //R.layout.form_long_text_custom
+        return const FormEditText(); //layout.form_long_text_custom
       case ValueType.OrganisationUnit:
         return Text(
           '$valueType Field',
           style: const TextStyle(fontSize: 20),
-        ); //R.layout.form_org_unit
+        ); //layout.form_org_unit
       case ValueType.Coordinate:
         return Text(
           '$valueType Field',
           style: const TextStyle(fontSize: 20),
-        ); //R.layout.form_coordinate_custom
+        ); //layout.form_coordinate_custom
       case ValueType.Image:
         return Text(
           '$valueType Field',
           style: const TextStyle(fontSize: 20),
-        ); //R.layout.form_picture
+        ); //layout.form_picture
       case ValueType.Text:
         return getLayoutForOptionSet(optionSet, sectionRenderingType,
-            renderingType, const FormEditText() //R.layout.form_edit_text_custom
+            renderingType, const FormEditText() //layout.form_edit_text_custom
             );
       case ValueType.TrueOnly:
       case ValueType.Boolean:
@@ -76,71 +76,71 @@ class FieldWidgetFactoryImpl {
             return Text(
               '$valueType Field',
               style: const TextStyle(fontSize: 20),
-            ); //R.layout.form_radio_button
+            ); //layout.form_radio_button
           case ValueTypeRenderingType.TOGGLE:
             switch (valueType) {
               case ValueType.TrueOnly:
                 return Text(
                   '$valueType Field',
                   style: const TextStyle(fontSize: 20),
-                ); //R.layout.form_toggle
+                ); //layout.form_toggle
               default:
                 return Text(
                   '$valueType Field',
                   style: const TextStyle(fontSize: 20),
-                ); //R.layout.form_radio_button
+                ); //layout.form_radio_button
             }
           case ValueTypeRenderingType.HORIZONTAL_CHECKBOXES:
           case ValueTypeRenderingType.VERTICAL_CHECKBOXES:
             return Text(
               '$valueType Field',
               style: const TextStyle(fontSize: 20),
-            ); //R.layout.form_check_button
+            ); //layout.form_check_button
           default:
             return Text(
               '$valueType Field',
               style: const TextStyle(fontSize: 20),
-            ); //R.layout.form_radio_button
+            ); //layout.form_radio_button
         }
       case ValueType.Letter:
-        return const FormEditText(); //R.layout.form_letter
+        return const FormEditText(); //layout.form_letter
       case ValueType.PhoneNumber:
-        return const FormEditText(); //R.layout.form_phone_number
+        return const FormEditText(); //layout.form_phone_number
       case ValueType.Email:
-        return const FormEditText(); //R.layout.form_email
+        return const FormEditText(); //layout.form_email
       case ValueType.Number:
         return getLayoutForOptionSet(optionSet, sectionRenderingType,
-            renderingType, const FormEditText() //R.layout.form_number
+            renderingType, const FormEditText() //layout.form_number
             );
       case ValueType.UnitInterval:
         return getLayoutForOptionSet(optionSet, sectionRenderingType,
-            renderingType, const FormEditText() //R.layout.form_unit_interval
+            renderingType, const FormEditText() //layout.form_unit_interval
             );
       case ValueType.Percentage:
         return getLayoutForOptionSet(optionSet, sectionRenderingType,
-            renderingType, const FormEditText() //R.layout.form_percentage
+            renderingType, const FormEditText() //layout.form_percentage
             );
       case ValueType.Integer:
         return getLayoutForOptionSet(optionSet, sectionRenderingType,
-            renderingType, const FormEditText() //R.layout.form_integer
+            renderingType, const FormEditText() //layout.form_integer
             );
       case ValueType.IntegerPositive:
         return getLayoutForOptionSet(optionSet, sectionRenderingType,
-            renderingType, const FormEditText() //R.layout.form_integer_positive
+            renderingType, const FormEditText() //layout.form_integer_positive
             );
       case ValueType.IntegerNegative:
         return getLayoutForOptionSet(optionSet, sectionRenderingType,
-            renderingType, const FormEditText() //R.layout.form_integer_negative
+            renderingType, const FormEditText() //layout.form_integer_negative
             );
       case ValueType.IntegerZeroOrPositive:
         return getLayoutForOptionSet(
             optionSet,
             sectionRenderingType,
             renderingType,
-            const FormEditText() //R.layout.form_integer_zero_positive
+            const FormEditText() //layout.form_integer_zero_positive
             );
       case ValueType.URL:
-        return const FormEditText(); //R.layout.form_url
+        return const FormEditText(); //layout.form_url
       case ValueType.Reference:
       case ValueType.GeoJson:
       case ValueType.FileResource:
@@ -149,9 +149,9 @@ class FieldWidgetFactoryImpl {
         return Text(
           '$valueType Field',
           style: const TextStyle(fontSize: 20),
-        ); //R.layout.form_unsupported
+        ); //layout.form_unsupported
       default:
-        return const FormEditText(); //R.layout.form_edit_text_custom
+        return const FormEditText(); //layout.form_edit_text_custom
     }
   }
 
@@ -159,7 +159,7 @@ class FieldWidgetFactoryImpl {
     return const FormCard(
       // isLast: true,
       children: <Widget>[],
-    ); //R.layout.form_section;
+    ); //layout.form_section;
   }
 
   Widget getLayoutForOptionSet(
@@ -178,27 +178,27 @@ class FieldWidgetFactoryImpl {
       return const Text(
         'form_option_set_matrix',
         style: TextStyle(fontSize: 20),
-      ); //R.layout.form_option_set_matrix
+      ); //layout.form_option_set_matrix
     } else if (shouldRenderAsSelector(optionSet, renderingType)) {
       return const Text(
         'form_option_set_selector',
         style: TextStyle(fontSize: 20),
-      ); // R.layout.form_option_set_selector
+      ); // layout.form_option_set_selector
     } else if (shouldRenderAsSpinner(optionSet)) {
       return const Text(
         'form_option_set_spinner',
         style: TextStyle(fontSize: 20),
-      ); // R.layout.form_option_set_spinner
+      ); // layout.form_option_set_spinner
     } else if (shouldRenderAsScan(renderingType)) {
       return const Text(
         'form_scan',
         style: TextStyle(fontSize: 20),
-      ); // R.layout.form_scan
+      ); // layout.form_scan
     } else if (shouldRenderAsSelector(optionSet, renderingType)) {
       return const Text(
         'form_option_set_selector',
         style: TextStyle(fontSize: 20),
-      ); // R.layout.form_option_set_selector
+      ); // layout.form_option_set_selector
     } else {
       return defaultLayout;
     }

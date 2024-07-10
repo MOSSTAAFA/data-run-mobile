@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:mass_pro/commons/prefs/preference_provider.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_screen.widget.dart';
+import 'package:mass_pro/generated/l10n.dart';
 import 'package:mass_pro/main/l10n/app_localizations.dart';
 import 'package:mass_pro/main/usescases/splash/splash_presenter.dart';
 import 'package:mass_pro/main/usescases/splash/splash_screen.widget.dart';
@@ -61,10 +62,11 @@ class App extends ConsumerWidget {
             const AppBarTheme().copyWith(backgroundColor: Colors.blue.shade200),
       ),
       localizationsDelegates: const [
+        L.delegate,
+        S.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
-        L.delegate,
       ],
       supportedLocales: const [
         Locale('ar', ''),

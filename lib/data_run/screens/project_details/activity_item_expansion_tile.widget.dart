@@ -10,6 +10,7 @@ import 'package:mass_pro/data_run/screens/project_details/entity_creation_dialog
 import 'package:mass_pro/data_run/screens/project_details/form_tiles/form_tiles.widget.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_item.model.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_items_models_notifier.dart';
+import 'package:mass_pro/generated/l10n.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 import 'package:mass_pro/utils/mass_utils/utils.dart';
 
@@ -73,8 +74,7 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
                     projectDetailItemModel.activityName,
                     style: Theme.of(context).textTheme.headlineLarge,
                   ),
-                  Text(
-                    '${projectDetailItemModel.activeFormCount} forms',
+                  Text('${projectDetailItemModel.activeFormCount} ${S.of(context).form}',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ],
@@ -85,7 +85,7 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
         ),
         subtitle: projectDetailItemModel.valueListIsOpen
             ? Text(
-                'Click to view forms',
+                S.of(context).view_available_forms,
                 style: Theme.of(context).textTheme.bodyMedium,
               )
             : null,

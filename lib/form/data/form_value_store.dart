@@ -59,7 +59,7 @@ class FormValueStore {
         return checkStoreEnrollmentDetail(uid, value, extraData);
       case EntryMode.DV:
         throw Exception(
-            resourceManager.getString('R.string.data_values_save_error'));
+            resourceManager.getString('string.data_values_save_error'));
     }
   }
 
@@ -300,7 +300,7 @@ class FormValueStore {
         return deleteAttributeValue(field, optionUid);
       case EntryMode.DV:
         throw ArgumentError(
-            resourceManager.getString('R.string.data_values_save_error'));
+            resourceManager.getString('string.data_values_save_error'));
     }
   }
 

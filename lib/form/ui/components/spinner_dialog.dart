@@ -14,7 +14,7 @@ Future<void> showLoading(BuildContext context) async {
           children: <Widget>[
             CircularProgressIndicator(),
             SizedBox(height: 10),
-            Text('R.string.wait', textAlign: TextAlign.center),
+            Text('string.wait', textAlign: TextAlign.center),
           ],
         ),
       ],

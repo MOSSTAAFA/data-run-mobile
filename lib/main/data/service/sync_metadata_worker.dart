@@ -33,8 +33,8 @@ class SyncMetadataWorker extends Worker {
   Future<WorkInfo> doWork(
       {OnProgressUpdate? onProgressUpdate, Dio? dioTestClient}) async {
     if (await D2Remote.isAuthenticated()) {
-      _triggerNotification(resourceManager.getString('R_app_name'),
-          resourceManager.getString('R_syncing_configuration'), 0);
+      _triggerNotification(resourceManager.getString('app_name'),
+          resourceManager.getString('syncing_configuration'), 0);
 
       bool isMetaOk = true;
       bool noNetwork = false;
@@ -45,8 +45,8 @@ class SyncMetadataWorker extends Worker {
         await presenter.syncMetadata(
           onProgressUpdate: (progress) {
             onProgressUpdate?.call(progress);
-            _triggerNotification(resourceManager.getString('R_app_name'),
-                resourceManager.getString('R_syncing_configuration'), progress);
+            _triggerNotification(resourceManager.getString('app_name'),
+                resourceManager.getString('syncing_configuration'), progress);
           },
         );
       } catch (e) {
@@ -93,7 +93,7 @@ class SyncMetadataWorker extends Worker {
     } else {
       return WorkInfo(
           state: WorkInfoState.FAILED,
-          message: resourceManager.getString('R_error_init_session'));
+          message: resourceManager.getString('error_init_session'));
     }
   }
 
@@ -168,7 +168,7 @@ class SyncMetadataWorker extends Worker {
     //     }
     //     NotificationCompat.Builder notificationBuilder =
     //             new NotificationCompat.Builder(getApplicationContext(), METADATA_CHANNEL)
-    //                     .setSmallIcon(R_drawable.ic_sync)
+    //                     .setSmallIcon(drawable.ic_sync)
     //                     .setContentTitle(title)
     //                     .setContentText(content)
     //                     .setOngoing(true)

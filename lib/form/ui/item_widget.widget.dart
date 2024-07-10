@@ -37,9 +37,9 @@ class ItemWidget extends StatelessWidget {
       ValueType.Image: () => Text(
             '$valueType Field, value: ${item?.value}',
             style: const TextStyle(fontSize: 20),
-          ), //R.layout.form_picture
+          ), //layout.form_picture
       ValueType.Text: () => getLayoutForOptionSet(
-          item, FormEditText(item: item) //R.layout.form_edit_text_custom
+          item, FormEditText(item: item) //layout.form_edit_text_custom
           ),
       [ValueType.TrueOnly, ValueType.Boolean]: () =>
           when(item?.fieldRendering, {
@@ -72,32 +72,32 @@ class ItemWidget extends StatelessWidget {
                 style: const TextStyle(fontSize: 20),
               )),
 
-      ValueType.Letter: () => FormEditText(item: item), //R.layout.form_letter
+      ValueType.Letter: () => FormEditText(item: item), //layout.form_letter
       ValueType.PhoneNumber: () =>
-          FormEditText(item: item), //R.layout.form_phone_number
-      ValueType.Email: () => FormEditText(item: item), //R.layout.form_email
+          FormEditText(item: item), //layout.form_phone_number
+      ValueType.Email: () => FormEditText(item: item), //layout.form_email
       ValueType.Number: () => getLayoutForOptionSet(
-          item, FormEditText(item: item) //R.layout.form_number
+          item, FormEditText(item: item) //layout.form_number
           ),
       ValueType.UnitInterval: () => getLayoutForOptionSet(
-          item, FormEditText(item: item) //R.layout.form_unit_interval
+          item, FormEditText(item: item) //layout.form_unit_interval
           ),
       ValueType.Percentage: () => getLayoutForOptionSet(
-          item, FormEditText(item: item) //R.layout.form_percentage
+          item, FormEditText(item: item) //layout.form_percentage
           ),
       ValueType.Integer: () => getLayoutForOptionSet(
-          item, FormEditText(item: item) //R.layout.form_integer
+          item, FormEditText(item: item) //layout.form_integer
           ),
       ValueType.IntegerPositive: () => getLayoutForOptionSet(
-          item, FormEditText(item: item) //R.layout.form_integer_positive
+          item, FormEditText(item: item) //layout.form_integer_positive
           ),
       ValueType.IntegerNegative: () => getLayoutForOptionSet(
-          item, FormEditText(item: item) //R.layout.form_integer_negative
+          item, FormEditText(item: item) //layout.form_integer_negative
           ),
       ValueType.IntegerZeroOrPositive: () => getLayoutForOptionSet(
-          item, FormEditText(item: item) //R.layout.form_integer_zero_positive
+          item, FormEditText(item: item) //layout.form_integer_zero_positive
           ),
-      ValueType.URL: () => FormEditText(item: item), //R.layout.form_url
+      ValueType.URL: () => FormEditText(item: item), //layout.form_url
       [
         ValueType.Reference,
         ValueType.GeoJson,
@@ -107,10 +107,10 @@ class ItemWidget extends StatelessWidget {
       ]: () => Text(
             '$valueType Field, value: ${item?.value}',
             style: const TextStyle(fontSize: 20),
-          ), //R.layout.form_unsupported
+          ), //layout.form_unsupported
       null: () => const SizedBox.shrink(),
     }).orElse(
-        () => FormEditText(item: item)); //R.layout.form_edit_text_custom);
+        () => FormEditText(item: item)); //layout.form_edit_text_custom);
 
     // switch (valueType) {
     //   case ValueType.AGE:
@@ -135,10 +135,10 @@ class ItemWidget extends StatelessWidget {
     //     return Text(
     //       '$valueType Field, value: ${item?.value}',
     //       style: const TextStyle(fontSize: 20),
-    //     ); //R.layout.form_picture
+    //     ); //layout.form_picture
     //   case ValueType.TEXT:
     //     return getLayoutForOptionSet(
-    //         item, FormEditText(item: item) //R.layout.form_edit_text_custom
+    //         item, FormEditText(item: item) //layout.form_edit_text_custom
     //         );
     //   case ValueType.TRUE_ONLY:
     //   case ValueType.BOOLEAN:
@@ -176,41 +176,41 @@ class ItemWidget extends StatelessWidget {
     //         );
     //     }
     //   case ValueType.LETTER:
-    //     return FormEditText(item: item); //R.layout.form_letter
+    //     return FormEditText(item: item); //layout.form_letter
     //   case ValueType.PHONE_NUMBER:
-    //     return FormEditText(item: item); //R.layout.form_phone_number
+    //     return FormEditText(item: item); //layout.form_phone_number
     //   case ValueType.EMAIL:
-    //     return FormEditText(item: item); //R.layout.form_email
+    //     return FormEditText(item: item); //layout.form_email
     //   case ValueType.NUMBER:
     //     return getLayoutForOptionSet(
-    //         item, FormEditText(item: item) //R.layout.form_number
+    //         item, FormEditText(item: item) //layout.form_number
     //         );
     //   case ValueType.UNIT_INTERVAL:
     //     return getLayoutForOptionSet(
-    //         item, FormEditText(item: item) //R.layout.form_unit_interval
+    //         item, FormEditText(item: item) //layout.form_unit_interval
     //         );
     //   case ValueType.PERCENTAGE:
     //     return getLayoutForOptionSet(
-    //         item, FormEditText(item: item) //R.layout.form_percentage
+    //         item, FormEditText(item: item) //layout.form_percentage
     //         );
     //   case ValueType.INTEGER:
     //     return getLayoutForOptionSet(
-    //         item, FormEditText(item: item) //R.layout.form_integer
+    //         item, FormEditText(item: item) //layout.form_integer
     //         );
     //   case ValueType.INTEGER_POSITIVE:
     //     return getLayoutForOptionSet(
-    //         item, FormEditText(item: item) //R.layout.form_integer_positive
+    //         item, FormEditText(item: item) //layout.form_integer_positive
     //         );
     //   case ValueType.INTEGER_NEGATIVE:
     //     return getLayoutForOptionSet(
-    //         item, FormEditText(item: item) //R.layout.form_integer_negative
+    //         item, FormEditText(item: item) //layout.form_integer_negative
     //         );
     //   case ValueType.INTEGER_ZERO_OR_POSITIVE:
     //     return getLayoutForOptionSet(
-    //         item, FormEditText(item: item) //R.layout.form_integer_zero_positive
+    //         item, FormEditText(item: item) //layout.form_integer_zero_positive
     //         );
     //   case ValueType.URL:
-    //     return FormEditText(item: item); //R.layout.form_url
+    //     return FormEditText(item: item); //layout.form_url
     //   case ValueType.REFERENCE:
     //   case ValueType.GEOJSON:
     //   case ValueType.FILE_RESOURCE:
@@ -219,9 +219,9 @@ class ItemWidget extends StatelessWidget {
     //     return Text(
     //       '$valueType Field, value: ${item?.value}',
     //       style: const TextStyle(fontSize: 20),
-    //     ); //R.layout.form_unsupported
+    //     ); //layout.form_unsupported
     //   default:
-    //     return FormEditText(item: item); //R.layout.form_edit_text_custom
+    //     return FormEditText(item: item); //layout.form_edit_text_custom
     // }
   }
 
@@ -230,7 +230,7 @@ class ItemWidget extends StatelessWidget {
     return const FormCard(
       // isLast: true,
       children: <Widget>[],
-    ); //R.layout.form_section;
+    ); //layout.form_section;
   }
 
   Widget getLayoutForOptionSet(
@@ -239,35 +239,35 @@ class ItemWidget extends StatelessWidget {
       Widget defaultLayout) {
     if (shouldRenderAsMatrixImage(
         item?.optionSet, item?.sectionRenderingType, item?.fieldRendering)) {
-      return FormEditText(item: item); //R.layout.form_option_set_matrix
+      return FormEditText(item: item); //layout.form_option_set_matrix
     } else if (shouldRenderAsSelector(item?.optionSet, item?.fieldRendering)) {
       return FormEditText(
           item:
               item); /*const Text(
         'form_option_set_selector',
         style: TextStyle(fontSize: 20),
-      );*/ // R.layout.form_option_set_selector
+      );*/ // layout.form_option_set_selector
     } else if (shouldRenderAsSpinner(item?.optionSet)) {
       return FormEditText(
           item:
               item); /*const Text(
         'form_option_set_spinner',
         style: TextStyle(fontSize: 20),
-      );*/ // R.layout.form_option_set_spinner
+      );*/ // layout.form_option_set_spinner
     } else if (shouldRenderAsScan(item?.fieldRendering)) {
       return FormEditText(
           item:
               item); /*const Text(
         'form_scan',
         style: TextStyle(fontSize: 20),
-      );*/ // R.layout.form_scan
+      );*/ // layout.form_scan
     } else if (shouldRenderAsSelector(item?.optionSet, item?.fieldRendering)) {
       return FormEditText(
           item:
               item); /*const Text(
         'form_option_set_selector',
         style: TextStyle(fontSize: 20),
-      );*/ // R.layout.form_option_set_selector
+      );*/ // layout.form_option_set_selector
     } else {
       return defaultLayout;
     }

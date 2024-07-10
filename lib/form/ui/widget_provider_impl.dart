@@ -46,10 +46,10 @@ class WidgetProviderImpl implements WidgetProvider {
         return Text(
           '$valueType Field, value: ${item.value}',
           style: const TextStyle(fontSize: 20),
-        ); //R.layout.form_picture
+        ); //layout.form_picture
       case ValueType.Text:
         return getLayoutForOptionSet(
-            item, FormEditText(item: item) //R.layout.form_edit_text_custom
+            item, FormEditText(item: item) //layout.form_edit_text_custom
             );
       case ValueType.TrueOnly:
       case ValueType.Boolean:
@@ -87,41 +87,41 @@ class WidgetProviderImpl implements WidgetProvider {
             );
         }
       case ValueType.Letter:
-        return FormEditText(item: item); //R.layout.form_letter
+        return FormEditText(item: item); //layout.form_letter
       case ValueType.PhoneNumber:
-        return FormEditText(item: item); //R.layout.form_phone_number
+        return FormEditText(item: item); //layout.form_phone_number
       case ValueType.Email:
-        return FormEditText(item: item); //R.layout.form_email
+        return FormEditText(item: item); //layout.form_email
       case ValueType.Number:
         return getLayoutForOptionSet(
-            item, FormEditText(item: item) //R.layout.form_number
+            item, FormEditText(item: item) //layout.form_number
             );
       case ValueType.UnitInterval:
         return getLayoutForOptionSet(
-            item, FormEditText(item: item) //R.layout.form_unit_interval
+            item, FormEditText(item: item) //layout.form_unit_interval
             );
       case ValueType.Percentage:
         return getLayoutForOptionSet(
-            item, FormEditText(item: item) //R.layout.form_percentage
+            item, FormEditText(item: item) //layout.form_percentage
             );
       case ValueType.Integer:
         return getLayoutForOptionSet(
-            item, FormEditText(item: item) //R.layout.form_integer
+            item, FormEditText(item: item) //layout.form_integer
             );
       case ValueType.IntegerPositive:
         return getLayoutForOptionSet(
-            item, FormEditText(item: item) //R.layout.form_integer_positive
+            item, FormEditText(item: item) //layout.form_integer_positive
             );
       case ValueType.IntegerNegative:
         return getLayoutForOptionSet(
-            item, FormEditText(item: item) //R.layout.form_integer_negative
+            item, FormEditText(item: item) //layout.form_integer_negative
             );
       case ValueType.IntegerZeroOrPositive:
         return getLayoutForOptionSet(
-            item, FormEditText(item: item) //R.layout.form_integer_zero_positive
+            item, FormEditText(item: item) //layout.form_integer_zero_positive
             );
       case ValueType.URL:
-        return FormEditText(item: item); //R.layout.form_url
+        return FormEditText(item: item); //layout.form_url
       case ValueType.Reference:
       case ValueType.GeoJson:
       case ValueType.FileResource:
@@ -130,9 +130,9 @@ class WidgetProviderImpl implements WidgetProvider {
         return Text(
           '$valueType Field, value: ${item.value}',
           style: const TextStyle(fontSize: 20),
-        ); //R.layout.form_unsupported
+        ); //layout.form_unsupported
       default:
-        return FormEditText(item: item); //R.layout.form_edit_text_custom
+        return FormEditText(item: item); //layout.form_edit_text_custom
     }
   }
 
@@ -141,7 +141,7 @@ class WidgetProviderImpl implements WidgetProvider {
     return const FormCard(
       // isLast: true,
       children: <Widget>[],
-    ); //R.layout.form_section;
+    ); //layout.form_section;
   }
 
   Widget getLayoutForOptionSet(
@@ -150,35 +150,35 @@ class WidgetProviderImpl implements WidgetProvider {
       Widget defaultLayout) {
     if (shouldRenderAsMatrixImage(
         item.optionSet, item.sectionRenderingType, item.fieldRendering)) {
-      return FormEditText(item: item); //R.layout.form_option_set_matrix
+      return FormEditText(item: item); //layout.form_option_set_matrix
     } else if (shouldRenderAsSelector(item.optionSet, item.fieldRendering)) {
       return FormEditText(
           item:
               item); /*const Text(
         'form_option_set_selector',
         style: TextStyle(fontSize: 20),
-      );*/ // R.layout.form_option_set_selector
+      );*/ // layout.form_option_set_selector
     } else if (shouldRenderAsSpinner(item.optionSet)) {
       return FormEditText(
           item:
               item); /*const Text(
         'form_option_set_spinner',
         style: TextStyle(fontSize: 20),
-      );*/ // R.layout.form_option_set_spinner
+      );*/ // layout.form_option_set_spinner
     } else if (shouldRenderAsScan(item.fieldRendering)) {
       return FormEditText(
           item:
               item); /*const Text(
         'form_scan',
         style: TextStyle(fontSize: 20),
-      );*/ // R.layout.form_scan
+      );*/ // layout.form_scan
     } else if (shouldRenderAsSelector(item.optionSet, item.fieldRendering)) {
       return FormEditText(
           item:
               item); /*const Text(
         'form_option_set_selector',
         style: TextStyle(fontSize: 20),
-      );*/ // R.layout.form_option_set_selector
+      );*/ // layout.form_option_set_selector
     } else {
       return defaultLayout;
     }

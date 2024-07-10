@@ -6,6 +6,7 @@ import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_dec
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_presenter.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen_view.dart';
 import 'package:mass_pro/data_run/screens/view/view_base.dart';
+import 'package:mass_pro/generated/l10n.dart';
 import 'package:mass_pro/main/data/service/sync_status_controller.dart';
 import 'package:mass_pro/main/l10n/app_localizations.dart';
 import 'package:mass_pro/main/usescases/login/login_screen.widget.dart';
@@ -47,7 +48,7 @@ class _DashboardScreenWidgetState extends ConsumerState<DashboardScreenWidget>
                     .then((t) => Get.to(const SyncScreen())),
                 icon: Icon(Icons.sync))
           ],
-          title: const Text('DashboardScreen: Project List'),
+          title: Text(S.of(context).dashboard),
         ),
         body: const DashboardDeckWidget());
   }

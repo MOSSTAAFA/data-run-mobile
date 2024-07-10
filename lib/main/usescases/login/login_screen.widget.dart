@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/commons/custom_widgets/fields/decorated_form_field.dart';
 import 'package:mass_pro/commons/custom_widgets/fields/password_field.dart';
-import 'package:mass_pro/commons/custom_widgets/form_card.dart';
 import 'package:mass_pro/commons/custom_widgets/mixins/keyboard_manager.dart';
 import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
 import 'package:mass_pro/commons/extensions/string_extension.dart';
@@ -14,12 +13,11 @@ import 'package:mass_pro/commons/resources/resource_manager.dart';
 import 'package:mass_pro/commons/state/app_state_notifier.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/view/view_base.dart';
+import 'package:mass_pro/generated/l10n.dart';
 import 'package:mass_pro/main/l10n/app_localizations.dart';
 import 'package:mass_pro/main/usescases/login/login_presenter.dart';
 import 'package:mass_pro/main/usescases/login/login_view.dart';
 import 'package:mass_pro/main/usescases/login/login_view_model.dart';
-import 'package:mass_pro/main/usescases/login/widgets/headline1.dart';
-import 'package:mass_pro/main/usescases/login/widgets/login_header.dart';
 import 'package:mass_pro/main/usescases/sync/sync_screen.widget.dart';
 import 'package:mass_pro/riverpod/use_on_init_hook.dart';
 import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
@@ -61,26 +59,71 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
   @override
   Widget build(BuildContext context) {
     final localization = L.of(context)!;
-
-    return Scaffold(
-      body: Builder(
-        builder: (BuildContext context) {
-          return GestureDetector(
-            onTap: () => hideTheKeyboard(context),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  LoginHeader(),
-                  Headline1(text: L.of(context)!.lookup('login')),
-                  Padding(
-                    padding: const EdgeInsets.all(32),
-                    child: Form(
+    return SafeArea(
+      child: Scaffold(
+        body: Builder(
+          builder: (BuildContext context) {
+            return GestureDetector(
+              onTap: () => hideTheKeyboard(context),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Container(
+                      padding: const EdgeInsets.only(top: 40, bottom: 20),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.topRight,
+                              end: Alignment.bottomLeft,
+                              colors: [
+                                Theme.of(context).dialogBackgroundColor,
+                                Theme.of(context).dialogBackgroundColor
+                              ]),
+                          boxShadow: const [
+                            BoxShadow(
+                                offset: Offset.zero,
+                                spreadRadius: 0,
+                                blurRadius: .5,
+                                color: Colors.black)
+                          ],
+                          borderRadius: const BorderRadius.only(
+                              bottomLeft: Radius.circular(40),
+                              bottomRight: Radius.circular(40))),
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            'assets/launcher_icon/logo_white.png',
+                            height: 100,
+                            width: 100,
+                            // fit: BoxFit.contain,
+                          ),
+                          const SizedBox(height: 8),
+                          // Spacer between logo and text
+                          Text(
+                            S.of(context).nmcp_yemen,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context)
+                                  .primaryColorDark, // Match with logo color
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                    Text(L.of(context)!.lookup('login'),
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headlineMedium),
+                    SizedBox(height: 16,),
+                    Form(
                       key: _formKey,
                       child: AutofillGroup(
-                        child: FormCard(
-                            forceNarrow: true,
-                            internalPadding: const EdgeInsets.all(20),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                          child: Column(
                             children: [
                               Consumer(
                                 builder: (context, ref, child) {
@@ -93,13 +136,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                         controller: _userController,
                                         label: L.of(context)!.lookup('username'),
                                         keyboardType: TextInputType.name,
-                                        readOnly: ref
-                                            .watch(showLoginProgressProvider),
+                                        readOnly:
+                                            ref.watch(showLoginProgressProvider),
                                         validator: (String? val) {
-                                          return val?.trim().isNullOrEmpty ??
-                                                  false
-                                              ? L.of(context)!.lookup(
-                                                  'pleaseEnterYourUsername')
+                                          return val?.trim().isNullOrEmpty ?? false
+                                              ? L
+                                                  .of(context)!
+                                                  .lookup('enter_your_username')
                                               : null;
                                         },
                                         autofillHints: const [
@@ -113,8 +156,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                         onChanged: (value) => ref
                                             .read(loginModelProvider.notifier)
                                             .onPassChanged(value),
-                                        readOnly: ref
-                                            .watch(showLoginProgressProvider),
+                                        readOnly:
+                                            ref.watch(showLoginProgressProvider),
                                         // controller: _passwordController,
                                         onSavePressed: (_) =>
                                             presenter.onButtonClick(),
@@ -133,8 +176,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                         width: 430,
                                         controller: _buttonController,
                                         onPressed: ref.watch(loginModelProvider
-                                                    .select((value) => value
-                                                        .isDataComplete)) ==
+                                                    .select((value) =>
+                                                        value.isDataComplete)) ==
                                                 true
                                             ? () => presenter.onButtonClick()
                                             : null,
@@ -145,7 +188,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                                 color: Colors.white),
                                             const SizedBox(width: 10),
                                             Text(
-                                              L.of(context)!.lookup('user'),
+                                              L.of(context)!.lookup('login'),
                                               style: const TextStyle(
                                                   fontSize: 18,
                                                   color: Colors.white),
@@ -155,15 +198,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                       );
                                     },
                                   )),
-                            ]),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
@@ -283,8 +328,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
       // This is commented until fingerprint login for multiuser is supported
       /* if (presenter.canHandleBiometrics() == true) {
                 showInfoDialog(
-                    getString(R.string.biometrics_security_title),
-                    getString(R.string.biometrics_security_text),
+                    getString(string.biometrics_security_title),
+                    getString(string.biometrics_security_text),
                     object : OnDialogClickListener {
                         override fun onPositiveClick() {
                             presenter.saveUserCredentials(
@@ -321,16 +366,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
   void showEmptyCredentialsMessage() {
     final localization = L.of(context)!;
     showInfoDialog(
-        title: L.of(context)!.lookup('R.biometrics_dialog_title'),
-        message: L.of(context)!.lookup('R.biometrics_first_use_text'));
+        title: L.of(context)!.lookup('biometrics_dialog_title'),
+        message: L.of(context)!.lookup('biometrics_first_use_text'));
   }
 
   @override
   void showNoConnectionDialog() {
     final localization = L.of(context)!;
     showInfoDialog(
-        title: L.of(context)!.lookup('R.network_unavailable'),
-        message: L.of(context)!.lookup('R.no_network_to_recover_account'),
+        title: L.of(context)!.lookup('network_unavailable'),
+        message: L.of(context)!.lookup('no_network_to_recover_account'),
         positiveButtonText: L.of(context)!.lookup('ok'));
   }
 

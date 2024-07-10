@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mass_pro/generated/l10n.dart';
 
 class SyncDialog extends ConsumerStatefulWidget {
   const SyncDialog({
@@ -23,7 +24,7 @@ class SyncDialogState extends ConsumerState<SyncDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Sync Entities'),
+      title: Text(S.of(context).sync_form_data),
       content: _buildContent(),
       actions: _buildActions(),
     );
@@ -31,7 +32,7 @@ class SyncDialogState extends ConsumerState<SyncDialog> {
 
   Widget _buildContent() {
     if (!_isSyncing) {
-      return const Text('Are you sure you want to sync the selected entities?');
+      return Text(S.of(context).confirm_sync_form_data_question);
     }
 
     return Column(
@@ -42,12 +43,12 @@ class SyncDialogState extends ConsumerState<SyncDialog> {
         ),
         const SizedBox(height: 16),
         Text(
-            'Syncing entity ${_currentEntityIndex + 1}/${widget.entityUids.length}'),
+            '${S.of(context).syncing_data} ${_currentEntityIndex + 1}/${widget.entityUids.length}'),
         if (_syncErrors.isNotEmpty)
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
-            child: Text(
-              'Errors: ${_syncErrors.join(', ')}',
+            child: Text( 
+              '${S.of(context).error}: ${_syncErrors.join(', ')}',
               style: const TextStyle(color: Colors.red),
             ),
           ),
@@ -60,11 +61,11 @@ class SyncDialogState extends ConsumerState<SyncDialog> {
       return [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
+          child: Text(S.of(context).cancel),
         ),
         TextButton(
           onPressed: _startSyncing,
-          child: const Text('Confirm'),
+          child: Text(S.of(context).confirm),
         ),
       ];
     }
@@ -73,7 +74,7 @@ class SyncDialogState extends ConsumerState<SyncDialog> {
       return [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('OK'),
+          child: Text(S.of(context).ok),
         ),
       ];
     }

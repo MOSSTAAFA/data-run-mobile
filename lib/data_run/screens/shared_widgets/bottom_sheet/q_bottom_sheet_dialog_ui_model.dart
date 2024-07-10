@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:mass_pro/generated/l10n.dart';
 
 part 'q_bottom_sheet_dialog_ui_model.freezed.dart';
 
@@ -47,16 +48,16 @@ class QDialogButtonStyle with _$QDialogButtonStyle {
       );
 
   static QDialogButtonStyle completeButton() =>
-      const QDialogButtonStyle.mainButton(
-        textResource: 'Final Data',
+      QDialogButtonStyle.mainButton(
+        textResource: S.current.mark_final_data,
         backgroundColor: Colors.blueAccent,
         colorResource: Colors.white,
         iconResource: Icons.check,
       );
 
   static QDialogButtonStyle discardButton() =>
-      const QDialogButtonStyle.secondaryButton(
-          textResource: 'Discard',
+      QDialogButtonStyle.secondaryButton(
+          textResource: S.current.discard,
           backgroundColor: Colors.orange,
           colorResource: Colors.white,
           iconResource: Icons.disabled_by_default);

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_item.model.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_items_models_notifier.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/overlay_confirm_button.widget.dart';
+import 'package:mass_pro/generated/l10n.dart';
 
 class FormsTiles extends ConsumerWidget {
   const FormsTiles({
@@ -95,7 +96,7 @@ class FormsTiles extends ConsumerWidget {
                                 ElevatedButton.icon(
                                   onPressed: () => onList?.call(t),
                                   icon: const Icon(Icons.list),
-                                  label: const Text('View List'),
+                                  label: Text(S.of(context).view_list),
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.blue,
                                     foregroundColor: Colors.white,
@@ -114,7 +115,7 @@ class FormsTiles extends ConsumerWidget {
                                     onAdd?.call(t);
                                   },
                                   icon: const Icon(Icons.add),
-                                  label: const Text('Add New'),
+                                  label: Text(S.of(context).add_new),
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.green,
                                     foregroundColor: Colors.white,

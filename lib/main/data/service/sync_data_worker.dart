@@ -32,8 +32,8 @@ class SyncDataWorker extends Worker {
     await presenter.initSyncControllerMap();
 
     onProgressUpdate?.call(0);
-    _triggerNotification(resourceManager.getString('R_app_name'),
-        resourceManager.getString('R_syncing_data'), 0);
+    _triggerNotification(resourceManager.getString('app_name'),
+        resourceManager.getString('syncing_data'), 0);
 
     bool isEventOk = true;
     bool isTeiOk = true;
@@ -42,8 +42,8 @@ class SyncDataWorker extends Worker {
     final int init = DateTime.now().millisecond;
 
     onProgressUpdate?.call(25);
-    _triggerNotification(resourceManager.getString('R_app_name'),
-        resourceManager.getString('R_syncing_events'), 25);
+    _triggerNotification(resourceManager.getString('app_name'),
+        resourceManager.getString('syncing_events'), 25);
     try {
       await presenter.syncAndDownloadEvents(dioTestClient: dioTestClient);
     } catch (e) {
@@ -65,8 +65,8 @@ class SyncDataWorker extends Worker {
     }
 
     onProgressUpdate?.call(75);
-    _triggerNotification(resourceManager.getString('R_app_name'),
-        resourceManager.getString('R_syncing_data_sets'), 75);
+    _triggerNotification(resourceManager.getString('app_name'),
+        resourceManager.getString('syncing_data_sets'), 75);
 
     try {
       await presenter.syncAndDownloadDataValues();
@@ -79,8 +79,8 @@ class SyncDataWorker extends Worker {
     }
 
     onProgressUpdate?.call(90);
-    _triggerNotification(resourceManager.getString('R_app_name'),
-        resourceManager.getString('R_syncing_resources'), 90);
+    _triggerNotification(resourceManager.getString('app_name'),
+        resourceManager.getString('syncing_resources'), 90);
 
     try {
       await presenter.downloadResources();
@@ -89,8 +89,8 @@ class SyncDataWorker extends Worker {
     }
 
     onProgressUpdate?.call(100);
-    _triggerNotification(resourceManager.getString('R_app_name'),
-        resourceManager.getString('R_syncing_done'), 100);
+    _triggerNotification(resourceManager.getString('app_name'),
+        resourceManager.getString('syncing_done'), 100);
 
     presenter.logTimeToFinish(DateTime.now().millisecond - init, DATA_TIME);
 
@@ -132,7 +132,7 @@ class SyncDataWorker extends Worker {
 
     // NotificationCompat.Builder notificationBuilder =
     //         new NotificationCompat.Builder(getApplicationContext(), DATA_CHANNEL)
-    //                 .setSmallIcon(R_drawable.ic_sync)
+    //                 .setSmallIcon(drawable.ic_sync)
     //                 .setContentTitle(title)
     //                 .setContentText(content)
     //                 .setOngoing(true)

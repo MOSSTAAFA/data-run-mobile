@@ -39,7 +39,7 @@ class ResourceManager {
     // ) {
     // iconResource
     // } else {
-    // R.drawable.ic_default_icon
+    // drawable.ic_default_icon
     // }
     // } ?: defaultResource
   }
@@ -72,23 +72,23 @@ class ResourceManager {
 
   String defaultEventLabel() => getString('events');
 
-  String defaultDataSetLabel() => getString('R.string.data_sets');
+  String defaultDataSetLabel() => getString('string.data_sets');
 
   String defaultTeiLabel() => getString('tei');
 
-  String jiraIssueSentMessage() => getString('R.string.jira_issue_sent');
+  String jiraIssueSentMessage() => getString('string.jira_issue_sent');
 
   String jiraIssueSentErrorMessage() =>
-      getString('R.string.jira_issue_sent_error');
+      getString('string.jira_issue_sent_error');
 
-  String sectionFeedback() => getString('R.string.section_feedback');
+  String sectionFeedback() => getString('string.section_feedback');
 
-  String sectionIndicators() => getString('R.string.section_indicators');
+  String sectionIndicators() => getString('string.section_indicators');
 
-  String sectionCharts() => getString('R.string.section_charts');
+  String sectionCharts() => getString('string.section_charts');
 
   String sectionChartsAndIndicators() =>
-      getString('R.string.section_charts_indicators');
+      getString('string.section_charts_indicators');
 
-  String defaultIndicatorLabel() => getString('R.string.info');
+  String defaultIndicatorLabel() => getString('string.info');
 }

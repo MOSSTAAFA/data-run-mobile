@@ -53,8 +53,8 @@ class _PasswordFormFieldState extends State<PasswordFormField> {
         suffixIcon: IconButton(
           alignment: Alignment.bottomCenter,
           tooltip: _isPasswordObscured
-              ? L.of(context)!.lookup('showPassword')
-              : L.of(context)!.lookup('hidePassword'),
+              ? L.of(context)!.lookup('show_password')
+              : L.of(context)!.lookup('hide_password'),
           icon: Icon(
             _isPasswordObscured ? Icons.visibility : Icons.visibility_off,
             color: Colors.grey,

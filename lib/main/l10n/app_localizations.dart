@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
-import '../../commons/constants.dart';
-import '../../utils/mass_utils/strings.dart';
+import 'package:mass_pro/commons/constants.dart';
+import 'package:mass_pro/utils/mass_utils/strings.dart';
 
 class L {
   L();
@@ -37,7 +37,8 @@ class L {
 
     _defaultLocalizedStrings = defaultJsonMap.map((key, value) => MapEntry(key, value.toString()));
 
-    final jsonString = await rootBundle.loadString('lib/main/l10n/locales_strings/app_${locale.languageCode}.arb');
+    //
+    final jsonString = await rootBundle.loadString('lib/l10n/intl_${locale.languageCode}.arb');
     final jsonMap = json.decode(jsonString) as Map<String, dynamic>;
 
     _localizedStrings = jsonMap.map((key, value) => MapEntry(key, value.toString()));
@@ -50,7 +51,7 @@ class L {
       return '';
     }
 
-    final lookupKey = toCamelCase(key!.toLowerCase());
+    final lookupKey = key!.toLowerCase();
 
     if (lookupKey.startsWith('_')) {
       return key;

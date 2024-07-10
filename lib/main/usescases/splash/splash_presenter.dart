@@ -5,11 +5,11 @@ import 'package:mass_pro/main/usescases/login/login_screen.widget.dart';
 import 'package:mass_pro/main/usescases/sync/sync_screen.widget.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../commons/constants.dart';
-import '../../../commons/prefs/preference.dart';
-import '../../../commons/prefs/preference_provider.dart';
-import '../../data/server/user_manager.dart';
-import '../../data/server/user_manager_impl.dart';
+import 'package:mass_pro/commons/constants.dart';
+import 'package:mass_pro/commons/prefs/preference.dart';
+import 'package:mass_pro/commons/prefs/preference_provider.dart';
+import 'package:mass_pro/main/data/server/user_manager.dart';
+import 'package:mass_pro/main/data/server/user_manager_impl.dart';
 
 part 'splash_presenter.g.dart';
 
@@ -33,7 +33,7 @@ class SplashPresenter {
   Future<void> _isUserLoggedIn() async {
     if (userManager != null) {
       Future.delayed(
-          Duration(
+          const Duration(
             milliseconds: 2000,
           ),
           () => userManager!

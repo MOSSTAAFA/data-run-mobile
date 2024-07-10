@@ -5,6 +5,7 @@ import 'package:mass_pro/data_run/form/entity_form_listing_repository.dart';
 import 'package:mass_pro/data_run/screens/project_details/entity_creation_dialog/dynamic_form_field.widget.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_item.model.dart';
+import 'package:mass_pro/generated/l10n.dart';
 
 class EntityCreationDialog extends ConsumerStatefulWidget {
   // final FormListItemModel formListModel;
@@ -77,7 +78,7 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
         _isLoading = false;
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error creating entity: $e')),
+        SnackBar(content: Text('${S.of(context).error_opening_new_form}: $e')),
       );
     }
   }
@@ -85,7 +86,7 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Create Entity'),
+      title: Text(S.of(context).open_new_form),
       content: SingleChildScrollView(
         child: Column(
           children: [
@@ -121,13 +122,13 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
       ),
       actions: [
         TextButton(
-          child: const Text('Cancel'),
+          child: Text(S.of(context).cancel),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
         TextButton(
-          child: const Text('Submit'),
+          child: Text(S.of(context).open),
           onPressed:
               _isLoading ? null : () => createAndPopupWithResult(context),
         ),

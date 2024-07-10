@@ -22,124 +22,166 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "app_name": MessageLookupByLibrary.simpleMessage("ماس برو"),
-        "error_access_keystore": MessageLookupByLibrary.simpleMessage(
-            "لا يمكن الوصول إلى مستودع المفاتيح"),
+        "add_new": MessageLookupByLibrary.simpleMessage("Add New"),
+        "app_name": MessageLookupByLibrary.simpleMessage("MASS PRO"),
+        "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "configuration_ready":
+            MessageLookupByLibrary.simpleMessage("Configuration Ready"),
+        "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
+        "confirm_sync_form_data_question": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to sync the selected entities?"),
+        "dashboard": MessageLookupByLibrary.simpleMessage("Dashboard"),
+        "discard": MessageLookupByLibrary.simpleMessage("Discard"),
+        "enter_your_username":
+            MessageLookupByLibrary.simpleMessage("Enter Your Username"),
+        "error": MessageLookupByLibrary.simpleMessage("Error"),
+        "error_access_keystore":
+            MessageLookupByLibrary.simpleMessage("Cannot access keystore"),
         "error_account_disabled":
-            MessageLookupByLibrary.simpleMessage("تم تعطيل حساب المستخدم"),
+            MessageLookupByLibrary.simpleMessage("User account disabled"),
         "error_account_locked":
-            MessageLookupByLibrary.simpleMessage("تم قفل حساب المستخدم"),
+            MessageLookupByLibrary.simpleMessage("User account locked"),
         "error_already_authenticated":
-            MessageLookupByLibrary.simpleMessage("المستخدم مصادق عليه بالفعل"),
+            MessageLookupByLibrary.simpleMessage("User already authenticated"),
         "error_already_executed":
-            MessageLookupByLibrary.simpleMessage("الإجراء تم تنفيذه بالفعل"),
+            MessageLookupByLibrary.simpleMessage("Action already executed"),
         "error_api_invalid_query":
-            MessageLookupByLibrary.simpleMessage("استعلام API غير صالح"),
+            MessageLookupByLibrary.simpleMessage("Invalid API query"),
         "error_app_name_not_set":
-            MessageLookupByLibrary.simpleMessage("اسم التطبيق غير مضبوط"),
+            MessageLookupByLibrary.simpleMessage("App name not set"),
         "error_app_version_not_set":
-            MessageLookupByLibrary.simpleMessage("إصدار التطبيق غير مضبوط"),
+            MessageLookupByLibrary.simpleMessage("App version not set"),
         "error_create_existing_error": MessageLookupByLibrary.simpleMessage(
-            "لا يمكن إنشاء كائن موجود بالفعل"),
+            "Cannot create existing object"),
         "error_delete_non_existing_object":
-            MessageLookupByLibrary.simpleMessage("لا يمكن حذف كائن غير موجود"),
+            MessageLookupByLibrary.simpleMessage(
+                "Cannot delete non-existing object"),
         "error_different_offline_user": MessageLookupByLibrary.simpleMessage(
-            "مستخدم آخر مصادق عليه بشكل غير متصل"),
-        "error_export_encrypted":
-            MessageLookupByLibrary.simpleMessage("لا يتم دعم التصدير المشفر"),
+            "Different authenticated user offline"),
+        "error_export_encrypted": MessageLookupByLibrary.simpleMessage(
+            "Encrypted export not supported"),
         "error_export_login":
-            MessageLookupByLibrary.simpleMessage("يرجى تسجيل الدخول للتصدير"),
+            MessageLookupByLibrary.simpleMessage("Please login to export"),
         "error_file_not_found":
-            MessageLookupByLibrary.simpleMessage("الملف غير موجود"),
+            MessageLookupByLibrary.simpleMessage("File not found"),
         "error_file_resize":
-            MessageLookupByLibrary.simpleMessage("فشل تغيير حجم الصورة"),
-        "error_generate_coordinate":
-            MessageLookupByLibrary.simpleMessage("تعذر إنشاء الإحداثيات"),
+            MessageLookupByLibrary.simpleMessage("Failed resizing image"),
+        "error_generate_coordinate": MessageLookupByLibrary.simpleMessage(
+            "Impossible to generate coordinates"),
         "error_import_exist":
-            MessageLookupByLibrary.simpleMessage("الاستيراد موجود بالفعل"),
-        "error_import_logout": MessageLookupByLibrary.simpleMessage(
-            "الرجاء تسجيل الخروج قبل الاستيراد"),
+            MessageLookupByLibrary.simpleMessage("Import already exists"),
+        "error_import_logout":
+            MessageLookupByLibrary.simpleMessage("Logout before import"),
         "error_import_version": MessageLookupByLibrary.simpleMessage(
-            "إصدار الاستيراد أعلى من المدعوم"),
-        "error_instance_keystore": MessageLookupByLibrary.simpleMessage(
-            "لا يمكن إنشاء مثيل مستودع المفاتيح"),
+            "Import version higher than supported"),
+        "error_instance_keystore":
+            MessageLookupByLibrary.simpleMessage("Cannot instantiate keystore"),
         "error_invalid_characters":
-            MessageLookupByLibrary.simpleMessage("أحرف غير صالحة"),
+            MessageLookupByLibrary.simpleMessage("Invalid characters"),
         "error_invalid_geometry":
-            MessageLookupByLibrary.simpleMessage("قيمة هندسية غير صالحة"),
+            MessageLookupByLibrary.simpleMessage("Invalid geometry value"),
         "error_job":
-            MessageLookupByLibrary.simpleMessage("تقرير العمل غير متاح"),
-        "error_low_on_available_values":
-            MessageLookupByLibrary.simpleMessage("نقص القيم المتاحة"),
+            MessageLookupByLibrary.simpleMessage("Job report not available"),
+        "error_low_on_available_values": MessageLookupByLibrary.simpleMessage(
+            "Running low on available values"),
         "error_many_requests":
-            MessageLookupByLibrary.simpleMessage("الكثير من الطلبات"),
-        "error_max_tei_count_reached": MessageLookupByLibrary.simpleMessage(
-            "تم الوصول إلى الحد الأقصى لعدد TEI"),
+            MessageLookupByLibrary.simpleMessage("Too many requests"),
+        "error_max_tei_count_reached":
+            MessageLookupByLibrary.simpleMessage("Max TEI count reached"),
         "error_min_attributes": MessageLookupByLibrary.simpleMessage(
-            "الحد الأدنى للسمات المطلوبة في البحث"),
+            "Minimum search attributes required"),
         "error_no_reserved_values":
-            MessageLookupByLibrary.simpleMessage("لا توجد قيم محجوزة"),
+            MessageLookupByLibrary.simpleMessage("No reserved values"),
         "error_no_values_left_on_server": MessageLookupByLibrary.simpleMessage(
-            "لا توجد قيم متبقية للحجز على الخادم"),
-        "error_null_url": MessageLookupByLibrary.simpleMessage(
-            "عنوان URL للخادم لا يمكن أن يكون فارغًا"),
+            "Not enough values left to reserve on server"),
+        "error_null_url":
+            MessageLookupByLibrary.simpleMessage("Server URL cannot be null"),
         "error_object_insert":
-            MessageLookupByLibrary.simpleMessage("لا يمكن إدراج الكائن"),
+            MessageLookupByLibrary.simpleMessage("Object cannot be inserted"),
         "error_object_update":
-            MessageLookupByLibrary.simpleMessage("لا يمكن تحديث الكائن"),
+            MessageLookupByLibrary.simpleMessage("Object cannot be updated"),
+        "error_opening_new_form":
+            MessageLookupByLibrary.simpleMessage("Error Opening New Form"),
         "error_org_unit_scope": MessageLookupByLibrary.simpleMessage(
-            "الوحدة التنظيمية غير مشمولة في نطاق البحث"),
+            "Org unit not in search scope"),
         "error_ownership_access":
-            MessageLookupByLibrary.simpleMessage("تم رفض وصول الملكية"),
-        "error_relationship_updated":
-            MessageLookupByLibrary.simpleMessage("لا يمكن تحديث العلاقات"),
+            MessageLookupByLibrary.simpleMessage("Ownership access denied"),
+        "error_relationship_updated": MessageLookupByLibrary.simpleMessage(
+            "Relationships cannot be updated"),
         "error_reserve_value_on_server": MessageLookupByLibrary.simpleMessage(
-            "تعذر الحجز على القيمة على الخادم"),
+            "Could not reserve value on server"),
         "error_server_malformed":
-            MessageLookupByLibrary.simpleMessage("عنوان URL للخادم غير صحيح"),
+            MessageLookupByLibrary.simpleMessage("Malformed server URL"),
         "error_set_value":
-            MessageLookupByLibrary.simpleMessage("لا يمكن تعيين القيمة"),
+            MessageLookupByLibrary.simpleMessage("Value cannot be set"),
         "error_settings_app_not_intalled":
-            MessageLookupByLibrary.simpleMessage("تطبيق الإعدادات غير مثبت"),
+            MessageLookupByLibrary.simpleMessage("Settings app not installed"),
         "error_settings_app_not_supported":
-            MessageLookupByLibrary.simpleMessage("تطبيق الإعدادات غير مدعوم"),
-        "error_sms_not_supported": MessageLookupByLibrary.simpleMessage(
-            "غير مدعومة خدمة الرسائل القصيرة"),
+            MessageLookupByLibrary.simpleMessage("Settings app not supported"),
+        "error_sms_not_supported":
+            MessageLookupByLibrary.simpleMessage("SMS not supported"),
         "error_socket_timeout":
-            MessageLookupByLibrary.simpleMessage("انتهاء مهلة الاتصال"),
-        "error_ssl": MessageLookupByLibrary.simpleMessage("خطأ SSL"),
+            MessageLookupByLibrary.simpleMessage("Socket timeout"),
+        "error_ssl": MessageLookupByLibrary.simpleMessage("SSL error"),
         "error_too_manu_org_units": MessageLookupByLibrary.simpleMessage(
-            "عدد كبير جدًا من الوحدات التنظيمية"),
+            "Too many organizational units"),
         "error_too_many_periods":
-            MessageLookupByLibrary.simpleMessage("عدد كبير جدًا من الفترات"),
-        "error_unexpected":
-            MessageLookupByLibrary.simpleMessage("حدث خطأ غير متوقع"),
+            MessageLookupByLibrary.simpleMessage("Too many periods"),
+        "error_unexpected": MessageLookupByLibrary.simpleMessage(
+            "An unexpected error occurred"),
         "error_url_not_found":
-            MessageLookupByLibrary.simpleMessage("عنوان URL غير موجود"),
+            MessageLookupByLibrary.simpleMessage("URL not found"),
         "error_user_no_authenticated":
-            MessageLookupByLibrary.simpleMessage("لا يوجد مستخدم مصادق عليه"),
+            MessageLookupByLibrary.simpleMessage("No authenticated user"),
         "error_user_no_authenticated_offline":
             MessageLookupByLibrary.simpleMessage(
-                "لا يوجد مستخدم مصادق عليه حاليًا"),
+                "No authenticated user offline"),
         "error_value_reservation_time": MessageLookupByLibrary.simpleMessage(
-            "استغرق حجز القيم وقتًا طويلاً"),
+            "Values reservation took too long"),
+        "form": MessageLookupByLibrary.simpleMessage("form"),
+        "hide_password": MessageLookupByLibrary.simpleMessage("Hide Password"),
+        "login": MessageLookupByLibrary.simpleMessage("Login"),
         "login_error_bad_credentials":
-            MessageLookupByLibrary.simpleMessage("بيانات اعتماد غير صالحة"),
+            MessageLookupByLibrary.simpleMessage("Invalid credentials"),
         "login_error_error_response":
-            MessageLookupByLibrary.simpleMessage("خطأ في معالجة الاستجابة"),
-        "login_error_no_am_instance": MessageLookupByLibrary.simpleMessage(
-            "لم يتم العثور على مثيل للخادم"),
-        "login_error_null_pass": MessageLookupByLibrary.simpleMessage(
-            "لا يمكن أن تكون كلمة المرور فارغة"),
-        "login_error_null_username": MessageLookupByLibrary.simpleMessage(
-            "لا يمكن أن يكون اسم المستخدم فارغًا"),
+            MessageLookupByLibrary.simpleMessage("Error processing response"),
+        "login_error_no_am_instance":
+            MessageLookupByLibrary.simpleMessage("No server instance found"),
+        "login_error_null_pass":
+            MessageLookupByLibrary.simpleMessage("Password cannot be null"),
+        "login_error_null_username":
+            MessageLookupByLibrary.simpleMessage("Username cannot be null"),
         "login_error_unknown_host":
-            MessageLookupByLibrary.simpleMessage("مضيف غير معروف"),
+            MessageLookupByLibrary.simpleMessage("Unknown host"),
         "login_error_unsuccessful_response":
-            MessageLookupByLibrary.simpleMessage("استجابة غير ناجحة من الخادم"),
+            MessageLookupByLibrary.simpleMessage(
+                "Unsuccessful response from server"),
+        "mark_final_data": MessageLookupByLibrary.simpleMessage("Final Data"),
+        "mark_final_data_message": MessageLookupByLibrary.simpleMessage(
+            "Make the form Final before exiting."),
+        "nmcp_yemen": MessageLookupByLibrary.simpleMessage("NMCP Yemen"),
         "not_mapped_error":
-            MessageLookupByLibrary.simpleMessage("خطأ غير معتمد"),
+            MessageLookupByLibrary.simpleMessage("Not mapped error"),
+        "not_now": MessageLookupByLibrary.simpleMessage("Not Now"),
+        "ok": MessageLookupByLibrary.simpleMessage("OK"),
         "online_search_parsing_error":
-            MessageLookupByLibrary.simpleMessage("خطأ في تحليل بحث الشبكة")
+            MessageLookupByLibrary.simpleMessage("Search grid parse error"),
+        "open": MessageLookupByLibrary.simpleMessage("Open"),
+        "open_new_form": MessageLookupByLibrary.simpleMessage("Open New Form"),
+        "password": MessageLookupByLibrary.simpleMessage("password"),
+        "send": MessageLookupByLibrary.simpleMessage("Send"),
+        "show_password": MessageLookupByLibrary.simpleMessage("Show Password"),
+        "sync_form_data":
+            MessageLookupByLibrary.simpleMessage("Sync Form Data"),
+        "syncing_configuration":
+            MessageLookupByLibrary.simpleMessage("Syncing Configuration"),
+        "syncing_data": MessageLookupByLibrary.simpleMessage("Syncing Data"),
+        "syncing_events":
+            MessageLookupByLibrary.simpleMessage("Syncing Events"),
+        "user": MessageLookupByLibrary.simpleMessage("user"),
+        "username": MessageLookupByLibrary.simpleMessage("Username"),
+        "view_available_forms":
+            MessageLookupByLibrary.simpleMessage("View Available Forms"),
+        "view_list": MessageLookupByLibrary.simpleMessage("View List")
       };
 }

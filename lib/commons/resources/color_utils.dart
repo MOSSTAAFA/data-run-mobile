@@ -22,13 +22,13 @@ class ColorUtils {
     // int  id;
     switch (colorType) {
       case ColorType.ACCENT:
-        // id = R.attr.colorAccent;
+        // id = attr.colorAccent;
         return Theme.of(context).primaryColorDark;
       case ColorType.PRIMARY_DARK:
-        // id = R.attr.colorPrimaryDark;
+        // id = attr.colorPrimaryDark;
         return Theme.of(context).primaryColorDark;
       case ColorType.PRIMARY_LIGHT:
-        // id = R.attr.colorPrimaryLight;
+        // id = attr.colorPrimaryLight;
         return Theme.of(context).primaryColorLight;
       case ColorType.PRIMARY:
     }

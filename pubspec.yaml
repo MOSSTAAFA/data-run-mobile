@@ -66,10 +66,9 @@ flutter:
   generate: true
   assets:
     - lib/sample/dhis/
-    - lib/main/l10n/locales_strings/
     - lib/l10n/
     - assets/images/
-    - assets/languages/
+    - assets/launcher_icon/
 # analyzer:
 #   strong-mode: true
 #   language:
