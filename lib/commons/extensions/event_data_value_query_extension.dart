@@ -51,7 +51,7 @@ extension SetCheckTrackedEntityAttributeValueExtension on EventDataValueQuery {
 
   // NMC: TODO throws D2Error
   Future<void> blockingSet(String value) async {
-    final String date = DateUtils.databaseDateFormat().format(DateTime.now().toUtc());
+    final String date = DateUtils.databaseDateFormat().format(DateTime.now());
     final toUpdate = await getOne();
     // updateOrInsert
     if (toUpdate != null) {

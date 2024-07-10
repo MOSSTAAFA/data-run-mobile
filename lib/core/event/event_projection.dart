@@ -52,7 +52,7 @@ class _EventTransformer implements Transformer<EventCreateProjection, Event> {
   @override
   Event transform(EventCreateProjection projection) {
     // String generatedUid = DhisUidGenerator.generate();
-    final String creationDate = DateUtils.databaseDateFormat().format(DateTime.now().toUtc());
+    final String creationDate = DateUtils.databaseDateFormat().format(DateTime.now());
 
     return Event(
         id: DhisUidGenerator.generate(),

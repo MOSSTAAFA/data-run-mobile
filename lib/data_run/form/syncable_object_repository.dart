@@ -25,7 +25,7 @@ class SyncableObjectRepository {
   Future<int> setStartEntryTime(DateTime? startEntryTime) async {
     String? date;
     if(startEntryTime != null) {
-      DateUtils.databaseDateFormat().format(startEntryTime.toUtc());
+      DateUtils.databaseDateFormat().format(startEntryTime);
     }
     return updateObject((await updateBuilder(uid))..startEntryTime = date);
   }
@@ -33,7 +33,7 @@ class SyncableObjectRepository {
   ///  throws D2Error
   Future<int> setStatus(SyncableStatus syncableStatus) async {
     final String? completedDate = syncableStatus == SyncableStatus.COMPLETED
-        ? DateUtils.databaseDateFormat().format(DateTime.now().toUtc())
+        ? DateUtils.databaseDateFormat().format(DateTime.now())
         : null;
 
     return updateObject((await updateBuilder(uid))
@@ -44,7 +44,7 @@ class SyncableObjectRepository {
   ///  throws D2Error
   Future<int> setFinishedEntryTime(DateTime finishedEntryTime) async {
     final String date =
-        DateUtils.databaseDateFormat().format(finishedEntryTime.toUtc());
+        DateUtils.databaseDateFormat().format(finishedEntryTime);
     return updateObject((await updateBuilder(uid))..finishedEntryTime = date);
   }
 
@@ -68,7 +68,7 @@ class SyncableObjectRepository {
   Future<SyncableEntity> updateBuilder(String uid) async {
     final SyncableEntity syncable = (await query.byId(uid).getOne())!;
     final String updateDate =
-        DateUtils.databaseDateFormat().format(DateTime.now().toUtc());
+        DateUtils.databaseDateFormat().format(DateTime.now());
 
     // bool? state = enrollment.synced;
     // state = state == State.TO_POST ? state : State.TO_UPDATE;

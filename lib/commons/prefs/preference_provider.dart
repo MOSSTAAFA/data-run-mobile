@@ -98,13 +98,13 @@ class PreferenceProvider {
   DateTime? lastMetadataSync() {
     assert(_sharedPreferences != null, 'PreferenceProvider is not initialized');
     return getString(LAST_META_SYNC)?.let((String lastMetadataSyncString) =>
-        DateUtils.dateTimeFormat().parse(lastMetadataSyncString).toUtc());
+        DateUtils.dateTimeFormat().parse(lastMetadataSyncString));
   }
 
   DateTime? lastDataSync() {
     assert(_sharedPreferences != null, 'PreferenceProvider is not initialized');
     return getString(LAST_DATA_SYNC)?.let((String lastDataSyncString) =>
-        DateUtils.dateTimeFormat().parse(lastDataSyncString).toUtc());
+        DateUtils.dateTimeFormat().parse(lastDataSyncString));
   }
 
   DateTime? lastSync() {

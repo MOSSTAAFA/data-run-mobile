@@ -166,8 +166,8 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
     ref.invalidate(entitiesByStatusProvider);
   }
 
-  void _showSyncDialog(List<String> entityUids) {
-    showDialog(
+  Future<void> _showSyncDialog(List<String> entityUids) async {
+    await showDialog(
       context: context,
       builder: (context) {
         return SyncDialog(
@@ -183,6 +183,7 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
         );
       },
     );
+    ref.invalidate(entitiesByStatusProvider);
   }
 }
 

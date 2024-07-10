@@ -75,7 +75,6 @@ class SyncableEntityInitialRepository {
     final SyncableObjectRepository syncableRepository =
         SyncableObjectRepository(initEntityToAdd.id!, _syncableQuery);
 
-    await syncableRepository.setStartEntryTime(dateTime);
     final SyncableEntity? syncable = await syncableRepository.getSyncable();
 
     if (geometry != null) {

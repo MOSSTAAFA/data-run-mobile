@@ -76,7 +76,7 @@ class SyncableEntityMappingRepository {
 
     final storedEntity = await getQuery().byId(_syncableEntity.uid!).getOne();
     storedEntity!.lastModifiedDate =
-        DateUtils.databaseDateFormat().format(DateTime.now().toUtc());
+        DateUtils.databaseDateFormat().format(DateTime.now());
     storedEntity.status = 'ACTIVE';
     storedEntity.dirty = true;
 
@@ -99,7 +99,7 @@ class SyncableEntityMappingRepository {
   //   _syncableEntity = (await getQuery().byId(_syncableEntity.uid!).getOne())!;
   //   _syncableEntity = _syncableEntity
   //     ..lastModifiedDate =
-  //         DateUtils.databaseDateFormat().format(DateTime.now().toUtc())
+  //         DateUtils.databaseDateFormat().format(DateTime.now())
   //     ..status = 'ACTIVE'
   //     ..dirty = true;
   //

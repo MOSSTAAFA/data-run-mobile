@@ -74,7 +74,7 @@ class _DatePickerState extends State<DatePicker> {
       // _textController.text = formatDate(widget.selectedDate, context);
       // ignore: avoid_dynamic_calls
       _textController.text =
-          DateUtils.databaseDateFormat().format(widget.initialDate!.toUtc());
+          DateUtils.databaseDateFormat().format(widget.initialDate!);
     }
 
     super.didChangeDependencies();

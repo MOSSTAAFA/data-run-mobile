@@ -55,7 +55,7 @@ String formatSize(int size) {
 
 String convertDateTimeToSqlDate([DateTime? date]) {
   date = date ?? DateTime.now();
-  return sdk.DateUtils.databaseDateFormat().format(date.toUtc());
+  return sdk.DateUtils.databaseDateFormat().format(date);
 }
 
 DateTime convertSqlDateToDateTime([String? date]) {
@@ -91,7 +91,7 @@ DateTime convertTimeOfDayToDateTime(TimeOfDay? timeOfDay,
   dateTime ??= DateTime.now();
   return DateTime(dateTime.year, dateTime.month, dateTime.day,
           timeOfDay?.hour ?? 0, timeOfDay?.minute ?? 0)
-      .toUtc();
+      ;
 }
 
 TimeOfDay convertDateTimeToTimeOfDay(DateTime? dateTime) =>

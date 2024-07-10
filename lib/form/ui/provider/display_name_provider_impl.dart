@@ -62,13 +62,13 @@ class DisplayNameProviderImpl implements DisplayNameProvider {
             .format(DateUtils.oldUiDateFormat().parse(value));
       case ValueType.DateTime:
         return DateUtils.dateTimeFormat().format(
-            DateUtils.databaseDateFormat().parseOrNull(value)?.toUtc() ??
+            DateUtils.databaseDateFormat().parseOrNull(value) ??
                 DateTime.parse(
                     '') // this will throw [FormatException], the input string cannot be parsed
             );
       case ValueType.Time:
         return DateUtils.timeFormat().format(
-            DateUtils.timeFormat().parseOrNull(value)?.toUtc() ??
+            DateUtils.timeFormat().parseOrNull(value) ??
                 DateTime.parse(
                     '') // this will throw [FormatException], the input string cannot be parsed
             );

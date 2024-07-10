@@ -37,7 +37,7 @@ class UiEventFactoryImpl implements UiEventFactory {
               uiEvent = ListViewUiEvents.openCustomCalendar(
                   uid: uid,
                   label: label,
-                  date: DateUtils.oldUiDateFormat().parse(value ?? '').toUtc(),
+                  date: DateUtils.oldUiDateFormat().parse(value ?? ''),
                   allowFutureDates: allowFutureDates ?? true);
               break;
             case ValueType.DateTime:
@@ -45,7 +45,7 @@ class UiEventFactoryImpl implements UiEventFactory {
                   uid: uid,
                   label: label,
                   date:
-                      DateUtils.databaseDateFormat().parse(value ?? '').toUtc(),
+                      DateUtils.databaseDateFormat().parse(value ?? ''),
                   allowFutureDates: allowFutureDates ?? true,
                   isDateTime: true);
               break;

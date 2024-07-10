@@ -72,7 +72,7 @@ class SyncMetadataWorker extends Worker {
       }
 
       final String lastDataSyncDate =
-          DateUtils.dateTimeFormat().format(DateTime.now().toUtc());
+          DateUtils.dateTimeFormat().format(DateTime.now());
 
       prefs.setValue(LAST_META_SYNC, lastDataSyncDate);
       prefs.setValue(LAST_META_SYNC_STATUS, isMetaOk);

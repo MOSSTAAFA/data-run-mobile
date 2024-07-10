@@ -29,16 +29,24 @@ class _SystemHash {
   }
 }
 
-/// See also [indexedFieldInput].
+/// A Riverpod provider for fetching the indexed field input.
+///
+/// Copied from [indexedFieldInput].
 @ProviderFor(indexedFieldInput)
 const indexedFieldInputProvider = IndexedFieldInputFamily();
 
-/// See also [indexedFieldInput].
+/// A Riverpod provider for fetching the indexed field input.
+///
+/// Copied from [indexedFieldInput].
 class IndexedFieldInputFamily extends Family<AsyncValue<QFieldModel>> {
-  /// See also [indexedFieldInput].
+  /// A Riverpod provider for fetching the indexed field input.
+  ///
+  /// Copied from [indexedFieldInput].
   const IndexedFieldInputFamily();
 
-  /// See also [indexedFieldInput].
+  /// A Riverpod provider for fetching the indexed field input.
+  ///
+  /// Copied from [indexedFieldInput].
   IndexedFieldInputProvider call(
     String key,
   ) {
@@ -71,9 +79,13 @@ class IndexedFieldInputFamily extends Family<AsyncValue<QFieldModel>> {
   String? get name => r'indexedFieldInputProvider';
 }
 
-/// See also [indexedFieldInput].
+/// A Riverpod provider for fetching the indexed field input.
+///
+/// Copied from [indexedFieldInput].
 class IndexedFieldInputProvider extends AutoDisposeFutureProvider<QFieldModel> {
-  /// See also [indexedFieldInput].
+  /// A Riverpod provider for fetching the indexed field input.
+  ///
+  /// Copied from [indexedFieldInput].
   IndexedFieldInputProvider(
     String key,
   ) : this._internal(
@@ -157,9 +169,11 @@ class _IndexedFieldInputProviderElement
 }
 
 String _$formFieldsStateNotifierHash() =>
-    r'53556f76dbb994bf5fcf2c6c51e4265d025acf03';
+    r'9f53392195f8c6c9f31ff7ca1b48547734f7a1a9';
 
-/// See also [FormFieldsStateNotifier].
+/// A state notifier for managing form fields and their states.
+///
+/// Copied from [FormFieldsStateNotifier].
 @ProviderFor(FormFieldsStateNotifier)
 final formFieldsStateNotifierProvider = AutoDisposeAsyncNotifierProvider<
     FormFieldsStateNotifier, IMap<String, QFieldModel>>.internal(

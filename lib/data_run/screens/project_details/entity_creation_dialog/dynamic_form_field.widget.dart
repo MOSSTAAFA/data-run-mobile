@@ -91,7 +91,7 @@ class DynamicFormFieldWidget extends StatelessWidget {
             name: fieldModel.uid,
             enabled: fieldModel.isEditable,
             valueTransformer: (DateTime? date) => date != null
-                ? sdk.DateUtils.databaseDateFormat().format(date.toUtc())
+                ? sdk.DateUtils.databaseDateFormat().format(date)
                 : null,
             validator: fieldModel.isMandatory
                 ? FormBuilderValidators.required()

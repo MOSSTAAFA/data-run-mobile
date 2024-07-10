@@ -42,7 +42,7 @@ class EnrollmentObjectRepository {
   ///  throws D2Error
   Future<void> setCompletedDate(DateTime completedDate) async {
     // final date = completedDate.toIso8601String().split('.')[0];
-    final String date = DateUtils.databaseDateFormat().format(completedDate.toUtc());
+    final String date = DateUtils.databaseDateFormat().format(completedDate);
     return updateObject((await updateBuilder())..completedDate = date);
   }
 
@@ -54,10 +54,10 @@ class EnrollmentObjectRepository {
   ///  throws D2Error
   Future<void> setStatus(EnrollmentStatus? enrollmentStatus) async {
     // final String? completedDate = enrollmentStatus == EnrollmentStatus.COMPLETED
-    //     ? DateUtils.databaseDateFormat().format(DateTime.now().toUtc())
+    //     ? DateUtils.databaseDateFormat().format(DateTime.now())
     //     : null;
     final String? completedDate = enrollmentStatus == EnrollmentStatus.COMPLETED
-        ? DateUtils.databaseDateFormat().format(DateTime.now().toUtc())
+        ? DateUtils.databaseDateFormat().format(DateTime.now())
         : null;
 
     return updateObject((await updateBuilder())
@@ -76,7 +76,7 @@ class EnrollmentObjectRepository {
     final Enrollment enrollment =
         (await D2Remote.trackerModule.enrollment.byId(uid).getOne())!;
     final String updateDate =
-        DateUtils.databaseDateFormat().format(DateTime.now().toUtc());
+        DateUtils.databaseDateFormat().format(DateTime.now());
     // bool? state = enrollment.synced;
     // state = state == State.TO_POST ? state : State.TO_UPDATE;
 

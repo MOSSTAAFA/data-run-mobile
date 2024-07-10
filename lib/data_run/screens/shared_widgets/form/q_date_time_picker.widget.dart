@@ -23,7 +23,7 @@ class QDateTimePicker extends StatelessWidget {
       format: sdk.DateUtils.uiDateFormat(),
       initialValue: fieldModel.value.toDate(),
       valueTransformer: (DateTime? date) => date != null
-          ? sdk.DateUtils.databaseDateFormat().format(date.toUtc())
+          ? sdk.DateUtils.databaseDateFormat().format(date)
           : null,
       name: fieldModel.uid,
       enabled: fieldModel.isEditable,
@@ -36,7 +36,7 @@ class QDateTimePicker extends StatelessWidget {
           debugPrint(
               '####Debug FormBuilderDateTimePicker.onFieldSubmitted: $pickedDate');
           fieldModel.onSaveOption(
-              sdk.DateUtils.databaseDateFormat().format(pickedDate.toUtc()));
+              sdk.DateUtils.databaseDateFormat().format(pickedDate));
         }
       },
       onChanged: (DateTime? pickedDate) {
@@ -44,7 +44,7 @@ class QDateTimePicker extends StatelessWidget {
           // fieldModel.onTextChange(
           //     sdk.DateUtils.databaseDateFormat().format(pickedDate));
           fieldModel.onSaveOption(
-              sdk.DateUtils.databaseDateFormat().format(pickedDate.toUtc()));
+              sdk.DateUtils.databaseDateFormat().format(pickedDate));
         } else {
           fieldModel.onSaveOption(null);
         }
