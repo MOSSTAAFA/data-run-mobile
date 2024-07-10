@@ -58,5 +58,12 @@
   "error_org_unit_scope": "Org unit not in search scope",
   "error_invalid_characters": "Invalid characters",
   "not_mapped_error": "Not mapped error",
-  "app_name": "MASS PRO"
+  "app_name": "MASS PRO",
+  "showPassword": "Show Password",
+  "syncing_configuration": "Syncing Configuration",
+  "configuration_ready": "Configuration Ready",
+  "syncing_data": "Syncing Data",
+  "syncing_events": "Syncing Events",
+  "syncing_data_sets": "Syncing Data Sets",
+  "syncing_resources": "Syncing Resource"
 }
