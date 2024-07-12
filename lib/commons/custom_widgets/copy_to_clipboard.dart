@@ -1,12 +1,7 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
-// Package imports:
-import 'package:flutter_styled_toast/flutter_styled_toast.dart';
-
-// Project imports:
-import '../../main/l10n/app_localizations.dart';
+import 'package:mass_pro/main/l10n/app_localizations.dart';
 
 class CopyToClipboard extends StatelessWidget {
   const CopyToClipboard({
@@ -61,11 +56,11 @@ class CopyToClipboard extends StatelessWidget {
 
   void _onTap(BuildContext context) {
     Clipboard.setData(ClipboardData(text: value ?? ''));
-    showToast(
-      L.of(context)!.lookup('copiedToClipboard').replaceFirst(
-            ':value',
-            value!.replaceAll('\n', ' '),
-          ),
-    );
+    // showToast(
+    //   L.of(context)!.lookup('copiedToClipboard').replaceFirst(
+    //         ':value',
+    //         value!.replaceAll('\n', ' '),
+    //       ),
+    // );
   }
 }

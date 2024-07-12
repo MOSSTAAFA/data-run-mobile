@@ -78,7 +78,7 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
         _isLoading = false;
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('${S.of(context).error_opening_new_form}: $e')),
+        SnackBar(content: Text('${S.of(context).errorOpeningNewForm}: $e')),
       );
     }
   }
@@ -86,7 +86,7 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(S.of(context).open_new_form),
+      title: Text(S.of(context).openNewForm),
       content: SingleChildScrollView(
         child: Column(
           children: [

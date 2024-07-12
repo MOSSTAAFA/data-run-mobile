@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/view/view_base.dart';
+import 'package:mass_pro/generated/l10n.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import 'package:mass_pro/commons/state/app_state_notifier.dart';
@@ -67,7 +68,7 @@ class _SyncScreenState extends ConsumerState<SyncScreen>
                   child: Text(
                     syncProgressInfo.state != WorkInfoState.SUCCEEDED
                         ? syncProgressInfo.message
-                        : L.of(context)!.lookup('configuration_ready'),
+                        : S.of(context).configurationReady,
                     style: const TextStyle(fontSize: 13.0, color: Colors.white),
                   ),
                 ),

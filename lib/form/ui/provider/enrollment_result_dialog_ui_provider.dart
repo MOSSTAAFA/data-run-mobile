@@ -39,7 +39,7 @@ class EnrollmentResultDialogUiProvider {
             mainButton:
                 const DialogButtonStyle.mainButton(textResource: 'review'),
             secondaryButton: const DialogButtonStyle.secondaryButton(
-                textResource: 'not_now')),
+                textResource: 'notNow')),
         missingMandatoryResult: (result) => BottomSheetDialogUiModel(
               title: resourceManager.getString('not_saved'),
               subtitle: _getMandatorySubtitle(result.allowDiscard),

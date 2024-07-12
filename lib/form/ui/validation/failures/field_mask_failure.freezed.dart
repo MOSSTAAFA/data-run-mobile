@@ -17,29 +17,25 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$FieldMaskFailure {
   String get message => throw _privateConstructorUsedError;
-  CaughtException? get cause => throw _privateConstructorUsedError;
+  Object? get source => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String message, CaughtException? cause)
+    required TResult Function(String message, Object? source)
         wrongPatternException,
-    required TResult Function(String message, CaughtException? cause)
+    required TResult Function(String message, Object? source)
         invalidPatternException,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String message, CaughtException? cause)?
-        wrongPatternException,
-    TResult? Function(String message, CaughtException? cause)?
-        invalidPatternException,
+    TResult? Function(String message, Object? source)? wrongPatternException,
+    TResult? Function(String message, Object? source)? invalidPatternException,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message, CaughtException? cause)?
-        wrongPatternException,
-    TResult Function(String message, CaughtException? cause)?
-        invalidPatternException,
+    TResult Function(String message, Object? source)? wrongPatternException,
+    TResult Function(String message, Object? source)? invalidPatternException,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -76,7 +72,7 @@ abstract class $FieldMaskFailureCopyWith<$Res> {
           FieldMaskFailure value, $Res Function(FieldMaskFailure) then) =
       _$FieldMaskFailureCopyWithImpl<$Res, FieldMaskFailure>;
   @useResult
-  $Res call({String message, CaughtException? cause});
+  $Res call({String message, Object? source});
 }
 
 /// @nodoc
@@ -93,17 +89,14 @@ class _$FieldMaskFailureCopyWithImpl<$Res, $Val extends FieldMaskFailure>
   @override
   $Res call({
     Object? message = null,
-    Object? cause = freezed,
+    Object? source = freezed,
   }) {
     return _then(_value.copyWith(
       message: null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
-      cause: freezed == cause
-          ? _value.cause
-          : cause // ignore: cast_nullable_to_non_nullable
-              as CaughtException?,
+      source: freezed == source ? _value.source : source,
     ) as $Val);
   }
 }
@@ -117,7 +110,7 @@ abstract class _$$WrongPatternExceptionImplCopyWith<$Res>
       __$$WrongPatternExceptionImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String message, CaughtException? cause});
+  $Res call({String message, Object? source});
 }
 
 /// @nodoc
@@ -132,17 +125,14 @@ class __$$WrongPatternExceptionImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? message = null,
-    Object? cause = freezed,
+    Object? source = freezed,
   }) {
     return _then(_$WrongPatternExceptionImpl(
       null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
-      freezed == cause
-          ? _value.cause
-          : cause // ignore: cast_nullable_to_non_nullable
-              as CaughtException?,
+      freezed == source ? _value.source : source,
     ));
   }
 }
@@ -150,18 +140,18 @@ class __$$WrongPatternExceptionImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$WrongPatternExceptionImpl extends WrongPatternException {
-  const _$WrongPatternExceptionImpl([this.message = 'Exception', this.cause])
+  const _$WrongPatternExceptionImpl([this.message = 'dException', this.source])
       : super._();
 
   @override
   @JsonKey()
   final String message;
   @override
-  final CaughtException? cause;
+  final Object? source;
 
   @override
   String toString() {
-    return 'FieldMaskFailure.wrongPatternException(message: $message, cause: $cause)';
+    return 'FieldMaskFailure.wrongPatternException(message: $message, source: $source)';
   }
 
   @override
@@ -170,11 +160,12 @@ class _$WrongPatternExceptionImpl extends WrongPatternException {
         (other.runtimeType == runtimeType &&
             other is _$WrongPatternExceptionImpl &&
             (identical(other.message, message) || other.message == message) &&
-            (identical(other.cause, cause) || other.cause == cause));
+            const DeepCollectionEquality().equals(other.source, source));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, message, cause);
+  int get hashCode => Object.hash(
+      runtimeType, message, const DeepCollectionEquality().hash(source));
 
   @JsonKey(ignore: true)
   @override
@@ -186,36 +177,32 @@ class _$WrongPatternExceptionImpl extends WrongPatternException {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String message, CaughtException? cause)
+    required TResult Function(String message, Object? source)
         wrongPatternException,
-    required TResult Function(String message, CaughtException? cause)
+    required TResult Function(String message, Object? source)
         invalidPatternException,
   }) {
-    return wrongPatternException(message, cause);
+    return wrongPatternException(message, source);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String message, CaughtException? cause)?
-        wrongPatternException,
-    TResult? Function(String message, CaughtException? cause)?
-        invalidPatternException,
+    TResult? Function(String message, Object? source)? wrongPatternException,
+    TResult? Function(String message, Object? source)? invalidPatternException,
   }) {
-    return wrongPatternException?.call(message, cause);
+    return wrongPatternException?.call(message, source);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message, CaughtException? cause)?
-        wrongPatternException,
-    TResult Function(String message, CaughtException? cause)?
-        invalidPatternException,
+    TResult Function(String message, Object? source)? wrongPatternException,
+    TResult Function(String message, Object? source)? invalidPatternException,
     required TResult orElse(),
   }) {
     if (wrongPatternException != null) {
-      return wrongPatternException(message, cause);
+      return wrongPatternException(message, source);
     }
     return orElse();
   }
@@ -255,16 +242,16 @@ class _$WrongPatternExceptionImpl extends WrongPatternException {
 }
 
 abstract class WrongPatternException extends FieldMaskFailure
-    implements ThrowableException {
+    implements DException {
   const factory WrongPatternException(
       [final String message,
-      final CaughtException? cause]) = _$WrongPatternExceptionImpl;
+      final Object? source]) = _$WrongPatternExceptionImpl;
   const WrongPatternException._() : super._();
 
   @override
   String get message;
   @override
-  CaughtException? get cause;
+  Object? get source;
   @override
   @JsonKey(ignore: true)
   _$$WrongPatternExceptionImplCopyWith<_$WrongPatternExceptionImpl>
@@ -280,7 +267,7 @@ abstract class _$$InvalidPatternExceptionImplCopyWith<$Res>
       __$$InvalidPatternExceptionImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String message, CaughtException? cause});
+  $Res call({String message, Object? source});
 }
 
 /// @nodoc
@@ -296,17 +283,14 @@ class __$$InvalidPatternExceptionImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? message = null,
-    Object? cause = freezed,
+    Object? source = freezed,
   }) {
     return _then(_$InvalidPatternExceptionImpl(
       null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
-      freezed == cause
-          ? _value.cause
-          : cause // ignore: cast_nullable_to_non_nullable
-              as CaughtException?,
+      freezed == source ? _value.source : source,
     ));
   }
 }
@@ -314,18 +298,19 @@ class __$$InvalidPatternExceptionImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$InvalidPatternExceptionImpl extends InvalidPatternException {
-  const _$InvalidPatternExceptionImpl([this.message = 'Exception', this.cause])
+  const _$InvalidPatternExceptionImpl(
+      [this.message = 'dException', this.source])
       : super._();
 
   @override
   @JsonKey()
   final String message;
   @override
-  final CaughtException? cause;
+  final Object? source;
 
   @override
   String toString() {
-    return 'FieldMaskFailure.invalidPatternException(message: $message, cause: $cause)';
+    return 'FieldMaskFailure.invalidPatternException(message: $message, source: $source)';
   }
 
   @override
@@ -334,11 +319,12 @@ class _$InvalidPatternExceptionImpl extends InvalidPatternException {
         (other.runtimeType == runtimeType &&
             other is _$InvalidPatternExceptionImpl &&
             (identical(other.message, message) || other.message == message) &&
-            (identical(other.cause, cause) || other.cause == cause));
+            const DeepCollectionEquality().equals(other.source, source));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, message, cause);
+  int get hashCode => Object.hash(
+      runtimeType, message, const DeepCollectionEquality().hash(source));
 
   @JsonKey(ignore: true)
   @override
@@ -350,36 +336,32 @@ class _$InvalidPatternExceptionImpl extends InvalidPatternException {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String message, CaughtException? cause)
+    required TResult Function(String message, Object? source)
         wrongPatternException,
-    required TResult Function(String message, CaughtException? cause)
+    required TResult Function(String message, Object? source)
         invalidPatternException,
   }) {
-    return invalidPatternException(message, cause);
+    return invalidPatternException(message, source);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String message, CaughtException? cause)?
-        wrongPatternException,
-    TResult? Function(String message, CaughtException? cause)?
-        invalidPatternException,
+    TResult? Function(String message, Object? source)? wrongPatternException,
+    TResult? Function(String message, Object? source)? invalidPatternException,
   }) {
-    return invalidPatternException?.call(message, cause);
+    return invalidPatternException?.call(message, source);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message, CaughtException? cause)?
-        wrongPatternException,
-    TResult Function(String message, CaughtException? cause)?
-        invalidPatternException,
+    TResult Function(String message, Object? source)? wrongPatternException,
+    TResult Function(String message, Object? source)? invalidPatternException,
     required TResult orElse(),
   }) {
     if (invalidPatternException != null) {
-      return invalidPatternException(message, cause);
+      return invalidPatternException(message, source);
     }
     return orElse();
   }
@@ -419,16 +401,16 @@ class _$InvalidPatternExceptionImpl extends InvalidPatternException {
 }
 
 abstract class InvalidPatternException extends FieldMaskFailure
-    implements ThrowableException {
+    implements DException {
   const factory InvalidPatternException(
       [final String message,
-      final CaughtException? cause]) = _$InvalidPatternExceptionImpl;
+      final Object? source]) = _$InvalidPatternExceptionImpl;
   const InvalidPatternException._() : super._();
 
   @override
   String get message;
   @override
-  CaughtException? get cause;
+  Object? get source;
   @override
   @JsonKey(ignore: true)
   _$$InvalidPatternExceptionImplCopyWith<_$InvalidPatternExceptionImpl>

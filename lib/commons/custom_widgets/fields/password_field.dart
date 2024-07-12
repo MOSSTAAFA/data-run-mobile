@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mass_pro/generated/l10n.dart';
 
 import '../../../main/l10n/app_localizations.dart';
 import 'decorated_form_field.dart';
@@ -53,8 +54,8 @@ class _PasswordFormFieldState extends State<PasswordFormField> {
         suffixIcon: IconButton(
           alignment: Alignment.bottomCenter,
           tooltip: _isPasswordObscured
-              ? L.of(context)!.lookup('show_password')
-              : L.of(context)!.lookup('hide_password'),
+              ? S.of(context).showPassword
+              : S.of(context).hidePassword,
           icon: Icon(
             _isPasswordObscured ? Icons.visibility : Icons.visibility_off,
             color: Colors.grey,

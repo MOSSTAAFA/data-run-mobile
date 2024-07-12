@@ -12,11 +12,10 @@ import 'package:get/get.dart';
 import 'package:mass_pro/commons/resources/resource_manager.dart';
 import 'package:mass_pro/commons/ui/metadata_icon_data.dart';
 import 'package:mass_pro/core/common/state.dart';
-import 'package:mass_pro/data_run/screens/project_details/project_detail_item.model.dart';
 import 'package:mass_pro/data_run/screens/project_details/form_listing_models_mapper.dart';
+import 'package:mass_pro/data_run/screens/project_details/project_detail_item.model.dart';
 import 'package:mass_pro/data_run/utils/activities_access_repository.dart';
 import 'package:mass_pro/data_run/utils/screens_constants.dart';
-import 'package:mass_pro/data_run/utils/utils.providers.dart';
 import 'package:mass_pro/main/data/service/sync_status_data.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -64,7 +63,7 @@ class ProjectDetailItemsModelsNotifier
     /// iterate over all activities
     for (final activity in projectActivities) {
       final SyncableEntityState state = SyncableEntityState.SYNCED;
-          // await ref.read(activityUtilsProvider).getActivityState(activity);
+      // await ref.read(activityUtilsProvider).getActivityState(activity);
 
       final List<DynamicForm> activeFormCount = await D2Remote.formModule.form
           .where(attribute: 'activity', value: activity.id)

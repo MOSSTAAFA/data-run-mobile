@@ -8,11 +8,10 @@ import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
 import 'package:mass_pro/commons/network/network_utils.dart';
 import 'package:mass_pro/commons/prefs/preference_provider.dart';
 import 'package:mass_pro/commons/resources/resource_manager.dart';
+import 'package:mass_pro/data_run/errors_management/error_management.dart';
 import 'package:mass_pro/main/data/service/sync_presenter.dart';
 import 'package:mass_pro/main/data/service/work_manager/nmc_worker/work_info.dart';
 import 'package:mass_pro/main/data/service/work_manager/nmc_worker/worker.dart';
-import 'package:mass_pro/sdk/core/common/exception/validation_exception.dart';
-import 'package:mass_pro/sdk/core/maintenance/d2_error.dart';
 
 typedef OnProgressUpdate = Function(int progress);
 
@@ -33,8 +32,8 @@ class SyncMetadataWorker extends Worker {
   Future<WorkInfo> doWork(
       {OnProgressUpdate? onProgressUpdate, Dio? dioTestClient}) async {
     if (await D2Remote.isAuthenticated()) {
-      _triggerNotification(resourceManager.getString('app_name'),
-          resourceManager.getString('syncing_configuration'), 0);
+      _triggerNotification(resourceManager.getString('appName'),
+          resourceManager.getString('syncingConfiguration'), 0);
 
       bool isMetaOk = true;
       bool noNetwork = false;
@@ -45,8 +44,8 @@ class SyncMetadataWorker extends Worker {
         await presenter.syncMetadata(
           onProgressUpdate: (progress) {
             onProgressUpdate?.call(progress);
-            _triggerNotification(resourceManager.getString('app_name'),
-                resourceManager.getString('syncing_configuration'), progress);
+            _triggerNotification(resourceManager.getString('appName'),
+                resourceManager.getString('syncingConfiguration'), progress);
           },
         );
       } catch (e) {
@@ -55,12 +54,12 @@ class SyncMetadataWorker extends Worker {
         if (!ref.read(networkUtilsProvider).isOnline()) {
           noNetwork = true;
         }
-        if (e is ThrowableException) {
-          if (e is D2Error) {
-            final D2Error error = e;
+        if (e is DException) {
+          if (e is DError) {
+            final DError error = e;
             message.write(_composeErrorMessageInfo(error));
-          } else if (e.cause != null && e.cause is D2Error) {
-            final D2Error error = e.cause! as D2Error;
+          } else if (e.source != null && e.source is DError) {
+            final DError error = e.source! as DError;
             message.write(_composeErrorMessageInfo(error));
           }
         } else {
@@ -107,13 +106,13 @@ class SyncMetadataWorker extends Worker {
     return '';
   }
 
-  StringBuffer _composeErrorMessageInfo(D2Error error) {
+  StringBuffer _composeErrorMessageInfo(DError error) {
     final StringBuffer builder = StringBuffer('Cause: ');
     builder
       ..write(resourceManager.parseD2Error(error))
       ..write('\n\n')
       ..write('Exception: ')
-      ..write(_errorStackTrace((error).originalException).split('\n\t')[0])
+      ..write((error.originalException.toString()).split('\n\t')[0])
       ..write('\n\n');
 
     if (error.created != null) {

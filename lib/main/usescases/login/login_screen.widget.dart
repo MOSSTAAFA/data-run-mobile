@@ -101,7 +101,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                           const SizedBox(height: 8),
                           // Spacer between logo and text
                           Text(
-                            S.of(context).nmcp_yemen,
+                            S.of(context).nmcpYemen,
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -142,7 +142,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                           return val?.trim().isNullOrEmpty ?? false
                                               ? L
                                                   .of(context)!
-                                                  .lookup('enter_your_username')
+                                                  .lookup('enterYourUsername')
                                               : null;
                                         },
                                         autofillHints: const [
@@ -264,8 +264,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
   @override
   void renderError(Exception throwable) {
     showInfoDialog(
-        title: 'Error',
-        prefix: L.of(context)!.lookup('login_error'),
+        title: S.of(context).error,
+        prefix: S.of(context).loginErrorErrorResponse,
         message: ref.read(resourceManagerProvider).parseD2Error(throwable));
     // Get.dialog(
     //     SelectableError(

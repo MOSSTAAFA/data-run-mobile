@@ -1,19 +1,20 @@
-import 'package:mass_pro/sdk/core/common/exception/validation_exception.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:mass_pro/data_run/errors_management/error_management.dart';
+import 'package:mass_pro/sdk/core/common/exception/validation_exception.dart';
 
 part 'field_mask_failure.freezed.dart';
 
 @freezed
 class FieldMaskFailure with _$FieldMaskFailure implements ValidationException {
-  @Implements<ThrowableException>()
+  @Implements<DException>()
   const factory FieldMaskFailure.wrongPatternException(
-      [@Default('Exception') String message,
-      CaughtException? cause]) = WrongPatternException;
+      [@Default('dException') String message,
+      Object? source]) = WrongPatternException;
 
-  @Implements<ThrowableException>()
+  @Implements<DException>()
   const factory FieldMaskFailure.invalidPatternException(
-      [@Default('Exception') String message,
-      CaughtException? cause]) = InvalidPatternException;
+      [@Default('dException') String message,
+      Object? source]) = InvalidPatternException;
 
   const FieldMaskFailure._();
 }

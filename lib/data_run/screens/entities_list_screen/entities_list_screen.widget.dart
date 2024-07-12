@@ -7,13 +7,19 @@ import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/core/common/state.dart';
 import 'package:mass_pro/data_run/screens/data_submission_screen/data_submission_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/entities_list_screen/entities_riverpod_providers.dart';
+import 'package:mass_pro/data_run/screens/project_details/entity_creation_dialog/entity_creation_dialog.widget.dart';
+import 'package:mass_pro/data_run/screens/project_details/project_detail_item.model.dart';
+import 'package:mass_pro/data_run/screens/project_details/project_detail_items_models_notifier.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/q_sync_icon_button.widget.dart';
 import 'package:mass_pro/data_run/screens/sync_dialog/sync_dialog.widget.dart';
 import 'package:mass_pro/data_run/screens/sync_dialog/sync_dialog_repository.dart';
+import 'package:mass_pro/generated/l10n.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 
 class EntitiesListScreen extends ConsumerStatefulWidget {
-  const EntitiesListScreen({super.key});
+  const EntitiesListScreen({super.key, this.formModel});
+
+  final FormListItemModel? formModel;
 
   @override
   EntitiesListScreenState createState() => EntitiesListScreenState();
@@ -33,16 +39,22 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(formCode),
-      ),
-      body: Column(
-        children: [
-          _buildFilterBar(),
-          Expanded(child: _buildEntitiesList()),
-        ],
-      ),
-    );
+        appBar: AppBar(
+          title: Text(formCode),
+        ),
+        body: Column(
+          children: [
+            _buildFilterBar(),
+            Expanded(child: _buildEntitiesList()),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            _showAddEntityDialog(context, ref, widget.formModel);
+          },
+          tooltip: S.current.addNew,
+          child: const Icon(Icons.add),
+        ));
   }
 
   Widget _buildFilterBar() {
@@ -133,7 +145,7 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
                       // onErrorPressed: () => _showSyncDialog([entity.uid!]),
                     ),
                     onTap: () {
-                      goToTappedEntityForm(entity.uid!);
+                      _goToDataEntryForm(entity.uid!);
                     },
                   ),
                 );
@@ -141,6 +153,28 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
             ),
         error: (error, _) => Text('Error: $error'),
         loading: () => const CircularProgressIndicator());
+  }
+
+  Future<void> _showAddEntityDialog(
+      BuildContext context, WidgetRef ref, FormListItemModel? formModel) async {
+    // Check if the context is still mounted
+    if (!context.mounted) {
+      return;
+    }
+
+    final result = await showDialog<String?>(
+        context: context,
+        builder: (BuildContext context) {
+          return EntityCreationDialog(formModel: formModel!);
+        });
+    // go to form
+    if (result != null) {
+      await _goToDataEntryForm(result);
+      ref.invalidate(entitiesByStatusProvider);
+      ref.invalidate(projectDetailItemModelProvider);
+    } else {
+      // Handle cancellation or failure
+    }
   }
 
   Widget _buildStatusIcon(SyncableEntityState? status) {
@@ -158,7 +192,7 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
     }
   }
 
-  Future<void> goToTappedEntityForm(String uid) async {
+  Future<void> _goToDataEntryForm(String uid) async {
     final Bundle eventBundle = Get.arguments as Bundle;
     final bundle = eventBundle.putString(SYNCABLE_UID, uid);
 

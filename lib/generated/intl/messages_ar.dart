@@ -20,21 +20,26 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'ar';
 
+  static String m0(count) =>
+      "${Intl.plural(count, zero: 'لا توجد استمارات', one: 'استمارة واحدة', two: 'استمارتان', other: '${count} استمارة')}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "add_new": MessageLookupByLibrary.simpleMessage("إضافة جديد"),
-        "app_name": MessageLookupByLibrary.simpleMessage("ماس برو"),
+        "addNew": MessageLookupByLibrary.simpleMessage("إضافة جديد"),
+        "appName": MessageLookupByLibrary.simpleMessage("ماس برو"),
         "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
-        "configuration_ready":
+        "configurationReady":
             MessageLookupByLibrary.simpleMessage("اكتملت تهيئة التطبيق"),
         "confirm": MessageLookupByLibrary.simpleMessage("تأكيد"),
-        "confirm_sync_form_data_question": MessageLookupByLibrary.simpleMessage(
+        "confirmSyncFormData": MessageLookupByLibrary.simpleMessage(
             "هل أنت متأكد أنك تريد مزامنة البيانات المحددة؟"),
         "dashboard": MessageLookupByLibrary.simpleMessage("الرئيسية"),
         "discard": MessageLookupByLibrary.simpleMessage("تجاهل"),
-        "enter_your_username":
+        "enterYourUsername":
             MessageLookupByLibrary.simpleMessage("من فضلك أدخل اسم المستخدم"),
         "error": MessageLookupByLibrary.simpleMessage("خطأ"),
+        "errorOpeningNewForm":
+            MessageLookupByLibrary.simpleMessage("حدث خطأ أثناء فتح الإستمارة"),
         "error_access_keystore": MessageLookupByLibrary.simpleMessage(
             "لا يمكن الوصول إلى مستودع المفاتيح"),
         "error_account_disabled":
@@ -99,8 +104,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("لا يمكن إدراج الكائن"),
         "error_object_update":
             MessageLookupByLibrary.simpleMessage("لا يمكن تحديث الكائن"),
-        "error_opening_new_form":
-            MessageLookupByLibrary.simpleMessage("حدث خطأ أثناء فتح الإستمارة"),
         "error_org_unit_scope": MessageLookupByLibrary.simpleMessage(
             "الوحدة التنظيمية غير مشمولة في نطاق البحث"),
         "error_ownership_access":
@@ -137,53 +140,56 @@ class MessageLookup extends MessageLookupByLibrary {
                 "لا يوجد مستخدم مصادق عليه حاليًا"),
         "error_value_reservation_time": MessageLookupByLibrary.simpleMessage(
             "استغرق حجز القيم وقتًا طويلاً"),
-        "form": MessageLookupByLibrary.simpleMessage("استمارة"),
-        "hide_password":
-            MessageLookupByLibrary.simpleMessage("اخفاء كلمة السر"),
+        "finalData": MessageLookupByLibrary.simpleMessage("بيانات نهائية"),
+        "form": m0,
+        "hidePassword": MessageLookupByLibrary.simpleMessage("اخفاء كلمة السر"),
         "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
-        "login_error_bad_credentials":
-            MessageLookupByLibrary.simpleMessage("بيانات اعتماد غير صالحة"),
-        "login_error_error_response":
+        "loginErrorBadCredentials": MessageLookupByLibrary.simpleMessage(
+            "اسم مستخدم أو كلمة مرور غير صحيحة"),
+        "loginErrorErrorResponse":
             MessageLookupByLibrary.simpleMessage("خطأ في معالجة الاستجابة"),
-        "login_error_no_am_instance": MessageLookupByLibrary.simpleMessage(
-            "لم يتم العثور على مثيل للخادم"),
-        "login_error_null_pass": MessageLookupByLibrary.simpleMessage(
+        "loginErrorNoDataRunInstance":
+            MessageLookupByLibrary.simpleMessage("لم يتم العثور على الخادم"),
+        "loginErrorNullPass": MessageLookupByLibrary.simpleMessage(
             "لا يمكن أن تكون كلمة المرور فارغة"),
-        "login_error_null_username": MessageLookupByLibrary.simpleMessage(
+        "loginErrorNullUsername": MessageLookupByLibrary.simpleMessage(
             "لا يمكن أن يكون اسم المستخدم فارغًا"),
-        "login_error_unknown_host":
+        "loginErrorUnknownHost":
             MessageLookupByLibrary.simpleMessage("مضيف غير معروف"),
-        "login_error_unsuccessful_response":
+        "loginErrorUnsuccessfulResponse":
             MessageLookupByLibrary.simpleMessage("استجابة غير ناجحة من الخادم"),
-        "mark_final_data":
-            MessageLookupByLibrary.simpleMessage("بيانات نهائية"),
-        "mark_final_data_message": MessageLookupByLibrary.simpleMessage(
+        "markAsFinalData": MessageLookupByLibrary.simpleMessage(
             "تعيين هذه البيانات كنهائية وجاهزة للإرسال."),
-        "nmcp_yemen": MessageLookupByLibrary.simpleMessage(
+        "nmcpYemen": MessageLookupByLibrary.simpleMessage(
             "البرنامج الوطني لمكافحة الملاريا"),
-        "not_mapped_error":
-            MessageLookupByLibrary.simpleMessage("خطأ غير معتمد"),
-        "not_now": MessageLookupByLibrary.simpleMessage("ليس الآن"),
+        "noFormsAvailable": MessageLookupByLibrary.simpleMessage(
+            "لا تتوفر استمارات لهذا النشاط"),
+        "notMappedError": MessageLookupByLibrary.simpleMessage("خطأ غير معتمد"),
+        "notNow": MessageLookupByLibrary.simpleMessage("ليس الآن"),
+        "objectAccessClosed":
+            MessageLookupByLibrary.simpleMessage("الوصول مغلق لهذا الكائن"),
+        "objectAccessDenied":
+            MessageLookupByLibrary.simpleMessage("الوصول مرفوض لهذا الكائن"),
         "ok": MessageLookupByLibrary.simpleMessage("موافق"),
         "online_search_parsing_error":
             MessageLookupByLibrary.simpleMessage("خطأ في تحليل بحث الشبكة"),
         "open": MessageLookupByLibrary.simpleMessage("فتح"),
-        "open_new_form":
+        "openNewForm":
             MessageLookupByLibrary.simpleMessage("فتح استمارة جديدة"),
         "password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
         "send": MessageLookupByLibrary.simpleMessage("إرسال"),
-        "show_password": MessageLookupByLibrary.simpleMessage("أظهر كلمة السر"),
-        "sync_form_data":
+        "showPassword": MessageLookupByLibrary.simpleMessage("أظهر كلمة السر"),
+        "syncFormData":
             MessageLookupByLibrary.simpleMessage("مزامنة بيانات الاستمارة"),
-        "syncing_configuration":
+        "syncingConfiguration":
             MessageLookupByLibrary.simpleMessage("إعدادات المزامنة"),
-        "syncing_data": MessageLookupByLibrary.simpleMessage("مزامنة بيانات"),
-        "syncing_events":
+        "syncingData": MessageLookupByLibrary.simpleMessage("مزامنة بيانات"),
+        "syncingEvents":
             MessageLookupByLibrary.simpleMessage("مزامنة الإستمارات"),
         "user": MessageLookupByLibrary.simpleMessage("مستخدم"),
         "username": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
-        "view_available_forms":
+        "viewAvailableForms":
             MessageLookupByLibrary.simpleMessage("استعرض الاستمارات المتاحة"),
-        "view_list": MessageLookupByLibrary.simpleMessage("عرض القائمة")
+        "viewList": MessageLookupByLibrary.simpleMessage("عرض القائمة")
       };
 }

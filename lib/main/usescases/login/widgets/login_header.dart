@@ -33,7 +33,7 @@ class LoginHeader extends StatelessWidget {
           ),
           const SizedBox(height: 8), // Spacer between logo and text
           Text(
-            S.of(context).nmcp_yemen,
+            S.of(context).nmcpYemen,
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,

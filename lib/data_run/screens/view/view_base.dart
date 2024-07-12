@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
 import 'package:mass_pro/commons/custom_widgets/copy_to_clipboard.dart';
 import 'package:mass_pro/commons/data_run/utils/view_actions.dart';
@@ -55,9 +54,9 @@ mixin ViewBase implements ViewAbstract {
 
   @override
   void displayMessage(String? message) {
-    if (message != null) {
-      showToast(message);
-    }
+    // if (message != null) {
+    //   showToast(message);
+    // }
   }
 
   @override

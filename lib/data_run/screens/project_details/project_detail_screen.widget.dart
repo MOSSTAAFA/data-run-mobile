@@ -60,9 +60,6 @@ class _ProjectDetailScreenWidgetState
     useOnInit(() => ref
         .read(projectNameProvider.notifier)
         .update((state) => project.displayName ?? project.name ?? ''));
-    // Future(() => ref
-    //     .read(programNameProvider.notifier)
-    //     .update((state) => program.displayName ?? program.name ?? ''));
   }
 
   @override

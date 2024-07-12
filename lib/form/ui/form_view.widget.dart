@@ -4,27 +4,26 @@ import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
-import '../../commons/custom_widgets/mixins/keyboard_manager.dart';
-import '../../commons/extensions/dynamic_extensions.dart';
+import 'package:mass_pro/commons/custom_widgets/mixins/keyboard_manager.dart';
+import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
 import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
-import '../../commons/helpers/iterable.dart';
-import '../data/data_integrity_check_result.dart';
-import '../data/form_repository.dart';
-import '../model/Ui_render_type.dart';
-import '../model/field_ui_model.dart';
-import '../model/info_ui_model.dart';
-import '../model/row_action.dart';
-import '../model/section_ui_model_impl.dart';
-import 'data_entry_items_list.widget.dart';
-import 'event/dialog_delegate.dart';
-import 'event/list_view_ui_events.dart';
-import 'intent/form_intent.dart';
-import 'provider/enrollment_result_dialog_ui_provider.dart';
-import 'view_model/form_model_notifier.dart';
-import 'view_model/form_pending_intents.dart';
-import 'view_model/form_view_model_notifier.dart';
+import 'package:mass_pro/commons/helpers/iterable.dart';
+import 'package:mass_pro/form/data/data_integrity_check_result.dart';
+import 'package:mass_pro/form/data/form_repository.dart';
+import 'package:mass_pro/form/model/Ui_render_type.dart';
+import 'package:mass_pro/form/model/field_ui_model.dart';
+import 'package:mass_pro/form/model/info_ui_model.dart';
+import 'package:mass_pro/form/model/row_action.dart';
+import 'package:mass_pro/form/model/section_ui_model_impl.dart';
+import 'package:mass_pro/form/ui/data_entry_items_list.widget.dart';
+import 'package:mass_pro/form/ui/event/dialog_delegate.dart';
+import 'package:mass_pro/form/ui/event/list_view_ui_events.dart';
+import 'package:mass_pro/form/ui/intent/form_intent.dart';
+import 'package:mass_pro/form/ui/provider/enrollment_result_dialog_ui_provider.dart';
+import 'package:mass_pro/form/ui/view_model/form_model_notifier.dart';
+import 'package:mass_pro/form/ui/view_model/form_pending_intents.dart';
+import 'package:mass_pro/form/ui/view_model/form_view_model_notifier.dart';
 
 class FormViewWidget extends ConsumerStatefulWidget {
   FormViewWidget(
@@ -242,9 +241,9 @@ class _FormViewWidgetState extends ConsumerState<FormViewWidget>
               }
             }));
 
-    ref.listenManual<String?>(
-        formModelNotifierProvider.select((formModel) => formModel.showToast),
-        (previous, next) => next?.let((it) => showToast(it)));
+    // ref.listenManual<String?>(
+    //     formModelNotifierProvider.select((formModel) => formModel.showToast),
+    //     (previous, next) => next?.let((it) => showToast(it)));
 
     ref.listenManual<bool?>(
         formModelNotifierProvider.select((value) => value.focused),

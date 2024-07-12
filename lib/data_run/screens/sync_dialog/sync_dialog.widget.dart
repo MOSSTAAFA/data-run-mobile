@@ -24,7 +24,7 @@ class SyncDialogState extends ConsumerState<SyncDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(S.of(context).sync_form_data),
+      title: Text(S.of(context).syncFormData),
       content: _buildContent(),
       actions: _buildActions(),
     );
@@ -32,7 +32,7 @@ class SyncDialogState extends ConsumerState<SyncDialog> {
 
   Widget _buildContent() {
     if (!_isSyncing) {
-      return Text(S.of(context).confirm_sync_form_data_question);
+      return Text(S.of(context).confirmSyncFormData);
     }
 
     return Column(
@@ -43,7 +43,7 @@ class SyncDialogState extends ConsumerState<SyncDialog> {
         ),
         const SizedBox(height: 16),
         Text(
-            '${S.of(context).syncing_data} ${_currentEntityIndex + 1}/${widget.entityUids.length}'),
+            '${S.of(context).syncingData} ${_currentEntityIndex + 1}/${widget.entityUids.length}'),
         if (_syncErrors.isNotEmpty)
           Padding(
             padding: const EdgeInsets.only(top: 8.0),

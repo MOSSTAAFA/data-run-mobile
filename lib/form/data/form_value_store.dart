@@ -1,5 +1,4 @@
 import 'package:mass_pro/sdk/core/common/value_type.dart';
-import 'package:mass_pro/sdk/core/maintenance/d2_error.dart';
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/data/tracker/entities/enrollment.entity.dart';
 import 'package:d2_remote/modules/data/tracker/entities/event.entity.dart';
@@ -23,6 +22,8 @@ import 'package:mass_pro/core/enrollment/enrollment_object_repository.dart';
 import 'package:mass_pro/form/model/enrollment_detail.dart';
 import 'package:mass_pro/form/model/store_result.dart';
 import 'package:mass_pro/form/model/value_store_result.dart';
+
+import '../../data_run/errors_management/error_management.dart';
 
 class FormValueStore {
   FormValueStore(
@@ -109,7 +110,7 @@ class FormValueStore {
         await saveEnrollmentGeometry(geometry);
         return const StoreResult(
             uid: '', valueStoreResult: ValueStoreResult.VALUE_CHANGED);
-      } on D2Error catch (d2Error) {
+      } on DError catch (d2Error) {
         String errorMessage = '${d2Error.errorDescription}: $geometry';
         // crashReportController.trackError(d2Error, errorMessage);
         return const StoreResult(

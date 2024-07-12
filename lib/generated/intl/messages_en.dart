@@ -20,21 +20,26 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
+  static String m0(count) =>
+      "${Intl.plural(count, zero: 'no forms', one: '1 form', two: '2 forms', other: '${count} forms')}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "add_new": MessageLookupByLibrary.simpleMessage("Add New"),
-        "app_name": MessageLookupByLibrary.simpleMessage("MASS PRO"),
+        "addNew": MessageLookupByLibrary.simpleMessage("Add New"),
+        "appName": MessageLookupByLibrary.simpleMessage("MASS PRO"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
-        "configuration_ready":
+        "configurationReady":
             MessageLookupByLibrary.simpleMessage("Configuration Ready"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
-        "confirm_sync_form_data_question": MessageLookupByLibrary.simpleMessage(
+        "confirmSyncFormData": MessageLookupByLibrary.simpleMessage(
             "Are you sure you want to sync the selected entities?"),
         "dashboard": MessageLookupByLibrary.simpleMessage("Dashboard"),
         "discard": MessageLookupByLibrary.simpleMessage("Discard"),
-        "enter_your_username":
+        "enterYourUsername":
             MessageLookupByLibrary.simpleMessage("Enter Your Username"),
         "error": MessageLookupByLibrary.simpleMessage("Error"),
+        "errorOpeningNewForm":
+            MessageLookupByLibrary.simpleMessage("Error Opening New Form"),
         "error_access_keystore":
             MessageLookupByLibrary.simpleMessage("Cannot access keystore"),
         "error_account_disabled":
@@ -100,8 +105,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Object cannot be inserted"),
         "error_object_update":
             MessageLookupByLibrary.simpleMessage("Object cannot be updated"),
-        "error_opening_new_form":
-            MessageLookupByLibrary.simpleMessage("Error Opening New Form"),
         "error_org_unit_scope": MessageLookupByLibrary.simpleMessage(
             "Org unit not in search scope"),
         "error_ownership_access":
@@ -138,50 +141,53 @@ class MessageLookup extends MessageLookupByLibrary {
                 "No authenticated user offline"),
         "error_value_reservation_time": MessageLookupByLibrary.simpleMessage(
             "Values reservation took too long"),
-        "form": MessageLookupByLibrary.simpleMessage("form"),
-        "hide_password": MessageLookupByLibrary.simpleMessage("Hide Password"),
+        "finalData": MessageLookupByLibrary.simpleMessage("Final Data"),
+        "form": m0,
+        "hidePassword": MessageLookupByLibrary.simpleMessage("Hide Password"),
         "login": MessageLookupByLibrary.simpleMessage("Login"),
-        "login_error_bad_credentials":
+        "loginErrorBadCredentials":
             MessageLookupByLibrary.simpleMessage("Invalid credentials"),
-        "login_error_error_response":
+        "loginErrorErrorResponse":
             MessageLookupByLibrary.simpleMessage("Error processing response"),
-        "login_error_no_am_instance":
+        "loginErrorNoDataRunInstance":
             MessageLookupByLibrary.simpleMessage("No server instance found"),
-        "login_error_null_pass":
+        "loginErrorNullPass":
             MessageLookupByLibrary.simpleMessage("Password cannot be null"),
-        "login_error_null_username":
+        "loginErrorNullUsername":
             MessageLookupByLibrary.simpleMessage("Username cannot be null"),
-        "login_error_unknown_host":
+        "loginErrorUnknownHost":
             MessageLookupByLibrary.simpleMessage("Unknown host"),
-        "login_error_unsuccessful_response":
-            MessageLookupByLibrary.simpleMessage(
-                "Unsuccessful response from server"),
-        "mark_final_data": MessageLookupByLibrary.simpleMessage("Final Data"),
-        "mark_final_data_message": MessageLookupByLibrary.simpleMessage(
+        "loginErrorUnsuccessfulResponse": MessageLookupByLibrary.simpleMessage(
+            "Unsuccessful response from server"),
+        "markAsFinalData": MessageLookupByLibrary.simpleMessage(
             "Make the form Final before exiting."),
-        "nmcp_yemen": MessageLookupByLibrary.simpleMessage("NMCP Yemen"),
-        "not_mapped_error":
+        "nmcpYemen": MessageLookupByLibrary.simpleMessage("NMCP Yemen"),
+        "noFormsAvailable":
+            MessageLookupByLibrary.simpleMessage("No forms available"),
+        "notMappedError":
             MessageLookupByLibrary.simpleMessage("Not mapped error"),
-        "not_now": MessageLookupByLibrary.simpleMessage("Not Now"),
+        "notNow": MessageLookupByLibrary.simpleMessage("Not Now"),
+        "objectAccessClosed":
+            MessageLookupByLibrary.simpleMessage("objectAccessClosed"),
+        "objectAccessDenied":
+            MessageLookupByLibrary.simpleMessage("objectAccessDenied"),
         "ok": MessageLookupByLibrary.simpleMessage("OK"),
         "online_search_parsing_error":
             MessageLookupByLibrary.simpleMessage("Search grid parse error"),
         "open": MessageLookupByLibrary.simpleMessage("Open"),
-        "open_new_form": MessageLookupByLibrary.simpleMessage("Open New Form"),
+        "openNewForm": MessageLookupByLibrary.simpleMessage("Open New Form"),
         "password": MessageLookupByLibrary.simpleMessage("password"),
         "send": MessageLookupByLibrary.simpleMessage("Send"),
-        "show_password": MessageLookupByLibrary.simpleMessage("Show Password"),
-        "sync_form_data":
-            MessageLookupByLibrary.simpleMessage("Sync Form Data"),
-        "syncing_configuration":
+        "showPassword": MessageLookupByLibrary.simpleMessage("Show Password"),
+        "syncFormData": MessageLookupByLibrary.simpleMessage("Sync Form Data"),
+        "syncingConfiguration":
             MessageLookupByLibrary.simpleMessage("Syncing Configuration"),
-        "syncing_data": MessageLookupByLibrary.simpleMessage("Syncing Data"),
-        "syncing_events":
-            MessageLookupByLibrary.simpleMessage("Syncing Events"),
+        "syncingData": MessageLookupByLibrary.simpleMessage("Syncing Data"),
+        "syncingEvents": MessageLookupByLibrary.simpleMessage("Syncing Events"),
         "user": MessageLookupByLibrary.simpleMessage("user"),
         "username": MessageLookupByLibrary.simpleMessage("Username"),
-        "view_available_forms":
+        "viewAvailableForms":
             MessageLookupByLibrary.simpleMessage("View Available Forms"),
-        "view_list": MessageLookupByLibrary.simpleMessage("View List")
+        "viewList": MessageLookupByLibrary.simpleMessage("View List")
       };
 }

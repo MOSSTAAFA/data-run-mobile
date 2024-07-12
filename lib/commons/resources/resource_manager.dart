@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import 'package:mass_pro/utils/navigator_key.dart';
-import 'package:mass_pro/utils/mass_utils/colors.dart';
 import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
-import 'package:mass_pro/commons/resources/d2_error_utils.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:mass_pro/data_run/errors_management/error_management.dart';
+import 'package:mass_pro/utils/mass_utils/colors.dart';
+import 'package:mass_pro/utils/navigator_key.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'resource_manager.g.dart';
 
@@ -19,13 +19,16 @@ class ResourceManager {
   final ResourceManagerRef ref;
 
   String getString(String stringResource) {
-    return navigatorKey.localization
-        .lookup(stringResource);
+    return Intl.message(
+      stringResource,
+      name: stringResource,
+      desc: '',
+      args: [],
+    );
   }
 
   Icon getObjectStyleDrawableResource(
       IconData? icon, IconData defaultResource) {
-    // TODO NMC
     return icon?.let((it) => Icon(icon)) ?? Icon(defaultResource);
     // return icon?.let {
     // val iconName = if (icon.startsWith("ic_")) icon else "ic_$icon"
@@ -67,7 +70,7 @@ class ResourceManager {
   }
 
   String parseD2Error(Exception throwable) {
-    return ref.read(d2ErrorUtilsProvider).getErrorMessage(throwable);
+    return ref.read(dErrorLocalizationProvider).getErrorMessage(throwable);
   }
 
   String defaultEventLabel() => getString('events');

@@ -13,7 +13,8 @@ import 'package:mass_pro/data_run/form/map_field_value_to_user.dart';
 import 'package:mass_pro/data_run/form/syncable_object_repository.dart';
 import 'package:mass_pro/data_run/form/syncable_status.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
-import 'package:mass_pro/sdk/core/maintenance/d2_error.dart';
+
+import '../errors_management/error_management.dart';
 
 class SyncableEntityInitialRepository {
   SyncableEntityInitialRepository(this.ref,
@@ -87,7 +88,7 @@ class SyncableEntityInitialRepository {
   Future<void> deleteSyncable(String syncableId) async {
     try {
       await _syncableQuery.byId(syncableId).delete();
-    } on D2Error catch (d2Error) {
+    } on DError catch (d2Error) {
       print('Timber.e($d2Error)');
     }
   }

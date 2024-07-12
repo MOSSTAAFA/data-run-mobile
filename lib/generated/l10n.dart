@@ -51,70 +51,70 @@ class S {
   }
 
   /// `Password cannot be null`
-  String get login_error_null_pass {
+  String get loginErrorNullPass {
     return Intl.message(
       'Password cannot be null',
-      name: 'login_error_null_pass',
+      name: 'loginErrorNullPass',
       desc: '',
       args: [],
     );
   }
 
   /// `Username cannot be null`
-  String get login_error_null_username {
+  String get loginErrorNullUsername {
     return Intl.message(
       'Username cannot be null',
-      name: 'login_error_null_username',
+      name: 'loginErrorNullUsername',
       desc: '',
       args: [],
     );
   }
 
   /// `Unsuccessful response from server`
-  String get login_error_unsuccessful_response {
+  String get loginErrorUnsuccessfulResponse {
     return Intl.message(
       'Unsuccessful response from server',
-      name: 'login_error_unsuccessful_response',
+      name: 'loginErrorUnsuccessfulResponse',
       desc: '',
       args: [],
     );
   }
 
   /// `Error processing response`
-  String get login_error_error_response {
+  String get loginErrorErrorResponse {
     return Intl.message(
       'Error processing response',
-      name: 'login_error_error_response',
+      name: 'loginErrorErrorResponse',
       desc: '',
       args: [],
     );
   }
 
   /// `No server instance found`
-  String get login_error_no_am_instance {
+  String get loginErrorNoDataRunInstance {
     return Intl.message(
       'No server instance found',
-      name: 'login_error_no_am_instance',
+      name: 'loginErrorNoDataRunInstance',
       desc: '',
       args: [],
     );
   }
 
   /// `Invalid credentials`
-  String get login_error_bad_credentials {
+  String get loginErrorBadCredentials {
     return Intl.message(
       'Invalid credentials',
-      name: 'login_error_bad_credentials',
+      name: 'loginErrorBadCredentials',
       desc: '',
       args: [],
     );
   }
 
   /// `Unknown host`
-  String get login_error_unknown_host {
+  String get loginErrorUnknownHost {
     return Intl.message(
       'Unknown host',
-      name: 'login_error_unknown_host',
+      name: 'loginErrorUnknownHost',
       desc: '',
       args: [],
     );
@@ -631,50 +631,50 @@ class S {
   }
 
   /// `Not mapped error`
-  String get not_mapped_error {
+  String get notMappedError {
     return Intl.message(
       'Not mapped error',
-      name: 'not_mapped_error',
+      name: 'notMappedError',
       desc: '',
       args: [],
     );
   }
 
   /// `MASS PRO`
-  String get app_name {
+  String get appName {
     return Intl.message(
       'MASS PRO',
-      name: 'app_name',
+      name: 'appName',
       desc: '',
       args: [],
     );
   }
 
   /// `Show Password`
-  String get show_password {
+  String get showPassword {
     return Intl.message(
       'Show Password',
-      name: 'show_password',
+      name: 'showPassword',
       desc: '',
       args: [],
     );
   }
 
   /// `Hide Password`
-  String get hide_password {
+  String get hidePassword {
     return Intl.message(
       'Hide Password',
-      name: 'hide_password',
+      name: 'hidePassword',
       desc: '',
       args: [],
     );
   }
 
   /// `Syncing Configuration`
-  String get syncing_configuration {
+  String get syncingConfiguration {
     return Intl.message(
       'Syncing Configuration',
-      name: 'syncing_configuration',
+      name: 'syncingConfiguration',
       desc: '',
       args: [],
     );
@@ -691,30 +691,30 @@ class S {
   }
 
   /// `Configuration Ready`
-  String get configuration_ready {
+  String get configurationReady {
     return Intl.message(
       'Configuration Ready',
-      name: 'configuration_ready',
+      name: 'configurationReady',
       desc: '',
       args: [],
     );
   }
 
   /// `Syncing Data`
-  String get syncing_data {
+  String get syncingData {
     return Intl.message(
       'Syncing Data',
-      name: 'syncing_data',
+      name: 'syncingData',
       desc: '',
       args: [],
     );
   }
 
   /// `Syncing Events`
-  String get syncing_events {
+  String get syncingEvents {
     return Intl.message(
       'Syncing Events',
-      name: 'syncing_events',
+      name: 'syncingEvents',
       desc: '',
       args: [],
     );
@@ -751,40 +751,44 @@ class S {
   }
 
   /// `View List`
-  String get view_list {
+  String get viewList {
     return Intl.message(
       'View List',
-      name: 'view_list',
+      name: 'viewList',
       desc: '',
       args: [],
     );
   }
 
   /// `Add New`
-  String get add_new {
+  String get addNew {
     return Intl.message(
       'Add New',
-      name: 'add_new',
+      name: 'addNew',
       desc: '',
       args: [],
     );
   }
 
-  /// `form`
-  String get form {
-    return Intl.message(
-      'form',
+  /// `{count, plural, =0{no forms} =1{1 form} =2{2 forms} other{{count} forms}}`
+  String form(num count) {
+    return Intl.plural(
+      count,
+      zero: 'no forms',
+      one: '1 form',
+      two: '2 forms',
+      other: '$count forms',
       name: 'form',
-      desc: '',
-      args: [],
+      desc: 'A plural message',
+      args: [count],
     );
   }
 
   /// `View Available Forms`
-  String get view_available_forms {
+  String get viewAvailableForms {
     return Intl.message(
       'View Available Forms',
-      name: 'view_available_forms',
+      name: 'viewAvailableForms',
       desc: '',
       args: [],
     );
@@ -801,31 +805,31 @@ class S {
   }
 
   /// `Enter Your Username`
-  String get enter_your_username {
+  String get enterYourUsername {
     return Intl.message(
       'Enter Your Username',
-      name: 'enter_your_username',
+      name: 'enterYourUsername',
       desc: '',
       args: [],
     );
   }
 
   /// `Sync Form Data`
-  String get sync_form_data {
+  String get syncFormData {
     return Intl.message(
       'Sync Form Data',
-      name: 'sync_form_data',
-      desc: '',
+      name: 'syncFormData',
+      desc: 'Cancel button label',
       args: [],
     );
   }
 
   /// `Are you sure you want to sync the selected entities?`
-  String get confirm_sync_form_data_question {
+  String get confirmSyncFormData {
     return Intl.message(
       'Are you sure you want to sync the selected entities?',
-      name: 'confirm_sync_form_data_question',
-      desc: '',
+      name: 'confirmSyncFormData',
+      desc: 'Cancel button label',
       args: [],
     );
   }
@@ -845,7 +849,7 @@ class S {
     return Intl.message(
       'Cancel',
       name: 'cancel',
-      desc: '',
+      desc: 'Cancel button label',
       args: [],
     );
   }
@@ -855,7 +859,7 @@ class S {
     return Intl.message(
       'Confirm',
       name: 'confirm',
-      desc: '',
+      desc: 'Confirm button label',
       args: [],
     );
   }
@@ -865,17 +869,17 @@ class S {
     return Intl.message(
       'OK',
       name: 'ok',
-      desc: '',
+      desc: 'ok button label',
       args: [],
     );
   }
 
   /// `Final Data`
-  String get mark_final_data {
+  String get finalData {
     return Intl.message(
       'Final Data',
-      name: 'mark_final_data',
-      desc: '',
+      name: 'finalData',
+      desc: 'Yes finalData button label',
       args: [],
     );
   }
@@ -885,7 +889,7 @@ class S {
     return Intl.message(
       'Discard',
       name: 'discard',
-      desc: '',
+      desc: 'discard button label',
       args: [],
     );
   }
@@ -895,47 +899,47 @@ class S {
     return Intl.message(
       'Open',
       name: 'open',
-      desc: '',
+      desc: 'open button label',
       args: [],
     );
   }
 
   /// `Open New Form`
-  String get open_new_form {
+  String get openNewForm {
     return Intl.message(
       'Open New Form',
-      name: 'open_new_form',
-      desc: '',
+      name: 'openNewForm',
+      desc: 'initial entity dialog info submit button label',
       args: [],
     );
   }
 
   /// `Error Opening New Form`
-  String get error_opening_new_form {
+  String get errorOpeningNewForm {
     return Intl.message(
       'Error Opening New Form',
-      name: 'error_opening_new_form',
-      desc: '',
+      name: 'errorOpeningNewForm',
+      desc: 'Error message when opening new form',
       args: [],
     );
   }
 
   /// `Make the form Final before exiting.`
-  String get mark_final_data_message {
+  String get markAsFinalData {
     return Intl.message(
       'Make the form Final before exiting.',
-      name: 'mark_final_data_message',
-      desc: '',
+      name: 'markAsFinalData',
+      desc: 'confirmation mark as final data dialog body\'s message',
       args: [],
     );
   }
 
   /// `Not Now`
-  String get not_now {
+  String get notNow {
     return Intl.message(
       'Not Now',
-      name: 'not_now',
-      desc: '',
+      name: 'notNow',
+      desc: 'notNow button label',
       args: [],
     );
   }
@@ -945,16 +949,46 @@ class S {
     return Intl.message(
       'Send',
       name: 'send',
-      desc: '',
+      desc: 'send button label',
       args: [],
     );
   }
 
   /// `NMCP Yemen`
-  String get nmcp_yemen {
+  String get nmcpYemen {
     return Intl.message(
       'NMCP Yemen',
-      name: 'nmcp_yemen',
+      name: 'nmcpYemen',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `objectAccessDenied`
+  String get objectAccessDenied {
+    return Intl.message(
+      'objectAccessDenied',
+      name: 'objectAccessDenied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `objectAccessClosed`
+  String get objectAccessClosed {
+    return Intl.message(
+      'objectAccessClosed',
+      name: 'objectAccessClosed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No forms available`
+  String get noFormsAvailable {
+    return Intl.message(
+      'No forms available',
+      name: 'noFormsAvailable',
       desc: '',
       args: [],
     );

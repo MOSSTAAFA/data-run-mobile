@@ -16,6 +16,7 @@ import 'package:mass_pro/main/usescases/splash/splash_screen.widget.dart';
 import 'package:mass_pro/riverpod/provider_logger.dart';
 import 'package:mass_pro/utils/navigator_key.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'main.reflectable.dart';
 
@@ -36,14 +37,34 @@ Future<void> main() async {
     return stack;
   };
 
-  runApp(ProviderScope(
-    observers: [
-      ProviderLogger(
-          providersNameToLog:
-              const IListConst(const ['formFieldsRepositoryProvider']))
-    ],
-    child: const App(),
-  ));
+  await SentryFlutter.init(
+        (options) {
+      options.dsn = 'https://c39a75530f4b8694183508a689bbafb7@o4504831846645760.ingest.us.sentry.io/4507587127214080';
+      // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+      // We recommend adjusting this value in production.
+      options.tracesSampleRate = 1.0;
+      // The sampling rate for profiling is relative to tracesSampleRate
+      // Setting to 1.0 will profile 100% of sampled transactions:
+      options.profilesSampleRate = 1.0;
+    },
+    appRunner: () => runApp(ProviderScope(
+      observers: [
+        ProviderLogger(
+            providersNameToLog:
+            const IListConst(const ['formFieldsRepositoryProvider']))
+      ],
+      child: const App(),
+    )),
+  );
+
+  // runApp(ProviderScope(
+  //   observers: [
+  //     ProviderLogger(
+  //         providersNameToLog:
+  //             const IListConst(const ['formFieldsRepositoryProvider']))
+  //   ],
+  //   child: const App(),
+  // ));
 }
 
 class App extends ConsumerWidget {

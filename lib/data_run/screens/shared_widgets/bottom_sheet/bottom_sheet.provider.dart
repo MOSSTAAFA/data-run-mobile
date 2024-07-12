@@ -16,12 +16,12 @@ class QBottomSheetProvider {
   QBottomSheetDialogUiModel formFinishBottomSheet(
       [QDataIntegrityCheckResult? result]) {
     return QBottomSheetDialogUiModel(
-      title: S.current.mark_final_data,
-      subtitle: S.current.mark_final_data_message,
+      title: S.current.finalData,
+      subtitle: S.current.markAsFinalData,
       iconResource: Icons.info,
       mainButton: QDialogButtonStyle.completeButton(),
       secondaryButton:
-          QDialogButtonStyle.neutralButton(textResource: S.current.not_now),
+          QDialogButtonStyle.neutralButton(textResource: S.current.notNow),
     );
   }
 
@@ -37,7 +37,7 @@ class QBottomSheetProvider {
         iconResource: Icons.sync,
       ),
       secondaryButton:
-          QDialogButtonStyle.neutralButton(textResource: S.current.not_now),
+          QDialogButtonStyle.neutralButton(textResource: S.current.notNow),
     );
   }
 }

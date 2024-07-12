@@ -1,7 +1,6 @@
+import 'package:mass_pro/data_run/errors_management/error_management.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen.widget.dart';
 import 'package:mass_pro/sdk/core/common/exception/validation_exception.dart';
-import 'package:mass_pro/sdk/core/maintenance/d2_error.dart';
-import 'package:mass_pro/sdk/core/maintenance/d2_error_code.dart';
 import 'package:d2_remote/modules/auth/user/models/login-response.model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -136,10 +135,10 @@ class LoginScreenPresenter {
       // Response.success<Any>(null)
       await handleResponse(it, userName, serverUrl);
     }).catchError((Object error, StackTrace stackTrace) async {
-      if (error is ThrowableException) {
-        error.cause != null
+      if (error is DException) {
+        error.source != null
             ? await _handleError(
-                error.cause! as ThrowableException, serverUrl, userName, pass)
+                error.source! as DException, serverUrl, userName, pass)
             : await _handleError(error, serverUrl, userName, pass);
       }
     });
@@ -193,8 +192,8 @@ class LoginScreenPresenter {
   Future<void> _handleError(Exception throwable, String serverUrl,
       String userName, String pass) async {
     logError(info: 'Timber.e($throwable)');
-    if (throwable is D2Error &&
-        throwable.errorCode == D2ErrorCode.ALREADY_AUTHENTICATED) {
+    if (throwable is DError &&
+        throwable.errorCode == DErrorCode.ALREADY_AUTHENTICATED) {
       await userManager?.logOut();
       logIn(serverUrl, userName, pass);
     } else {

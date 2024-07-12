@@ -21,23 +21,12 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with ViewBase {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Image.asset(
-              'assets/launcher_icon/ic_splash_adaptive_fore.png',
-              width: 150,
-              height: 150,
+              'assets/launcher_icon/logo_white.png',
+              width: 100,
+              height: 100,
               // add animation to the logo
               // AnimatedLogo(),
             ),
-            const SizedBox(height: 8),
-            Text(
-              'NMCP Yemen',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).primaryColor,
-              ),
-            ),
-            const SizedBox(height: 10),
-            const CircularProgressIndicator(),
           ],
         ),
       ),

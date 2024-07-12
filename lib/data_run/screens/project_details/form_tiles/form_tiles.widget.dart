@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_item.model.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_items_models_notifier.dart';
-import 'package:mass_pro/data_run/screens/shared_widgets/overlay_confirm_button.widget.dart';
 import 'package:mass_pro/generated/l10n.dart';
 
 class FormsTiles extends ConsumerWidget {
@@ -31,7 +30,9 @@ class FormsTiles extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        onList?.call(t);
+                      },
                       borderRadius: BorderRadius.circular(10),
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
@@ -91,17 +92,17 @@ class FormsTiles extends ConsumerWidget {
                             ),
                             const SizedBox(height: 16),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                ElevatedButton.icon(
-                                  onPressed: () => onList?.call(t),
-                                  icon: const Icon(Icons.list),
-                                  label: Text(S.of(context).view_list),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.blue,
-                                    foregroundColor: Colors.white,
-                                  ),
-                                ),
+                                // ElevatedButton.icon(
+                                //   onPressed: () => onList?.call(t),
+                                //   icon: const Icon(Icons.list),
+                                //   label: Text(S.of(context).viewList),
+                                //   style: ElevatedButton.styleFrom(
+                                //     backgroundColor: Colors.blue,
+                                //     foregroundColor: Colors.white,
+                                //   ),
+                                // ),
                                 // OverlayConfirmButton(
                                 //   label: 'Add New',
                                 //   icon: Icons.add,
@@ -115,7 +116,7 @@ class FormsTiles extends ConsumerWidget {
                                     onAdd?.call(t);
                                   },
                                   icon: const Icon(Icons.add),
-                                  label: Text(S.of(context).add_new),
+                                  label: Text(S.of(context).addNew),
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.green,
                                     foregroundColor: Colors.white,

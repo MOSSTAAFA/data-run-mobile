@@ -49,7 +49,7 @@ class QDialogButtonStyle with _$QDialogButtonStyle {
 
   static QDialogButtonStyle completeButton() =>
       QDialogButtonStyle.mainButton(
-        textResource: S.current.mark_final_data,
+        textResource: S.current.finalData,
         backgroundColor: Colors.blueAccent,
         colorResource: Colors.white,
         iconResource: Icons.check,

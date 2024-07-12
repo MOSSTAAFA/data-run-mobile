@@ -74,7 +74,8 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
                     projectDetailItemModel.activityName,
                     style: Theme.of(context).textTheme.headlineLarge,
                   ),
-                  Text('${projectDetailItemModel.activeFormCount} ${S.of(context).form}',
+                  Text(
+                    S.of(context).form(projectDetailItemModel.activeFormCount),
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ],
@@ -85,7 +86,7 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
         ),
         subtitle: projectDetailItemModel.valueListIsOpen
             ? Text(
-                S.of(context).view_available_forms,
+                S.of(context).viewAvailableForms,
                 style: Theme.of(context).textTheme.bodyMedium,
               )
             : null,
@@ -93,12 +94,15 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
         children: projectDetailItemModel.activeFormCount > 0
             ? [
                 FormsTiles(
-                  onList: navigateToEntitiesList,
+                  onList: (model) async {
+                    await navigateToEntitiesList(model);
+                    ref.invalidate(projectDetailItemModelProvider);
+                  },
                   onAdd: (FormListItemModel? formModel) =>
                       _showAddEntityDialog(context, ref, formModel),
                 )
               ]
-            : [const ListTile(title: Text('No forms available'))],
+            : [ListTile(title: Text(S.of(context).noFormsAvailable))],
       ),
     );
   }
@@ -110,70 +114,22 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
       return;
     }
 
-    await showDialog<String?>(
-      context: context,
-      builder: (BuildContext context) {
-        return EntityCreationDialog(formModel: formModel!);
-      },
-    ).then((result) {
-      // go to form
-      if (result != null) {
-        _goToDataEntryForm(result as String, formModel!);
-      } else {
-        // Handle cancellation or failure
-      }
-    });
-
-    // showDialog(
-    //   context: context,
-    //   builder: (context) {
-    //     return AlertDialog(
-    //       title: Text('Add New ${formModel!.formName}'),
-    //       content: FormBuilder(
-    //         key: formKey,
-    //         clearValueOnUnregister: true,
-    //         onPopInvoked: (bool value) {
-    //           /// show confirm, save, complete
-    //           debugPrint('showDialog onPopInvoked ');
-    //         },
-    //         onChanged: () {
-    //           formKey.currentState!.save();
-    //           // Map<String, dynamic> representing all fields
-    //           // 'form _formKey State Changed: ${_formKey.currentState!.value.toString()}');
-    //           debugPrint(
-    //               'form _formKey State Changed: ${formKey.currentState!.value.toString()}');
-    //         },
-    //         child: Column(
-    //           mainAxisSize: MainAxisSize.min,
-    //           children: formModel.fields
-    //                   ?.map((fieldModel) =>
-    //                       DynamicFormFieldWidget(fieldModel: fieldModel))
-    //                   .toList() ??
-    //               [],
-    //         ),
-    //       ),
-    //       actions: [
-    //         TextButton(
-    //           onPressed: () {
-    //             Navigator.of(context).pop(); // Close the dialog
-    //           },
-    //           child: const Text('Cancel'),
-    //         ),
-    //         ElevatedButton(
-    //           onPressed: () async {
-    //             // Create the entity
-    //             formKey.currentState!.saveAndValidate();
-    //             await _createEntity(context, ref, formModel);
-    //           },
-    //           child: const Text('OK'),
-    //         ),
-    //       ],
-    //     );
-    //   },
-    // );
+    final result = await showDialog<String?>(
+        context: context,
+        builder: (BuildContext context) {
+          return EntityCreationDialog(formModel: formModel!);
+        });
+    // go to form
+    if (result != null) {
+      await _goToDataEntryForm(result as String, formModel!);
+      ref.invalidate(projectDetailItemModelProvider);
+    } else {
+      // Handle cancellation or failure
+    }
   }
 
-  _goToDataEntryForm(String createdEntityUid, FormListItemModel formModel) {
+  Future<void> _goToDataEntryForm(
+      String createdEntityUid, FormListItemModel formModel) async {
     Bundle bundle = Bundle();
     bundle = bundle.putString(ACTIVITY_UID, formModel.activity);
     bundle = bundle.putString(TEAM_UID, formModel.team);
@@ -182,58 +138,16 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
     bundle = bundle.putString(SYNCABLE_UID, createdEntityUid);
 
     /// navigate to the form screen to fill the rest of the fields
-    Get.to(const DataSubmissionScreen(), arguments: bundle);
+    await Get.to(const DataSubmissionScreen(), arguments: bundle);
   }
 
-  // Future<void> _createEntity(
-  //     BuildContext context, WidgetRef ref, FormListItemModel formModel) async {
-  //   // Implement the function to create the entity
-  //   // This function should also handle opening the form to fill the rest of the fields
-  //
-  //   // For example:
-  //   // final newEntity = SyncableEntity(name: name, ...);
-  //   // Add the new entity to your data source
-  //   final mainFieldValues =
-  //       formModel.fields?.map((field) => field.controller?.text).toList();
-  //   final syncableEntityInitialRepository = ref.watch(
-  //       syncableEntityInitialRepositoryProvider(formCode: formModel.formCode));
-  //
-  //   final activityUid = formModel.activity!;
-  //   final teamUid = formModel.team!;
-  //
-  //   final syncableId = await syncableEntityInitialRepository.createSyncable(
-  //       activityUid: activityUid,
-  //       teamUid: teamUid,
-  //       mainFieldValues: formModel.fields);
-  //
-  //   // After adding the entity, close the dialog
-  //   // Check if the context is still mounted
-  //   if (!context.mounted) {
-  //     return;
-  //   }
-  //
-  //   Navigator.of(context).pop();
-  //
-  //   Bundle bundle = Bundle();
-  //   bundle = bundle.putString(ACTIVITY_UID, formModel.activity);
-  //   bundle = bundle.putString(TEAM_UID, formModel.team);
-  //   bundle = bundle.putString(FORM_UID, formModel.form);
-  //   bundle = bundle.putString(FORM_CODE, formModel.formCode);
-  //   bundle = bundle.putString(SYNCABLE_UID, syncableId);
-  //
-  //   /// navigate to the form screen to fill the rest of the fields
-  //   Get.to(const FormScreen(), arguments: bundle);
-  //   // Navigator.push(context,
-  //   //     MaterialPageRoute(builder: (context) => const FormScreen()));
-  // }
-
-  void navigateToEntitiesList(FormListItemModel? formModel) {
+  Future<void> navigateToEntitiesList(FormListItemModel? formModel) async {
     Bundle bundle = Bundle();
     bundle = bundle.putString(ACTIVITY_UID, formModel!.activity);
     bundle = bundle.putString(TEAM_UID, formModel.team);
     bundle = bundle.putString(FORM_UID, formModel.form);
     bundle = bundle.putString(FORM_CODE, formModel.formCode);
 
-    Get.to(const EntitiesListScreen(), arguments: bundle);
+    await Get.to(EntitiesListScreen(formModel: formModel), arguments: bundle);
   }
 }
