@@ -10,19 +10,19 @@ import 'package:dio/dio.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../commons/extensions/dynamic_extensions.dart';
+import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
 import 'package:d2_remote/modules/datarun_shared/sync/call/d2_progress.dart';
 import 'package:d2_remote/modules/datarun_shared/sync/call/d2_progress_status.dart';
-import '../../../core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
-import '../../../core/d2_remote_extensions/tracker/queries/event_query_download_extension.dart';
-import '../../../core/d2_remote_extensions/tracker/queries/event_query_upload_extension.dart';
-import '../../../core/d2_remote_extensions/tracker/queries/tei_upload_extension.dart';
-import '../../../core/sync/sync_metadata.dart';
-import '../../../core/tracker/tracker_d2_progress.dart';
-import 'sync_metadata_worker.dart';
-import 'sync_presenter.dart';
-import 'sync_result.dart';
-import 'sync_status_controller.dart';
+import 'package:mass_pro/core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
+import 'package:mass_pro/core/d2_remote_extensions/tracker/queries/event_query_download_extension.dart';
+import 'package:mass_pro/core/d2_remote_extensions/tracker/queries/event_query_upload_extension.dart';
+import 'package:mass_pro/core/d2_remote_extensions/tracker/queries/tei_upload_extension.dart';
+import 'package:mass_pro/core/sync/sync_metadata.dart';
+import 'package:mass_pro/core/tracker/tracker_d2_progress.dart';
+import 'package:mass_pro/main/data/service/sync_metadata_worker.dart';
+import 'package:mass_pro/main/data/service/sync_presenter.dart';
+import 'package:mass_pro/main/data/service/sync_result.dart';
+import 'package:mass_pro/main/data/service/sync_status_controller.dart';
 
 part 'sync_presenter_impl.g.dart';
 

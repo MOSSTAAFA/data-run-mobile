@@ -3,10 +3,10 @@ import 'package:mass_pro/sdk/core/common/value_type_rendering_type.dart';
 import 'package:mass_pro/sdk/core/program/section_rendering_type.dart';
 import 'package:flutter/material.dart';
 
-import '../../commons/custom_widgets/fields/form_edit_text.widget.dart';
-import '../../commons/custom_widgets/form_card.dart';
+import 'package:mass_pro/commons/custom_widgets/fields/form_edit_text.widget.dart';
+import 'package:mass_pro/commons/custom_widgets/form_card.dart';
 import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
-import '../model/field_ui_model.dart';
+import 'package:mass_pro/form/model/field_ui_model.dart';
 
 class ItemWidget extends StatelessWidget {
   const ItemWidget({super.key, this.item});
@@ -109,8 +109,7 @@ class ItemWidget extends StatelessWidget {
             style: const TextStyle(fontSize: 20),
           ), //layout.form_unsupported
       null: () => const SizedBox.shrink(),
-    }).orElse(
-        () => FormEditText(item: item)); //layout.form_edit_text_custom);
+    }).orElse(() => FormEditText(item: item)); //layout.form_edit_text_custom);
 
     // switch (valueType) {
     //   case ValueType.AGE:
@@ -225,7 +224,6 @@ class ItemWidget extends StatelessWidget {
     // }
   }
 
-  @override
   Widget getWidgetForSection() {
     return const FormCard(
       // isLast: true,

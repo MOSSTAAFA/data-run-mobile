@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/data_run/form/entity_form_listing_repository.dart';
-import 'package:mass_pro/data_run/screens/project_details/entity_creation_dialog/dynamic_form_field.widget.dart';
+import 'package:mass_pro/data_run/form/form.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
+import 'package:mass_pro/data_run/screens/project_details/entity_creation_dialog/dynamic_form_field.widget.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_item.model.dart';
 import 'package:mass_pro/generated/l10n.dart';
 
@@ -22,7 +22,6 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
 
   bool _isLoading = false;
-  List<QFieldModel>? _fields;
 
   @override
   void dispose() {
@@ -50,8 +49,8 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
         // Call the function to create entity
         _formKey.currentState!.save();
         final updatedFields = widget.formModel.fields
-            ?.map((QFieldModel field) =>
-                field.setValue(_formKey.currentState!.value[field.uid] ?? field.value))
+            ?.map((QFieldModel field) => field.setValue(
+                _formKey.currentState!.value[field.uid] ?? field.value))
             .toList();
         final updatedModel = widget.formModel.copyWith(fields: updatedFields);
 

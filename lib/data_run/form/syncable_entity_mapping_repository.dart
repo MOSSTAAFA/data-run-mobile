@@ -16,26 +16,6 @@ import 'package:mass_pro/data_run/form/syncable_object_repository.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
 import 'package:mass_pro/form/model/key_board_action_type.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-part 'syncable_entity_mapping_repository.g.dart';
-
-/// Depends on Bundle from the route
-///
-@riverpod
-SyncableEntityMappingRepository syncableEntityMappingRepository(
-  SyncableEntityMappingRepositoryRef ref, {
-  required DynamicForm form,
-  required SyncableEntity syncableEntity,
-  required SyncableQuery d2SyncableQuery,
-}) {
-  return SyncableEntityMappingRepository(
-      form: form,
-      syncableEntity: syncableEntity,
-      syncableQuery: d2SyncableQuery,
-      syncableObjectRepository:
-          SyncableObjectRepository(syncableEntity.id!, d2SyncableQuery));
-}
 
 class SyncableEntityMappingRepository {
   SyncableEntityMappingRepository(

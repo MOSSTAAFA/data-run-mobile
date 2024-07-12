@@ -4,32 +4,6 @@ import 'package:d2_remote/modules/datarun_shared/queries/syncable.query.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:mass_pro/core/common/state.dart';
 import 'package:mass_pro/core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
-import 'package:mass_pro/data_run/form/form_fields_repository.dart';
-import 'package:mass_pro/data_run/form/syncable_entity_initial_repository.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-part 'entity_form_listing_repository.g.dart';
-
-@riverpod
-SyncableEntityInitialRepository syncableEntityInitialRepository(
-    SyncableEntityInitialRepositoryRef ref,
-    {required String formCode,
-    String? syncableUid}) {
-  final d2SyncableQuery =
-      ref.watch(databaseSyncableQueryProvider(formCode)).provideQuery();
-  return SyncableEntityInitialRepository(ref,
-      d2SyncableQuery: d2SyncableQuery,
-      syncableUid: syncableUid,
-      formCode: formCode);
-}
-
-@riverpod
-EntityFormListingRepository entityFormListingRepository(
-    EntityFormListingRepositoryRef ref, String formCode) {
-  final d2SyncableQuery =
-      ref.watch(databaseSyncableQueryProvider(formCode)).provideQuery();
-  return EntityFormListingRepository(d2SyncableQuery: d2SyncableQuery);
-}
 
 class EntityFormListingRepository {
   EntityFormListingRepository({required this.d2SyncableQuery});

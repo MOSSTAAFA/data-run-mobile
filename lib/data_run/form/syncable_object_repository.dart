@@ -1,7 +1,7 @@
+import 'package:d2_remote/core/datarun/utilities/date_utils.dart';
 import 'package:d2_remote/modules/data/tracker/models/geometry.dart';
 import 'package:d2_remote/modules/datarun_shared/entities/syncable.entity.dart';
 import 'package:d2_remote/modules/datarun_shared/queries/syncable.query.dart';
-import 'package:d2_remote/core/datarun/utilities/date_utils.dart';
 import 'package:mass_pro/data_run/form/syncable_status.dart';
 
 class SyncableObjectRepository {

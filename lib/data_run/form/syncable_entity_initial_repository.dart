@@ -1,17 +1,10 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:d2_remote/modules/data/tracker/models/geometry.dart';
-import 'package:d2_remote/modules/datarun/iccm/entities/chv_register.entity.dart';
-import 'package:d2_remote/modules/datarun/iccm/entities/chv_session.entity.dart';
-import 'package:d2_remote/modules/datarun/itns/entities/itns_village.entity.dart';
 import 'package:d2_remote/modules/datarun_shared/entities/syncable.entity.dart';
 import 'package:d2_remote/modules/datarun_shared/queries/syncable.query.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:mass_pro/commons/extensions/standard_extensions.dart';
-import 'package:mass_pro/data_run/form/entity_form_listing_repository.dart';
-import 'package:mass_pro/data_run/form/map_field_value_to_user.dart';
-import 'package:mass_pro/data_run/form/syncable_object_repository.dart';
-import 'package:mass_pro/data_run/form/syncable_status.dart';
+import 'package:mass_pro/data_run/form/form.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
 
 import '../errors_management/error_management.dart';

@@ -5,7 +5,6 @@ import 'package:mass_pro/commons/custom_widgets/fields/form_edit_text.widget.dar
 import 'package:mass_pro/form/model/field_ui_model.dart';
 import 'package:mass_pro/form/ui/event/list_view_ui_events.dart';
 import 'package:mass_pro/form/ui/intent/form_intent.dart';
-import 'package:mass_pro/form/ui/item_widget.widget.dart';
 import 'package:mass_pro/form/ui/view_model/form_view_model_notifier.dart';
 
 class DataEntryItemWidget extends ConsumerWidget {

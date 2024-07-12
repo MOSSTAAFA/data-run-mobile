@@ -1,5 +1,13 @@
 import 'package:mass_pro/data_run/form/org_unit_d_configuration.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'display_name_provider.g.dart';
+
+@riverpod
+DisplayNameProvider displayNameProvider(DisplayNameProviderRef ref) {
+  return const DisplayNameProvider(OrgUnitDConfiguration());
+}
 
 class DisplayNameProvider {
   const DisplayNameProvider(this.orgUnitConfiguration);

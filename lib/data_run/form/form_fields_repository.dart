@@ -10,11 +10,7 @@ import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/commons/date/field_with_issue.dart';
 import 'package:mass_pro/commons/helpers/iterable.dart';
 import 'package:mass_pro/data_run/engine/rule_engine.dart';
-import 'package:mass_pro/data_run/form/database_syncable_query.dart';
-import 'package:mass_pro/data_run/form/display_name_provider.dart';
-import 'package:mass_pro/data_run/form/org_unit_d_configuration.dart';
-import 'package:mass_pro/data_run/form/syncable_entity_mapping_repository.dart';
-import 'package:mass_pro/data_run/screens/data_submission_form/model/q_data_integrity_check_result.dart';
+import 'package:mass_pro/data_run/form/form.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
 import 'package:mass_pro/form/model/row_action.dart';
 import 'package:mass_pro/form/ui/validation/field_error_message_provider.dart';
@@ -23,23 +19,6 @@ import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'form_fields_repository.g.dart';
-
-@riverpod
-DisplayNameProvider displayNameProvider(DisplayNameProviderRef ref) {
-  return const DisplayNameProvider(OrgUnitDConfiguration());
-}
-
-@riverpod
-FieldErrorMessageProvider fieldErrorMessageProvider(
-    FieldErrorMessageProviderRef ref) {
-  return const FieldErrorMessageProvider();
-}
-
-@riverpod
-DatabaseSyncableQuery databaseSyncableQuery(
-    DatabaseSyncableQueryRef ref, String formCode) {
-  return DatabaseSyncableQuery(formCode);
-}
 
 @riverpod
 Future<FormFieldsRepository> formFieldsRepository(
@@ -98,15 +77,8 @@ class FormFieldsRepository {
   /// message representing the an error message if there are any
   final FieldErrorMessageProvider fieldErrorMessageProvider;
 
-  /// map of mandatory Fields Without Value
-  IMap<String, String> _mandatoryItemsWithoutValue = IMap({});
-
-  /// current focused item
-  String? _focusedItemId;
-
-  /// Data Integrity is checking and validating the form entries
-  /// when Data Integrity is run this field is set to true
-  bool _runDataIntegrity = false;
+  // /// map of mandatory Fields Without Value
+  // IMap<String, String> _mandatoryItemsWithoutValue = IMap({});
 
   /// updates the field model in _itemList with the value based on the uid
   Future<void> updateValueOnList(
@@ -209,41 +181,41 @@ class FormFieldsRepository {
     }
   }
 
-  /// pure function doesn't effect this class variables
-  /// runs at finishing data entry, either by clicking back key
-  /// or save key, if there are errors it will notify in the UI
-  QDataIntegrityCheckResult runDataIntegrityCheck(
-      {required bool allowDiscard}) {
-    _runDataIntegrity = true;
-    final IList<FieldWithIssue> itemsWithErrors = _getFieldsWithError();
+  // /// pure function doesn't effect this class variables
+  // /// runs at finishing data entry, either by clicking back key
+  // /// or save key, if there are errors it will notify in the UI
+  // QDataIntegrityCheckResult runDataIntegrityCheck(
+  //     {required bool allowDiscard}) {
+  //   _runDataIntegrity = true;
+  //   final IList<FieldWithIssue> itemsWithErrors = _getFieldsWithError();
 
-    final IList<FieldWithIssue> itemsWithWarning = IList([]);
-    if (itemsWithErrors.isNotEmpty) {
-      return FieldsWithErrorResult(
-          mandatoryFields: _mandatoryItemsWithoutValue,
-          fieldUidErrorList: itemsWithErrors,
-          warningFields: itemsWithWarning,
-          allowDiscard: allowDiscard);
-    }
+  //   final IList<FieldWithIssue> itemsWithWarning = IList([]);
+  //   if (itemsWithErrors.isNotEmpty) {
+  //     return FieldsWithErrorResult(
+  //         mandatoryFields: _mandatoryItemsWithoutValue,
+  //         fieldUidErrorList: itemsWithErrors,
+  //         warningFields: itemsWithWarning,
+  //         allowDiscard: allowDiscard);
+  //   }
 
-    if (_mandatoryItemsWithoutValue.isNotEmpty) {
-      return MissingMandatoryResult(
-          mandatoryFields: _mandatoryItemsWithoutValue,
-          errorFields: itemsWithErrors,
-          warningFields: itemsWithWarning,
-          allowDiscard: allowDiscard);
-    }
+  //   if (_mandatoryItemsWithoutValue.isNotEmpty) {
+  //     return MissingMandatoryResult(
+  //         mandatoryFields: _mandatoryItemsWithoutValue,
+  //         errorFields: itemsWithErrors,
+  //         warningFields: itemsWithWarning,
+  //         allowDiscard: allowDiscard);
+  //   }
 
-    if (itemsWithWarning.isNotEmpty) {
-      return FieldsWithWarningResult(fieldUidWarningList: itemsWithWarning);
-    }
+  //   if (itemsWithWarning.isNotEmpty) {
+  //     return FieldsWithWarningResult(fieldUidWarningList: itemsWithWarning);
+  //   }
 
-    if (backupOfChangedItems().isNotEmpty && allowDiscard) {
-      return const NotSavedResult();
-    }
+  //   if (backupOfChangedItems().isNotEmpty && allowDiscard) {
+  //     return const NotSavedResult();
+  //   }
 
-    return const SuccessfulResult();
-  }
+  //   return const SuccessfulResult();
+  // }
 
   IList<QFieldModel> backupOfChangedItems() {
     return _backupList;

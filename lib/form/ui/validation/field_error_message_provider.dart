@@ -19,6 +19,14 @@ import 'package:mass_pro/sdk/core/common/value_type/failures/url_failure.dart';
 
 import 'package:mass_pro/utils/navigator_key.dart';
 import 'package:mass_pro/form/ui/validation/failures/field_mask_failure.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+part 'field_error_message_provider.g.dart';
+
+@riverpod
+FieldErrorMessageProvider fieldErrorMessageProvider(
+    FieldErrorMessageProviderRef ref) {
+  return const FieldErrorMessageProvider();
+}
 
 class FieldErrorMessageProvider {
   const FieldErrorMessageProvider();

@@ -38,8 +38,9 @@ Future<void> main() async {
   };
 
   await SentryFlutter.init(
-        (options) {
-      options.dsn = 'https://c39a75530f4b8694183508a689bbafb7@o4504831846645760.ingest.us.sentry.io/4507587127214080';
+    (options) {
+      options.dsn =
+          'https://c39a75530f4b8694183508a689bbafb7@o4504831846645760.ingest.us.sentry.io/4507587127214080';
       // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
       // We recommend adjusting this value in production.
       options.tracesSampleRate = 1.0;
@@ -51,20 +52,11 @@ Future<void> main() async {
       observers: [
         ProviderLogger(
             providersNameToLog:
-            const IListConst(const ['formFieldsRepositoryProvider']))
+                const IListConst(const ['formFieldsRepositoryProvider']))
       ],
       child: const App(),
     )),
   );
-
-  // runApp(ProviderScope(
-  //   observers: [
-  //     ProviderLogger(
-  //         providersNameToLog:
-  //             const IListConst(const ['formFieldsRepositoryProvider']))
-  //   ],
-  //   child: const App(),
-  // ));
 }
 
 class App extends ConsumerWidget {
@@ -94,18 +86,6 @@ class App extends ConsumerWidget {
         Locale('en', ''),
       ],
       locale: locale,
-      // localeResolutionCallback: (locale, supportedLocales) {
-      //   if (locale != null) {
-      //     return locale;
-      //   }
-      //   for (final Locale supportedLocale in supportedLocales) {
-      //     if (supportedLocale.languageCode == locale?.languageCode &&
-      //         supportedLocale.countryCode == locale?.countryCode) {
-      //       return supportedLocale;
-      //     }
-      //   }
-      //   return supportedLocales.first;
-      // },
       initialRoute: SplashScreen.route,
       getPages: [
         GetPage(

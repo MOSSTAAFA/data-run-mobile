@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/data_run/errors_management/d_error_localization.dart';
 
 class ErrorHandlingObserver extends ProviderObserver {
 

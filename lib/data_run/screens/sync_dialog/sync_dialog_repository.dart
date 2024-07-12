@@ -1,5 +1,5 @@
 import 'package:d2_remote/modules/datarun_shared/queries/syncable.query.dart';
-import 'package:mass_pro/data_run/form/form_fields_repository.dart';
+import 'package:mass_pro/data_run/form/form.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'sync_dialog_repository.g.dart';
