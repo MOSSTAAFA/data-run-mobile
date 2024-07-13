@@ -1,7 +1,10 @@
+import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
+import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
+import 'package:mass_pro/data_run/utils/randomIcon.dart';
 
 class QChoiceChip extends StatefulWidget {
   const QChoiceChip({super.key, required this.fieldModel});
@@ -15,21 +18,21 @@ class QChoiceChip extends StatefulWidget {
 class _QChoiceChipState extends State<QChoiceChip> {
   @override
   Widget build(BuildContext context) {
-    return FormBuilderChoiceChip<String>(
+    return FormBuilderChoiceChip<FormOption>(
       key: ValueKey(widget.fieldModel.uid),
+      valueTransformer: (FormOption? option) => option?.name,
       selectedColor: Colors.lightGreenAccent,
       onReset: () => widget.fieldModel.onClear(),
       name: widget.fieldModel.uid,
       enabled: widget.fieldModel.isEditable,
-      validator:
-          widget.fieldModel.isMandatory ? FormBuilderValidators.required() : null,
-      initialValue:
-          (widget.fieldModel.value ?? '').isNotEmpty ? widget.fieldModel.value : null,
+      validator: widget.fieldModel.isMandatory
+          ? FormBuilderValidators.required()
+          : null,
+      initialValue: widget.fieldModel.getOption(),
       options: _getChipOptions(widget.fieldModel.options!.unlock, wide: true),
-      onChanged: (String? value) {
-          widget.fieldModel.onSaveOption(value);
+      onChanged: (FormOption? value) {
+        widget.fieldModel.onSaveOption(value);
       },
-
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
         contentPadding: const EdgeInsets.only(left: 10, top: 30),
@@ -37,25 +40,25 @@ class _QChoiceChipState extends State<QChoiceChip> {
         labelStyle: Theme.of(context).textTheme.headlineSmall,
         fillColor: Colors.red.shade200,
       ),
-
     );
   }
 
-  List<FormBuilderChipOption<T>> _getChipOptions<T>(List<T> options,
+  List<FormBuilderChipOption<FormOption>> _getChipOptions(
+      List<FormOption> options,
       {bool? wide}) {
     return options
-        .map((option) => FormBuilderChipOption(
+        .map((option) => FormBuilderChipOption<FormOption>(
               value: option,
               avatar: !(wide ?? false)
-                  ? const CircleAvatar(child: Icon(Icons.airplanemode_on))
+                  ? CircleAvatar(child: Icon(getRandomIcon(option.name)))
                   : null,
               child: wide ?? false
                   ? Container(
                       padding: const EdgeInsets.all(5.0),
                       child: Column(
                         children: [
-                          Text(option.toString().toUpperCase()),
-                          const Icon(Icons.airplanemode_on),
+                          Text(getItemLocalString(option.label)),
+                          Icon(getRandomIcon(option.name)),
                         ],
                       ))
                   : null,

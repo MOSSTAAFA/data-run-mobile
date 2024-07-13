@@ -24,7 +24,6 @@ class _QSwitchFieldState extends State<QSwitchField> {
         border: const OutlineInputBorder(),
         contentPadding: const EdgeInsets.only(left: 20, top: 40),
         labelText: widget.fieldModel.label,
-        icon: const Icon(Icons.access_alarm_outlined),
         fillColor: Colors.red.shade200,
       ),
       onChanged: (bool? value) {

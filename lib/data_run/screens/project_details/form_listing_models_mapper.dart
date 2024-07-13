@@ -7,6 +7,7 @@ import 'package:mass_pro/data_run/form/form.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_item.model.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_items_models_notifier.dart';
+import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 
 class FormListingModelsMapper {
@@ -70,7 +71,7 @@ class FormListingModelsMapper {
               isFocused: false,
               isEditable: true,
               isMandatory: field.required,
-              label: field.label,
+              label: getItemLocalString(field.label),
               options: field.options?.lock,
               valueType: ValueType.getValueType(field.type),
               fieldRendering: FieldValueRenderingUtil.getFieldValueRendering(

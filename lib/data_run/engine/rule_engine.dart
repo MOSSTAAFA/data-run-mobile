@@ -5,6 +5,7 @@ import 'package:expressions/expressions.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:mass_pro/data_run/form/map_field_value_to_user.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
+import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
 
 class RuleEngine {
   RuleEngine(this._evaluator);
@@ -76,8 +77,8 @@ class RuleEngine {
                   updatedFields, field.uid, rule.action, rule.message);
             } else {
               // Reset action if condition is not met
-              updatedFields = _resetAction(
-                  updatedFields, field.uid, rule.action, rule.message);
+              updatedFields =
+                  _resetAction(updatedFields, field.uid, rule.action);
             }
           }
         }
@@ -86,8 +87,8 @@ class RuleEngine {
     return updatedFields;
   }
 
-  IList<QFieldModel> applyAction(
-      IList<QFieldModel> fields, String uid, String? action, String? message) {
+  IList<QFieldModel> applyAction(IList<QFieldModel> fields, String uid,
+      String? action, Map<String, String>? message) {
     final fieldsMap = _getFieldsModelMap(fields);
     switch (action) {
       case 'show':
@@ -102,12 +103,22 @@ class RuleEngine {
             .toIList();
       case 'error':
         return fieldsMap
-            .update(uid, (field) => field.builder().setError(message).build())
+            .update(
+                uid,
+                (field) => field
+                    .builder()
+                    .setError(getItemLocalString(message))
+                    .build())
             .values
             .toIList();
       case 'warning':
         return fieldsMap
-            .update(uid, (field) => field.builder().setWarning(message).build())
+            .update(
+                uid,
+                (field) => field
+                    .builder()
+                    .setWarning(getItemLocalString(message))
+                    .build())
             .values
             .toIList();
       default:
@@ -116,7 +127,7 @@ class RuleEngine {
   }
 
   IList<QFieldModel> _resetAction(
-      IList<QFieldModel> fields, String uid, String? action, String? message) {
+      IList<QFieldModel> fields, String uid, String? action) {
     final fieldsMap = _getFieldsModelMap(fields);
     switch (action) {
       case 'show':

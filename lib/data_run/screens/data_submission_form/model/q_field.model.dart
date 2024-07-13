@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:d2_remote/modules/datarun/form/shared/field_value_rendering_type.dart';
+import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
@@ -10,6 +11,7 @@ import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.mod
 import 'package:mass_pro/form/model/key_board_action_type.dart';
 import 'package:mass_pro/form/ui/intent/form_intent.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
+import 'package:d2_remote/core/datarun/utilities/date_utils.dart' as sdk;
 
 typedef IntentCallback = void Function(FormIntent intent);
 
@@ -50,7 +52,7 @@ class QFieldModel with EquatableMixin {
       this.focusNode});
 
   final String uid;
-  final IList<String>? options;
+  final IList<FormOption>? options;
   final IList<Rule>? fieldRules;
   final bool isFocused;
   final String? error;
@@ -154,14 +156,28 @@ class QFieldModel with EquatableMixin {
         FormIntent.onSave(uid: uid, value: result, valueType: valueType));
   }
 
+  FormOption? getOption() {
+    return options?.where((option) => option.name == value).firstOrNull;
+  }
   /// invoke FormInputFieldIntent.onSave
-  void onSaveOption(String? option) {
+  void onSaveOption(FormOption? option) {
     String? nextValue;
-    if (value == option) {
+    if (value == option?.name) {
       nextValue = null;
     } else {
-      nextValue = option;
+      nextValue = option?.name;
     }
+    intentCallback?.call(
+        FormIntent.onSave(uid: uid, value: nextValue, valueType: valueType));
+  }
+
+  /// invoke FormInputFieldIntent.onSave
+  void onSaveDate(DateTime? date) {
+    String? nextValue;
+    if (date != null) {
+      nextValue = sdk.DateUtils.databaseDateFormat().format(date);
+    }
+
     intentCallback?.call(
         FormIntent.onSave(uid: uid, value: nextValue, valueType: valueType));
   }

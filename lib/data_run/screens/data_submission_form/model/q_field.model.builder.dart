@@ -1,4 +1,5 @@
 import 'package:d2_remote/modules/datarun/form/shared/field_value_rendering_type.dart';
+import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,7 @@ class QFieldModelBuilder {
   }
 
   String? uid;
-  IList<String>? options;
+  IList<FormOption>? options;
   IList<Rule>? fieldRules;
   bool? isFocused;
   String? error;
@@ -60,7 +61,7 @@ class QFieldModelBuilder {
     return this;
   }
 
-  QFieldModelBuilder setOptions(IList<String>? options) {
+  QFieldModelBuilder setOptions(IList<FormOption>? options) {
     this.options = options;
     return this;
   }

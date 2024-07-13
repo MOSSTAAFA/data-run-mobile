@@ -1,9 +1,12 @@
 import 'package:d2_remote/core/datarun/utilities/date_utils.dart' as sdk;
+import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:mass_pro/data_run/form/map_field_value_to_user.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
+import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
+import 'package:mass_pro/data_run/utils/randomIcon.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:mass_pro/sdk/core/common/value_type_rendering_type.dart';
 
@@ -112,9 +115,10 @@ class DynamicFormFieldWidget extends StatelessWidget {
               ),
             ));
       case ValueType.SelectOne:
-        return FormBuilderRadioGroup<String?>(
+        return FormBuilderRadioGroup<FormOption?>(
           name: fieldModel.uid,
           enabled: fieldModel.isEditable,
+          valueTransformer: (FormOption? option) => option?.name,
           validator:
               fieldModel.isMandatory ? FormBuilderValidators.required() : null,
           // initialValue: (fieldModel.controller?.text ?? '').isNotEmpty
@@ -124,17 +128,11 @@ class DynamicFormFieldWidget extends StatelessWidget {
           wrapSpacing: 10.0,
           orientation: _getOptionsOrientation(fieldModel),
           wrapRunSpacing: 10.0,
-          onChanged: (String? value) {
+          onChanged: (FormOption? value) {
             if (value != null) {
               // fieldModel.controller?.text = value;
             }
           },
-          decoration: InputDecoration(
-              border: const OutlineInputBorder(),
-              contentPadding: const EdgeInsets.only(left: 20, top: 40),
-              labelText: fieldModel.label,
-              icon: const Icon(Icons.access_alarm_outlined),
-              fillColor: Colors.red.shade200),
           itemDecoration: BoxDecoration(
               color: Colors.blueGrey.shade200,
               border: Border.all(color: Colors.blueAccent),
@@ -178,16 +176,17 @@ class DynamicFormFieldWidget extends StatelessWidget {
     }
   }
 
-  List<FormBuilderFieldOption<T>> _getFieldOptions<T>(List<T> options) {
+  List<FormBuilderFieldOption<FormOption>> _getFieldOptions(
+      List<FormOption> options) {
     return options
-        .map((option) => FormBuilderFieldOption(
+        .map((option) => FormBuilderFieldOption<FormOption>(
               value: option,
               child: Container(
                   padding: const EdgeInsets.all(5.0),
                   child: Column(
                     children: [
-                      Text(option.toString().toUpperCase()),
-                      const Icon(Icons.airplanemode_on)
+                      Text(getItemLocalString(option.label)),
+                      Icon(getRandomIcon(option.name))
                     ],
                   )),
             ))

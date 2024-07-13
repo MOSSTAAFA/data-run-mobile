@@ -14,6 +14,7 @@ import 'package:mass_pro/commons/extensions/value_extensions.dart';
 import 'package:mass_pro/core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
 import 'package:mass_pro/data_run/form/syncable_object_repository.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
+import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
 import 'package:mass_pro/form/model/key_board_action_type.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 
@@ -192,7 +193,7 @@ class SyncableEntityMappingRepository {
         isFocused: false,
         isEditable: true,
         isMandatory: field.required,
-        label: field.label,
+        label: getItemLocalString(field.label) ,
         value: value is String ? value : value?.toString(),
         valueType: valueType,
         options: field.options?.lock,

@@ -129,13 +129,13 @@ void main() {
           field: 'field1',
           expression: 'true',
           action: 'error',
-          message: 'Error message');
+          message: <String, String>{'en': 'Error message'});
       final warningRule = Rule(
           id: 'rule4',
           field: 'field1',
           expression: 'true',
           action: 'warning',
-          message: 'Warning message');
+          message: <String, String>{'en': 'Warning message'});
 
       when(mockEvaluator.eval(any, any)).thenReturn(true);
 
@@ -156,10 +156,19 @@ void main() {
       expect(updatedFields[0].warning, 'Warning message');
     });
 
-    test('Fields with show rules are initially hidden if condition is not met', () async {
-      final rule1 = Rule(id: 'rule1', field: 'field1', expression: 'false', action: 'show');
+    test('Fields with show rules are initially hidden if condition is not met',
+        () async {
+      final rule1 = Rule(
+          id: 'rule1', field: 'field1', expression: 'false', action: 'show');
       final fields = IList([
-        QFieldModel(uid: 'field1', isVisible: true, fieldRules: IList([rule1]), isFocused: false, isEditable: true, isMandatory: true, label: 'Field 1'),
+        QFieldModel(
+            uid: 'field1',
+            isVisible: true,
+            fieldRules: IList([rule1]),
+            isFocused: false,
+            isEditable: true,
+            isMandatory: true,
+            label: 'Field 1'),
       ]);
 
       when(mockEvaluator.eval(any, any)).thenReturn(false);
