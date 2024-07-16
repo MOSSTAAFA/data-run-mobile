@@ -208,25 +208,6 @@ const String kPrefStateStorageKey = 'prefStateKey';
 const List<String> kLanguages = [
   'en',
   'ar',
-  'ar_dz',
-  'ar_bh',
-  'ar_eg',
-  'ar_iq',
-  'ar_jo',
-  'ar_kw',
-  'ar_lb',
-  'ar_ly',
-  'ar_ma',
-  'ar_om',
-  'ar_qa',
-  'ar_sa',
-  'ar_sy',
-  'ar_tn',
-  'ar_ae',
-  'ar_ye',
-  'en_GB',
-  'en_AU',
-  'en_US',
 ];
 
 const String kSettingsUserDetails = 'user_details';

@@ -41,7 +41,7 @@ class FormsTiles extends ConsumerWidget {
                           children: [
                             Text(
                               t.formName!,
-                              style: Theme.of(context).textTheme.headlineSmall,
+                              style: Theme.of(context).textTheme.titleMedium,
                             ),
                             const SizedBox(height: 8),
                             Wrap(

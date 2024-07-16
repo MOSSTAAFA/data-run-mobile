@@ -6,8 +6,15 @@ import 'dart:convert';
 IconData getRandomIcon(String code) {
   List<IconData> icons = [
     Icons.home,
-    Icons.favorite,
-    Icons.settings,
+    Icons.vaccines,
+    Icons.male,
+    Icons.girl,
+    Icons.female,
+    Icons.boy,
+    Icons.healing,
+    Icons.group,
+    Icons.bedroom_baby,
+    Icons.bed,
     Icons.person,
     Icons.camera,
     Icons.phone,

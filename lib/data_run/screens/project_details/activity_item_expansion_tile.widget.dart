@@ -72,11 +72,11 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
                 children: [
                   Text(
                     projectDetailItemModel.activityName,
-                    style: Theme.of(context).textTheme.headlineLarge,
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                   Text(
                     S.of(context).form(projectDetailItemModel.activeFormCount),
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
               ),
@@ -87,7 +87,7 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
         subtitle: projectDetailItemModel.valueListIsOpen
             ? Text(
                 S.of(context).viewAvailableForms,
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(context).textTheme.bodySmall,
               )
             : null,
         backgroundColor: cardColor,
@@ -102,7 +102,13 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
                       _showAddEntityDialog(context, ref, formModel),
                 )
               ]
-            : [ListTile(title: Text(S.of(context).noFormsAvailable))],
+            : [
+                ListTile(
+                    title: Text(
+                  S.of(context).noFormsAvailable,
+                  style: TextStyle(color: Colors.black38,),
+                ))
+              ],
       ),
     );
   }

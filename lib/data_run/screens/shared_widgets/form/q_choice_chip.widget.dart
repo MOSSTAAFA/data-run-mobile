@@ -34,10 +34,10 @@ class _QChoiceChipState extends State<QChoiceChip> {
         widget.fieldModel.onSaveOption(value);
       },
       decoration: InputDecoration(
-        border: const OutlineInputBorder(),
-        contentPadding: const EdgeInsets.only(left: 10, top: 30),
+        border: const OutlineInputBorder(gapPadding: 20),
+        contentPadding: const EdgeInsets.all(16),
         labelText: widget.fieldModel.label,
-        labelStyle: Theme.of(context).textTheme.headlineSmall,
+        labelStyle: Theme.of(context).textTheme.titleLarge,
         fillColor: Colors.red.shade200,
       ),
     );
@@ -50,15 +50,19 @@ class _QChoiceChipState extends State<QChoiceChip> {
         .map((option) => FormBuilderChipOption<FormOption>(
               value: option,
               avatar: !(wide ?? false)
-                  ? CircleAvatar(child: Icon(getRandomIcon(option.name)))
+                  ? CircleAvatar(
+                      child: Icon(getRandomIcon(option.name), size: 30))
                   : null,
               child: wide ?? false
                   ? Container(
-                      padding: const EdgeInsets.all(5.0),
+                      padding: const EdgeInsets.all(1.0),
                       child: Column(
                         children: [
                           Text(getItemLocalString(option.label)),
-                          Icon(getRandomIcon(option.name)),
+                          Icon(
+                            getRandomIcon(option.name),
+                            size: 30,
+                          ),
                         ],
                       ))
                   : null,

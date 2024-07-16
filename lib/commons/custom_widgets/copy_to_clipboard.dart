@@ -57,7 +57,7 @@ class CopyToClipboard extends StatelessWidget {
   void _onTap(BuildContext context) {
     Clipboard.setData(ClipboardData(text: value ?? ''));
     // showToast(
-    //   L.of(context)!.lookup('copiedToClipboard').replaceFirst(
+    //   L('copiedToClipboard').replaceFirst(
     //         ':value',
     //         value!.replaceAll('\n', ' '),
     //       ),

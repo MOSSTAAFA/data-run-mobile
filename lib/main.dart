@@ -75,15 +75,15 @@ class App extends ConsumerWidget {
             const AppBarTheme().copyWith(backgroundColor: Colors.blue.shade200),
       ),
       localizationsDelegates: const [
-        L.delegate,
+        // L.delegate,
         S.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
       supportedLocales: const [
-        Locale('ar', ''),
-        Locale('en', ''),
+        Locale('ar', 'ye'),
+        Locale('en', 'us'),
       ],
       locale: locale,
       initialRoute: SplashScreen.route,
