@@ -1,6 +1,6 @@
+import 'package:mass_pro/form/ui/validation/failures/field_mask_failure.dart';
 import 'package:mass_pro/sdk/core/common/value_type/validators/value_type_validator.dart';
 import 'package:mass_pro/sdk/core/mp/helpers/result.dart';
-import 'package:mass_pro/form/ui/validation/failures/field_mask_failure.dart';
 
 class FieldMaskValidator extends ValueTypeValidator<FieldMaskFailure> {
   String? fieldMask;

@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-
 import 'package:mass_pro/form/model/value_store_result.dart';
 
 part 'store_result.freezed.dart';

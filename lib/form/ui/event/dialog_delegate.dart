@@ -1,9 +1,8 @@
 import 'package:d2_remote/core/datarun/utilities/date_utils.dart';
-import 'package:mass_pro/sdk/core/common/value_type.dart';
-
 import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
-import 'package:mass_pro/form/ui/intent/form_intent.dart';
 import 'package:mass_pro/form/ui/event/list_view_ui_events.dart';
+import 'package:mass_pro/form/ui/intent/form_intent.dart';
+import 'package:mass_pro/sdk/core/common/value_type.dart';
 
 class DialogDelegate {
   static FormIntent handleDateInput(String uid, int year, int month, int day) {

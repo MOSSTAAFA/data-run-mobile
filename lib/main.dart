@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:d2_remote/d2_remote.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,13 +11,12 @@ import 'package:mass_pro/commons/prefs/preference_provider.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_screen.widget.dart';
 import 'package:mass_pro/generated/l10n.dart';
-import 'package:mass_pro/main/l10n/app_localizations.dart';
 import 'package:mass_pro/main/usescases/splash/splash_presenter.dart';
 import 'package:mass_pro/main/usescases/splash/splash_screen.widget.dart';
 import 'package:mass_pro/riverpod/provider_logger.dart';
 import 'package:mass_pro/utils/navigator_key.dart';
+import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
-import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'main.reflectable.dart';
 
@@ -25,7 +25,9 @@ Future<void> main() async {
   initializeReflectable();
 
   await PreferenceProvider.initialize();
-  await D2Remote.initialize();
+
+  await D2Remote.initialize(
+      databaseFactory: kIsWeb ? databaseFactoryFfiWeb : null);
 
   FlutterError.demangleStackTrace = (StackTrace stack) {
     if (stack is stack_trace.Trace) {
@@ -37,7 +39,7 @@ Future<void> main() async {
     return stack;
   };
 
-  await SentryFlutter.init(
+  /*await SentryFlutter.init(
     (options) {
       options.dsn =
           'https://c39a75530f4b8694183508a689bbafb7@o4504831846645760.ingest.us.sentry.io/4507587127214080';
@@ -48,15 +50,17 @@ Future<void> main() async {
       // Setting to 1.0 will profile 100% of sampled transactions:
       options.profilesSampleRate = 1.0;
     },
-    appRunner: () => runApp(ProviderScope(
-      observers: [
-        ProviderLogger(
-            providersNameToLog:
-                const IListConst(const ['formFieldsRepositoryProvider']))
-      ],
-      child: const App(),
-    )),
-  );
+    appRunner: () => */
+  runApp(ProviderScope(
+    observers: [
+      ProviderLogger(
+          providersNameToLog:
+              const IListConst(const ['formFieldsRepositoryProvider']))
+    ],
+    child: const App(),
+  )) /*,
+  )*/
+      ;
 }
 
 class App extends ConsumerWidget {
@@ -82,7 +86,7 @@ class App extends ConsumerWidget {
         GlobalWidgetsLocalizations.delegate,
       ],
       supportedLocales: const [
-        Locale('ar', 'ye'),
+        Locale('ar', ''),
         Locale('en', 'us'),
       ],
       locale: locale,

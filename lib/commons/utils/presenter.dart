@@ -1,12 +1,11 @@
 // Flutter imports:
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import 'package:d2_remote/shared/entities/identifiable.entity.dart';
 import 'package:flutter/material.dart';
-
 // Project imports:
-import '../../main/l10n/app_localizations.dart';
-import '../../utils/mass_utils/formatting.dart';
-import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
-import 'entity_base_fields.dart';
+import 'package:mass_pro/utils/mass_utils/utils.dart';
+
+import 'package:mass_pro/commons/utils/entity_base_fields.dart';
 
 class EntityPresenter {
   EntityPresenter initialize(IdentifiableEntity? entity, BuildContext context) {
@@ -20,12 +19,11 @@ class EntityPresenter {
   late BuildContext context;
 
   String? title({bool isNarrow = false}) {
-    final L localization = L.of(context)!;
     String? name = entity?.displayName;
 
     // TODO replace with this: https://github.com/flutter/flutter/issues/45336
     if ((name ?? '').isEmpty) {
-      name = L.of(context)!.lookup('pending');
+      name = L('pending');
     } //else if (name.length > 10) {
     return name;
     //}
@@ -53,22 +51,18 @@ class EntityPresenter {
   }
 
   Widget getField({required String field, required BuildContext context}) {
-    final L localization = L.of(context)!;
     return when(field, {
-      EntityBaseFields.status.name: () => Text(entity?.dirty ?? false
-          ? L.of(context)!.lookup('not_synced')
-          : L.of(context)!.lookup('synced')),
-      EntityBaseFields.created.name: () => Text(L.of(context)!.lookup('created')),
-      EntityBaseFields.last_updated.name: () =>
-          Text(L.of(context)!.lookup('last_updated')),
-      EntityBaseFields.uid.name: () => Text(L.of(context)!.lookup('uid')),
+      EntityBaseFields.status.name: () =>
+          Text(entity?.dirty ?? false ? L('not_synced') : L('synced')),
+      EntityBaseFields.created.name: () => Text(L('created')),
+      EntityBaseFields.last_updated.name: () => Text(L('last_updated')),
+      EntityBaseFields.uid.name: () => Text(L('uid')),
     }).orElse(() => Text('Error: $field not found'));
   }
 
   String presentCustomField(BuildContext context, String value) {
     if (['yes', 'no'].contains(value)) {
-      final localization = L.of(context)!;
-      return L.of(context)!.lookup(value);
+      return L(value);
     } else if (RegExp(r'^\d{4}-\d{2}-\d{2}$').hasMatch(value)) {
       return formatDate(value, context);
     }

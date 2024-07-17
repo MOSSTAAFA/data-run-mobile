@@ -1,13 +1,12 @@
-import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/data/tracker/entities/event_data_value.entity.dart';
 import 'package:d2_remote/modules/data/tracker/entities/tracked_entity_attribute_value.entity.dart';
 import 'package:d2_remote/modules/metadata/data_element/entities/data_element.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/tracked_entity_attribute.entity.dart';
-
 import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
 import 'package:mass_pro/commons/extensions/dynamic_value_extensions.dart';
 import 'package:mass_pro/commons/extensions/string_extension.dart';
+import 'package:mass_pro/sdk/core/common/value_type.dart';
 
 /// UserFriendlyTrackedEntityAttributeValueExtension
 extension UserFriendlyTrackedEntityAttributeValueExtension

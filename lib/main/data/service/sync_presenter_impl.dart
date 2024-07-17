@@ -1,18 +1,14 @@
 // ignore_for_file: avoid_dynamic_calls
 
-import 'package:mass_pro/sdk/core/arch/helpers/uids_helper.dart';
-import 'package:mass_pro/sdk/core/mp/helpers/result.dart';
 import 'package:d2_remote/modules/data/tracker/queries/event.query.dart';
 import 'package:d2_remote/modules/data/tracker/queries/tracked_entity_instance.query.dart';
+import 'package:d2_remote/modules/datarun_shared/sync/call/d2_progress.dart';
+import 'package:d2_remote/modules/datarun_shared/sync/call/d2_progress_status.dart';
 import 'package:d2_remote/modules/metadata/dataset/queries/data_set.query.dart';
 import 'package:d2_remote/modules/metadata/program/queries/program.query.dart';
 import 'package:dio/dio.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
 import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
-import 'package:d2_remote/modules/datarun_shared/sync/call/d2_progress.dart';
-import 'package:d2_remote/modules/datarun_shared/sync/call/d2_progress_status.dart';
 import 'package:mass_pro/core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
 import 'package:mass_pro/core/d2_remote_extensions/tracker/queries/event_query_download_extension.dart';
 import 'package:mass_pro/core/d2_remote_extensions/tracker/queries/event_query_upload_extension.dart';
@@ -23,6 +19,9 @@ import 'package:mass_pro/main/data/service/sync_metadata_worker.dart';
 import 'package:mass_pro/main/data/service/sync_presenter.dart';
 import 'package:mass_pro/main/data/service/sync_result.dart';
 import 'package:mass_pro/main/data/service/sync_status_controller.dart';
+import 'package:mass_pro/sdk/core/arch/helpers/uids_helper.dart';
+import 'package:mass_pro/sdk/core/mp/helpers/result.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'sync_presenter_impl.g.dart';
 

@@ -7,7 +7,7 @@ part of 'sync_status_controller.dart';
 // **************************************************************************
 
 String _$syncStatusControllerInstanceHash() =>
-    r'e8809e5bcb66e2dc49e5227eac9da8b565ef2c69';
+    r'0a03f67f5a937bb2dee845e8f5171f927a6fc11d';
 
 /// fun observeDownloadProcess(): LiveData<SyncStatusData> = downloadStatus
 ///

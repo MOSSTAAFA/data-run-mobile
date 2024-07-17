@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen.widget.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import 'package:mass_pro/main/usescases/bundle/bundle.dart';
-import 'package:mass_pro/utils/mass_utils/strings.dart';
 import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
 import 'package:mass_pro/commons/state/app_state.dart';
-
+import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen.widget.dart';
+import 'package:mass_pro/main/usescases/bundle/bundle.dart';
+import 'package:mass_pro/utils/mass_utils/strings.dart';
 import 'package:mass_pro/utils/navigator_key.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_state_notifier.g.dart';
 

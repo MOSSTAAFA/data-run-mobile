@@ -1,7 +1,7 @@
-import 'package:mass_pro/sdk/core/mp/period/period_type.dart';
 import 'package:d2_remote/modules/data/tracker/entities/enrollment.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity.dart';
+import 'package:mass_pro/sdk/core/mp/period/period_type.dart';
 
 abstract class EnrollmentEventGeneratorRepository {
   Future<Enrollment> enrollment(String enrollmentUid);

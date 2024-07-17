@@ -1,4 +1,3 @@
-import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/data/tracker/entities/enrollment.entity.dart';
 import 'package:d2_remote/modules/data/tracker/entities/event.entity.dart';
@@ -9,7 +8,6 @@ import 'package:d2_remote/modules/data/tracker/queries/tracked_entity_attribute_
 import 'package:d2_remote/modules/metadata/data_element/entities/data_element.entity.dart';
 import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dart';
 import 'package:d2_remote/modules/metadata/option_set/entities/option_group_option.entity.dart';
-
 import 'package:mass_pro/commons/date/entry_mode.dart';
 import 'package:mass_pro/commons/extensions/event_data_value_query_extension.dart';
 import 'package:mass_pro/commons/extensions/string_extension.dart';
@@ -22,6 +20,7 @@ import 'package:mass_pro/core/enrollment/enrollment_object_repository.dart';
 import 'package:mass_pro/form/model/enrollment_detail.dart';
 import 'package:mass_pro/form/model/store_result.dart';
 import 'package:mass_pro/form/model/value_store_result.dart';
+import 'package:mass_pro/sdk/core/common/value_type.dart';
 
 import '../../data_run/errors_management/error_management.dart';
 

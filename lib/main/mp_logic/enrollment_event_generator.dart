@@ -1,13 +1,12 @@
-import 'package:mass_pro/sdk/core/mp/period/period_type.dart';
 import 'package:d2_remote/modules/data/tracker/entities/enrollment.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity.dart';
 import 'package:dartx/dartx_io.dart';
-
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/commons/extensions/string_extension.dart';
 import 'package:mass_pro/commons/period/period_extensions.dart';
 import 'package:mass_pro/main/mp_logic/enrollment_event_generator_repository.dart';
+import 'package:mass_pro/sdk/core/mp/period/period_type.dart';
 
 import '../../data_run/errors_management/error_management.dart';
 

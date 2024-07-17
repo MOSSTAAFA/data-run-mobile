@@ -1,12 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:mass_pro/commons/prefs/preference_provider.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
 import 'package:mass_pro/commons/resources/resource_manager.dart' show resourceManagerProvider;
 import 'package:mass_pro/main/data/service/sync_data_worker.dart';
 import 'package:mass_pro/main/data/service/sync_metadata_worker.dart';
 import 'package:mass_pro/main/data/service/sync_presenter_impl.dart';
 import 'package:mass_pro/main/data/service/work_manager/nmc_worker/work_info.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'worker.g.dart';
 

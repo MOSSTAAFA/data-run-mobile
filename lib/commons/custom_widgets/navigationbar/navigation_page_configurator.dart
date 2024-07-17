@@ -1,8 +1,8 @@
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import 'package:dartx/dartx.dart';
 
-import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
-import '../../data_run/utils/view_actions.dart';
-import 'navigation_page.dart';
+import 'package:mass_pro/commons/data_run/utils/view_actions.dart';
+import 'package:mass_pro/commons/custom_widgets/navigationbar/navigation_page.dart';
 
 abstract class NavigationPageConfigurator {
   bool pageVisibility(ViewAction viewAction) {

@@ -3,7 +3,6 @@
 import 'package:d2_remote/shared/entities/base.entity.dart';
 import 'package:d2_remote/shared/queries/base.query.dart';
 import 'package:dio/dio.dart';
-
 import 'package:mass_pro/core/tracker/tracker_d2_progress.dart';
 import 'package:mass_pro/core/tracker/tracker_d2_progress_manager.dart';
 

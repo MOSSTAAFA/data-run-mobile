@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mass_pro/generated/l10n.dart';
+import 'package:mass_pro/utils/mass_utils/utils.dart';
 
-import '../../../main/l10n/app_localizations.dart';
-import 'decorated_form_field.dart';
+import 'package:mass_pro/commons/custom_widgets/fields/decorated_form_field.dart';
 
 class PasswordFormField extends StatefulWidget {
   const PasswordFormField(
@@ -40,17 +40,15 @@ class _PasswordFormFieldState extends State<PasswordFormField> {
 
   @override
   Widget build(BuildContext context) {
-    final localization = L.of(context)!.localized!;
-
     return DecoratedFormField(
-      key: ValueKey(widget.labelText ?? L.of(context)!.lookup('password')),
+      key: ValueKey(widget.labelText ?? L('password')),
       controller: widget.controller,
       readOnly: widget.readOnly,
       onSavePressed: widget.onSavePressed,
       autocorrect: false,
       autoValidate: widget.autoValidate,
       decoration: InputDecoration(
-        labelText: widget.labelText ?? L.of(context)!.lookup('password'),
+        labelText: widget.labelText ?? L('password'),
         suffixIcon: IconButton(
           alignment: Alignment.bottomCenter,
           tooltip: _isPasswordObscured
@@ -75,7 +73,7 @@ class _PasswordFormFieldState extends State<PasswordFormField> {
         if (value == null || value.isEmpty || value.trim().isEmpty) {
           return widget.newPassword
               ? null
-              : L.of(context)!.lookup('pleaseEnterYourPassword');
+              : L('pleaseEnterYourPassword');
         }
 
         if (!widget.newPassword) {
@@ -83,11 +81,11 @@ class _PasswordFormFieldState extends State<PasswordFormField> {
         }
 
         if (value.length < 4) {
-          return L.of(context)!.lookup('passwordIsTooShort');
+          return L('passwordIsTooShort');
         }
 
         if (!_validatePassword(value)) {
-          return L.of(context)!.lookup('passwordIsTooEasy');
+          return L('passwordIsTooEasy');
         }
 
         return null;

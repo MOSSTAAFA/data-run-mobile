@@ -14,12 +14,12 @@ import 'package:mass_pro/commons/state/app_state_notifier.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/view/view_base.dart';
 import 'package:mass_pro/generated/l10n.dart';
-import 'package:mass_pro/main/l10n/app_localizations.dart';
 import 'package:mass_pro/main/usescases/login/login_presenter.dart';
 import 'package:mass_pro/main/usescases/login/login_view.dart';
 import 'package:mass_pro/main/usescases/login/login_view_model.dart';
 import 'package:mass_pro/main/usescases/sync/sync_screen.widget.dart';
 import 'package:mass_pro/riverpod/use_on_init_hook.dart';
+import 'package:mass_pro/utils/mass_utils/utils.dart';
 import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -58,7 +58,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
 
   @override
   Widget build(BuildContext context) {
-    final localization = L.of(context)!;
     return SafeArea(
       child: Scaffold(
         body: Builder(
@@ -114,7 +113,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                       ),
                     ),
                     SizedBox(height: 16),
-                    Text(L.of(context)!.lookup('login'),
+                    Text(L('login'),
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.headlineMedium),
                     SizedBox(height: 16,),
@@ -134,15 +133,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                             .read(loginModelProvider.notifier)
                                             .onUserChanged(value),
                                         controller: _userController,
-                                        label: L.of(context)!.lookup('username'),
+                                        label: L('username'),
                                         keyboardType: TextInputType.name,
                                         readOnly:
                                             ref.watch(showLoginProgressProvider),
                                         validator: (String? val) {
                                           return val?.trim().isNullOrEmpty ?? false
-                                              ? L
-                                                  .of(context)!
-                                                  .lookup('enterYourUsername')
+                                              ? L('enterYourUsername')
                                               : null;
                                         },
                                         autofillHints: const [
@@ -188,7 +185,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                                 color: Colors.white),
                                             const SizedBox(width: 10),
                                             Text(
-                                              L.of(context)!.lookup('login'),
+                                              L('login'),
                                               style: const TextStyle(
                                                   fontSize: 18,
                                                   color: Colors.white),
@@ -301,7 +298,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
     } else {
       ref
           .read(appStateNotifierProvider.notifier)
-          .gotToNextScreen(const DashboardScreenWidget());
+          .gotToNextRoutePopAll(DashboardScreenWidget.route);
     }
   }
 
@@ -364,19 +361,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
 
   @override
   void showEmptyCredentialsMessage() {
-    final localization = L.of(context)!;
     showInfoDialog(
-        title: L.of(context)!.lookup('biometrics_dialog_title'),
-        message: L.of(context)!.lookup('biometrics_first_use_text'));
+        title: L('biometrics_dialog_title'),
+        message: L('biometrics_first_use_text'));
   }
 
   @override
   void showNoConnectionDialog() {
-    final localization = L.of(context)!;
     showInfoDialog(
-        title: L.of(context)!.lookup('network_unavailable'),
-        message: L.of(context)!.lookup('no_network_to_recover_account'),
-        positiveButtonText: L.of(context)!.lookup('ok'));
+        title: L('network_unavailable'),
+        message: L('no_network_to_recover_account'),
+        positiveButtonText: L('ok'));
   }
 
   @override

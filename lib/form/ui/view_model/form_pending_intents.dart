@@ -1,6 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../commons/extensions/dynamic_extensions.dart';
 import '../intent/form_intent.dart';
 
 part 'form_pending_intents.g.dart';

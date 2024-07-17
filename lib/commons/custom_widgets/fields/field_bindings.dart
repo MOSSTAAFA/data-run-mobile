@@ -1,10 +1,10 @@
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 
-import '../../../form/model/field_ui_model.dart';
-import '../../../form/ui/style/form_ui_color_type.dart';
-import '../../../form/ui/style/form_ui_model_style.dart';
-import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
+import 'package:mass_pro/form/model/field_ui_model.dart';
+import 'package:mass_pro/form/ui/style/form_ui_color_type.dart';
+import 'package:mass_pro/form/ui/style/form_ui_model_style.dart';
 
 typedef TextChangedListener = void Function(
     [String? value, int? start, int? count, int? after]);

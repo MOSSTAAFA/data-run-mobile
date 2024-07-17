@@ -1,15 +1,14 @@
 import 'package:d2_remote/d2_remote.dart';
 import 'package:get/get.dart';
-import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen.widget.dart';
-import 'package:mass_pro/main/usescases/login/login_screen.widget.dart';
-import 'package:mass_pro/main/usescases/sync/sync_screen.widget.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/commons/prefs/preference.dart';
 import 'package:mass_pro/commons/prefs/preference_provider.dart';
+import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen.widget.dart';
 import 'package:mass_pro/main/data/server/user_manager.dart';
 import 'package:mass_pro/main/data/server/user_manager_impl.dart';
+import 'package:mass_pro/main/usescases/login/login_screen.widget.dart';
+import 'package:mass_pro/main/usescases/sync/sync_screen.widget.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'splash_presenter.g.dart';
 
@@ -90,7 +89,7 @@ class SplashPresenter {
       required bool initialSyncDone,
       required bool initialDataSyncDone}) {
     if (isUserLogged && initialSyncDone && !sessionLocked) {
-      Get.off(DashboardScreenWidget(launchDataSync: initialDataSyncDone));
+      Get.offNamed(DashboardScreenWidget.route);
     } else if (isUserLogged && !initialSyncDone) {
       Get.off(const SyncScreen());
     } else {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import '../../../l10n/app_localizations.dart';
+import 'package:mass_pro/utils/mass_utils/utils.dart';
 
 class SelectableError extends StatelessWidget {
   const SelectableError({super.key, this.errorMessage = ''});
@@ -24,7 +23,7 @@ class SelectableError extends StatelessWidget {
           ),
           IconButton(
               icon: const Icon(Icons.content_copy),
-              tooltip: L.of(context)!.lookup('copyError'),
+              tooltip: L('copyError'),
               onPressed: () {
                 Clipboard.setData(ClipboardData(text: errorMessage));
               }),

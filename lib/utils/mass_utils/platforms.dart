@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 // Project imports:
-import 'package:mass_pro/main/l10n/app_localizations.dart';
+import 'package:mass_pro/utils/mass_utils/utils.dart';
 // Package imports:
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -87,7 +87,7 @@ String getLegacyAppURL(BuildContext context) => isAndroid()
 String getPdfRequirements(BuildContext context) {
   if (isMobile(context)) {
     final version = isAndroid() ? 'Android 5.0+' : 'iOS 11.0+';
-    return L.of(context)!.lookup('pdfMinRequirements').replaceFirst(':version', version);
+    return L('pdfMinRequirements').replaceFirst(':version', version);
   } else {
     return '';
   }

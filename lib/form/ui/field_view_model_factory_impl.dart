@@ -1,10 +1,5 @@
-import 'package:mass_pro/sdk/core/common/feature_type.dart';
-import 'package:mass_pro/sdk/core/common/value_type.dart';
-import 'package:mass_pro/sdk/core/common/value_type_device_rendering.dart';
-import 'package:mass_pro/sdk/core/program/section_rendering_type.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_tracked_entity_attribute.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/tracked_entity_attribute.entity.dart';
-
 import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
 import 'package:mass_pro/commons/extensions/value_extensions.dart';
 import 'package:mass_pro/commons/extensions/value_type_rendering_extension.dart';
@@ -19,6 +14,10 @@ import 'package:mass_pro/form/ui/provider/hint_provider.dart';
 import 'package:mass_pro/form/ui/provider/keyboard_action_provider.dart';
 import 'package:mass_pro/form/ui/provider/ui_event_types_provider.dart';
 import 'package:mass_pro/form/ui/provider/ui_style_provider.dart';
+import 'package:mass_pro/sdk/core/common/feature_type.dart';
+import 'package:mass_pro/sdk/core/common/value_type.dart';
+import 'package:mass_pro/sdk/core/common/value_type_device_rendering.dart';
+import 'package:mass_pro/sdk/core/program/section_rendering_type.dart';
 
 class FieldViewModelFactoryImpl implements FieldViewModelFactory {
   // LegendValueProvider legendValueProvider;

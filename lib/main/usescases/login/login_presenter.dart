@@ -1,9 +1,4 @@
-import 'package:mass_pro/data_run/errors_management/error_management.dart';
-import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen.widget.dart';
-import 'package:mass_pro/sdk/core/common/exception/validation_exception.dart';
 import 'package:d2_remote/modules/auth/user/models/login-response.model.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
 import 'package:mass_pro/commons/extensions/string_extension.dart';
@@ -11,10 +6,13 @@ import 'package:mass_pro/commons/network/network_utils.dart';
 import 'package:mass_pro/commons/prefs/preference.dart';
 import 'package:mass_pro/commons/prefs/preference_provider.dart';
 import 'package:mass_pro/commons/state/app_state_notifier.dart';
+import 'package:mass_pro/data_run/errors_management/error_management.dart';
+import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen.widget.dart';
 import 'package:mass_pro/main/data/server/user_manager.dart';
 import 'package:mass_pro/main/data/server/user_manager_impl.dart';
 import 'package:mass_pro/main/usescases/login/login_view.dart';
 import 'package:mass_pro/main/usescases/login/sync_is_performed_interactor.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'login_presenter.g.dart';
 
@@ -83,7 +81,7 @@ class LoginScreenPresenter {
         if (isUserLoggedIn && !isSessionLocked) {
           ref
               .read(appStateNotifierProvider.notifier)
-              .gotToNextScreenPopAll(const DashboardScreenWidget());
+              .gotToNextRoutePopAll(DashboardScreenWidget.route);
         } else if (isSessionLocked) {
           view.showUnlockButton();
         }

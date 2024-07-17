@@ -1,7 +1,7 @@
-import 'dart:math';
-import 'package:flutter/material.dart';
-import 'package:crypto/crypto.dart';
 import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
+import 'package:flutter/material.dart';
 
 IconData getRandomIcon(String code) {
   List<IconData> icons = [

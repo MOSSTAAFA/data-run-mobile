@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localization.dart';
-import 'package:mass_pro/main/l10n/app_localizations.dart';
 
 class CopyToClipboard extends StatelessWidget {
   const CopyToClipboard({
@@ -31,8 +29,6 @@ class CopyToClipboard extends StatelessWidget {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         );
-    final AppLocalizations localization =
-        L.of(context)!.localized!;
 
     void onTap() => _onTap(context);
 

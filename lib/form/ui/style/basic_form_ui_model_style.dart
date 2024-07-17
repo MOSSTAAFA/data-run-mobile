@@ -1,6 +1,6 @@
-import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
+import 'package:mass_pro/sdk/core/common/value_type.dart';
 
 import 'form_ui_color_factory.dart';
 import 'form_ui_color_type.dart';

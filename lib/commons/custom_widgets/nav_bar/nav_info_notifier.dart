@@ -2,8 +2,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../global_functions/global_functions.dart';
-import '../../data_run/utils/view_actions.dart';
+import 'package:mass_pro/commons/data_run/utils/view_actions.dart';
+import 'package:mass_pro/commons/global_functions/global_functions.dart';
 
 part 'nav_info_notifier.g.dart';
 

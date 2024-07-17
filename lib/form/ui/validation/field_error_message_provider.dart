@@ -1,3 +1,4 @@
+import 'package:mass_pro/form/ui/validation/failures/field_mask_failure.dart';
 import 'package:mass_pro/sdk/core/common/value_type/failures/boolean_failure.dart';
 import 'package:mass_pro/sdk/core/common/value_type/failures/coordinate_failure.dart';
 import 'package:mass_pro/sdk/core/common/value_type/failures/date_failure.dart';
@@ -16,10 +17,9 @@ import 'package:mass_pro/sdk/core/common/value_type/failures/time_failure.dart';
 import 'package:mass_pro/sdk/core/common/value_type/failures/true_only_failure.dart';
 import 'package:mass_pro/sdk/core/common/value_type/failures/unit_interval_failure.dart';
 import 'package:mass_pro/sdk/core/common/value_type/failures/url_failure.dart';
-
-import 'package:mass_pro/utils/navigator_key.dart';
-import 'package:mass_pro/form/ui/validation/failures/field_mask_failure.dart';
+import 'package:mass_pro/utils/mass_utils/utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 part 'field_error_message_provider.g.dart';
 
 @riverpod
@@ -32,7 +32,7 @@ class FieldErrorMessageProvider {
   const FieldErrorMessageProvider();
 
   String getFriendlyErrorMessage(Exception error) {
-    return navigatorKey.localization.lookup(_parseErrorToMessage(error));
+    return L(_parseErrorToMessage(error));
   }
 
   String _parseErrorToMessage(Exception error) {
@@ -176,10 +176,10 @@ class FieldErrorMessageProvider {
   }
 
   String mandatoryWarning() {
-    return navigatorKey.localization.lookup('field_is_mandatory');
+    return L('field_is_mandatory');
   }
 
   String defaultValidationErrorMessage() {
-    return navigatorKey.localization.lookup('validation_error_message');
+    return L('validation_error_message');
   }
 }

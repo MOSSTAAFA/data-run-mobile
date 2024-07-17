@@ -1,10 +1,9 @@
 import 'package:d2_remote/core/datarun/utilities/date_utils.dart';
-import 'package:mass_pro/sdk/core/common/value_type.dart';
-
 import 'package:mass_pro/commons/extensions/date_format_extensions.dart';
 import 'package:mass_pro/form/data/metadata/option_set_configuration.dart';
 import 'package:mass_pro/form/data/metadata/org_unit_configuration.dart';
 import 'package:mass_pro/form/ui/provider/display_name_provider.dart';
+import 'package:mass_pro/sdk/core/common/value_type.dart';
 
 class DisplayNameProviderImpl implements DisplayNameProvider {
   const DisplayNameProviderImpl(

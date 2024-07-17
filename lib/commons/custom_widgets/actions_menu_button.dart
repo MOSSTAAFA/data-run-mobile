@@ -1,10 +1,10 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-
 // Package imports:
-import '../../main/l10n/app_localizations.dart';
-import '../../utils/mass_utils/icons.dart';
-import '../data_run/utils/view_actions.dart';
+import 'package:mass_pro/utils/mass_utils/utils.dart';
+
+import 'package:mass_pro/utils/mass_utils/icons.dart';
+import 'package:mass_pro/commons/data_run/utils/view_actions.dart';
 
 class ActionMenuButton extends StatelessWidget {
   const ActionMenuButton({
@@ -58,7 +58,7 @@ class ActionMenuButton extends StatelessWidget {
               const SizedBox(width: 16.0),
               Expanded(
                 child: Text(
-                    L.of(context)!.lookup(action.toString())),
+                    L(action.toString())),
               ),
             ],
           ),

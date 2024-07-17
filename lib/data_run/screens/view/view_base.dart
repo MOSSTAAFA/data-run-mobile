@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:mass_pro/commons/custom_widgets/copy_to_clipboard.dart';
 import 'package:mass_pro/commons/data_run/utils/view_actions.dart';
 import 'package:mass_pro/data_run/screens/view/view_abstract.dart';
-import 'package:mass_pro/utils/navigator_key.dart';
+import 'package:mass_pro/utils/mass_utils/utils.dart';
 
 /// any screen ActivityGlobalAbstract
 mixin ViewBase implements ViewAbstract {
@@ -114,7 +114,6 @@ mixin ViewBase implements ViewAbstract {
       String? negativeButtonText,
       void Function()? onPositiveClick,
       void Function()? onNegativeClick}) {
-    final localization = navigatorKey.localization;
     return Get.defaultDialog(
       title: title,
       content: CopyToClipboard(
@@ -124,8 +123,8 @@ mixin ViewBase implements ViewAbstract {
           child: Text(message),
         ),
       ),
-      textConfirm: positiveButtonText ?? localization.lookup('ok'),
-      textCancel: negativeButtonText ?? localization.lookup('cancel'),
+      textConfirm: positiveButtonText ?? L('ok'),
+      textCancel: negativeButtonText ?? L('cancel'),
       onConfirm: () {
         positiveButtonText != null ? onPositiveClick?.call() : Get.back();
       },

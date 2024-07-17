@@ -1,7 +1,6 @@
 import 'package:mass_pro/sdk/core/mp/period/period_type.dart';
+import 'package:mass_pro/utils/mass_utils/utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import 'package:mass_pro/utils/navigator_key.dart';
 
 part 'mp_period_utils.g.dart';
 
@@ -12,12 +11,11 @@ const String SIMPLE_DATE_FORMAT = 'd/M/yyyy';
 
 @Riverpod(keepAlive: true)
 AmPeriodUtils amPeriodUtils(AmPeriodUtilsRef ref) {
-  final localization = navigatorKey.localization;
 
   return AmPeriodUtils(
-      localization.lookup('period_span_default_label'),
-      localization.lookup('week_period_span_default_label'),
-      localization.lookup('biweek_period_span_default_label'));
+      L('period_span_default_label'),
+      L('week_period_span_default_label'),
+      L('biweek_period_span_default_label'));
 }
 
 class AmPeriodUtils {

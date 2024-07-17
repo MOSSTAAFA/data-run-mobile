@@ -1,11 +1,10 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-
 import 'package:mass_pro/commons/resources/color_utils.dart';
-import 'package:mass_pro/utils/navigator_key.dart';
 import 'package:mass_pro/form/ui/style/form_ui_color_factory.dart';
 import 'package:mass_pro/form/ui/style/form_ui_color_type.dart';
+import 'package:mass_pro/utils/navigator_key.dart';
 
 class LongTextUiColorFactoryImpl implements FormUiColorFactory {
   LongTextUiColorFactoryImpl({this.isBackgroundTransparent = false});

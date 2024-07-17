@@ -1,7 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:mass_pro/sdk/core/common/value_type_rendering_type.dart';
 import 'package:mass_pro/sdk/core/program/section_rendering_type.dart';
-import 'package:flutter/material.dart';
 
 import '../../commons/custom_widgets/fields/form_edit_text.widget.dart';
 import '../../commons/custom_widgets/form_card.dart';

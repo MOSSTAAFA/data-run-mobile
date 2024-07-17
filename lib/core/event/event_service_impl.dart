@@ -1,9 +1,9 @@
-import 'package:mass_pro/sdk/core/mp/enrollment/enrollment_status.dart';
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/data/tracker/entities/enrollment.entity.dart';
 import 'package:d2_remote/modules/data/tracker/entities/event.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity.dart';
+import 'package:mass_pro/sdk/core/mp/enrollment/enrollment_status.dart';
 
 import 'event_editable_status.dart';
 import 'event_service.dart';

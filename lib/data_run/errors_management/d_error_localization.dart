@@ -1,7 +1,5 @@
 import 'package:mass_pro/data_run/errors_management/error_management.dart';
 import 'package:mass_pro/generated/l10n.dart';
-import 'package:mass_pro/main/l10n/app_localizations.dart';
-import 'package:mass_pro/utils/navigator_key.dart';
 
 class DErrorLocalization {
   const DErrorLocalization();
@@ -15,8 +13,6 @@ class DErrorLocalization {
   }
 
   String _handleDError(DError d2Error) {
-    final L localization = navigatorKey.localization;
-
     return switch (d2Error.errorCode) {
       DErrorCode.LOGIN_PASSWORD_NULL => S.current.loginErrorNullPass,
       DErrorCode.LOGIN_USERNAME_NULL => S.current.loginErrorNullUsername,

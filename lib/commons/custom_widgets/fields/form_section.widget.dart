@@ -1,13 +1,13 @@
-import 'package:mass_pro/sdk/core/common/value_type.dart';
-import 'package:flutter/material.dart';
-
-import '../../../form/model/field_ui_model.dart';
-import '../../../form/model/key_board_action_type.dart';
-import '../../../form/ui/style/form_ui_color_type.dart';
-import '../../../form/ui/style/form_ui_model_style.dart';
-import '../../../main/l10n/app_localizations.dart';
 import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
-import '../buttons/app_text_button.dart';
+import 'package:flutter/material.dart';
+import 'package:mass_pro/sdk/core/common/value_type.dart';
+import 'package:mass_pro/utils/mass_utils/utils.dart';
+
+import 'package:mass_pro/form/model/field_ui_model.dart';
+import 'package:mass_pro/form/model/key_board_action_type.dart';
+import 'package:mass_pro/form/ui/style/form_ui_color_type.dart';
+import 'package:mass_pro/form/ui/style/form_ui_model_style.dart';
+import 'package:mass_pro/commons/custom_widgets/buttons/app_text_button.dart';
 
 /// form_edit_text_custom, form_integer, form_integer_negative
 /// form_integer_positive, form_integer_zero, form_letter,
@@ -39,7 +39,7 @@ class _FormSectionState extends State<FormSection> {
           child: Align(
             alignment: AlignmentDirectional.centerEnd,
             child: AppTextButton(
-                label: L.of(context)!.lookup('next')),
+                label: L('next')),
           ),
         ),
         Card(

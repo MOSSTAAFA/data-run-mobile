@@ -1,15 +1,11 @@
+import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mass_pro/utils/mass_utils/utils.dart';
 
-import '../../../main/l10n/app_localizations.dart';
-import '../../../utils/mass_utils/platforms.dart';
-import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
-import '../../state/app_state.dart';
-import '../../state/app_state_notifier.dart';
-import '../../state/pref_state.dart';
-import '../../data_run/utils/view_actions.dart';
-import 'navigation_page.dart';
-import 'navigation_page_configurator.dart';
+import 'package:mass_pro/commons/data_run/utils/view_actions.dart';
+import 'package:mass_pro/commons/custom_widgets/navigationbar/navigation_page.dart';
+import 'package:mass_pro/commons/custom_widgets/navigationbar/navigation_page_configurator.dart';
 
 typedef ViewActionWidgetBuilder = Widget Function(
     BuildContext context, ViewAction viewAction);
@@ -81,8 +77,6 @@ class NavigationTabBarViewState extends ConsumerState<NavigationTabBarView>
       return widget.stub ?? const SizedBox();
     }
 
-    final localization = L.of(context)!.localized!;
-
     Widget? leadingActions;
     Widget? drawerHamburger;
     if (widget.drawer != null) {
@@ -90,7 +84,7 @@ class NavigationTabBarViewState extends ConsumerState<NavigationTabBarView>
         builder: (context) => InkWell(
           onLongPress: widget.onHamburgerLongPress,
           child: IconButton(
-            tooltip: L.of(context)!.lookup('menuSidebar'),
+            tooltip: L('menuSidebar'),
             icon: const Icon(Icons.menu),
             onPressed: () {
               Scaffold.of(context).openDrawer();

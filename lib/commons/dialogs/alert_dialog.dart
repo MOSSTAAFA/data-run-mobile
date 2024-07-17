@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mass_pro/main/l10n/app_localizations.dart';
+import 'package:mass_pro/utils/mass_utils/utils.dart';
 
 class MessageDialog extends StatelessWidget {
   @deprecated
@@ -57,7 +57,7 @@ class MessageDialog extends StatelessWidget {
                               onDismiss!();
                             }
                           },
-                          child: Text((dismissLabel ?? L.of(context)!.lookup('dismiss'))
+                          child: Text((dismissLabel ?? L('dismiss'))
                               .toUpperCase()),
                         ),
                       ),
@@ -65,7 +65,7 @@ class MessageDialog extends StatelessWidget {
                         TextButton(
                             autofocus: true,
                             child:
-                                Text(L.of(context)!.lookup('discardChanges').toUpperCase()),
+                                Text(L('discardChanges').toUpperCase()),
                             onPressed: () {
                               Navigator.of(context).pop();
                               onDiscard!();

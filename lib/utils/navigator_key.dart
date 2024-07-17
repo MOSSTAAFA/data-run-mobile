@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mass_pro/main/l10n/app_localizations.dart';
+import 'package:mass_pro/utils/mass_utils/utils.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -7,11 +7,11 @@ final dashboardKey = GlobalKey<NavigatorState>();
 final productsKey = GlobalKey<NavigatorState>();
 final profileKey = GlobalKey<NavigatorState>();
 
-extension NavigatorKeyUtils on GlobalKey<NavigatorState> {
-  L get localization {
-    return L.of(currentContext!)!;
-  }
-}
+// extension NavigatorKeyUtils on GlobalKey<NavigatorState> {
+//   L get localization {
+//     return L.of(currentContext!)!;
+//   }
+// }
 
 Future<void> navigate(BuildContext? context, String route,
         {bool isDialog = false,

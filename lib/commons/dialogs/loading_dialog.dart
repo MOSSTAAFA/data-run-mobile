@@ -1,9 +1,7 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localization.dart';
-
 // Project imports:
-import '../../main/l10n/app_localizations.dart';
+import 'package:mass_pro/utils/mass_utils/utils.dart';
 
 class LoadingDialog extends StatelessWidget {
   const LoadingDialog({super.key});
@@ -15,7 +13,7 @@ class LoadingDialog extends StatelessWidget {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Text('${L.of(context)!.lookup('loading')}...'),
+          child: Text('${L('loading')}...'),
         ),
         const Padding(
             padding: EdgeInsets.all(16.0),

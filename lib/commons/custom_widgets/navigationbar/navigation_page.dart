@@ -1,5 +1,5 @@
-import '../../helpers/iterable.dart';
-import '../../data_run/utils/view_actions.dart';
+import 'package:mass_pro/commons/data_run/utils/view_actions.dart';
+import 'package:mass_pro/commons/helpers/iterable.dart';
 
 enum NavigationPage {
   DETAILS(ViewAction.details),

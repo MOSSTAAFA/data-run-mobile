@@ -8,16 +8,15 @@ import 'package:d2_remote/modules/data/tracker/entities/event_data_value.entity.
 import 'package:d2_remote/modules/data/tracker/models/event_import_summary.dart';
 import 'package:d2_remote/modules/data/tracker/queries/event.query.dart';
 import 'package:d2_remote/modules/data/tracker/queries/event_data_value.query.dart';
+import 'package:d2_remote/modules/datarun_shared/sync/call/d2_progress.dart';
+import 'package:d2_remote/modules/datarun_shared/sync/call/d2_progress_status.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity.dart';
 import 'package:d2_remote/modules/metadata/program/queries/program_stage.query.dart';
 import 'package:d2_remote/shared/utilities/http_client.util.dart';
 import 'package:dio/dio.dart';
-import 'package:queue/queue.dart';
-
-import 'package:d2_remote/modules/datarun_shared/sync/call/d2_progress_status.dart';
-import 'package:d2_remote/modules/datarun_shared/sync/call/d2_progress.dart';
 import 'package:mass_pro/core/tracker/tracker_d2_progress.dart';
 import 'package:mass_pro/core/tracker/tracker_d2_progress_manager.dart';
+import 'package:queue/queue.dart';
 
 extension EventQueryUploadExtension on EventQuery {
   Future<D2Progress?> uploadWithProgress(
