@@ -131,6 +131,8 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
                 final summary = generateFormSummary(entity.toJson());
 
                 return Card(
+                  shadowColor: Theme.of(context).colorScheme.shadow,
+                  surfaceTintColor: Theme.of(context).colorScheme.primary,
                   elevation: .7,
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),

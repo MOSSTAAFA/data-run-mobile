@@ -85,6 +85,8 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      surfaceTintColor: Theme.of(context).colorScheme.primary,
+      shadowColor: Theme.of(context).colorScheme.shadow,
       title: Text(S.of(context).openNewForm),
       content: SingleChildScrollView(
         child: Column(

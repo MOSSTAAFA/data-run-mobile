@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:d2_remote/d2_remote.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,7 +12,9 @@ import 'package:mass_pro/data_run/screens/project_details/project_detail_screen.
 import 'package:mass_pro/generated/l10n.dart';
 import 'package:mass_pro/main/usescases/splash/splash_presenter.dart';
 import 'package:mass_pro/main/usescases/splash/splash_screen.widget.dart';
+import 'package:mass_pro/main_constants/main_constants.dart';
 import 'package:mass_pro/riverpod/provider_logger.dart';
+import 'package:mass_pro/utils/app_appearance.dart';
 import 'package:mass_pro/utils/navigator_key.dart';
 // import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
@@ -26,8 +27,10 @@ Future<void> main() async {
 
   await PreferenceProvider.initialize();
 
-  await D2Remote.initialize(/*
-      databaseFactory: kIsWeb ? databaseFactoryFfiWeb : null*/);
+  await D2Remote.initialize(
+      /*
+      databaseFactory: kIsWeb ? databaseFactoryFfiWeb : null*/
+      );
 
   FlutterError.demangleStackTrace = (StackTrace stack) {
     if (stack is stack_trace.Trace) {
@@ -74,9 +77,30 @@ class App extends ConsumerWidget {
       navigatorKey: navigatorKey,
       title: 'MASS PRO',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.light().copyWith(
-        appBarTheme:
-            const AppBarTheme().copyWith(backgroundColor: Colors.blue.shade200),
+      themeMode: ref.watch(appAppearanceNotifierProvider).themeMode,
+      theme: ThemeData(
+        colorSchemeSeed:
+            ref.watch(appAppearanceNotifierProvider).colorSelectionMethod ==
+                    ColorSelectionMethod.colorSeed
+                ? ref.watch(appAppearanceNotifierProvider).colorSelected.color
+                : null,
+        colorScheme:
+            ref.watch(appAppearanceNotifierProvider).colorSelectionMethod ==
+                    ColorSelectionMethod.image
+                ? ref.watch(appAppearanceNotifierProvider).imageColorScheme
+                : null,
+        useMaterial3: ref.watch(appAppearanceNotifierProvider).useMaterial3,
+        brightness: Brightness.light,
+      ),
+      darkTheme: ThemeData(
+        colorSchemeSeed: ref
+                    .watch(appAppearanceNotifierProvider)
+                    .colorSelectionMethod ==
+                ColorSelectionMethod.colorSeed
+            ? ref.watch(appAppearanceNotifierProvider).colorSelected.color
+            : ref.watch(appAppearanceNotifierProvider).imageColorScheme.primary,
+        useMaterial3: ref.watch(appAppearanceNotifierProvider).useMaterial3,
+        brightness: Brightness.dark,
       ),
       localizationsDelegates: const [
         // L.delegate,

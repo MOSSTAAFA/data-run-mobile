@@ -76,9 +76,9 @@ class _QTextFieldState extends State<QTextField> {
       maxLines: widget.fieldModel.valueType == ValueType.Letter ? 7 : null,
       decoration: InputDecoration(
         labelText: widget.fieldModel.label,
-        labelStyle: Theme.of(context).textTheme.labelLarge,
+        labelStyle: Theme.of(context).textTheme.titleMedium,
         focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue, width: 2.0),
+          borderSide: BorderSide(width: 2.0),
         ),
         hintText: widget.fieldModel.hint,
         errorText: widget.fieldModel.error,

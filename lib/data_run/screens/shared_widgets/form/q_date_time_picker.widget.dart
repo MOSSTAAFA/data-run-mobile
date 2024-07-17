@@ -34,7 +34,7 @@ class QDateTimePicker extends StatelessWidget {
       decoration: InputDecoration(
         labelText: fieldModel.label,
         focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue, width: 2.0),
+          borderSide: BorderSide(width: 2.0),
         ),
         suffixIcon: (fieldModel.value ?? '').isNotEmpty
             ? IconButton(

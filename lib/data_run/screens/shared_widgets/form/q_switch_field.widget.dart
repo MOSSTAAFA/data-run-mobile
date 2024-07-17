@@ -24,7 +24,6 @@ class _QSwitchFieldState extends State<QSwitchField> {
         border: const OutlineInputBorder(),
         contentPadding: const EdgeInsets.only(left: 20, top: 40),
         labelText: widget.fieldModel.label,
-        fillColor: Colors.red.shade200,
       ),
       onChanged: (bool? value) {
         // widget.fieldModel.onTextChange(value?.toString());

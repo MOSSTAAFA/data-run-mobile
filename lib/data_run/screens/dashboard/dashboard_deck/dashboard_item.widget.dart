@@ -27,6 +27,8 @@ class _DashboardItemWidgetState extends ConsumerState<DashboardItemWidget> {
   Widget build(BuildContext context) {
     final item = ref.watch(dashboardItemModelProvider);
     return Card(
+      shadowColor: Theme.of(context).colorScheme.shadow,
+      surfaceTintColor: Theme.of(context).colorScheme.primary,
       // color: item?.metadataIconData?.programColor,
       child: ListTile(
         onTap: () => widget.onItemClick?.call(item),

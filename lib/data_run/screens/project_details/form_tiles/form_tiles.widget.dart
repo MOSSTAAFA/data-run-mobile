@@ -41,7 +41,7 @@ class FormsTiles extends ConsumerWidget {
                           children: [
                             Text(
                               t.formName!,
-                              style: Theme.of(context).textTheme.titleMedium,
+                              style: const TextStyle(fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(height: 8),
                             Wrap(
@@ -80,10 +80,7 @@ class FormsTiles extends ConsumerWidget {
 
                                 /// Errors
                                 Chip(
-                                  avatar: CircleAvatar(
-                                    foregroundColor: t.entitiesWithError > 0
-                                        ? Colors.redAccent
-                                        : Colors.grey,
+                                  avatar: const CircleAvatar(
                                     child: Icon(Icons.error),
                                   ),
                                   label: Text('${t.entitiesWithError}'),

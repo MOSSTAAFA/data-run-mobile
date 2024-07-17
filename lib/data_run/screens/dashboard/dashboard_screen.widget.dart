@@ -11,6 +11,7 @@ import 'package:mass_pro/main/data/service/sync_status_controller.dart';
 import 'package:mass_pro/main/usescases/login/login_screen.widget.dart';
 import 'package:mass_pro/main/usescases/sync/sync_screen.widget.dart';
 import 'package:mass_pro/main_constants/main_constants.dart';
+import 'package:mass_pro/utils/app_appearance.dart';
 
 /// Dashboard Screen is the main Screen of the app the show after login
 /// Currently it lists the available projects as items other General relevant data
@@ -39,12 +40,16 @@ class _DashboardScreenWidgetState extends ConsumerState<DashboardScreenWidget>
         appBar: AppBar(
           actions: [
             IconButton(
-                onPressed: () => presenter.logOut(), icon: Icon(Icons.logout)),
+                onPressed: () => presenter.logOut(), icon: const Icon(Icons.logout)),
             IconButton(
                 onPressed: () => presenter
                     .onSyncAllClick()
                     .then((t) => Get.to(const SyncScreen())),
-                icon: Icon(Icons.sync)),
+                icon: const Icon(Icons.sync)),
+            const _BrightnessButton(),
+            const _Material3Button(),
+            const _ColorSeedButton(),
+            const _ColorImageButton()
           ],
           title: Text(S.of(context).dashboard),
         ),
@@ -107,19 +112,11 @@ class _DashboardScreenWidgetState extends ConsumerState<DashboardScreenWidget>
   }
 }
 
-class _ColorSeedButton extends StatelessWidget {
-  const _ColorSeedButton({
-    required this.handleColorSelect,
-    required this.colorSelected,
-    required this.colorSelectionMethod,
-  });
-
-  final void Function(int) handleColorSelect;
-  final ColorSeed colorSelected;
-  final ColorSelectionMethod colorSelectionMethod;
+class _ColorSeedButton extends ConsumerWidget {
+  const _ColorSeedButton();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return PopupMenuButton(
       icon: const Icon(
         Icons.palette_outlined,
@@ -132,15 +129,23 @@ class _ColorSeedButton extends StatelessWidget {
 
           return PopupMenuItem(
             value: index,
-            enabled: currentColor != colorSelected ||
-                colorSelectionMethod != ColorSelectionMethod.colorSeed,
+            enabled: currentColor !=
+                    ref.watch(appAppearanceNotifierProvider).colorSelected ||
+                ref.watch(appAppearanceNotifierProvider).colorSelectionMethod !=
+                    ColorSelectionMethod.colorSeed,
             child: Wrap(
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: Icon(
-                    currentColor == colorSelected &&
-                            colorSelectionMethod != ColorSelectionMethod.image
+                    currentColor ==
+                                ref
+                                    .watch(appAppearanceNotifierProvider)
+                                    .colorSelected &&
+                            ref
+                                    .watch(appAppearanceNotifierProvider)
+                                    .colorSelectionMethod !=
+                                ColorSelectionMethod.image
                         ? Icons.color_lens
                         : Icons.color_lens_outlined,
                     color: currentColor.color,
@@ -155,24 +160,17 @@ class _ColorSeedButton extends StatelessWidget {
           );
         });
       },
-      onSelected: handleColorSelect,
+      onSelected:
+          ref.read(appAppearanceNotifierProvider.notifier).handleColorSelect,
     );
   }
 }
 
-class _ColorImageButton extends StatelessWidget {
-  const _ColorImageButton({
-    required this.handleImageSelect,
-    required this.imageSelected,
-    required this.colorSelectionMethod,
-  });
-
-  final void Function(int) handleImageSelect;
-  final ColorImageProvider imageSelected;
-  final ColorSelectionMethod colorSelectionMethod;
+class _ColorImageButton extends ConsumerWidget {
+  const _ColorImageButton();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return PopupMenuButton(
       icon: const Icon(
         Icons.image_outlined,
@@ -185,8 +183,10 @@ class _ColorImageButton extends StatelessWidget {
 
           return PopupMenuItem(
             value: index,
-            enabled: currentImageProvider != imageSelected ||
-                colorSelectionMethod != ColorSelectionMethod.image,
+            enabled: currentImageProvider !=
+                    ref.watch(appAppearanceNotifierProvider).imageSelected ||
+                ref.watch(appAppearanceNotifierProvider).colorSelectionMethod !=
+                    ColorSelectionMethod.image,
             child: Wrap(
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
@@ -214,22 +214,21 @@ class _ColorImageButton extends StatelessWidget {
           );
         });
       },
-      onSelected: handleImageSelect,
+      onSelected:
+          ref.read(appAppearanceNotifierProvider.notifier).handleImageSelect,
     );
   }
 }
 
-class _BrightnessButton extends StatelessWidget {
+class _BrightnessButton extends ConsumerWidget {
   const _BrightnessButton({
-    required this.handleBrightnessChange,
     this.showTooltipBelow = true,
   });
 
-  final Function handleBrightnessChange;
   final bool showTooltipBelow;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final isBright = Theme.of(context).brightness == Brightness.light;
     return Tooltip(
       preferBelow: showTooltipBelow,
@@ -238,23 +237,23 @@ class _BrightnessButton extends StatelessWidget {
         icon: isBright
             ? const Icon(Icons.dark_mode_outlined)
             : const Icon(Icons.light_mode_outlined),
-        onPressed: () => handleBrightnessChange(!isBright),
+        onPressed: () => ref
+            .read(appAppearanceNotifierProvider.notifier)
+            .handleBrightnessChange(!isBright),
       ),
     );
   }
 }
 
-class _Material3Button extends StatelessWidget {
+class _Material3Button extends ConsumerWidget {
   const _Material3Button({
-    required this.handleMaterialVersionChange,
     this.showTooltipBelow = true,
   });
 
-  final void Function() handleMaterialVersionChange;
   final bool showTooltipBelow;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final useMaterial3 = Theme.of(context).useMaterial3;
     return Tooltip(
       preferBelow: showTooltipBelow,
@@ -263,7 +262,9 @@ class _Material3Button extends StatelessWidget {
         icon: useMaterial3
             ? const Icon(Icons.filter_2)
             : const Icon(Icons.filter_3),
-        onPressed: handleMaterialVersionChange,
+        onPressed: ref
+            .read(appAppearanceNotifierProvider.notifier)
+            .handleMaterialVersionChange,
       ),
     );
   }

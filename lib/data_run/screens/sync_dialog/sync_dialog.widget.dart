@@ -24,6 +24,8 @@ class SyncDialogState extends ConsumerState<SyncDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      shadowColor: Theme.of(context).colorScheme.shadow,
+      surfaceTintColor: Theme.of(context).colorScheme.primary,
       title: Text(S.of(context).syncFormData),
       content: _buildContent(),
       actions: _buildActions(),
@@ -49,7 +51,6 @@ class SyncDialogState extends ConsumerState<SyncDialog> {
             padding: const EdgeInsets.only(top: 8.0),
             child: Text( 
               '${S.of(context).error}: ${_syncErrors.join(', ')}',
-              style: const TextStyle(color: Colors.red),
             ),
           ),
       ],

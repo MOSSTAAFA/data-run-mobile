@@ -21,7 +21,7 @@ class _QChoiceChipState extends State<QChoiceChip> {
     return FormBuilderChoiceChip<FormOption>(
       key: ValueKey(widget.fieldModel.uid),
       valueTransformer: (FormOption? option) => option?.name,
-      selectedColor: Colors.lightGreenAccent,
+      selectedColor: Theme.of(context).colorScheme.error.withAlpha(100),
       onReset: () => widget.fieldModel.onClear(),
       name: widget.fieldModel.uid,
       enabled: widget.fieldModel.isEditable,
@@ -29,7 +29,7 @@ class _QChoiceChipState extends State<QChoiceChip> {
           ? FormBuilderValidators.required()
           : null,
       initialValue: widget.fieldModel.getOption(),
-      options: _getChipOptions(widget.fieldModel.options!.unlock, wide: true),
+      options: _getChipOptions(widget.fieldModel.options!.unlock, wide: false),
       onChanged: (FormOption? value) {
         widget.fieldModel.onSaveOption(value);
       },
@@ -38,7 +38,7 @@ class _QChoiceChipState extends State<QChoiceChip> {
         contentPadding: const EdgeInsets.all(16),
         labelText: widget.fieldModel.label,
         labelStyle: Theme.of(context).textTheme.titleLarge,
-        fillColor: Colors.red.shade200,
+        // fillColor: Colors.red.shade200,
       ),
     );
   }
@@ -65,7 +65,7 @@ class _QChoiceChipState extends State<QChoiceChip> {
                           ),
                         ],
                       ))
-                  : null,
+                  : Text(getItemLocalString(option.label)),
             ))
         .toList();
   }

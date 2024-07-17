@@ -49,13 +49,16 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
           const Icon(Icons.warning_amber, color: Colors.red),
     }).orElse(() => Icon(Icons.check, color: Colors.green[300]));
 
+
     return Card(
+      shadowColor: Theme.of(context).colorScheme.shadow,
+      surfaceTintColor: Theme.of(context).colorScheme.primary,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
       elevation: 3,
       child: ExpansionTile(
-        collapsedBackgroundColor: Colors.grey[200],
+        // collapsedBackgroundColor: Colors.grey[200],
         initiallyExpanded: projectDetailItemModel.valueListIsOpen,
         onExpansionChanged: (bool isExpanded) {
           ref
@@ -90,7 +93,7 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
                 style: Theme.of(context).textTheme.bodySmall,
               )
             : null,
-        backgroundColor: cardColor,
+        // backgroundColor: cardColor,
         children: projectDetailItemModel.activeFormCount > 0
             ? [
                 FormsTiles(
@@ -106,7 +109,6 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
                 ListTile(
                     title: Text(
                   S.of(context).noFormsAvailable,
-                  style: TextStyle(color: Colors.black38,),
                 ))
               ],
       ),

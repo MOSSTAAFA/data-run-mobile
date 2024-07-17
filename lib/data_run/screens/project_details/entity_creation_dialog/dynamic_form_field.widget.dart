@@ -62,7 +62,7 @@ class DynamicFormFieldWidget extends StatelessWidget {
             decoration: InputDecoration(
                 labelText: fieldModel.label,
                 focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blue, width: 2.0),
+                  borderSide: BorderSide(width: 2.0),
                 )),
             // onChanged: (value) => fieldModel.setValue(value),
             keyboardType: _getInputType(fieldModel.valueType));
@@ -111,7 +111,7 @@ class DynamicFormFieldWidget extends StatelessWidget {
             decoration: InputDecoration(
               labelText: fieldModel.label,
               focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.blue, width: 2.0),
+                borderSide: BorderSide(width: 2.0),
               ),
             ));
       case ValueType.SelectOne:
@@ -134,8 +134,6 @@ class DynamicFormFieldWidget extends StatelessWidget {
             }
           },
           itemDecoration: BoxDecoration(
-              color: Colors.blueGrey.shade200,
-              border: Border.all(color: Colors.blueAccent),
               borderRadius: BorderRadius.circular(5.0)),
         );
       default:
