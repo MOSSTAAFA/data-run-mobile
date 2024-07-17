@@ -48,7 +48,8 @@ dependencies:
   scrollable_positioned_list: ^0.3.8
   get: ^4.6.6
   expressions: ^0.2.5+1
-  sqflite_common_ffi_web: 0.2.0+1
+  sqflite_common_ffi_web: ^0.4.3+1
+#  sqflite_common_ffi_web: 0.2.0+1
 #  sentry_flutter: ^8.3.0
 
 dev_dependencies:

@@ -185,14 +185,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.1"
-  coverage:
-    dependency: transitive
-    description:
-      name: coverage
-      sha256: "3945034e86ea203af7a056d98e98e42a5518fff200d6e8e6647e1886b07e936e"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.8.0"
   crypto:
     dependency: transitive
     description:
@@ -280,14 +272,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0+4"
-  dev_test:
-    dependency: transitive
-    description:
-      name: dev_test
-      sha256: f9d5a5b05adab396dd0de008d6e7528075bf265f6b1b2db6be9cf4812555c0d7
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0+3"
   dio:
     dependency: "direct main"
     description:
@@ -905,22 +889,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.0"
-  source_map_stack_trace:
-    dependency: transitive
-    description:
-      name: source_map_stack_trace
-      sha256: "84cf769ad83aa6bb61e0aa5a18e53aea683395f196a6f39c4c881fb90ed4f7ae"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.1"
-  source_maps:
-    dependency: transitive
-    description:
-      name: source_maps
-      sha256: "708b3f6b97248e5781f493b765c3337db11c5d2c81c3094f10904bfa8004c703"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.10.12"
   source_span:
     dependency: transitive
     description:
@@ -965,10 +933,10 @@ packages:
     dependency: "direct main"
     description:
       name: sqflite_common_ffi_web
-      sha256: "944a3df58df788d35c649b453568d89afcf64f68d9eac24734ddc298a2b57fd4"
+      sha256: cfc9d1c61a3e06e5b2e96994a44b11125b4f451fee95b9fad8bd473b4613d592
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.0+1"
+    version: "0.4.3+1"
   sqlite3:
     dependency: transitive
     description:
@@ -1041,14 +1009,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.0"
-  test_core:
-    dependency: transitive
-    description:
-      name: test_core
-      sha256: "2bc4b4ecddd75309300d8096f781c0e3280ca1ef85beda558d33fcbedc2eead4"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.6.0"
   time:
     dependency: transitive
     description:
