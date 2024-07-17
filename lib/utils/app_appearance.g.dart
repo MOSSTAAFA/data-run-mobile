@@ -7,7 +7,7 @@ part of 'app_appearance.dart';
 // **************************************************************************
 
 String _$appAppearanceNotifierHash() =>
-    r'1d88e1a827b520046c9ea20207481fe2edbd4951';
+    r'd9219b6c398868c1ed4d5dc377237eb252003fae';
 
 /// See also [AppAppearanceNotifier].
 @ProviderFor(AppAppearanceNotifier)

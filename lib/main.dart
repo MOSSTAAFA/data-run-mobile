@@ -15,7 +15,7 @@ import 'package:mass_pro/main/usescases/splash/splash_presenter.dart';
 import 'package:mass_pro/main/usescases/splash/splash_screen.widget.dart';
 import 'package:mass_pro/riverpod/provider_logger.dart';
 import 'package:mass_pro/utils/navigator_key.dart';
-import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
+// import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
 
 import 'main.reflectable.dart';
@@ -26,8 +26,8 @@ Future<void> main() async {
 
   await PreferenceProvider.initialize();
 
-  await D2Remote.initialize(
-      databaseFactory: kIsWeb ? databaseFactoryFfiWeb : null);
+  await D2Remote.initialize(/*
+      databaseFactory: kIsWeb ? databaseFactoryFfiWeb : null*/);
 
   FlutterError.demangleStackTrace = (StackTrace stack) {
     if (stack is stack_trace.Trace) {
