@@ -170,7 +170,7 @@ class FormValueStore {
 
     final tea =
         await D2Remote.programModule.trackedEntityAttribute.byId(uid).getOne();
-    final ValueType? valueType = tea?.valueType.toValueType;
+    final ValueType? valueType = ValueType.getValueType(tea?.valueType);
 
     String newValue = value.withValueTypeCheck(valueType) ?? '';
 
@@ -237,7 +237,7 @@ class FormValueStore {
 
     final DataElement? de =
         await D2Remote.dataElementModule.dataElement.byId(uid).getOne();
-    final ValueType? valueType = de?.valueType.toValueType;
+    final ValueType? valueType = ValueType.getValueType(de?.valueType);
 
     String newValue = value.withValueTypeCheck(valueType) ?? '';
     if (valueType == ValueType.Image && value != null) {
@@ -255,7 +255,8 @@ class FormValueStore {
 
     if (currentValue != newValue) {
       if (!value.isNullOrEmpty) {
-        final blockingSetCheck = await valueRepository.blockingSetCheck(uid, newValue);
+        final blockingSetCheck =
+            await valueRepository.blockingSetCheck(uid, newValue);
         if (blockingSetCheck) {
           return StoreResult(
               uid: uid, valueStoreResult: ValueStoreResult.VALUE_CHANGED);

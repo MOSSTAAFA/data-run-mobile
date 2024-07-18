@@ -23,7 +23,7 @@ class QDateTimePicker extends StatelessWidget {
       format: sdk.DateUtils.uiDateFormat(),
       initialValue: fieldModel.value.toDate(),
       valueTransformer: (DateTime? date) =>
-          date != null ? sdk.DateUtils.databaseDateFormat().format(date) : null,
+          date != null ? sdk.DateUtils.databaseDateFormat().format(date.toUtc()) : null,
       name: fieldModel.uid,
       enabled: fieldModel.isEditable,
       validator:

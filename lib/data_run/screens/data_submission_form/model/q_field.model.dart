@@ -175,7 +175,7 @@ class QFieldModel with EquatableMixin {
   void onSaveDate(DateTime? date) {
     String? nextValue;
     if (date != null) {
-      nextValue = sdk.DateUtils.databaseDateFormat().format(date);
+      nextValue = sdk.DateUtils.databaseDateFormat().format(date.toUtc());
     }
 
     intentCallback?.call(

@@ -31,8 +31,8 @@ enum ValueType {
   SelectMulti(TextValidator()),
   SelectOne(TextValidator()),
   YesNo(TextValidator()),
-  Unknown(TextValidator()),
-  GeoJson(TextValidator());
+  GeoJson(TextValidator()),
+  Unknown(TextValidator());
 
   const ValueType(this._validator);
 
@@ -80,11 +80,6 @@ enum ValueType {
   bool get isFile => FILE_TYPES.contains(this);
 
   bool get isCoordinate => this == Coordinate;
-
-  static ValueType? valueOf(String? str) =>
-      ValueType.values.firstWhere((e) => e.toString() == 'ValueType.' + '$str',
-          orElse: () => throw ArgumentError(
-              'ValueTypeOfString There is no ValueType of Type: $str'));
 
   static ValueType getValueType(String? valueType) {
     switch (valueType?.toLowerCase()) {

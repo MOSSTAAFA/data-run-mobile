@@ -10,7 +10,6 @@ import 'package:d2_remote/shared/utilities/merge_mode.util.dart';
 import 'package:d2_remote/shared/utilities/save_option.util.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:mass_pro/commons/extensions/string_extension.dart';
-import 'package:mass_pro/commons/extensions/value_extensions.dart';
 import 'package:mass_pro/core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
 import 'package:mass_pro/data_run/form/syncable_object_repository.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
@@ -57,7 +56,7 @@ class SyncableEntityMappingRepository {
 
     final storedEntity = await getQuery().byId(_syncableEntity.uid!).getOne();
     storedEntity!.lastModifiedDate =
-        DateUtils.databaseDateFormat().format(DateTime.now());
+        DateUtils.databaseDateFormat().format(DateTime.now().toUtc());
     storedEntity.status = 'ACTIVE';
     storedEntity.dirty = true;
 
@@ -185,7 +184,7 @@ class SyncableEntityMappingRepository {
     required DynamicFormField field,
     dynamic value,
   }) {
-    final valueType = field.type.toValueType;
+    final valueType = ValueType.getValueType(field.type);
     final renderingType = FieldValueRenderingUtil.getFieldValueRendering(
         field.fieldValueRenderingType);
     return QFieldModel(
@@ -193,7 +192,7 @@ class SyncableEntityMappingRepository {
         isFocused: false,
         isEditable: true,
         isMandatory: field.required,
-        label: getItemLocalString(field.label) ,
+        label: getItemLocalString(field.label),
         value: value is String ? value : value?.toString(),
         valueType: valueType,
         options: field.options?.lock,

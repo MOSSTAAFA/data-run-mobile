@@ -95,7 +95,7 @@ class SyncDataWorker extends Worker {
     presenter.logTimeToFinish(DateTime.now().millisecond - init, DATA_TIME);
 
     final String lastDataSyncDate =
-        DateUtils.databaseDateFormat().format(DateTime.now());
+        DateUtils.databaseDateFormat().format(DateTime.now().toUtc());
     final SyncResult syncResult = await presenter.checkSyncStatus();
 
     prefs.setValue(LAST_DATA_SYNC, lastDataSyncDate);

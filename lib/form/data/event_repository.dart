@@ -147,7 +147,8 @@ class EventRepository extends DataEntryBaseRepository {
 
     final String uid = de.uid!;
     final String displayName = de.displayName!;
-    final ValueType? valueType = ValueType.valueOf(de.valueType);
+    final ValueType? valueType = ValueType.getValueType(de.valueType);
+    ;
     final bool mandatory = programStageDataElement.compulsory ?? false;
     final String optionSet = de.optionSet ?? '';
     final EventDataValue? eventDataValue = await valueRepository.getOne();

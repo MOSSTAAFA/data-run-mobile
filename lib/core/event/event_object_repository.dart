@@ -34,7 +34,7 @@ class EventObjectRepository {
   ///  throws D2Error
   Future<void> setStatus(EventStatus eventStatus) async {
     final String? completedDate = eventStatus == EnrollmentStatus.COMPLETED
-        ? DateUtils.databaseDateFormat().format(DateTime.now())
+        ? DateUtils.databaseDateFormat().format(DateTime.now().toUtc())
         : null;
 
     return updateObject((await updateBuilder())
@@ -45,13 +45,13 @@ class EventObjectRepository {
   ///  throws D2Error
   Future<void> setCompletedDate(DateTime completedDate) async {
     // final date = completedDate.toIso8601String().split('.')[0];
-    final String date = DateUtils.databaseDateFormat().format(completedDate);
+    final String date = DateUtils.databaseDateFormat().format(completedDate.toUtc());
     return updateObject((await updateBuilder())..completedDate = date);
   }
 
   ///  throws D2Error
   Future<void> setDueDate(DateTime dueDate) async {
-    final String date = DateUtils.databaseDateFormat().format(dueDate);
+    final String date = DateUtils.databaseDateFormat().format(dueDate.toUtc());
     return updateObject((await updateBuilder())..dueDate = date);
   }
 
@@ -76,9 +76,9 @@ class EventObjectRepository {
   Future<Event> updateBuilder() async {
     final Event event =
         (await D2Remote.trackerModule.event.byId(uid).getOne())!;
-    // final String updateDate = DateUtils.databaseDateFormat().format(DateTime.now());
+    // final String updateDate = DateUtils.databaseDateFormat().format(DateTime.now().toUtc());
     final String updateDate =
-        DateUtils.databaseDateFormat().format(DateTime.now());
+        DateUtils.databaseDateFormat().format(DateTime.now().toUtc().toUtc());
 
     // bool? state = enrollment.synced;
     // state = state == State.TO_POST ? state : State.TO_UPDATE;

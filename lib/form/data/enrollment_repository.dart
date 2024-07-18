@@ -188,7 +188,7 @@ class EnrollmentRepository extends DataEntryBaseRepository {
 
     final Enrollment? enrollment = await _enrollment;
 
-    final valueType = ValueType.valueOf(attribute?.valueType);
+    final valueType = ValueType.getValueType(attribute?.valueType);
     final mandatory = programTrackedEntityAttribute.mandatory;
     final optionSet = attribute?.optionSet;
     // var generated = attribute.generated()!!;

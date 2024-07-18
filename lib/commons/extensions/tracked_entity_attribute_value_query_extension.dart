@@ -4,9 +4,9 @@ import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dar
 import 'package:d2_remote/modules/metadata/program/entities/tracked_entity_attribute.entity.dart';
 import 'package:d2_remote/shared/utilities/merge_mode.util.dart';
 import 'package:d2_remote/shared/utilities/save_option.util.dart';
+import 'package:mass_pro/sdk/core/common/value_type.dart';
 
 import 'dynamic_value_extensions.dart';
-import 'value_extensions.dart';
 
 /// BlockingSetCheckTrackedEntityAttributeValueExtension
 /// TODO BaseQueryWithValue extends BaseQuery on which these extension are put
@@ -19,7 +19,7 @@ extension SetCheckTrackedEntityAttributeValueExtension
         .byId(attrUid)
         .getOne())!;
     // if (de != null) {
-    if (await check(trackedEntityAttribute.valueType.toValueType,
+    if (await check(ValueType.getValueType(trackedEntityAttribute.valueType),
         trackedEntityAttribute.optionSet, value)) {
       var finalValue = await _assureCodeForOptionSet(
           trackedEntityAttribute.optionSet, value);

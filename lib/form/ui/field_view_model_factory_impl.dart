@@ -1,7 +1,6 @@
 import 'package:d2_remote/modules/metadata/program/entities/program_tracked_entity_attribute.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/tracked_entity_attribute.entity.dart';
 import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
-import 'package:mass_pro/commons/extensions/value_extensions.dart';
 import 'package:mass_pro/commons/extensions/value_type_rendering_extension.dart';
 import 'package:mass_pro/form/model/field_ui_model.dart';
 import 'package:mass_pro/form/model/field_ui_model_impl.dart';
@@ -132,7 +131,7 @@ class FieldViewModelFactoryImpl implements FieldViewModelFactory {
       id: trackedEntityAttribute.uid!,
       // label: trackedEntityAttribute.displayFormName() ?? '',
       label: trackedEntityAttribute.formName ?? '',
-      valueType: trackedEntityAttribute.valueType.toValueType!,
+      valueType: ValueType.getValueType(trackedEntityAttribute.valueType),
       mandatory: programTrackedEntityAttribute?.mandatory ?? false,
       // optionSet: trackedEntityAttribute.optionSet?.uid(),
       optionSet: trackedEntityAttribute.optionSet,
@@ -149,10 +148,10 @@ class FieldViewModelFactoryImpl implements FieldViewModelFactory {
       //     .build(),
       fieldMask: trackedEntityAttribute.fieldMask,
       optionSetConfiguration: optionSetConfiguration,
-      featureType:
-          trackedEntityAttribute.valueType.toValueType == ValueType.Coordinate
-              ? FeatureType.POINT
-              : null,
+      featureType: ValueType.getValueType(trackedEntityAttribute.valueType) ==
+              ValueType.Coordinate
+          ? FeatureType.POINT
+          : null,
     );
   }
 

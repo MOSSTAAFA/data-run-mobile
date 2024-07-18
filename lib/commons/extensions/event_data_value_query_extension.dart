@@ -6,10 +6,9 @@ import 'package:d2_remote/modules/metadata/data_element/entities/data_element.en
 import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dart';
 import 'package:d2_remote/shared/utilities/merge_mode.util.dart';
 import 'package:d2_remote/shared/utilities/save_option.util.dart';
-
-import 'package:mass_pro/core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
 import 'package:mass_pro/commons/extensions/dynamic_value_extensions.dart';
-import 'package:mass_pro/commons/extensions/value_extensions.dart';
+import 'package:mass_pro/core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
+import 'package:mass_pro/sdk/core/common/value_type.dart';
 
 /// BlockingSetCheckTrackedEntityAttributeValueExtension
 /// TODO BaseQueryWithValue extends BaseQuery on which these extension are put
@@ -36,7 +35,7 @@ extension SetCheckTrackedEntityAttributeValueExtension on EventDataValueQuery {
         (await D2Remote.dataElementModule.dataElement.byId(deUid).getOne())!;
     // if (de != null) {
     final checkResult =
-        await check(de.valueType.toValueType, de.optionSet, value);
+        await check(ValueType.getValueType(de.valueType), de.optionSet, value);
     if (checkResult) {
       final finalValue = await _assureCodeForOptionSet(de.optionSet, value);
       await blockingSet(finalValue);
@@ -50,7 +49,7 @@ extension SetCheckTrackedEntityAttributeValueExtension on EventDataValueQuery {
 
   // NMC: TODO throws D2Error
   Future<void> blockingSet(String value) async {
-    final String date = DateUtils.databaseDateFormat().format(DateTime.now());
+    final String date = DateUtils.databaseDateFormat().format(DateTime.now().toUtc());
     final toUpdate = await getOne();
     // updateOrInsert
     if (toUpdate != null) {

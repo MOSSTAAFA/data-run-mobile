@@ -149,7 +149,7 @@ extension EventQueryUploadExtension on EventQuery {
                 : 'Success'));
         event.dirty = true;
         event.syncFailed = syncFailed;
-        event.lastSyncDate = DateUtils.databaseDateFormat().format(DateTime.now());
+        event.lastSyncDate = DateUtils.databaseDateFormat().format(DateTime.now().toUtc());
         event.lastSyncSummary = EventImportSummary.fromJson(importSummary);
         await queue.add(() => EventQuery().setData(event).save());
       }
