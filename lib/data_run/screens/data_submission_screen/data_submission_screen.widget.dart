@@ -86,7 +86,7 @@ class DataSubmissionScaffoldState extends ConsumerState<DataSubmissionScaffold>
         if (didPop) {
           return;
         }
-        await backButtonPressed(context);
+        backButtonPressed(context);
       },
       child: Scaffold(
         key: _scaffoldKey,
@@ -127,8 +127,12 @@ class DataSubmissionScaffoldState extends ConsumerState<DataSubmissionScaffold>
         floatingActionButton: _isKeyboardVisible
             ? const SizedBox.shrink()
             : FloatingActionButton(
-                onPressed: () async {
-                  await _saveAndShowBottomSheet(context);
+                onPressed: () {
+                  if (widget.formScreenStateModel.canEditForm) {
+                    _saveAndShowBottomSheet(context);
+                  } else {
+                    Navigator.pop(context);
+                  }
                 },
                 child: getFloatIcon(),
               ),
@@ -142,22 +146,18 @@ class DataSubmissionScaffoldState extends ConsumerState<DataSubmissionScaffold>
         : const Icon(Icons.arrow_back);
   }
 
-  Future<void> backButtonPressed(BuildContext context) {
-    return _saveAndShowBottomSheet(context);
-    // Data integrity and discard
+  void backButtonPressed(BuildContext context) {
+    if (_formKey.currentState!.isDirty) {
+      _saveAndShowBottomSheet(context);
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   Future<void> _saveAndShowBottomSheet(BuildContext context) async {
-    if (widget.formScreenStateModel.canEditForm &&
-        _formKey.currentState!.isDirty) {
-      await _onSaveForm();
-      if (context.mounted) {
-        return _showBottomSheet(context);
-      }
-    } else {
-      if (context.mounted) {
-        Navigator.pop(context);
-      }
+    await _onSaveForm();
+    if (context.mounted) {
+      return _showBottomSheet(context);
     }
   }
 

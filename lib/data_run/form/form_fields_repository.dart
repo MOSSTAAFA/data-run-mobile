@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/commons/date/field_with_issue.dart';
 import 'package:mass_pro/commons/helpers/iterable.dart';
-import 'package:mass_pro/data_run/engine/rule_engine_new.dart';
+import 'package:mass_pro/data_run/engine/rule_engine.dart';
 import 'package:mass_pro/data_run/form/form.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
 import 'package:mass_pro/form/model/row_action.dart';
@@ -102,21 +102,20 @@ class FormFieldsRepository {
   }
 
   FutureOr<IList<QFieldModel>> fetchFieldsList() async {
-    _backupList = await syncableEntityMappingRepository.list();
-    return composeFieldsList(_backupList);
+    _pendingUpdates = await syncableEntityMappingRepository.list();
+    _backupList = _pendingUpdates;
+    return _composeFieldsList();
   }
 
-  FutureOr<IList<QFieldModel>> composeFieldsList(IList<QFieldModel> fields) async {
-    _pendingUpdates = await applyRuleEffects(fields).then(
+  FutureOr<IList<QFieldModel>> _composeFieldsList() async {
+    _pendingUpdates = await applyRuleEffects(_pendingUpdates).then(
         (IList<QFieldModel> listOfItems) =>
             _setLastItemKeyboardAction(listOfItems));
     return _pendingUpdates;
   }
 
   FutureOr<IMap<String, QFieldModel>> composeFieldsMap() async {
-    final fieldList = await applyRuleEffects(_pendingUpdates).then(
-        (IList<QFieldModel> listOfItems) =>
-            _setLastItemKeyboardAction(listOfItems));
+    final IList<QFieldModel> fieldList = await _composeFieldsList();
 
     return IMap.fromIterable<String, QFieldModel, QFieldModel>(fieldList,
         keyMapper: (field) => field.uid, valueMapper: (field) => field);

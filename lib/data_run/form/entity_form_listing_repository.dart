@@ -67,7 +67,10 @@ class EntityFormListingRepository {
   /// Entities that are unsynced, dirty and status is not 'COMPLETED'
   Future<IList<SyncableEntity>> getEntitiesToUpdate() async {
     final List<SyncableEntity> entities =
-        await d2SyncableQuery.resetFilters().withActiveState().get();
+        await d2SyncableQuery
+            .resetFilters()
+            .withActiveState()
+            .get();
     return entities.lock;
   }
 

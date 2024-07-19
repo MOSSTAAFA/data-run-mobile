@@ -54,13 +54,11 @@ class SyncableEntityMappingRepository {
     //     clearedInvisibleFields.map((field) =>
     //         saveValue(field.uid, mapFieldToValueType(field), field.valueType)));
 
-    final storedEntity = await getQuery().byId(_syncableEntity.uid!).getOne();
-    storedEntity!.lastModifiedDate =
-        DateUtils.databaseDateFormat().format(DateTime.now().toUtc());
-    storedEntity.status = 'ACTIVE';
-    storedEntity.dirty = true;
+    final SyncableEntity? storedEntity = await getQuery()
+        .byId(_syncableEntity.uid!)
+        .getOne();
 
-    final IMap<String, dynamic> storedEntityMap = _syncableEntity.toJson().lock;
+    final IMap<String, dynamic> storedEntityMap = storedEntity!.toJson().lock;
 
     final IMap<String, dynamic> mergedWithUpdates =
         storedEntityMap.addAll(pendingUpdatesDataMap);
@@ -68,6 +66,11 @@ class SyncableEntityMappingRepository {
     getQuery().resetFilters().mergeMode = MergeMode.Replace;
 
     final updatedEntity = getQuery().fromJsonInstance(mergedWithUpdates.unlock);
+
+    updatedEntity.lastModifiedDate =
+        DateUtils.databaseDateFormat().format(DateTime.now().toUtc());
+    updatedEntity.status = 'ACTIVE';
+    updatedEntity.dirty = true;
 
     return getQuery()
         .setData(updatedEntity)
