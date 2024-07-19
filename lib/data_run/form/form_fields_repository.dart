@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/commons/date/field_with_issue.dart';
 import 'package:mass_pro/commons/helpers/iterable.dart';
-import 'package:mass_pro/data_run/engine/rule_engine.dart';
+import 'package:mass_pro/data_run/engine/rule_engine_new.dart';
 import 'package:mass_pro/data_run/form/form.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
 import 'package:mass_pro/form/model/row_action.dart';
@@ -108,10 +108,10 @@ class FormFieldsRepository {
   }
 
   FutureOr<IList<QFieldModel>> composeFieldsList() async {
-    final composedList = await applyRuleEffects(_pendingUpdates).then(
+    _pendingUpdates = await applyRuleEffects(_pendingUpdates).then(
         (IList<QFieldModel> listOfItems) =>
             _setLastItemKeyboardAction(listOfItems));
-    return composedList;
+    return _pendingUpdates;
   }
 
   FutureOr<IMap<String, QFieldModel>> composeFieldsMap() async {
