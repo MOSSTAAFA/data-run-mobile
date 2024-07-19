@@ -102,13 +102,12 @@ class FormFieldsRepository {
   }
 
   FutureOr<IList<QFieldModel>> fetchFieldsList() async {
-    _pendingUpdates = await syncableEntityMappingRepository.list();
-    _backupList = _pendingUpdates;
-    return composeFieldsList();
+    _backupList = await syncableEntityMappingRepository.list();
+    return composeFieldsList(_backupList);
   }
 
-  FutureOr<IList<QFieldModel>> composeFieldsList() async {
-    _pendingUpdates = await applyRuleEffects(_pendingUpdates).then(
+  FutureOr<IList<QFieldModel>> composeFieldsList(IList<QFieldModel> fields) async {
+    _pendingUpdates = await applyRuleEffects(fields).then(
         (IList<QFieldModel> listOfItems) =>
             _setLastItemKeyboardAction(listOfItems));
     return _pendingUpdates;

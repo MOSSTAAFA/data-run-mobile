@@ -38,8 +38,8 @@ class RuleEngine {
 
   /// Applies all rules to the given list of fields and returns the updated list
   FutureOr<IList<QFieldModel>> applyRules(IList<QFieldModel> fields) {
-    IList<QFieldModel> updatedFields = _initializeFieldVisibility(fields);
-    return _evaluateAndApplyRules(updatedFields);
+    // IList<QFieldModel> updatedFields = _initializeFieldVisibility(fields);
+    return _evaluateAndApplyRules(fields);
   }
 
   /// Initializes the visibility of fields based on 'show' rules
