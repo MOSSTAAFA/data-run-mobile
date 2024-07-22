@@ -7,14 +7,17 @@ class QFieldValidators {
   static FormFieldValidator<String> getValidators(QFieldModel fieldModel) {
     return FormBuilderValidators.compose([
       if (fieldModel.isMandatory) FormBuilderValidators.required(),
-      if (fieldModel.valueType?.isNumeric ?? false)
+      if (fieldModel.valueType ==  ValueType.Number)
         FormBuilderValidators.numeric(),
+      if (fieldModel.valueType?.isInteger ?? false)
+        FormBuilderValidators.integer(),
       if (fieldModel.valueType == ValueType.IntegerZeroOrPositive)
         FormBuilderValidators.min(0),
       if (fieldModel.valueType == ValueType.IntegerNegative)
-        FormBuilderValidators.max(0),
+        FormBuilderValidators.max(-1),
       if (fieldModel.valueType == ValueType.IntegerPositive)
-        FormBuilderValidators.max(1),
+        FormBuilderValidators.min(1),
+      (_) => fieldModel.error,
     ]);
   }
 }

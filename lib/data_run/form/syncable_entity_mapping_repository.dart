@@ -139,7 +139,7 @@ class SyncableEntityMappingRepository {
       case ValueType.IntegerZeroOrPositive:
         return int.tryParse(field?.value ?? '') ??
             double.tryParse(field?.value ?? '') ??
-            field?.value;
+            (throw Exception('value not parse'));
       case ValueType.UnitInterval:
         return int.tryParse(field?.value ?? '') ??
             double.tryParse(field?.value ?? '') ??

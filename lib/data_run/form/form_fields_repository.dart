@@ -8,6 +8,7 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:get/get.dart';
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/commons/date/field_with_issue.dart';
+import 'package:mass_pro/commons/extensions/standard_extensions.dart';
 import 'package:mass_pro/commons/helpers/iterable.dart';
 import 'package:mass_pro/data_run/engine/rule_engine.dart';
 import 'package:mass_pro/data_run/form/form.dart';
@@ -108,8 +109,10 @@ class FormFieldsRepository {
   }
 
   FutureOr<IList<QFieldModel>> _composeFieldsList() async {
-    _pendingUpdates = await applyRuleEffects(_pendingUpdates).then(
-        (IList<QFieldModel> listOfItems) =>
+    _pendingUpdates = await applyRuleEffects(_pendingUpdates)
+        .then((IList<QFieldModel> listOfItems) =>
+            _mergeListWithErrorFields(_pendingUpdates, _itemsWithError))
+        .then((IList<QFieldModel> listOfItems) =>
             _setLastItemKeyboardAction(listOfItems));
     return _pendingUpdates;
   }
@@ -217,6 +220,22 @@ class FormFieldsRepository {
 
   IList<QFieldModel> backupOfChangedItems() {
     return _backupList;
+  }
+
+  Future<IList<QFieldModel>> _mergeListWithErrorFields(
+      IList<QFieldModel> list, IList<RowAction> fieldsWithError) async {
+    final List<QFieldModel> mergedList = list.map((QFieldModel item) {
+      return fieldsWithError
+              .firstOrNullWhere((RowAction action) => action.id == item.uid)
+              ?.takeIf((RowAction action) => action.error != null)
+              ?.also((RowAction action) => item.setValue(action.value))
+              .let((RowAction action) => fieldErrorMessageProvider
+                  .getFriendlyErrorMessage(action.error!))
+              .also((String y) {})
+              .let((String friendlyError) => item.setError(friendlyError)) ??
+          item;
+    }).toList();
+    return mergedList.lock;
   }
 
   IList<FieldWithIssue> _getFieldsWithError() {

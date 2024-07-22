@@ -29,28 +29,25 @@ class QFieldWidgetFactory {
   QFormFieldBuilder _createBuilder(ValueType? valueType) {
     switch (valueType) {
       case ValueType.Text:
-      case ValueType.Number:
-      case ValueType.Email:
-      case ValueType.Letter:
       case ValueType.LongText:
-        return (fieldModel) => QTextField(
-              // key: ValueKey<String>(fieldModel.uid),
-              fieldModel: fieldModel,
-            );
+      case ValueType.Letter:
+      case ValueType.Number:
+      case ValueType.Integer:
+      case ValueType.IntegerPositive:
+      case ValueType.IntegerNegative:
+      case ValueType.IntegerZeroOrPositive:
+      case ValueType.UnitInterval:
+      case ValueType.Percentage:
+      case ValueType.Email:
+        return (fieldModel) => QTextField(fieldModel: fieldModel);
       case ValueType.Boolean:
-        return (fieldModel) => QSwitchField(
-            // key: ValueKey<String>(fieldModel.uid),
-            fieldModel: fieldModel);
+        return (fieldModel) => QSwitchField(fieldModel: fieldModel);
       case ValueType.Date:
       case ValueType.DateTime:
       case ValueType.Time:
-        return (fieldModel) => QDateTimePicker(
-            // key: ValueKey<String>(fieldModel.uid),
-            fieldModel: fieldModel);
+        return (fieldModel) => QDateTimePicker(fieldModel: fieldModel);
       case ValueType.SelectOne:
-        return (fieldModel) => QChoiceChip(
-            // key: ValueKey<String>(fieldModel.uid),
-            fieldModel: fieldModel);
+        return (fieldModel) => QChoiceChip(fieldModel: fieldModel);
       default:
         return (fieldModel) => const Text('Unsupported field type');
     }
