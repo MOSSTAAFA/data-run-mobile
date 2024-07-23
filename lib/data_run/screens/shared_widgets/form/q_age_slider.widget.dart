@@ -18,21 +18,35 @@ class QAgeSliders extends StatelessWidget {
     if (fieldModel.value != null && fieldModel.value!.isNotEmpty) {
       final valueParts = fieldModel.value!.split('.');
       years = double.tryParse(valueParts[0]) ?? 0;
+      years = years < 100 ? years : 100;
       if (valueParts.length > 1) {
         months = double.tryParse(valueParts[1]) ?? 0;
+        months = months < 12 ? months : 12;
       }
     }
 
     void updateFieldValue(FormFieldState<String?> field) {
-      final yearsValue =
-          FormBuilder.of(context)?.fields['${fieldModel.uid}_years']?.value ??
-              0;
-      final monthsValue =
-          FormBuilder.of(context)?.fields['${fieldModel.uid}_months']?.value ??
-              0;
+      final yearsValue = FormBuilder.of(context)
+              ?.fields['${fieldModel.uid}_years']
+              ?.value ??
+          0;
+      final monthsValue = FormBuilder.of(context)
+              ?.fields['${fieldModel.uid}_months']
+              ?.value ??
+          0;
       final ageDoubleValueString =
           '${yearsValue.toInt()}.${monthsValue.toInt()}';
       field.didChange(ageDoubleValueString);
+    }
+
+    String getValueString() {
+      final int yearsValue =
+          FormBuilder.of(context)?.fields['${fieldModel.uid}_years']?.value.toInt() ??
+              0;
+      final int monthsValue =
+          FormBuilder.of(context)?.fields['${fieldModel.uid}_months']?.value.toInt() ??
+              0;
+      return '${S.of(context).year(yearsValue)} ${monthsValue > 0 && yearsValue > 0 ? S.of(context).and : ''} ${S.of(context).month(monthsValue)}';
     }
 
     return Padding(
@@ -62,7 +76,7 @@ class QAgeSliders extends StatelessWidget {
                   key: ValueKey('${fieldModel.uid}_years'),
                   numberFormat: NumberFormat('0'),
                   initialValue: years,
-                  displayValues: DisplayValues.none,
+                  displayValues: DisplayValues.minMax,
                   name: '${fieldModel.uid}_years',
                   enabled: fieldModel.isEditable,
                   min: 0.0,
@@ -81,7 +95,7 @@ class QAgeSliders extends StatelessWidget {
                   key: ValueKey('${fieldModel.uid}_months'),
                   numberFormat: NumberFormat('0'),
                   initialValue: months,
-                  displayValues: DisplayValues.none,
+                  displayValues: DisplayValues.all,
                   name: '${fieldModel.uid}_months',
                   enabled: fieldModel.isEditable,
                   min: 0.0,
@@ -95,6 +109,7 @@ class QAgeSliders extends StatelessWidget {
                   onChanged: (monthsValue) {
                     updateFieldValue(field);
                   },
+                  valueWidget: (value) => Text(getValueString()),
                 ),
               ],
             ),
@@ -102,5 +117,26 @@ class QAgeSliders extends StatelessWidget {
         },
       ),
     );
+  }
+
+  void updateSlidersFromText(
+      String value, FormFieldState<String?> field, BuildContext context) {
+    double years;
+    double months;
+    final valueParts = value.split('.');
+
+    years = double.tryParse(valueParts[0]) ?? 0;
+    if (valueParts.length > 1) {
+      months = double.tryParse(valueParts[1]) ?? 0;
+    } else {
+      months = 0;
+    }
+
+    FormBuilder.of(context)
+        ?.fields['${fieldModel.uid}_years']
+        ?.didChange(years);
+    FormBuilder.of(context)
+        ?.fields['${fieldModel.uid}_months']
+        ?.didChange(months);
   }
 }

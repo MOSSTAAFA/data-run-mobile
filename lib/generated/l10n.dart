@@ -1013,6 +1013,46 @@ class S {
       args: [],
     );
   }
+
+  /// `And`
+  String get and {
+    return Intl.message(
+      'And',
+      name: 'and',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{count, plural, =0{ } =1{1 Year} =2{2 Years} few{{count} Years} other{{count} Years}}`
+  String year(num count) {
+    return Intl.plural(
+      count,
+      zero: ' ',
+      one: '1 Year',
+      two: '2 Years',
+      few: '$count Years',
+      other: '$count Years',
+      name: 'year',
+      desc: 'A plural message',
+      args: [count],
+    );
+  }
+
+  /// `{count, plural, =0{ } =1{1 Month} =2{2 Months} few{{count} Years} other{{count} Months}}`
+  String month(num count) {
+    return Intl.plural(
+      count,
+      zero: ' ',
+      one: '1 Month',
+      two: '2 Months',
+      few: '$count Years',
+      other: '$count Months',
+      name: 'month',
+      desc: 'A plural message',
+      args: [count],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -49,20 +49,20 @@ class _QChoiceChipState extends State<QChoiceChip> {
     return options
         .map((option) => FormBuilderChipOption<FormOption>(
               value: option,
-              avatar: !(wide ?? false)
-                  ? CircleAvatar(
-                      child: Icon(getRandomIcon(option.name), size: 30))
-                  : null,
+              // avatar: !(wide ?? false)
+              //     ? CircleAvatar(
+              //         child: Icon(getRandomIcon(option.name), size: 30))
+              //     : null,
               child: wide ?? false
                   ? Container(
                       padding: const EdgeInsets.all(1.0),
                       child: Column(
                         children: [
                           Text(getItemLocalString(option.label)),
-                          Icon(
+                          /*Icon(
                             getRandomIcon(option.name),
                             size: 30,
-                          ),
+                          ),*/
                         ],
                       ))
                   : Text(getItemLocalString(option.label)),
