@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/form/form.dart';
+import 'package:mass_pro/data_run/screens/shared_widgets/form/q_age_slider.widget.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -42,6 +43,9 @@ class QFieldWidgetFactory {
         return (fieldModel) => QTextField(fieldModel: fieldModel);
       case ValueType.Boolean:
         return (fieldModel) => QSwitchField(fieldModel: fieldModel);
+
+      case ValueType.Age:
+        return (fieldModel) => QAgeSliders(fieldModel: fieldModel);
       case ValueType.Date:
       case ValueType.DateTime:
       case ValueType.Time:

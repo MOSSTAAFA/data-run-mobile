@@ -160,6 +160,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("استجابة غير ناجحة من الخادم"),
         "markAsFinalData": MessageLookupByLibrary.simpleMessage(
             "تعيين هذه البيانات كنهائية وجاهزة للإرسال."),
+        "months": MessageLookupByLibrary.simpleMessage("أشهر"),
         "nmcpYemen": MessageLookupByLibrary.simpleMessage(
             "البرنامج الوطني لمكافحة الملاريا"),
         "noFormsAvailable": MessageLookupByLibrary.simpleMessage(
@@ -190,6 +191,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "username": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
         "viewAvailableForms":
             MessageLookupByLibrary.simpleMessage("استعرض الاستمارات المتاحة"),
-        "viewList": MessageLookupByLibrary.simpleMessage("عرض القائمة")
+        "viewList": MessageLookupByLibrary.simpleMessage("عرض القائمة"),
+        "years": MessageLookupByLibrary.simpleMessage("سنوات")
       };
 }

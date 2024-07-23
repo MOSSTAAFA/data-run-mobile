@@ -21,8 +21,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with ViewBase {
           children: <Widget>[
             Image.asset(
               'assets/launcher_icon/logo_white.png',
-              width: 100,
-              height: 100,
+              width: 200,
+              height: 200,
               // add animation to the logo
               // AnimatedLogo(),
             ),

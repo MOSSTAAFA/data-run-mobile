@@ -32,9 +32,9 @@ Future<FormFieldsRepository> formFieldsRepository(
       .getOne();
 
   final d2SyncableQuery =
-      ref.watch(databaseSyncableQueryProvider(formCode)).provideQuery();
+  ref.watch(databaseSyncableQueryProvider(formCode)).provideQuery();
   final SyncableEntity? syncableEntity =
-      await d2SyncableQuery.byId(syncableUid).getOne();
+  await d2SyncableQuery.byId(syncableUid).getOne();
 
   return FormFieldsRepository(
       syncableEntityMappingRepository: ref.watch(
@@ -82,10 +82,10 @@ class FormFieldsRepository {
   // IMap<String, String> _mandatoryItemsWithoutValue = IMap({});
 
   /// updates the field model in _itemList with the value based on the uid
-  Future<void> updateValueOnList(
-      String uid, String? value, ValueType? valueType) async {
+  Future<void> updateValueOnList(String uid, String? value,
+      ValueType? valueType) async {
     final displayName =
-        await displayNameProvider.provideDisplayName(valueType, value);
+    await displayNameProvider.provideDisplayName(valueType, value);
 
     final toUpdatedItem = _pendingUpdates.unlock
         .firstWhere((t) => t.uid == uid)
@@ -105,22 +105,24 @@ class FormFieldsRepository {
   FutureOr<IList<QFieldModel>> fetchFieldsList() async {
     _pendingUpdates = await syncableEntityMappingRepository.list();
     _backupList = _pendingUpdates;
-    return _composeFieldsList();
+    _pendingUpdates = await _composeFieldsList(_pendingUpdates);
+    return _pendingUpdates;
   }
 
-  FutureOr<IList<QFieldModel>> _composeFieldsList() async {
+  FutureOr<IList<QFieldModel>> _composeFieldsList(
+      IList<QFieldModel> list) async {
     _pendingUpdates = await applyRuleEffects(_pendingUpdates)
+    // .then((IList<QFieldModel> listOfItems) =>
+    //     _mergeListWithErrorFields(_pendingUpdates, _itemsWithError))
         .then((IList<QFieldModel> listOfItems) =>
-            _mergeListWithErrorFields(_pendingUpdates, _itemsWithError))
-        .then((IList<QFieldModel> listOfItems) =>
-            _setLastItemKeyboardAction(listOfItems));
+        _setLastItemKeyboardAction(listOfItems));
     return _pendingUpdates;
   }
 
   FutureOr<IMap<String, QFieldModel>> composeFieldsMap() async {
-    final IList<QFieldModel> fieldList = await _composeFieldsList();
+    _pendingUpdates = await _composeFieldsList(_pendingUpdates);
 
-    return IMap.fromIterable<String, QFieldModel, QFieldModel>(fieldList,
+    return IMap.fromIterable<String, QFieldModel, QFieldModel>(_pendingUpdates,
         keyMapper: (field) => field.uid, valueMapper: (field) => field);
   }
 
@@ -145,7 +147,7 @@ class FormFieldsRepository {
   void removeAllValues() {
     _pendingUpdates = _pendingUpdates
         .map((QFieldModel fieldUiModel) =>
-            fieldUiModel.setValue(null).setDisplayName(null))
+        fieldUiModel.setValue(null).setDisplayName(null))
         .toIList();
   }
 
@@ -153,7 +155,7 @@ class FormFieldsRepository {
   /// it to it. Else which means it was _itemsWithError, it then removes it.
   void updateErrorList(RowAction? action) {
     final itemIndex =
-        _itemsWithError.indexWhere((RowAction item) => item.id == action!.id);
+    _itemsWithError.indexWhere((RowAction item) => item.id == action!.id);
 
     // if action has error
     if (action?.error != null) {
@@ -222,17 +224,18 @@ class FormFieldsRepository {
     return _backupList;
   }
 
-  Future<IList<QFieldModel>> _mergeListWithErrorFields(
-      IList<QFieldModel> list, IList<RowAction> fieldsWithError) async {
+  Future<IList<QFieldModel>> _mergeListWithErrorFields(IList<QFieldModel> list,
+      IList<RowAction> fieldsWithError) async {
     final List<QFieldModel> mergedList = list.map((QFieldModel item) {
       return fieldsWithError
-              .firstOrNullWhere((RowAction action) => action.id == item.uid)
-              ?.takeIf((RowAction action) => action.error != null)
-              ?.also((RowAction action) => item.setValue(action.value))
-              .let((RowAction action) => fieldErrorMessageProvider
-                  .getFriendlyErrorMessage(action.error!))
-              .also((String y) {})
-              .let((String friendlyError) => item.setError(friendlyError)) ??
+          .firstOrNullWhere((RowAction action) => action.id == item.uid)
+          ?.takeIf((RowAction action) => action.error != null)
+          ?.also((RowAction action) => item.setValue(action.value))
+          .let((RowAction action) =>
+          fieldErrorMessageProvider
+              .getFriendlyErrorMessage(action.error!))
+          .also((String y) {})
+          .let((String friendlyError) => item.setError(friendlyError)) ??
           item;
     }).toList();
     return mergedList.lock;
@@ -249,7 +252,7 @@ class FormFieldsRepository {
             issueType: IssueType.ERROR,
             message: errorItem?.error != null
                 ? fieldErrorMessageProvider
-                    .getFriendlyErrorMessage(errorItem!.error!)
+                .getFriendlyErrorMessage(errorItem!.error!)
                 : '');
       }
       return null;

@@ -41,7 +41,6 @@ dynamic mapFieldToValueType(QFieldModel? field) {
   switch (field?.valueType) {
     case ValueType.Percentage:
     case ValueType.Integer:
-    case ValueType.Number:
     case ValueType.IntegerPositive:
     case ValueType.IntegerNegative:
     case ValueType.IntegerZeroOrPositive:
@@ -52,6 +51,9 @@ dynamic mapFieldToValueType(QFieldModel? field) {
       return int.tryParse(field?.value ?? '') ??
           double.tryParse(field?.value ?? '') ??
           0;
+    case ValueType.Number:
+    case ValueType.Age:
+      return double.tryParse(field?.value ?? '') ?? 0.0;
     // case ValueType.Date:
     // case ValueType.DateTime:
     //   return field?.value.toDate();

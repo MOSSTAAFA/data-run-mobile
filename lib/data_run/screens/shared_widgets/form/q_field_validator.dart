@@ -7,8 +7,11 @@ class QFieldValidators {
   static FormFieldValidator<String> getValidators(QFieldModel fieldModel) {
     return FormBuilderValidators.compose([
       if (fieldModel.isMandatory) FormBuilderValidators.required(),
-      if (fieldModel.valueType ==  ValueType.Number)
+      if (fieldModel.valueType == ValueType.Number ||
+          fieldModel.valueType == ValueType.Age)
         FormBuilderValidators.numeric(),
+      if (fieldModel.valueType == ValueType.Age && fieldModel.isMandatory)
+        FormBuilderValidators.notEqual(0.0),
       if (fieldModel.valueType?.isInteger ?? false)
         FormBuilderValidators.integer(),
       if (fieldModel.valueType == ValueType.IntegerZeroOrPositive)

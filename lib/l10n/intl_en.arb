@@ -141,5 +141,7 @@
   "nmcpYemen": "NMCP Yemen",
   "objectAccessDenied": "objectAccessDenied",
   "objectAccessClosed": "objectAccessClosed",
-  "noFormsAvailable": "No forms available"
+  "noFormsAvailable": "No forms available",
+  "months": "Months",
+  "years": "Years"
 }

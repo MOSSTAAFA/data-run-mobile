@@ -161,6 +161,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Unsuccessful response from server"),
         "markAsFinalData": MessageLookupByLibrary.simpleMessage(
             "Make the form Final before exiting."),
+        "months": MessageLookupByLibrary.simpleMessage("Months"),
         "nmcpYemen": MessageLookupByLibrary.simpleMessage("NMCP Yemen"),
         "noFormsAvailable":
             MessageLookupByLibrary.simpleMessage("No forms available"),
@@ -188,6 +189,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "username": MessageLookupByLibrary.simpleMessage("Username"),
         "viewAvailableForms":
             MessageLookupByLibrary.simpleMessage("View Available Forms"),
-        "viewList": MessageLookupByLibrary.simpleMessage("View List")
+        "viewList": MessageLookupByLibrary.simpleMessage("View List"),
+        "years": MessageLookupByLibrary.simpleMessage("Years")
       };
 }

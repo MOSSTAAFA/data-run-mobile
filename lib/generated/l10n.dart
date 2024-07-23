@@ -993,6 +993,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Months`
+  String get months {
+    return Intl.message(
+      'Months',
+      name: 'months',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Years`
+  String get years {
+    return Intl.message(
+      'Years',
+      name: 'years',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

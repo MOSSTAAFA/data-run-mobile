@@ -88,6 +88,9 @@ class RuleEngine {
             .builder()
             .setWarning(getItemLocalString(rule.message))
             .build();
+      case 'filter':
+        debugPrint('### filter rule action');
+        return field;
       default:
         return field;
     }

@@ -102,5 +102,7 @@
   "nmcpYemen": "البرنامج الوطني لمكافحة الملاريا",
   "objectAccessDenied": "الوصول مرفوض لهذا الكائن",
   "objectAccessClosed": "الوصول مغلق لهذا الكائن",
-  "noFormsAvailable": "لا تتوفر استمارات لهذا النشاط"
+  "noFormsAvailable": "لا تتوفر استمارات لهذا النشاط",
+  "months": "أشهر",
+  "years": "سنوات"
 }
