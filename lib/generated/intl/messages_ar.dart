@@ -23,9 +23,16 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m0(count) =>
       "${Intl.plural(count, zero: 'لا توجد استمارات', one: 'استمارة واحدة', two: 'استمارتان', other: '${count} استمارة')}";
 
+  static String m1(count) =>
+      "${Intl.plural(count, zero: ' ', one: 'شهر', two: 'شهران', few: '${count} أشهر', other: '${count} شهر')}";
+
+  static String m2(count) =>
+      "${Intl.plural(count, zero: '', one: 'سنة', two: 'سنتان', few: '${count} سنوات', other: '${count} سنة')}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "addNew": MessageLookupByLibrary.simpleMessage("إضافة جديد"),
+        "and": MessageLookupByLibrary.simpleMessage("و"),
         "appName": MessageLookupByLibrary.simpleMessage("ماس برو"),
         "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
         "configurationReady":
@@ -160,6 +167,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("استجابة غير ناجحة من الخادم"),
         "markAsFinalData": MessageLookupByLibrary.simpleMessage(
             "تعيين هذه البيانات كنهائية وجاهزة للإرسال."),
+        "month": m1,
+        "months": MessageLookupByLibrary.simpleMessage("أشهر"),
         "nmcpYemen": MessageLookupByLibrary.simpleMessage(
             "البرنامج الوطني لمكافحة الملاريا"),
         "noFormsAvailable": MessageLookupByLibrary.simpleMessage(
@@ -190,6 +199,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "username": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
         "viewAvailableForms":
             MessageLookupByLibrary.simpleMessage("استعرض الاستمارات المتاحة"),
-        "viewList": MessageLookupByLibrary.simpleMessage("عرض القائمة")
+        "viewList": MessageLookupByLibrary.simpleMessage("عرض القائمة"),
+        "year": m2,
+        "years": MessageLookupByLibrary.simpleMessage("سنوات")
       };
 }

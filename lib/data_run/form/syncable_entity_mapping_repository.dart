@@ -50,10 +50,6 @@ class SyncableEntityMappingRepository {
         field.uid: mapFieldToValueType(field)
     }.lock;
 
-    // final List<StoreResult> result = await Future.wait(
-    //     clearedInvisibleFields.map((field) =>
-    //         saveValue(field.uid, mapFieldToValueType(field), field.valueType)));
-
     final SyncableEntity? storedEntity = await getQuery()
         .byId(_syncableEntity.uid!)
         .getOne();
@@ -133,16 +129,19 @@ class SyncableEntityMappingRepository {
     switch (field?.valueType) {
       case ValueType.Percentage:
       case ValueType.Integer:
-      case ValueType.Number:
       case ValueType.IntegerPositive:
       case ValueType.IntegerNegative:
       case ValueType.IntegerZeroOrPositive:
         return int.tryParse(field?.value ?? '') ??
-            double.tryParse(field?.value ?? '') ??
+            double.tryParse(field?.value ?? '')?.toInt() ??
             field?.value;
       case ValueType.UnitInterval:
         return int.tryParse(field?.value ?? '') ??
             double.tryParse(field?.value ?? '') ??
+            field?.value;
+      case ValueType.Number:
+      case ValueType.Age:
+        return double.tryParse(field?.value ?? '') ??
             field?.value;
       // case ValueType.Date:
       // case ValueType.DateTime:

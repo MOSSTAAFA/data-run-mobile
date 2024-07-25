@@ -99,6 +99,8 @@ class DataSubmissionScaffoldState extends ConsumerState<DataSubmissionScaffold>
                 key: _formKey,
                 onChanged: () {
                   _formKey.currentState!.save();
+                  debugPrint('${_formKey.currentState!.value}');
+                  _formKey.currentState!.save();
                 },
                 enabled: widget.formScreenStateModel.canEditForm,
                 child: Padding(

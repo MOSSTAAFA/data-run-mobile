@@ -23,9 +23,16 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m0(count) =>
       "${Intl.plural(count, zero: 'no forms', one: '1 form', two: '2 forms', other: '${count} forms')}";
 
+  static String m1(count) =>
+      "${Intl.plural(count, zero: ' ', one: '1 Month', two: '2 Months', few: '${count} Years', other: '${count} Months')}";
+
+  static String m2(count) =>
+      "${Intl.plural(count, zero: ' ', one: '1 Year', two: '2 Years', few: '${count} Years', other: '${count} Years')}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "addNew": MessageLookupByLibrary.simpleMessage("Add New"),
+        "and": MessageLookupByLibrary.simpleMessage("And"),
         "appName": MessageLookupByLibrary.simpleMessage("MASS PRO"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "configurationReady":
@@ -161,6 +168,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Unsuccessful response from server"),
         "markAsFinalData": MessageLookupByLibrary.simpleMessage(
             "Make the form Final before exiting."),
+        "month": m1,
+        "months": MessageLookupByLibrary.simpleMessage("Months"),
         "nmcpYemen": MessageLookupByLibrary.simpleMessage("NMCP Yemen"),
         "noFormsAvailable":
             MessageLookupByLibrary.simpleMessage("No forms available"),
@@ -188,6 +197,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "username": MessageLookupByLibrary.simpleMessage("Username"),
         "viewAvailableForms":
             MessageLookupByLibrary.simpleMessage("View Available Forms"),
-        "viewList": MessageLookupByLibrary.simpleMessage("View List")
+        "viewList": MessageLookupByLibrary.simpleMessage("View List"),
+        "year": m2,
+        "years": MessageLookupByLibrary.simpleMessage("Years")
       };
 }

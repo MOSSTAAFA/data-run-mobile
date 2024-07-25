@@ -11,7 +11,8 @@ Future<IList<SyncableEntity>> entitiesByStatus(EntitiesByStatusRef ref,
     {required String formCode,
     SyncableEntityState? entityStatus,
     String sortBy = 'name'}) async {
-  return ref
+  final ddd = await ref
       .watch(entityFormListingRepositoryProvider(formCode))
       .getEntitiesByState(state: entityStatus);
+  return ddd;
 }

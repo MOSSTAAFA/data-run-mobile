@@ -141,5 +141,28 @@
   "nmcpYemen": "NMCP Yemen",
   "objectAccessDenied": "objectAccessDenied",
   "objectAccessClosed": "objectAccessClosed",
-  "noFormsAvailable": "No forms available"
+  "noFormsAvailable": "No forms available",
+  "months": "Months",
+  "years": "Years",
+  "and": "And",
+  "year": "{count, plural, =0{ } =1{1 Year} =2{2 Years} few{{count} Years} other{{count} Years}}",
+  "@year": {
+    "description": "A plural message",
+    "placeholders": {
+      "count": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
+  "month": "{count, plural, =0{ } =1{1 Month} =2{2 Months} few{{count} Years} other{{count} Months}}",
+  "@month": {
+    "description": "A plural message",
+    "placeholders": {
+      "count": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  }
 }

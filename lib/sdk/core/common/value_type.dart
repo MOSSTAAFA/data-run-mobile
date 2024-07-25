@@ -24,7 +24,7 @@ enum ValueType {
   Coordinate(CoordinateValidator()),
   OrganisationUnit(UidValidator()),
   Reference(TextValidator()),
-  Age(DateValidator()),
+  Age(NumberValidator()),
   URL(TextValidator()),
   FileResource(UidValidator()),
   Image(UidValidator()),
@@ -42,7 +42,6 @@ enum ValueType {
 
   static List<ValueType> get INTEGER_TYPES => [
         Integer,
-        Number,
         IntegerPositive,
         IntegerNegative,
         IntegerZeroOrPositive

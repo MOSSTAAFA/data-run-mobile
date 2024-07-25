@@ -6,7 +6,13 @@ extension StringNullExtension on String? {
   DateTime? toDate() {
     DateTime? date;
     try {
-      return DateUtils.databaseDateFormatNoZone().parse(this ?? '');
+      return DateUtils.uiDateFormat().parse(this ?? '');
+    } catch (e) {
+      logError(info: 'wrong DateTime format');
+    }
+
+    try {
+      return DateUtils.oldUiDateFormat().parse(this ?? '');
     } catch (e) {
       logError(info: 'wrong DateTime format');
     }
@@ -16,20 +22,15 @@ extension StringNullExtension on String? {
     } catch (e) {
       logError(info: 'wrong DateTime format');
     }
+
+    try {
+      return DateUtils.databaseDateFormatNoZone().parse(this ?? '');
+    } catch (e) {
+      logError(info: 'wrong DateTime format');
+    }
+
     try {
       return DateUtils.dateTimeFormat().parse(this ?? '');
-    } catch (e) {
-      logError(info: 'wrong DateTime format');
-    }
-
-    try {
-      return DateUtils.uiDateFormat().parse(this ?? '');
-    } catch (e) {
-      logError(info: 'wrong DateTime format');
-    }
-
-    try {
-      return DateUtils.oldUiDateFormat().parse(this ?? '');
     } catch (e) {
       logError(info: 'wrong DateTime format');
     }
