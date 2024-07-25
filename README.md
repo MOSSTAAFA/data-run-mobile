@@ -22,6 +22,45 @@ ensure accurate and timely data transmission to support malaria control efforts.
   connection is restored.
 - **User-Friendly Interface**: Simple and intuitive design to facilitate ease of use by healthcare
   workers.
+-
+
+## Screenshots
+
+<div style="display: flex; flex-wrap: wrap;">
+  <div style="flex: 1; padding: 10px;">
+    <img src="screenshots/1.png" alt="Screenshot 1" style="width: 100%;">
+  </div>
+  <div style="flex: 1; padding: 10px;">
+    <img src="screenshots/2.png" alt="Screenshot 2" style="width: 100%;">
+  </div>
+  <div style="flex: 1; padding: 10px;">
+    <img src="screenshots/3.png" alt="Screenshot 3" style="width: 100%;">
+  </div>
+  <div style="flex: 1; padding: 10px;">
+    <img src="screenshots/4.png" alt="Screenshot 4" style="width: 100%;">
+  </div>
+<div style="flex: 1; padding: 10px;">
+    <img src="screenshots/5.png" alt="Screenshot 1" style="width: 100%;">
+  </div>
+  <div style="flex: 1; padding: 10px;">
+    <img src="screenshots/6.png" alt="Screenshot 2" style="width: 100%;">
+  </div>
+  <div style="flex: 1; padding: 10px;">
+    <img src="screenshots/7.png" alt="Screenshot 3" style="width: 100%;">
+  </div>
+  <div style="flex: 1; padding: 10px;">
+    <img src="screenshots/8.png" alt="Screenshot 4" style="width: 100%;">
+  </div>
+  <div style="flex: 1; padding: 10px;">
+    <img src="screenshots/9.png" alt="Screenshot 2" style="width: 100%;">
+  </div>
+  <div style="flex: 1; padding: 10px;">
+    <img src="screenshots/10.png" alt="Screenshot 3" style="width: 100%;">
+  </div>
+  <div style="flex: 1; padding: 10px;">
+    <img src="screenshots/11.png" alt="Screenshot 4" style="width: 100%;">
+  </div>
+</div>
 
 ## Installation
 

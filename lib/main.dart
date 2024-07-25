@@ -71,7 +71,7 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const locale = Locale('ar', '');
+    const locale = Locale('en', 'en_us');
 
     return GetMaterialApp(
       navigatorKey: navigatorKey,
@@ -111,7 +111,7 @@ class App extends ConsumerWidget {
       ],
       supportedLocales: const [
         Locale('ar', ''),
-        Locale('en', 'us'),
+        Locale('en', 'en_us'),
       ],
       locale: locale,
       initialRoute: SplashScreen.route,
