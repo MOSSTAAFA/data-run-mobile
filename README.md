@@ -26,41 +26,16 @@ ensure accurate and timely data transmission to support malaria control efforts.
 
 ## Screenshots
 
-<div style="display: flex; flex-wrap: wrap;">
-  <div style="flex: 1; padding: 10px;">
-    <img src="screenshots/1.png" alt="Screenshot 1" style="width: 100%;">
-  </div>
-  <div style="flex: 1; padding: 10px;">
-    <img src="screenshots/2.png" alt="Screenshot 2" style="width: 100%;">
-  </div>
-  <div style="flex: 1; padding: 10px;">
-    <img src="screenshots/3.png" alt="Screenshot 3" style="width: 100%;">
-  </div>
-  <div style="flex: 1; padding: 10px;">
-    <img src="screenshots/4.png" alt="Screenshot 4" style="width: 100%;">
-  </div>
-<div style="flex: 1; padding: 10px;">
-    <img src="screenshots/5.png" alt="Screenshot 1" style="width: 100%;">
-  </div>
-  <div style="flex: 1; padding: 10px;">
-    <img src="screenshots/6.png" alt="Screenshot 2" style="width: 100%;">
-  </div>
-  <div style="flex: 1; padding: 10px;">
-    <img src="screenshots/7.png" alt="Screenshot 3" style="width: 100%;">
-  </div>
-  <div style="flex: 1; padding: 10px;">
-    <img src="screenshots/8.png" alt="Screenshot 4" style="width: 100%;">
-  </div>
-  <div style="flex: 1; padding: 10px;">
-    <img src="screenshots/9.png" alt="Screenshot 2" style="width: 100%;">
-  </div>
-  <div style="flex: 1; padding: 10px;">
-    <img src="screenshots/10.png" alt="Screenshot 3" style="width: 100%;">
-  </div>
-  <div style="flex: 1; padding: 10px;">
-    <img src="screenshots/11.png" alt="Screenshot 4" style="width: 100%;">
-  </div>
-</div>
+# Project Name
+
+## Screenshots
+
+| ![1](screenshots/1.png) | ![2](screenshots/2.png) | ![3](screenshots/3.png) |
+| ----------------------- | ----------------------- | ----------------------- |
+| ![4](screenshots/4.png) | ![5](screenshots/5.png) | ![6](screenshots/6.png) |
+| ![7](screenshots/7.png) | ![8](screenshots/8.png) | ![9](screenshots/9.png) |
+| ![10](screenshots/10.png) | ![11](screenshots/11.png) |                       |
+
 
 ## Installation
 
