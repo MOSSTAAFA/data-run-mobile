@@ -6,7 +6,6 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:mass_pro/data_run/form/map_field_value_to_user.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
 import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
-import 'package:mass_pro/data_run/utils/randomIcon.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:mass_pro/sdk/core/common/value_type_rendering_type.dart';
 
@@ -115,7 +114,7 @@ class DynamicFormFieldWidget extends StatelessWidget {
               ),
             ));
       case ValueType.SelectOne:
-        return FormBuilderRadioGroup<FormOption?>(
+        return FormBuilderChoiceChip<FormOption?>(
           name: fieldModel.uid,
           enabled: fieldModel.isEditable,
           valueTransformer: (FormOption? option) => option?.name,
@@ -125,16 +124,11 @@ class DynamicFormFieldWidget extends StatelessWidget {
           //     ? fieldModel.controller!.text
           //     : null,
           options: _getFieldOptions(fieldModel.options!.unlock),
-          wrapSpacing: 10.0,
-          orientation: _getOptionsOrientation(fieldModel),
-          wrapRunSpacing: 10.0,
           onChanged: (FormOption? value) {
             if (value != null) {
               // fieldModel.controller?.text = value;
             }
           },
-          itemDecoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5.0)),
         );
       default:
         return const Text('Unsupported field type');
@@ -174,19 +168,38 @@ class DynamicFormFieldWidget extends StatelessWidget {
     }
   }
 
-  List<FormBuilderFieldOption<FormOption>> _getFieldOptions(
-      List<FormOption> options) {
+  // List<FormBuilderFieldOption<FormOption>> _getFieldOptions(
+  //     List<FormOption> options) {
+  //   return options
+  //       .map((option) => FormBuilderFieldOption<FormOption>(
+  //             value: option,
+  //             child: Container(
+  //                 padding: const EdgeInsets.all(5.0),
+  //                 child: Column(
+  //                   children: [
+  //                     Text(getItemLocalString(option.label)),
+  //                     Icon(getRandomIcon(option.name))
+  //                   ],
+  //                 )),
+  //           ))
+  //       .toList();
+  // }
+
+  List<FormBuilderChipOption<FormOption>> _getFieldOptions(
+      List<FormOption> options,
+      {bool? wide}) {
     return options
-        .map((option) => FormBuilderFieldOption<FormOption>(
+        .map((option) => FormBuilderChipOption<FormOption>(
               value: option,
-              child: Container(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Column(
-                    children: [
-                      Text(getItemLocalString(option.label)),
-                      Icon(getRandomIcon(option.name))
-                    ],
-                  )),
+              child: wide ?? false
+                  ? Container(
+                      padding: const EdgeInsets.all(1.0),
+                      child: Column(
+                        children: [
+                          Text(getItemLocalString(option.label)),
+                        ],
+                      ))
+                  : Text(getItemLocalString(option.label)),
             ))
         .toList();
   }

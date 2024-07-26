@@ -193,7 +193,7 @@ class SyncableEntityMappingRepository {
         uid: field.name,
         isFocused: false,
         isEditable: true,
-        isMandatory: field.required,
+        isMandatory: field.mandatory,
         label: getItemLocalString(field.label),
         value: value is String ? value : value?.toString(),
         valueType: valueType,

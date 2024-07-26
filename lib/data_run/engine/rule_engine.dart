@@ -73,7 +73,7 @@ class RuleEngine {
 
   /// Applies the specified action to the field with the given UID
   QFieldModel _applyAction(QFieldModel field, Rule rule) {
-    switch (rule.action) {
+    switch (rule.action?.toLowerCase()) {
       case 'show':
         return field.builder().setIsVisible(true).build();
       case 'hide':
@@ -98,7 +98,7 @@ class RuleEngine {
 
   /// Resets the specified action on the field with the given UID
   QFieldModel _resetAction(QFieldModel field, Rule rule) {
-    switch (rule.action) {
+    switch (rule.action?.toLowerCase()) {
       case 'show':
         return field.builder().setIsVisible(false).build();
       case 'hide':

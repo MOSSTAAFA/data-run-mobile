@@ -31,7 +31,7 @@ void main() {
                   action: 'show',
                   expression: 'true',
                   id: 'id1',
-                  field: 'field1')
+                  /*field: 'field1'*/)
             ]),
             isFocused: false,
             isVisible: true,
@@ -45,7 +45,7 @@ void main() {
                   action: 'show',
                   expression: 'false',
                   id: 'id1',
-                  field: 'field1')
+                  /*field: 'field1'*/)
             ]),
             isFocused: false,
             isEditable: true,
@@ -73,7 +73,7 @@ void main() {
                   action: 'show',
                   expression: 'true',
                   id: 'id1',
-                  field: 'field1')
+                  /*field: 'field1'*/)
             ]),
             isFocused: false,
             isVisible: false,
@@ -98,7 +98,7 @@ void main() {
                   action: 'hide',
                   expression: 'true',
                   id: 'id1',
-                  field: 'field1')
+                  /*field: 'field1'*/)
             ]),
             isFocused: false,
             isVisible: true,
@@ -124,7 +124,7 @@ void main() {
                   expression: 'true',
                   message: {'en': 'Error message'},
                   id: 'id1',
-                  field: 'field1')
+                  /*field: 'field1'*/)
             ]),
             isFocused: false,
             isEditable: true,
@@ -150,7 +150,7 @@ void main() {
                   expression: 'false',
                   message: {'en': 'Error message'},
                   id: 'id1',
-                  field: 'field1')
+                  /*field: 'field1'*/)
             ]),
             isFocused: false,
             isEditable: true,
@@ -175,7 +175,7 @@ void main() {
                   expression: 'invalid expression',
                   message: {'en': 'Error message'},
                   id: 'id1',
-                  field: 'field1')
+                  /*field: 'field1'*/)
             ]),
             isFocused: false,
             isEditable: true,

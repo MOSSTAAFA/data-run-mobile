@@ -15,6 +15,7 @@ class DatabaseSyncableQuery {
     final SyncableQuery query = when<String?, SyncableQuery>(formCode, {
       'CHV_PATIENTS_FORM': () => D2Remote.iccmModule.chvRegister,
       'CHV_SESSIONS_FORM': () => D2Remote.iccmModule.chvSession,
+      'CHV_SUPPLY_FORM': () => D2Remote.iccmModule.chvSupply,
       'ITN_DISTRIBUTION_FORM': () => D2Remote.itnsVillageModule.itnsVillage,
     }).orElse(() => throw Exception('UnAvailable Entity for Form: $formCode'));
     return query;

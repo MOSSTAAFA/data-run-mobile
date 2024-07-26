@@ -70,7 +70,7 @@ class FormListingModelsMapper {
               uid: field.name,
               isFocused: false,
               isEditable: true,
-              isMandatory: field.required,
+              isMandatory: field.mandatory,
               label: getItemLocalString(field.label),
               options: field.options?.lock,
               valueType: ValueType.getValueType(field.type),

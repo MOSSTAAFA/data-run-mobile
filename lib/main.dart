@@ -71,7 +71,8 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const locale = Locale('en', 'en_us');
+    // const locale = Locale('en', 'en_us');
+    const locale = Locale('ar', '');
 
     return GetMaterialApp(
       navigatorKey: navigatorKey,
