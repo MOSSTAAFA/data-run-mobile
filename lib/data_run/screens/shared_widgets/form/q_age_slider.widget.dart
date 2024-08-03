@@ -16,7 +16,7 @@ class QAgeSliders extends StatelessWidget {
     double months = 0;
 
     if (fieldModel.value != null && fieldModel.value!.isNotEmpty) {
-      final valueParts = fieldModel.value!.split('.');
+      final List<String> valueParts = fieldModel.value!.split('.');
       years = double.tryParse(valueParts[0]) ?? 0;
       years = years < 100 ? years : 100;
       if (valueParts.length > 1) {
@@ -34,7 +34,7 @@ class QAgeSliders extends StatelessWidget {
               ?.fields['${fieldModel.uid}_months']
               ?.value ??
           0;
-      final ageDoubleValueString =
+      final String ageDoubleValueString =
           '${yearsValue.toInt()}.${monthsValue.toInt()}';
       field.didChange(ageDoubleValueString);
     }
@@ -55,7 +55,7 @@ class QAgeSliders extends StatelessWidget {
         key: ValueKey(fieldModel.uid),
         name: fieldModel.uid,
         validator: QFieldValidators.getValidators(fieldModel),
-        onChanged: (value) {
+        onChanged: (String? value) {
           fieldModel.onTextChange(value.toString());
         },
         builder: (FormFieldState<String?> field) {
@@ -67,13 +67,13 @@ class QAgeSliders extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 Text(
                   fieldModel.label ?? '',
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 FormBuilderSlider(
-                  key: ValueKey('${fieldModel.uid}_years'),
+                  // key: ValueKey('${fieldModel.uid}_years'),
                   numberFormat: NumberFormat('0'),
                   initialValue: years,
                   displayValues: DisplayValues.minMax,
@@ -87,12 +87,12 @@ class QAgeSliders extends StatelessWidget {
                   decoration: InputDecoration(
                     labelText: S.of(context).years,
                   ),
-                  onChanged: (yearsValue) {
+                  onChanged: (double? yearsValue) {
                     updateFieldValue(field);
                   },
                 ),
                 FormBuilderSlider(
-                  key: ValueKey('${fieldModel.uid}_months'),
+                  // key: ValueKey('${fieldModel.uid}_months'),
                   numberFormat: NumberFormat('0'),
                   initialValue: months,
                   displayValues: DisplayValues.all,
@@ -106,10 +106,10 @@ class QAgeSliders extends StatelessWidget {
                   decoration: InputDecoration(
                     labelText: S.of(context).months,
                   ),
-                  onChanged: (monthsValue) {
+                  onChanged: (double? monthsValue) {
                     updateFieldValue(field);
                   },
-                  valueWidget: (value) => Text(getValueString()),
+                  valueWidget: (String value) => Text(getValueString()),
                 ),
               ],
             ),
@@ -123,7 +123,7 @@ class QAgeSliders extends StatelessWidget {
       String value, FormFieldState<String?> field, BuildContext context) {
     double years;
     double months;
-    final valueParts = value.split('.');
+    final List<String> valueParts = value.split('.');
 
     years = double.tryParse(valueParts[0]) ?? 0;
     if (valueParts.length > 1) {

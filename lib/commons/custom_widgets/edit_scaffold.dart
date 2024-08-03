@@ -53,7 +53,7 @@
 //     bool isEnabled = (isMobile(context) ||
 //                 !state.uiState.isInSettings ||
 //                 state.uiState.isEditing //||
-//             // TODO NMCP when adding settings
+//             // `TODO` NMCP when adding settings
 //             // state.settingsUIState.isChanged
 //             ) &&
 //             !entityState.isSaving /*&&

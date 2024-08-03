@@ -13,7 +13,7 @@ class QDateTimePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final inputType = fieldModel.valueType == ValueType.Date
+    final InputType inputType = fieldModel.valueType == ValueType.Date
         ? InputType.date
         : fieldModel.valueType == ValueType.Time
             ? InputType.time

@@ -1,3 +1,4 @@
+import 'package:fast_immutable_collections/src/ilist/ilist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_item.model.dart';
@@ -16,10 +17,10 @@ class FormsTiles extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final formsList = ref.watch(formListItemModelsProvider);
+    final AsyncValue<IList<FormListItemModel>> formsList = ref.watch(formListItemModelsProvider);
 
     return formsList.when(
-      data: (data) => Column(
+      data: (IList<FormListItemModel> data) => Column(
         children: data
             .map<Widget>((FormListItemModel t) => Padding(
                   padding: const EdgeInsets.symmetric(
@@ -38,16 +39,26 @@ class FormsTiles extends ConsumerWidget {
                         padding: const EdgeInsets.all(16.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              t.formName!,
-                              style: const TextStyle(fontWeight: FontWeight.bold),
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  t.formName!,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  '${S.of(context).version}: ${t.version}',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                              ],
                             ),
                             const SizedBox(height: 8),
                             Wrap(
                               spacing: 8.0,
                               runSpacing: 4.0,
-                              children: [
+                              children: <Widget>[
                                 /// Sent
                                 Chip(
                                     avatar: CircleAvatar(
@@ -90,24 +101,7 @@ class FormsTiles extends ConsumerWidget {
                             const SizedBox(height: 16),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                // ElevatedButton.icon(
-                                //   onPressed: () => onList?.call(t),
-                                //   icon: const Icon(Icons.list),
-                                //   label: Text(S.of(context).viewList),
-                                //   style: ElevatedButton.styleFrom(
-                                //     backgroundColor: Colors.blue,
-                                //     foregroundColor: Colors.white,
-                                //   ),
-                                // ),
-                                // OverlayConfirmButton(
-                                //   label: 'Add New',
-                                //   icon: Icons.add,
-                                //   color: Colors.green,
-                                //   onConfirm: () {
-                                //     onAdd?.call(t);
-                                //   },
-                                // ),
+                              children: <Widget>[
                                 ElevatedButton.icon(
                                   onPressed: () {
                                     onAdd?.call(t);
@@ -118,7 +112,7 @@ class FormsTiles extends ConsumerWidget {
                                     backgroundColor: Colors.green,
                                     foregroundColor: Colors.white,
                                   ),
-                                ),
+                                )
                               ],
                             ),
                           ],
@@ -129,7 +123,7 @@ class FormsTiles extends ConsumerWidget {
                 ))
             .toList(),
       ),
-      error: (error, _) => Text('Error: $error'),
+      error: (Object error, _) => Text('Error: $error'),
       loading: () => const CircularProgressIndicator(),
     );
   }

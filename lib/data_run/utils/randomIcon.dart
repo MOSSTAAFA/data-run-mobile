@@ -1,10 +1,11 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 
 IconData getRandomIcon(String code) {
-  List<IconData> icons = [
+  final List<IconData> icons = <IconData>[
     Icons.home,
     Icons.vaccines,
     Icons.male,
@@ -25,11 +26,11 @@ IconData getRandomIcon(String code) {
   ];
 
   // Hash the code to get a consistent value
-  var bytes = utf8.encode(code);
-  var digest = md5.convert(bytes);
-  int hashValue = digest.bytes.reduce((value, element) => value + element);
+  final Uint8List bytes = utf8.encode(code);
+  final Digest digest = md5.convert(bytes);
+  final int hashValue = digest.bytes.reduce((int value, int element) => value + element);
 
   // Use the hash value to get a consistent index
-  int index = hashValue % icons.length;
+  final int index = hashValue % icons.length;
   return icons[index];
 }

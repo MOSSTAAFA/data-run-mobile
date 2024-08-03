@@ -81,7 +81,7 @@ class NavigationTabBarViewState extends ConsumerState<NavigationTabBarView>
     Widget? drawerHamburger;
     if (widget.drawer != null) {
       drawerHamburger = Builder(
-        builder: (context) => InkWell(
+        builder: (BuildContext context) => InkWell(
           onLongPress: widget.onHamburgerLongPress,
           child: IconButton(
             tooltip: L('menuSidebar'),
@@ -96,7 +96,7 @@ class NavigationTabBarViewState extends ConsumerState<NavigationTabBarView>
 
     if (widget.appBarLeadingActions != null) {
       leadingActions = Row(
-        children: [
+        children: <Widget>[
           if (drawerHamburger != null) Expanded(child: drawerHamburger),
           ...?widget.appBarLeadingActions,
         ],
@@ -120,8 +120,8 @@ class NavigationTabBarViewState extends ConsumerState<NavigationTabBarView>
               leadingWidth: kMinInteractiveDimension *
                   (widget.appBarLeadingActions?.length ??
                       0 + (isMobile(context) ? 1 : 2)),
-              title: widget.appBarTitle?.let((it) => Row(
-                    children: [
+              title: widget.appBarTitle?.let((Widget it) => Row(
+                    children: <Widget>[
                       Expanded(child: it),
                     ],
                   )),
@@ -133,7 +133,7 @@ class NavigationTabBarViewState extends ConsumerState<NavigationTabBarView>
                       controller: controller,
                       children: List.generate(
                         _visibleTabs.length,
-                        (index) => widget.pageBuilder(
+                        (int index) => widget.pageBuilder(
                             context, _visibleTabs[index].viewAction),
                       ),
                     ),
@@ -156,7 +156,7 @@ class NavigationTabBarViewState extends ConsumerState<NavigationTabBarView>
                         ),
                         tabs: List.generate(
                           _visibleTabs.length,
-                          (index) => widget.tabBuilder!
+                          (int index) => widget.tabBuilder!
                               .call(context, _visibleTabs[index].viewAction),
                         ),
                       )
@@ -257,9 +257,9 @@ class NavigationTabBarViewState extends ConsumerState<NavigationTabBarView>
 
   List<NavigationPage> getVisibleTabs() {
     final List<NavigationPage> visibleMenuItems = <NavigationPage>[];
-    for (final menuItme in ViewAction.values) {
+    for (final ViewAction menuItme in ViewAction.values) {
       if (widget.pageConfigurator.pageVisibility(menuItme)) {
-        NavigationPage.getMenu(menuItme)?.let((it) => visibleMenuItems.add(it));
+        NavigationPage.getMenu(menuItme)?.let((NavigationPage it) => visibleMenuItems.add(it));
       }
     }
     return visibleMenuItems;

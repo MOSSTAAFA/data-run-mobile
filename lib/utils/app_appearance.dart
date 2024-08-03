@@ -28,7 +28,7 @@ class AppAppearanceNotifier extends _$AppAppearanceNotifier {
   void handleImageSelect(int value) {
     final String url = ColorImageProvider.values[value].url;
     ColorScheme.fromImageProvider(provider: NetworkImage(url))
-        .then((newScheme) {
+        .then((ColorScheme newScheme) {
       colorSelectionMethod = ColorSelectionMethod.image;
       imageSelected = ColorImageProvider.values[value];
       imageColorScheme = newScheme;
@@ -94,7 +94,7 @@ class AppAppearance with EquatableMixin {
   }
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props => <Object?>[
         useMaterial3,
         themeMode,
         colorSelected,

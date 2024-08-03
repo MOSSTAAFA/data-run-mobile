@@ -11,7 +11,7 @@ import 'package:mass_pro/core/d2_remote_extensions/tracker/queries/base_query_ex
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 
 /// BlockingSetCheckTrackedEntityAttributeValueExtension
-/// TODO BaseQueryWithValue extends BaseQuery on which these extension are put
+// TODOBaseQueryWithValue extends BaseQuery on which these extension are put
 extension SetCheckTrackedEntityAttributeValueExtension on EventDataValueQuery {
   // NMC: TODO throws D2Error
   Future<bool> blockingExists() async {
@@ -24,9 +24,9 @@ extension SetCheckTrackedEntityAttributeValueExtension on EventDataValueQuery {
   Future<void> blockingDeleteIfExist() async {
     // blockingDelete()
     // delete(blockingGetWithoutChildren())
-    final toDelete = await getOne();
+    final EventDataValue? toDelete = await getOne();
     if (toDelete != null) {
-      await byId(toDelete.uid as String).delete();
+      await byId(toDelete.uid!).delete();
     }
   }
 
@@ -34,10 +34,10 @@ extension SetCheckTrackedEntityAttributeValueExtension on EventDataValueQuery {
     final DataElement de =
         (await D2Remote.dataElementModule.dataElement.byId(deUid).getOne())!;
     // if (de != null) {
-    final checkResult =
+    final bool checkResult =
         await check(ValueType.getValueType(de.valueType), de.optionSet, value);
     if (checkResult) {
-      final finalValue = await _assureCodeForOptionSet(de.optionSet, value);
+      final String finalValue = await _assureCodeForOptionSet(de.optionSet, value);
       await blockingSet(finalValue);
       return true;
     } else {
@@ -50,7 +50,7 @@ extension SetCheckTrackedEntityAttributeValueExtension on EventDataValueQuery {
   // NMC: TODO throws D2Error
   Future<void> blockingSet(String value) async {
     final String date = DateUtils.databaseDateFormat().format(DateTime.now().toUtc());
-    final toUpdate = await getOne();
+    final EventDataValue? toUpdate = await getOne();
     // updateOrInsert
     if (toUpdate != null) {
       mergeMode = MergeMode.Merge;
@@ -73,7 +73,7 @@ extension SetCheckTrackedEntityAttributeValueExtension on EventDataValueQuery {
     await setData(EventDataValue(
             dirty: true,
             dataElement: dataElement!,
-            event: event!,
+            event: event,
             value: value,
             providedElsewhere: false,
             createdDate: date,

@@ -103,7 +103,7 @@ class AppState with _$AppState {
     //   return true;
     // }
 
-    final color = ''; //userCompany?.settings?.accentColor ?? '';
+    const String color = ''; //userCompany?.settings?.accentColor ?? '';
 
     if (color == '#ffffff' && !prefState.enableDarkMode) {
       return false;
@@ -121,7 +121,7 @@ class AppState with _$AppState {
       : convertHexStringToColor('#000000');
 
   Color? get accentColor {
-    var color =
+    String color =
         kDefaultAccentColor; // userCompany?.settings?.accentColor ?? kDefaultAccentColor;
 
     if (color == '#ffffff' && !prefState.enableDarkMode) {
@@ -136,7 +136,7 @@ class AppState with _$AppState {
   // String get appVersion {
   //   String version = 'v';
   //
-  //   version += account?.currentVersion ?? '';
+  //   version += account?.version ?? '';
   //
   //   if (version.isNotEmpty) {
   //     version += '-';
@@ -222,7 +222,7 @@ class AppState with _$AppState {
   //   }
   // }
 
-  // TODO move to each Entity
+  // TODOmove to each Entity
   SelectionState getUISelection(/* EntityType type */) {
     // final entityUIState = getUIState(type);
 
@@ -340,7 +340,7 @@ class AppState with _$AppState {
   //   final int patch = int.parse(parts[2]);
   //
   //   try {
-  //     final serverParts = account.currentVersion.split('.');
+  //     final serverParts = account.version.split('.');
   //     final int serverMajor = int.parse(serverParts[0]);
   //     final int serverMinor = int.parse(serverParts[1]);
   //     final int serverPatch = int.parse(serverParts[2]);
@@ -445,11 +445,11 @@ class AppState with _$AppState {
 
   bool get isFullScreen {
     bool isFullScreen = false;
-    final mainRoute = '/' + uiState.mainRoute;
-    final subRoute = uiState.subRoute;
-    final isEdit = subRoute == 'edit';
-    final isEmail = subRoute == 'email';
-    final isPdf = subRoute == 'pdf';
+    final String mainRoute = '/${uiState.mainRoute}';
+    final String subRoute = uiState.subRoute;
+    final bool isEdit = subRoute == 'edit';
+    final bool isEmail = subRoute == 'email';
+    final bool isPdf = subRoute == 'pdf';
 
     if (isEmail || isPdf) {
       isFullScreen = true;

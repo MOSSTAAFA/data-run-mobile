@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:d2_remote/core/datarun/utilities/date_utils.dart' as sdk;
 import 'package:d2_remote/modules/datarun/form/shared/field_value_rendering_type.dart';
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule.dart';
@@ -7,11 +8,11 @@ import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:mass_pro/commons/global_functions/global_functions.dart';
+import 'package:mass_pro/data_run/screens/data_submission_form/model/option_configuration.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.builder.dart';
 import 'package:mass_pro/form/model/key_board_action_type.dart';
 import 'package:mass_pro/form/ui/intent/form_intent.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
-import 'package:d2_remote/core/datarun/utilities/date_utils.dart' as sdk;
 
 typedef IntentCallback = void Function(FormIntent intent);
 
@@ -30,9 +31,12 @@ class QFieldModel with EquatableMixin {
   const QFieldModel(
       {required this.uid,
       this.options,
+      this.optionList,
+      this.optionConfiguration,
       this.isVisible = true,
       this.fieldRules,
       this.value,
+      this.values,
       this.displayName,
       required this.isFocused,
       this.error,
@@ -53,12 +57,15 @@ class QFieldModel with EquatableMixin {
 
   final String uid;
   final IList<FormOption>? options;
+  final String? optionList;
+  final OptionConfiguration? optionConfiguration;
   final IList<Rule>? fieldRules;
   final bool isFocused;
   final String? error;
   final bool isEditable;
   final bool isVisible;
   final String? value;
+  final IList<String>? values;
   final String? displayName;
   final String? warning;
   final bool isMandatory;
@@ -78,6 +85,9 @@ class QFieldModel with EquatableMixin {
 
   QFieldModel setValue(String? value) => builder().setValue(value).build();
 
+  QFieldModel setValues(IList<String>? value) =>
+      builder().setValues(value).build();
+
   QFieldModel setIsLoadingData(bool isLoadingData) =>
       builder().setIsLoading(isLoadingData).build();
 
@@ -90,10 +100,6 @@ class QFieldModel with EquatableMixin {
 
   QFieldModel setEditable(bool editable) =>
       builder().setIsEditable(editable).build();
-
-  // @override
-  // FieldUiModel setLegend(LegendValue? legendValue) =>
-  //     copyWith(legend: legendValue);
 
   QFieldModel setWarning(String warning) =>
       builder().setWarning(warning).build();
@@ -149,7 +155,7 @@ class QFieldModel with EquatableMixin {
   /// invoke FormInputFieldIntent.onSave  for Boolean type field
   void onSaveBoolean(bool? boolean) {
     // // onFieldClick();
-    final result = _valueIsEmpty() || value != boolean.toString()
+    final String? result = _valueIsEmpty() || value != boolean.toString()
         ? boolean.toString()
         : null;
     intentCallback?.call(
@@ -157,8 +163,17 @@ class QFieldModel with EquatableMixin {
   }
 
   FormOption? getOption() {
-    return options?.where((option) => option.name == value).firstOrNull;
+    return optionConfiguration?.optionsToDisplay
+        .where((FormOption option) => option.name == value)
+        .firstOrNull;
   }
+
+  List<FormOption>? getOptions() {
+    return optionConfiguration?.optionsToDisplay
+        .where((FormOption option) => values?.contains(option.name) == true)
+        .toList();
+  }
+
   /// invoke FormInputFieldIntent.onSave
   void onSaveOption(FormOption? option) {
     String? nextValue;
@@ -169,6 +184,14 @@ class QFieldModel with EquatableMixin {
     }
     intentCallback?.call(
         FormIntent.onSave(uid: uid, value: nextValue, valueType: valueType));
+  }
+
+  /// invoke FormInputFieldIntent.onSave
+  void onSaveOptions(List<FormOption>? option) {
+    intentCallback?.call(FormIntent.onSave(
+        uid: uid,
+        values: option?.map((FormOption option) => option.name).toList(),
+        valueType: valueType));
   }
 
   /// invoke FormInputFieldIntent.onSave
@@ -193,70 +216,11 @@ class QFieldModel with EquatableMixin {
 
   bool isSectionWithFields() => false;
 
-  // QFieldModel copyWith(
-  //         {String? key,
-  //         List<Rule>? fieldRules,
-  //         List<String>? options,
-  //         bool? isVisible,
-  //         dynamic value,
-  //         int? layoutId,
-  //         bool? focused,
-  //         String? error,
-  //         bool? isEditable,
-  //         String? warning,
-  //         bool? isMandatory,
-  //         String? label,
-  //         String? programStageSection,
-  //         String? hint,
-  //         String? description,
-  //         ValueType? valueType,
-  //         String? optionSet,
-  //         bool? allowFutureDates,
-  //         String? displayName,
-  //         KeyboardActionType? keyboardActionType,
-  //         String? fieldMask,
-  //         bool? isOpen,
-  //         int? totalFields,
-  //         int? completedFields,
-  //         int? errors,
-  //         int? warnings,
-  //         String? rendering,
-  //         String? selectedField,
-  //         bool? isLoading,
-  //         int? sectionNumber,
-  //         bool? showBottomShadow,
-  //         bool? lastPositionShouldChangeHeight,
-  //         IntentCallback? intentCallback,
-  //         FocusNode? focusNode}) =>
-  //     QFieldModel(
-  //       uid: key ?? this.uid,
-  //       options: IList.orNull(options) ?? this.options,
-  //       isVisible: isVisible ?? this.isVisible,
-  //       fieldRules: IList.orNull(fieldRules) ?? this.fieldRules,
-  //       value: value ?? this.value,
-  //       displayName: displayName ?? this.displayName,
-  //       isFocused: focused ?? isFocused,
-  //       error: error ?? this.error,
-  //       isEditable: isEditable ?? this.isEditable,
-  //       warning: warning ?? this.warning,
-  //       isMandatory: isMandatory ?? this.isMandatory,
-  //       label: label ?? this.label,
-  //       fieldMask: fieldMask ?? this.fieldMask,
-  //       hint: hint ?? this.hint,
-  //       description: description ?? this.description,
-  //       valueType: valueType ?? this.valueType,
-  //       allowFutureDates: allowFutureDates ?? this.allowFutureDates,
-  //       keyboardActionType: keyboardActionType ?? this.keyboardActionType,
-  //       isLoading: isLoading ?? this.isLoading,
-  //       intentCallback: intentCallback ?? this.intentCallback,
-  //       focusNode: focusNode ?? this.focusNode,
-  //     );
-
   QFieldModelBuilder builder() => QFieldModelBuilder(this);
 
   @override
   String toString() {
-    return mapPropsToString(runtimeType, [
+    return mapPropsToString(runtimeType, <Object?>[
       'uid: $uid',
       'value: $value',
       'isVisible: $isVisible',
@@ -271,7 +235,7 @@ class QFieldModel with EquatableMixin {
   }
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props => <Object?>[
         uid,
         options,
         isVisible,

@@ -20,6 +20,6 @@ enum ValueTypeRenderingType {
 
   static ValueTypeRenderingType valueOf(String? str) =>
       ValueTypeRenderingType.values.firstWhere(
-          (e) => e.toString() == 'ValueTypeRenderingType.' + '$str',
+          (ValueTypeRenderingType e) => e.toString() == 'ValueTypeRenderingType.' '$str',
           orElse: () => DEFAULT);
 }

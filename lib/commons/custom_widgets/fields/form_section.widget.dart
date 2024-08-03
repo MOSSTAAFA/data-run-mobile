@@ -1,4 +1,5 @@
 import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
+import 'package:dartx/src/map.dart';
 import 'package:flutter/material.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:mass_pro/utils/mass_utils/utils.dart';
@@ -33,7 +34,7 @@ class _FormSectionState extends State<FormSection> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
+      children: <Widget>[
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Align(
@@ -93,7 +94,7 @@ class _FormSectionState extends State<FormSection> {
     styleItem?.let((FieldUiModel uiModel) {
       uiModel.textColor?.let((Color it) => style = TextStyle(color: it));
       uiModel.backGroundColor
-          ?.let((it) => style = style?.copyWith(backgroundColor: it.second));
+          ?.let((Pair<List<int>, Color?> it) => style = style?.copyWith(backgroundColor: it.second));
     });
 
     return style;
@@ -118,7 +119,7 @@ class _FormSectionState extends State<FormSection> {
   }
 
   TextInputType? _getInputType(ValueType? valueType) {
-    return when(valueType, {
+    return when(valueType, <Object, TextInputType Function()>{
       ValueType.Text: () => TextInputType.text,
       ValueType.LongText: () => TextInputType.multiline,
       ValueType.Letter: () => TextInputType.text,
@@ -127,9 +128,9 @@ class _FormSectionState extends State<FormSection> {
       ValueType.UnitInterval: () =>
           const TextInputType.numberWithOptions(decimal: true),
       ValueType.Percentage: () => TextInputType.number,
-      [ValueType.IntegerNegative, ValueType.Integer]: () =>
+      <ValueType>[ValueType.IntegerNegative, ValueType.Integer]: () =>
           const TextInputType.numberWithOptions(signed: true),
-      [ValueType.IntegerPositive, ValueType.IntegerZeroOrPositive]: () =>
+      <ValueType>[ValueType.IntegerPositive, ValueType.IntegerZeroOrPositive]: () =>
           TextInputType.number,
       ValueType.PhoneNumber: () => TextInputType.phone,
       ValueType.Email: () => TextInputType.emailAddress,
@@ -139,7 +140,7 @@ class _FormSectionState extends State<FormSection> {
 
   TextInputAction? _getInputAction(KeyboardActionType? type) {
     if (type != null) {
-      return when(type, {
+      return when(type, <KeyboardActionType, TextInputAction Function()>{
         KeyboardActionType.NEXT: () => TextInputAction.next,
         KeyboardActionType.DONE: () => TextInputAction.done,
         KeyboardActionType.ENTER: () => TextInputAction.none

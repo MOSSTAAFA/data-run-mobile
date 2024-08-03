@@ -20,7 +20,7 @@ class OptionSetConfiguration with _$OptionSetConfiguration {
   static OptionSetConfiguration config(
       int optionCount, List<Option> Function() optionRequestCallback) {
     return optionCount > 15
-        ? BigOptionSet()
+        ? const BigOptionSet()
         : OptionSetConfiguration.defaultOptionSet(
             options: optionRequestCallback());
   }
@@ -33,17 +33,17 @@ class OptionSetConfiguration with _$OptionSetConfiguration {
 
   OptionSetConfiguration setOptionsToHide(List<String> optionsToHide) {
     return map(
-        defaultOptionSet: (defaultOptionSet) =>
+        defaultOptionSet: (DefaultOptionSet defaultOptionSet) =>
             defaultOptionSet.copyWith(optionsToHide: optionsToHide),
-        bigOptionSet: (bigOptionSet) =>
+        bigOptionSet: (BigOptionSet bigOptionSet) =>
             bigOptionSet.copyWith(optionsToHide: optionsToHide));
   }
 
   OptionSetConfiguration setOptionsToShow(List<String> optionsToShow) {
     return map(
-        defaultOptionSet: (defaultOptionSet) =>
+        defaultOptionSet: (DefaultOptionSet defaultOptionSet) =>
             defaultOptionSet.copyWith(optionsToShow: optionsToShow),
-        bigOptionSet: (bigOptionSet) =>
+        bigOptionSet: (BigOptionSet bigOptionSet) =>
             bigOptionSet.copyWith(optionsToShow: optionsToShow));
   }
 }

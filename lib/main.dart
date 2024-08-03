@@ -16,7 +16,6 @@ import 'package:mass_pro/main_constants/main_constants.dart';
 import 'package:mass_pro/riverpod/provider_logger.dart';
 import 'package:mass_pro/utils/app_appearance.dart';
 import 'package:mass_pro/utils/navigator_key.dart';
-// import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
 
 import 'main.reflectable.dart';
@@ -55,10 +54,10 @@ Future<void> main() async {
     },
     appRunner: () => */
   runApp(ProviderScope(
-    observers: [
+    observers: <ProviderObserver>[
       ProviderLogger(
           providersNameToLog:
-              const IListConst(const ['formFieldsRepositoryProvider']))
+              const IListConst(<String>['formFieldsRepositoryProvider']))
     ],
     child: const App(),
   )) /*,
@@ -72,7 +71,7 @@ class App extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // const locale = Locale('en', 'en_us');
-    const locale = Locale('ar', '');
+    const Locale locale = Locale('ar', '');
 
     return GetMaterialApp(
       navigatorKey: navigatorKey,
@@ -103,20 +102,20 @@ class App extends ConsumerWidget {
         useMaterial3: ref.watch(appAppearanceNotifierProvider).useMaterial3,
         brightness: Brightness.dark,
       ),
-      localizationsDelegates: const [
+      localizationsDelegates: const <LocalizationsDelegate>[
         // L.delegate,
         S.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
-      supportedLocales: const [
+      supportedLocales: const <Locale>[
         Locale('ar', ''),
         Locale('en', 'en_us'),
       ],
       locale: locale,
       initialRoute: SplashScreen.route,
-      getPages: [
+      getPages: <GetPage>[
         GetPage(
           name: SplashScreen.route,
           page: () {

@@ -24,8 +24,8 @@ mixin _$FormIntent {
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
     required TResult Function(String uid, String? value, int? position) onNext,
-    required TResult Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)
+    required TResult Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)
         onSave,
     required TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)
@@ -51,8 +51,8 @@ mixin _$FormIntent {
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
     TResult? Function(String uid, String? value, int? position)? onNext,
-    TResult? Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)?
+    TResult? Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)?
         onSave,
     TResult? Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
@@ -77,8 +77,8 @@ mixin _$FormIntent {
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
     TResult Function(String uid, String? value, int? position)? onNext,
-    TResult Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)?
+    TResult Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)?
         onSave,
     TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
@@ -221,8 +221,8 @@ class _$InitImpl extends Init {
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
     required TResult Function(String uid, String? value, int? position) onNext,
-    required TResult Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)
+    required TResult Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)
         onSave,
     required TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)
@@ -251,8 +251,8 @@ class _$InitImpl extends Init {
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
     TResult? Function(String uid, String? value, int? position)? onNext,
-    TResult? Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)?
+    TResult? Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)?
         onSave,
     TResult? Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
@@ -280,8 +280,8 @@ class _$InitImpl extends Init {
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
     TResult Function(String uid, String? value, int? position)? onNext,
-    TResult Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)?
+    TResult Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)?
         onSave,
     TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
@@ -474,8 +474,8 @@ class _$OnFinishImpl extends OnFinish {
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
     required TResult Function(String uid, String? value, int? position) onNext,
-    required TResult Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)
+    required TResult Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)
         onSave,
     required TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)
@@ -504,8 +504,8 @@ class _$OnFinishImpl extends OnFinish {
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
     TResult? Function(String uid, String? value, int? position)? onNext,
-    TResult? Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)?
+    TResult? Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)?
         onSave,
     TResult? Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
@@ -533,8 +533,8 @@ class _$OnFinishImpl extends OnFinish {
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
     TResult Function(String uid, String? value, int? position)? onNext,
-    TResult Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)?
+    TResult Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)?
         onSave,
     TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
@@ -716,8 +716,8 @@ class _$OnClearImpl extends OnClear {
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
     required TResult Function(String uid, String? value, int? position) onNext,
-    required TResult Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)
+    required TResult Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)
         onSave,
     required TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)
@@ -746,8 +746,8 @@ class _$OnClearImpl extends OnClear {
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
     TResult? Function(String uid, String? value, int? position)? onNext,
-    TResult? Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)?
+    TResult? Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)?
         onSave,
     TResult? Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
@@ -775,8 +775,8 @@ class _$OnClearImpl extends OnClear {
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
     TResult Function(String uid, String? value, int? position)? onNext,
-    TResult Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)?
+    TResult Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)?
         onSave,
     TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
@@ -962,8 +962,8 @@ class _$OnFocusImpl extends OnFocus {
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
     required TResult Function(String uid, String? value, int? position) onNext,
-    required TResult Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)
+    required TResult Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)
         onSave,
     required TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)
@@ -992,8 +992,8 @@ class _$OnFocusImpl extends OnFocus {
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
     TResult? Function(String uid, String? value, int? position)? onNext,
-    TResult? Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)?
+    TResult? Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)?
         onSave,
     TResult? Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
@@ -1021,8 +1021,8 @@ class _$OnFocusImpl extends OnFocus {
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
     TResult Function(String uid, String? value, int? position)? onNext,
-    TResult Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)?
+    TResult Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)?
         onSave,
     TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
@@ -1219,8 +1219,8 @@ class _$OnNextImpl extends OnNext {
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
     required TResult Function(String uid, String? value, int? position) onNext,
-    required TResult Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)
+    required TResult Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)
         onSave,
     required TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)
@@ -1249,8 +1249,8 @@ class _$OnNextImpl extends OnNext {
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
     TResult? Function(String uid, String? value, int? position)? onNext,
-    TResult? Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)?
+    TResult? Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)?
         onSave,
     TResult? Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
@@ -1278,8 +1278,8 @@ class _$OnNextImpl extends OnNext {
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
     TResult Function(String uid, String? value, int? position)? onNext,
-    TResult Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)?
+    TResult Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)?
         onSave,
     TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
@@ -1399,7 +1399,11 @@ abstract class _$$OnSaveImplCopyWith<$Res> {
       __$$OnSaveImplCopyWithImpl<$Res>;
   @useResult
   $Res call(
-      {String uid, String? value, ValueType? valueType, String? fieldMask});
+      {String uid,
+      String? value,
+      List<String>? values,
+      ValueType? valueType,
+      String? fieldMask});
 }
 
 /// @nodoc
@@ -1415,6 +1419,7 @@ class __$$OnSaveImplCopyWithImpl<$Res>
   $Res call({
     Object? uid = null,
     Object? value = freezed,
+    Object? values = freezed,
     Object? valueType = freezed,
     Object? fieldMask = freezed,
   }) {
@@ -1427,6 +1432,10 @@ class __$$OnSaveImplCopyWithImpl<$Res>
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as String?,
+      values: freezed == values
+          ? _value._values
+          : values // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       valueType: freezed == valueType
           ? _value.valueType
           : valueType // ignore: cast_nullable_to_non_nullable
@@ -1443,13 +1452,28 @@ class __$$OnSaveImplCopyWithImpl<$Res>
 
 class _$OnSaveImpl extends OnSave {
   const _$OnSaveImpl(
-      {required this.uid, this.value, this.valueType, this.fieldMask})
-      : super._();
+      {required this.uid,
+      this.value,
+      final List<String>? values,
+      this.valueType,
+      this.fieldMask})
+      : _values = values,
+        super._();
 
   @override
   final String uid;
   @override
   final String? value;
+  final List<String>? _values;
+  @override
+  List<String>? get values {
+    final value = _values;
+    if (value == null) return null;
+    if (_values is EqualUnmodifiableListView) return _values;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   final ValueType? valueType;
   @override
@@ -1457,7 +1481,7 @@ class _$OnSaveImpl extends OnSave {
 
   @override
   String toString() {
-    return 'FormIntent.onSave(uid: $uid, value: $value, valueType: $valueType, fieldMask: $fieldMask)';
+    return 'FormIntent.onSave(uid: $uid, value: $value, values: $values, valueType: $valueType, fieldMask: $fieldMask)';
   }
 
   @override
@@ -1467,6 +1491,7 @@ class _$OnSaveImpl extends OnSave {
             other is _$OnSaveImpl &&
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.value, value) || other.value == value) &&
+            const DeepCollectionEquality().equals(other._values, _values) &&
             (identical(other.valueType, valueType) ||
                 other.valueType == valueType) &&
             (identical(other.fieldMask, fieldMask) ||
@@ -1474,8 +1499,8 @@ class _$OnSaveImpl extends OnSave {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, uid, value, valueType, fieldMask);
+  int get hashCode => Object.hash(runtimeType, uid, value,
+      const DeepCollectionEquality().hash(_values), valueType, fieldMask);
 
   @JsonKey(ignore: true)
   @override
@@ -1492,8 +1517,8 @@ class _$OnSaveImpl extends OnSave {
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
     required TResult Function(String uid, String? value, int? position) onNext,
-    required TResult Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)
+    required TResult Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)
         onSave,
     required TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)
@@ -1510,7 +1535,7 @@ class _$OnSaveImpl extends OnSave {
     required TResult Function(String uid) onRequestCoordinates,
     required TResult Function(String uid) onCancelRequestCoordinates,
   }) {
-    return onSave(uid, value, valueType, fieldMask);
+    return onSave(uid, value, values, valueType, fieldMask);
   }
 
   @override
@@ -1522,8 +1547,8 @@ class _$OnSaveImpl extends OnSave {
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
     TResult? Function(String uid, String? value, int? position)? onNext,
-    TResult? Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)?
+    TResult? Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)?
         onSave,
     TResult? Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
@@ -1539,7 +1564,7 @@ class _$OnSaveImpl extends OnSave {
     TResult? Function(String uid)? onRequestCoordinates,
     TResult? Function(String uid)? onCancelRequestCoordinates,
   }) {
-    return onSave?.call(uid, value, valueType, fieldMask);
+    return onSave?.call(uid, value, values, valueType, fieldMask);
   }
 
   @override
@@ -1551,8 +1576,8 @@ class _$OnSaveImpl extends OnSave {
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
     TResult Function(String uid, String? value, int? position)? onNext,
-    TResult Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)?
+    TResult Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)?
         onSave,
     TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
@@ -1570,7 +1595,7 @@ class _$OnSaveImpl extends OnSave {
     required TResult orElse(),
   }) {
     if (onSave != null) {
-      return onSave(uid, value, valueType, fieldMask);
+      return onSave(uid, value, values, valueType, fieldMask);
     }
     return orElse();
   }
@@ -1654,12 +1679,14 @@ abstract class OnSave extends FormIntent {
   const factory OnSave(
       {required final String uid,
       final String? value,
+      final List<String>? values,
       final ValueType? valueType,
       final String? fieldMask}) = _$OnSaveImpl;
   const OnSave._() : super._();
 
   String get uid;
   String? get value;
+  List<String>? get values;
   ValueType? get valueType;
   String? get fieldMask;
   @JsonKey(ignore: true)
@@ -1767,8 +1794,8 @@ class _$OnTextChangeImpl extends OnTextChange {
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
     required TResult Function(String uid, String? value, int? position) onNext,
-    required TResult Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)
+    required TResult Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)
         onSave,
     required TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)
@@ -1797,8 +1824,8 @@ class _$OnTextChangeImpl extends OnTextChange {
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
     TResult? Function(String uid, String? value, int? position)? onNext,
-    TResult? Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)?
+    TResult? Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)?
         onSave,
     TResult? Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
@@ -1826,8 +1853,8 @@ class _$OnTextChangeImpl extends OnTextChange {
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
     TResult Function(String uid, String? value, int? position)? onNext,
-    TResult Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)?
+    TResult Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)?
         onSave,
     TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
@@ -2012,8 +2039,8 @@ class _$ClearValueImpl extends ClearValue {
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
     required TResult Function(String uid, String? value, int? position) onNext,
-    required TResult Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)
+    required TResult Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)
         onSave,
     required TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)
@@ -2042,8 +2069,8 @@ class _$ClearValueImpl extends ClearValue {
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
     TResult? Function(String uid, String? value, int? position)? onNext,
-    TResult? Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)?
+    TResult? Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)?
         onSave,
     TResult? Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
@@ -2071,8 +2098,8 @@ class _$ClearValueImpl extends ClearValue {
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
     TResult Function(String uid, String? value, int? position)? onNext,
-    TResult Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)?
+    TResult Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)?
         onSave,
     TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
@@ -2275,8 +2302,8 @@ class _$SelectLocationFromCoordinatesImpl
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
     required TResult Function(String uid, String? value, int? position) onNext,
-    required TResult Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)
+    required TResult Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)
         onSave,
     required TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)
@@ -2305,8 +2332,8 @@ class _$SelectLocationFromCoordinatesImpl
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
     TResult? Function(String uid, String? value, int? position)? onNext,
-    TResult? Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)?
+    TResult? Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)?
         onSave,
     TResult? Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
@@ -2334,8 +2361,8 @@ class _$SelectLocationFromCoordinatesImpl
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
     TResult Function(String uid, String? value, int? position)? onNext,
-    TResult Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)?
+    TResult Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)?
         onSave,
     TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
@@ -2541,8 +2568,8 @@ class _$SelectLocationFromMapImpl extends SelectLocationFromMap {
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
     required TResult Function(String uid, String? value, int? position) onNext,
-    required TResult Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)
+    required TResult Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)
         onSave,
     required TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)
@@ -2571,8 +2598,8 @@ class _$SelectLocationFromMapImpl extends SelectLocationFromMap {
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
     TResult? Function(String uid, String? value, int? position)? onNext,
-    TResult? Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)?
+    TResult? Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)?
         onSave,
     TResult? Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
@@ -2600,8 +2627,8 @@ class _$SelectLocationFromMapImpl extends SelectLocationFromMap {
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
     TResult Function(String uid, String? value, int? position)? onNext,
-    TResult Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)?
+    TResult Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)?
         onSave,
     TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
@@ -2804,8 +2831,8 @@ class _$SaveCurrentLocationImpl extends SaveCurrentLocation {
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
     required TResult Function(String uid, String? value, int? position) onNext,
-    required TResult Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)
+    required TResult Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)
         onSave,
     required TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)
@@ -2834,8 +2861,8 @@ class _$SaveCurrentLocationImpl extends SaveCurrentLocation {
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
     TResult? Function(String uid, String? value, int? position)? onNext,
-    TResult? Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)?
+    TResult? Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)?
         onSave,
     TResult? Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
@@ -2863,8 +2890,8 @@ class _$SaveCurrentLocationImpl extends SaveCurrentLocation {
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
     TResult Function(String uid, String? value, int? position)? onNext,
-    TResult Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)?
+    TResult Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)?
         onSave,
     TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
@@ -3048,8 +3075,8 @@ class _$OnSectionImpl extends OnSection {
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
     required TResult Function(String uid, String? value, int? position) onNext,
-    required TResult Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)
+    required TResult Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)
         onSave,
     required TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)
@@ -3078,8 +3105,8 @@ class _$OnSectionImpl extends OnSection {
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
     TResult? Function(String uid, String? value, int? position)? onNext,
-    TResult? Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)?
+    TResult? Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)?
         onSave,
     TResult? Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
@@ -3107,8 +3134,8 @@ class _$OnSectionImpl extends OnSection {
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
     TResult Function(String uid, String? value, int? position)? onNext,
-    TResult Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)?
+    TResult Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)?
         onSave,
     TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
@@ -3288,8 +3315,8 @@ class _$OnRequestCoordinatesImpl extends OnRequestCoordinates {
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
     required TResult Function(String uid, String? value, int? position) onNext,
-    required TResult Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)
+    required TResult Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)
         onSave,
     required TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)
@@ -3318,8 +3345,8 @@ class _$OnRequestCoordinatesImpl extends OnRequestCoordinates {
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
     TResult? Function(String uid, String? value, int? position)? onNext,
-    TResult? Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)?
+    TResult? Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)?
         onSave,
     TResult? Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
@@ -3347,8 +3374,8 @@ class _$OnRequestCoordinatesImpl extends OnRequestCoordinates {
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
     TResult Function(String uid, String? value, int? position)? onNext,
-    TResult Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)?
+    TResult Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)?
         onSave,
     TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
@@ -3530,8 +3557,8 @@ class _$OnCancelRequestCoordinatesImpl extends OnCancelRequestCoordinates {
     required TResult Function(String? extraData) onClear,
     required TResult Function(String uid, String? value) onFocus,
     required TResult Function(String uid, String? value, int? position) onNext,
-    required TResult Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)
+    required TResult Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)
         onSave,
     required TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)
@@ -3560,8 +3587,8 @@ class _$OnCancelRequestCoordinatesImpl extends OnCancelRequestCoordinates {
     TResult? Function(String? extraData)? onClear,
     TResult? Function(String uid, String? value)? onFocus,
     TResult? Function(String uid, String? value, int? position)? onNext,
-    TResult? Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)?
+    TResult? Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)?
         onSave,
     TResult? Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?
@@ -3589,8 +3616,8 @@ class _$OnCancelRequestCoordinatesImpl extends OnCancelRequestCoordinates {
     TResult Function(String? extraData)? onClear,
     TResult Function(String uid, String? value)? onFocus,
     TResult Function(String uid, String? value, int? position)? onNext,
-    TResult Function(
-            String uid, String? value, ValueType? valueType, String? fieldMask)?
+    TResult Function(String uid, String? value, List<String>? values,
+            ValueType? valueType, String? fieldMask)?
         onSave,
     TResult Function(
             String uid, String? value, ValueType? valueType, String? fieldMask)?

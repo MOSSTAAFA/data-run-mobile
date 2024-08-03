@@ -17,7 +17,7 @@ abstract class IntegerValidatorBase<T extends ValidationException>
     } on FormatException {
       // Failure
       try {
-        int convertedValue = int.parse(value);
+        final int convertedValue = int.parse(value);
         if (convertedValue > MAX_VALUE || convertedValue < MIN_VALUE) {
           return Result.failure(overflowFailure);
         }

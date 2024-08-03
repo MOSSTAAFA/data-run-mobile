@@ -28,7 +28,7 @@ class ActionMenuButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<PopupMenuEntry<ViewAction>> actions = [];
+    final List<PopupMenuEntry<ViewAction>> actions = <PopupMenuEntry<ViewAction>>[];
     // final appState = context.watch<AppBloc>().state;
     // final appState = context.watch<AppBloc>().state;
 
@@ -43,7 +43,7 @@ class ActionMenuButton extends StatelessWidget {
       );
     }
 
-    entityActions?.forEach((action) {
+    entityActions?.forEach((ViewAction? action) {
       if (action == null) {
         actions.add(const PopupMenuDivider());
       } else {

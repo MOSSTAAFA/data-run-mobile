@@ -11,6 +11,7 @@ class FormListItemModel with EquatableMixin {
       required this.form,
       required this.formCode,
       this.formName,
+      required this.version,
       this.team,
       this.activity,
       this.entitiesToPost = 0,
@@ -27,6 +28,7 @@ class FormListItemModel with EquatableMixin {
   final String? formName;
   final String? team;
   final String? activity;
+  final int version;
   final String? description;
   final int entitiesToPost;
   final int entitiesToUpdate;
@@ -47,6 +49,7 @@ class FormListItemModel with EquatableMixin {
           String? team,
           String? activity,
           String? description,
+          int? version,
           int? entitiesToPost,
           int? entitiesToUpdate,
           int? entitiesSynced,
@@ -59,6 +62,7 @@ class FormListItemModel with EquatableMixin {
         formCode: formCode ?? this.formCode,
         formName: formName ?? this.formName,
         team: team ?? this.team,
+        version: version ?? this.version,
         activity: activity ?? this.activity,
         description: description ?? this.description,
         entitiesToPost: entitiesToPost ?? this.entitiesToPost,
@@ -71,10 +75,11 @@ class FormListItemModel with EquatableMixin {
       );
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props => <Object?>[
         form,
         formCode,
         formName,
+        version,
         team,
         activity,
         entitiesToPost,
@@ -137,7 +142,7 @@ class ProjectDetailItemModel with EquatableMixin {
           valueListIsOpen: valueListIsOpen ?? this.valueListIsOpen);
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props => <Object?>[
         activity,
         activityName,
         team,

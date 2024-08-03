@@ -59,46 +59,72 @@ class FieldUiModelImpl
       this.intentCallback,
       this.listViewUiEventsCallback});
 
+  @override
   final String uid;
 
   // final int layoutId;
+  @override
   final String? value;
+  @override
   final bool focused;
+  @override
   final String? error;
+  @override
   final bool editable;
+  @override
   final String? warning;
+  @override
   final bool mandatory;
+  @override
   final String label;
+  @override
   final String? programStageSection;
+  @override
   final FormUiModelStyle? style;
+  @override
   final String? hint;
+  @override
   final String? description;
 
   //final  LegendValue? legend;
+  @override
   final ValueType? valueType;
+  @override
   final String? optionSet;
+  @override
   final bool? allowFutureDates;
+  @override
   final UiEventFactory? uiEventFactory;
+  @override
   final String? displayName;
+  @override
   final UiRenderType? renderingType;
 
   /// NMC added provided here instead to providing it
   /// to the FieldViewModelFactoryImpl
   /// from ProgramSection of the item
+  @override
   final SectionRenderingType? sectionRenderingType;
 
   /// NMC added provided here instead to providing it
   /// to the FieldViewModelFactoryImpl
   /// from ProgramStageDataElement of the item
+  @override
   final ValueTypeRenderingType? fieldRendering;
 
+  @override
   final OptionSetConfiguration? optionSetConfiguration;
+  @override
   final KeyboardActionType? keyboardActionType;
+  @override
   final String? fieldMask;
+  @override
   final bool isLoadingData;
 
   // final Callback? callback;
+  @override
   final IntentCallback? intentCallback;
+  @override
   final ListViewUiEventsCallback? listViewUiEventsCallback;
 
   @override

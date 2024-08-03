@@ -21,7 +21,7 @@ class EntityPresenter {
   String? title({bool isNarrow = false}) {
     String? name = entity?.displayName;
 
-    // TODO replace with this: https://github.com/flutter/flutter/issues/45336
+    // TODOreplace with this: https://github.com/flutter/flutter/issues/45336
     if ((name ?? '').isEmpty) {
       name = L('pending');
     } //else if (name.length > 10) {
@@ -43,7 +43,7 @@ class EntityPresenter {
   }
 
   static List<String> getBaseFields() {
-    return [
+    return <String>[
       EntityBaseFields.created.name,
       EntityBaseFields.last_updated.name,
       EntityBaseFields.uid.name,
@@ -51,7 +51,7 @@ class EntityPresenter {
   }
 
   Widget getField({required String field, required BuildContext context}) {
-    return when(field, {
+    return when(field, <String, Text Function()>{
       EntityBaseFields.status.name: () =>
           Text(entity?.dirty ?? false ? L('not_synced') : L('synced')),
       EntityBaseFields.created.name: () => Text(L('created')),
@@ -61,7 +61,7 @@ class EntityPresenter {
   }
 
   String presentCustomField(BuildContext context, String value) {
-    if (['yes', 'no'].contains(value)) {
+    if (<String>['yes', 'no'].contains(value)) {
       return L(value);
     } else if (RegExp(r'^\d{4}-\d{2}-\d{2}$').hasMatch(value)) {
       return formatDate(value, context);

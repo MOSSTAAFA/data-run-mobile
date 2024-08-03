@@ -5,7 +5,7 @@ import 'package:mass_pro/sdk/core/common/value_type.dart';
 
 class QFieldValidators {
   static FormFieldValidator<String> getValidators(QFieldModel fieldModel) {
-    return FormBuilderValidators.compose([
+    return FormBuilderValidators.compose(<FormFieldValidator<String>>[
       if (fieldModel.isMandatory) FormBuilderValidators.required(),
       if (fieldModel.valueType == ValueType.Number ||
           fieldModel.valueType == ValueType.Age)

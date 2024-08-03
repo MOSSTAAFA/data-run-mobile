@@ -36,15 +36,15 @@ extension _MinMaxHelper<E> on Iterable<E> {
   }
 
   E? _minMaxBy(int order, Comparable Function(E element) selector) {
-    final it = iterator;
+    final Iterator it = iterator;
     if (!it.moveNext()) {
       return null;
     }
 
     var currentMin = it.current;
-    var currentMinValue = selector(it.current);
+    Comparable currentMinValue = selector(it.current);
     while (it.moveNext()) {
-      final comp = selector(it.current);
+      final Comparable comp = selector(it.current);
       if (comp.compareTo(currentMinValue) == order) {
         currentMin = it.current;
         currentMinValue = comp;
@@ -55,7 +55,7 @@ extension _MinMaxHelper<E> on Iterable<E> {
   }
 
   E? _minMaxWith(int order, Comparator<E> comparator) {
-    final it = iterator;
+    final Iterator it = iterator;
     if (!it.moveNext()) {
       return null;
     }

@@ -44,6 +44,7 @@ class FormIntent with _$FormIntent {
   const factory FormIntent.onSave(
       {required String uid,
       String? value,
+      List<String>? values,
       ValueType? valueType,
       String? fieldMask}) = OnSave;
 

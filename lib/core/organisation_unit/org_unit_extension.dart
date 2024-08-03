@@ -4,7 +4,7 @@ import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisati
 
 extension OrgUnitList on List<OrganisationUnit> {
   List<OrganisationUnit> byProgramUids(String programUid) {
-    return where((ou) {
+    return where((OrganisationUnit ou) {
       final List<dynamic> dataList = jsonDecode(ou.programs!);
       return dataList.contains(programUid);
     }).toList();

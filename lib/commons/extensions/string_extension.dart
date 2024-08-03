@@ -59,8 +59,8 @@ extension StringNullExtension on String? {
     //     'StringExtension.format: number of string '
     //     'args not match number of %s in the string');
 
-    var i = -1;
-    return this?.replaceAllMapped(exp, (match) {
+    int i = -1;
+    return this?.replaceAllMapped(exp, (Match match) {
       i = i + 1;
       return '${args[i]}';
     });
@@ -77,8 +77,8 @@ extension StringExtension on String {
     //     'StringExtension.format: number of string '
     //     'args not match number of %s in the string');
 
-    var i = -1;
-    return replaceAllMapped(exp, (match) {
+    int i = -1;
+    return replaceAllMapped(exp, (Match match) {
       i = i + 1;
       return '${args[i]}';
     });

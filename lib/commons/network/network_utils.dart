@@ -13,7 +13,7 @@ class NetworkUtils {
 
   /// navigatorKey.currentContext!
   bool isOnline([BuildContext? context]) {
-    final isOnline = true;
+    const bool isOnline = true;
     // try {
     //   var manager = context.getSystemService(Context.CONNECTIVITY_SERVICE)
     //       as ConnectivityManager;

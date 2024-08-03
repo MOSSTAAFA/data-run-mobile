@@ -28,7 +28,7 @@ class AppDropdownButton<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     dynamic checkedValue = value;
-    final values = items.toList().map((option) => option.value).toList();
+    final List<T?> values = items.toList().map((DropdownMenuItem<T> option) => option.value).toList();
     if (!values.contains(value)) {
       checkedValue = blankValue;
     }
@@ -42,7 +42,7 @@ class AppDropdownButton<T> extends StatelessWidget {
         isDense: labelText != null,
         onChanged: enabled ? onChanged : null,
         selectedItemBuilder: selectedItemBuilder,
-        items: [
+        items: <DropdownMenuItem<T>>[
           if (showBlank || isEmpty)
             DropdownMenuItem<T>(
               value: blankValue,

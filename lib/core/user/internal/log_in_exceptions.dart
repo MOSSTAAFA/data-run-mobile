@@ -22,7 +22,7 @@ void throwExceptionIfPasswordNull(String? password) {
 }
 
 Future<void> throwExceptionIfAlreadyAuthenticated(String? username) async {
-  final authenticated = await D2Remote.isAuthenticated();
+  final bool authenticated = await D2Remote.isAuthenticated();
   if (authenticated) {
     throw DError(
         errorCode: DErrorCode.ALREADY_AUTHENTICATED,

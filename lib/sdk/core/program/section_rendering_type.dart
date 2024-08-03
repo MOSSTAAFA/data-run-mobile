@@ -5,6 +5,6 @@ enum SectionRenderingType {
 
   static SectionRenderingType? valueOf(String? str) =>
       SectionRenderingType.values.firstWhere(
-          (e) => e.toString() == 'SectionRenderingType.' + '$str',
+          (SectionRenderingType e) => e.toString() == 'SectionRenderingType.' '$str',
           orElse: () => SEQUENTIAL);
 }

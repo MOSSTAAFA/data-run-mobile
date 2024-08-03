@@ -28,7 +28,7 @@ class FormRepositoryRecords with EquatableMixin {
 
   @override
   List<Object?> get props =>
-      [recordUid, entryMode, allowMandatoryFields, isBackgroundTransparent];
+      <Object?>[recordUid, entryMode, allowMandatoryFields, isBackgroundTransparent];
 }
 
 class EnrollmentRecords extends FormRepositoryRecords {
@@ -38,7 +38,7 @@ class EnrollmentRecords extends FormRepositoryRecords {
   final EnrollmentMode enrollmentMode;
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props => <Object?>[
         recordUid,
         entryMode,
         allowMandatoryFields,

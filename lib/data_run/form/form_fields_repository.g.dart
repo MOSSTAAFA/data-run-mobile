@@ -7,7 +7,7 @@ part of 'form_fields_repository.dart';
 // **************************************************************************
 
 String _$formFieldsRepositoryHash() =>
-    r'498a3e6421aef8615603f6fce4e034458132150d';
+    r'0bb240d5063195c3907e96642409eac9e6c86273';
 
 /// See also [formFieldsRepository].
 @ProviderFor(formFieldsRepository)

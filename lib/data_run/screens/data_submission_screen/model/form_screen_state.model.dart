@@ -10,9 +10,9 @@ part 'form_screen_state.model.g.dart';
 @riverpod
 Future<FormScreenStateModel> formScreenStateModel(
     FormScreenStateModelRef ref) async {
-  final canEditForm =
+  final bool canEditForm =
       await ref.watch(formScreenRepositoryProvider).canEditForm();
-  final bottomSheetModel =
+  final QBottomSheetDialogUiModel bottomSheetModel =
       await ref.watch(formScreenRepositoryProvider).getBottomSheetModel();
   return FormScreenStateModel(
       bottomSheetModel: bottomSheetModel, canEditForm: canEditForm);
@@ -41,5 +41,5 @@ class FormScreenStateModel with EquatableMixin {
   bool get formIsEnabled => false;
 
   @override
-  List<Object?> get props => [canEditForm, loading, bottomSheetModel];
+  List<Object?> get props => <Object?>[canEditForm, loading, bottomSheetModel];
 }

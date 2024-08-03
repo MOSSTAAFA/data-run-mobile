@@ -18,7 +18,7 @@ Color? convertHexStringToColor(String? value) {
 
 String? convertColorToHexString(Color color) {
   try {
-    final hex = color.value.toRadixString(16);
+    final String hex = color.value.toRadixString(16);
     return '#${hex.substring(2, hex.length)}';
   } catch (e) {
     return null;
@@ -26,6 +26,6 @@ String? convertColorToHexString(Color color) {
 }
 
 Color getColorByIndex(int index) {
-  final colorIndex = index % Colors.primaries.length;
+  final int colorIndex = index % Colors.primaries.length;
   return Colors.primaries[colorIndex];
 }

@@ -60,11 +60,11 @@ extension OrElse<T> on T? {
 V? when<T, V>(T value, Map<T, V Function()> branches) {
   assert(branches.isNotEmpty);
 
-  for (var key in branches.keys) {
+  for (final key in branches.keys) {
     if ((key == value) ||
         (key is List && key.contains(value)) ||
         (key is _WhenCheck && key(value))) {
-      final branch = branches[key];
+      final V Function()? branch = branches[key];
       if (branch != null) {
         return branch();
       }

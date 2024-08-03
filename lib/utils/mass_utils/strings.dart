@@ -1,5 +1,5 @@
 bool isAllDigits(String value) {
-  return value.replaceAll(RegExp('[^\\d]'), '') == value;
+  return value.replaceAll(RegExp(r'[^\d]'), '') == value;
 }
 
 /// snakecase('foo_bar') // => "foo_bar"
@@ -18,19 +18,19 @@ String toCamelCase(String? subject) {
     return '';
   }
 
-  final _splittedString = subject!.split('_');
+  final List<String> splittedString = subject!.split('_');
 
-  if (_splittedString.isEmpty) {
+  if (splittedString.isEmpty) {
     return '';
   }
 
-  final _firstWord = _splittedString[0].toLowerCase();
-  final _restWords = _splittedString
+  final String firstWord = splittedString[0].toLowerCase();
+  final List<String> restWords = splittedString
       .sublist(1)
       .map((String word) => toTitleCase(word))
       .toList();
 
-  return _firstWord + _restWords.join('');
+  return firstWord + restWords.join('');
 }
 
 /// spacecase('foo_bar') // => "foo bar"
@@ -54,14 +54,14 @@ String toTitleCase(String? text) {
   }
 
   text = toSpaceCase(text);
-  final words = text.split(' ');
-  final capitalized = words.map((word) {
+  final List<String> words = text.split(' ');
+  final Iterable<String> capitalized = words.map((String word) {
     if (word == 'url') {
       return 'URL';
     }
 
-    final first = word.substring(0, 1).toUpperCase();
-    final rest = word.substring(1);
+    final String first = word.substring(0, 1).toUpperCase();
+    final String rest = word.substring(1);
     return '$first$rest';
   });
 
@@ -69,7 +69,7 @@ String toTitleCase(String? text) {
 }
 
 String getFirstName(String value) {
-  final parts = value.split(' ');
+  final List<String> parts = value.split(' ');
   if (parts.length > 1) {
     parts.removeLast();
   }
@@ -77,7 +77,7 @@ String getFirstName(String value) {
 }
 
 String getLastName(String value) {
-  final parts = value.split(' ');
+  final List<String> parts = value.split(' ');
   if (parts.length <= 1) {
     return '';
   }
@@ -98,8 +98,8 @@ void printWrapped(String text) {
     text = text.substring(0, 20000);
   }
 
-  final pattern = RegExp('.{1,800}'); // 800 is the size of each chunk
-  pattern.allMatches(text).forEach((match) => print(match.group(0)));
+  final RegExp pattern = RegExp('.{1,800}'); // 800 is the size of each chunk
+  pattern.allMatches(text).forEach((RegExpMatch match) => print(match.group(0)));
 }
 
 bool matchesStrings({
@@ -111,7 +111,7 @@ bool matchesStrings({
   }
 
   bool isMatch = false;
-  haystacks.forEach((haystack) {
+  haystacks.forEach((String haystack) {
     if (matchesString(
       haystack: haystack,
       needle: needle,
@@ -133,8 +133,8 @@ bool matchesString(
   if (enableFlexibleSearch) {
     String regExp = '';
     needle.toLowerCase().runes.forEach((int rune) {
-      final character = RegExp.escape(String.fromCharCode(rune));
-      regExp += character + '.*?';
+      final String character = RegExp.escape(String.fromCharCode(rune));
+      regExp += '$character.*?';
     });
     return RegExp(regExp).hasMatch(haystack.toLowerCase());
   } else {
@@ -151,8 +151,8 @@ String? matchesStringsValue({
   }
 
   String? match;
-  haystacks.forEach((haystack) {
-    final value = matchesStringValue(
+  haystacks.forEach((String haystack) {
+    final String? value = matchesStringValue(
       haystack: haystack,
       needle: needle,
     );

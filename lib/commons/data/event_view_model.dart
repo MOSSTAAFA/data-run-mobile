@@ -9,7 +9,7 @@ part 'event_view_model.g.dart';
 
 @riverpod
 class EventViewModel extends _$EventViewModel {
-  /// TODO(NMC): may add orgUnit and Type as parameter
+  // TODO(NMC): may add orgUnit and Type as parameter
   @override
   EventModel build() {
     return EventModel();
@@ -22,14 +22,14 @@ class EventViewModel extends _$EventViewModel {
 
 @riverpod
 bool canShowAddButton(CanShowAddButtonRef ref) {
-  final type =
-      ref.watch(eventViewModelProvider.select((eventModel) => eventModel.type));
-  final canAddNewEvent = ref.watch(
-      eventViewModelProvider.select((eventModel) => eventModel.canAddNewEvent));
-  final stageRepeatable = ref.watch(eventViewModelProvider
-      .select((eventModel) => eventModel.stage?.repeatable));
-  final eventCount = ref.watch(
-      eventViewModelProvider.select((eventModel) => eventModel.eventCount));
+  final EventViewModelType? type =
+      ref.watch(eventViewModelProvider.select((EventModel eventModel) => eventModel.type));
+  final bool canAddNewEvent = ref.watch(
+      eventViewModelProvider.select((EventModel eventModel) => eventModel.canAddNewEvent));
+  final bool? stageRepeatable = ref.watch(eventViewModelProvider
+      .select((EventModel eventModel) => eventModel.stage?.repeatable));
+  final int eventCount = ref.watch(
+      eventViewModelProvider.select((EventModel eventModel) => eventModel.eventCount));
 
   if (type == EventViewModelType.STAGE) {
     return canAddNewEvent && ((stageRepeatable ?? false) || eventCount == 0);
@@ -114,7 +114,7 @@ class EventModel with EquatableMixin {
           displayDate: displayDate ?? this.displayDate);
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props => <Object?>[
         type,
         stage,
         // event?.id,
@@ -137,6 +137,6 @@ class EventModel with EquatableMixin {
 
 extension EventViewModelUids on List<EventModel> {
   List<String> uids() {
-    return map((it) => it.event!.uid!).toList();
+    return map((EventModel it) => it.event!.uid!).toList();
   }
 }

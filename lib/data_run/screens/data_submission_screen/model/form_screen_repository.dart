@@ -12,8 +12,8 @@ part 'form_screen_repository.g.dart';
 @riverpod
 FormScreenRepository formScreenRepository(FormScreenRepositoryRef ref) {
   final Bundle eventBundle = Get.arguments as Bundle;
-  final syncableUid = eventBundle.getString(SYNCABLE_UID)!;
-  final formCode = eventBundle.getString(FORM_CODE)!;
+  final String syncableUid = eventBundle.getString(SYNCABLE_UID)!;
+  final String formCode = eventBundle.getString(FORM_CODE)!;
   final SyncableQuery d2SyncableQuery =
       ref.watch(databaseSyncableQueryProvider(formCode)).provideQuery();
 

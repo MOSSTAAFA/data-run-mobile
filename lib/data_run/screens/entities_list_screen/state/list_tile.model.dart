@@ -7,6 +7,4 @@ class ListTileModel {
   final String title;
   final String summary;
   final SyncableEntityState state;
-
-
 }

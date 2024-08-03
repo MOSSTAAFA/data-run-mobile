@@ -12,16 +12,16 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import '../../commons/constants.dart';
 import '../../commons/utils/module_layout.dart';
 
-// TODO remove this function
+// TODOremove this function
 bool supportsInlineBrowser() => !isDesktopOS();
 
-// TODO remove this function
+// TODOremove this function
 bool supportsGoogleOAuth() => kIsWeb || isMobileOS();
 
-// TODO remove this function
+// TODOremove this function
 bool supportsAppleOAuth() => kIsWeb || isApple();
 
-// TODO remove this function
+// TODOremove this function
 bool supportsMicrosoftOAuth() => kIsWeb;
 
 bool isDesktopOS() => isMacOS() || isWindows() || isLinux();
@@ -86,7 +86,7 @@ String getLegacyAppURL(BuildContext context) => isAndroid()
 
 String getPdfRequirements(BuildContext context) {
   if (isMobile(context)) {
-    final version = isAndroid() ? 'Android 5.0+' : 'iOS 11.0+';
+    final String version = isAndroid() ? 'Android 5.0+' : 'iOS 11.0+';
     return L('pdfMinRequirements').replaceFirst(':version', version);
   } else {
     return '';
@@ -215,7 +215,7 @@ String getRateAppURL(BuildContext context) {
 }
 
 AppLayout calculateLayout(BuildContext context) {
-  final size = MediaQuery.of(context).size.width;
+  final double size = MediaQuery.of(context).size.width;
 
   if (size < kMobileLayoutWidth) {
     return AppLayout.mobile;

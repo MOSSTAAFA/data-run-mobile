@@ -12,7 +12,7 @@ class PercentageValidator extends ValueTypeValidator<PercentageFailure> {
   @override
   Result<String, PercentageFailure> validate(String value) {
     try {
-      int convertedValue = int.parse(value);
+      final int convertedValue = int.parse(value);
       if (convertedValue > ONE_HUNDRED_PERCENT) {
         // Failure
         return Result.failure(const PercentageFailure.valueGreaterThan100());

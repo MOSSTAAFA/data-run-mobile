@@ -30,11 +30,11 @@ class AppBorder extends StatelessWidget {
 
     // final Store<AppState> store = StoreProvider.of<AppState>(context);
     // final state = store.state;
-    final enableDarkMode = false; //state.prefState.enableDarkMode;
-    final isAllSides = isTop == null && isLeft == null;
-    const borderWidth = kIsWeb ? 2.0 : 1.5;
+    const bool enableDarkMode = false; //state.prefState.enableDarkMode;
+    final bool isAllSides = isTop == null && isLeft == null;
+    const double borderWidth = kIsWeb ? 2.0 : 1.5;
 
-    final color = enableDarkMode
+    final Color color = enableDarkMode
         ? convertHexStringToColor(kDefaultDarkBorderColor)!
         : convertHexStringToColor(kDefaultLightBorderColor)!;
 

@@ -9,7 +9,7 @@ abstract class NavigationPageConfigurator {
     return when(
         NavigationPage.values.firstOrNullWhere(
             (NavigationPage it) => it.viewAction == viewAction),
-        {
+        <NavigationPage, bool Function()>{
           NavigationPage.DETAILS: () => displayDetails(),
           NavigationPage.EVENTS: () => displayEvents(),
           NavigationPage.ANALYTICS: () => displayAnalytics(),

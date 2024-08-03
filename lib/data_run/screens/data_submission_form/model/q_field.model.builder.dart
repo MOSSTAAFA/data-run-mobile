@@ -3,6 +3,7 @@ import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
+import 'package:mass_pro/data_run/screens/data_submission_form/model/option_configuration.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
 import 'package:mass_pro/form/model/key_board_action_type.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
@@ -11,12 +12,15 @@ class QFieldModelBuilder {
   QFieldModelBuilder(QFieldModel model) {
     uid = model.uid;
     options = model.options;
+    optionList = model.optionList;
+    optionConfiguration = model.optionConfiguration;
     fieldRules = model.fieldRules;
     isFocused = model.isFocused;
     error = model.error;
     isEditable = model.isEditable;
     isVisible = model.isVisible;
     value = model.value;
+    values = model.values;
     displayName = model.displayName;
     warning = model.warning;
     isMandatory = model.isMandatory;
@@ -35,12 +39,15 @@ class QFieldModelBuilder {
 
   String? uid;
   IList<FormOption>? options;
+  String? optionList;
+  OptionConfiguration? optionConfiguration;
   IList<Rule>? fieldRules;
   bool? isFocused;
   String? error;
   bool? isEditable;
   bool? isVisible;
   String? value;
+  IList<String>? values;
   String? displayName;
   String? warning;
   bool? isMandatory;
@@ -63,6 +70,17 @@ class QFieldModelBuilder {
 
   QFieldModelBuilder setOptions(IList<FormOption>? options) {
     this.options = options;
+    return this;
+  }
+
+  QFieldModelBuilder setOptionList(String? optionList) {
+    this.optionList = optionList;
+    return this;
+  }
+
+  QFieldModelBuilder setOptionConfiguration(
+      OptionConfiguration? optionConfiguration) {
+    this.optionConfiguration = optionConfiguration;
     return this;
   }
 
@@ -93,6 +111,11 @@ class QFieldModelBuilder {
 
   QFieldModelBuilder setValue(String? value) {
     this.value = value;
+    return this;
+  }
+
+  QFieldModelBuilder setValues(IList<String>? values) {
+    this.values = values;
     return this;
   }
 
@@ -172,12 +195,15 @@ class QFieldModelBuilder {
     return QFieldModel(
       uid: uid!,
       options: options,
+      optionList: optionList,
+      optionConfiguration: optionConfiguration,
       fieldRules: fieldRules,
       isFocused: isFocused ?? false,
       error: error,
       isEditable: isEditable ?? true,
       isVisible: isVisible ?? true,
       value: value,
+      values: values,
       displayName: displayName,
       warning: warning,
       isMandatory: isMandatory ?? false,

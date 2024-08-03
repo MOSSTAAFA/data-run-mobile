@@ -1,8 +1,7 @@
 import 'dart:async';
 
-import 'package:d2_remote/d2_remote.dart';
-import 'package:d2_remote/modules/datarun/form/entities/dynamic_form.entity.dart';
 import 'package:d2_remote/modules/datarun_shared/entities/syncable.entity.dart';
+import 'package:d2_remote/modules/datarun_shared/queries/syncable.query.dart';
 import 'package:expressions/expressions.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:get/get.dart';
@@ -25,21 +24,21 @@ part 'form_fields_repository.g.dart';
 Future<FormFieldsRepository> formFieldsRepository(
     FormFieldsRepositoryRef ref) async {
   final Bundle eventBundle = Get.arguments as Bundle;
-  final syncableUid = eventBundle.getString(SYNCABLE_UID)!;
-  final formCode = eventBundle.getString(FORM_CODE)!;
-  final DynamicForm? form = await D2Remote.formModule.form
-      .where(attribute: 'code', value: formCode)
-      .getOne();
+  final String syncableUid = eventBundle.getString(SYNCABLE_UID)!;
+  final String formUid = eventBundle.getString(FORM_UID)!;
+  final String formCode = eventBundle.getString(FORM_CODE)!;
+  final String formVersion = eventBundle.getString(FORM_VERSION)!;
 
-  final d2SyncableQuery =
-  ref.watch(databaseSyncableQueryProvider(formCode)).provideQuery();
+  final SyncableQuery<SyncableEntity> d2SyncableQuery =
+      ref.watch(databaseSyncableQueryProvider(formCode)).provideQuery();
   final SyncableEntity? syncableEntity =
-  await d2SyncableQuery.byId(syncableUid).getOne();
+      await d2SyncableQuery.byId(syncableUid).getOne();
 
   return FormFieldsRepository(
       syncableEntityMappingRepository: ref.watch(
           syncableEntityMappingRepositoryProvider(
-              form: form!,
+              form: formUid,
+              version: formVersion,
               syncableEntity: syncableEntity!,
               d2SyncableQuery: d2SyncableQuery)),
       displayNameProvider: ref.watch(displayNameProviderProvider),
@@ -82,20 +81,24 @@ class FormFieldsRepository {
   // IMap<String, String> _mandatoryItemsWithoutValue = IMap({});
 
   /// updates the field model in _itemList with the value based on the uid
-  Future<void> updateValueOnList(String uid, String? value,
-      ValueType? valueType) async {
-    final displayName =
-    await displayNameProvider.provideDisplayName(valueType, value);
+  Future<void> updateValueOnList(
+      {required String uid,
+      String? value,
+      List<String>? values,
+      ValueType? valueType}) async {
+    final String? displayName =
+        await displayNameProvider.provideDisplayName(valueType, value);
 
-    final toUpdatedItem = _pendingUpdates.unlock
-        .firstWhere((t) => t.uid == uid)
+    final QFieldModel toUpdatedItem = _pendingUpdates.unlock
+        .firstWhere((QFieldModel t) => t.uid == uid)
         .builder()
         .setValue(value)
+        .setValues(values?.lock)
         .setDisplayName(displayName)
         .build();
 
     _pendingUpdates =
-        _pendingUpdates.updateById([toUpdatedItem], (id) => id.uid);
+        _pendingUpdates.updateById(<QFieldModel>[toUpdatedItem], (QFieldModel id) => id.uid);
   }
 
   Future<int> batchUpdateValues(Map<String, dynamic>? formData) async {
@@ -112,10 +115,10 @@ class FormFieldsRepository {
   FutureOr<IList<QFieldModel>> _composeFieldsList(
       IList<QFieldModel> list) async {
     _pendingUpdates = await applyRuleEffects(_pendingUpdates)
-    // .then((IList<QFieldModel> listOfItems) =>
-    //     _mergeListWithErrorFields(_pendingUpdates, _itemsWithError))
+        // .then((IList<QFieldModel> listOfItems) =>
+        //     _mergeListWithErrorFields(_pendingUpdates, _itemsWithError))
         .then((IList<QFieldModel> listOfItems) =>
-        _setLastItemKeyboardAction(listOfItems));
+            _setLastItemKeyboardAction(listOfItems));
     return _pendingUpdates;
   }
 
@@ -123,7 +126,7 @@ class FormFieldsRepository {
     _pendingUpdates = await _composeFieldsList(_pendingUpdates);
 
     return IMap.fromIterable<String, QFieldModel, QFieldModel>(_pendingUpdates,
-        keyMapper: (field) => field.uid, valueMapper: (field) => field);
+        keyMapper: (QFieldModel field) => field.uid, valueMapper: (QFieldModel field) => field);
   }
 
   Future<IList<QFieldModel>> applyRuleEffects(IList<QFieldModel> list) async {
@@ -147,15 +150,15 @@ class FormFieldsRepository {
   void removeAllValues() {
     _pendingUpdates = _pendingUpdates
         .map((QFieldModel fieldUiModel) =>
-        fieldUiModel.setValue(null).setDisplayName(null))
+            fieldUiModel.setValue(null).setDisplayName(null))
         .toIList();
   }
 
   /// if action has error and its item is not yet in _itemsWithError, it adds
   /// it to it. Else which means it was _itemsWithError, it then removes it.
   void updateErrorList(RowAction? action) {
-    final itemIndex =
-    _itemsWithError.indexWhere((RowAction item) => item.id == action!.id);
+    final int itemIndex =
+        _itemsWithError.indexWhere((RowAction item) => item.id == action!.id);
 
     // if action has error
     if (action?.error != null) {
@@ -224,18 +227,17 @@ class FormFieldsRepository {
     return _backupList;
   }
 
-  Future<IList<QFieldModel>> _mergeListWithErrorFields(IList<QFieldModel> list,
-      IList<RowAction> fieldsWithError) async {
+  Future<IList<QFieldModel>> _mergeListWithErrorFields(
+      IList<QFieldModel> list, IList<RowAction> fieldsWithError) async {
     final List<QFieldModel> mergedList = list.map((QFieldModel item) {
       return fieldsWithError
-          .firstOrNullWhere((RowAction action) => action.id == item.uid)
-          ?.takeIf((RowAction action) => action.error != null)
-          ?.also((RowAction action) => item.setValue(action.value))
-          .let((RowAction action) =>
-          fieldErrorMessageProvider
-              .getFriendlyErrorMessage(action.error!))
-          .also((String y) {})
-          .let((String friendlyError) => item.setError(friendlyError)) ??
+              .firstOrNullWhere((RowAction action) => action.id == item.uid)
+              ?.takeIf((RowAction action) => action.error != null)
+              ?.also((RowAction action) => item.setValue(action.value))
+              .let((RowAction action) => fieldErrorMessageProvider
+                  .getFriendlyErrorMessage(action.error!))
+              .also((String y) {})
+              .let((String friendlyError) => item.setError(friendlyError)) ??
           item;
     }).toList();
     return mergedList.lock;
@@ -252,7 +254,7 @@ class FormFieldsRepository {
             issueType: IssueType.ERROR,
             message: errorItem?.error != null
                 ? fieldErrorMessageProvider
-                .getFriendlyErrorMessage(errorItem!.error!)
+                    .getFriendlyErrorMessage(errorItem!.error!)
                 : '');
       }
       return null;

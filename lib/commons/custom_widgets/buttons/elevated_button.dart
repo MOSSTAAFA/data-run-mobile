@@ -22,7 +22,7 @@ class AppButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final button = ElevatedButton(
+    final ElevatedButton button = ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: color ?? Theme.of(context).colorScheme.secondary,
         padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 14),

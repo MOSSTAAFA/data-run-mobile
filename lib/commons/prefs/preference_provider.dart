@@ -109,7 +109,7 @@ class PreferenceProvider {
 
   DateTime? lastSync() {
     assert(_sharedPreferences != null, 'PreferenceProvider is not initialized');
-    final List<DateTime> dateSync = [];
+    final List<DateTime> dateSync = <DateTime>[];
     lastMetadataSync()?.let((DateTime it) => dateSync.add(it));
     lastDataSync()?.let((DateTime it) => dateSync.add(it));
     return dateSync.min();

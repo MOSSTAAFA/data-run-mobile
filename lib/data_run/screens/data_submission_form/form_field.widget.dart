@@ -33,7 +33,7 @@ class _FormFieldWidgetState extends ConsumerState<FormFieldWidget> {
         .watch(fieldWidgetFactoryProvider)
         .getBuilder(widget.fieldModel.valueType);
 
-    final fieldWidget =
+    final Widget fieldWidget =
         builder.call(widget.fieldModel.setCallback(intentCallback: onIntent));
 
     if (!widget.fieldModel.isVisible) {
@@ -46,6 +46,6 @@ class _FormFieldWidgetState extends ConsumerState<FormFieldWidget> {
   void onIntent(FormIntent intent) {
     ref
         .read(formPendingIntentsProvider.notifier)
-        .submitIntent((current) => intent);
+        .submitIntent((FormIntent current) => intent);
   }
 }

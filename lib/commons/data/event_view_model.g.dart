@@ -6,7 +6,7 @@ part of 'event_view_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$canShowAddButtonHash() => r'cea79108883185689779cd0f3d9d8b6aa362d17a';
+String _$canShowAddButtonHash() => r'c5c967db99cf7d53dc60714508c6ff77f14bc536';
 
 /// See also [canShowAddButton].
 @ProviderFor(canShowAddButton)

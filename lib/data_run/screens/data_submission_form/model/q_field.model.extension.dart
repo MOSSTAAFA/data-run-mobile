@@ -6,7 +6,7 @@ import 'package:mass_pro/sdk/core/common/value_type.dart';
 
 extension FormFieldModelExtensions on QFieldModel {
   TextInputType? get inputType {
-    return when(valueType, {
+    return when(valueType, <Object, TextInputType Function()>{
       ValueType.Text: () => TextInputType.text,
       ValueType.LongText: () => TextInputType.multiline,
       ValueType.Letter: () => TextInputType.text,
@@ -15,9 +15,9 @@ extension FormFieldModelExtensions on QFieldModel {
       ValueType.UnitInterval: () =>
           const TextInputType.numberWithOptions(decimal: true),
       ValueType.Percentage: () => TextInputType.number,
-      [ValueType.IntegerNegative, ValueType.Integer]: () =>
+      <ValueType>[ValueType.IntegerNegative, ValueType.Integer]: () =>
           const TextInputType.numberWithOptions(signed: true),
-      [ValueType.IntegerPositive, ValueType.IntegerZeroOrPositive]: () =>
+      <ValueType>[ValueType.IntegerPositive, ValueType.IntegerZeroOrPositive]: () =>
           TextInputType.number,
       ValueType.PhoneNumber: () => TextInputType.phone,
       ValueType.Email: () => TextInputType.emailAddress,
@@ -26,7 +26,7 @@ extension FormFieldModelExtensions on QFieldModel {
   }
 
   TextInputAction? get inputAction {
-    return when(keyboardActionType, {
+    return when(keyboardActionType, <KeyboardActionType, TextInputAction Function()>{
       KeyboardActionType.NEXT: () => TextInputAction.next,
       KeyboardActionType.DONE: () => TextInputAction.done,
       KeyboardActionType.ENTER: () => TextInputAction.none,
@@ -48,7 +48,7 @@ extension FormFieldModelExtensions on QFieldModel {
   //
   TextInputAction? get textInputAction {
     if (keyboardActionType != null) {
-      return when(keyboardActionType, {
+      return when(keyboardActionType, <KeyboardActionType, TextInputAction Function()>{
         KeyboardActionType.NEXT: () => TextInputAction.next,
         KeyboardActionType.DONE: () => TextInputAction.done,
         KeyboardActionType.ENTER: () => TextInputAction.none

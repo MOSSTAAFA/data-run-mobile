@@ -72,14 +72,14 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: SyncableEntityState.statusFilterItems()
-                  .map(
-                      (status) => _buildFilterChip(status, counts[status] ?? 0))
+                  .map((SyncableEntityState status) =>
+                      _buildFilterChip(status, counts[status] ?? 0))
                   .toList(),
             ),
           ),
         );
       },
-      error: (error, _) => Text('Error: $error'),
+      error: (Object error, _) => Text('Error: $error'),
       loading: () => const CircularProgressIndicator(),
     );
   }
@@ -104,10 +104,11 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
 
   Map<SyncableEntityState, int> _calculateCounts(
       IList<SyncableEntity> entities) {
-    final Map<SyncableEntityState, int> counts = {};
+    final Map<SyncableEntityState, int> counts = <SyncableEntityState, int>{};
 
-    for (final entity in entities) {
-      final status = SyncableEntityState.getEntityStatus(entity);
+    for (final SyncableEntity entity in entities) {
+      final SyncableEntityState? status =
+          SyncableEntityState.getEntityStatus(entity);
       if (status != null) {
         counts[status] = (counts[status] ?? 0) + 1;
       }
@@ -122,13 +123,13 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
             formCode: formCode, entityStatus: _selectedStatus));
 
     return entitiesByStatus.when(
-        data: (filteredEntities) => ListView.builder(
+        data: (IList<SyncableEntity> filteredEntities) => ListView.builder(
               itemCount: filteredEntities.length,
-              itemBuilder: (context, index) {
+              itemBuilder: (BuildContext context, int index) {
                 final SyncableEntity entity = filteredEntities[index];
                 final SyncableEntityState? entitySyncableStatus =
                     SyncableEntityState.getEntityStatus(entity);
-                final summary = generateFormSummary(entity.toJson());
+                final String summary = generateFormSummary(entity.toJson());
 
                 return Card(
                   shadowColor: Theme.of(context).colorScheme.shadow,
@@ -138,22 +139,31 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                   child: ListTile(
+                    isThreeLine: true,
                     leading: _buildStatusIcon(entitySyncableStatus),
-                    title: Text(entity.name ?? entity.uid!),
+                    title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(entity.name ?? entity.uid!),
+                          Text(
+                            '${S.of(context).version}: ${entity.version}',
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        ]),
                     subtitle: Text(summary),
                     trailing: QSyncIconButton(
                       state: entitySyncableStatus,
-                      onUnsyncedPressed: () => _showSyncDialog([entity.uid!]),
-                      // onErrorPressed: () => _showSyncDialog([entity.uid!]),
+                      onUnsyncedPressed: () =>
+                          _showSyncDialog(<String>[entity.uid!]),
                     ),
                     onTap: () {
-                      _goToDataEntryForm(entity.uid!);
+                      _goToDataEntryForm(entity.uid!, entity.version);
                     },
                   ),
                 );
               },
             ),
-        error: (error, _) => Text('Error: $error'),
+        error: (Object error, _) => Text('Error: $error'),
         loading: () => const CircularProgressIndicator());
   }
 
@@ -164,14 +174,14 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
       return;
     }
 
-    final result = await showDialog<String?>(
+    final String? result = await showDialog<String?>(
         context: context,
         builder: (BuildContext context) {
           return EntityCreationDialog(formModel: formModel!);
         });
     // go to form
     if (result != null) {
-      await _goToDataEntryForm(result);
+      await _goToDataEntryForm(result, formModel!.version);
       ref.invalidate(entitiesByStatusProvider);
       ref.invalidate(projectDetailItemModelProvider);
     } else {
@@ -194,9 +204,10 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
     }
   }
 
-  Future<void> _goToDataEntryForm(String uid) async {
+  Future<void> _goToDataEntryForm(String uid, int version) async {
     final Bundle eventBundle = Get.arguments as Bundle;
-    final bundle = eventBundle.putString(SYNCABLE_UID, uid);
+    Bundle bundle = eventBundle.putString(SYNCABLE_UID, uid);
+    bundle = eventBundle.putString(FORM_VERSION, version.toString());
 
     await Get.to(const DataSubmissionScreen(), arguments: bundle);
     ref.invalidate(entitiesByStatusProvider);
@@ -205,15 +216,15 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
   Future<void> _showSyncDialog(List<String> entityUids) async {
     await showDialog(
       context: context,
-      builder: (context) {
+      builder: (BuildContext context) {
         return SyncDialog(
           entityUids: entityUids,
-          syncEntity: (uid) async {
+          syncEntity: (String uid) async {
             // Implement your sync logic here using the repository
             // Example:
             await ref
                 .read(syncDialogRepositoryProvider(formCode: formCode))
-                .syncEntities([uid]);
+                .syncEntities(<String>[uid]);
             // await myRepository.syncEntity(uid);
           },
         );
@@ -225,18 +236,18 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
 
 String generateFormSummary(Map<String, dynamic> fields) {
   final String fieldSummary = fields.entries
-      .where((entry) =>
+      .where((MapEntry<String, dynamic> entry) =>
           entry.key != 'name' &&
           entry.value != null &&
           !syncableVariable.contains(entry.key))
       .take(3)
-      .map((entry) => '${entry.key}: ${entry.value}')
+      .map((MapEntry<String, dynamic> entry) => '${entry.key}: ${entry.value}')
       .join(', ');
 
   return fieldSummary.isNotEmpty ? fieldSummary : 'No additional data';
 }
 
-final syncableVariable = [
+final List<String> syncableVariable = <String>[
   'id',
   'lastSyncMessage',
   'uid',

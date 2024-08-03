@@ -30,7 +30,7 @@ class ClickableInputField extends StatefulWidget {
 }
 
 class _ClickableInputFieldState extends State<ClickableInputField> {
-  final _textController = TextEditingController();
+  final TextEditingController _textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

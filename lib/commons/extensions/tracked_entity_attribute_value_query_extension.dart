@@ -1,4 +1,5 @@
 import 'package:d2_remote/d2_remote.dart';
+import 'package:d2_remote/modules/data/tracker/entities/tracked_entity_attribute_value.entity.dart';
 import 'package:d2_remote/modules/data/tracker/queries/tracked_entity_attribute_value.query.dart';
 import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/tracked_entity_attribute.entity.dart';
@@ -9,19 +10,19 @@ import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'dynamic_value_extensions.dart';
 
 /// BlockingSetCheckTrackedEntityAttributeValueExtension
-/// TODO BaseQueryWithValue extends BaseQuery on which these extension are put
+// TODOBaseQueryWithValue extends BaseQuery on which these extension are put
 extension SetCheckTrackedEntityAttributeValueExtension
     on TrackedEntityAttributeValueQuery {
   Future<bool> blockingSetCheck(String attrUid, String value,
       Function(String attrUid, String value) onCrash) async {
-    TrackedEntityAttribute trackedEntityAttribute = (await D2Remote
+    final TrackedEntityAttribute trackedEntityAttribute = (await D2Remote
         .programModule.trackedEntityAttribute
         .byId(attrUid)
         .getOne())!;
     // if (de != null) {
     if (await check(ValueType.getValueType(trackedEntityAttribute.valueType),
         trackedEntityAttribute.optionSet, value)) {
-      var finalValue = await _assureCodeForOptionSet(
+      final String finalValue = await _assureCodeForOptionSet(
           trackedEntityAttribute.optionSet, value);
       try {
         await blockingSet(finalValue);
@@ -40,7 +41,7 @@ extension SetCheckTrackedEntityAttributeValueExtension
   Future<String> _assureCodeForOptionSet(
       String? optionSetUid, String value) async {
     if (optionSetUid != null) {
-      Option? option = await D2Remote.optionModule.option
+      final Option? option = await D2Remote.optionModule.option
           .byOptionSet(optionSetUid)
           .where(attribute: 'name', value: value)
           .getOne();
@@ -55,7 +56,7 @@ extension SetTrackedEntityAttributeValueExtension
     on TrackedEntityAttributeValueQuery {
   // NMC: TODO throws D2Error
   Future<void> blockingSet(String value) async {
-    var toUpdate = await getOne();
+    final TrackedEntityAttributeValue? toUpdate = await getOne();
     // updateOrInsert
     if (toUpdate != null) {
       mergeMode = MergeMode.Merge;
@@ -76,9 +77,9 @@ extension BlockingDeleteIfExistTrackedEntityAttributeValueExtension
   Future<void> blockingDeleteIfExist() async {
     // blockingDelete()
     // delete(blockingGetWithoutChildren())
-    final toDelete = await getOne();
+    final TrackedEntityAttributeValue? toDelete = await getOne();
     if (toDelete != null) {
-      await byId(toDelete.uid as String).delete();
+      await byId(toDelete.uid!).delete();
     }
   }
 }
@@ -88,7 +89,7 @@ extension ExistTrackedEntityAttributeValueExtension
     on TrackedEntityAttributeValueQuery {
   // NMC: TODO throws D2Error
   Future<bool> blockingExists() async {
-    final teav = await getOne();
+    final TrackedEntityAttributeValue? teav = await getOne();
     return teav != null;
   }
 }

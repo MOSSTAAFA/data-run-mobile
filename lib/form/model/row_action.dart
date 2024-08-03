@@ -9,6 +9,7 @@ class RowAction with EquatableMixin {
   RowAction(
       {required this.id,
       this.value,
+      this.values,
       this.formData,
       this.requiresExactMatch = false,
       this.optionCode,
@@ -20,6 +21,7 @@ class RowAction with EquatableMixin {
 
   final String id;
   final String? value;
+  final List<String>? values;
   final Map<String, dynamic>? formData;
   final bool requiresExactMatch;
   final String? optionCode;
@@ -32,7 +34,7 @@ class RowAction with EquatableMixin {
   bool get hasError => error != null;
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props => <Object?>[
         id,
         value,
         requiresExactMatch,
@@ -46,7 +48,7 @@ class RowAction with EquatableMixin {
 
   @override
   String toString() {
-    return mapPropsToString(runtimeType, [
+    return mapPropsToString(runtimeType, <Object?>[
       'uid: $id',
       'value: $value',
       'error: $error',

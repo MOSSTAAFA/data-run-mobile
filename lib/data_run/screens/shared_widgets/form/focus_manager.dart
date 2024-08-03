@@ -13,7 +13,7 @@ FocusManager focusManager(FocusManagerRef ref) {
 }
 
 class FocusManager {
-  final List<FocusNode> _focusNodes = [];
+  final List<FocusNode> _focusNodes = <FocusNode>[];
 
   FocusNode getFocusNode(int fieldIndex) {
     if (_focusNodes.length <= fieldIndex) {
@@ -23,7 +23,7 @@ class FocusManager {
   }
 
   void addFocusListener(int fieldIndex, QFieldModel fieldModel) {
-    final focusNode = getFocusNode(fieldIndex);
+    final FocusNode focusNode = getFocusNode(fieldIndex);
     focusNode.addListener(() {
       if (!focusNode.hasFocus) {
         // Focus lost, update field and submit intent
@@ -37,7 +37,7 @@ class FocusManager {
 
   void dispose() {
     debugPrint('### dispose $runtimeType');
-    for (final focusNode in _focusNodes) {
+    for (final FocusNode focusNode in _focusNodes) {
       debugPrint('### dispose $focusNode');
       focusNode.dispose();
     }

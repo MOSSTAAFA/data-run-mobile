@@ -103,7 +103,7 @@ class NavigationInfo with EquatableMixin {
   final bool hideActionBtn;
 
   @override
-  List<Object?> get props => [index, hideBottomNavBar, hideActionBtn];
+  List<Object?> get props => <Object?>[index, hideBottomNavBar, hideActionBtn];
 
   NavigationInfo copyWith({
     int? index,
@@ -119,6 +119,6 @@ class NavigationInfo with EquatableMixin {
 
   @override
   String toString() {
-    return mapPropsToString(runtimeType, ['index: $index']);
+    return mapPropsToString(runtimeType, <Object?>['index: $index']);
   }
 }

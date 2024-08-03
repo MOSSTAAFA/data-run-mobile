@@ -4,7 +4,7 @@ import 'package:mass_pro/utils/mass_utils/utils.dart';
 class MessageDialog extends StatelessWidget {
   @deprecated
   const MessageDialog(
-    this.message, {
+    this.message, {super.key, 
     this.onDismiss,
     this.onDiscard,
     this.dismissLabel,
@@ -42,7 +42,7 @@ class MessageDialog extends StatelessWidget {
                       if (secondaryActions != null)
                         Row(
                           children: secondaryActions!
-                              .map((action) => Padding(
+                              .map((TextButton action) => Padding(
                                     padding: const EdgeInsets.only(right: 16),
                                     child: action,
                                   ))

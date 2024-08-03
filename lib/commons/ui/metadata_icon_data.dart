@@ -19,5 +19,5 @@ class MetadataIconData with EquatableMixin {
           sizeInDp: sizeInDp ?? this.sizeInDp);
 
   @override
-  List<Object?> get props => [programColor, iconResource, sizeInDp];
+  List<Object?> get props => <Object?>[programColor, iconResource, sizeInDp];
 }

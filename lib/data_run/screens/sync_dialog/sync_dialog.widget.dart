@@ -19,7 +19,7 @@ class SyncDialog extends ConsumerStatefulWidget {
 class SyncDialogState extends ConsumerState<SyncDialog> {
   int _currentEntityIndex = 0;
   bool _isSyncing = false;
-  List<String> _syncErrors = [];
+  List<String> _syncErrors = <String>[];
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class SyncDialogState extends ConsumerState<SyncDialog> {
 
     return Column(
       mainAxisSize: MainAxisSize.min,
-      children: [
+      children: <Widget>[
         LinearProgressIndicator(
           value: _currentEntityIndex / widget.entityUids.length,
         ),
@@ -59,7 +59,7 @@ class SyncDialogState extends ConsumerState<SyncDialog> {
 
   List<Widget> _buildActions() {
     if (!_isSyncing) {
-      return [
+      return <Widget>[
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
           child: Text(S.of(context).cancel),
@@ -72,7 +72,7 @@ class SyncDialogState extends ConsumerState<SyncDialog> {
     }
 
     if (_currentEntityIndex == widget.entityUids.length) {
-      return [
+      return <Widget>[
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
           child: Text(S.of(context).ok),
@@ -80,18 +80,18 @@ class SyncDialogState extends ConsumerState<SyncDialog> {
       ];
     }
 
-    return [];
+    return <Widget>[];
   }
 
   Future<void> _startSyncing() async {
     setState(() {
       _isSyncing = true;
       _currentEntityIndex = 0;
-      _syncErrors = [];
+      _syncErrors = <String>[];
     });
 
     for (int i = 0; i < widget.entityUids.length; i++) {
-      final uid = widget.entityUids[i];
+      final String uid = widget.entityUids[i];
       try {
         await widget.syncEntity(uid);
       } catch (e) {

@@ -23,13 +23,13 @@ class ResourceManager {
       stringResource,
       name: stringResource,
       desc: '',
-      args: [],
+      args: <Object>[],
     );
   }
 
   Icon getObjectStyleDrawableResource(
       IconData? icon, IconData defaultResource) {
-    return icon?.let((it) => Icon(icon)) ?? Icon(defaultResource);
+    return icon?.let((IconData it) => Icon(icon)) ?? Icon(defaultResource);
     // return icon?.let {
     // val iconName = if (icon.startsWith("ic_")) icon else "ic_$icon"
     // val iconResource =

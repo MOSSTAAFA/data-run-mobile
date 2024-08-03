@@ -21,7 +21,7 @@ class DynamicFormFieldWidget extends StatelessWidget {
     }
 
     return Stack(
-      children: [
+      children: <Widget>[
         _buildFormField(context, fieldModel),
         if (fieldModel.isLoading)
           const Positioned(
@@ -47,7 +47,7 @@ class DynamicFormFieldWidget extends StatelessWidget {
         return FormBuilderTextField(
             name: fieldModel.uid,
             // controller: fieldModel.controller,
-            valueTransformer: (value) {
+            valueTransformer: (String? value) {
               if (fieldModel.valueType?.isNumeric ?? false) {
                 return mapFieldToValueType(fieldModel);
               }
@@ -84,7 +84,7 @@ class DynamicFormFieldWidget extends StatelessWidget {
       case ValueType.Date:
       case ValueType.DateTime:
       case ValueType.Time:
-        final inputType = fieldModel.valueType == ValueType.Date
+        final InputType inputType = fieldModel.valueType == ValueType.Date
             ? InputType.date
             : fieldModel.valueType == ValueType.Time
                 ? InputType.time
@@ -189,13 +189,13 @@ class DynamicFormFieldWidget extends StatelessWidget {
       List<FormOption> options,
       {bool? wide}) {
     return options
-        .map((option) => FormBuilderChipOption<FormOption>(
+        .map((FormOption option) => FormBuilderChipOption<FormOption>(
               value: option,
               child: wide ?? false
                   ? Container(
                       padding: const EdgeInsets.all(1.0),
                       child: Column(
-                        children: [
+                        children: <Widget>[
                           Text(getItemLocalString(option.label)),
                         ],
                       ))

@@ -216,7 +216,7 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
   }
 
   TextInputType? _getInputType(ValueType? valueType) {
-    return when(valueType, {
+    return when(valueType, <Object, TextInputType Function()>{
       ValueType.Text: () => TextInputType.text,
       ValueType.LongText: () => TextInputType.multiline,
       ValueType.Letter: () => TextInputType.text,
@@ -225,9 +225,9 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
       ValueType.UnitInterval: () =>
           const TextInputType.numberWithOptions(decimal: true),
       ValueType.Percentage: () => TextInputType.number,
-      [ValueType.IntegerNegative, ValueType.Integer]: () =>
+      <ValueType>[ValueType.IntegerNegative, ValueType.Integer]: () =>
           const TextInputType.numberWithOptions(signed: true),
-      [ValueType.IntegerPositive, ValueType.IntegerZeroOrPositive]: () =>
+      <ValueType>[ValueType.IntegerPositive, ValueType.IntegerZeroOrPositive]: () =>
           TextInputType.number,
       ValueType.PhoneNumber: () => TextInputType.phone,
       ValueType.Email: () => TextInputType.emailAddress,
@@ -237,7 +237,7 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
 
   TextInputAction? _getInputAction(KeyboardActionType? type) {
     if (type != null) {
-      return when(type, {
+      return when(type, <KeyboardActionType, TextInputAction Function()>{
         KeyboardActionType.NEXT: () => TextInputAction.next,
         KeyboardActionType.DONE: () => TextInputAction.done,
         KeyboardActionType.ENTER: () => TextInputAction.none

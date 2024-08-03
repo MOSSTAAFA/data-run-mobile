@@ -32,11 +32,11 @@ class _ProjectDetailScreenWidgetState
         title: Text(ref.watch(projectNameProvider)),
       ),
       body: ProjectDetailItemsWidget(
-        onItemClick: (projectDetailItemModel) =>
+        onItemClick: (ProjectDetailItemModel? projectDetailItemModel) =>
             navigateTo(projectDetailItemModel!),
-        onGranularSyncClick: (projectDetailItemModel) =>
+        onGranularSyncClick: (ProjectDetailItemModel? projectDetailItemModel) =>
             showSyncDialog(projectDetailItemModel),
-        onDescriptionClick: (projectDetailItemModel) =>
+        onDescriptionClick: (ProjectDetailItemModel? projectDetailItemModel) =>
             projectDetailItemModel?.description != null
                 ? showDescription(projectDetailItemModel!.description!)
                 : null,
@@ -46,7 +46,7 @@ class _ProjectDetailScreenWidgetState
 
   @override
   void initState() {
-    projectUid = (Get.arguments as Bundle).getString(EXTRA_PROJECT_UID)!;
+    projectUid = (Get.arguments as Bundle).getString(EXTRA_PROJECT_UID);
     D2Remote.projectModuleD.project
         .byId(projectUid!)
         .getOne()
@@ -59,7 +59,7 @@ class _ProjectDetailScreenWidgetState
   void setProject(DProject project) {
     useOnInit(() => ref
         .read(projectNameProvider.notifier)
-        .update((state) => project.displayName ?? project.name ?? ''));
+        .update((String state) => project.displayName ?? project.name ?? ''));
   }
 
   @override
@@ -67,4 +67,4 @@ class _ProjectDetailScreenWidgetState
       [ProjectItemModel? program]) async {}
 }
 
-final projectNameProvider = StateProvider.autoDispose<String>((ref) => '');
+final AutoDisposeStateProvider<String> projectNameProvider = StateProvider.autoDispose<String>((AutoDisposeStateProviderRef<String> ref) => '');

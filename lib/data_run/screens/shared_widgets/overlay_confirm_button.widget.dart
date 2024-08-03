@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
 
 class OverlayConfirmButton extends StatefulWidget {
-  final String label;
-  final IconData icon;
-  final Color color;
-  final VoidCallback onConfirm;
 
   const OverlayConfirmButton({
-    Key? key,
+    super.key,
     required this.label,
     required this.icon,
     required this.color,
     required this.onConfirm,
-  }) : super(key: key);
+  });
+  final String label;
+  final IconData icon;
+  final Color color;
+  final VoidCallback onConfirm;
 
   @override
   OverlayConfirmButtonState createState() => OverlayConfirmButtonState();
@@ -32,7 +32,7 @@ class OverlayConfirmButtonState extends State<OverlayConfirmButton> {
     });
 
     _overlayEntry = OverlayEntry(
-      builder: (context) => GestureDetector(
+      builder: (BuildContext context) => GestureDetector(
         onTap: () {
           _hideConfirmation();
         },
@@ -41,7 +41,7 @@ class OverlayConfirmButtonState extends State<OverlayConfirmButton> {
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: <Widget>[
                 RoundedLoadingButton(
                   borderRadius: 4,
                   width: 430,
@@ -57,7 +57,7 @@ class OverlayConfirmButtonState extends State<OverlayConfirmButton> {
                   },
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
-                    children: [
+                    children: <Widget>[
                       const Icon(Icons.check, color: Colors.white),
                       Text(' Confirm ${widget.label}',
                           style: const TextStyle(color: Colors.white))
@@ -85,7 +85,7 @@ class OverlayConfirmButtonState extends State<OverlayConfirmButton> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      onPopInvoked: (bool) => _hideConfirmation(),
+      onPopInvoked: (bool bool) => _hideConfirmation(),
       canPop: _canPop(),
       child: ElevatedButton.icon(
         onPressed: _isConfirming ? null : _showConfirmation,

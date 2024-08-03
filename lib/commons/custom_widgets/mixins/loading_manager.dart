@@ -6,7 +6,7 @@ import '../../../form/ui/components/spinner_dialog.dart';
 
 mixin LoadingManager {
   void handleLoading(BuildContext context, Stream<bool> stream) {
-    stream.listen((isLoading) async {
+    stream.listen((bool isLoading) async {
       if (isLoading == true) {
         await showLoading(context);
       } else {

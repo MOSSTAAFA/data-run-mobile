@@ -54,6 +54,8 @@ dynamic mapFieldToValueType(QFieldModel? field) {
     case ValueType.Number:
     case ValueType.Age:
       return double.tryParse(field?.value ?? '') ?? 0.0;
+    case ValueType.SelectMulti:
+      return field?.values?.unlock ?? <String>[];
     // case ValueType.Date:
     // case ValueType.DateTime:
     //   return field?.value.toDate();

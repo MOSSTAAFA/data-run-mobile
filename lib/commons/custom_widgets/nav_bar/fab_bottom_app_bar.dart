@@ -13,7 +13,7 @@ class MenuItem {
 class FABBottomAppBar extends ConsumerStatefulWidget {
   const FABBottomAppBar(
       {super.key,
-      this.items = const [],
+      this.items = const <MenuItem>[],
       this.onTabSelected,
       this.color = Colors.grey,
       this.selectedColor = Colors.orangeAccent,

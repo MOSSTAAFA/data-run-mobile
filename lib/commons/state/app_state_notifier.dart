@@ -40,7 +40,7 @@ class AppStateNotifier extends _$AppStateNotifier {
   /// To navigate to a new screen and option to go back
   /// Get.to()	Navigator.push()
   void navigateToScreen(Widget screen, {Bundle? bundle, bool isRootNavigator = true}) {
-    final route = '/${screen.runtimeType}';
+    final String route = '/${screen.runtimeType}';
     logInfo(
         info:
             'Navigating to: ${toCamelCase((() => screen).runtimeType.toString())}');
@@ -62,7 +62,7 @@ class AppStateNotifier extends _$AppStateNotifier {
   /// startActivity()
   /// Get.off()	Navigator.pushReplacement()
   void gotToNextScreen(Widget screen, {Bundle? bundle}) {
-    final route = '/${screen.runtimeType}';
+    final String route = '/${screen.runtimeType}';
     logInfo(info: 'Navigating off to: ${toCamelCase(route)}');
     logInfo(
         info:
@@ -84,7 +84,7 @@ class AppStateNotifier extends _$AppStateNotifier {
   /// To go to the next screen and cancel all previous routes (useful in shopping carts, polls, and tests)
   /// Get.offAllNamed()	Navigator.pushNamedAndRemoveUntil()
   void gotToNextScreenPopAll(Widget screen, {dynamic bundle, bool isRootNavigator = true}) {
-    final route = '/${screen.runtimeType}';
+    final String route = '/${screen.runtimeType}';
     logInfo(info: 'Navigating off pop all to: ${toCamelCase(route)}');
     updateCurrentRoute(toCamelCase(route));
     Get.offAll(() => screen, arguments: bundle);

@@ -40,14 +40,14 @@ enum ValueType {
 
   ValueTypeValidator<ValidationException> get validator => _validator;
 
-  static List<ValueType> get INTEGER_TYPES => [
+  static List<ValueType> get INTEGER_TYPES => <ValueType>[
         Integer,
         IntegerPositive,
         IntegerNegative,
         IntegerZeroOrPositive
       ];
 
-  static List<ValueType> get NUMERIC_TYPES => [
+  static List<ValueType> get NUMERIC_TYPES => <ValueType>[
         Integer,
         Number,
         IntegerPositive,
@@ -57,16 +57,23 @@ enum ValueType {
         Percentage
       ];
 
-  static List<ValueType> get BOOLEAN_TYPES => [Boolean, TrueOnly];
+  static List<ValueType> get WITH_OPTIONS_TYPES => <ValueType>[
+    SelectOne,
+    SelectMulti
+  ];
+
+  static List<ValueType> get BOOLEAN_TYPES => <ValueType>[Boolean, TrueOnly];
 
   static List<ValueType> get TEXT_TYPES =>
-      [Text, LongText, Letter, Coordinate, Time];
+      <ValueType>[Text, LongText, Letter, Coordinate, Time];
 
-  static List<ValueType> get DATE_TYPES => [Date, DateTime];
+  static List<ValueType> get DATE_TYPES => <ValueType>[Date, DateTime];
 
-  static List<ValueType> get FILE_TYPES => [Image, FileResource];
+  static List<ValueType> get FILE_TYPES => <ValueType>[Image, FileResource];
 
   bool get isInteger => INTEGER_TYPES.contains(this);
+
+  bool get isWithOptions => WITH_OPTIONS_TYPES.contains(this);
 
   bool get isNumeric => NUMERIC_TYPES.contains(this);
 

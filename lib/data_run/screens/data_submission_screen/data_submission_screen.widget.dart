@@ -12,6 +12,7 @@ import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.mod
 import 'package:mass_pro/data_run/screens/data_submission_screen/model/form_screen_state.model.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/bottom_sheet/bottom_sheet.provider.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/bottom_sheet/bottom_sheet.widget.dart';
+import 'package:mass_pro/data_run/screens/shared_widgets/bottom_sheet/q_bottom_sheet_dialog_ui_model.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/form/q_field_widget_factory.dart';
 import 'package:mass_pro/form/ui/intent/form_intent.dart';
 import 'package:mass_pro/form/ui/view_model/form_pending_intents.dart';
@@ -23,11 +24,11 @@ class DataSubmissionScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final formScreenStateModel = ref.watch(formScreenStateModelProvider);
+    final AsyncValue<FormScreenStateModel> formScreenStateModel = ref.watch(formScreenStateModelProvider);
 
     return switch (formScreenStateModel) {
-      AsyncValue(:final error?) => ErrorWidget(error),
-      AsyncValue(:final valueOrNull?) => _EagerInitialization(
+      AsyncValue(:final Object error?) => ErrorWidget(error),
+      AsyncValue(:final FormScreenStateModel valueOrNull?) => _EagerInitialization(
           child: DataSubmissionScaffold(
             formScreenStateModel: valueOrNull,
           ),
@@ -74,7 +75,7 @@ class DataSubmissionScaffoldState extends ConsumerState<DataSubmissionScaffold>
 
   @override
   Widget build(BuildContext context) {
-    final viewInsets = MediaQuery.of(context).viewInsets;
+    final EdgeInsets viewInsets = MediaQuery.of(context).viewInsets;
     _isKeyboardVisible = viewInsets.bottom > 0.0;
 
     final AsyncValue<IMap<String, QFieldModel>> fields =
@@ -92,8 +93,8 @@ class DataSubmissionScaffoldState extends ConsumerState<DataSubmissionScaffold>
         key: _scaffoldKey,
         appBar: AppBar(title: Text(formCode)),
         body: switch (fields) {
-          AsyncValue(:final error?) => ErrorWidget(error),
-          AsyncValue(:final valueOrNull?) => GestureDetector(
+          AsyncValue(:final Object error?) => ErrorWidget(error),
+          AsyncValue(:final IMap<String, QFieldModel> valueOrNull?) => GestureDetector(
               onTap: () => hideTheKeyboard(context),
               child: FormBuilder(
                 key: _formKey,
@@ -108,8 +109,8 @@ class DataSubmissionScaffoldState extends ConsumerState<DataSubmissionScaffold>
                   child: ListView(
                     children: valueOrNull.entries
                         .map(
-                          (entry) => Column(
-                            children: [
+                          (MapEntry<String, QFieldModel> entry) => Column(
+                            children: <Widget>[
                               Padding(
                                 padding: const EdgeInsets.only(top: 20.0),
                                 child: FormFieldWidget(
@@ -167,12 +168,12 @@ class DataSubmissionScaffoldState extends ConsumerState<DataSubmissionScaffold>
   Future<void> _onSaveForm() async {
     _formKey.currentState!.save();
     ref.read(formPendingIntentsProvider.notifier).submitIntent(
-        (current) => FormIntent.onFinish(_formKey.currentState?.value));
+        (FormIntent current) => FormIntent.onFinish(_formKey.currentState?.value));
     debugPrint('Form State: ${_formKey.currentState?.value}');
   }
 
   Future<void> _showBottomSheet(BuildContext context) async {
-    final bottomSheetUiModel =
+    final QBottomSheetDialogUiModel bottomSheetUiModel =
         ref.watch(bottomSheetProvider).formFinishBottomSheet();
     showModalBottomSheet(
       context: context,
@@ -190,7 +191,7 @@ class DataSubmissionScaffoldState extends ConsumerState<DataSubmissionScaffold>
     if (_formKey.currentState!.validate(focusOnInvalid: false)) {
       await _markEntityAsFinal();
       ref.read(formPendingIntentsProvider.notifier).submitIntent(
-          (current) => FormIntent.onFinish(_formKey.currentState?.value));
+          (FormIntent current) => FormIntent.onFinish(_formKey.currentState?.value));
       if (context.mounted) {
         Navigator.pop(context);
       }
@@ -213,13 +214,13 @@ class DataSubmissionScaffoldState extends ConsumerState<DataSubmissionScaffold>
 }
 
 class _EagerInitialization extends ConsumerWidget {
-  const _EagerInitialization({super.key, required this.child});
+  const _EagerInitialization({required this.child});
 
   final Widget child;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final loadingFieldsRepositoryResult =
+    final AsyncValue<FormFieldsRepository> loadingFieldsRepositoryResult =
         ref.watch(formFieldsRepositoryProvider);
 
     ref.watch(fieldWidgetFactoryProvider);

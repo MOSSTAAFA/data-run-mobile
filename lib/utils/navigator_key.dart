@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mass_pro/utils/mass_utils/utils.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-final dashboardKey = GlobalKey<NavigatorState>();
-final productsKey = GlobalKey<NavigatorState>();
-final profileKey = GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> dashboardKey = GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> productsKey = GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> profileKey = GlobalKey<NavigatorState>();
 
 // extension NavigatorKeyUtils on GlobalKey<NavigatorState> {
 //   L get localization {
@@ -23,4 +22,4 @@ Future<void> navigate(BuildContext? context, String route,
 
 /// Color list
 const Color mediumPurple = Color.fromRGBO(79, 0, 241, 1.0);
-List<Color> colors = [mediumPurple, Colors.orange, Colors.teal];
+List<Color> colors = <Color>[mediumPurple, Colors.orange, Colors.teal];

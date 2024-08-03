@@ -15,7 +15,7 @@ enum FeatureType {
   String get geometryType => _geometryType;
 
   static FeatureType? valueOfFeatureType(String featureType) {
-    for (FeatureType value in FeatureType.values) {
+    for (final FeatureType value in FeatureType.values) {
       if (value.featureType == featureType ||
           value.geometryType == featureType) {
         return value;

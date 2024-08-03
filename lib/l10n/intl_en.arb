@@ -164,5 +164,6 @@
         "format": "compact"
       }
     }
-  }
+  },
+  "version": "Version"
 }

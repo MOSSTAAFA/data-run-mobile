@@ -29,12 +29,14 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
   }
 
   Future<String?> _createEntity(FormListItemModel formModel) async {
-    final syncableEntityInitialRepository = ref.read(
-        syncableEntityInitialRepositoryProvider(formCode: formModel.formCode));
+    final SyncableEntityInitialRepository syncableEntityInitialRepository = ref.read(
+        syncableEntityInitialRepositoryProvider(form: formModel.formCode));
 
     return syncableEntityInitialRepository.createSyncable(
         activityUid: formModel.activity!,
         teamUid: formModel.team!,
+        form: formModel.form,
+        version: formModel.version,
         mainFieldValues: formModel.fields);
   }
 
@@ -48,11 +50,11 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
       if (_formKey.currentState?.validate() ?? false) {
         // Call the function to create entity
         _formKey.currentState!.save();
-        final updatedFields = widget.formModel.fields
+        final List<QFieldModel>? updatedFields = widget.formModel.fields
             ?.map((QFieldModel field) => field.setValue(
                 _formKey.currentState!.value[field.uid] ?? field.value))
             .toList();
-        final updatedModel = widget.formModel.copyWith(fields: updatedFields);
+        final FormListItemModel updatedModel = widget.formModel.copyWith(fields: updatedFields);
 
         syncableId = await _createEntity(updatedModel);
 
@@ -64,15 +66,7 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
           _isLoading = false;
         });
       }
-
-      // // After adding the entity, close the dialog
-      // // Check if the context is still mounted
-      // if (!context.mounted) {
-      //   return;
-      // }
-      // Close the dialog if entity creation is successful
     } catch (e) {
-      // Handle the error here, show a snackbar, or set an error state
       setState(() {
         _isLoading = false;
       });
@@ -90,7 +84,7 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
       title: Text(S.of(context).openNewForm),
       content: SingleChildScrollView(
         child: Column(
-          children: [
+          children: <Widget>[
             //
             FormBuilder(
               key: _formKey,
@@ -102,7 +96,7 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
               onChanged: () {
                 _formKey.currentState!.save();
                 debugPrint(
-                    'form _formKey State Changed: ${_formKey.currentState!.value.toString()}');
+                    'form _formKey State Changed: ${_formKey.currentState!.value}');
               },
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -110,7 +104,7 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
                         ?.map((QFieldModel fieldModel) =>
                             DynamicFormFieldWidget(fieldModel: fieldModel))
                         .toList() ??
-                    [],
+                    <Widget>[],
               ),
             ),
             if (_isLoading)
@@ -121,7 +115,7 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
           ],
         ),
       ),
-      actions: [
+      actions: <Widget>[
         TextButton(
           child: Text(S.of(context).cancel),
           onPressed: () {
@@ -129,9 +123,9 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
           },
         ),
         TextButton(
-          child: Text(S.of(context).open),
           onPressed:
               _isLoading ? null : () => createAndPopupWithResult(context),
+          child: Text(S.of(context).open),
         ),
       ],
     );

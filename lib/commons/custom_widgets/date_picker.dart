@@ -8,7 +8,7 @@ import 'package:mass_pro/utils/mass_utils/formatting.dart';
 import 'package:mass_pro/utils/mass_utils/strings.dart';
 
 // D:\Hamza\Learn\my-projects\Flutter\mass_pro\lib\commons\date\field_with_issue.dart
-final navigatorKey = GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class DatePicker extends StatefulWidget {
   const DatePicker(
@@ -58,8 +58,8 @@ class DatePicker extends StatefulWidget {
 }
 
 class _DatePickerState extends State<DatePicker> {
-  final _textController = TextEditingController();
-  final _focusNode = FocusNode();
+  final TextEditingController _textController = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
   String? _pendingValue;
 
   @override
@@ -144,7 +144,7 @@ class _DatePickerState extends State<DatePicker> {
         );
 
     if (selectedDate != null) {
-      final date = convertDateTimeToSqlDate(selectedDate);
+      final String date = convertDateTimeToSqlDate(selectedDate);
       _textController.text = formatDate(date, navigatorKey.currentContext);
       widget.onSelected(date, false);
     }
@@ -152,12 +152,12 @@ class _DatePickerState extends State<DatePicker> {
 
   @override
   Widget build(BuildContext context) {
-    var label = widget.labelText;
+    String? label = widget.labelText;
     if (widget.message != null && widget.initialDate == null) {
       label = '$label • ${widget.message}';
     }
 
-    final field = DecoratedFormField(
+    final DecoratedFormField field = DecoratedFormField(
       focusNode: _focusNode,
       validator: widget.validator,
       controller: _textController,
@@ -173,18 +173,18 @@ class _DatePickerState extends State<DatePicker> {
                   },
                 )
               : null),
-      onChanged: (value) {
+      onChanged: (String value) {
         if (value.isEmpty) {
           widget.onSelected('', false);
         } else {
           String? date = '';
-          final dateAsNumber = value.replaceAll('/', '').replaceAll(r'\', '');
+          final String dateAsNumber = value.replaceAll('/', '').replaceAll(r'\', '');
           if (isAllDigits(dateAsNumber) || value.length <= 5) {
             String firstPart = '01';
             String secondPart = '01';
             int? year = DateTime.now().year;
             if (value.contains('/')) {
-              final parts = value.split('/');
+              final List<String> parts = value.split('/');
               if (parts[0].length == 1) {
                 firstPart = '0${parts[0]}';
               } else {
@@ -202,7 +202,7 @@ class _DatePickerState extends State<DatePicker> {
                 }
               }
             } else if (value.contains(r'\')) {
-              final parts = value.split(r'\');
+              final List<String> parts = value.split(r'\');
               if (parts[0].length == 1) {
                 secondPart = '0${parts[0]}';
               } else {
@@ -257,8 +257,8 @@ class _DatePickerState extends State<DatePicker> {
               }
             }
 
-            final month = firstPart;
-            final day = secondPart;
+            final String month = firstPart;
+            final String day = secondPart;
 
             value = '$day$month';
 
@@ -276,7 +276,7 @@ class _DatePickerState extends State<DatePicker> {
           }
 
           if (widget.firstDate != null) {
-            final firstDateSql = convertDateTimeToSqlDate(widget.firstDate);
+            final String firstDateSql = convertDateTimeToSqlDate(widget.firstDate);
             if (firstDateSql.compareTo(date) > 0) {
               date = firstDateSql;
             }
@@ -295,7 +295,7 @@ class _DatePickerState extends State<DatePicker> {
     return widget.onIconPressed != null
         ? Row(
             mainAxisSize: MainAxisSize.min,
-            children: [
+            children: <Widget>[
               Expanded(child: field),
               const SizedBox(
                 height: 20.0,

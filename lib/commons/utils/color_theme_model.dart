@@ -20,7 +20,7 @@ class ColorTheme {
   Color colorGray;
 }
 
-Map<String, ColorTheme> colorThemesMap = {
+Map<String, ColorTheme> colorThemesMap = <String, ColorTheme>{
   kColorThemeLight: ColorTheme(
     colorPrimary: const Color(0xff324da1),
     colorInfo: const Color(0xff57a6e4),

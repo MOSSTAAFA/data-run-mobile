@@ -10,6 +10,6 @@ String L(String stringResource) {
     stringResource,
     name: stringResource,
     desc: '',
-    args: [],
+    args: <Object>[],
   );
 }

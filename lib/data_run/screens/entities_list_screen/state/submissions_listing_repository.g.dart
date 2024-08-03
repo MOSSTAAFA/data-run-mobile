@@ -1,12 +1,31 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'entities_riverpod_providers.dart';
+part of 'submissions_listing_repository.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$entitiesByStatusHash() => r'4dcb6b4d67669f9cf20a3cee9934760af5aadb9b';
+String _$submissionsListingRepositoryHash() =>
+    r'b6e227e7c53ce26ba5bf3ae0dcab2a536783e132';
+
+/// See also [submissionsListingRepository].
+@ProviderFor(submissionsListingRepository)
+final submissionsListingRepositoryProvider =
+    AutoDisposeProvider<SubmissionsListingRepository>.internal(
+  submissionsListingRepository,
+  name: r'submissionsListingRepositoryProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$submissionsListingRepositoryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef SubmissionsListingRepositoryRef
+    = AutoDisposeProviderRef<SubmissionsListingRepository>;
+String _$submissionsByStatusHash() =>
+    r'02f6b74f53b6576ba8bbba70c3b66b1405871e4f';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,22 +48,23 @@ class _SystemHash {
   }
 }
 
-/// See also [entitiesByStatus].
-@ProviderFor(entitiesByStatus)
-const entitiesByStatusProvider = EntitiesByStatusFamily();
+/// See also [submissionsByStatus].
+@ProviderFor(submissionsByStatus)
+const submissionsByStatusProvider = SubmissionsByStatusFamily();
 
-/// See also [entitiesByStatus].
-class EntitiesByStatusFamily extends Family<AsyncValue<IList<SyncableEntity>>> {
-  /// See also [entitiesByStatus].
-  const EntitiesByStatusFamily();
+/// See also [submissionsByStatus].
+class SubmissionsByStatusFamily
+    extends Family<AsyncValue<IList<SyncableEntity>>> {
+  /// See also [submissionsByStatus].
+  const SubmissionsByStatusFamily();
 
-  /// See also [entitiesByStatus].
-  EntitiesByStatusProvider call({
+  /// See also [submissionsByStatus].
+  SubmissionsByStatusProvider call({
     required String formCode,
     SyncableEntityState? entityStatus,
     String sortBy = 'name',
   }) {
-    return EntitiesByStatusProvider(
+    return SubmissionsByStatusProvider(
       formCode: formCode,
       entityStatus: entityStatus,
       sortBy: sortBy,
@@ -52,8 +72,8 @@ class EntitiesByStatusFamily extends Family<AsyncValue<IList<SyncableEntity>>> {
   }
 
   @override
-  EntitiesByStatusProvider getProviderOverride(
-    covariant EntitiesByStatusProvider provider,
+  SubmissionsByStatusProvider getProviderOverride(
+    covariant SubmissionsByStatusProvider provider,
   ) {
     return call(
       formCode: provider.formCode,
@@ -74,39 +94,39 @@ class EntitiesByStatusFamily extends Family<AsyncValue<IList<SyncableEntity>>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'entitiesByStatusProvider';
+  String? get name => r'submissionsByStatusProvider';
 }
 
-/// See also [entitiesByStatus].
-class EntitiesByStatusProvider
+/// See also [submissionsByStatus].
+class SubmissionsByStatusProvider
     extends AutoDisposeFutureProvider<IList<SyncableEntity>> {
-  /// See also [entitiesByStatus].
-  EntitiesByStatusProvider({
+  /// See also [submissionsByStatus].
+  SubmissionsByStatusProvider({
     required String formCode,
     SyncableEntityState? entityStatus,
     String sortBy = 'name',
   }) : this._internal(
-          (ref) => entitiesByStatus(
-            ref as EntitiesByStatusRef,
+          (ref) => submissionsByStatus(
+            ref as SubmissionsByStatusRef,
             formCode: formCode,
             entityStatus: entityStatus,
             sortBy: sortBy,
           ),
-          from: entitiesByStatusProvider,
-          name: r'entitiesByStatusProvider',
+          from: submissionsByStatusProvider,
+          name: r'submissionsByStatusProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$entitiesByStatusHash,
-          dependencies: EntitiesByStatusFamily._dependencies,
+                  : _$submissionsByStatusHash,
+          dependencies: SubmissionsByStatusFamily._dependencies,
           allTransitiveDependencies:
-              EntitiesByStatusFamily._allTransitiveDependencies,
+              SubmissionsByStatusFamily._allTransitiveDependencies,
           formCode: formCode,
           entityStatus: entityStatus,
           sortBy: sortBy,
         );
 
-  EntitiesByStatusProvider._internal(
+  SubmissionsByStatusProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -124,13 +144,13 @@ class EntitiesByStatusProvider
 
   @override
   Override overrideWith(
-    FutureOr<IList<SyncableEntity>> Function(EntitiesByStatusRef provider)
+    FutureOr<IList<SyncableEntity>> Function(SubmissionsByStatusRef provider)
         create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: EntitiesByStatusProvider._internal(
-        (ref) => create(ref as EntitiesByStatusRef),
+      override: SubmissionsByStatusProvider._internal(
+        (ref) => create(ref as SubmissionsByStatusRef),
         from: from,
         name: null,
         dependencies: null,
@@ -145,12 +165,12 @@ class EntitiesByStatusProvider
 
   @override
   AutoDisposeFutureProviderElement<IList<SyncableEntity>> createElement() {
-    return _EntitiesByStatusProviderElement(this);
+    return _SubmissionsByStatusProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is EntitiesByStatusProvider &&
+    return other is SubmissionsByStatusProvider &&
         other.formCode == formCode &&
         other.entityStatus == entityStatus &&
         other.sortBy == sortBy;
@@ -167,7 +187,7 @@ class EntitiesByStatusProvider
   }
 }
 
-mixin EntitiesByStatusRef
+mixin SubmissionsByStatusRef
     on AutoDisposeFutureProviderRef<IList<SyncableEntity>> {
   /// The parameter `formCode` of this provider.
   String get formCode;
@@ -179,18 +199,18 @@ mixin EntitiesByStatusRef
   String get sortBy;
 }
 
-class _EntitiesByStatusProviderElement
+class _SubmissionsByStatusProviderElement
     extends AutoDisposeFutureProviderElement<IList<SyncableEntity>>
-    with EntitiesByStatusRef {
-  _EntitiesByStatusProviderElement(super.provider);
+    with SubmissionsByStatusRef {
+  _SubmissionsByStatusProviderElement(super.provider);
 
   @override
-  String get formCode => (origin as EntitiesByStatusProvider).formCode;
+  String get formCode => (origin as SubmissionsByStatusProvider).formCode;
   @override
   SyncableEntityState? get entityStatus =>
-      (origin as EntitiesByStatusProvider).entityStatus;
+      (origin as SubmissionsByStatusProvider).entityStatus;
   @override
-  String get sortBy => (origin as EntitiesByStatusProvider).sortBy;
+  String get sortBy => (origin as SubmissionsByStatusProvider).sortBy;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

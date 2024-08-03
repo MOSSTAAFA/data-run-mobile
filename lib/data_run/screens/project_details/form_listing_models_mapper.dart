@@ -1,5 +1,7 @@
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/datarun/form/entities/dynamic_form.entity.dart';
+import 'package:d2_remote/modules/datarun/form/entities/form_definition.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/field_value_rendering_type.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:mass_pro/core/common/state.dart' as item_state;
@@ -18,33 +20,34 @@ class FormListingModelsMapper {
 
   Future<IList<FormListItemModel>> formListItemModels() async {
     final List<DynamicForm> activeForms = await D2Remote.formModule.form
+        .withFormDefinitions()
         .where(attribute: 'activity', value: projectDetailItemModel.activity)
         .get();
 
-    IList<FormListItemModel> formListItemModels = IList([]);
+    IList<FormListItemModel> formListItemModels = IList(<FormListItemModel>[]);
 
-    for (final form in activeForms) {
-      final entitiesToPost = await ref
+    for (final DynamicForm form in activeForms) {
+      final int entitiesToPost = await ref
           .watch(entityFormListingRepositoryProvider(form.code!))
           .getEntitiesCount(state: item_state.SyncableEntityState.TO_POST);
 
-      final entitiesToUpdate = await ref
+      final int entitiesToUpdate = await ref
           .watch(entityFormListingRepositoryProvider(form.code!))
           .getEntitiesCount(state: item_state.SyncableEntityState.TO_UPDATE);
 
-      final entitiesSynced = await ref
+      final int entitiesSynced = await ref
           .watch(entityFormListingRepositoryProvider(form.code!))
           .getEntitiesCount(state: item_state.SyncableEntityState.SYNCED);
 
-      final entitiesWithError = await ref
+      final int entitiesWithError = await ref
           .watch(entityFormListingRepositoryProvider(form.code!))
           .getEntitiesCount(state: item_state.SyncableEntityState.ERROR);
 
-      final entitiesStatus = await ref
+      final item_state.SyncableEntityState entitiesStatus = await ref
           .watch(entityFormListingRepositoryProvider(form.code!))
           .getStatus();
 
-      final formFieldModels = getFormFieldModels(form);
+      final IList<QFieldModel>? formFieldModels = await getFormFieldModels(form);
 
       formListItemModels = formListItemModels.add(FormListItemModel(
           form: form.id!,
@@ -52,6 +55,7 @@ class FormListingModelsMapper {
           fields: formFieldModels,
           team: projectDetailItemModel.team,
           formName: form.name,
+          version: form.version,
           activity: projectDetailItemModel.activity,
           entitiesToPost: entitiesToPost,
           entitiesToUpdate: entitiesToUpdate,
@@ -64,9 +68,15 @@ class FormListingModelsMapper {
     return formListItemModels;
   }
 
-  IList<QFieldModel>? getFormFieldModels(DynamicForm dynamicForm) {
-    return dynamicForm.mainFields
-        ?.map((field) => QFieldModel(
+  Future<IList<QFieldModel>?> getFormFieldModels(
+      DynamicForm form) async {
+    final FormDefinition? latestFormDefinition =
+        await D2Remote.formModule.formDefinition
+            .byForm(form.id!)
+            .getOne();
+    return latestFormDefinition?.fields
+        ?.where((DynamicFormField field) => field.mainField == true)
+        .map((DynamicFormField field) => QFieldModel(
               uid: field.name,
               isFocused: false,
               isEditable: true,

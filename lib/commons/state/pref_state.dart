@@ -75,9 +75,6 @@ abstract class PrefState with _$PrefState {
     bool? showPdfPreview,
     bool? persistData,
     bool? persistUI,
-    // Map<String, UserPrefState>? userPrefs,
-    // Map<EntityType, PrefStateSortField>? sortFields,
-    Map<String, List<String>>? tableColumns,
     Map<String, String>? customColors,
   }) {
     return PrefState(
@@ -131,25 +128,25 @@ abstract class PrefState with _$PrefState {
   //   //
   // };
 
-  static const TEXT_SCALING_SMALL = 0.8;
-  static const TEXT_SCALING_NORMAL = 1.0;
-  static const TEXT_SCALING_LARGE = 1.2;
-  static const TEXT_SCALING_EXTRA_LARGE = 1.4;
+  static const double TEXT_SCALING_SMALL = 0.8;
+  static const double TEXT_SCALING_NORMAL = 1.0;
+  static const double TEXT_SCALING_LARGE = 1.2;
+  static const double TEXT_SCALING_EXTRA_LARGE = 1.4;
 
-  static const THEME_SIDEBAR_ACTIVE_BACKGROUND_COLOR =
+  static const String THEME_SIDEBAR_ACTIVE_BACKGROUND_COLOR =
       'sidebar_active_background_color';
-  static const THEME_SIDEBAR_ACTIVE_FONT_COLOR = 'sidebar_active_font_color';
-  static const THEME_SIDEBAR_INACTIVE_BACKGROUND_COLOR =
+  static const String THEME_SIDEBAR_ACTIVE_FONT_COLOR = 'sidebar_active_font_color';
+  static const String THEME_SIDEBAR_INACTIVE_BACKGROUND_COLOR =
       'sidebar_inactive_background_color';
-  static const THEME_SIDEBAR_INACTIVE_FONT_COLOR =
+  static const String THEME_SIDEBAR_INACTIVE_FONT_COLOR =
       'sidebar_inactive_font_color';
-  static const THEME_INVOICE_HEADER_BACKGROUND_COLOR =
+  static const String THEME_INVOICE_HEADER_BACKGROUND_COLOR =
       'invoice_header_background_color';
-  static const THEME_INVOICE_HEADER_FONT_COLOR = 'invoice_header_font_color';
-  static const THEME_TABLE_ALTERNATE_ROW_BACKGROUND_COLOR =
+  static const String THEME_INVOICE_HEADER_FONT_COLOR = 'invoice_header_font_color';
+  static const String THEME_TABLE_ALTERNATE_ROW_BACKGROUND_COLOR =
       'table_alternate_row_background_color';
 
-  static const THEME_COLORS = [
+  static const List<String> THEME_COLORS = <String>[
     PrefState.THEME_SIDEBAR_ACTIVE_BACKGROUND_COLOR,
     PrefState.THEME_SIDEBAR_ACTIVE_FONT_COLOR,
     PrefState.THEME_SIDEBAR_INACTIVE_BACKGROUND_COLOR,
@@ -159,7 +156,7 @@ abstract class PrefState with _$PrefState {
     PrefState.THEME_TABLE_ALTERNATE_ROW_BACKGROUND_COLOR,
   ];
 
-  static const CONTRAST_COLORS = {
+  static const Map<String, String> CONTRAST_COLORS = <String, String>{
     PrefState.THEME_SIDEBAR_ACTIVE_BACKGROUND_COLOR: '#2F2E2E',
     PrefState.THEME_SIDEBAR_ACTIVE_FONT_COLOR: '#FFFFFF',
     PrefState.THEME_SIDEBAR_INACTIVE_BACKGROUND_COLOR: '#454544',
@@ -169,8 +166,10 @@ abstract class PrefState with _$PrefState {
     PrefState.THEME_TABLE_ALTERNATE_ROW_BACKGROUND_COLOR: '#e8eced',
   };
 
+  @override
   AppLayout get appLayout;
 
+  @override
   ModuleLayout get moduleLayout;
 
   // AppSidebarMode get menuSidebarMode;
@@ -181,52 +180,76 @@ abstract class PrefState with _$PrefState {
 
   // Map<EntityType, bool> get useSidebarViewer;
 
+  @override
   Map<String, String> get customColors;
 
+  @override
   bool get isPreviewVisible;
 
+  @override
   bool get isMenuVisible;
 
+  @override
   bool get showKanban;
 
+  @override
   bool get showPdfPreview;
 
+  @override
   bool get enableTouchEvents;
 
+  @override
   bool get enableFlexibleSearch;
 
+  @override
   bool get isHistoryVisible;
 
+  @override
   bool get enableDarkMode;
 
+  @override
   bool get isFilterVisible;
 
+  @override
   bool get persistData;
 
+  @override
   bool get persistUI;
 
+  @override
   bool get longPressSelectionIsDefault;
 
+  @override
   bool get requireAuthentication;
 
+  @override
   bool get tapSelectedToEdit;
 
+  @override
   bool get enableJSPDF;
 
+  @override
   int get rowsPerPage;
 
+  @override
   bool get enableTooltips;
 
+  @override
   String get colorTheme;
 
+  @override
   bool get hideDesktopWarning;
 
+  @override
   bool get hideGatewayWarning;
 
+  @override
   bool get hideReviewApp;
 
+  @override
   bool get editAfterSaving;
 
+  @override
   double get textScaleFactor;
 
   // Map<EntityType, PrefStateSortField> get sortFields;
@@ -291,7 +314,7 @@ abstract class PrefState with _$PrefState {
       ;
 
   bool get showMenu =>
-      (isMenuVisible /* && menuSidebarMode == AppSidebarMode.visible */) /*  ||
+      isMenuVisible /* && menuSidebarMode == AppSidebarMode.visible */ /*  ||
       menuSidebarMode == AppSidebarMode.collapse */
       ;
 
@@ -314,8 +337,10 @@ abstract class PrefStateSortField with _$PrefStateSortField {
 
   const PrefStateSortField._();
 
+  @override
   String get field;
 
+  @override
   bool get ascending;
 }
 

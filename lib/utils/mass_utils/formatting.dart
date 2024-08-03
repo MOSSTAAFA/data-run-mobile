@@ -35,7 +35,7 @@ double round(double? value, int precision) {
 int? parseInt(String value, {bool zeroIsNull = false}) {
   value = value.replaceAll(RegExp(r'[^0-9\.\-]'), '');
 
-  final intValue = int.tryParse(value) ?? 0;
+  final int intValue = int.tryParse(value) ?? 0;
 
   return (intValue == 0 && zeroIsNull) ? null : intValue;
 }
@@ -43,7 +43,7 @@ int? parseInt(String value, {bool zeroIsNull = false}) {
 double? parseDouble(String value, {bool zeroIsNull = false}) {
   value = value.replaceAll(RegExp(r'[^0-9\.\-]'), '');
 
-  final doubleValue = double.tryParse(value) ?? 0.0;
+  final double doubleValue = double.tryParse(value) ?? 0.0;
 
   return (doubleValue == 0 && zeroIsNull) ? null : doubleValue;
 }
@@ -61,7 +61,7 @@ String convertDateTimeToSqlDate([DateTime? date]) {
 
 DateTime convertSqlDateToDateTime([String? date]) {
   date = date ?? convertDateTimeToSqlDate();
-  final parts = date.split('-');
+  final List<String> parts = date.split('-');
   return DateTime.utc(
     parseInt(parts[0])!, // ?? 2022,
     parseInt(parts[1])!, // ?? 1,
@@ -77,12 +77,12 @@ String convertTimestampToDateString(int? timestamp) =>
     convertTimestampToDate(timestamp).toIso8601String();
 
 String formatDuration(Duration duration, {bool showSeconds = true}) {
-  final time = duration.toString().split('.')[0];
+  final String time = duration.toString().split('.')[0];
 
   if (showSeconds) {
     return time;
   } else {
-    final parts = time.split(':');
+    final List<String> parts = time.split(':');
     return '${parts[0]}:${parts[1]}';
   }
 }
@@ -99,17 +99,17 @@ TimeOfDay convertDateTimeToTimeOfDay(DateTime? dateTime) =>
     TimeOfDay(hour: dateTime?.hour ?? 0, minute: dateTime?.minute ?? 0);
 
 String formatDateRange(String startDate, String endDate, BuildContext context) {
-  final today = DateTime.now();
+  final DateTime today = DateTime.now();
 
-  final startDateTime = DateTime.tryParse(startDate)?.toLocal();
-  final startFormatter =
+  final DateTime? startDateTime = DateTime.tryParse(startDate)?.toLocal();
+  final DateFormat startFormatter =
       DateFormat(today.year == startDateTime?.year ? 'MMM d' : 'MMM d, yyy');
-  final startDateTimeString = startFormatter.format(startDateTime!);
+  final String startDateTimeString = startFormatter.format(startDateTime!);
 
-  final endDateTime = DateTime.tryParse(endDate)?.toLocal();
-  final endFormatter =
+  final DateTime? endDateTime = DateTime.tryParse(endDate)?.toLocal();
+  final DateFormat endFormatter =
       DateFormat(today.year == endDateTime?.year ? 'MMM d' : 'MMM d, yyy');
-  final endDateTimeString = endFormatter.format(endDateTime!);
+  final String endDateTimeString = endFormatter.format(endDateTime!);
 
   return '$startDateTimeString - $endDateTimeString';
 }
@@ -129,15 +129,15 @@ String formatDate(String? value, BuildContext? context,
       format = showSeconds ? 'h:mm:ss a' : 'h:mm a';
     } else {
       format = 'dd/MM/yyyy'; //dateFormats[dateFormatId].format;
-      format += ' ' + (showSeconds ? 'h:mm:ss a' : 'h:mm a');
+      format += ' ${showSeconds ? 'h:mm:ss a' : 'h:mm a'}';
     }
-    final formatter = DateFormat(format);
-    final parsed = DateTime.tryParse(value.endsWith('Z') ? value : value + 'Z');
+    final DateFormat formatter = DateFormat(format);
+    final DateTime? parsed = DateTime.tryParse(value.endsWith('Z') ? value : '${value}Z');
 
     return parsed == null ? '' : formatter.format(parsed.toLocal());
   } else {
-    final formatter = DateFormat('dd/MM/yyyy');
-    final parsed = DateTime.tryParse(value);
+    final DateFormat formatter = DateFormat('dd/MM/yyyy');
+    final DateTime? parsed = DateTime.tryParse(value);
     return parsed == null ? '' : formatter.format(parsed);
   }
 }
@@ -146,7 +146,7 @@ String parseDate(String? value, BuildContext? context) {
   if (value == null || value.isEmpty) {
     return '';
   }
-  final formatter = DateFormat('dd/MM/yyyy');
+  final DateFormat formatter = DateFormat('dd/MM/yyyy');
 
   return convertDateTimeToSqlDate(formatter.parse(value));
 }
@@ -213,7 +213,7 @@ String? formatNumber(
     }
   }
 
-  final prefix = value < 0 ? '-' : '';
+  final String prefix = value < 0 ? '-' : '';
 
   if (formatNumberType == FormatNumberType.percent) {
     return '$prefix$formatted%';

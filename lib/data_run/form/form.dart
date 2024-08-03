@@ -1,4 +1,3 @@
-import 'package:d2_remote/modules/datarun/form/entities/dynamic_form.entity.dart';
 import 'package:d2_remote/modules/datarun_shared/entities/syncable.entity.dart';
 import 'package:d2_remote/modules/datarun_shared/queries/syncable.query.dart';
 import 'package:mass_pro/data_run/form/database_syncable_query.dart';
@@ -24,22 +23,14 @@ part 'form.g.dart';
 @riverpod
 SyncableEntityInitialRepository syncableEntityInitialRepository(
     SyncableEntityInitialRepositoryRef ref,
-    {required String formCode,
+    {required String form,
     String? syncableUid}) {
-  final d2SyncableQuery =
-      ref.watch(databaseSyncableQueryProvider(formCode)).provideQuery();
+  final SyncableQuery<SyncableEntity> d2SyncableQuery =
+      ref.watch(databaseSyncableQueryProvider(form)).provideQuery();
   return SyncableEntityInitialRepository(ref,
       d2SyncableQuery: d2SyncableQuery,
       syncableUid: syncableUid,
-      formCode: formCode);
-}
-
-@riverpod
-EntityFormListingRepository entityFormListingRepository(
-    EntityFormListingRepositoryRef ref, String formCode) {
-  final d2SyncableQuery =
-      ref.watch(databaseSyncableQueryProvider(formCode)).provideQuery();
-  return EntityFormListingRepository(d2SyncableQuery: d2SyncableQuery);
+      form: form);
 }
 
 /// Depends on Bundle from the route
@@ -47,12 +38,14 @@ EntityFormListingRepository entityFormListingRepository(
 @riverpod
 SyncableEntityMappingRepository syncableEntityMappingRepository(
   SyncableEntityMappingRepositoryRef ref, {
-  required DynamicForm form,
+  required String form,
+  required String version,
   required SyncableEntity syncableEntity,
   required SyncableQuery d2SyncableQuery,
 }) {
   return SyncableEntityMappingRepository(
       form: form,
+      version: version,
       syncableEntity: syncableEntity,
       syncableQuery: d2SyncableQuery,
       syncableObjectRepository:

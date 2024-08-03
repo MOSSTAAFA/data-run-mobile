@@ -46,5 +46,5 @@ class TrackerD2Progress extends D2Progress {
   }
 
   @override
-  List<Object?> get props => super.props + [programs];
+  List<Object?> get props => super.props + <Object?>[programs];
 }

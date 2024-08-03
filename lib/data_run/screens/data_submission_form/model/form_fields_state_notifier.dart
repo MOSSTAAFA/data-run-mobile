@@ -89,7 +89,10 @@ class FormFieldsStateNotifier extends _$FormFieldsStateNotifier {
               valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);
         } else {
           await repository.updateValueOnList(
-              action.id, action.value, action.valueType);
+              uid: action.id,
+              value: action.value,
+              values: action.values,
+              valueType: action.valueType);
           return StoreResult(
               uid: action.id, valueStoreResult: ValueStoreResult.VALUE_CHANGED);
         }
@@ -101,7 +104,7 @@ class FormFieldsStateNotifier extends _$FormFieldsStateNotifier {
               valueStoreResult: ValueStoreResult.VALUE_HAS_NOT_CHANGED);
         }
         await repository.updateValueOnList(
-            action.id, action.value, action.valueType);
+            uid: action.id, value: action.value, valueType: action.valueType);
         return StoreResult(
             uid: action.id, valueStoreResult: ValueStoreResult.TEXT_CHANGING);
 
@@ -134,7 +137,7 @@ class FormFieldsStateNotifier extends _$FormFieldsStateNotifier {
         onClear: (OnClear intent) => _createRowAction(
             uid: '', value: null, actionType: ActionType.ON_CLEAR),
         clearValue: (ClearValue intent) =>
-            _createRowAction(uid: intent.uid, value: null),
+            _createRowAction(uid: intent.uid, value: null, values: <String>[]),
         onNext: (OnNext intent) => _createRowAction(
             uid: intent.uid,
             value: intent.value,
@@ -145,6 +148,7 @@ class FormFieldsStateNotifier extends _$FormFieldsStateNotifier {
           return _createRowAction(
               uid: intent.uid,
               value: intent.value,
+              values: intent.values,
               error: error,
               valueType: intent.valueType);
         },
@@ -169,6 +173,7 @@ class FormFieldsStateNotifier extends _$FormFieldsStateNotifier {
         onFinish: (OnFinish intent) => _createRowAction(
             uid: '',
             value: null,
+            values: <String>[],
             formData: intent.formData,
             actionType: ActionType.ON_FINISH));
   }
@@ -177,6 +182,7 @@ class FormFieldsStateNotifier extends _$FormFieldsStateNotifier {
   RowAction _createRowAction(
           {required String uid,
           String? value,
+          List<String>? values,
           Map<String, dynamic>? formData,
           String? extraData,
           Exception? error,
@@ -186,6 +192,7 @@ class FormFieldsStateNotifier extends _$FormFieldsStateNotifier {
           id: uid,
           formData: formData,
           value: value,
+          values: values,
           extraData: extraData,
           error: error,
           type: actionType,
@@ -198,8 +205,8 @@ class FormFieldsStateNotifier extends _$FormFieldsStateNotifier {
     if ((fieldValue ?? '').isNotEmpty) {
       final Result<String, ValidationException>? result =
           valueType?.validator.validate(fieldValue!);
-      final errorOrNull =
-          result?.fold((failure) => failure, (String success) => null);
+      final ValidationException? errorOrNull =
+          result?.fold((ValidationException failure) => failure, (String success) => null);
       return errorOrNull;
     }
     return null;
@@ -209,7 +216,7 @@ class FormFieldsStateNotifier extends _$FormFieldsStateNotifier {
   void submitIntent(FormIntent intent) {
     ref
         .read(formPendingIntentsProvider.notifier)
-        .submitIntent((current) => intent);
+        .submitIntent((FormIntent current) => intent);
   }
 
   /// Discards changes by restoring values from a backup and submitting intents
@@ -217,7 +224,7 @@ class FormFieldsStateNotifier extends _$FormFieldsStateNotifier {
   void discardChanges() {
     getFormRepository().backupOfChangedItems().forEach((QFieldModel item) => ref
         .read(formPendingIntentsProvider.notifier)
-        .submitIntent((current) => FormIntent.onSave(
+        .submitIntent((FormIntent current) => FormIntent.onSave(
             uid: item.uid,
             value: item.value,
             valueType: item.valueType,

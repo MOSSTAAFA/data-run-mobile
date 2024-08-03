@@ -41,7 +41,7 @@ class _QTextFieldState extends State<QTextField> {
   }
 
   void _focusListener() {
-    final valid =
+    final bool? valid =
         FormBuilder.of(context)?.fields[widget.fieldModel.uid]?.valueIsValid;
     if (_focusNode.hasFocus) {
       debugPrint('valid: $valid');

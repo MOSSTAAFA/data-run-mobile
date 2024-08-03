@@ -49,7 +49,7 @@ class _EnrollmentTransformer
   @override
   Enrollment transform(EnrollmentCreateProjection projection) {
     // String generatedUid = DhisUidGenerator.generate();
-    String creationDate = DateUtils.databaseDateFormat().format(DateTime.now().toUtc());
+    final String creationDate = DateUtils.databaseDateFormat().format(DateTime.now().toUtc());
 
     return Enrollment(
         activity: projection._activity,

@@ -15,7 +15,7 @@ class OrganisationUnitDisplayPathGenerator {
     // if (ancestors == null) {
     //   return [];
     // } else {
-    final List<String> list = [];
+    final List<String> list = <String>[];
     for (final OrganisationUnit ancestor in ancestors) {
       list.add(ancestor.displayName!);
     }

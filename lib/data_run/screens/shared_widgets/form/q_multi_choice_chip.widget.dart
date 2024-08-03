@@ -6,21 +6,23 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
 import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
 
-class QChoiceChip extends StatefulWidget {
-  const QChoiceChip({super.key, required this.fieldModel});
+class QMultiChoiceChip extends StatefulWidget {
+  const QMultiChoiceChip({super.key, required this.fieldModel});
 
   final QFieldModel fieldModel;
 
   @override
-  State<QChoiceChip> createState() => _QChoiceChipState();
+  State<QMultiChoiceChip> createState() => _QMultiChoiceChipState();
 }
 
-class _QChoiceChipState extends State<QChoiceChip> {
+class _QMultiChoiceChipState extends State<QMultiChoiceChip> {
   @override
   Widget build(BuildContext context) {
-    return FormBuilderChoiceChip<FormOption>(
+    return FormBuilderFilterChip<FormOption>(
       key: ValueKey(widget.fieldModel.uid),
-      valueTransformer: (FormOption? option) => option?.name,
+      // valueTransformer: (FormOption? option) => option?.name,
+      valueTransformer: (List<FormOption>? options) =>
+          options?.map((FormOption option) => option.name),
       selectedColor: Theme.of(context).colorScheme.error.withAlpha(100),
       onReset: () => widget.fieldModel.onClear(),
       name: widget.fieldModel.uid,
@@ -28,12 +30,12 @@ class _QChoiceChipState extends State<QChoiceChip> {
       validator: widget.fieldModel.isMandatory
           ? FormBuilderValidators.required()
           : null,
-      initialValue: widget.fieldModel.getOption(),
+      initialValue: widget.fieldModel.getOptions(),
       options: _getChipOptions(
           widget.fieldModel.optionConfiguration!.optionsToDisplay,
           wide: false),
-      onChanged: (FormOption? value) {
-        widget.fieldModel.onSaveOption(value);
+      onChanged: (List<FormOption>? value) {
+        widget.fieldModel.onSaveOptions(value);
       },
       decoration: InputDecoration(
         border: const OutlineInputBorder(gapPadding: 20),

@@ -21,7 +21,7 @@ class IntegerNegativeValidator
 
   @override
   Result<String, IntegerNegativeFailure> validateInteger(String value) {
-    int convertedValue = int.parse(value);
+    final int convertedValue = int.parse(value);
     if (convertedValue == 0) {
       // Failure
       return Result.failure(const IntegerNegativeFailure.valueIsZero());

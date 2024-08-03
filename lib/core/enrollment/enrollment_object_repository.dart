@@ -28,13 +28,13 @@ class EnrollmentObjectRepository {
 
   ///  throws D2Error
   Future<void> setEnrollmentDate(DateTime? enrollmentDate) async {
-    final date = enrollmentDate?.toIso8601String().split('.')[0];
+    final String? date = enrollmentDate?.toIso8601String().split('.')[0];
     return updateObject((await updateBuilder())..enrollmentDate = date);
   }
 
   ///  throws D2Error
   Future<void> setIncidentDate(DateTime? incidentDate) async {
-    final date = incidentDate?.toIso8601String().split('.')[0];
+    final String? date = incidentDate?.toIso8601String().split('.')[0];
     return updateObject((await updateBuilder())..incidentDate = date);
   }
 

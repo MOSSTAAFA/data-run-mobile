@@ -13,7 +13,7 @@ class ColorUtils {
       final String r = hexColor[1];
       final String g = hexColor[2];
       final String b = hexColor[3];
-      hexColor = "#" + r + r + g + g + b + b; //formatted to #ffff
+      hexColor = "#$r$r$g$g$b$b"; //formatted to #ffff
     }
     return Color(int.parse(hexColor, radix: 16) + 0xFF000000).value;
   }

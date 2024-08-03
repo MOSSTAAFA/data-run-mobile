@@ -9,7 +9,7 @@ class UnitIntervalValidator extends ValueTypeValidator<UnitIntervalFailure> {
 
   @override
   Result<String, UnitIntervalFailure> validate(String value) {
-    double convertedValue = double.parse(value);
+    final double convertedValue = double.parse(value);
 
     if (RegExp(NumberValidator.SCIENTIFIC_NOTATION_PATTERN).hasMatch(value)) {
       return Result.failure(

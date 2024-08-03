@@ -69,7 +69,7 @@ abstract class Result<S, E> {
   }
 
   @override
-  int get hashCode => Object.hashAll([
+  int get hashCode => Object.hashAll(<Object?>[
         runtimeType,
         if (isSuccess) data else error,
       ]);
@@ -78,9 +78,9 @@ abstract class Result<S, E> {
 /// Success implementation of `DataResult`. It contains `data`. It's abstracted
 /// away by `DataResult`. It shouldn't be used directly in the app.
 class _SuccessResult<S, E> extends Result<S, E> {
-  final S _value;
 
   _SuccessResult(this._value);
+  final S _value;
 
   @override
   _SuccessResult<T, E> either<T>(
@@ -107,9 +107,9 @@ class _SuccessResult<S, E> extends Result<S, E> {
 /// Exception implementation of `DataResult`. It contains `error`.  It's
 /// abstracted away by `DataResult`. It shouldn't be used directly in the app.
 class _FailureResult<S, E> extends Result<S, E> {
-  final E _value;
 
   _FailureResult(this._value);
+  final E _value;
 
   @override
   _FailureResult<T, E> either<T>(

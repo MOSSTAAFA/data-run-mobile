@@ -7,7 +7,7 @@ class DErrorLocalization {
   String getErrorMessage(Object exception) {
     return switch (exception) {
       final DError error => _handleDError(error),
-      DException(:final message, :final DError source) => _handleDError(source),
+      DException(:final String message, :final DError source) => _handleDError(source),
       _ => exception.toString(),
     };
   }

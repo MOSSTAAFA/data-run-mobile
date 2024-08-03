@@ -6,6 +6,7 @@ import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import 'package:d2_remote/modules/datarun/form/entities/dynamic_form.entity.dart';
 import 'package:d2_remote/modules/metadatarun/activity/entities/d_activity.entity.dart';
+import 'package:d2_remote/modules/metadatarun/teams/entities/d_team.entity.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,14 +28,14 @@ ProjectDetailItemModel projectDetailItemModel(ProjectDetailItemModelRef ref) {
   throw UnimplementedError();
 }
 
-@Riverpod(dependencies: [projectDetailItemModel])
+@Riverpod(dependencies: <Object>[projectDetailItemModel])
 FormListingModelsMapper formListingModelsMapper(
     FormListingModelsMapperRef ref) {
   return FormListingModelsMapper(
       ref, ref.watch(projectDetailItemModelProvider));
 }
 
-@Riverpod(dependencies: [formListingModelsMapper])
+@Riverpod(dependencies: <Object>[formListingModelsMapper])
 Future<IList<FormListItemModel>> formListItemModels(
     FormListItemModelsRef ref) async {
   return ref.watch(formListingModelsMapperProvider).formListItemModels();
@@ -45,7 +46,7 @@ class ProjectDetailItemsModelsNotifier
     extends _$ProjectDetailItemsModelsNotifier {
   @override
   Future<IList<ProjectDetailItemModel>> build() async {
-    final projectUid = (Get.arguments as Bundle).getString(EXTRA_PROJECT_UID)!;
+    final String projectUid = (Get.arguments as Bundle).getString(EXTRA_PROJECT_UID)!;
 
     /// get the list of active activities
     final IList<DActivity> activeActivities = await ref
@@ -54,15 +55,15 @@ class ProjectDetailItemsModelsNotifier
 
     /// Filter activities By project Id
     final Iterable<DActivity> projectActivities =
-        activeActivities.where((t) => t.project == projectUid);
+        activeActivities.where((DActivity t) => t.project == projectUid);
 
     /// create initial programModels that will hold the ui models
     IList<ProjectDetailItemModel> programModles =
         IList<ProjectDetailItemModel>();
 
     /// iterate over all activities
-    for (final activity in projectActivities) {
-      final SyncableEntityState state = SyncableEntityState.SYNCED;
+    for (final DActivity activity in projectActivities) {
+      const SyncableEntityState state = SyncableEntityState.SYNCED;
       // await ref.read(activityUtilsProvider).getActivityState(activity);
 
       final List<DynamicForm> activeFormCount = await D2Remote.formModule.form
@@ -70,7 +71,7 @@ class ProjectDetailItemsModelsNotifier
           .get();
 
       /// get Team associated with the activity
-      final team = await ref
+      final DTeam? team = await ref
           .watch(activitiesAccessRepositoryProvider)
           .getActivityTeam(activity.id!);
 
@@ -94,7 +95,7 @@ class ProjectDetailItemsModelsNotifier
 
       programModles = programModles.add(programModel);
     }
-    return programModles.let((t) => applyFilters(t)).sort((p1, p2) =>
+    return programModles.let((IList<ProjectDetailItemModel> t) => applyFilters(t)).sort((ProjectDetailItemModel p1, ProjectDetailItemModel p2) =>
         p1.activityName.toLowerCase().compareTo(p2.activityName.toLowerCase()));
   }
 
@@ -115,11 +116,11 @@ class ProjectDetailItemsModelsNotifier
     // A graceful way of handling this would be to read `this.future` instead
     // of `this.state`, which would enable awaiting the loading state, and
     // throw an error if the state is in error state.
-    final previousState = await future;
+    final IList<ProjectDetailItemModel> previousState = await future;
     // Mutable the previous list of todos.
-    final newState = previousState.replaceFirstWhere(
-        (t) => t.activity == item.activity,
-        (t) => t!.copyWith(valueListIsOpen: !t.valueListIsOpen));
+    final IList<ProjectDetailItemModel> newState = previousState.replaceFirstWhere(
+        (ProjectDetailItemModel t) => t.activity == item.activity,
+        (ProjectDetailItemModel? t) => t!.copyWith(valueListIsOpen: !t.valueListIsOpen));
     state = AsyncData(newState);
   }
 }

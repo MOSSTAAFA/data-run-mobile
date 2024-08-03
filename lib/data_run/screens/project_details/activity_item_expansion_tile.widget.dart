@@ -38,7 +38,7 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
 
     /// Get the icon based on Synced/synced status
     final Widget statusActionButton =
-        when(projectDetailItemModel.syncablesState, {
+        when(projectDetailItemModel.syncablesState, <Object, StatelessWidget Function()>{
       item_state.SyncableEntityState.uploadableStates: () => IconButton(
           style: IconButton.styleFrom(
             foregroundColor: Colors.grey,
@@ -68,11 +68,11 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
         leading: const Icon(Icons.event_note_sharp),
         trailing: statusActionButton,
         title: Row(
-          children: [
+          children: <Widget>[
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   Text(
                     projectDetailItemModel.activityName,
                     style: Theme.of(context).textTheme.titleLarge,
@@ -95,9 +95,9 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
             : null,
         // backgroundColor: cardColor,
         children: projectDetailItemModel.activeFormCount > 0
-            ? [
+            ? <Widget>[
                 FormsTiles(
-                  onList: (model) async {
+                  onList: (FormListItemModel? model) async {
                     await navigateToEntitiesList(model);
                     ref.invalidate(projectDetailItemModelProvider);
                   },
@@ -105,7 +105,7 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
                       _showAddEntityDialog(context, ref, formModel),
                 )
               ]
-            : [
+            : <Widget>[
                 ListTile(
                     title: Text(
                   S.of(context).noFormsAvailable,
@@ -122,14 +122,14 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
       return;
     }
 
-    final result = await showDialog<String?>(
+    final String? result = await showDialog<String?>(
         context: context,
         builder: (BuildContext context) {
           return EntityCreationDialog(formModel: formModel!);
         });
     // go to form
     if (result != null) {
-      await _goToDataEntryForm(result as String, formModel!);
+      await _goToDataEntryForm(result, formModel!);
       ref.invalidate(projectDetailItemModelProvider);
     } else {
       // Handle cancellation or failure
@@ -142,10 +142,11 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
     bundle = bundle.putString(ACTIVITY_UID, formModel.activity);
     bundle = bundle.putString(TEAM_UID, formModel.team);
     bundle = bundle.putString(FORM_UID, formModel.form);
+    bundle = bundle.putString(FORM_VERSION, formModel.version.toString());
     bundle = bundle.putString(FORM_CODE, formModel.formCode);
     bundle = bundle.putString(SYNCABLE_UID, createdEntityUid);
 
-    /// navigate to the form screen to fill the rest of the fields
+    /// navigate to the form screen to fill the rest of the fields FORM_VERSION
     await Get.to(const DataSubmissionScreen(), arguments: bundle);
   }
 
@@ -154,6 +155,7 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
     bundle = bundle.putString(ACTIVITY_UID, formModel!.activity);
     bundle = bundle.putString(TEAM_UID, formModel.team);
     bundle = bundle.putString(FORM_UID, formModel.form);
+    bundle = bundle.putString(FORM_VERSION, formModel.version.toString());
     bundle = bundle.putString(FORM_CODE, formModel.formCode);
 
     await Get.to(EntitiesListScreen(formModel: formModel), arguments: bundle);

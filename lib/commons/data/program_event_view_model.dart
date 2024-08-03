@@ -82,7 +82,7 @@ class ProgramEventViewModel with EquatableMixin implements CarouselItemModel {
           openedAttributeList: openedAttributeList ?? this.openedAttributeList);
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props => <Object?>[
         uid,
         orgUnitUid,
         orgUnitName,

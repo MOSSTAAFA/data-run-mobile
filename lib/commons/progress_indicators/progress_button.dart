@@ -6,12 +6,12 @@ import '../custom_widgets/buttons/elevated_button.dart';
 
 class ProgressButton extends StatelessWidget {
   const ProgressButton({
-    Key? key,
+    super.key,
     required this.label,
     required this.isLoading,
     required this.onPressed,
     this.padding,
-  }) : super(key: key);
+  });
 
   final String label;
   final bool isLoading;

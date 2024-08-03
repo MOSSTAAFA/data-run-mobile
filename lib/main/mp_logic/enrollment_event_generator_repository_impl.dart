@@ -8,10 +8,10 @@ import 'package:d2_remote/shared/utilities/save_option.util.dart';
 import 'package:d2_remote/shared/utilities/sort_order.util.dart';
 import 'package:mass_pro/sdk/core/mp/period/period_type.dart';
 
-import '../../core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
-import '../../core/event/event_projection.dart';
-import '../../core/event/event_status.dart';
-import 'enrollment_event_generator_repository.dart';
+import 'package:mass_pro/core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
+import 'package:mass_pro/core/event/event_projection.dart';
+import 'package:mass_pro/core/event/event_status.dart';
+import 'package:mass_pro/main/mp_logic/enrollment_event_generator_repository.dart';
 
 class EnrollmentEventGeneratorRepositoryImpl
     implements EnrollmentEventGeneratorRepository {

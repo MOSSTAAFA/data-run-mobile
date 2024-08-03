@@ -26,7 +26,7 @@ enum ViewAction {
 
   static List<ViewAction> formTabs(
           {bool withAnalytics = false, bool withRelationships = false}) =>
-      [
+      <ViewAction>[
         tasks,
         data_entry,
         if (withAnalytics) analytics,
@@ -35,7 +35,7 @@ enum ViewAction {
       ];
   static List<ViewAction> eventTabs(
           {bool withAnalytics = false, bool withRelationships = false}) =>
-      [
+      <ViewAction>[
         details,
         data_entry,
         if (withAnalytics) analytics,
@@ -43,17 +43,17 @@ enum ViewAction {
         notes
       ];
 
-  static List<ViewAction> eventListMenu() => [list_view, map_view];
+  static List<ViewAction> eventListMenu() => <ViewAction>[list_view, map_view];
 
   static List<ViewAction> dashboardMenu() =>
-      [details, analytics, relationships, notes];
+      <ViewAction>[details, analytics, relationships, notes];
 
-  static List<ViewAction> homeMenu() => [programs, analytics];
+  static List<ViewAction> homeMenu() => <ViewAction>[programs, analytics];
 
-  static List<ViewAction> searchMenu() => [list_view, map_view, analytics];
+  static List<ViewAction> searchMenu() => <ViewAction>[list_view, map_view, analytics];
 
   /// from event Capture menu
-  static List<ViewAction> formMoreActions() => [show_help];
-  static List<ViewAction> homeMoreActions() => [show_help];
-  static List<ViewAction> evenMoreActions() => [delete, share, show_help];
+  static List<ViewAction> formMoreActions() => <ViewAction>[show_help];
+  static List<ViewAction> homeMoreActions() => <ViewAction>[show_help];
+  static List<ViewAction> evenMoreActions() => <ViewAction>[delete, share, show_help];
 }

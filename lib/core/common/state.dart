@@ -10,7 +10,7 @@ enum SyncableEntityState {
   SYNCED_VIA_SMS,
   SENT_VIA_SMS;
 
-  static List<SyncableEntityState> get uploadableStatesIncludingError => [
+  static List<SyncableEntityState> get uploadableStatesIncludingError => <SyncableEntityState>[
         TO_POST,
         TO_UPDATE,
         SENT_VIA_SMS,
@@ -21,7 +21,7 @@ enum SyncableEntityState {
       ];
 
   static List<SyncableEntityState> get uploadableStates =>
-      [TO_POST, TO_UPDATE, SENT_VIA_SMS, SYNCED_VIA_SMS, UPLOADING];
+      <SyncableEntityState>[TO_POST, TO_UPDATE, SENT_VIA_SMS, SYNCED_VIA_SMS, UPLOADING];
 
   bool isUploadState() {
     return uploadableStates.contains(this);
@@ -36,6 +36,6 @@ enum SyncableEntityState {
   }
 
   static List<SyncableEntityState> statusFilterItems() {
-    return [SYNCED, TO_POST, TO_UPDATE, ERROR];
+    return <SyncableEntityState>[SYNCED, TO_POST, TO_UPDATE, ERROR];
   }
 }

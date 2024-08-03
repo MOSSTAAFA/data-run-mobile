@@ -1,4 +1,5 @@
 import 'package:d2_remote/d2_remote.dart';
+import 'package:d2_remote/modules/datarun_shared/entities/syncable.entity.dart';
 import 'package:d2_remote/modules/datarun_shared/queries/syncable.query.dart';
 import 'package:mass_pro/commons/extensions/standard_extensions.dart';
 

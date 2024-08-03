@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:mass_pro/core/common/state.dart';
 
 class QSyncIconButton extends StatelessWidget {
-  final SyncableEntityState? state;
-  final VoidCallback? onUnsyncedPressed;
-  final VoidCallback? onErrorPressed;
 
   const QSyncIconButton({
-    Key? key,
+    super.key,
     required this.state,
     this.onUnsyncedPressed,
     this.onErrorPressed,
-  }) : super(key: key);
+  });
+  final SyncableEntityState? state;
+  final VoidCallback? onUnsyncedPressed;
+  final VoidCallback? onErrorPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class QSyncIconButton extends StatelessWidget {
       case SyncableEntityState.TO_POST:
         return IconButton(
           enableFeedback: true,
-          icon: const Icon(Icons.sync, color: Colors.black45, size: 30),
+          icon: const Icon(Icons.sync, color: Colors.black45, size: 35),
           onPressed: onUnsyncedPressed,
         );
       case SyncableEntityState.ERROR:

@@ -220,7 +220,7 @@ class FieldWidgetFactoryImpl {
 
   bool shouldRenderAsSelector(
       String? optionSet, ValueTypeRenderingType? renderingType) {
-    bool isOptionSet = optionSet != null;
+    final bool isOptionSet = optionSet != null;
     bool isSelectorRendering = false;
     switch (renderingType) {
       case ValueTypeRenderingType.HORIZONTAL_RADIOBUTTONS:

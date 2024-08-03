@@ -33,8 +33,8 @@ class _PasswordFormFieldState extends State<PasswordFormField> {
   bool _isPasswordObscured = true;
 
   bool _validatePassword(String value) {
-    const pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$';
-    final regExp = new RegExp(pattern);
+    const String pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$';
+    final RegExp regExp = RegExp(pattern);
     return regExp.hasMatch(value);
   }
 
@@ -65,7 +65,7 @@ class _PasswordFormFieldState extends State<PasswordFormField> {
           },
         ),
       ),
-      validator: (value) {
+      validator: (String? value) {
         if (!widget.validate) {
           return null;
         }
@@ -94,7 +94,7 @@ class _PasswordFormFieldState extends State<PasswordFormField> {
       keyboardType: TextInputType.visiblePassword,
       onChanged: widget.onChanged,
       autofillHints: widget.validate
-          ? [
+          ? <String>[
               widget.newPassword
                   ? AutofillHints.newPassword
                   : AutofillHints.password,

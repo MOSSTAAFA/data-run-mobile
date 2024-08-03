@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 
 import 'decorated_form_field.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
@@ -17,7 +19,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({super.key, required this.title});
 
   final String title;
 
@@ -54,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Expanded(
               child: DecoratedFormField(
                   keyboardType: TextInputType.datetime,
-                  initialValue: "${selectedDate.toLocal()}".split(' ')[0]),
+                  initialValue: '${selectedDate.toLocal()}'.split(' ')[0]),
             ),
             const SizedBox(
               height: 20.0,
