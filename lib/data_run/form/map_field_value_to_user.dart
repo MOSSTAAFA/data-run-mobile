@@ -60,7 +60,7 @@ dynamic mapFieldToValueType(
     case ValueType.Boolean:
     case ValueType.TrueOnly:
       // case ValueType.YesNo:
-      return value.toBoolean() ?? value;
+      return value.toBoolean();
     default:
       return value;
   }

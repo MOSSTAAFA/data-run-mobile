@@ -1,2 +1,2 @@
-#dart fix --apply --code prefer_const_constructors
+#dart fix --apply --code unused_import
 flutter build apk

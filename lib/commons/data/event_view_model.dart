@@ -3,7 +3,7 @@ import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity
 import 'package:equatable/equatable.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../helpers/collections.dart';
+import 'package:mass_pro/commons/helpers/collections.dart';
 
 part 'event_view_model.g.dart';
 

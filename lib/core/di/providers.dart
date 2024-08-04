@@ -1,9 +1,9 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../enrollment/enrollment_service.dart';
-import '../enrollment/enrollment_service_impl.dart';
-import '../event/event_service.dart';
-import '../event/event_service_impl.dart';
+import 'package:mass_pro/core/enrollment/enrollment_service.dart';
+import 'package:mass_pro/core/enrollment/enrollment_service_impl.dart';
+import 'package:mass_pro/core/event/event_service.dart';
+import 'package:mass_pro/core/event/event_service_impl.dart';
 
 part 'providers.g.dart';
 

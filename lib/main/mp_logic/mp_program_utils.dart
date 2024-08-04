@@ -8,8 +8,8 @@ import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart'
 import 'package:d2_remote/modules/metadata/program/entities/tracked_entity_type.entity.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../core/common/state.dart';
-import '../../core/program/program_type.dart';
+import 'package:mass_pro/core/common/state.dart';
+import 'package:mass_pro/core/program/program_type.dart';
 
 part 'mp_program_utils.g.dart';
 
@@ -89,10 +89,10 @@ class MpProgramUtils {
     if (events.isNotEmpty) {
       return true;
     }
-    final List<Event> events2 = await D2Remote.trackerModule.event
-        .byProgram(id)
-        .where(attribute: 'deleted', value: true)
-        .get();
+    // final List<Event> events2 = await D2Remote.trackerModule.event
+    //     .byProgram(id)
+    //     .where(attribute: 'deleted', value: true)
+    //     .get();
 
     if (events.isNotEmpty) {
       return true;

@@ -1,7 +1,7 @@
 import 'package:mass_pro/sdk/core/common/value_type/failures/date_time_failure.dart';
 import 'package:mass_pro/sdk/core/common/value_type/validators/value_type_validator.dart';
 
-import '../../../mp/helpers/result.dart';
+import 'package:mass_pro/sdk/core/mp/helpers/result.dart';
 
 class DateTimeValidator extends ValueTypeValidator<DateTimeFailure> {
   const DateTimeValidator();

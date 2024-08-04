@@ -1,4 +1,4 @@
-import 'mp_interface.dart';
+import 'package:mass_pro/commons/logging/mp_interface.dart';
 
 class _MpImpl extends MpInterface {}
 

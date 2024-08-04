@@ -1,7 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../commons/extensions/dynamic_extensions.dart';
-import 'form_model.dart';
+import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
+import 'package:mass_pro/form/ui/view_model/form_model.dart';
 
 part 'form_model_notifier.g.dart';
 

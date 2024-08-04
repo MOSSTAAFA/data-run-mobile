@@ -13,7 +13,6 @@ import 'package:mass_pro/data_run/screens/project_details/project_detail_item.mo
 import 'package:mass_pro/data_run/screens/project_details/project_detail_items_models_notifier.dart';
 import 'package:mass_pro/generated/l10n.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
-import 'package:mass_pro/utils/mass_utils/utils.dart';
 
 class ActivityItemsExpansionTiles extends ConsumerWidget {
   const ActivityItemsExpansionTiles({

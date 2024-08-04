@@ -1,7 +1,7 @@
 import 'package:mass_pro/sdk/core/common/value_type/failures/integer_failure.dart';
 import 'package:mass_pro/sdk/core/common/value_type/validators/integer_validator_base.dart';
 
-import '../../../mp/helpers/result.dart';
+import 'package:mass_pro/sdk/core/mp/helpers/result.dart';
 
 class IntegerValidator extends IntegerValidatorBase<IntegerFailure> {
   const IntegerValidator();

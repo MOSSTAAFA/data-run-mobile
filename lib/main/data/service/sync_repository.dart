@@ -2,8 +2,8 @@ import 'package:d2_remote/modules/data/tracker/entities/event.entity.dart';
 import 'package:d2_remote/modules/data/tracker/entities/tracked-entity.entity.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../core/common/state.dart';
-import 'sync_repository_impl.dart';
+import 'package:mass_pro/core/common/state.dart';
+import 'package:mass_pro/main/data/service/sync_repository_impl.dart';
 
 part 'sync_repository.g.dart';
 

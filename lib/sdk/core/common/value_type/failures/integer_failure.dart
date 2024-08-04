@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../exception/validation_exception.dart';
+import 'package:mass_pro/sdk/core/common/exception/validation_exception.dart';
 
 part 'integer_failure.freezed.dart';
 

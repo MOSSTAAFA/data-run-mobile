@@ -1,6 +1,6 @@
 import 'package:mass_pro/sdk/core/mp/period/period_type.dart';
 
-import '../../commons/extensions/dynamic_extensions.dart';
+import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
 
 extension PeriodTypeExtension on String? {
   PeriodType? get toPeriodType {

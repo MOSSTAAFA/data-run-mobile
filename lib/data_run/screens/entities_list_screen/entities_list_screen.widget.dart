@@ -1,5 +1,4 @@
 import 'package:d2_remote/modules/datarun/form/entities/data_form_submission.entity.dart';
-import 'package:d2_remote/modules/datarun_shared/entities/syncable.entity.dart';
 import 'package:fast_immutable_collections/src/ilist/ilist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

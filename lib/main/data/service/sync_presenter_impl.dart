@@ -70,10 +70,9 @@ class SyncPresenterImpl implements SyncPresenter {
         .then((programsMap) {
       // return D2Remote.dataSetModule.dataSet.get().then((dataSets) {
       return dataSet.get().then((dataSets) {
-        programsMap.addAll(IMap.fromEntries(UidsHelper.getUidsList(dataSets)
+        return programsMap.addAll(IMap.fromEntries(UidsHelper.getUidsList(dataSets)
             .map((dataSetUid) => MapEntry(dataSetUid,
-                const D2ProgressStatus(isComplete: false, syncStatus: null)))));
-        return programsMap;
+            const D2ProgressStatus(isComplete: false, syncStatus: null)))));
       });
     }).then((allMap) => ref
             .read(syncStatusControllerInstanceProvider.notifier)

@@ -28,21 +28,6 @@ import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:mass_pro/sdk/core/program/section_rendering_type.dart';
 
 class EnrollmentRepository extends DataEntryBaseRepository {
-  static const String ENROLLMENT_DATA_SECTION_UID =
-      'ENROLLMENT_DATA_SECTION_UID';
-  static const String ENROLLMENT_DATE_UID = 'ENROLLMENT_DATE_UID';
-  static const String INCIDENT_DATE_UID = 'INCIDENT_DATE_UID';
-  static const String ORG_UNIT_UID = 'ORG_UNIT_UID';
-  static const String TEI_COORDINATES_UID = 'TEI_COORDINATES_UID';
-  static const String ENROLLMENT_COORDINATES_UID = 'ENROLLMENT_COORDINATES_UID';
-
-  final String enrollmentUid;
-
-  final EnrollmentMode enrollmentMode;
-  final EnrollmentFormLabelsProvider enrollmentFormLabelsProvider;
-  Future<Enrollment?>? _enrollment;
-  Future<Program?>? _program;
-  Future<List<ProgramSection>>? _programSections;
 
   // TODO(NMC): avoid asynchronicity using scopes
   /// see:
@@ -66,6 +51,21 @@ class EnrollmentRepository extends DataEntryBaseRepository {
         .withAttributes()
         .get());
   }
+  static const String ENROLLMENT_DATA_SECTION_UID =
+      'ENROLLMENT_DATA_SECTION_UID';
+  static const String ENROLLMENT_DATE_UID = 'ENROLLMENT_DATE_UID';
+  static const String INCIDENT_DATE_UID = 'INCIDENT_DATE_UID';
+  static const String ORG_UNIT_UID = 'ORG_UNIT_UID';
+  static const String TEI_COORDINATES_UID = 'TEI_COORDINATES_UID';
+  static const String ENROLLMENT_COORDINATES_UID = 'ENROLLMENT_COORDINATES_UID';
+
+  final String enrollmentUid;
+
+  final EnrollmentMode enrollmentMode;
+  final EnrollmentFormLabelsProvider enrollmentFormLabelsProvider;
+  Future<Enrollment?>? _enrollment;
+  Future<Program?>? _program;
+  Future<List<ProgramSection>>? _programSections;
 
   @override
   bool isEvent() {
@@ -193,12 +193,12 @@ class EnrollmentRepository extends DataEntryBaseRepository {
     final optionSet = attribute?.optionSet;
     // var generated = attribute.generated()!!;
 
-    final orgUnitUid = enrollment!.orgUnit;
-    final activityUid = enrollment.activity;
+    // final orgUnitUid = enrollment!.orgUnit;
+    // final activityUid = enrollment.activity;
 
     final TrackedEntityAttributeValue? attrValue = await D2Remote
         .trackerModule.trackedEntityAttributeValue
-        .byId('${enrollment.trackedEntityInstance}_${attribute?.id}');
+        .byId('${enrollment!.trackedEntityInstance}_${attribute?.id}');
     String? dataValue = await _getAttributeValue(attrValue);
 
     OptionSetConfiguration? optionSetConfig;
@@ -212,7 +212,7 @@ class EnrollmentRepository extends DataEntryBaseRepository {
       });
     }
 
-    String? warning;
+    // String? warning;
 
     // if (generated && dataValue == null) {
     //   mandatory = true;
@@ -229,8 +229,7 @@ class EnrollmentRepository extends DataEntryBaseRepository {
 
     String? error; // = _getError(conflict, dataValue);
 
-    if ((valueType == ValueType.OrganisationUnit ||
-            valueType?.isDate == true) &&
+    if ((valueType == ValueType.OrganisationUnit || valueType.isDate == true) &&
         !dataValue.isNullOrEmpty) {
       dataValue = attrValue?.value;
     }
@@ -251,7 +250,7 @@ class EnrollmentRepository extends DataEntryBaseRepository {
     final FieldUiModel fieldViewModel = await fieldFactory.create(
         id: attribute!.uid!,
         label: attribute.displayName ?? '',
-        valueType: valueType!,
+        valueType: valueType,
         mandatory: mandatory,
         optionSet: optionSet,
         value: dataValue,
@@ -272,11 +271,8 @@ class EnrollmentRepository extends DataEntryBaseRepository {
 
     if (!error.isNullOrEmpty) {
       return fieldViewModel.setError(error);
-    } else if (warning != null) {
-      return fieldViewModel.setWarning(warning);
-    } else {
+    } else
       return fieldViewModel;
-    }
   }
 
   Future<String?> _getAttributeValue(TrackedEntityAttributeValue? attrValue) {

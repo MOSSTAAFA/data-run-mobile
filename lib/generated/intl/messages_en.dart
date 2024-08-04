@@ -13,7 +13,7 @@
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
 
-final MessageLookup messages = new MessageLookup();
+final messages = new MessageLookup();
 
 typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 
@@ -29,7 +29,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m2(count) =>
       "${Intl.plural(count, zero: ' ', one: '1 Year', two: '2 Years', few: '${count} Years', other: '${count} Years')}";
 
-  final Map<String, Function> messages = _notInlinedMessages(_notInlinedMessages);
+  final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "addNew": MessageLookupByLibrary.simpleMessage("Add New"),
         "and": MessageLookupByLibrary.simpleMessage("And"),

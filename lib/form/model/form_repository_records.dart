@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-import '../../commons/date/entry_mode.dart';
-import 'enrollment_mode.dart';
+import 'package:mass_pro/commons/date/entry_mode.dart';
+import 'package:mass_pro/form/model/enrollment_mode.dart';
 
 class FormRepositoryRecords with EquatableMixin {
   const FormRepositoryRecords(

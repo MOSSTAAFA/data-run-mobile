@@ -3,8 +3,8 @@ import 'package:d2_remote/shared/queries/base.query.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../main/usescases/login/login_screen.widget.dart';
-import '../constants.dart';
+import 'package:mass_pro/main/usescases/login/login_screen.widget.dart';
+import 'package:mass_pro/commons/constants.dart';
 
 part 'ui_state.freezed.dart';
 

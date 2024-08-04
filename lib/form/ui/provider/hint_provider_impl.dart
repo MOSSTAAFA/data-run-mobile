@@ -1,7 +1,7 @@
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:mass_pro/utils/mass_utils/utils.dart';
 
-import 'hint_provider.dart';
+import 'package:mass_pro/form/ui/provider/hint_provider.dart';
 
 class HintProviderImpl implements HintProvider {
   const HintProviderImpl();

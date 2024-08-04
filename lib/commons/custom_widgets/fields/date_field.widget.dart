@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'decorated_form_field.dart';
+import 'package:mass_pro/commons/custom_widgets/fields/decorated_form_field.dart';
 
 void main() => runApp(const MyApp());
 

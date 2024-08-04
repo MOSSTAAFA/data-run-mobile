@@ -1,5 +1,5 @@
-import '../../../mp/helpers/result.dart';
-import '../../exception/validation_exception.dart';
+import 'package:mass_pro/sdk/core/mp/helpers/result.dart';
+import 'package:mass_pro/sdk/core/common/exception/validation_exception.dart';
 
 abstract class ValueTypeValidator<T extends ValidationException> {
   const ValueTypeValidator();

@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../constants.dart';
-import '../utils/color_theme_model.dart';
-import '../utils/module_layout.dart';
+import 'package:mass_pro/commons/constants.dart';
+import 'package:mass_pro/commons/utils/color_theme_model.dart';
+import 'package:mass_pro/commons/utils/module_layout.dart';
 
 part 'pref_state.freezed.dart';
 

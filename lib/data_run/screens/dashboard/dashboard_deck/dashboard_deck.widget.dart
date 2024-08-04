@@ -26,7 +26,7 @@ class _DashboardDeckWidgetState extends ConsumerState<DashboardDeckWidget>
     return DashboardItemsWidget(
       onItemClick: (dashboardItemModel) => navigateTo(dashboardItemModel!),
       onGranularSyncClick: (dashboardItemModel) =>
-          showSyncDialog(dashboardItemModel!),
+          showSyncDialog(dashboardItemModel),
       onDescriptionClick: (dashboardItemModel) =>
           dashboardItemModel?.description != null
               ? showDescription(dashboardItemModel!.description!)

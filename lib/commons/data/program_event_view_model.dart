@@ -1,9 +1,9 @@
 import 'package:d2_remote/modules/data/tracker/models/geometry.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../core/event/event_status.dart';
-import '../helpers/collections.dart';
-import 'carousel_item_model.dart';
+import 'package:mass_pro/core/event/event_status.dart';
+import 'package:mass_pro/commons/helpers/collections.dart';
+import 'package:mass_pro/commons/data/carousel_item_model.dart';
 
 class ProgramEventViewModel with EquatableMixin implements CarouselItemModel {
   ProgramEventViewModel(

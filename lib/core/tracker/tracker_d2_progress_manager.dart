@@ -2,7 +2,7 @@ import 'package:d2_remote/modules/datarun_shared/sync/call/d2_progress_manager.d
 import 'package:d2_remote/modules/datarun_shared/sync/call/d2_progress_status.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
-import 'tracker_d2_progress.dart';
+import 'package:mass_pro/core/tracker/tracker_d2_progress.dart';
 
 class TrackerD2ProgressManager extends D2ProgressManager {
   TrackerD2ProgressManager({super.totalCalls})

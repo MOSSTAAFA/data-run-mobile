@@ -5,8 +5,8 @@ import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:mass_pro/sdk/core/common/value_type_device_rendering.dart';
 import 'package:mass_pro/sdk/core/program/section_rendering_type.dart';
 
-import '../model/field_ui_model.dart';
-import '../model/option_set_configuration.dart';
+import 'package:mass_pro/form/model/field_ui_model.dart';
+import 'package:mass_pro/form/model/option_set_configuration.dart';
 
 abstract class FieldViewModelFactory {
   FieldViewModelFactory();

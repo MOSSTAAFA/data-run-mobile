@@ -7,10 +7,10 @@ import 'package:d2_remote/modules/metadata/program/entities/tracked_entity_type_
 import 'package:d2_remote/shared/utilities/sort_order.util.dart';
 import 'package:dartx/dartx_io.dart';
 
-import '../model/field_ui_model.dart';
-import '../model/option_set_configuration.dart';
-import '../ui/field_view_model_factory.dart';
-import 'data_entry_base_repository.dart';
+import 'package:mass_pro/form/model/field_ui_model.dart';
+import 'package:mass_pro/form/model/option_set_configuration.dart';
+import 'package:mass_pro/form/ui/field_view_model_factory.dart';
+import 'package:mass_pro/form/data/data_entry_base_repository.dart';
 
 class SearchRepository extends DataEntryBaseRepository {
   SearchRepository(

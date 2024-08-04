@@ -1,13 +1,10 @@
 import 'dart:async';
 
-import 'package:d2_remote/core/datarun/utilities/date_utils.dart';
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/datarun/form/entities/data_form_submission.entity.dart';
-import 'package:d2_remote/modules/datarun/form/entities/form_definition.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/field_value_rendering_type.dart';
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
-import 'package:d2_remote/modules/datarun_shared/entities/syncable.entity.dart';
 import 'package:d2_remote/modules/datarun_shared/queries/syncable.query.dart';
 import 'package:d2_remote/shared/utilities/save_option.util.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
@@ -164,7 +161,7 @@ class SubmissionMappingRepository {
   }
 
   OptionConfiguration? _getOptionConfiguration(DynamicFormField field) {
-    final IList<FormOption> options = field.options?.lock ?? IList.empty();
+    final IList<FormOption> options = field.options?.lock ?? const IListConst([]);
     if (ValueType.getValueType(field.type).isWithOptions &&
         options.isNotEmpty) {
       return OptionConfiguration.config(options.length, () {
@@ -173,7 +170,7 @@ class SubmissionMappingRepository {
         ..updateOptionsToHideAndShow(
             optionsToShow:
                 options.map((FormOption option) => option.name).toIList(),
-            optionsToHide: IList.empty());
+            optionsToHide: const IListConst([]));
     }
     return null;
   }

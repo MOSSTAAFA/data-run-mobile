@@ -18,7 +18,7 @@ import 'package:mass_pro/utils/app_appearance.dart';
 import 'package:mass_pro/utils/navigator_key.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
 
-import 'main.reflectable.dart';
+import 'package:mass_pro/main.reflectable.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

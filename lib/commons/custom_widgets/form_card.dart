@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import '../constants.dart';
-import 'app_border.dart';
+import 'package:mass_pro/commons/constants.dart';
+import 'package:mass_pro/commons/custom_widgets/app_border.dart';
 
 class FormCard extends StatelessWidget {
   const FormCard({

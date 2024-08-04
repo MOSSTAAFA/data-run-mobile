@@ -2,7 +2,7 @@ import 'package:mass_pro/sdk/core/common/value_type/failures/unit_interval_failu
 import 'package:mass_pro/sdk/core/common/value_type/validators/number_validator.dart';
 import 'package:mass_pro/sdk/core/common/value_type/validators/value_type_validator.dart';
 
-import '../../../mp/helpers/result.dart';
+import 'package:mass_pro/sdk/core/mp/helpers/result.dart';
 
 class UnitIntervalValidator extends ValueTypeValidator<UnitIntervalFailure> {
   const UnitIntervalValidator();

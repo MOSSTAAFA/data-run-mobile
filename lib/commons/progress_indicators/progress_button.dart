@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import '../custom_widgets/buttons/elevated_button.dart';
+import 'package:mass_pro/commons/custom_widgets/buttons/elevated_button.dart';
 
 class ProgressButton extends StatelessWidget {
   const ProgressButton({

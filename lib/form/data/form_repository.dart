@@ -1,10 +1,10 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 
-import '../model/field_ui_model.dart';
-import '../model/row_action.dart';
-import '../model/store_result.dart';
-import 'data_integrity_check_result.dart';
+import 'package:mass_pro/form/model/field_ui_model.dart';
+import 'package:mass_pro/form/model/row_action.dart';
+import 'package:mass_pro/form/model/store_result.dart';
+import 'package:mass_pro/form/data/data_integrity_check_result.dart';
 
 abstract class FormRepository {
   Future<IList<FieldUiModel>> fetchFormItems();

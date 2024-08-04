@@ -1,6 +1,6 @@
 import 'package:mass_pro/sdk/core/common/value_type_rendering_type.dart';
 
-import '../../commons/extensions/dynamic_extensions.dart';
+import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
 
 extension ValueTypeRenderingExtnsion on String? {
   ValueTypeRenderingType? get toValueTypeRenderingType {

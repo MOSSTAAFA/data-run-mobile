@@ -2,13 +2,14 @@ import 'package:d2_remote/modules/data/tracker/entities/enrollment.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity.dart';
 import 'package:dartx/dartx_io.dart';
+import 'package:flutter/foundation.dart';
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/commons/extensions/string_extension.dart';
 import 'package:mass_pro/commons/period/period_extensions.dart';
 import 'package:mass_pro/main/mp_logic/enrollment_event_generator_repository.dart';
 import 'package:mass_pro/sdk/core/mp/period/period_type.dart';
 
-import '../../data_run/errors_management/error_management.dart';
+import 'package:mass_pro/data_run/errors_management/error_management.dart';
 
 class EnrollmentEventGenerator {
   const EnrollmentEventGenerator(this._generatorRepository);
@@ -68,6 +69,7 @@ class EnrollmentEventGenerator {
         } else {
           enrollment.enrollmentDate.toDate();
         }
+        return null;
       });
     }
     final String eventUidToOpen = await _generatorRepository
@@ -87,7 +89,7 @@ class EnrollmentEventGenerator {
 
       final bool hideDueDate = programStage.hideDueDate;
       final PeriodType? periodType = programStage.periodType.toPeriodType;
-      final int minDaysFromStart = programStage.minDaysFromStart ?? 0;
+      // final int minDaysFromStart = programStage.minDaysFromStart ?? 0;
 
       final DateTime now = DateTime.now();
       final DateTime date = dateToUse() ?? now;
@@ -102,7 +104,7 @@ class EnrollmentEventGenerator {
       final bool isSchedule = eventDate.isAfter(now) && !hideDueDate;
       await _generatorRepository.setEventDate(eventUid, isSchedule, eventDate);
     } on DError catch (dError) {
-      print(dError);
+      debugPrint('$dError');
     }
   }
 }

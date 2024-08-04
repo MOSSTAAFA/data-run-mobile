@@ -12,8 +12,9 @@ class QFieldModelBuilder {
   QFieldModelBuilder(QFieldModel model) {
     uid = model.uid;
     options = model.options;
-    optionList = model.optionList;
+    optionListName = model.optionListName;
     optionConfiguration = model.optionConfiguration;
+    autocompleteList = model.autocompleteList;
     fieldRules = model.fieldRules;
     isFocused = model.isFocused;
     error = model.error;
@@ -39,8 +40,9 @@ class QFieldModelBuilder {
 
   String? uid;
   IList<FormOption>? options;
-  String? optionList;
+  String? optionListName;
   OptionConfiguration? optionConfiguration;
+  List<String>? autocompleteList;
   IList<Rule>? fieldRules;
   bool? isFocused;
   String? error;
@@ -73,14 +75,19 @@ class QFieldModelBuilder {
     return this;
   }
 
-  QFieldModelBuilder setOptionList(String? optionList) {
-    this.optionList = optionList;
+  QFieldModelBuilder setOptionListName(String? optionListName) {
+    this.optionListName = optionListName;
     return this;
   }
 
   QFieldModelBuilder setOptionConfiguration(
       OptionConfiguration? optionConfiguration) {
     this.optionConfiguration = optionConfiguration;
+    return this;
+  }
+
+  QFieldModelBuilder setAutocompleteList(List<String>? autocompleteList) {
+    this.autocompleteList = autocompleteList;
     return this;
   }
 
@@ -195,8 +202,9 @@ class QFieldModelBuilder {
     return QFieldModel(
       uid: uid!,
       options: options,
-      optionList: optionList,
+      optionListName: optionListName,
       optionConfiguration: optionConfiguration,
+      autocompleteList: autocompleteList,
       fieldRules: fieldRules,
       isFocused: isFocused ?? false,
       error: error,

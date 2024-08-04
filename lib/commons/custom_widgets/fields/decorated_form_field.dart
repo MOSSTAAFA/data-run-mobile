@@ -66,10 +66,10 @@ class DecoratedFormField extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters;
 
   @override
-  _DecoratedFormFieldState createState() => _DecoratedFormFieldState();
+  DecoratedFormFieldState createState() => DecoratedFormFieldState();
 }
 
-class _DecoratedFormFieldState extends State<DecoratedFormField> {
+class DecoratedFormFieldState extends State<DecoratedFormField> {
   bool _showClear = true;
 
   @override

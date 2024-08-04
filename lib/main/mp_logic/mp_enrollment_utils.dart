@@ -6,9 +6,9 @@ import 'package:d2_remote/modules/metadata/program/entities/program_tracked_enti
 import 'package:dartx/dartx_io.dart';
 import 'package:mass_pro/sdk/core/mp/enrollment/enrollment_status.dart';
 
-import '../../core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
-import 'enrollment_event_generator.dart';
-import 'enrollment_event_generator_repository_impl.dart';
+import 'package:mass_pro/core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
+import 'package:mass_pro/main/mp_logic/enrollment_event_generator.dart';
+import 'package:mass_pro/main/mp_logic/enrollment_event_generator_repository_impl.dart';
 
 class MpEnrollmentUtils {
   const MpEnrollmentUtils();

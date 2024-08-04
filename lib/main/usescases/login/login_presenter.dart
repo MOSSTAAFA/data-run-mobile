@@ -143,8 +143,8 @@ class LoginScreenPresenter {
   }
 
   void _trackUserInfo() {
-    final username = preferenceProvider.getString(USER);
-    final server = preferenceProvider.getString(SERVER);
+    // final username = preferenceProvider.getString(USER);
+    // final server = preferenceProvider.getString(SERVER);
 
     // crashReportController.trackServer(server);
     // crashReportController.trackUser(username, server);

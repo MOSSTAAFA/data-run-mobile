@@ -3,7 +3,7 @@ import 'package:d2_remote/modules/auth/user/models/login-response.model.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../usescases/bundle/bundle.dart';
+import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 
 abstract class UserManager {
   Future<LoginResponseStatus> logIn(

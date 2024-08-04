@@ -1,11 +1,11 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../sync_data_worker.dart';
-import '../sync_metadata_worker.dart';
-import 'nmc_worker/work_info.dart';
-import 'nmc_worker/worker.dart';
-import 'work_manager_controller.dart';
-import 'worker_item.dart';
+import 'package:mass_pro/main/data/service/sync_data_worker.dart';
+import 'package:mass_pro/main/data/service/sync_metadata_worker.dart';
+import 'package:mass_pro/main/data/service/work_manager/nmc_worker/work_info.dart';
+import 'package:mass_pro/main/data/service/work_manager/nmc_worker/worker.dart';
+import 'package:mass_pro/main/data/service/work_manager/work_manager_controller.dart';
+import 'package:mass_pro/main/data/service/work_manager/worker_item.dart';
 
 part 'work_manager_controller_impl.g.dart';
 

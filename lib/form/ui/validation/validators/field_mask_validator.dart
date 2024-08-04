@@ -3,9 +3,9 @@ import 'package:mass_pro/sdk/core/common/value_type/validators/value_type_valida
 import 'package:mass_pro/sdk/core/mp/helpers/result.dart';
 
 class FieldMaskValidator extends ValueTypeValidator<FieldMaskFailure> {
-  String? fieldMask;
 
   FieldMaskValidator(this.fieldMask);
+  String? fieldMask;
 
   String? get formattedFieldMask => null; //fieldMask?.removeSurrounding("\'")
 

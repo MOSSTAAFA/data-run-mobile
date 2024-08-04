@@ -1,10 +1,8 @@
-// Flutter imports:
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-// Project imports:
-import '../../utils/mass_utils/colors.dart';
-import '../constants.dart';
+import 'package:mass_pro/utils/mass_utils/colors.dart';
+import 'package:mass_pro/commons/constants.dart';
 
 class AppBorder extends StatelessWidget {
   const AppBorder({
@@ -30,13 +28,11 @@ class AppBorder extends StatelessWidget {
 
     // final Store<AppState> store = StoreProvider.of<AppState>(context);
     // final state = store.state;
-    const bool enableDarkMode = false; //state.prefState.enableDarkMode;
+    // const bool enableDarkMode = false; //state.prefState.enableDarkMode;
     final bool isAllSides = isTop == null && isLeft == null;
     const double borderWidth = kIsWeb ? 2.0 : 1.5;
 
-    final Color color = enableDarkMode
-        ? convertHexStringToColor(kDefaultDarkBorderColor)!
-        : convertHexStringToColor(kDefaultLightBorderColor)!;
+    final Color color = convertHexStringToColor(kDefaultLightBorderColor)!;
 
     return Container(
         decoration: BoxDecoration(

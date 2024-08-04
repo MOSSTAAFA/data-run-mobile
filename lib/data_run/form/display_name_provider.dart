@@ -1,4 +1,3 @@
-import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisation_unit.entity.dart';
 import 'package:mass_pro/data_run/form/org_unit_d_configuration.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

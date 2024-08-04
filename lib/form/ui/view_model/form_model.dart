@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../commons/global_functions/global_functions.dart';
-import '../../data/data_integrity_check_result.dart';
-import '../../model/info_ui_model.dart';
-import '../../model/row_action.dart';
+import 'package:mass_pro/commons/global_functions/global_functions.dart';
+import 'package:mass_pro/form/data/data_integrity_check_result.dart';
+import 'package:mass_pro/form/model/info_ui_model.dart';
+import 'package:mass_pro/form/model/row_action.dart';
 
 class FormModel with EquatableMixin {
   FormModel({

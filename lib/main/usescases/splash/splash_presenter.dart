@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:d2_remote/d2_remote.dart';
 import 'package:get/get.dart';
 import 'package:mass_pro/commons/constants.dart';

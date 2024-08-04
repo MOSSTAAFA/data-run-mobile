@@ -14,8 +14,8 @@ PreferenceProvider preferencesInstance(PreferencesInstanceRef ref) {
 
 class PreferenceProvider {
   static late final SharedPreferences? _sharedPreferences;
-
-  static PreferenceProvider? _instance;
+  //
+  // static PreferenceProvider? _instance;
 
   // final SharedPreferences _sharedPreferences;
 

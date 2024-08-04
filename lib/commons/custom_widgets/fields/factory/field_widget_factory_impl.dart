@@ -3,8 +3,8 @@ import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:mass_pro/sdk/core/common/value_type_rendering_type.dart';
 import 'package:mass_pro/sdk/core/program/section_rendering_type.dart';
 
-import '../../form_card.dart';
-import '../form_edit_text.widget.dart';
+import 'package:mass_pro/commons/custom_widgets/form_card.dart';
+import 'package:mass_pro/commons/custom_widgets/fields/form_edit_text.widget.dart';
 
 class FieldWidgetFactoryImpl {
   factory FieldWidgetFactoryImpl() {

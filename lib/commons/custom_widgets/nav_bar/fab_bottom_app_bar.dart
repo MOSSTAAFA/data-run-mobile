@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'nav_info_notifier.dart';
+import 'package:mass_pro/commons/custom_widgets/nav_bar/nav_info_notifier.dart';
 
 class MenuItem {
   MenuItem({this.iconData, required this.text});

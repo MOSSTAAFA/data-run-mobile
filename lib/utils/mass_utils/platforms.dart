@@ -9,8 +9,8 @@ import 'package:mass_pro/utils/mass_utils/utils.dart';
 // Package imports:
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../../commons/constants.dart';
-import '../../commons/utils/module_layout.dart';
+import 'package:mass_pro/commons/constants.dart';
+import 'package:mass_pro/commons/utils/module_layout.dart';
 
 // TODOremove this function
 bool supportsInlineBrowser() => !isDesktopOS();

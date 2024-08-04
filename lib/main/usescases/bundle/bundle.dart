@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
-import '../../../form/model/form_repository_records.dart';
+import 'package:mass_pro/form/model/form_repository_records.dart';
 
 // part 'bundle.g.dart';
 

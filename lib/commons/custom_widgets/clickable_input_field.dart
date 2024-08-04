@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'fields/decorated_form_field.dart';
+import 'package:mass_pro/commons/custom_widgets/fields/decorated_form_field.dart';
 
 class ClickableInputField extends StatefulWidget {
   const ClickableInputField({

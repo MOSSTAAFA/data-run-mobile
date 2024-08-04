@@ -1,4 +1,6 @@
-import 'package:d2_remote/modules/auth/user/entities/d_user.entity.dart';
+// ignore_for_file: strict_raw_type
+
+import 'package:flutter/foundation.dart';
 import 'package:mass_pro/commons/prefs/preference.dart';
 import 'package:mass_pro/commons/prefs/preference_provider.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_repository.dart';
@@ -82,7 +84,7 @@ class DashboardPresenter {
 
       view.goToLogin(await repository.accountsCount(), isDeletion: true);
     } catch (exception) {
-      print('Timber.e($exception)');
+      debugPrint('Timber.e($exception)');
     }
   }
 
@@ -103,9 +105,9 @@ class DashboardPresenter {
     view.openDrawer(/* 'Gravity.START' */ 0);
   }
 
-  String _username(DUser user) {
-    return '${user.firstName} ${user.surname ?? ''}';
-  }
+  // String _username(DUser user) {
+  //   return '${user.firstName} ${user.surname ?? ''}';
+  // }
 
   Future<void> onClickSyncManager() async {
     await preferencesProvider.setValue(WAS_INITIAL_SYNC_DONE, false);

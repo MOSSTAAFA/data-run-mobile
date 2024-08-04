@@ -42,7 +42,7 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
         'itemLabel ${widget.item?.label}, itemMandatory ${widget.item?.mandatory}, '
         'itemError ${widget.item?.error}, itemWarning ${widget.item?.warning}');
 
-    final bool? focused = widget.item?.focused;
+    // final bool? focused = widget.item?.focused;
 
     // if (focused ?? false) {
     //   _focusNode.requestFocus();

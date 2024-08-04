@@ -1,4 +1,4 @@
-import '../../../commons/resources/resource_manager.dart';
+import 'package:mass_pro/commons/resources/resource_manager.dart';
 
 class EnrollmentFormLabelsProvider {
   const EnrollmentFormLabelsProvider(this.resourceManager);

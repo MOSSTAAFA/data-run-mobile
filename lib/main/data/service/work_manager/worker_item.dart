@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import 'worker_type.dart';
+import 'package:mass_pro/main/data/service/work_manager/worker_type.dart';
 
 /// Data class
 class WorkerItem with EquatableMixin {

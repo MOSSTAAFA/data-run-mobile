@@ -2,6 +2,7 @@ import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/data/tracker/models/geometry.dart';
 import 'package:d2_remote/modules/datarun/form/entities/data_form_submission.entity.dart';
 import 'package:d2_remote/modules/datarun_shared/queries/syncable.query.dart';
+import 'package:flutter/foundation.dart';
 import 'package:mass_pro/data_run/form/form_configuration.dart';
 import 'package:mass_pro/data_run/form/map_field_value_to_user.dart';
 
@@ -52,7 +53,7 @@ class SubmissionInitialRepository {
       await D2Remote.formModule.formSubmission.byId(syncableId).delete();
       return true;
     } on DError catch (d2Error) {
-      print('Timber.e($d2Error)');
+      debugPrint('Timber.e($d2Error)');
       return false;
     }
   }

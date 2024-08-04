@@ -1,7 +1,7 @@
 import 'package:mass_pro/sdk/core/common/exception/validation_exception.dart';
 import 'package:mass_pro/sdk/core/common/value_type/validators/number_validator_base.dart';
 
-import '../../../mp/helpers/result.dart';
+import 'package:mass_pro/sdk/core/mp/helpers/result.dart';
 
 abstract class IntegerValidatorBase<T extends ValidationException>
     extends NumberValidatorBase<T> {

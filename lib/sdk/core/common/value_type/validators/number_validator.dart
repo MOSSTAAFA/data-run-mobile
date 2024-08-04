@@ -1,7 +1,7 @@
 import 'package:mass_pro/sdk/core/common/value_type/failures/number_failure.dart';
 import 'package:mass_pro/sdk/core/common/value_type/validators/number_validator_base.dart';
 
-import '../../../mp/helpers/result.dart';
+import 'package:mass_pro/sdk/core/mp/helpers/result.dart';
 
 class NumberValidator extends NumberValidatorBase<NumberFailure> {
   const NumberValidator();

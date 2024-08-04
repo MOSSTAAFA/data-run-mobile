@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../../commons/constants.dart';
-import '../../commons/data_run/utils/view_actions.dart';
+import 'package:mass_pro/commons/constants.dart';
+import 'package:mass_pro/commons/data_run/utils/view_actions.dart';
 
 IconData getViewActionIcon(ViewAction? viewAction) {
   switch (viewAction) {

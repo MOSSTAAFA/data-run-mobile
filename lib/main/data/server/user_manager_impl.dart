@@ -8,9 +8,9 @@ import 'package:mass_pro/main/usescases/login/login_screen.widget.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../core/user/internal/log_in_exceptions.dart';
-import '../../usescases/bundle/bundle.dart';
-import 'user_manager.dart';
+import 'package:mass_pro/core/user/internal/log_in_exceptions.dart';
+import 'package:mass_pro/main/usescases/bundle/bundle.dart';
+import 'package:mass_pro/main/data/server/user_manager.dart';
 
 part 'user_manager_impl.g.dart';
 

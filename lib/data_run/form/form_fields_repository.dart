@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:d2_remote/modules/datarun_shared/entities/syncable.entity.dart';
-import 'package:d2_remote/modules/datarun_shared/queries/syncable.query.dart';
 import 'package:expressions/expressions.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:get/get.dart';
@@ -11,7 +9,6 @@ import 'package:mass_pro/commons/extensions/standard_extensions.dart';
 import 'package:mass_pro/commons/helpers/iterable.dart';
 import 'package:mass_pro/data_run/engine/rule_engine.dart';
 import 'package:mass_pro/data_run/form/display_name_provider.dart';
-import 'package:mass_pro/data_run/form/form.dart';
 import 'package:mass_pro/data_run/form/form_configuration.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
 import 'package:mass_pro/data_run/submission/submission.dart';

@@ -1,6 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../intent/form_intent.dart';
+import 'package:mass_pro/form/ui/intent/form_intent.dart';
 
 part 'form_pending_intents.g.dart';
 

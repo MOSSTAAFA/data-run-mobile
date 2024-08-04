@@ -26,13 +26,13 @@ class S {
   static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final String name = (locale.countryCode?.isEmpty ?? false)
+    final name = (locale.countryCode?.isEmpty ?? false)
         ? locale.languageCode
         : locale.toString();
-    final String localeName = Intl.canonicalizedLocale(name);
+    final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
-      final S instance = S();
+      final instance = S();
       S._current = instance;
 
       return instance;
@@ -40,7 +40,7 @@ class S {
   }
 
   static S of(BuildContext context) {
-    final S? instance = S.maybeOf(context);
+    final instance = S.maybeOf(context);
     assert(instance != null,
         'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?');
     return instance!;
@@ -56,7 +56,7 @@ class S {
       'Password cannot be null',
       name: 'loginErrorNullPass',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -66,7 +66,7 @@ class S {
       'Username cannot be null',
       name: 'loginErrorNullUsername',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -76,7 +76,7 @@ class S {
       'Unsuccessful response from server',
       name: 'loginErrorUnsuccessfulResponse',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -86,7 +86,7 @@ class S {
       'Error processing response',
       name: 'loginErrorErrorResponse',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -96,7 +96,7 @@ class S {
       'No server instance found',
       name: 'loginErrorNoDataRunInstance',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -106,7 +106,7 @@ class S {
       'Invalid credentials',
       name: 'loginErrorBadCredentials',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -116,7 +116,7 @@ class S {
       'Unknown host',
       name: 'loginErrorUnknownHost',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -126,7 +126,7 @@ class S {
       'An unexpected error occurred',
       name: 'error_unexpected',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -136,7 +136,7 @@ class S {
       'Too many organizational units',
       name: 'error_too_manu_org_units',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -146,7 +146,7 @@ class S {
       'Max TEI count reached',
       name: 'error_max_tei_count_reached',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -156,7 +156,7 @@ class S {
       'Too many requests',
       name: 'error_many_requests',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -166,7 +166,7 @@ class S {
       'User already authenticated',
       name: 'error_already_authenticated',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -176,7 +176,7 @@ class S {
       'Action already executed',
       name: 'error_already_executed',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -186,7 +186,7 @@ class S {
       'Invalid API query',
       name: 'error_api_invalid_query',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -196,7 +196,7 @@ class S {
       'App name not set',
       name: 'error_app_name_not_set',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -206,7 +206,7 @@ class S {
       'App version not set',
       name: 'error_app_version_not_set',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -216,7 +216,7 @@ class S {
       'Cannot access keystore',
       name: 'error_access_keystore',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -226,7 +226,7 @@ class S {
       'Cannot create existing object',
       name: 'error_create_existing_error',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -236,7 +236,7 @@ class S {
       'Cannot delete non-existing object',
       name: 'error_delete_non_existing_object',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -246,7 +246,7 @@ class S {
       'Cannot instantiate keystore',
       name: 'error_instance_keystore',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -256,7 +256,7 @@ class S {
       'Could not reserve value on server',
       name: 'error_reserve_value_on_server',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -266,7 +266,7 @@ class S {
       'Please login to export',
       name: 'error_export_login',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -276,7 +276,7 @@ class S {
       'Encrypted export not supported',
       name: 'error_export_encrypted',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -286,7 +286,7 @@ class S {
       'Import already exists',
       name: 'error_import_exist',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -296,7 +296,7 @@ class S {
       'Logout before import',
       name: 'error_import_logout',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -306,7 +306,7 @@ class S {
       'Import version higher than supported',
       name: 'error_import_version',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -316,7 +316,7 @@ class S {
       'File not found',
       name: 'error_file_not_found',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -326,7 +326,7 @@ class S {
       'Failed resizing image',
       name: 'error_file_resize',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -336,7 +336,7 @@ class S {
       'Impossible to generate coordinates',
       name: 'error_generate_coordinate',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -346,7 +346,7 @@ class S {
       'Job report not available',
       name: 'error_job',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -356,7 +356,7 @@ class S {
       'Running low on available values',
       name: 'error_low_on_available_values',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -366,7 +366,7 @@ class S {
       'No authenticated user',
       name: 'error_user_no_authenticated',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -376,7 +376,7 @@ class S {
       'No authenticated user offline',
       name: 'error_user_no_authenticated_offline',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -386,7 +386,7 @@ class S {
       'Not enough values left to reserve on server',
       name: 'error_no_values_left_on_server',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -396,7 +396,7 @@ class S {
       'Different authenticated user offline',
       name: 'error_different_offline_user',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -406,7 +406,7 @@ class S {
       'Invalid geometry value',
       name: 'error_invalid_geometry',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -416,7 +416,7 @@ class S {
       'No reserved values',
       name: 'error_no_reserved_values',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -426,7 +426,7 @@ class S {
       'Object cannot be updated',
       name: 'error_object_update',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -436,7 +436,7 @@ class S {
       'Object cannot be inserted',
       name: 'error_object_insert',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -446,7 +446,7 @@ class S {
       'Ownership access denied',
       name: 'error_ownership_access',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -456,7 +456,7 @@ class S {
       'Search grid parse error',
       name: 'online_search_parsing_error',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -466,7 +466,7 @@ class S {
       'Server URL cannot be null',
       name: 'error_null_url',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -476,7 +476,7 @@ class S {
       'Malformed server URL',
       name: 'error_server_malformed',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -486,7 +486,7 @@ class S {
       'Settings app not supported',
       name: 'error_settings_app_not_supported',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -496,7 +496,7 @@ class S {
       'Settings app not installed',
       name: 'error_settings_app_not_intalled',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -506,7 +506,7 @@ class S {
       'Socket timeout',
       name: 'error_socket_timeout',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -516,7 +516,7 @@ class S {
       'Relationships cannot be updated',
       name: 'error_relationship_updated',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -526,7 +526,7 @@ class S {
       'Too many periods',
       name: 'error_too_many_periods',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -536,7 +536,7 @@ class S {
       'URL not found',
       name: 'error_url_not_found',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -546,7 +546,7 @@ class S {
       'User account disabled',
       name: 'error_account_disabled',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -556,7 +556,7 @@ class S {
       'User account locked',
       name: 'error_account_locked',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -566,7 +566,7 @@ class S {
       'Value cannot be set',
       name: 'error_set_value',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -576,7 +576,7 @@ class S {
       'Values reservation took too long',
       name: 'error_value_reservation_time',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -586,7 +586,7 @@ class S {
       'SSL error',
       name: 'error_ssl',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -596,7 +596,7 @@ class S {
       'SMS not supported',
       name: 'error_sms_not_supported',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -606,7 +606,7 @@ class S {
       'Minimum search attributes required',
       name: 'error_min_attributes',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -616,7 +616,7 @@ class S {
       'Org unit not in search scope',
       name: 'error_org_unit_scope',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -626,7 +626,7 @@ class S {
       'Invalid characters',
       name: 'error_invalid_characters',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -636,7 +636,7 @@ class S {
       'Not mapped error',
       name: 'notMappedError',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -646,7 +646,7 @@ class S {
       'MASS PRO',
       name: 'appName',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -656,7 +656,7 @@ class S {
       'Show Password',
       name: 'showPassword',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -666,7 +666,7 @@ class S {
       'Hide Password',
       name: 'hidePassword',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -676,7 +676,7 @@ class S {
       'Syncing Configuration',
       name: 'syncingConfiguration',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -686,7 +686,7 @@ class S {
       'Login',
       name: 'login',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -696,7 +696,7 @@ class S {
       'Configuration Ready',
       name: 'configurationReady',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -706,7 +706,7 @@ class S {
       'Syncing Data',
       name: 'syncingData',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -716,7 +716,7 @@ class S {
       'Syncing Events',
       name: 'syncingEvents',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -726,7 +726,7 @@ class S {
       'password',
       name: 'password',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -736,7 +736,7 @@ class S {
       'user',
       name: 'user',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -746,7 +746,7 @@ class S {
       'Username',
       name: 'username',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -756,7 +756,7 @@ class S {
       'View List',
       name: 'viewList',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -766,7 +766,7 @@ class S {
       'Add New',
       name: 'addNew',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -780,7 +780,7 @@ class S {
       other: '$count forms',
       name: 'form',
       desc: 'A plural message',
-      args: <Object>[count],
+      args: [count],
     );
   }
 
@@ -790,7 +790,7 @@ class S {
       'View Available Forms',
       name: 'viewAvailableForms',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -800,7 +800,7 @@ class S {
       'Dashboard',
       name: 'dashboard',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -810,7 +810,7 @@ class S {
       'Enter Your Username',
       name: 'enterYourUsername',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -820,7 +820,7 @@ class S {
       'Sync Form Data',
       name: 'syncFormData',
       desc: 'Cancel button label',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -830,7 +830,7 @@ class S {
       'Are you sure you want to sync the selected entities?',
       name: 'confirmSyncFormData',
       desc: 'Cancel button label',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -840,7 +840,7 @@ class S {
       'Error',
       name: 'error',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -850,7 +850,7 @@ class S {
       'Cancel',
       name: 'cancel',
       desc: 'Cancel button label',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -860,7 +860,7 @@ class S {
       'Confirm',
       name: 'confirm',
       desc: 'Confirm button label',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -870,7 +870,7 @@ class S {
       'OK',
       name: 'ok',
       desc: 'ok button label',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -880,7 +880,7 @@ class S {
       'Final Data',
       name: 'finalData',
       desc: 'Yes finalData button label',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -890,7 +890,7 @@ class S {
       'Discard',
       name: 'discard',
       desc: 'discard button label',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -900,7 +900,7 @@ class S {
       'Open',
       name: 'open',
       desc: 'open button label',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -910,7 +910,7 @@ class S {
       'Open New Form',
       name: 'openNewForm',
       desc: 'initial entity dialog info submit button label',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -920,7 +920,7 @@ class S {
       'Error Opening New Form',
       name: 'errorOpeningNewForm',
       desc: 'Error message when opening new form',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -930,7 +930,7 @@ class S {
       'Make the form Final before exiting.',
       name: 'markAsFinalData',
       desc: 'confirmation mark as final data dialog body\'s message',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -940,7 +940,7 @@ class S {
       'Not Now',
       name: 'notNow',
       desc: 'notNow button label',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -950,7 +950,7 @@ class S {
       'Send',
       name: 'send',
       desc: 'send button label',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -960,7 +960,7 @@ class S {
       'NMCP Yemen',
       name: 'nmcpYemen',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -970,7 +970,7 @@ class S {
       'objectAccessDenied',
       name: 'objectAccessDenied',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -980,7 +980,7 @@ class S {
       'objectAccessClosed',
       name: 'objectAccessClosed',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -990,7 +990,7 @@ class S {
       'No forms available',
       name: 'noFormsAvailable',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -1000,7 +1000,7 @@ class S {
       'Months',
       name: 'months',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -1010,7 +1010,7 @@ class S {
       'Years',
       name: 'years',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -1020,7 +1020,7 @@ class S {
       'And',
       name: 'and',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 
@@ -1035,7 +1035,7 @@ class S {
       other: '$count Years',
       name: 'year',
       desc: 'A plural message',
-      args: <Object>[count],
+      args: [count],
     );
   }
 
@@ -1050,7 +1050,7 @@ class S {
       other: '$count Months',
       name: 'month',
       desc: 'A plural message',
-      args: <Object>[count],
+      args: [count],
     );
   }
 
@@ -1060,7 +1060,7 @@ class S {
       'Version',
       name: 'version',
       desc: '',
-      args: <Object>[],
+      args: [],
     );
   }
 }
@@ -1083,7 +1083,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
   bool shouldReload(AppLocalizationDelegate old) => false;
 
   bool _isSupported(Locale locale) {
-    for (Locale supportedLocale in supportedLocales) {
+    for (var supportedLocale in supportedLocales) {
       if (supportedLocale.languageCode == locale.languageCode) {
         return true;
       }

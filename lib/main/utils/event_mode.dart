@@ -1,4 +1,4 @@
-import '../../commons/extensions/dynamic_extensions.dart';
+import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
 
 enum EventMode { NEW, CHECK }
 

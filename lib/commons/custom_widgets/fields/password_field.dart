@@ -26,10 +26,10 @@ class PasswordFormField extends StatefulWidget {
   final ValueChanged<String>? onChanged;
 
   @override
-  _PasswordFormFieldState createState() => _PasswordFormFieldState();
+  PasswordFormFieldState createState() => PasswordFormFieldState();
 }
 
-class _PasswordFormFieldState extends State<PasswordFormField> {
+class PasswordFormFieldState extends State<PasswordFormField> {
   bool _isPasswordObscured = true;
 
   bool _validatePassword(String value) {

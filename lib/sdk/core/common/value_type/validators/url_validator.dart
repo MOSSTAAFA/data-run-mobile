@@ -1,7 +1,7 @@
 import 'package:mass_pro/sdk/core/common/value_type/failures/url_failure.dart';
 import 'package:mass_pro/sdk/core/common/value_type/validators/value_type_validator.dart';
 
-import '../../../mp/helpers/result.dart';
+import 'package:mass_pro/sdk/core/mp/helpers/result.dart';
 
 class UrlValidator extends ValueTypeValidator<UrlFailure> {
   const UrlValidator();

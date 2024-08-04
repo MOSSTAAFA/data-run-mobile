@@ -25,7 +25,7 @@ class DException implements Exception {
   @override
   String toString() {
     String report = 'DException';
-    if ((message ?? '').isNotEmpty) {
+    if ((message).isNotEmpty) {
       report = '$report: $message';
     }
 

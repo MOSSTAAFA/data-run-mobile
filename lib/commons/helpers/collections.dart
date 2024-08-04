@@ -7,6 +7,8 @@
 /// @param B type of the second value.
 /// @property first First value.
 /// @property second Second value.
+// ignore_for_file: strict_raw_type
+
 class Pair<A, B> {
   const Pair(this.first, this.second);
 

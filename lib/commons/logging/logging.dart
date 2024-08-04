@@ -1,7 +1,7 @@
 import 'dart:developer' as developer;
 
-import 'mp_main.dart';
-import 'mp_utils.dart';
+import 'package:mass_pro/commons/logging/mp_main.dart';
+import 'package:mass_pro/commons/logging/mp_utils.dart';
 
 ///VoidCallback from logs
 typedef LogWriterCallback = void Function(String text, {bool isError});

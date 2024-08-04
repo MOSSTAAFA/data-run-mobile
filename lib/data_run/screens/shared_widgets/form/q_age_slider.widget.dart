@@ -69,7 +69,7 @@ class QAgeSliders extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  fieldModel.label ?? '',
+                  fieldModel.label,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 FormBuilderSlider(

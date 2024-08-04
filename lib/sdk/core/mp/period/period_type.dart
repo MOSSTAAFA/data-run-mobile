@@ -1,3 +1,5 @@
+// ignore_for_file: dead_code
+
 enum PeriodType {
   Daily(-59, 1, r'\b(\d{4})(\d{2})(\d{2})\b', 1),
   Weekly(-12, 1, r'\b(\d{4})W(\d[\d]?)\b', 2),

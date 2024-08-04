@@ -2,9 +2,9 @@ import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 
-import 'form_ui_color_factory.dart';
-import 'form_ui_color_type.dart';
-import 'form_ui_model_style.dart';
+import 'package:mass_pro/form/ui/style/form_ui_color_factory.dart';
+import 'package:mass_pro/form/ui/style/form_ui_color_type.dart';
+import 'package:mass_pro/form/ui/style/form_ui_model_style.dart';
 
 class LongTextDecorator extends FormUiModelStyle {
   const LongTextDecorator(this.style, this.longTextFactory);
@@ -39,7 +39,7 @@ class LongTextDecorator extends FormUiModelStyle {
     FormUiColorType? colorType;
     if (warning != null) colorType = FormUiColorType.WARNING;
     if (error != null) colorType = FormUiColorType.ERROR;
-    return Pair([], longTextFactory.getBasicColors()[colorType]!);
+    return Pair([], longTextFactory.getBasicColors()[colorType]);
     // TODO: implement backgroundColor
     // throw UnimplementedError();
   }

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 
 extension DateFormatExtension on DateFormat {
@@ -5,7 +6,7 @@ extension DateFormatExtension on DateFormat {
     try {
       return parse(value);
     } catch (e) {
-      print('DateFormatExtension: dateTime FormatException');
+      debugPrint('DateFormatExtension: dateTime FormatException');
       return null;
     }
   }

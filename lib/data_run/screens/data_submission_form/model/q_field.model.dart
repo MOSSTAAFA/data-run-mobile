@@ -31,8 +31,9 @@ class QFieldModel with EquatableMixin {
   const QFieldModel(
       {required this.uid,
       this.options,
-      this.optionList,
+      this.optionListName,
       this.optionConfiguration,
+      this.autocompleteList,
       this.isVisible = true,
       this.fieldRules,
       this.value,
@@ -57,8 +58,9 @@ class QFieldModel with EquatableMixin {
 
   final String uid;
   final IList<FormOption>? options;
-  final String? optionList;
+  final String? optionListName;
   final OptionConfiguration? optionConfiguration;
+  final List<String>? autocompleteList;
   final IList<Rule>? fieldRules;
   final bool isFocused;
   final String? error;

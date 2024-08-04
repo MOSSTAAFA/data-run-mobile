@@ -32,6 +32,7 @@ extension EventQueryUploadExtension on EventQuery {
     return progressManager.getProgress();
   }
 
+  // ignore: body_might_complete_normally_nullable
   Future<List<Event>?> uploadProgress(
       void Function(TrackerD2Progress d2progress) callback,
       {Dio? dioTestClient}) async {
@@ -129,14 +130,14 @@ extension EventQueryUploadExtension on EventQuery {
         (response.body?['response']?['importSummaries'] ?? []).toList();
 
     final queue = Queue(parallel: 50);
-    num availableItemCount = 0;
+    // num availableItemCount = 0;
 
     for (var event in events) {
       final importSummary = importSummaries.lastWhere((summary) =>
           summary['reference'] != null && summary['reference'] == event.uid);
 
       if (importSummary != null) {
-        availableItemCount++;
+        // availableItemCount++;
         final syncFailed = importSummary['status'] == 'ERROR';
         event.synced = !syncFailed;
         callback(progressManager.updateProgramSyncStatus(

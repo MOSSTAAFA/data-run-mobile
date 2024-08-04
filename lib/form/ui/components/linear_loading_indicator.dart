@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../utils/mass_utils/colors.dart';
+import 'package:mass_pro/utils/mass_utils/colors.dart';
 
 class LinearLoadingIndicator extends ConsumerWidget {
   const LinearLoadingIndicator({

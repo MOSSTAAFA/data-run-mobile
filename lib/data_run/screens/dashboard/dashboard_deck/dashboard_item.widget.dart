@@ -36,14 +36,14 @@ class _DashboardItemWidgetState extends ConsumerState<DashboardItemWidget> {
             const Icon(Icons.event_note_sharp),
         title: Row(children: [
           Expanded(
-            child: Text(item.title ?? ''),
+            child: Text(item.title),
           ),
           IconButton(
               onPressed: () => widget.onDescriptionClick?.call(item),
               icon: const Icon(Icons.description))
         ]),
         // subtitle: Text('Trailing expansion arrow icon'),
-        trailing: item.dirty ?? false
+        trailing: item.dirty
             ? ActionChip(
                 label: const Icon(
                   Icons.sync,

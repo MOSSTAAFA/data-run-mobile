@@ -1,5 +1,5 @@
 
-import 'mp_main.dart';
+import 'package:mass_pro/commons/logging/mp_main.dart';
 
 typedef PrintFunctionCallback = void Function(
     String prefix,

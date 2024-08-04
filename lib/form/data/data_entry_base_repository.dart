@@ -3,10 +3,10 @@ import 'package:d2_remote/modules/metadata/option_set/entities/option_group.enti
 import 'package:d2_remote/modules/metadata/option_set/entities/option_group_option.entity.dart';
 import 'package:mass_pro/sdk/core/program/section_rendering_type.dart';
 
-import '../model/field_ui_model.dart';
-import '../model/section_ui_model_impl.dart';
-import '../ui/field_view_model_factory.dart';
-import 'data_entry_repository.dart';
+import 'package:mass_pro/form/model/field_ui_model.dart';
+import 'package:mass_pro/form/model/section_ui_model_impl.dart';
+import 'package:mass_pro/form/ui/field_view_model_factory.dart';
+import 'package:mass_pro/form/data/data_entry_repository.dart';
 
 abstract class DataEntryBaseRepository implements DataEntryRepository {
   DataEntryBaseRepository(this.fieldFactory);

@@ -7,7 +7,6 @@ import 'package:mass_pro/data_run/form/map_field_value_to_user.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
 import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
-import 'package:mass_pro/sdk/core/common/value_type_rendering_type.dart';
 
 class DynamicFormFieldWidget extends StatelessWidget {
   const DynamicFormFieldWidget({super.key, required this.fieldModel});
@@ -158,18 +157,18 @@ class DynamicFormFieldWidget extends StatelessWidget {
     return null;
   }
 
-  OptionsOrientation _getOptionsOrientation(QFieldModel field) {
-    switch (field.fieldRendering) {
-      case ValueTypeRenderingType.VERTICAL_RADIOBUTTONS:
-      case ValueTypeRenderingType.VERTICAL_CHECKBOXES:
-        return OptionsOrientation.vertical;
-      case ValueTypeRenderingType.HORIZONTAL_RADIOBUTTONS:
-      case ValueTypeRenderingType.HORIZONTAL_CHECKBOXES:
-        return OptionsOrientation.horizontal;
-      default:
-        return OptionsOrientation.wrap;
-    }
-  }
+  // OptionsOrientation _getOptionsOrientation(QFieldModel field) {
+  //   switch (field.fieldRendering) {
+  //     case ValueTypeRenderingType.VERTICAL_RADIOBUTTONS:
+  //     case ValueTypeRenderingType.VERTICAL_CHECKBOXES:
+  //       return OptionsOrientation.vertical;
+  //     case ValueTypeRenderingType.HORIZONTAL_RADIOBUTTONS:
+  //     case ValueTypeRenderingType.HORIZONTAL_CHECKBOXES:
+  //       return OptionsOrientation.horizontal;
+  //     default:
+  //       return OptionsOrientation.wrap;
+  //   }
+  // }
 
   // List<FormBuilderFieldOption<FormOption>> _getFieldOptions(
   //     List<FormOption> options) {

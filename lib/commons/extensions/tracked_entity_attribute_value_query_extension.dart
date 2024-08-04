@@ -7,7 +7,7 @@ import 'package:d2_remote/shared/utilities/merge_mode.util.dart';
 import 'package:d2_remote/shared/utilities/save_option.util.dart';
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 
-import 'dynamic_value_extensions.dart';
+import 'package:mass_pro/commons/extensions/dynamic_value_extensions.dart';
 
 /// BlockingSetCheckTrackedEntityAttributeValueExtension
 // TODOBaseQueryWithValue extends BaseQuery on which these extension are put

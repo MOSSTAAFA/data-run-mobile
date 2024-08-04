@@ -7,16 +7,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseManager {
-  final int version = 1;
-  String databaseName = 'flutter_database.db';
-  bool inMemory = false;
-  DatabaseFactory? databaseFactory;
-
-  static final DatabaseManager _databaseInstance =
-      new DatabaseManager._internal();
-
-  static Database? _database;
-  final _initDatabaseMemoizer = AsyncMemoizer<Database>();
 
   factory DatabaseManager(
       {String? databaseName,
@@ -36,6 +26,16 @@ class DatabaseManager {
   }
 
   DatabaseManager._internal();
+  final int version = 1;
+  String databaseName = 'flutter_database.db';
+  bool inMemory = false;
+  DatabaseFactory? databaseFactory;
+
+  static final DatabaseManager _databaseInstance =
+      new DatabaseManager._internal();
+
+  static Database? _database;
+  final _initDatabaseMemoizer = AsyncMemoizer<Database>();
 
   static DatabaseManager get instance => _databaseInstance;
 
@@ -69,7 +69,7 @@ class DatabaseManager {
 
   _onConfigure(Database db) async {
     // Add support for cascade delete
-    await db.execute("PRAGMA foreign_keys = OFF");
+    await db.execute('PRAGMA foreign_keys = OFF');
   }
 
   closeDatabase() {}

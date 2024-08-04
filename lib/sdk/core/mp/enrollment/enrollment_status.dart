@@ -11,6 +11,7 @@ enum EnrollmentStatus {
 extension ToEnrollmentStatusExtension on String? {
   EnrollmentStatus? get toEnrollmentStatus {
     try {
+      // ignore: dead_code
       return EnrollmentStatus.values.firstWhere((EnrollmentStatus status) => status.name == this,
           orElse: throw ArgumentError(
               'The EnrollmentStatus $this does not match any Status type'));

@@ -16,6 +16,7 @@ class SearchOptionSetOption {
     OptionSet? optionSet;
     OptionQuery query = optionSetModule.option;
 
+    // ignore: dead_code
     query = query.byOptionSet(optionSet?.uid ?? '');
 
     if (textToSearch.isNotEmpty) {

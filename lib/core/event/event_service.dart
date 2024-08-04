@@ -1,6 +1,6 @@
 import 'package:d2_remote/modules/data/tracker/entities/event.entity.dart';
 
-import 'event_editable_status.dart';
+import 'package:mass_pro/core/event/event_editable_status.dart';
 
 abstract class EventService {
   ///

@@ -14,7 +14,7 @@ class ItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return item != null ? getWidgetByType(item!) : const SizedBox.shrink();
+    return item != null ? getWidgetByType(item) : const SizedBox.shrink();
   }
 
   Widget getWidgetByType(FieldUiModel? item) {

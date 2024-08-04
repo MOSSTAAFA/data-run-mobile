@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 // Project imports:
 
-import '../../utils/mass_utils/utils.dart';
-import '../constants.dart';
+import 'package:mass_pro/utils/mass_utils/utils.dart';
+import 'package:mass_pro/commons/constants.dart';
 
 class ResponsivePadding extends StatelessWidget {
   const ResponsivePadding({super.key, this.child});

@@ -1,7 +1,7 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../commons/extensions/dynamic_extensions.dart';
+import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
 
 class ProviderLogger extends ProviderObserver {
   ProviderLogger({required this.providersNameToLog});

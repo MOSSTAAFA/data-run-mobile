@@ -54,10 +54,10 @@ class DatePicker extends StatefulWidget {
   final int? scheduleInterval;
 
   @override
-  _DatePickerState createState() => _DatePickerState();
+  DatePickerState createState() => DatePickerState();
 }
 
-class _DatePickerState extends State<DatePicker> {
+class DatePickerState extends State<DatePicker> {
   final TextEditingController _textController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   String? _pendingValue;

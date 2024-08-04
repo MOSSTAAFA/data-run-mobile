@@ -445,7 +445,7 @@ class AppState with _$AppState {
 
   bool get isFullScreen {
     bool isFullScreen = false;
-    final String mainRoute = '/${uiState.mainRoute}';
+    // final String mainRoute = '/${uiState.mainRoute}';
     final String subRoute = uiState.subRoute;
     final bool isEdit = subRoute == 'edit';
     final bool isEmail = subRoute == 'email';

@@ -58,7 +58,7 @@ class FormConfiguration {
                     options
                         ?.where((o) => o.listName == option.listName)
                         .toIList() ??
-                    IList.empty()),
+                        const IListConst([])),
         this.fieldRules =
             IMap.fromIterable<String, IList<Rule>?, DynamicFormField>(
                 fields ?? [],

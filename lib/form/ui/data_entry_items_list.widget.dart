@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
-import '../../commons/custom_widgets/mixins/keyboard_manager.dart';
-import 'data_entry_item.widget.dart';
-import 'event/list_view_ui_events.dart';
-import 'intent/form_intent.dart';
-import 'view_model/form_view_model_notifier.dart';
+import 'package:mass_pro/commons/custom_widgets/mixins/keyboard_manager.dart';
+import 'package:mass_pro/form/ui/data_entry_item.widget.dart';
+import 'package:mass_pro/form/ui/event/list_view_ui_events.dart';
+import 'package:mass_pro/form/ui/intent/form_intent.dart';
+import 'package:mass_pro/form/ui/view_model/form_view_model_notifier.dart';
 
 class DataEntryItemListWidget extends ConsumerStatefulWidget {
   const DataEntryItemListWidget(

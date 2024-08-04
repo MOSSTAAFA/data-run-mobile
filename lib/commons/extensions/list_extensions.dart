@@ -1,3 +1,5 @@
+// ignore_for_file: strict_raw_type, unused_element
+
 extension IterableMinBy<E> on Iterable<E> {
   /// Returns the first element yielding the smallest value of the given
   /// [selector] or `null` if there are no elements.

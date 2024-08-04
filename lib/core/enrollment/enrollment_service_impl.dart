@@ -2,7 +2,7 @@ import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/data/tracker/entities/enrollment.entity.dart';
 import 'package:mass_pro/sdk/core/mp/enrollment/enrollment_status.dart';
 
-import 'enrollment_service.dart';
+import 'package:mass_pro/core/enrollment/enrollment_service.dart';
 
 class EnrollmentServiceImpl implements EnrollmentService {
   @override

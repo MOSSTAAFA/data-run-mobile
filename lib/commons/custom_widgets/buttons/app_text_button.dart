@@ -1,7 +1,7 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
-import '../../../utils/mass_utils/colors.dart';
+import 'package:mass_pro/utils/mass_utils/colors.dart';
 
 class AppTextButton extends StatelessWidget {
   const AppTextButton({

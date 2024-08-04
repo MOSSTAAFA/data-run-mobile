@@ -1,10 +1,10 @@
 import 'package:mass_pro/sdk/core/common/value_type.dart';
 
-import '../style/basic_form_ui_model_style.dart';
-import '../style/form_ui_color_factory.dart';
-import '../style/form_ui_model_style.dart';
-import '../style/long_text_decorator.dart';
-import 'ui_style_provider.dart';
+import 'package:mass_pro/form/ui/style/basic_form_ui_model_style.dart';
+import 'package:mass_pro/form/ui/style/form_ui_color_factory.dart';
+import 'package:mass_pro/form/ui/style/form_ui_model_style.dart';
+import 'package:mass_pro/form/ui/style/long_text_decorator.dart';
+import 'package:mass_pro/form/ui/provider/ui_style_provider.dart';
 
 class UiStyleProviderImpl implements UiStyleProvider {
   const UiStyleProviderImpl(

@@ -2,9 +2,9 @@ import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../commons/extensions/dynamic_extensions.dart';
-import '../../../commons/extensions/string_extension.dart';
-import '../../../commons/helpers/collections.dart';
+import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
+import 'package:mass_pro/commons/extensions/string_extension.dart';
+import 'package:mass_pro/commons/helpers/collections.dart';
 
 part 'login_view_model.g.dart';
 

@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'dart:async';
 
 import 'package:d2_remote/modules/datarun/form/shared/rule.dart';
@@ -125,15 +127,15 @@ class RuleEngine {
     final optionsToShow = rule.filterInfo!.optionsToShow;
     final optionsToHide = rule.filterInfo!.optionsToHide;
 
-    if (field.uid == fieldToFilter && field.options != null) {
-      field.optionConfiguration?.updateOptionsToHideAndShow(
-          optionsToShow: optionsToShow, optionsToHide: optionsToHide);
-      final filteredOptions = field.options!
-          .removeWhere((option) => optionsToHide.contains(option.name))
-          .toIList();
-
-      return field.builder().setOptions(filteredOptions).build();
-    }
+    // if (field.uid == fieldToFilter && field.options != null) {
+    //   // field.optionConfiguration?.updateOptionsToHideAndShow(
+    //   //     optionsToShow: optionsToShow, optionsToHide: optionsToHide);
+    //   final filteredOptions = field.options!
+    //       .removeWhere((option) => optionsToHide.contains(option.name))
+    //       .toIList();
+    //
+    //   return field.builder().setOptions(filteredOptions).build();
+    // }
 
     return field;
   }

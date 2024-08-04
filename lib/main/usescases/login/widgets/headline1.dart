@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class Headline1 extends StatelessWidget {
-  final String text;
 
   const Headline1({required this.text});
+  final String text;
 
   @override
   Widget build(BuildContext context) {

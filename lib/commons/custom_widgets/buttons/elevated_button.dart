@@ -1,8 +1,8 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
-import '../../constants.dart';
-import '../icon_text.dart';
+import 'package:mass_pro/commons/constants.dart';
+import 'package:mass_pro/commons/custom_widgets/icon_text.dart';
 
 class AppButton extends StatelessWidget {
   const AppButton({

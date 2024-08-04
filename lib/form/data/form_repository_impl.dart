@@ -102,7 +102,7 @@ class FormRepositoryImpl implements FormRepository {
 
   Future<IList<FieldUiModel>> _mergeListWithErrorFields(
       IList<FieldUiModel> list, IList<RowAction> fieldsWithError) async {
-    _mandatoryItemsWithoutValue.clear();
+    // _mandatoryItemsWithoutValue.clear();
     final IList<FieldUiModel> mergeList = IList<FieldUiModel>([]);
     mergeList.map((element) {});
     // list

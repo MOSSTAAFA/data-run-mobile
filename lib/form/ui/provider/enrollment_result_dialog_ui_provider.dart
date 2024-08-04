@@ -2,11 +2,11 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../../../commons/date/field_with_issue.dart';
-import '../../../commons/dialogs/bottomsheet/bottom_sheet_dialog_ui_model.dart';
-import '../../../commons/dialogs/bottomsheet/dialog_button_style.dart';
-import '../../../commons/resources/resource_manager.dart';
-import '../../data/data_integrity_check_result.dart';
+import 'package:mass_pro/commons/date/field_with_issue.dart';
+import 'package:mass_pro/commons/dialogs/bottomsheet/bottom_sheet_dialog_ui_model.dart';
+import 'package:mass_pro/commons/dialogs/bottomsheet/dialog_button_style.dart';
+import 'package:mass_pro/commons/resources/resource_manager.dart';
+import 'package:mass_pro/form/data/data_integrity_check_result.dart';
 
 class EnrollmentResultDialogUiProvider {
   EnrollmentResultDialogUiProvider({required this.resourceManager});
