@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/core/common/state.dart' as item_state;
+import 'package:mass_pro/data_run/form/form_configuration.dart';
 import 'package:mass_pro/data_run/screens/data_submission_screen/data_submission_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/entities_list_screen/entities_list_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/project_details/entity_creation_dialog/entity_creation_dialog.widget.dart';
@@ -14,7 +15,6 @@ import 'package:mass_pro/generated/l10n.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 import 'package:mass_pro/utils/mass_utils/utils.dart';
 
-/// EventViewHolder
 class ActivityItemsExpansionTiles extends ConsumerWidget {
   const ActivityItemsExpansionTiles({
     super.key,
@@ -32,13 +32,10 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
     final ProjectDetailItemModel projectDetailItemModel =
         ref.watch(projectDetailItemModelProvider);
 
-    final Color? cardColor = projectDetailItemModel.activeFormCount > 0
-        ? Colors.white
-        : convertHexStringToColor('#FAFAFA');
-
     /// Get the icon based on Synced/synced status
-    final Widget statusActionButton =
-        when(projectDetailItemModel.syncablesState, <Object, StatelessWidget Function()>{
+    final Widget statusActionButton = when(
+        projectDetailItemModel.syncablesState, <Object,
+            StatelessWidget Function()>{
       item_state.SyncableEntityState.uploadableStates: () => IconButton(
           style: IconButton.styleFrom(
             foregroundColor: Colors.grey,
@@ -49,7 +46,6 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
           const Icon(Icons.warning_amber, color: Colors.red),
     }).orElse(() => Icon(Icons.check, color: Colors.green[300]));
 
-
     return Card(
       shadowColor: Theme.of(context).colorScheme.shadow,
       surfaceTintColor: Theme.of(context).colorScheme.primary,
@@ -58,7 +54,6 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
       ),
       elevation: 3,
       child: ExpansionTile(
-        // collapsedBackgroundColor: Colors.grey[200],
         initiallyExpanded: projectDetailItemModel.valueListIsOpen,
         onExpansionChanged: (bool isExpanded) {
           ref
@@ -117,7 +112,8 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
 
   Future<void> _showAddEntityDialog(
       BuildContext context, WidgetRef ref, FormListItemModel? formModel) async {
-    // Check if the context is still mounted
+    final formConfig = await ref.read(
+        formConfigurationProvider(formModel!.form, formModel.version).future);
     if (!context.mounted) {
       return;
     }
@@ -125,19 +121,20 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
     final String? result = await showDialog<String?>(
         context: context,
         builder: (BuildContext context) {
-          return EntityCreationDialog(formModel: formModel!);
+          return EntityCreationDialog(
+              formModel: formModel, formConfiguration: formConfig);
         });
     // go to form
     if (result != null) {
-      await _goToDataEntryForm(result, formModel!);
+      await _goToDataEntryForm(result, formModel, formConfig);
       ref.invalidate(projectDetailItemModelProvider);
     } else {
       // Handle cancellation or failure
     }
   }
 
-  Future<void> _goToDataEntryForm(
-      String createdEntityUid, FormListItemModel formModel) async {
+  Future<void> _goToDataEntryForm(String createdEntityUid,
+      FormListItemModel formModel, FormConfiguration formConfiguration) async {
     Bundle bundle = Bundle();
     bundle = bundle.putString(ACTIVITY_UID, formModel.activity);
     bundle = bundle.putString(TEAM_UID, formModel.team);
@@ -146,8 +143,8 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
     bundle = bundle.putString(FORM_CODE, formModel.formCode);
     bundle = bundle.putString(SYNCABLE_UID, createdEntityUid);
 
-    /// navigate to the form screen to fill the rest of the fields FORM_VERSION
-    await Get.to(const DataSubmissionScreen(), arguments: bundle);
+    await Get.to(DataSubmissionScreen(formConfiguration: formConfiguration),
+        arguments: bundle);
   }
 
   Future<void> navigateToEntitiesList(FormListItemModel? formModel) async {

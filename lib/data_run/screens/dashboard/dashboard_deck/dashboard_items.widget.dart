@@ -50,7 +50,11 @@ class _DashboardItemsWidgetState extends ConsumerState<DashboardItemsWidget> {
               itemScrollController: itemScrollController,
               // itemPositionsListener: itemPositionsListener,
             ),
-        error: (error, _) => Text('Error: $error'),
+        error: (Object error, StackTrace s) {
+          debugPrint('error: $error');
+          debugPrintStack(stackTrace: s, label: error.toString());
+          return Text('Error: $error');
+        },
         loading: () => const CircularProgressIndicator());
   }
 }

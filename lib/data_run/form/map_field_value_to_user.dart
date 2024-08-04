@@ -1,3 +1,4 @@
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:mass_pro/commons/extensions/standard_extensions.dart';
 import 'package:mass_pro/commons/extensions/string_extension.dart';
 import 'package:mass_pro/commons/resources/resource_manager.dart';
@@ -37,33 +38,61 @@ String? mapValueToUser(QFieldModel field) {
   return value;
 }
 
-dynamic mapFieldToValueType(QFieldModel? field) {
-  switch (field?.valueType) {
+dynamic mapFieldToValueType(
+    {String? value, IList<String>? values, String? valueType}) {
+  switch (ValueType.getValueType(valueType)) {
     case ValueType.Percentage:
     case ValueType.Integer:
     case ValueType.IntegerPositive:
     case ValueType.IntegerNegative:
     case ValueType.IntegerZeroOrPositive:
-      return int.tryParse(field?.value ?? '') ??
-          double.tryParse(field?.value ?? '') ??
-          0;
+      return int.tryParse(value ?? '') ?? double.tryParse(value ?? '') ?? 0;
     case ValueType.UnitInterval:
-      return int.tryParse(field?.value ?? '') ??
-          double.tryParse(field?.value ?? '') ??
-          0;
+      return int.tryParse(value ?? '') ?? double.tryParse(value ?? '') ?? 0;
     case ValueType.Number:
     case ValueType.Age:
-      return double.tryParse(field?.value ?? '') ?? 0.0;
+      return double.tryParse(value ?? '') ?? 0.0;
     case ValueType.SelectMulti:
-      return field?.values?.unlock ?? <String>[];
+      return values?.unlock ?? <String>[];
     // case ValueType.Date:
     // case ValueType.DateTime:
     //   return field?.value.toDate();
     case ValueType.Boolean:
     case ValueType.TrueOnly:
       // case ValueType.YesNo:
-      return field?.value.toBoolean() ?? field?.value;
+      return value.toBoolean() ?? value;
     default:
-      return field?.value;
+      return value;
   }
 }
+
+// dynamic mapFieldToValueType(QFieldModel? field) {
+//   switch (field?.valueType) {
+//     case ValueType.Percentage:
+//     case ValueType.Integer:
+//     case ValueType.IntegerPositive:
+//     case ValueType.IntegerNegative:
+//     case ValueType.IntegerZeroOrPositive:
+//       return int.tryParse(field?.value ?? '') ??
+//           double.tryParse(field?.value ?? '') ??
+//           0;
+//     case ValueType.UnitInterval:
+//       return int.tryParse(field?.value ?? '') ??
+//           double.tryParse(field?.value ?? '') ??
+//           0;
+//     case ValueType.Number:
+//     case ValueType.Age:
+//       return double.tryParse(field?.value ?? '') ?? 0.0;
+//     case ValueType.SelectMulti:
+//       return field?.values?.unlock ?? <String>[];
+//     // case ValueType.Date:
+//     // case ValueType.DateTime:
+//     //   return field?.value.toDate();
+//     case ValueType.Boolean:
+//     case ValueType.TrueOnly:
+//       // case ValueType.YesNo:
+//       return field?.value.toBoolean() ?? field?.value;
+//     default:
+//       return field?.value;
+//   }
+// }

@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/data_run/form/form.dart';
+import 'package:mass_pro/data_run/form/form_configuration.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
 import 'package:mass_pro/data_run/screens/project_details/entity_creation_dialog/dynamic_form_field.widget.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_item.model.dart';
+import 'package:mass_pro/data_run/submission/submission.dart';
+import 'package:mass_pro/data_run/submission/submission_initial_repository.dart';
 import 'package:mass_pro/generated/l10n.dart';
 
 class EntityCreationDialog extends ConsumerStatefulWidget {
-  // final FormListItemModel formListModel;
 
-  const EntityCreationDialog({super.key, required this.formModel});
+  const EntityCreationDialog(
+      {super.key, required this.formModel, required this.formConfiguration});
 
   final FormListItemModel formModel;
+
+  final FormConfiguration formConfiguration;
 
   @override
   EntityCreationDialogState createState() => EntityCreationDialogState();
@@ -28,16 +32,15 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
     super.dispose();
   }
 
-  Future<String?> _createEntity(FormListItemModel formModel) async {
-    final SyncableEntityInitialRepository syncableEntityInitialRepository = ref.read(
-        syncableEntityInitialRepositoryProvider(form: formModel.formCode));
+  Future<String?> _createEntity() async {
+    final SubmissionInitialRepository submissionInitialRepository = ref.read(
+        submissionInitialRepositoryProvider(
+            formConfiguration: widget.formConfiguration));
 
-    return syncableEntityInitialRepository.createSyncable(
-        activityUid: formModel.activity!,
-        teamUid: formModel.team!,
-        form: formModel.form,
-        version: formModel.version,
-        mainFieldValues: formModel.fields);
+    return submissionInitialRepository.createSyncable(
+        activityUid: widget.formModel.activity!,
+        teamUid: widget.formModel.team!,
+        formData: Map<String, String?>.from(_formKey.currentState!.value));
   }
 
   Future<void> createAndPopupWithResult(BuildContext context) async {
@@ -50,13 +53,14 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
       if (_formKey.currentState?.validate() ?? false) {
         // Call the function to create entity
         _formKey.currentState!.save();
-        final List<QFieldModel>? updatedFields = widget.formModel.fields
-            ?.map((QFieldModel field) => field.setValue(
-                _formKey.currentState!.value[field.uid] ?? field.value))
-            .toList();
-        final FormListItemModel updatedModel = widget.formModel.copyWith(fields: updatedFields);
+        // final List<QFieldModel>? updatedFields = widget.formModel.fields
+        //     ?.map((QFieldModel field) => field.setValue(
+        //         _formKey.currentState!.value[field.uid] ?? field.value))
+        //     .toList();
+        // final FormListItemModel updatedModel =
+        //     widget.formModel.copyWith(fields: updatedFields);
 
-        syncableId = await _createEntity(updatedModel);
+        syncableId = await _createEntity();
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
           Navigator.of(context).pop(syncableId);
@@ -81,7 +85,14 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
     return AlertDialog(
       surfaceTintColor: Theme.of(context).colorScheme.primary,
       shadowColor: Theme.of(context).colorScheme.shadow,
-      title: Text(S.of(context).openNewForm),
+      title: Column(
+        children: [
+          Text('${S.of(context).openNewForm}:',
+              style: Theme.of(context).textTheme.titleMedium),
+          Text(widget.formConfiguration.label,
+              style: Theme.of(context).textTheme.titleLarge)
+        ],
+      ),
       content: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -89,14 +100,8 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
             FormBuilder(
               key: _formKey,
               clearValueOnUnregister: true,
-              onPopInvoked: (bool value) {
-                /// show confirm, save, complete
-                debugPrint('showDialog onPopInvoked ');
-              },
               onChanged: () {
                 _formKey.currentState!.save();
-                debugPrint(
-                    'form _formKey State Changed: ${_formKey.currentState!.value}');
               },
               child: Column(
                 mainAxisSize: MainAxisSize.min,

@@ -4,15 +4,17 @@ import 'package:d2_remote/modules/datarun/form/shared/rule.dart';
 import 'package:expressions/expressions.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/foundation.dart';
+import 'package:mass_pro/data_run/form/form_configuration.dart';
 import 'package:mass_pro/data_run/form/map_field_value_to_user.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
 import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
 
 class RuleEngine {
-  RuleEngine(this._evaluator);
+  RuleEngine({required this.evaluator, required this.formConfiguration});
 
   IMap<String, IList<Rule>?> _fieldRulesMap = IMap({});
-  final ExpressionEvaluator _evaluator;
+  final ExpressionEvaluator evaluator;
+  final FormConfiguration formConfiguration;
 
   /// Applies all rules to the given list of fields and returns the updated list
   FutureOr<IList<QFieldModel>> applyRules(IList<QFieldModel> fields) {
@@ -33,7 +35,7 @@ class RuleEngine {
             try {
               final expression = Expression.parse(rule.expression!);
               final bool conditionMet =
-                  _evaluator.eval(expression, context.unlock);
+                  evaluator.eval(expression, context.unlock);
               if (conditionMet) {
                 return _applyAction(field, rule);
               } else {
@@ -54,7 +56,10 @@ class RuleEngine {
     return IMap.fromIterable<String, dynamic, QFieldModel>(
       fields,
       keyMapper: (field) => field.uid,
-      valueMapper: (field) => mapFieldToValueType(field),
+      valueMapper: (field) => mapFieldToValueType(
+          value: field.value,
+          values: field.values,
+          valueType: field.valueType?.name),
     );
   }
 
@@ -89,8 +94,7 @@ class RuleEngine {
             .setWarning(getItemLocalString(rule.message))
             .build();
       case 'filter':
-        debugPrint('### filter rule action');
-        return field;
+        return _applyFilter(field, rule);
       default:
         return field;
     }
@@ -107,8 +111,36 @@ class RuleEngine {
         return field.builder().setError(null).build();
       case 'warning':
         return field.builder().setWarning(null).build();
+      case 'filter':
+        return _resetFilter(field, rule);
       default:
         return field;
     }
+  }
+
+  QFieldModel _applyFilter(QFieldModel field, Rule rule) {
+    if (rule.filterInfo == null) return field;
+
+    final fieldToFilter = rule.filterInfo!.fieldToFilter;
+    final optionsToShow = rule.filterInfo!.optionsToShow;
+    final optionsToHide = rule.filterInfo!.optionsToHide;
+
+    if (field.uid == fieldToFilter && field.options != null) {
+      field.optionConfiguration?.updateOptionsToHideAndShow(
+          optionsToShow: optionsToShow, optionsToHide: optionsToHide);
+      final filteredOptions = field.options!
+          .removeWhere((option) => optionsToHide.contains(option.name))
+          .toIList();
+
+      return field.builder().setOptions(filteredOptions).build();
+    }
+
+    return field;
+  }
+
+  QFieldModel _resetFilter(QFieldModel field, Rule rule) {
+    // Logic to reset filter to the original state, if applicable.
+    // This depends on how you want to manage the reset state.
+    return field;
   }
 }

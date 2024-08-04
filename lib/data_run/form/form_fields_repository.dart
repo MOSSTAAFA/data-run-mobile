@@ -10,8 +10,12 @@ import 'package:mass_pro/commons/date/field_with_issue.dart';
 import 'package:mass_pro/commons/extensions/standard_extensions.dart';
 import 'package:mass_pro/commons/helpers/iterable.dart';
 import 'package:mass_pro/data_run/engine/rule_engine.dart';
+import 'package:mass_pro/data_run/form/display_name_provider.dart';
 import 'package:mass_pro/data_run/form/form.dart';
+import 'package:mass_pro/data_run/form/form_configuration.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
+import 'package:mass_pro/data_run/submission/submission.dart';
+import 'package:mass_pro/data_run/submission/submission_mapping_repository.dart';
 import 'package:mass_pro/form/model/row_action.dart';
 import 'package:mass_pro/form/ui/validation/field_error_message_provider.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
@@ -26,21 +30,21 @@ Future<FormFieldsRepository> formFieldsRepository(
   final Bundle eventBundle = Get.arguments as Bundle;
   final String syncableUid = eventBundle.getString(SYNCABLE_UID)!;
   final String formUid = eventBundle.getString(FORM_UID)!;
-  final String formCode = eventBundle.getString(FORM_CODE)!;
   final String formVersion = eventBundle.getString(FORM_VERSION)!;
 
-  final SyncableQuery<SyncableEntity> d2SyncableQuery =
-      ref.watch(databaseSyncableQueryProvider(formCode)).provideQuery();
-  final SyncableEntity? syncableEntity =
-      await d2SyncableQuery.byId(syncableUid).getOne();
+  final formConfig = await ref
+      .watch(formConfigurationProvider(formUid, int.parse(formVersion)).future);
 
+  final submissionMappingRepository = ref.watch(
+      submissionMappingRepositoryProvider(
+          formConfiguration: formConfig, submissionUid: syncableUid));
+
+  final ruleEngine = RuleEngine(
+      evaluator: const ExpressionEvaluator(), formConfiguration: formConfig);
   return FormFieldsRepository(
-      syncableEntityMappingRepository: ref.watch(
-          syncableEntityMappingRepositoryProvider(
-              form: formUid,
-              version: formVersion,
-              syncableEntity: syncableEntity!,
-              d2SyncableQuery: d2SyncableQuery)),
+      formConfiguration: formConfig,
+      ruleEngine: ruleEngine,
+      submissionMappingRepository: submissionMappingRepository,
       displayNameProvider: ref.watch(displayNameProviderProvider),
       fieldErrorMessageProvider: ref.watch(fieldErrorMessageProviderProvider));
 }
@@ -48,11 +52,12 @@ Future<FormFieldsRepository> formFieldsRepository(
 /// Maps Database entity fields key, value map to List<FormFieldModels>,
 /// that [FormStateNotifier] will use and update
 class FormFieldsRepository {
-  FormFieldsRepository({
-    required this.syncableEntityMappingRepository,
-    required this.fieldErrorMessageProvider,
-    required this.displayNameProvider,
-  });
+  FormFieldsRepository(
+      {required this.submissionMappingRepository,
+      required this.fieldErrorMessageProvider,
+      required this.displayNameProvider,
+      required this.formConfiguration,
+      required this.ruleEngine});
 
   /// Mutable list that keeps the changes of fields Model during entry of form
   IList<QFieldModel> _pendingUpdates = IList([]);
@@ -62,11 +67,13 @@ class FormFieldsRepository {
   IList<QFieldModel> _backupList = IList([]);
 
   IList<RowAction> _itemsWithError = IList([]);
-  final RuleEngine ruleEngine = RuleEngine(const ExpressionEvaluator());
+  final RuleEngine ruleEngine;
+
+  final FormConfiguration formConfiguration;
 
   /// used to convert the action field on the database entities into the List of
   /// List<FieldUiModel> of fields model representing each field
-  final SyncableEntityMappingRepository syncableEntityMappingRepository;
+  final SubmissionMappingRepository submissionMappingRepository;
 
   final DisplayNameProvider displayNameProvider;
 
@@ -97,16 +104,16 @@ class FormFieldsRepository {
         .setDisplayName(displayName)
         .build();
 
-    _pendingUpdates =
-        _pendingUpdates.updateById(<QFieldModel>[toUpdatedItem], (QFieldModel id) => id.uid);
+    _pendingUpdates = _pendingUpdates
+        .updateById(<QFieldModel>[toUpdatedItem], (QFieldModel id) => id.uid);
   }
 
   Future<int> batchUpdateValues(Map<String, dynamic>? formData) async {
-    return syncableEntityMappingRepository.saveFormData(_pendingUpdates);
+    return submissionMappingRepository.saveSubmission(_pendingUpdates);
   }
 
   FutureOr<IList<QFieldModel>> fetchFieldsList() async {
-    _pendingUpdates = await syncableEntityMappingRepository.list();
+    _pendingUpdates = await submissionMappingRepository.list();
     _backupList = _pendingUpdates;
     _pendingUpdates = await _composeFieldsList(_pendingUpdates);
     return _pendingUpdates;
@@ -126,7 +133,8 @@ class FormFieldsRepository {
     _pendingUpdates = await _composeFieldsList(_pendingUpdates);
 
     return IMap.fromIterable<String, QFieldModel, QFieldModel>(_pendingUpdates,
-        keyMapper: (QFieldModel field) => field.uid, valueMapper: (QFieldModel field) => field);
+        keyMapper: (QFieldModel field) => field.uid,
+        valueMapper: (QFieldModel field) => field);
   }
 
   Future<IList<QFieldModel>> applyRuleEffects(IList<QFieldModel> list) async {

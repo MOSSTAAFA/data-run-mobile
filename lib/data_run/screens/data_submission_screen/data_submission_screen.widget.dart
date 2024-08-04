@@ -1,11 +1,15 @@
+import 'package:d2_remote/d2_remote.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
+import 'package:d2_remote/core/datarun/utilities/date_utils.dart' as sdk;
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/commons/custom_widgets/mixins/keyboard_manager.dart';
-import 'package:mass_pro/data_run/form/form.dart';
+import 'package:mass_pro/data_run/form/form_configuration.dart';
+import 'package:mass_pro/data_run/form/form_fields_repository.dart';
+import 'package:mass_pro/data_run/form/syncable_status.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/form_field.widget.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/form_fields_state_notifier.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
@@ -20,15 +24,19 @@ import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 import 'package:mass_pro/utils/mass_utils/colors.dart';
 
 class DataSubmissionScreen extends ConsumerWidget {
-  const DataSubmissionScreen({super.key});
+  const DataSubmissionScreen({super.key, required this.formConfiguration});
+
+  final FormConfiguration formConfiguration;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AsyncValue<FormScreenStateModel> formScreenStateModel = ref.watch(formScreenStateModelProvider);
+    final AsyncValue<FormScreenStateModel> formScreenStateModel =
+        ref.watch(formScreenStateModelProvider);
 
     return switch (formScreenStateModel) {
       AsyncValue(:final Object error?) => ErrorWidget(error),
-      AsyncValue(:final FormScreenStateModel valueOrNull?) => _EagerInitialization(
+      AsyncValue(:final FormScreenStateModel valueOrNull?) =>
+        _EagerInitialization(
           child: DataSubmissionScaffold(
             formScreenStateModel: valueOrNull,
           ),
@@ -94,37 +102,38 @@ class DataSubmissionScaffoldState extends ConsumerState<DataSubmissionScaffold>
         appBar: AppBar(title: Text(formCode)),
         body: switch (fields) {
           AsyncValue(:final Object error?) => ErrorWidget(error),
-          AsyncValue(:final IMap<String, QFieldModel> valueOrNull?) => GestureDetector(
-              onTap: () => hideTheKeyboard(context),
-              child: FormBuilder(
-                key: _formKey,
-                onChanged: () {
-                  _formKey.currentState!.save();
-                  debugPrint('${_formKey.currentState!.value}');
-                  _formKey.currentState!.save();
-                },
-                enabled: widget.formScreenStateModel.canEditForm,
-                child: Padding(
-                  padding: const EdgeInsets.all(30.0),
-                  child: ListView(
-                    children: valueOrNull.entries
-                        .map(
-                          (MapEntry<String, QFieldModel> entry) => Column(
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(top: 20.0),
-                                child: FormFieldWidget(
-                                  key: ValueKey<String>(entry.key),
-                                  fieldModel: entry.value,
+          AsyncValue(:final IMap<String, QFieldModel> valueOrNull?) =>
+            GestureDetector(
+                onTap: () => hideTheKeyboard(context),
+                child: FormBuilder(
+                  key: _formKey,
+                  onChanged: () {
+                    _formKey.currentState!.save();
+                    debugPrint('${_formKey.currentState!.value}');
+                    _formKey.currentState!.save();
+                  },
+                  enabled: widget.formScreenStateModel.canEditForm,
+                  child: Padding(
+                    padding: const EdgeInsets.all(30.0),
+                    child: ListView(
+                      children: valueOrNull.entries
+                          .map(
+                            (MapEntry<String, QFieldModel> entry) => Column(
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 20.0),
+                                  child: FormFieldWidget(
+                                    key: ValueKey<String>(entry.key),
+                                    fieldModel: entry.value,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        )
-                        .toList(),
+                              ],
+                            ),
+                          )
+                          .toList(),
+                    ),
                   ),
-                ),
-              )),
+                )),
           _ => const SizedBox.shrink(),
         },
         floatingActionButton: _isKeyboardVisible
@@ -168,7 +177,8 @@ class DataSubmissionScaffoldState extends ConsumerState<DataSubmissionScaffold>
   Future<void> _onSaveForm() async {
     _formKey.currentState!.save();
     ref.read(formPendingIntentsProvider.notifier).submitIntent(
-        (FormIntent current) => FormIntent.onFinish(_formKey.currentState?.value));
+        (FormIntent current) =>
+            FormIntent.onFinish(_formKey.currentState?.value));
     debugPrint('Form State: ${_formKey.currentState?.value}');
   }
 
@@ -191,7 +201,8 @@ class DataSubmissionScaffoldState extends ConsumerState<DataSubmissionScaffold>
     if (_formKey.currentState!.validate(focusOnInvalid: false)) {
       await _markEntityAsFinal();
       ref.read(formPendingIntentsProvider.notifier).submitIntent(
-          (FormIntent current) => FormIntent.onFinish(_formKey.currentState?.value));
+          (FormIntent current) =>
+              FormIntent.onFinish(_formKey.currentState?.value));
       if (context.mounted) {
         Navigator.pop(context);
       }
@@ -205,11 +216,14 @@ class DataSubmissionScaffoldState extends ConsumerState<DataSubmissionScaffold>
   }
 
   Future<int> _markEntityAsFinal() async {
-    final SyncableObjectRepository syncableRepository =
-        SyncableObjectRepository(entityUid,
-            ref.read(databaseSyncableQueryProvider(formCode)).provideQuery());
+    final String? completedDate =
+        sdk.DateUtils.databaseDateFormat().format(DateTime.now().toUtc());
+    final submission =
+        (await D2Remote.formModule.formSubmission.byId(entityUid).getOne())
+          ?..status = SyncableStatus.COMPLETED.name
+          ..finishedEntryTime = completedDate;
 
-    return syncableRepository.setStatus(SyncableStatus.COMPLETED);
+    return D2Remote.formModule.formSubmission.setData(submission).save();
   }
 }
 

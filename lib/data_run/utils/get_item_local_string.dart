@@ -1,7 +1,11 @@
 import 'package:intl/intl.dart';
 
-String getItemLocalString(Map<String?, String?>? localsMap) {
+String getItemLocalString(Map<String?, String?>? localsMap,
+    {String? defaultString}) {
   final String local = Intl.getCurrentLocale();
 
-  return localsMap?[local] ?? localsMap?.values.first ?? 'unProvidedLocale';
+  return localsMap?[local] ??
+      localsMap?.values.first ??
+      defaultString ??
+      'unProvidedLocale';
 }

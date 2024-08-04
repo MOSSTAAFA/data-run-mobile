@@ -123,7 +123,11 @@ class FormsTiles extends ConsumerWidget {
                 ))
             .toList(),
       ),
-      error: (Object error, _) => Text('Error: $error'),
+      error: (Object error, StackTrace s) {
+        debugPrint('error: $error');
+        debugPrintStack(stackTrace: s, label: error.toString());
+        return Text('Error: $error');
+      },
       loading: () => const CircularProgressIndicator(),
     );
   }

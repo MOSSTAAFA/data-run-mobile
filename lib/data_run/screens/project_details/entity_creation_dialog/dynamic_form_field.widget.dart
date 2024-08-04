@@ -49,7 +49,10 @@ class DynamicFormFieldWidget extends StatelessWidget {
             // controller: fieldModel.controller,
             valueTransformer: (String? value) {
               if (fieldModel.valueType?.isNumeric ?? false) {
-                return mapFieldToValueType(fieldModel);
+                return mapFieldToValueType(
+                    value: fieldModel.value,
+                    values: fieldModel.values,
+                    valueType: fieldModel.valueType?.name);
               }
             },
             enabled: fieldModel.isEditable,

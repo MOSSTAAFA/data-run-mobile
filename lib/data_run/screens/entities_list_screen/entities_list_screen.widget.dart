@@ -1,3 +1,4 @@
+import 'package:d2_remote/modules/datarun/form/entities/data_form_submission.entity.dart';
 import 'package:d2_remote/modules/datarun_shared/entities/syncable.entity.dart';
 import 'package:fast_immutable_collections/src/ilist/ilist.dart';
 import 'package:flutter/material.dart';
@@ -5,14 +6,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/core/common/state.dart';
+import 'package:mass_pro/data_run/form/form_configuration.dart';
 import 'package:mass_pro/data_run/screens/data_submission_screen/data_submission_screen.widget.dart';
-import 'package:mass_pro/data_run/screens/entities_list_screen/entities_riverpod_providers.dart';
+import 'package:mass_pro/data_run/screens/entities_list_screen/state/form_submission_list_repository.dart';
 import 'package:mass_pro/data_run/screens/project_details/entity_creation_dialog/entity_creation_dialog.widget.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_item.model.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_items_models_notifier.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/q_sync_icon_button.widget.dart';
 import 'package:mass_pro/data_run/screens/sync_dialog/sync_dialog.widget.dart';
-import 'package:mass_pro/data_run/screens/sync_dialog/sync_dialog_repository.dart';
+import 'package:mass_pro/data_run/screens/sync_dialog/sync_submission_repository.dart';
 import 'package:mass_pro/generated/l10n.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 
@@ -27,12 +29,12 @@ class EntitiesListScreen extends ConsumerStatefulWidget {
 
 class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
   SyncableEntityState? _selectedStatus;
-  late final String formCode;
+  late final String formUid;
 
   @override
   void initState() {
     final Bundle eventBundle = Get.arguments as Bundle;
-    formCode = eventBundle.getString(FORM_CODE)!;
+    formUid = eventBundle.getString(FORM_UID)!;
     super.initState();
   }
 
@@ -40,7 +42,7 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(formCode),
+          title: Text(formUid),
         ),
         body: Column(
           children: [
@@ -58,8 +60,8 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
   }
 
   Widget _buildFilterBar() {
-    final AsyncValue<IList<SyncableEntity>> allEntities = ref.watch(
-        entitiesByStatusProvider(formCode: formCode, entityStatus: null));
+    final AsyncValue<IList<DataFormSubmission>> allEntities = ref.watch(
+        formSubmissionsByStatusProvider(form: formUid, entityStatus: null));
 
     return allEntities.when(
       data: (entities) {
@@ -79,7 +81,11 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
           ),
         );
       },
-      error: (Object error, _) => Text('Error: $error'),
+      error: (Object error, StackTrace s) {
+        debugPrint('error: $error');
+        debugPrintStack(stackTrace: s, label: error.toString());
+        return Text('Error: $error');
+      },
       loading: () => const CircularProgressIndicator(),
     );
   }
@@ -103,10 +109,10 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
   }
 
   Map<SyncableEntityState, int> _calculateCounts(
-      IList<SyncableEntity> entities) {
+      IList<DataFormSubmission> entities) {
     final Map<SyncableEntityState, int> counts = <SyncableEntityState, int>{};
 
-    for (final SyncableEntity entity in entities) {
+    for (final DataFormSubmission entity in entities) {
       final SyncableEntityState? status =
           SyncableEntityState.getEntityStatus(entity);
       if (status != null) {
@@ -118,15 +124,15 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
   }
 
   Widget _buildEntitiesList() {
-    final AsyncValue<IList<SyncableEntity>> entitiesByStatus = ref.watch(
-        entitiesByStatusProvider(
-            formCode: formCode, entityStatus: _selectedStatus));
+    final AsyncValue<IList<DataFormSubmission>> entitiesByStatus = ref.watch(
+        formSubmissionsByStatusProvider(
+            form: formUid, entityStatus: _selectedStatus));
 
     return entitiesByStatus.when(
-        data: (IList<SyncableEntity> filteredEntities) => ListView.builder(
+        data: (IList<DataFormSubmission> filteredEntities) => ListView.builder(
               itemCount: filteredEntities.length,
               itemBuilder: (BuildContext context, int index) {
-                final SyncableEntity entity = filteredEntities[index];
+                final DataFormSubmission entity = filteredEntities[index];
                 final SyncableEntityState? entitySyncableStatus =
                     SyncableEntityState.getEntityStatus(entity);
                 final String summary = generateFormSummary(entity.toJson());
@@ -163,13 +169,18 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
                 );
               },
             ),
-        error: (Object error, _) => Text('Error: $error'),
+        error: (Object error, StackTrace s) {
+          debugPrint('error: $error');
+          debugPrintStack(stackTrace: s, label: error.toString());
+          return Text('Error: $error');
+        },
         loading: () => const CircularProgressIndicator());
   }
 
   Future<void> _showAddEntityDialog(
       BuildContext context, WidgetRef ref, FormListItemModel? formModel) async {
-    // Check if the context is still mounted
+    final formConfig = await ref.watch(
+        formConfigurationProvider(formModel!.form, formModel.version).future);
     if (!context.mounted) {
       return;
     }
@@ -177,12 +188,13 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
     final String? result = await showDialog<String?>(
         context: context,
         builder: (BuildContext context) {
-          return EntityCreationDialog(formModel: formModel!);
+          return EntityCreationDialog(
+              formModel: formModel, formConfiguration: formConfig);
         });
     // go to form
     if (result != null) {
-      await _goToDataEntryForm(result, formModel!.version);
-      ref.invalidate(entitiesByStatusProvider);
+      await _goToDataEntryForm(result, formModel.version);
+      ref.invalidate(formSubmissionsByStatusProvider(form: formModel.form));
       ref.invalidate(projectDetailItemModelProvider);
     } else {
       // Handle cancellation or failure
@@ -209,8 +221,12 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
     Bundle bundle = eventBundle.putString(SYNCABLE_UID, uid);
     bundle = eventBundle.putString(FORM_VERSION, version.toString());
 
-    await Get.to(const DataSubmissionScreen(), arguments: bundle);
-    ref.invalidate(entitiesByStatusProvider);
+    final formConfig = await ref.watch(
+        formConfigurationProvider(widget.formModel!.form, version).future);
+
+    await Get.to(DataSubmissionScreen(formConfiguration: formConfig),
+        arguments: bundle);
+    ref.invalidate(formSubmissionsByStatusProvider);
   }
 
   Future<void> _showSyncDialog(List<String> entityUids) async {
@@ -220,17 +236,14 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
         return SyncDialog(
           entityUids: entityUids,
           syncEntity: (String uid) async {
-            // Implement your sync logic here using the repository
-            // Example:
             await ref
-                .read(syncDialogRepositoryProvider(formCode: formCode))
+                .read(syncSubmissionRepositoryProvider)
                 .syncEntities(<String>[uid]);
-            // await myRepository.syncEntity(uid);
           },
         );
       },
     );
-    ref.invalidate(entitiesByStatusProvider);
+    ref.invalidate(formSubmissionsByStatusProvider);
   }
 }
 
@@ -266,5 +279,7 @@ final List<String> syncableVariable = <String>[
   'team',
   'status',
   'geometry',
-  'dirty'
+  'dirty',
+  'version',
+  'form',
 ];

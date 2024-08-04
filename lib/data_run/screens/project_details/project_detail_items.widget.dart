@@ -30,9 +30,11 @@ class _ProjectItemsWidgetState extends ConsumerState<ProjectDetailItemsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final AsyncValue<IList<ProjectDetailItemModel>> value = ref.watch(projectDetailItemsModelsNotifierProvider);
+    final AsyncValue<IList<ProjectDetailItemModel>> value =
+        ref.watch(projectDetailItemsModelsNotifierProvider);
     return value.when(
-        data: (IList<ProjectDetailItemModel> data) => ScrollablePositionedList.builder(
+        data: (IList<ProjectDetailItemModel> data) =>
+            ScrollablePositionedList.builder(
               shrinkWrap: true,
               itemCount: data.length,
               itemBuilder: (BuildContext context, int index) => ProviderScope(
@@ -41,16 +43,21 @@ class _ProjectItemsWidgetState extends ConsumerState<ProjectDetailItemsWidget> {
                       .overrideWith((_) => data[index])
                 ],
                 child: ActivityItemsExpansionTiles(
-                  onGranularSyncClick: (ProjectDetailItemModel? programViewModel) =>
-                      widget.onGranularSyncClick?.call(programViewModel),
-                  onDescriptionClick: (ProjectDetailItemModel? programViewModel) =>
-                      widget.onDescriptionClick?.call(programViewModel),
+                  onGranularSyncClick:
+                      (ProjectDetailItemModel? programViewModel) =>
+                          widget.onGranularSyncClick?.call(programViewModel),
+                  onDescriptionClick:
+                      (ProjectDetailItemModel? programViewModel) =>
+                          widget.onDescriptionClick?.call(programViewModel),
                 ),
               ),
               itemScrollController: itemScrollController,
-              // itemPositionsListener: itemPositionsListener,
             ),
-        error: (Object error, _) => Text('Error: $error'),
+        error: (Object error, StackTrace s) {
+          debugPrint('error: $error');
+          debugPrintStack(stackTrace: s, label: error.toString());
+          return Text('Error: $error');
+        },
         loading: () => const CircularProgressIndicator());
   }
 }
