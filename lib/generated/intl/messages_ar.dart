@@ -31,12 +31,12 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "accept": MessageLookupByLibrary.simpleMessage("Accept"),
+        "accept": MessageLookupByLibrary.simpleMessage("قبول"),
         "addNew": MessageLookupByLibrary.simpleMessage("إضافة جديد"),
         "and": MessageLookupByLibrary.simpleMessage("و"),
         "appName": MessageLookupByLibrary.simpleMessage("ماس برو"),
         "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
-        "clear": MessageLookupByLibrary.simpleMessage("Clear"),
+        "clear": MessageLookupByLibrary.simpleMessage("تصفية"),
         "configurationReady":
             MessageLookupByLibrary.simpleMessage("اكتملت تهيئة التطبيق"),
         "confirm": MessageLookupByLibrary.simpleMessage("تأكيد"),
@@ -152,7 +152,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "finalData": MessageLookupByLibrary.simpleMessage("بيانات نهائية"),
         "form": m0,
         "hidePassword": MessageLookupByLibrary.simpleMessage("اخفاء كلمة السر"),
-        "level": MessageLookupByLibrary.simpleMessage("Level"),
+        "level": MessageLookupByLibrary.simpleMessage("المستوى"),
         "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
         "loginErrorBadCredentials": MessageLookupByLibrary.simpleMessage(
             "اسم مستخدم أو كلمة مرور غير صحيحة"),
