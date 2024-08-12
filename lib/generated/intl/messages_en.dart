@@ -31,10 +31,12 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "accept": MessageLookupByLibrary.simpleMessage("Accept"),
         "addNew": MessageLookupByLibrary.simpleMessage("Add New"),
         "and": MessageLookupByLibrary.simpleMessage("And"),
         "appName": MessageLookupByLibrary.simpleMessage("MASS PRO"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "clear": MessageLookupByLibrary.simpleMessage("Clear"),
         "configurationReady":
             MessageLookupByLibrary.simpleMessage("Configuration Ready"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
@@ -151,6 +153,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "finalData": MessageLookupByLibrary.simpleMessage("Final Data"),
         "form": m0,
         "hidePassword": MessageLookupByLibrary.simpleMessage("Hide Password"),
+        "level": MessageLookupByLibrary.simpleMessage("Level"),
         "login": MessageLookupByLibrary.simpleMessage("Login"),
         "loginErrorBadCredentials":
             MessageLookupByLibrary.simpleMessage("Invalid credentials"),

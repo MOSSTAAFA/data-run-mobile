@@ -6,6 +6,6 @@ class OrgUnitDConfiguration {
   const OrgUnitDConfiguration();
 
   Future<OrganisationUnit?> orgUnitByUid(String uid) async {
-    return D2Remote.organisationUnitModuleD.villageLocation.byId(uid).getOne();
+    return D2Remote.organisationUnitModuleD.orgUnit.byId(uid).getOne();
   }
 }

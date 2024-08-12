@@ -127,22 +127,42 @@ class RuleEngine {
     final optionsToShow = rule.filterInfo!.optionsToShow;
     final optionsToHide = rule.filterInfo!.optionsToHide;
 
-    // if (field.uid == fieldToFilter && field.options != null) {
-    //   // field.optionConfiguration?.updateOptionsToHideAndShow(
-    //   //     optionsToShow: optionsToShow, optionsToHide: optionsToHide);
-    //   final filteredOptions = field.options!
-    //       .removeWhere((option) => optionsToHide.contains(option.name))
-    //       .toIList();
-    //
-    //   return field.builder().setOptions(filteredOptions).build();
-    // }
+    if (field.uid == fieldToFilter &&
+        field.optionConfiguration?.options != null) {
+      return field
+          .builder()
+          .setOptionConfiguration(field.optionConfiguration
+              ?.updateOptionsToHideAndShow(
+                  optionsToShow: optionsToShow?.lock ?? IList(),
+                  optionsToHide: optionsToHide?.lock ?? IList()))
+          .build();
+    }
 
     return field;
   }
 
   QFieldModel _resetFilter(QFieldModel field, Rule rule) {
-    // Logic to reset filter to the original state, if applicable.
-    // This depends on how you want to manage the reset state.
+    // if (rule.filterInfo == null) return field;
+
+    final fieldToFilter = rule.filterInfo!.fieldToFilter;
+    // final optionsToShow = rule.filterInfo!.optionsToShow;
+    // final optionsToHide = rule.filterInfo!.optionsToHide;
+
+    /// if there is a rule that doesn't apply filter all options
+    /// until all rules apply
+    // if (field.uid == fieldToFilter &&
+    //     field.optionConfiguration?.options != null) {
+    //   final optionsToHide = field.optionConfiguration!.options
+    //       .map((option) => option.name!)
+    //       .toIList();
+    //   return field
+    //       .builder()
+    //       .setOptionConfiguration(field.optionConfiguration
+    //           ?.updateOptionsToHideAndShow(
+    //               optionsToShow: IList(), optionsToHide: optionsToHide))
+    //       .build();
+    // }
+
     return field;
   }
 }

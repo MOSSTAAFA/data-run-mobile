@@ -47,7 +47,7 @@ class FormFieldsStateNotifier extends _$FormFieldsStateNotifier {
 
   /// Retrieves the form repository instance.
   FormFieldsRepository getFormRepository() {
-    return ref.watch(formFieldsRepositoryProvider).requireValue;
+    return ref.watch(formFieldsRepositoryProvider);
   }
 
   /// Updates the state with the updated list of fields, usually triggered

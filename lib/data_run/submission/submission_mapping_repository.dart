@@ -150,8 +150,10 @@ class SubmissionMappingRepository {
         label: getItemLocalString(field.label),
         value: value is String ? value : value?.toString(),
         valueType: valueType,
-        options: field.options?.lock,
-        optionConfiguration: _getOptionConfiguration(field),
+        // options: field.options?.lock,
+        optionConfiguration: ValueType.getValueType(field.type).isWithOptions
+            ? _getOptionConfiguration(field)
+            : null,
         fieldRendering: renderingType,
         fieldRules: field.rules?.lock,
         keyboardActionType: switch (valueType) {
@@ -161,18 +163,15 @@ class SubmissionMappingRepository {
   }
 
   OptionConfiguration? _getOptionConfiguration(DynamicFormField field) {
-    final IList<FormOption> options = field.options?.lock ?? const IListConst([]);
-    if (ValueType.getValueType(field.type).isWithOptions &&
-        options.isNotEmpty) {
-      return OptionConfiguration.config(options.length, () {
-        return options;
-      })
-        ..updateOptionsToHideAndShow(
-            optionsToShow:
-                options.map((FormOption option) => option.name).toIList(),
-            optionsToHide: const IListConst([]));
-    }
-    return null;
+    final IList<FormOption> options =
+        _formConfiguration.optionLists.get(field.listName!) ?? IList();
+
+    return OptionConfiguration.config(options.length, () {
+      return options;
+    }).updateOptionsToHideAndShow(
+          optionsToShow:
+              options.map((FormOption option) => option.name).toIList(),
+          optionsToHide: const IListConst([]));
   }
 
   FutureOr<QFieldModel> updateField(

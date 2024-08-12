@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/core/common/state.dart' as item_state;
-import 'package:mass_pro/data_run/form/form_configuration.dart';
 import 'package:mass_pro/data_run/screens/data_submission_screen/data_submission_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/entities_list_screen/entities_list_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/project_details/entity_creation_dialog/entity_creation_dialog.widget.dart';
@@ -111,8 +110,6 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
 
   Future<void> _showAddEntityDialog(
       BuildContext context, WidgetRef ref, FormListItemModel? formModel) async {
-    final formConfig = await ref.read(
-        formConfigurationProvider(formModel!.form, formModel.version).future);
     if (!context.mounted) {
       return;
     }
@@ -120,30 +117,27 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
     final String? result = await showDialog<String?>(
         context: context,
         builder: (BuildContext context) {
-          return EntityCreationDialog(
-              formModel: formModel, formConfiguration: formConfig);
+          return EntityCreationDialog(formModel: formModel!);
         });
     // go to form
     if (result != null) {
-      await _goToDataEntryForm(result, formModel, formConfig);
+      await _goToDataEntryForm(result, formModel!);
       ref.invalidate(projectDetailItemModelProvider);
     } else {
       // Handle cancellation or failure
     }
   }
 
-  Future<void> _goToDataEntryForm(String createdEntityUid,
-      FormListItemModel formModel, FormConfiguration formConfiguration) async {
+  Future<void> _goToDataEntryForm(
+      String createdEntityUid, FormListItemModel formModel) async {
     Bundle bundle = Bundle();
     bundle = bundle.putString(ACTIVITY_UID, formModel.activity);
     bundle = bundle.putString(TEAM_UID, formModel.team);
     bundle = bundle.putString(FORM_UID, formModel.form);
-    bundle = bundle.putString(FORM_VERSION, formModel.version.toString());
     bundle = bundle.putString(FORM_CODE, formModel.formCode);
     bundle = bundle.putString(SYNCABLE_UID, createdEntityUid);
 
-    await Get.to(DataSubmissionScreen(formConfiguration: formConfiguration),
-        arguments: bundle);
+    await Get.to(DataSubmissionScreen(), arguments: bundle);
   }
 
   Future<void> navigateToEntitiesList(FormListItemModel? formModel) async {
@@ -151,7 +145,6 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
     bundle = bundle.putString(ACTIVITY_UID, formModel!.activity);
     bundle = bundle.putString(TEAM_UID, formModel.team);
     bundle = bundle.putString(FORM_UID, formModel.form);
-    bundle = bundle.putString(FORM_VERSION, formModel.version.toString());
     bundle = bundle.putString(FORM_CODE, formModel.formCode);
 
     await Get.to(EntitiesListScreen(formModel: formModel), arguments: bundle);

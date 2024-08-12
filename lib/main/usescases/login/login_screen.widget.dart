@@ -298,7 +298,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
     } else {
       ref
           .read(appStateNotifierProvider.notifier)
-          .gotToNextRoutePopAll(DashboardScreenWidget.route);
+          .gotToNextScreenPopAll(DashboardScreenWidget());
     }
   }
 

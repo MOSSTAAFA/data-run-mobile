@@ -1,110 +1,122 @@
-// import 'dart:async';
-//
-// import 'package:d2_remote/d2_remote.dart';
-// import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+// import 'package:animated_tree_view/animated_tree_view.dart';
+// import 'package:flutter/foundation.dart';
 // import 'package:flutter/material.dart';
-// import 'package:flutter_localizations/flutter_localizations.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:get/get.dart';
-// import 'package:mass_pro/commons/constants.dart';
-// import 'package:mass_pro/commons/prefs/preference_provider.dart';
-// import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen.widget.dart';
-// import 'package:mass_pro/data_run/screens/project_details/project_detail_screen.widget.dart';
-// import 'package:mass_pro/utils/mass_utils/utils.dart';
-// import 'package:mass_pro/main/usescases/splash/splash_presenter.dart';
-// import 'package:mass_pro/main/usescases/splash/splash_screen.widget.dart';
-// import 'package:mass_pro/riverpod/provider_logger.dart';
-// import 'package:mass_pro/utils/navigator_key.dart';
-// import 'package:stack_trace/stack_trace.dart' as stack_trace;
 //
-// import 'main.reflectable.dart';
 //
-// Future<void> main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   initializeReflectable();
+// const showSnackBar = false;
+// const expandChildrenOnReady = true;
 //
-//   await PreferenceProvider.initialize();
-//   await D2Remote.initialize();
-//
-//   FlutterError.demangleStackTrace = (StackTrace stack) {
-//     if (stack is stack_trace.Trace) {
-//       return stack.vmTrace;
-//     }
-//     if (stack is stack_trace.Chain) {
-//       return stack.toTrace().vmTrace;
-//     }
-//     return stack;
-//   };
-//
-//   runApp(ProviderScope(
-//     observers: [
-//       ProviderLogger(providersNameToLog: const IListConst(const [
-//         'formFieldsRepositoryProvider'
-//       ]))
-//     ],
-//     child: const App(),
-//   ));
+// void main() {
+//   runApp(const MyApp());
 // }
 //
-// class App extends ConsumerWidget {
-//   const App({super.key});
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
 //
+//   // This widget is the root of your application.
 //   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final routeObserver = Get.put<RouteObserver>(RouteObserver<PageRoute>());
-//     final locale = L.createLocale('en');
-//
-//     return GetMaterialApp(
-//       navigatorKey: navigatorKey,
-//       navigatorObservers: [routeObserver],
-//       title: 'Flutter FormBuilder Demo',
-//       debugShowCheckedModeBanner: false,
-//       theme: ThemeData.light().copyWith(
-//         appBarTheme: const AppBarTheme().copyWith(backgroundColor: Colors.blue.shade200),
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Simple Animated Tree Demo',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//         visualDensity: VisualDensity.adaptivePlatformDensity,
 //       ),
-//       localizationsDelegates: const [
-//         L.delegate,
-//         GlobalMaterialLocalizations.delegate,
-//         GlobalCupertinoLocalizations.delegate,
-//         GlobalWidgetsLocalizations.delegate,
-//       ],
-//       supportedLocales: kLanguages
-//           .map((String locale) => L.createLocale(locale))
-//           .toList(),
-//       locale: locale,
-//       localeResolutionCallback: (locale, supportedLocales) {
-//         if (locale != null) {
-//           return locale;
-//         }
-//         for (final Locale supportedLocale in supportedLocales) {
-//           if (supportedLocale.languageCode == locale?.languageCode &&
-//               supportedLocale.countryCode == locale?.countryCode) {
-//             return supportedLocale;
-//           }
-//         }
-//         return supportedLocales.first;
-//       },
-//       initialRoute: SplashScreen.route,
-//       getPages: [
-//         GetPage(
-//           name: SplashScreen.route,
-//           page: () {
-//             ref.read(splashPresenterProvider).init();
-//             return const SplashScreen();
-//           },
-//           transition: Transition.fade,
-//         ),
-//         GetPage(
-//           name: DashboardScreenWidget.route,
-//           page: () => const DashboardScreenWidget(),
-//           transition: Transition.fade,
-//         ),
-//         GetPage(
-//           name: ProjectDetailScreenWidget.route,
-//           page: () => const ProjectDetailScreenWidget(),
-//           transition: Transition.fade,
-//         ),
-//       ],
+//       home: const MyHomePage(title: 'Simple Animated Tree Demo'),
 //     );
 //   }
 // }
+//
+// class MyHomePage extends StatefulWidget {
+//   const MyHomePage({Key? key, required this.title}) : super(key: key);
+//
+//   final String title;
+//
+//   @override
+//   MyHomePageState createState() => MyHomePageState();
+// }
+//
+// class MyHomePageState extends State<MyHomePage> {
+//   TreeViewController? _controller;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text(widget.title),
+//       ),
+//       floatingActionButton: ValueListenableBuilder<bool>(
+//         valueListenable: sampleTree.expansionNotifier,
+//         builder: (context, isExpanded, _) {
+//           return FloatingActionButton.extended(
+//             onPressed: () {
+//               if (sampleTree.isExpanded) {
+//                 _controller?.collapseNode(sampleTree);
+//               } else {
+//                 _controller?.expandAllChildren(sampleTree);
+//               }
+//             },
+//             label: isExpanded
+//                 ? const Text("Collapse all")
+//                 : const Text("Expand all"),
+//           );
+//         },
+//       ),
+//       body: TreeView.simple(
+//         tree: sampleTree,
+//         showRootNode: true,
+//         expansionIndicatorBuilder: (context, node) =>
+//             ChevronIndicator.rightDown(
+//               tree: node,
+//               color: Colors.blue[700],
+//               padding: const EdgeInsets.all(8),
+//             ),
+//         indentation: const Indentation(style: IndentStyle.squareJoint),
+//         onItemTap: (item) {
+//           if (kDebugMode) print("Item tapped: ${item.key}");
+//
+//           if (showSnackBar) {
+//             ScaffoldMessenger.of(context).showSnackBar(
+//               SnackBar(
+//                 content: Text("Item tapped: ${item.key}"),
+//                 duration: const Duration(milliseconds: 750),
+//               ),
+//             );
+//           }
+//         },
+//         onTreeReady: (controller) {
+//           _controller = controller;
+//           if (expandChildrenOnReady) controller.expandAllChildren(sampleTree);
+//         },
+//         builder: (context, node) => Card(
+//           color: colorMapper[node.level.clamp(0, colorMapper.length - 1)]!,
+//           child: ListTile(
+//             title: Text("Item ${node.level}-${node.key}"),
+//             subtitle: Text('Level ${node.level}'),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+//
+// final sampleTree = TreeNode.root()
+//   ..addAll([
+//     TreeNode(key: "0A")..add(TreeNode(key: "0A1A")),
+//     TreeNode(key: "0C")
+//       ..addAll([
+//         TreeNode(key: "0C1A"),
+//         TreeNode(key: "0C1B"),
+//         TreeNode(key: "0C1C")
+//           ..addAll([
+//             TreeNode(key: "0C1C2A")
+//               ..addAll([
+//                 TreeNode(key: "0C1C2A3A"),
+//                 TreeNode(key: "0C1C2A3B"),
+//                 TreeNode(key: "0C1C2A3C"),
+//               ]),
+//           ]),
+//       ]),
+//     TreeNode(key: "0D"),
+//     TreeNode(key: "0E"),
+//   ]);

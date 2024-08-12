@@ -5,7 +5,7 @@
 // import '../state/app_state.dart';
 // import '../state/app_state_notifier.dart';
 // import '../state/pref_state.dart';
-
+//
 // class ListScaffold extends ConsumerWidget {
 //   const ListScaffold({
 //     super.key,
@@ -20,7 +20,7 @@
 //     this.onCancelSettingsSection,
 //     this.onCancelSettingsIndex = 0,
 //   });
-
+//
 //   final Widget body;
 //   // final AppBottomBar? bottomNavigationBar;
 //   final Widget? bottomNavigationBar;
@@ -32,16 +32,16 @@
 //   final String? onCancelSettingsSection;
 //   final int onCancelSettingsIndex;
 //   final Function? onCheckboxPressed;
-
+//
 //   @override
 //   Widget build(BuildContext context, WidgetRef ref) {
 //     final localization = AppLocalization.of(context)!.localized!;
 //     // final prefState = context.select((AppBloc bloc) => bloc.state.prefState);
 //     final PrefState prefState =
 //         ref.watch(appStateNotifierProvider.select((value) => value.prefState));
-
+//
 //     final AppState appState = ref.read(appStateNotifierProvider);
-
+//
 //     Widget leading = const SizedBox();
 //     if (isMobile(context)) {
 //       leading = Builder(
@@ -57,7 +57,7 @@
 //         ),
 //       );
 //     }
-
+//
 //     leading = Row(
 //       children: [
 //         Expanded(child: leading),
@@ -71,7 +71,7 @@
 //         ...appBarLeadingActions,
 //       ],
 //     );
-
+//
 //     return WillPopScope(
 //         onWillPop: () async {
 //           ref.read(appStateNotifierProvider.notifier).viewDashboard();

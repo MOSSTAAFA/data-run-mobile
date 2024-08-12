@@ -29,7 +29,10 @@ class OptionConfiguration with _$OptionConfiguration {
   OptionConfiguration updateOptionsToHideAndShow(
       {required IList<String> optionsToShow,
       required IList<String> optionsToHide}) {
-    return setOptionsToHide(optionsToHide).setOptionsToShow(optionsToShow);
+    return setOptionsToHide(
+            optionsToHide)
+        .setOptionsToShow(
+            optionsToShow);
   }
 
   OptionConfiguration setOptionsToHide(IList<String> optionsToHide) {
@@ -53,4 +56,24 @@ class OptionConfiguration with _$OptionConfiguration {
           ? optionsToShow.contains(option.name)
           : !optionsToHide.contains(option.name))
       .toIList();
+
+  // NMC
+  IList<FormOption> get optionsToDisplayCumulative => _getOptions();
+
+  IList<FormOption> _getOptions() {
+    IList<FormOption> optionsToDisplay = options;
+
+    if (optionsToHide.isNotEmpty) {
+      optionsToDisplay =
+          options.removeWhere((item) => optionsToHide.contains(item.name));
+    }
+
+    if (optionsToShow.isNotEmpty) {
+      optionsToDisplay =
+          options.retainWhere((item) => optionsToShow.contains(item.name));
+    }
+
+    return optionsToDisplay
+        .sort((a, b) => (a.sortOrder).compareTo(b.sortOrder));
+  }
 }

@@ -30,7 +30,7 @@ const NullValue nullValue = NullValue();
 class QFieldModel with EquatableMixin {
   const QFieldModel(
       {required this.uid,
-      this.options,
+      // this.options,
       this.optionListName,
       this.optionConfiguration,
       this.autocompleteList,
@@ -57,7 +57,7 @@ class QFieldModel with EquatableMixin {
       this.focusNode});
 
   final String uid;
-  final IList<FormOption>? options;
+  // final IList<FormOption>? options;
   final String? optionListName;
   final OptionConfiguration? optionConfiguration;
   final List<String>? autocompleteList;
@@ -165,7 +165,7 @@ class QFieldModel with EquatableMixin {
   }
 
   FormOption? getOption() {
-    return optionConfiguration?.optionsToDisplay
+    return optionConfiguration?.optionsToDisplayCumulative
         .where((FormOption option) => option.name == value)
         .firstOrNull;
   }
@@ -231,7 +231,7 @@ class QFieldModel with EquatableMixin {
       'dataIntegrityResult: $isMandatory',
       'error:  $error',
       'warning:  $warning',
-      'options:  $options',
+      // 'options:  $options',
       'displayName:  $displayName',
     ]);
   }
@@ -239,7 +239,8 @@ class QFieldModel with EquatableMixin {
   @override
   List<Object?> get props => <Object?>[
         uid,
-        options,
+        // options,
+        optionConfiguration,
         isVisible,
         value,
         // isFocused,
@@ -248,7 +249,7 @@ class QFieldModel with EquatableMixin {
         isEditable,
         warning,
         displayName,
-        // isMandatory,
+        isMandatory,
         // allowFutureDates,
         // isLoading,
         // intentCallback

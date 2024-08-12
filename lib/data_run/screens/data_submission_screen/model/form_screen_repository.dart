@@ -13,7 +13,7 @@ FormScreenRepository formScreenRepository(FormScreenRepositoryRef ref) {
   final Bundle eventBundle = Get.arguments as Bundle;
   final String syncableUid = eventBundle.getString(SYNCABLE_UID)!;
   // final String formCode = eventBundle.getString(FORM_UID)!;
-  // final String formVersion = eventBundle.getString(FORM_VERSION)!;
+  // final int formVersion = eventBundle.getInt(FORM_VERSION)!;
   // final formConfig = ref.watch(formConfigurationProvider(formCode, formVersion).future)
   return FormScreenRepository(entityUid: syncableUid);
 }

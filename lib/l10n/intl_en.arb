@@ -165,5 +165,8 @@
       }
     }
   },
-  "version": "Version"
+  "version": "Version",
+  "clear": "Clear",
+  "accept": "Accept",
+  "level": "Level"
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mass_pro/commons/custom_widgets/async_value.widget.dart';
 import 'package:mass_pro/data_run/form/form_configuration.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
 import 'package:mass_pro/data_run/screens/project_details/entity_creation_dialog/dynamic_form_field.widget.dart';
@@ -10,13 +11,8 @@ import 'package:mass_pro/data_run/submission/submission_initial_repository.dart'
 import 'package:mass_pro/generated/l10n.dart';
 
 class EntityCreationDialog extends ConsumerStatefulWidget {
-
-  const EntityCreationDialog(
-      {super.key, required this.formModel, required this.formConfiguration});
-
+  const EntityCreationDialog({super.key, required this.formModel});
   final FormListItemModel formModel;
-
-  final FormConfiguration formConfiguration;
 
   @override
   EntityCreationDialogState createState() => EntityCreationDialogState();
@@ -24,7 +20,6 @@ class EntityCreationDialog extends ConsumerStatefulWidget {
 
 class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
-
   bool _isLoading = false;
 
   @override
@@ -32,10 +27,10 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
     super.dispose();
   }
 
-  Future<String?> _createEntity() async {
+  Future<String?> _createEntity(FormConfiguration formConfiguration) async {
     final SubmissionInitialRepository submissionInitialRepository = ref.read(
         submissionInitialRepositoryProvider(
-            formConfiguration: widget.formConfiguration));
+            formConfiguration: formConfiguration));
 
     return submissionInitialRepository.createSyncable(
         activityUid: widget.formModel.activity!,
@@ -43,7 +38,8 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
         formData: Map<String, String?>.from(_formKey.currentState!.value));
   }
 
-  Future<void> createAndPopupWithResult(BuildContext context) async {
+  Future<void> createAndPopupWithResult(
+      BuildContext context, FormConfiguration formConfiguration) async {
     setState(() {
       _isLoading = true;
     });
@@ -53,14 +49,7 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
       if (_formKey.currentState?.validate() ?? false) {
         // Call the function to create entity
         _formKey.currentState!.save();
-        // final List<QFieldModel>? updatedFields = widget.formModel.fields
-        //     ?.map((QFieldModel field) => field.setValue(
-        //         _formKey.currentState!.value[field.uid] ?? field.value))
-        //     .toList();
-        // final FormListItemModel updatedModel =
-        //     widget.formModel.copyWith(fields: updatedFields);
-
-        syncableId = await _createEntity();
+        syncableId = await _createEntity(formConfiguration);
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
           Navigator.of(context).pop(syncableId);
@@ -82,57 +71,64 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      surfaceTintColor: Theme.of(context).colorScheme.primary,
-      shadowColor: Theme.of(context).colorScheme.shadow,
-      title: Column(
-        children: [
-          Text('${S.of(context).openNewForm}:',
-              style: Theme.of(context).textTheme.titleMedium),
-          Text(widget.formConfiguration.label,
-              style: Theme.of(context).textTheme.titleLarge)
-        ],
-      ),
-      content: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            //
-            FormBuilder(
-              key: _formKey,
-              clearValueOnUnregister: true,
-              onChanged: () {
-                _formKey.currentState!.save();
-              },
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: widget.formModel.fields
-                        ?.map((QFieldModel fieldModel) =>
-                            DynamicFormFieldWidget(fieldModel: fieldModel))
-                        .toList() ??
-                    <Widget>[],
+    final formConfigAsync =
+        ref.watch(formConfigurationProvider(widget.formModel.form));
+
+    return AsyncValueWidget(
+        value: formConfigAsync,
+        data: (formConfig) => AlertDialog(
+              surfaceTintColor: Theme.of(context).colorScheme.primary,
+              shadowColor: Theme.of(context).colorScheme.shadow,
+              title: Column(
+                children: [
+                  Text('${S.of(context).openNewForm}:',
+                      style: Theme.of(context).textTheme.titleMedium),
+                  Text(formConfig.label,
+                      style: Theme.of(context).textTheme.titleLarge)
+                ],
               ),
-            ),
-            if (_isLoading)
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: CircularProgressIndicator(),
+              content: SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    //
+                    FormBuilder(
+                      key: _formKey,
+                      clearValueOnUnregister: true,
+                      onChanged: () {
+                        _formKey.currentState!.save();
+                      },
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: widget.formModel.fields
+                                ?.map((QFieldModel fieldModel) =>
+                                    DynamicFormFieldWidget(
+                                        fieldModel: fieldModel))
+                                .toList() ??
+                            <Widget>[],
+                      ),
+                    ),
+                    if (_isLoading)
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: CircularProgressIndicator(),
+                      ),
+                  ],
+                ),
               ),
-          ],
-        ),
-      ),
-      actions: <Widget>[
-        TextButton(
-          child: Text(S.of(context).cancel),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        TextButton(
-          onPressed:
-              _isLoading ? null : () => createAndPopupWithResult(context),
-          child: Text(S.of(context).open),
-        ),
-      ],
-    );
+              actions: <Widget>[
+                TextButton(
+                  child: Text(S.of(context).cancel),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  onPressed: _isLoading
+                      ? null
+                      : () => createAndPopupWithResult(context, formConfig),
+                  child: Text(S.of(context).open),
+                ),
+              ],
+            ));
   }
 }

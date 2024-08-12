@@ -1,5 +1,6 @@
 import 'package:d2_remote/core/datarun/utilities/date_utils.dart' as sdk;
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -125,7 +126,7 @@ class DynamicFormFieldWidget extends StatelessWidget {
           // initialValue: (fieldModel.controller?.text ?? '').isNotEmpty
           //     ? fieldModel.controller!.text
           //     : null,
-          options: _getFieldOptions(fieldModel.options!.unlock),
+          options: _getFieldOptions(fieldModel.optionConfiguration?.options ?? IList()),
           onChanged: (FormOption? value) {
             if (value != null) {
               // fieldModel.controller?.text = value;
@@ -188,7 +189,7 @@ class DynamicFormFieldWidget extends StatelessWidget {
   // }
 
   List<FormBuilderChipOption<FormOption>> _getFieldOptions(
-      List<FormOption> options,
+      IList<FormOption> options,
       {bool? wide}) {
     return options
         .map((FormOption option) => FormBuilderChipOption<FormOption>(

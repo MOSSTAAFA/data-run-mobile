@@ -48,6 +48,7 @@ dependencies:
   get: ^4.6.6
   expressions: ^0.2.5+1
   web: ^1.0.0
+  animated_tree_view: ^2.2.1
 #  sentry_flutter: ^8.3.0
 
 dev_dependencies:

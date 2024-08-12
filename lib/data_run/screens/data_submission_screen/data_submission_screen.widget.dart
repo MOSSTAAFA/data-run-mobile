@@ -8,7 +8,6 @@ import 'package:d2_remote/core/datarun/utilities/date_utils.dart' as sdk;
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/commons/custom_widgets/mixins/keyboard_manager.dart';
 import 'package:mass_pro/data_run/form/form_configuration.dart';
-import 'package:mass_pro/data_run/form/form_fields_repository.dart';
 import 'package:mass_pro/data_run/form/syncable_status.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/form_field.widget.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/form_fields_state_notifier.dart';
@@ -24,9 +23,7 @@ import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 import 'package:mass_pro/utils/mass_utils/colors.dart';
 
 class DataSubmissionScreen extends ConsumerWidget {
-  const DataSubmissionScreen({super.key, required this.formConfiguration});
-
-  final FormConfiguration formConfiguration;
+  const DataSubmissionScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -234,16 +231,22 @@ class _EagerInitialization extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AsyncValue<FormFieldsRepository> loadingFieldsRepositoryResult =
-        ref.watch(formFieldsRepositoryProvider);
+    final Bundle eventBundle = Get.arguments as Bundle;
+    final String formUid = eventBundle.getString(FORM_UID)!;
+
+    final AsyncValue<FormConfiguration> formConfig =
+        ref.watch(formConfigurationProvider(formUid));
+
+    // final loadingFieldsRepositoryResult =
+    //     ref.watch(formFieldsRepositoryProvider);
 
     ref.watch(fieldWidgetFactoryProvider);
-    if (loadingFieldsRepositoryResult.isLoading) {
+    if (formConfig.isLoading) {
       return const Center(child: CircularProgressIndicator());
-    } else if (loadingFieldsRepositoryResult.hasError) {
+    } else if (formConfig.hasError) {
       return Center(
         child: Text(
-          'Error Loading formFields',
+          'Error Loading FormConfiguration',
           style: Theme.of(context)
               .textTheme
               .headlineSmall!

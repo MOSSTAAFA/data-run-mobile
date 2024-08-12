@@ -6,7 +6,7 @@ part of 'form_configuration.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$formConfigurationHash() => r'153f487f0e7aa14460bdd02c3c3e2cb3034b7fec';
+String _$formVersionHash() => r'fabef7cbe82f2753dabd32fe81109eace8fdc0df';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,6 +29,151 @@ class _SystemHash {
   }
 }
 
+/// See also [formVersion].
+@ProviderFor(formVersion)
+const formVersionProvider = FormVersionFamily();
+
+/// See also [formVersion].
+class FormVersionFamily extends Family<AsyncValue<int>> {
+  /// See also [formVersion].
+  const FormVersionFamily();
+
+  /// See also [formVersion].
+  FormVersionProvider call(
+    String form, {
+    String? submissionUid,
+  }) {
+    return FormVersionProvider(
+      form,
+      submissionUid: submissionUid,
+    );
+  }
+
+  @override
+  FormVersionProvider getProviderOverride(
+    covariant FormVersionProvider provider,
+  ) {
+    return call(
+      provider.form,
+      submissionUid: provider.submissionUid,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'formVersionProvider';
+}
+
+/// See also [formVersion].
+class FormVersionProvider extends AutoDisposeFutureProvider<int> {
+  /// See also [formVersion].
+  FormVersionProvider(
+    String form, {
+    String? submissionUid,
+  }) : this._internal(
+          (ref) => formVersion(
+            ref as FormVersionRef,
+            form,
+            submissionUid: submissionUid,
+          ),
+          from: formVersionProvider,
+          name: r'formVersionProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$formVersionHash,
+          dependencies: FormVersionFamily._dependencies,
+          allTransitiveDependencies:
+              FormVersionFamily._allTransitiveDependencies,
+          form: form,
+          submissionUid: submissionUid,
+        );
+
+  FormVersionProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.form,
+    required this.submissionUid,
+  }) : super.internal();
+
+  final String form;
+  final String? submissionUid;
+
+  @override
+  Override overrideWith(
+    FutureOr<int> Function(FormVersionRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: FormVersionProvider._internal(
+        (ref) => create(ref as FormVersionRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        form: form,
+        submissionUid: submissionUid,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<int> createElement() {
+    return _FormVersionProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is FormVersionProvider &&
+        other.form == form &&
+        other.submissionUid == submissionUid;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, form.hashCode);
+    hash = _SystemHash.combine(hash, submissionUid.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin FormVersionRef on AutoDisposeFutureProviderRef<int> {
+  /// The parameter `form` of this provider.
+  String get form;
+
+  /// The parameter `submissionUid` of this provider.
+  String? get submissionUid;
+}
+
+class _FormVersionProviderElement extends AutoDisposeFutureProviderElement<int>
+    with FormVersionRef {
+  _FormVersionProviderElement(super.provider);
+
+  @override
+  String get form => (origin as FormVersionProvider).form;
+  @override
+  String? get submissionUid => (origin as FormVersionProvider).submissionUid;
+}
+
+String _$formConfigurationHash() => r'58de47245dfefc24be95473697dbf2c62d0333b2';
+
 /// See also [formConfiguration].
 @ProviderFor(formConfiguration)
 const formConfigurationProvider = FormConfigurationFamily();
@@ -40,12 +185,10 @@ class FormConfigurationFamily extends Family<AsyncValue<FormConfiguration>> {
 
   /// See also [formConfiguration].
   FormConfigurationProvider call(
-    String form, [
-    int? version,
-  ]) {
+    String form,
+  ) {
     return FormConfigurationProvider(
       form,
-      version,
     );
   }
 
@@ -55,7 +198,6 @@ class FormConfigurationFamily extends Family<AsyncValue<FormConfiguration>> {
   ) {
     return call(
       provider.form,
-      provider.version,
     );
   }
 
@@ -79,13 +221,11 @@ class FormConfigurationProvider
     extends AutoDisposeFutureProvider<FormConfiguration> {
   /// See also [formConfiguration].
   FormConfigurationProvider(
-    String form, [
-    int? version,
-  ]) : this._internal(
+    String form,
+  ) : this._internal(
           (ref) => formConfiguration(
             ref as FormConfigurationRef,
             form,
-            version,
           ),
           from: formConfigurationProvider,
           name: r'formConfigurationProvider',
@@ -97,7 +237,6 @@ class FormConfigurationProvider
           allTransitiveDependencies:
               FormConfigurationFamily._allTransitiveDependencies,
           form: form,
-          version: version,
         );
 
   FormConfigurationProvider._internal(
@@ -108,11 +247,9 @@ class FormConfigurationProvider
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.form,
-    required this.version,
   }) : super.internal();
 
   final String form;
-  final int? version;
 
   @override
   Override overrideWith(
@@ -128,7 +265,6 @@ class FormConfigurationProvider
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         form: form,
-        version: version,
       ),
     );
   }
@@ -140,16 +276,13 @@ class FormConfigurationProvider
 
   @override
   bool operator ==(Object other) {
-    return other is FormConfigurationProvider &&
-        other.form == form &&
-        other.version == version;
+    return other is FormConfigurationProvider && other.form == form;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, form.hashCode);
-    hash = _SystemHash.combine(hash, version.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -158,9 +291,6 @@ class FormConfigurationProvider
 mixin FormConfigurationRef on AutoDisposeFutureProviderRef<FormConfiguration> {
   /// The parameter `form` of this provider.
   String get form;
-
-  /// The parameter `version` of this provider.
-  int? get version;
 }
 
 class _FormConfigurationProviderElement
@@ -170,8 +300,6 @@ class _FormConfigurationProviderElement
 
   @override
   String get form => (origin as FormConfigurationProvider).form;
-  @override
-  int? get version => (origin as FormConfigurationProvider).version;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

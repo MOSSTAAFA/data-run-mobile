@@ -11,7 +11,7 @@ import 'package:mass_pro/sdk/core/common/value_type.dart';
 class QFieldModelBuilder {
   QFieldModelBuilder(QFieldModel model) {
     uid = model.uid;
-    options = model.options;
+    // options = model.options;
     optionListName = model.optionListName;
     optionConfiguration = model.optionConfiguration;
     autocompleteList = model.autocompleteList;
@@ -201,7 +201,7 @@ class QFieldModelBuilder {
   QFieldModel build() {
     return QFieldModel(
       uid: uid!,
-      options: options,
+      // options: options,
       optionListName: optionListName,
       optionConfiguration: optionConfiguration,
       autocompleteList: autocompleteList,

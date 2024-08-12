@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/core/common/state.dart';
-import 'package:mass_pro/data_run/form/form_configuration.dart';
 import 'package:mass_pro/data_run/screens/data_submission_screen/data_submission_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/entities_list_screen/state/form_submission_list_repository.dart';
 import 'package:mass_pro/data_run/screens/project_details/entity_creation_dialog/entity_creation_dialog.widget.dart';
@@ -178,8 +177,7 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
 
   Future<void> _showAddEntityDialog(
       BuildContext context, WidgetRef ref, FormListItemModel? formModel) async {
-    final formConfig = await ref.watch(
-        formConfigurationProvider(formModel!.form, formModel.version).future);
+
     if (!context.mounted) {
       return;
     }
@@ -188,11 +186,11 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
         context: context,
         builder: (BuildContext context) {
           return EntityCreationDialog(
-              formModel: formModel, formConfiguration: formConfig);
+              formModel: formModel!);
         });
     // go to form
     if (result != null) {
-      await _goToDataEntryForm(result, formModel.version);
+      await _goToDataEntryForm(result, formModel!.version);
       ref.invalidate(formSubmissionsByStatusProvider(form: formModel.form));
       ref.invalidate(projectDetailItemModelProvider);
     } else {
@@ -218,12 +216,8 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
   Future<void> _goToDataEntryForm(String uid, int version) async {
     final Bundle eventBundle = Get.arguments as Bundle;
     Bundle bundle = eventBundle.putString(SYNCABLE_UID, uid);
-    bundle = eventBundle.putString(FORM_VERSION, version.toString());
 
-    final formConfig = await ref.watch(
-        formConfigurationProvider(widget.formModel!.form, version).future);
-
-    await Get.to(DataSubmissionScreen(formConfiguration: formConfig),
+    await Get.to(DataSubmissionScreen(),
         arguments: bundle);
     ref.invalidate(formSubmissionsByStatusProvider);
   }

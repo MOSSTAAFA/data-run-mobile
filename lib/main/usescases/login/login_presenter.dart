@@ -81,7 +81,7 @@ class LoginScreenPresenter {
         if (isUserLoggedIn && !isSessionLocked) {
           ref
               .read(appStateNotifierProvider.notifier)
-              .gotToNextRoutePopAll(DashboardScreenWidget.route);
+              .gotToNextScreenPopAll(DashboardScreenWidget());
         } else if (isSessionLocked) {
           view.showUnlockButton();
         }

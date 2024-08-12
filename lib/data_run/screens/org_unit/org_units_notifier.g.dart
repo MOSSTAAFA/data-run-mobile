@@ -1,27 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'form_fields_repository.dart';
+part of 'org_units_notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$formFieldsRepositoryHash() =>
-    r'4ccc44b08b3fceaaf17e2521a115673be8397120';
+String _$orgUnitsNotifierHash() => r'1cccccc145ef914778da1b926c7621f092d0f755';
 
-/// See also [formFieldsRepository].
-@ProviderFor(formFieldsRepository)
-final formFieldsRepositoryProvider =
-    AutoDisposeProvider<FormFieldsRepository>.internal(
-  formFieldsRepository,
-  name: r'formFieldsRepositoryProvider',
+/// See also [OrgUnitsNotifier].
+@ProviderFor(OrgUnitsNotifier)
+final orgUnitsNotifierProvider =
+    AutoDisposeAsyncNotifierProvider<OrgUnitsNotifier, List<OrgUnit>>.internal(
+  OrgUnitsNotifier.new,
+  name: r'orgUnitsNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$formFieldsRepositoryHash,
+      : _$orgUnitsNotifierHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef FormFieldsRepositoryRef = AutoDisposeProviderRef<FormFieldsRepository>;
+typedef _$OrgUnitsNotifier = AutoDisposeAsyncNotifier<List<OrgUnit>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -3,8 +3,11 @@ import 'package:d2_remote/modules/datarun/form/entities/dynamic_form.entity.dart
 import 'package:d2_remote/modules/datarun/form/entities/form_definition.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/field_value_rendering_type.dart';
+import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:mass_pro/core/common/state.dart' as item_state;
+import 'package:mass_pro/data_run/form/form_configuration.dart';
+import 'package:mass_pro/data_run/screens/data_submission_form/model/option_configuration.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
 import 'package:mass_pro/data_run/screens/entities_list_screen/state/form_submission_list_repository.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_item.model.dart';
@@ -43,8 +46,9 @@ class FormListingModelsMapper {
           .watch(formSubmissionListRepositoryProvider(form.uid!))
           .getEntitiesCount(state: item_state.SyncableEntityState.ERROR);
 
-      final item_state.SyncableEntityState entitiesStatus =
-          await ref.watch(formSubmissionListRepositoryProvider(form.uid!)).getFormSubmissionsStatus();
+      final item_state.SyncableEntityState entitiesStatus = await ref
+          .watch(formSubmissionListRepositoryProvider(form.uid!))
+          .getFormSubmissionsStatus();
 
       final IList<QFieldModel>? formFieldModels =
           await getFormFieldModels(form);
@@ -71,6 +75,8 @@ class FormListingModelsMapper {
   Future<IList<QFieldModel>?> getFormFieldModels(DynamicForm form) async {
     final FormDefinition? latestFormDefinition =
         await D2Remote.formModule.formDefinition.byForm(form.id!).getOne();
+    final formConfig =
+        await ref.read(formConfigurationProvider(form.uid!).future);
     return latestFormDefinition?.fields
         ?.where((DynamicFormField field) => field.mainField == true)
         .map((DynamicFormField field) => QFieldModel(
@@ -79,12 +85,29 @@ class FormListingModelsMapper {
               isEditable: true,
               isMandatory: field.mandatory,
               label: getItemLocalString(field.label),
-              options: field.options?.lock,
+              optionConfiguration:
+                  ValueType.getValueType(field.type).isWithOptions
+                      ? _getOptionConfiguration(field, formConfig)
+                      : null,
+              // options: field.options?.lock,
               valueType: ValueType.getValueType(field.type),
               fieldRendering: FieldValueRenderingUtil.getFieldValueRendering(
                   field.fieldValueRenderingType),
               fieldRules: field.rules?.lock,
             ))
         .toIList();
+  }
+
+  OptionConfiguration? _getOptionConfiguration(
+      DynamicFormField field, FormConfiguration formConfiguration) {
+    final IList<FormOption> options =
+        formConfiguration.optionLists.get(field.listName!) ?? IList();
+
+    return OptionConfiguration.config(options.length, () {
+      return options;
+    }).updateOptionsToHideAndShow(
+        optionsToShow:
+            options.map((FormOption option) => option.name).toIList(),
+        optionsToHide: const IListConst([]));
   }
 }

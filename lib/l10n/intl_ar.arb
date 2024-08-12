@@ -126,5 +126,8 @@
       }
     }
   },
-  "version": "الإصدار"
+  "version": "الإصدار",
+  "clear": "Clear",
+  "accept": "Accept",
+  "level": "Level"
 }
