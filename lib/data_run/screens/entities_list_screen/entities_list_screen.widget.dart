@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/core/common/state.dart';
+import 'package:mass_pro/data_run/form/form_configuration.dart';
 import 'package:mass_pro/data_run/screens/data_submission_screen/data_submission_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/entities_list_screen/entity_list_item_summary.widget.dart';
 import 'package:mass_pro/data_run/screens/entities_list_screen/state/form_submission_list_repository.dart';
@@ -46,8 +47,21 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: ValueKey(form),
         appBar: AppBar(
-          title: Text(form),
+          title: Consumer(
+            builder: (context, ref, child) {
+              final AsyncValue<FormConfiguration> formConfig = ref.watch(
+                  formConfigurationProvider(
+                      form: form, formVersion: latestFormVersion));
+              return switch (formConfig) {
+                AsyncValue(:final Object error?) => ErrorWidget(error),
+                AsyncValue(:final FormConfiguration valueOrNull?) =>
+                  Text(valueOrNull.label),
+                _ => const SizedBox.shrink(),
+              };
+            },
+          ),
         ),
         body: Column(
           children: [
@@ -147,6 +161,8 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                   child: EntityListItemSummary(
+                      key: ValueKey('${entity.uid}_${entity.version}'),
+                      form: form,
                       entity: entity,
                       onTap: () =>
                           _goToDataEntryForm(entity.uid!, entity.version)),

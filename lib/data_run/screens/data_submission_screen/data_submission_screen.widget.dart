@@ -86,8 +86,8 @@ class DataSubmissionScaffoldState extends ConsumerState<DataSubmissionScaffold>
   bool _isKeyboardVisible = false;
   late final String entityUid;
   late final String form;
-  late final String activity;
-  late final String team;
+  // late final String activity;
+  // late final String team;
   late final int formVersion;
 
   @override
@@ -95,8 +95,8 @@ class DataSubmissionScaffoldState extends ConsumerState<DataSubmissionScaffold>
     final Bundle eventBundle = Get.arguments as Bundle;
     entityUid = eventBundle.getString(SYNCABLE_UID)!;
     form = eventBundle.getString(FORM_UID)!;
-    activity = eventBundle.getString(ACTIVITY_UID)!;
-    team = eventBundle.getString(TEAM_UID)!;
+    // activity = eventBundle.getString(ACTIVITY_UID)!;
+    // team = eventBundle.getString(TEAM_UID)!;
     formVersion = eventBundle.getInt(FORM_VERSION)!;
     super.initState();
   }
@@ -132,7 +132,7 @@ class DataSubmissionScaffoldState extends ConsumerState<DataSubmissionScaffold>
             final AsyncValue<FormConfiguration> formConfig = ref.watch(
                 formConfigurationProvider(
                     form: form, formVersion: formVersion));
-            return switch (fields) {
+            return switch (formConfig) {
               AsyncValue(:final Object error?) => ErrorWidget(error),
               AsyncValue(:final FormConfiguration valueOrNull?) =>
                 Text(valueOrNull.label),

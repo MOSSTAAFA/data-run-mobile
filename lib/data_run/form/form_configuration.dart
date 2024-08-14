@@ -100,4 +100,8 @@ class FormConfiguration {
       allFields.where((k, v) => v.mainField);
 
   bool get isSingleOrgUnit => orgUnits.length == 1;
+
+  String getFieldDisplayName(String fieldName) =>
+      getItemLocalString(allFields.get(fieldName)?.label,
+          defaultString: fieldName);
 }

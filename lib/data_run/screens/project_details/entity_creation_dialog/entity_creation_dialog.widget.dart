@@ -101,22 +101,22 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
                 child: Column(
                   children: <Widget>[
                     //
-                    FormBuilder(
-                      key: _formKey,
-                      clearValueOnUnregister: true,
-                      onChanged: () {
-                        _formKey.currentState!.save();
-                      },
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: widget.formModel.fields
-                                ?.map((QFieldModel fieldModel) =>
-                                    DynamicFormFieldWidget(
-                                        fieldModel: fieldModel))
-                                .toList() ??
-                            <Widget>[],
-                      ),
-                    ),
+                    // FormBuilder(
+                    //   key: _formKey,
+                    //   clearValueOnUnregister: true,
+                    //   onChanged: () {
+                    //     _formKey.currentState!.save();
+                    //   },
+                    //   child: Column(
+                    //     mainAxisSize: MainAxisSize.min,
+                    //     children: widget.formModel.fields
+                    //             ?.map((QFieldModel fieldModel) =>
+                    //                 DynamicFormFieldWidget(
+                    //                     fieldModel: fieldModel))
+                    //             .toList() ??
+                    //         <Widget>[],
+                    //   ),
+                    // ),
                     if (_isLoading)
                       const Padding(
                         padding: EdgeInsets.all(8.0),

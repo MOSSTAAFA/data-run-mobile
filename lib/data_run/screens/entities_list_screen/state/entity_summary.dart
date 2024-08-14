@@ -1,13 +1,12 @@
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-class EntitySummary with EquatableMixin {
-  EntitySummary({required this.orgUnit, required this.data});
+class SubmissionSummary with EquatableMixin {
+  SubmissionSummary({required this.orgUnit, required this.formData});
 
   final String orgUnit;
-  final IMap<String, dynamic> data;
+  final IMap<String, dynamic> formData;
 
   @override
-  List<Object?> get props => [orgUnit, data];
+  List<Object?> get props => [orgUnit, formData];
 }

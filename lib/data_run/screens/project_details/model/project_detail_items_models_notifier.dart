@@ -96,7 +96,7 @@ Future<IList<DataFormSubmission>> formSubmissionsByStatus(
     String sortBy = 'name'}) async {
   final ddd = await ref
       .watch(formSubmissionListRepositoryProvider(form))
-      .getEntitiesByState(state: entityStatus);
+      .getByState(state: entityStatus);
   return ddd;
 }
 

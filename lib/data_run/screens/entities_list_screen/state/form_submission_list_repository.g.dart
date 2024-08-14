@@ -163,32 +163,35 @@ class _FormSubmissionListRepositoryProviderElement
   String get form => (origin as FormSubmissionListRepositoryProvider).form;
 }
 
-String _$entitySummaryHash() => r'66f416bf9ee632b13635632b49c6a32565134c56';
+String _$submissionSummaryHash() => r'050d6a4ef90973486da7a3e545e7481691d0fb5e';
 
-/// See also [entitySummary].
-@ProviderFor(entitySummary)
-const entitySummaryProvider = EntitySummaryFamily();
+/// See also [submissionSummary].
+@ProviderFor(submissionSummary)
+const submissionSummaryProvider = SubmissionSummaryFamily();
 
-/// See also [entitySummary].
-class EntitySummaryFamily extends Family<AsyncValue<EntitySummary>> {
-  /// See also [entitySummary].
-  const EntitySummaryFamily();
+/// See also [submissionSummary].
+class SubmissionSummaryFamily extends Family<AsyncValue<SubmissionSummary>> {
+  /// See also [submissionSummary].
+  const SubmissionSummaryFamily();
 
-  /// See also [entitySummary].
-  EntitySummaryProvider call({
-    required String entityUid,
+  /// See also [submissionSummary].
+  SubmissionSummaryProvider call({
+    required String submissionUid,
+    required String form,
   }) {
-    return EntitySummaryProvider(
-      entityUid: entityUid,
+    return SubmissionSummaryProvider(
+      submissionUid: submissionUid,
+      form: form,
     );
   }
 
   @override
-  EntitySummaryProvider getProviderOverride(
-    covariant EntitySummaryProvider provider,
+  SubmissionSummaryProvider getProviderOverride(
+    covariant SubmissionSummaryProvider provider,
   ) {
     return call(
-      entityUid: provider.entityUid,
+      submissionUid: provider.submissionUid,
+      form: provider.form,
     );
   }
 
@@ -204,92 +207,108 @@ class EntitySummaryFamily extends Family<AsyncValue<EntitySummary>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'entitySummaryProvider';
+  String? get name => r'submissionSummaryProvider';
 }
 
-/// See also [entitySummary].
-class EntitySummaryProvider extends AutoDisposeFutureProvider<EntitySummary> {
-  /// See also [entitySummary].
-  EntitySummaryProvider({
-    required String entityUid,
+/// See also [submissionSummary].
+class SubmissionSummaryProvider
+    extends AutoDisposeFutureProvider<SubmissionSummary> {
+  /// See also [submissionSummary].
+  SubmissionSummaryProvider({
+    required String submissionUid,
+    required String form,
   }) : this._internal(
-          (ref) => entitySummary(
-            ref as EntitySummaryRef,
-            entityUid: entityUid,
+          (ref) => submissionSummary(
+            ref as SubmissionSummaryRef,
+            submissionUid: submissionUid,
+            form: form,
           ),
-          from: entitySummaryProvider,
-          name: r'entitySummaryProvider',
+          from: submissionSummaryProvider,
+          name: r'submissionSummaryProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$entitySummaryHash,
-          dependencies: EntitySummaryFamily._dependencies,
+                  : _$submissionSummaryHash,
+          dependencies: SubmissionSummaryFamily._dependencies,
           allTransitiveDependencies:
-              EntitySummaryFamily._allTransitiveDependencies,
-          entityUid: entityUid,
+              SubmissionSummaryFamily._allTransitiveDependencies,
+          submissionUid: submissionUid,
+          form: form,
         );
 
-  EntitySummaryProvider._internal(
+  SubmissionSummaryProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.entityUid,
+    required this.submissionUid,
+    required this.form,
   }) : super.internal();
 
-  final String entityUid;
+  final String submissionUid;
+  final String form;
 
   @override
   Override overrideWith(
-    FutureOr<EntitySummary> Function(EntitySummaryRef provider) create,
+    FutureOr<SubmissionSummary> Function(SubmissionSummaryRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: EntitySummaryProvider._internal(
-        (ref) => create(ref as EntitySummaryRef),
+      override: SubmissionSummaryProvider._internal(
+        (ref) => create(ref as SubmissionSummaryRef),
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        entityUid: entityUid,
+        submissionUid: submissionUid,
+        form: form,
       ),
     );
   }
 
   @override
-  AutoDisposeFutureProviderElement<EntitySummary> createElement() {
-    return _EntitySummaryProviderElement(this);
+  AutoDisposeFutureProviderElement<SubmissionSummary> createElement() {
+    return _SubmissionSummaryProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is EntitySummaryProvider && other.entityUid == entityUid;
+    return other is SubmissionSummaryProvider &&
+        other.submissionUid == submissionUid &&
+        other.form == form;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, entityUid.hashCode);
+    hash = _SystemHash.combine(hash, submissionUid.hashCode);
+    hash = _SystemHash.combine(hash, form.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
-mixin EntitySummaryRef on AutoDisposeFutureProviderRef<EntitySummary> {
-  /// The parameter `entityUid` of this provider.
-  String get entityUid;
+mixin SubmissionSummaryRef on AutoDisposeFutureProviderRef<SubmissionSummary> {
+  /// The parameter `submissionUid` of this provider.
+  String get submissionUid;
+
+  /// The parameter `form` of this provider.
+  String get form;
 }
 
-class _EntitySummaryProviderElement
-    extends AutoDisposeFutureProviderElement<EntitySummary>
-    with EntitySummaryRef {
-  _EntitySummaryProviderElement(super.provider);
+class _SubmissionSummaryProviderElement
+    extends AutoDisposeFutureProviderElement<SubmissionSummary>
+    with SubmissionSummaryRef {
+  _SubmissionSummaryProviderElement(super.provider);
 
   @override
-  String get entityUid => (origin as EntitySummaryProvider).entityUid;
+  String get submissionUid =>
+      (origin as SubmissionSummaryProvider).submissionUid;
+  @override
+  String get form => (origin as SubmissionSummaryProvider).form;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
