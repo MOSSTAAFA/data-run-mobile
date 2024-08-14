@@ -40,7 +40,7 @@ class UserAssignedTeamsFamily extends Family<AsyncValue<IList<DTeam>>> {
 
   /// See also [userAssignedTeams].
   UserAssignedTeamsProvider call({
-    ActiveStatus activeStatus = ActiveStatus.EnabledOnly,
+    InvalidType activeStatus = ActiveStatus.EnabledOnly,
     String? activity,
   }) {
     return UserAssignedTeamsProvider(
@@ -79,7 +79,7 @@ class UserAssignedTeamsProvider
     extends AutoDisposeFutureProvider<IList<DTeam>> {
   /// See also [userAssignedTeams].
   UserAssignedTeamsProvider({
-    ActiveStatus activeStatus = ActiveStatus.EnabledOnly,
+    InvalidType activeStatus = ActiveStatus.EnabledOnly,
     String? activity,
   }) : this._internal(
           (ref) => userAssignedTeams(
@@ -111,7 +111,7 @@ class UserAssignedTeamsProvider
     required this.activity,
   }) : super.internal();
 
-  final ActiveStatus activeStatus;
+  final InvalidType activeStatus;
   final String? activity;
 
   @override
@@ -157,7 +157,7 @@ class UserAssignedTeamsProvider
 
 mixin UserAssignedTeamsRef on AutoDisposeFutureProviderRef<IList<DTeam>> {
   /// The parameter `activeStatus` of this provider.
-  ActiveStatus get activeStatus;
+  InvalidType get activeStatus;
 
   /// The parameter `activity` of this provider.
   String? get activity;
@@ -169,7 +169,7 @@ class _UserAssignedTeamsProviderElement
   _UserAssignedTeamsProviderElement(super.provider);
 
   @override
-  ActiveStatus get activeStatus =>
+  InvalidType get activeStatus =>
       (origin as UserAssignedTeamsProvider).activeStatus;
   @override
   String? get activity => (origin as UserAssignedTeamsProvider).activity;
@@ -190,7 +190,7 @@ class UserAssignedActivitiesFamily
 
   /// See also [userAssignedActivities].
   UserAssignedActivitiesProvider call({
-    ActiveStatus activeStatus = ActiveStatus.EnabledOnly,
+    InvalidType activeStatus = ActiveStatus.EnabledOnly,
     String? project,
   }) {
     return UserAssignedActivitiesProvider(
@@ -229,7 +229,7 @@ class UserAssignedActivitiesProvider
     extends AutoDisposeFutureProvider<IList<DActivity>> {
   /// See also [userAssignedActivities].
   UserAssignedActivitiesProvider({
-    ActiveStatus activeStatus = ActiveStatus.EnabledOnly,
+    InvalidType activeStatus = ActiveStatus.EnabledOnly,
     String? project,
   }) : this._internal(
           (ref) => userAssignedActivities(
@@ -261,7 +261,7 @@ class UserAssignedActivitiesProvider
     required this.project,
   }) : super.internal();
 
-  final ActiveStatus activeStatus;
+  final InvalidType activeStatus;
   final String? project;
 
   @override
@@ -309,7 +309,7 @@ class UserAssignedActivitiesProvider
 mixin UserAssignedActivitiesRef
     on AutoDisposeFutureProviderRef<IList<DActivity>> {
   /// The parameter `activeStatus` of this provider.
-  ActiveStatus get activeStatus;
+  InvalidType get activeStatus;
 
   /// The parameter `project` of this provider.
   String? get project;
@@ -321,7 +321,7 @@ class _UserAssignedActivitiesProviderElement
   _UserAssignedActivitiesProviderElement(super.provider);
 
   @override
-  ActiveStatus get activeStatus =>
+  InvalidType get activeStatus =>
       (origin as UserAssignedActivitiesProvider).activeStatus;
   @override
   String? get project => (origin as UserAssignedActivitiesProvider).project;
