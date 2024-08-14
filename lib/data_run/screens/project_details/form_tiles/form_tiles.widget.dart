@@ -1,8 +1,9 @@
 import 'package:fast_immutable_collections/src/ilist/ilist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/data_run/screens/project_details/project_detail_item.model.dart';
-import 'package:mass_pro/data_run/screens/project_details/project_detail_items_models_notifier.dart';
+import 'package:mass_pro/data_run/screens/project_details/model/project_detail_item.model.dart';
+import 'package:mass_pro/data_run/screens/project_details/model/project_detail_items_models_notifier.dart';
+import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
 import 'package:mass_pro/generated/l10n.dart';
 
 class FormsTiles extends ConsumerWidget {
@@ -17,7 +18,8 @@ class FormsTiles extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AsyncValue<IList<FormListItemModel>> formsList = ref.watch(formListItemModelsProvider);
+    final AsyncValue<IList<FormListItemModel>> formsList =
+        ref.watch(formListItemModelsProvider);
 
     return formsList.when(
       data: (IList<FormListItemModel> data) => Column(
@@ -44,12 +46,12 @@ class FormsTiles extends ConsumerWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Text(
-                                  t.formName!,
+                                  getItemLocalString(t.form.label),
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold),
                                 ),
                                 Text(
-                                  '${S.of(context).version}: ${t.version}',
+                                  '${S.of(context).version}: ${t.form.version}',
                                   style: Theme.of(context).textTheme.bodySmall,
                                 ),
                               ],
@@ -62,31 +64,37 @@ class FormsTiles extends ConsumerWidget {
                                 /// Sent
                                 Chip(
                                     avatar: CircleAvatar(
-                                        foregroundColor: t.entitiesSynced > 0
-                                            ? Colors.green
-                                            : Colors.grey,
+                                        foregroundColor:
+                                            t.entityCountByStatus.synced > 0
+                                                ? Colors.green
+                                                : Colors.grey,
                                         child: const Icon(Icons.cloud_done)),
-                                    label: Text('${t.entitiesSynced}')),
+                                    label: Text(
+                                        '${t.entityCountByStatus.synced}')),
 
                                 /// Finished
                                 Chip(
                                   avatar: CircleAvatar(
-                                      foregroundColor: t.entitiesToPost > 0
-                                          ? Colors.blue
-                                          : Colors.grey,
+                                      foregroundColor:
+                                          t.entityCountByStatus.toPost > 0
+                                              ? Colors.blue
+                                              : Colors.grey,
                                       child: const Icon(Icons.cloud_upload)),
-                                  label: Text('${t.entitiesToPost}'),
+                                  label:
+                                      Text('${t.entityCountByStatus.toPost}'),
                                 ),
 
                                 /// Not Finished
                                 Chip(
                                   avatar: CircleAvatar(
-                                    foregroundColor: t.entitiesToUpdate > 0
-                                        ? Colors.orange
-                                        : Colors.grey,
+                                    foregroundColor:
+                                        t.entityCountByStatus.toUpdate > 0
+                                            ? Colors.orange
+                                            : Colors.grey,
                                     child: const Icon(Icons.update),
                                   ),
-                                  label: Text('${t.entitiesToUpdate}'),
+                                  label:
+                                      Text('${t.entityCountByStatus.toUpdate}'),
                                 ),
 
                                 /// Errors
@@ -94,7 +102,8 @@ class FormsTiles extends ConsumerWidget {
                                   avatar: const CircleAvatar(
                                     child: Icon(Icons.error),
                                   ),
-                                  label: Text('${t.entitiesWithError}'),
+                                  label: Text(
+                                      '${t.entityCountByStatus.withError}'),
                                 ),
                               ],
                             ),

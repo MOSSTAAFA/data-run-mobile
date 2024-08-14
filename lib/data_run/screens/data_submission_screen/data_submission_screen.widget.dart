@@ -8,6 +8,7 @@ import 'package:d2_remote/core/datarun/utilities/date_utils.dart' as sdk;
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/commons/custom_widgets/mixins/keyboard_manager.dart';
 import 'package:mass_pro/data_run/form/form_configuration.dart';
+import 'package:mass_pro/data_run/form/form_fields_repository.dart';
 import 'package:mass_pro/data_run/form/syncable_status.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/form_field.widget.dart';
 import 'package:mass_pro/data_run/screens/data_submission_form/model/form_fields_state_notifier.dart';
@@ -22,11 +23,34 @@ import 'package:mass_pro/form/ui/view_model/form_pending_intents.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 import 'package:mass_pro/utils/mass_utils/colors.dart';
 
-class DataSubmissionScreen extends ConsumerWidget {
+class DataSubmissionScreen extends ConsumerStatefulWidget {
   const DataSubmissionScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  DataSubmissionScreenState createState() => DataSubmissionScreenState();
+}
+
+class DataSubmissionScreenState extends ConsumerState<DataSubmissionScreen> {
+  // late final String entityUid;
+  late final String form;
+
+  // late final String activity;
+  // late final String team;
+  // late final int formVersion;
+
+  @override
+  void initState() {
+    final Bundle eventBundle = Get.arguments as Bundle;
+    // entityUid = eventBundle.getString(SYNCABLE_UID)!;
+    form = eventBundle.getString(FORM_UID)!;
+    // activity = eventBundle.getString(ACTIVITY_UID)!;
+    // team = eventBundle.getString(TEAM_UID)!;
+    // formVersion = eventBundle.getInt(FORM_VERSION)!;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final AsyncValue<FormScreenStateModel> formScreenStateModel =
         ref.watch(formScreenStateModelProvider);
 
@@ -34,6 +58,7 @@ class DataSubmissionScreen extends ConsumerWidget {
       AsyncValue(:final Object error?) => ErrorWidget(error),
       AsyncValue(:final FormScreenStateModel valueOrNull?) =>
         _EagerInitialization(
+          form: form,
           child: DataSubmissionScaffold(
             formScreenStateModel: valueOrNull,
           ),
@@ -59,14 +84,20 @@ class DataSubmissionScaffoldState extends ConsumerState<DataSubmissionScaffold>
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _isKeyboardVisible = false;
-  late final String formCode;
   late final String entityUid;
+  late final String form;
+  late final String activity;
+  late final String team;
+  late final int formVersion;
 
   @override
   void initState() {
     final Bundle eventBundle = Get.arguments as Bundle;
-    formCode = eventBundle.getString(FORM_CODE)!;
     entityUid = eventBundle.getString(SYNCABLE_UID)!;
+    form = eventBundle.getString(FORM_UID)!;
+    activity = eventBundle.getString(ACTIVITY_UID)!;
+    team = eventBundle.getString(TEAM_UID)!;
+    formVersion = eventBundle.getInt(FORM_VERSION)!;
     super.initState();
   }
 
@@ -96,7 +127,19 @@ class DataSubmissionScaffoldState extends ConsumerState<DataSubmissionScaffold>
       },
       child: Scaffold(
         key: _scaffoldKey,
-        appBar: AppBar(title: Text(formCode)),
+        appBar: AppBar(title: Consumer(
+          builder: (context, ref, child) {
+            final AsyncValue<FormConfiguration> formConfig = ref.watch(
+                formConfigurationProvider(
+                    form: form, formVersion: formVersion));
+            return switch (fields) {
+              AsyncValue(:final Object error?) => ErrorWidget(error),
+              AsyncValue(:final FormConfiguration valueOrNull?) =>
+                Text(valueOrNull.label),
+              _ => const SizedBox.shrink(),
+            };
+          },
+        )),
         body: switch (fields) {
           AsyncValue(:final Object error?) => ErrorWidget(error),
           AsyncValue(:final IMap<String, QFieldModel> valueOrNull?) =>
@@ -225,25 +268,20 @@ class DataSubmissionScaffoldState extends ConsumerState<DataSubmissionScaffold>
 }
 
 class _EagerInitialization extends ConsumerWidget {
-  const _EagerInitialization({required this.child});
+  _EagerInitialization({super.key, required this.form, required this.child});
 
+  final String form;
   final Widget child;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final Bundle eventBundle = Get.arguments as Bundle;
-    final String formUid = eventBundle.getString(FORM_UID)!;
-
-    final AsyncValue<FormConfiguration> formConfig =
-        ref.watch(formConfigurationProvider(formUid));
-
-    // final loadingFieldsRepositoryResult =
-    //     ref.watch(formFieldsRepositoryProvider);
+    final loadingFieldsRepositoryResult =
+        ref.watch(formFieldsRepositoryProvider);
 
     ref.watch(fieldWidgetFactoryProvider);
-    if (formConfig.isLoading) {
+    if (loadingFieldsRepositoryResult.isLoading) {
       return const Center(child: CircularProgressIndicator());
-    } else if (formConfig.hasError) {
+    } else if (loadingFieldsRepositoryResult.hasError) {
       return Center(
         child: Text(
           'Error Loading FormConfiguration',

@@ -163,40 +163,32 @@ class _FormSubmissionListRepositoryProviderElement
   String get form => (origin as FormSubmissionListRepositoryProvider).form;
 }
 
-String _$formSubmissionsByStatusHash() =>
-    r'bbafa8a375321eb2befbcd238c2e3613f8682b6f';
+String _$entitySummaryHash() => r'66f416bf9ee632b13635632b49c6a32565134c56';
 
-/// See also [formSubmissionsByStatus].
-@ProviderFor(formSubmissionsByStatus)
-const formSubmissionsByStatusProvider = FormSubmissionsByStatusFamily();
+/// See also [entitySummary].
+@ProviderFor(entitySummary)
+const entitySummaryProvider = EntitySummaryFamily();
 
-/// See also [formSubmissionsByStatus].
-class FormSubmissionsByStatusFamily
-    extends Family<AsyncValue<IList<DataFormSubmission>>> {
-  /// See also [formSubmissionsByStatus].
-  const FormSubmissionsByStatusFamily();
+/// See also [entitySummary].
+class EntitySummaryFamily extends Family<AsyncValue<EntitySummary>> {
+  /// See also [entitySummary].
+  const EntitySummaryFamily();
 
-  /// See also [formSubmissionsByStatus].
-  FormSubmissionsByStatusProvider call({
-    required String form,
-    SyncableEntityState? entityStatus,
-    String sortBy = 'name',
+  /// See also [entitySummary].
+  EntitySummaryProvider call({
+    required String entityUid,
   }) {
-    return FormSubmissionsByStatusProvider(
-      form: form,
-      entityStatus: entityStatus,
-      sortBy: sortBy,
+    return EntitySummaryProvider(
+      entityUid: entityUid,
     );
   }
 
   @override
-  FormSubmissionsByStatusProvider getProviderOverride(
-    covariant FormSubmissionsByStatusProvider provider,
+  EntitySummaryProvider getProviderOverride(
+    covariant EntitySummaryProvider provider,
   ) {
     return call(
-      form: provider.form,
-      entityStatus: provider.entityStatus,
-      sortBy: provider.sortBy,
+      entityUid: provider.entityUid,
     );
   }
 
@@ -212,124 +204,92 @@ class FormSubmissionsByStatusFamily
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'formSubmissionsByStatusProvider';
+  String? get name => r'entitySummaryProvider';
 }
 
-/// See also [formSubmissionsByStatus].
-class FormSubmissionsByStatusProvider
-    extends AutoDisposeFutureProvider<IList<DataFormSubmission>> {
-  /// See also [formSubmissionsByStatus].
-  FormSubmissionsByStatusProvider({
-    required String form,
-    SyncableEntityState? entityStatus,
-    String sortBy = 'name',
+/// See also [entitySummary].
+class EntitySummaryProvider extends AutoDisposeFutureProvider<EntitySummary> {
+  /// See also [entitySummary].
+  EntitySummaryProvider({
+    required String entityUid,
   }) : this._internal(
-          (ref) => formSubmissionsByStatus(
-            ref as FormSubmissionsByStatusRef,
-            form: form,
-            entityStatus: entityStatus,
-            sortBy: sortBy,
+          (ref) => entitySummary(
+            ref as EntitySummaryRef,
+            entityUid: entityUid,
           ),
-          from: formSubmissionsByStatusProvider,
-          name: r'formSubmissionsByStatusProvider',
+          from: entitySummaryProvider,
+          name: r'entitySummaryProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$formSubmissionsByStatusHash,
-          dependencies: FormSubmissionsByStatusFamily._dependencies,
+                  : _$entitySummaryHash,
+          dependencies: EntitySummaryFamily._dependencies,
           allTransitiveDependencies:
-              FormSubmissionsByStatusFamily._allTransitiveDependencies,
-          form: form,
-          entityStatus: entityStatus,
-          sortBy: sortBy,
+              EntitySummaryFamily._allTransitiveDependencies,
+          entityUid: entityUid,
         );
 
-  FormSubmissionsByStatusProvider._internal(
+  EntitySummaryProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.form,
-    required this.entityStatus,
-    required this.sortBy,
+    required this.entityUid,
   }) : super.internal();
 
-  final String form;
-  final SyncableEntityState? entityStatus;
-  final String sortBy;
+  final String entityUid;
 
   @override
   Override overrideWith(
-    FutureOr<IList<DataFormSubmission>> Function(
-            FormSubmissionsByStatusRef provider)
-        create,
+    FutureOr<EntitySummary> Function(EntitySummaryRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: FormSubmissionsByStatusProvider._internal(
-        (ref) => create(ref as FormSubmissionsByStatusRef),
+      override: EntitySummaryProvider._internal(
+        (ref) => create(ref as EntitySummaryRef),
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        form: form,
-        entityStatus: entityStatus,
-        sortBy: sortBy,
+        entityUid: entityUid,
       ),
     );
   }
 
   @override
-  AutoDisposeFutureProviderElement<IList<DataFormSubmission>> createElement() {
-    return _FormSubmissionsByStatusProviderElement(this);
+  AutoDisposeFutureProviderElement<EntitySummary> createElement() {
+    return _EntitySummaryProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is FormSubmissionsByStatusProvider &&
-        other.form == form &&
-        other.entityStatus == entityStatus &&
-        other.sortBy == sortBy;
+    return other is EntitySummaryProvider && other.entityUid == entityUid;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, form.hashCode);
-    hash = _SystemHash.combine(hash, entityStatus.hashCode);
-    hash = _SystemHash.combine(hash, sortBy.hashCode);
+    hash = _SystemHash.combine(hash, entityUid.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
-mixin FormSubmissionsByStatusRef
-    on AutoDisposeFutureProviderRef<IList<DataFormSubmission>> {
-  /// The parameter `form` of this provider.
-  String get form;
-
-  /// The parameter `entityStatus` of this provider.
-  SyncableEntityState? get entityStatus;
-
-  /// The parameter `sortBy` of this provider.
-  String get sortBy;
+mixin EntitySummaryRef on AutoDisposeFutureProviderRef<EntitySummary> {
+  /// The parameter `entityUid` of this provider.
+  String get entityUid;
 }
 
-class _FormSubmissionsByStatusProviderElement
-    extends AutoDisposeFutureProviderElement<IList<DataFormSubmission>>
-    with FormSubmissionsByStatusRef {
-  _FormSubmissionsByStatusProviderElement(super.provider);
+class _EntitySummaryProviderElement
+    extends AutoDisposeFutureProviderElement<EntitySummary>
+    with EntitySummaryRef {
+  _EntitySummaryProviderElement(super.provider);
 
   @override
-  String get form => (origin as FormSubmissionsByStatusProvider).form;
-  @override
-  SyncableEntityState? get entityStatus =>
-      (origin as FormSubmissionsByStatusProvider).entityStatus;
-  @override
-  String get sortBy => (origin as FormSubmissionsByStatusProvider).sortBy;
+  String get entityUid => (origin as EntitySummaryProvider).entityUid;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

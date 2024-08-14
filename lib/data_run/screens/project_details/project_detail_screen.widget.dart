@@ -3,7 +3,7 @@ import 'package:d2_remote/modules/metadatarun/project/entities/d_project.entity.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
-import 'package:mass_pro/data_run/screens/project_details/project_detail_item.model.dart';
+import 'package:mass_pro/data_run/screens/project_details/model/project_detail_item.model.dart';
 import 'package:mass_pro/data_run/screens/project_details/project_detail_items.widget.dart';
 import 'package:mass_pro/data_run/screens/view/view_base.dart';
 import 'package:mass_pro/data_run/utils/screens_constants.dart';

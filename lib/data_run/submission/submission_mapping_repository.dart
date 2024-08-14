@@ -112,7 +112,7 @@ class SubmissionMappingRepository {
 
     IMap<String, QFieldModel> fieldsModelsMap = IMap(<String, QFieldModel>{});
 
-    for (final field in _formConfiguration.fields.values) {
+    for (final field in _formConfiguration.allFields.values) {
       fieldsModelsMap = fieldsModelsMap.add(field.name,
           mapToModel(field: field, value: entityMap.get(field.name)));
     }
@@ -126,7 +126,7 @@ class SubmissionMappingRepository {
         IMapConst(syncableEntity!.formData ?? {});
 
     IList<QFieldModel> fieldsModels = IList(<QFieldModel>[]);
-    for (final field in _formConfiguration.fields.values) {
+    for (final field in _formConfiguration.allFields.values) {
       fieldsModels = fieldsModels
           .add(mapToModel(field: field, value: entityMap.get(field.name)));
     }

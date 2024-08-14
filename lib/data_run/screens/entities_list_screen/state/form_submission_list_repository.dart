@@ -3,6 +3,7 @@ import 'package:d2_remote/modules/datarun/form/entities/data_form_submission.ent
 import 'package:d2_remote/modules/datarun_shared/queries/syncable.query.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:mass_pro/core/common/state.dart';
+import 'package:mass_pro/data_run/screens/entities_list_screen/state/entity_summary.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'form_submission_list_repository.g.dart';
@@ -13,17 +14,6 @@ FormSubmissionListRepository formSubmissionListRepository(
   return FormSubmissionListRepository(form: form);
 }
 
-@riverpod
-Future<IList<DataFormSubmission>> formSubmissionsByStatus(
-    FormSubmissionsByStatusRef ref,
-    {required String form,
-      SyncableEntityState? entityStatus,
-      String sortBy = 'name'}) async {
-  final ddd = await ref
-      .watch(formSubmissionListRepositoryProvider(form))
-      .getEntitiesByState(state: entityStatus);
-  return ddd;
-}
 
 class FormSubmissionListRepository {
   FormSubmissionListRepository({required this.form});
@@ -126,4 +116,10 @@ class FormSubmissionListRepository {
         .get();
     return entities.lock;
   }
+}
+
+@riverpod
+Future<EntitySummary> entitySummary(EntitySummaryRef ref,
+    {required String entityUid}) {
+  throw UnimplementedError();
 }

@@ -8,8 +8,8 @@ import 'package:mass_pro/data_run/screens/data_submission_screen/data_submission
 import 'package:mass_pro/data_run/screens/entities_list_screen/entities_list_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/project_details/entity_creation_dialog/entity_creation_dialog.widget.dart';
 import 'package:mass_pro/data_run/screens/project_details/form_tiles/form_tiles.widget.dart';
-import 'package:mass_pro/data_run/screens/project_details/project_detail_item.model.dart';
-import 'package:mass_pro/data_run/screens/project_details/project_detail_items_models_notifier.dart';
+import 'package:mass_pro/data_run/screens/project_details/model/project_detail_item.model.dart';
+import 'package:mass_pro/data_run/screens/project_details/model/project_detail_items_models_notifier.dart';
 import 'package:mass_pro/generated/l10n.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 
@@ -30,19 +30,19 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
     final ProjectDetailItemModel projectDetailItemModel =
         ref.watch(projectDetailItemModelProvider);
 
-    /// Get the icon based on Synced/synced status
-    final Widget statusActionButton = when(
-        projectDetailItemModel.syncablesState, <Object,
-            StatelessWidget Function()>{
-      item_state.SyncableEntityState.uploadableStates: () => IconButton(
-          style: IconButton.styleFrom(
-            foregroundColor: Colors.grey,
-          ),
-          icon: const Icon(Icons.cloud_sync),
-          onPressed: () => onGranularSyncClick?.call(projectDetailItemModel)),
-      item_state.SyncableEntityState.ERROR: () =>
-          const Icon(Icons.warning_amber, color: Colors.red),
-    }).orElse(() => Icon(Icons.check, color: Colors.green[300]));
+    // /// Get the icon based on Synced/synced status
+    // final Widget statusActionButton = when(
+    //     projectDetailItemModel.syncablesState, <Object,
+    //         StatelessWidget Function()>{
+    //   item_state.SyncableEntityState.uploadableStates: () => IconButton(
+    //       style: IconButton.styleFrom(
+    //         foregroundColor: Colors.grey,
+    //       ),
+    //       icon: const Icon(Icons.cloud_sync),
+    //       onPressed: () => onGranularSyncClick?.call(projectDetailItemModel)),
+    //   item_state.SyncableEntityState.ERROR: () =>
+    //       const Icon(Icons.warning_amber, color: Colors.red),
+    // }).orElse(() => Icon(Icons.check, color: Colors.green[300]));
 
     return Card(
       shadowColor: Theme.of(context).colorScheme.shadow,
@@ -53,13 +53,12 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
       elevation: 3,
       child: ExpansionTile(
         initiallyExpanded: projectDetailItemModel.valueListIsOpen,
-        onExpansionChanged: (bool isExpanded) {
-          ref
-              .read(projectDetailItemsModelsNotifierProvider.notifier)
-              .toggleExpansion(projectDetailItemModel);
-        },
         leading: const Icon(Icons.event_note_sharp),
-        trailing: statusActionButton,
+        // trailing: Consumer(
+        //   builder: (context, ref, child) {
+        //     ref.watch(provider)
+        //   },
+        // ),
         title: Row(
           children: <Widget>[
             Expanded(
@@ -67,17 +66,16 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    projectDetailItemModel.activityName,
+                    projectDetailItemModel.activity.name!,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   Text(
-                    S.of(context).form(projectDetailItemModel.activeFormCount),
+                    S.of(context).form(projectDetailItemModel.activityForms),
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
               ),
             ),
-            // statusActionButton,
           ],
         ),
         subtitle: projectDetailItemModel.valueListIsOpen
@@ -87,7 +85,7 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
               )
             : null,
         // backgroundColor: cardColor,
-        children: projectDetailItemModel.activeFormCount > 0
+        children: projectDetailItemModel.activityForms > 0
             ? <Widget>[
                 FormsTiles(
                   onList: (FormListItemModel? model) async {
@@ -117,7 +115,7 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
     final String? result = await showDialog<String?>(
         context: context,
         builder: (BuildContext context) {
-          return EntityCreationDialog(formModel: formModel!);
+          return EntityCreationDialog();
         });
     // go to form
     if (result != null) {
@@ -131,10 +129,11 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
   Future<void> _goToDataEntryForm(
       String createdEntityUid, FormListItemModel formModel) async {
     Bundle bundle = Bundle();
-    bundle = bundle.putString(ACTIVITY_UID, formModel.activity);
+    bundle = bundle.putString(ACTIVITY_UID, formModel.form.activity);
     bundle = bundle.putString(TEAM_UID, formModel.team);
-    bundle = bundle.putString(FORM_UID, formModel.form);
-    bundle = bundle.putString(FORM_CODE, formModel.formCode);
+    bundle = bundle.putString(FORM_UID, formModel.form.uid);
+    bundle = bundle.putInt(FORM_VERSION, formModel.form.version);
+
     bundle = bundle.putString(SYNCABLE_UID, createdEntityUid);
 
     await Get.to(DataSubmissionScreen(), arguments: bundle);
@@ -142,11 +141,11 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
 
   Future<void> navigateToEntitiesList(FormListItemModel? formModel) async {
     Bundle bundle = Bundle();
-    bundle = bundle.putString(ACTIVITY_UID, formModel!.activity);
+    bundle = bundle.putString(ACTIVITY_UID, formModel!.form.activity);
     bundle = bundle.putString(TEAM_UID, formModel.team);
-    bundle = bundle.putString(FORM_UID, formModel.form);
-    bundle = bundle.putString(FORM_CODE, formModel.formCode);
+    bundle = bundle.putString(FORM_UID, formModel.form.uid);
+    bundle = bundle.putInt(FORM_VERSION, formModel.form.version);
 
-    await Get.to(EntitiesListScreen(formModel: formModel), arguments: bundle);
+    await Get.to(EntitiesListScreen(), arguments: bundle);
   }
 }

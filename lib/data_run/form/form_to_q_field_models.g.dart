@@ -1,12 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'org_units_notifier.dart';
+part of 'form_to_q_field_models.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$orgUnitsNotifierHash() => r'fa9e3215616a76121c6992009df3478b4b139aa9';
+String _$formToQFieldModelsHash() =>
+    r'285ed325c163197893007d36a311eefd8fe25f1c';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,39 +30,31 @@ class _SystemHash {
   }
 }
 
-abstract class _$OrgUnitsNotifier
-    extends BuildlessAutoDisposeAsyncNotifier<List<OrgUnit>> {
-  late final String form;
+/// See also [formToQFieldModels].
+@ProviderFor(formToQFieldModels)
+const formToQFieldModelsProvider = FormToQFieldModelsFamily();
 
-  FutureOr<List<OrgUnit>> build(
-    String form,
-  );
-}
+/// See also [formToQFieldModels].
+class FormToQFieldModelsFamily
+    extends Family<AsyncValue<IMap<String, QFieldModel>>> {
+  /// See also [formToQFieldModels].
+  const FormToQFieldModelsFamily();
 
-/// See also [OrgUnitsNotifier].
-@ProviderFor(OrgUnitsNotifier)
-const orgUnitsNotifierProvider = OrgUnitsNotifierFamily();
-
-/// See also [OrgUnitsNotifier].
-class OrgUnitsNotifierFamily extends Family<AsyncValue<List<OrgUnit>>> {
-  /// See also [OrgUnitsNotifier].
-  const OrgUnitsNotifierFamily();
-
-  /// See also [OrgUnitsNotifier].
-  OrgUnitsNotifierProvider call(
-    String form,
-  ) {
-    return OrgUnitsNotifierProvider(
-      form,
+  /// See also [formToQFieldModels].
+  FormToQFieldModelsProvider call({
+    required String form,
+  }) {
+    return FormToQFieldModelsProvider(
+      form: form,
     );
   }
 
   @override
-  OrgUnitsNotifierProvider getProviderOverride(
-    covariant OrgUnitsNotifierProvider provider,
+  FormToQFieldModelsProvider getProviderOverride(
+    covariant FormToQFieldModelsProvider provider,
   ) {
     return call(
-      provider.form,
+      form: provider.form,
     );
   }
 
@@ -77,30 +70,33 @@ class OrgUnitsNotifierFamily extends Family<AsyncValue<List<OrgUnit>>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'orgUnitsNotifierProvider';
+  String? get name => r'formToQFieldModelsProvider';
 }
 
-/// See also [OrgUnitsNotifier].
-class OrgUnitsNotifierProvider extends AutoDisposeAsyncNotifierProviderImpl<
-    OrgUnitsNotifier, List<OrgUnit>> {
-  /// See also [OrgUnitsNotifier].
-  OrgUnitsNotifierProvider(
-    String form,
-  ) : this._internal(
-          () => OrgUnitsNotifier()..form = form,
-          from: orgUnitsNotifierProvider,
-          name: r'orgUnitsNotifierProvider',
+/// See also [formToQFieldModels].
+class FormToQFieldModelsProvider
+    extends AutoDisposeFutureProvider<IMap<String, QFieldModel>> {
+  /// See also [formToQFieldModels].
+  FormToQFieldModelsProvider({
+    required String form,
+  }) : this._internal(
+          (ref) => formToQFieldModels(
+            ref as FormToQFieldModelsRef,
+            form: form,
+          ),
+          from: formToQFieldModelsProvider,
+          name: r'formToQFieldModelsProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$orgUnitsNotifierHash,
-          dependencies: OrgUnitsNotifierFamily._dependencies,
+                  : _$formToQFieldModelsHash,
+          dependencies: FormToQFieldModelsFamily._dependencies,
           allTransitiveDependencies:
-              OrgUnitsNotifierFamily._allTransitiveDependencies,
+              FormToQFieldModelsFamily._allTransitiveDependencies,
           form: form,
         );
 
-  OrgUnitsNotifierProvider._internal(
+  FormToQFieldModelsProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -113,20 +109,14 @@ class OrgUnitsNotifierProvider extends AutoDisposeAsyncNotifierProviderImpl<
   final String form;
 
   @override
-  FutureOr<List<OrgUnit>> runNotifierBuild(
-    covariant OrgUnitsNotifier notifier,
+  Override overrideWith(
+    FutureOr<IMap<String, QFieldModel>> Function(FormToQFieldModelsRef provider)
+        create,
   ) {
-    return notifier.build(
-      form,
-    );
-  }
-
-  @override
-  Override overrideWith(OrgUnitsNotifier Function() create) {
     return ProviderOverride(
       origin: this,
-      override: OrgUnitsNotifierProvider._internal(
-        () => create()..form = form,
+      override: FormToQFieldModelsProvider._internal(
+        (ref) => create(ref as FormToQFieldModelsRef),
         from: from,
         name: null,
         dependencies: null,
@@ -138,14 +128,13 @@ class OrgUnitsNotifierProvider extends AutoDisposeAsyncNotifierProviderImpl<
   }
 
   @override
-  AutoDisposeAsyncNotifierProviderElement<OrgUnitsNotifier, List<OrgUnit>>
-      createElement() {
-    return _OrgUnitsNotifierProviderElement(this);
+  AutoDisposeFutureProviderElement<IMap<String, QFieldModel>> createElement() {
+    return _FormToQFieldModelsProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is OrgUnitsNotifierProvider && other.form == form;
+    return other is FormToQFieldModelsProvider && other.form == form;
   }
 
   @override
@@ -157,19 +146,19 @@ class OrgUnitsNotifierProvider extends AutoDisposeAsyncNotifierProviderImpl<
   }
 }
 
-mixin OrgUnitsNotifierRef
-    on AutoDisposeAsyncNotifierProviderRef<List<OrgUnit>> {
+mixin FormToQFieldModelsRef
+    on AutoDisposeFutureProviderRef<IMap<String, QFieldModel>> {
   /// The parameter `form` of this provider.
   String get form;
 }
 
-class _OrgUnitsNotifierProviderElement
-    extends AutoDisposeAsyncNotifierProviderElement<OrgUnitsNotifier,
-        List<OrgUnit>> with OrgUnitsNotifierRef {
-  _OrgUnitsNotifierProviderElement(super.provider);
+class _FormToQFieldModelsProviderElement
+    extends AutoDisposeFutureProviderElement<IMap<String, QFieldModel>>
+    with FormToQFieldModelsRef {
+  _FormToQFieldModelsProviderElement(super.provider);
 
   @override
-  String get form => (origin as OrgUnitsNotifierProvider).form;
+  String get form => (origin as FormToQFieldModelsProvider).form;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

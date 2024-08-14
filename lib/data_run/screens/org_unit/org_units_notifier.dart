@@ -1,5 +1,5 @@
-
 import 'package:d2_remote/modules/metadatarun/org_unit/entities/org_unit.entity.dart';
+import 'package:mass_pro/data_run/form/form_configuration.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'org_units_notifier.g.dart';
@@ -9,7 +9,9 @@ class OrgUnitsNotifier extends _$OrgUnitsNotifier {
   // Object? key;
 
   @override
-  Future<List<OrgUnit>> build() async {
+  Future<List<OrgUnit>> build(String form) async {
+    final formConfig = ref.watch(formConfigurationProvider(form: form)).requireValue;
+
     return [];
   }
 

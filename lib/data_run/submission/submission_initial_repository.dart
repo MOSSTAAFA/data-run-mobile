@@ -35,7 +35,7 @@ class SubmissionInitialRepository {
 
     formData.forEach((String key, String? value) => submissionData[key] =
         mapFieldToValueType(
-            value: value, valueType: _formConfiguration.fields.get(key)?.type));
+            value: value, valueType: _formConfiguration.allFields.get(key)?.type));
 
     submission.formData = submissionData;
 
