@@ -10,14 +10,14 @@ class OrgUnitPickerField<T extends IdentifiableTreeNode>
     extends ConsumerStatefulWidget {
   const OrgUnitPickerField(
       {Key? key,
+      required this.dataSource,
       this.initialValueUid,
       this.onSubmitted,
       this.autofocus = false,
       this.fieldHintText,
       this.fieldLabelText,
       this.keyboardType,
-      this.onSaved,
-      required this.dataSource})
+      this.onSaved})
       : super(key: key);
 
   final String? initialValueUid;

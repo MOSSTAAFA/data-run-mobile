@@ -1,10 +1,14 @@
+import 'package:d2_remote/modules/metadatarun/org_unit/entities/org_unit.entity.dart';
+import 'package:d2_remote/modules/metadatarun/org_unit/queries/org_unit.query.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:mass_pro/commons/constants.dart';
-import 'package:mass_pro/commons/custom_widgets/async_value.widget.dart';
 import 'package:mass_pro/data_run/form/form_configuration.dart';
+import 'package:mass_pro/data_run/screens/org_unit/data_model/data_model.dart';
+import 'package:mass_pro/data_run/screens/org_unit/data_model/tree_node_data_source.dart';
 import 'package:mass_pro/data_run/submission/submission.dart';
 import 'package:mass_pro/data_run/submission/submission_initial_repository.dart';
 import 'package:mass_pro/generated/l10n.dart';
@@ -98,21 +102,35 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
           content: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-
                 FormBuilder(
                   key: _formKey,
                   clearValueOnUnregister: true,
                   onChanged: () {
                     _formKey.currentState!.save();
                   },
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: valueOrNull.mainFields.fields
-                            ?.map((QFieldModel fieldModel) =>
-                                DynamicFormFieldWidget(
-                                    fieldModel: fieldModel))
-                            .toList() ??
-                        <Widget>[],
+                  child: Consumer(
+                    builder: (context, ref, child) {
+                      final formConfig = valueOrNull;
+                      final dataSource = ref.watch(treeNodeDataSourceProvider(
+                          query: OrgUnitQuery(),
+                          selectableUids: valueOrNull.orgUnitTreeUids));
+                      return switch (dataSource) {
+                        AsyncValue(:final Object error?) => ErrorWidget(error),
+                        AsyncValue(
+                          :final TreeNodeDataSource<OrgUnit, OrgUnitQuery>
+                          valueOrNull?
+                        ) =>
+                          FormField<String>(builder: (field) {
+                            return OrgUnitPickerField(
+                              dataSource: valueOrNull,
+                              initialValueUid: formConfig.isSingleOrgUnit
+                                  ? formConfig.orgUnitTreeUids.first
+                                  : null,
+                            );
+                          }),
+                        _ => const CircularProgressIndicator(),
+                      };
+                    },
                   ),
                 ),
                 if (_isLoading)

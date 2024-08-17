@@ -5,8 +5,8 @@ import 'package:mass_pro/tree_examples/treeview_custom_object_sample.dart';
 import 'package:mass_pro/tree_examples/treeview_indexed_modification_sample.dart';
 import 'package:mass_pro/tree_examples/treeview_modification_sample.dart';
 import 'package:mass_pro/utils/navigator_key.dart';
-import 'tree_examples/tree1.dart';
-import 'tree_examples/tree2.dart';
+import '../tree_examples/tree1.dart';
+import '../tree_examples/tree2.dart';
 
 class MyNewApp extends StatelessWidget {
   @override
