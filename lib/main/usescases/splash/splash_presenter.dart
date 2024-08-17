@@ -47,10 +47,10 @@ class SplashPresenter {
                   goToNextScreen(
                       isUserLogged: userLogged,
                       sessionLocked:
-                          preferenceProvider.getBoolean(SESSION_LOCKED, false),
-                      initialSyncDone: preferenceProvider.getBoolean(
+                          preferenceProvider.getBool(SESSION_LOCKED, false),
+                      initialSyncDone: preferenceProvider.getBool(
                           INITIAL_METADATA_SYNC_DONE, false),
-                      initialDataSyncDone: preferenceProvider.getBoolean(
+                      initialDataSyncDone: preferenceProvider.getBool(
                           INITIAL_DATA_SYNC_DONE, false));
                 } else {
                   goToNextScreen(

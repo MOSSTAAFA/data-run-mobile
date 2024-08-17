@@ -1093,6 +1093,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Select Org Unit`
+  String get selectOrgUnit {
+    return Intl.message(
+      'Select Org Unit',
+      name: 'selectOrgUnit',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

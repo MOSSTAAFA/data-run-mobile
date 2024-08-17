@@ -22,13 +22,16 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'form_fields_repository.g.dart';
 
 @riverpod
-Future<FormFieldsRepository> formFieldsRepository(FormFieldsRepositoryRef ref) async {
+Future<FormFieldsRepository> formFieldsRepository(
+    FormFieldsRepositoryRef ref) async {
   final Bundle eventBundle = Get.arguments as Bundle;
   final String syncableUid = eventBundle.getString(SYNCABLE_UID)!;
   final String formUid = eventBundle.getString(FORM_UID)!;
+  final int formVersion = eventBundle.getInt(FORM_VERSION)!;
 
-  final formConfig = await ref
-      .watch(formConfigurationProvider(form: formUid).future);
+  final formConfig = await ref.watch(
+      formConfigurationProvider(form: formUid, formVersion: formVersion)
+          .future);
 
   final submissionMappingRepository = ref.watch(
       submissionMappingRepositoryProvider(

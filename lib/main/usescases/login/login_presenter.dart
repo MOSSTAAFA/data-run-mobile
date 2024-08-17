@@ -77,7 +77,7 @@ class LoginScreenPresenter {
               sharedPreferenceInstance: PreferenceProvider.sharedPreferences())
           .then((isUserLoggedIn) {
         final isSessionLocked =
-            preferenceProvider.getBoolean(SESSION_LOCKED, false);
+            preferenceProvider.getBool(SESSION_LOCKED, false);
         if (isUserLoggedIn && !isSessionLocked) {
           ref
               .read(appStateNotifierProvider.notifier)

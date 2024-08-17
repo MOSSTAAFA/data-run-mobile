@@ -189,6 +189,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "open": MessageLookupByLibrary.simpleMessage("Open"),
         "openNewForm": MessageLookupByLibrary.simpleMessage("Open New Form"),
         "password": MessageLookupByLibrary.simpleMessage("password"),
+        "selectOrgUnit":
+            MessageLookupByLibrary.simpleMessage("Select Org Unit"),
         "send": MessageLookupByLibrary.simpleMessage("Send"),
         "showPassword": MessageLookupByLibrary.simpleMessage("Show Password"),
         "syncFormData": MessageLookupByLibrary.simpleMessage("Sync Form Data"),

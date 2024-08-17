@@ -129,5 +129,6 @@
   "version": "الإصدار",
   "clear": "تصفية",
   "accept": "قبول",
-  "level": "المستوى"
+  "level": "المستوى",
+  "selectOrgUnit": "Select Org Unit"
 }

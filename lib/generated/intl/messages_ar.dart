@@ -189,6 +189,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "openNewForm":
             MessageLookupByLibrary.simpleMessage("فتح استمارة جديدة"),
         "password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
+        "selectOrgUnit":
+            MessageLookupByLibrary.simpleMessage("Select Org Unit"),
         "send": MessageLookupByLibrary.simpleMessage("إرسال"),
         "showPassword": MessageLookupByLibrary.simpleMessage("أظهر كلمة السر"),
         "syncFormData":

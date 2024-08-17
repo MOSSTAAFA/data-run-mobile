@@ -22,7 +22,6 @@ import 'package:mass_pro/data_run/utils/screens_constants.dart';
 import 'package:mass_pro/main/data/server/user_manager_impl.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:mass_pro/core/common/state.dart';
 
 part 'project_detail_items_models_notifier.g.dart';
 
@@ -147,7 +146,7 @@ Future<IList<FormListItemModel>> formListItemModels(
         form: form!,
         team: projectDetailItemModel.team?.uid,
         entityCount: await ref
-            .watch(entityCountByStatusProvider(form: form!.uid!).future),
+            .watch(entityCountByStatusProvider(form: form.uid!).future),
         canAddNewEvent: true));
   }
   return formListItemModels;

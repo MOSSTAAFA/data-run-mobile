@@ -1,28 +1,7 @@
 import 'package:animated_tree_view/animated_tree_view.dart';
-import 'package:d2_remote/d2_remote.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:mass_pro/commons/prefs/preference_provider.dart';
-import 'package:mass_pro/main.reflectable.dart';
-import 'package:mass_pro/main_app_tree.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-const showSnackBar = true;
-const expandChildrenOnReady = true;
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  initializeReflectable();
-
-  await PreferenceProvider.initialize();
-
-  await D2Remote.initialize(
-      /*
-      databaseFactory: kIsWeb ? databaseFactoryFfiWeb : null*/
-      );
-  final sharedPreferences = await SharedPreferences.getInstance();
-  runApp(MyNewApp());
-}
+import 'package:mass_pro/main_app.dart';
 
 class TreeViwPage1 extends StatefulWidget {
   const TreeViwPage1({Key? key, required this.title}) : super(key: key);
@@ -64,10 +43,10 @@ class TreeViwPage1State extends State<TreeViwPage1> {
         showRootNode: true,
         expansionIndicatorBuilder: (context, node) =>
             ChevronIndicator.rightDown(
-          tree: node,
-          color: Colors.blue[700],
-          padding: const EdgeInsets.all(8),
-        ),
+              tree: node,
+              color: Colors.blue[700],
+              padding: const EdgeInsets.all(8),
+            ),
         indentation: const Indentation(style: IndentStyle.squareJoint),
         onItemTap: (item) {
           if (kDebugMode) print("Item tapped: ${item.key}");

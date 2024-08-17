@@ -48,7 +48,15 @@ dependencies:
   get: ^4.6.6
   expressions: ^0.2.5+1
   web: ^1.0.0
+
+  ## Temp
   animated_tree_view: ^2.2.1
+  flutter_fancy_tree_view: ^1.6.0
+  arborio: ^0.3.0-beta
+  flutter_tree: ^2.0.3
+  faker: ^2.1.0
+  provider: ^6.1.2
+  ## End of Temp
 #  sentry_flutter: ^8.3.0
 
 dev_dependencies:
@@ -59,6 +67,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   mockito: ^5.4.4
+  http_mock_adapter: ^0.4.4
   riverpod_generator: ^2.4.0
   riverpod_lint: ^2.3.10
   #  sealed_generators: ^1.13.0

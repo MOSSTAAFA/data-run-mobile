@@ -70,7 +70,7 @@ class PreferenceProvider {
     return _sharedPreferences!.getInt(key) ?? defaultValue;
   }
 
-  bool getBoolean(String key, bool defaultValue) {
+  bool getBool(String key, bool defaultValue) {
     assert(_sharedPreferences != null, 'PreferenceProvider is not initialized');
     return _sharedPreferences!.getBool(key) ?? defaultValue;
   }

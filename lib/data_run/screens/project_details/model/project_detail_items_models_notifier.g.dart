@@ -785,7 +785,7 @@ final projectDetailItemModelProvider =
 typedef ProjectDetailItemModelRef
     = AutoDisposeProviderRef<ProjectDetailItemModel>;
 String _$formListItemModelsHash() =>
-    r'a330f6c992585fc1426afecd887406d8336ec13a';
+    r'2d84f57555888c4c008229b9633dd6253bbc0a44';
 
 /// See also [formListItemModels].
 @ProviderFor(formListItemModels)

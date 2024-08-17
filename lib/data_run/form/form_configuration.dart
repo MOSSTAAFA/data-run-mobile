@@ -2,17 +2,12 @@ import 'dart:async';
 
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/datarun/form/entities/form_definition.entity.dart';
-import 'package:d2_remote/modules/datarun/form/entities/form_org_unit.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule.dart';
-import 'package:d2_remote/modules/metadatarun/org_unit/entities/org_unit.entity.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:get/get.dart';
-import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/data_run/errors_management/errors/form_does_not_exist.exception.dart';
 import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
-import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'form_configuration.g.dart';
@@ -40,6 +35,16 @@ Future<FormConfiguration> formConfiguration(FormConfigurationRef ref,
       .withOrganisationUnit()
       .getOne();
 
+  final formOrgUnitsUids =
+      formDefinition?.formOrgUnits?.map((fo) => fo.orgUnit).toList() ?? [];
+
+  // List<String> formOrgUnitTreeUids = [];
+  // if (formOrgUnitsUids.isNotEmpty) {
+  //   formOrgUnitTreeUids = (await D2Remote.organisationUnitModuleD.orgUnit
+  //       // .byIds(formOrgUnitsUids)
+  //       .get()).getPathsUids().toList();
+  // }
+
   return FormConfiguration(
       form: form,
       label: getItemLocalString(formDefinition?.label,
@@ -47,7 +52,7 @@ Future<FormConfiguration> formConfiguration(FormConfigurationRef ref,
       version: selectedFormVersion,
       fields: formDefinition?.fields,
       options: formDefinition?.options,
-      orgUnits: formDefinition?.formOrgUnits);
+      orgUnits: formOrgUnitsUids);
 }
 
 class FormConfiguration {
@@ -56,7 +61,7 @@ class FormConfiguration {
       List<FormOption>? options,
       required this.form,
       required this.label,
-      List<FormOrgUnit>? orgUnits,
+      List<String>? orgUnits,
       required this.version})
       : this.allFields =
             IMap.fromIterable<String, DynamicFormField, DynamicFormField>(
@@ -77,7 +82,7 @@ class FormConfiguration {
                 fields ?? [],
                 keyMapper: (DynamicFormField field) => field.name,
                 valueMapper: (DynamicFormField field) => field.rules?.lock),
-        this.orgUnits = orgUnits?.lock ?? IList();
+        this.orgUnitTreeUids = orgUnits?.lock ?? IList();
 
   final String form;
 
@@ -94,12 +99,12 @@ class FormConfiguration {
   /// {field.name: List<Rule>?}
   final IMap<String, IList<Rule>?> fieldRules;
 
-  final IList<FormOrgUnit> orgUnits;
+  final IList<String> orgUnitTreeUids;
 
   IMap<String, DynamicFormField> get mainFields =>
       allFields.where((k, v) => v.mainField);
 
-  bool get isSingleOrgUnit => orgUnits.length == 1;
+  bool get isSingleOrgUnit => orgUnitTreeUids.length == 1;
 
   String getFieldDisplayName(String fieldName) =>
       getItemLocalString(allFields.get(fieldName)?.label,

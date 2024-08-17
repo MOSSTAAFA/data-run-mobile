@@ -8,13 +8,8 @@ import 'package:mass_pro/core/common/state.dart';
 import 'package:mass_pro/data_run/form/form_configuration.dart';
 import 'package:mass_pro/data_run/screens/data_submission_screen/data_submission_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/entities_list_screen/entity_list_item_summary.widget.dart';
-import 'package:mass_pro/data_run/screens/entities_list_screen/state/form_submission_list_repository.dart';
 import 'package:mass_pro/data_run/screens/project_details/entity_creation_dialog/entity_creation_dialog.widget.dart';
-import 'package:mass_pro/data_run/screens/project_details/model/project_detail_item.model.dart';
 import 'package:mass_pro/data_run/screens/project_details/model/project_detail_items_models_notifier.dart';
-import 'package:mass_pro/data_run/screens/shared_widgets/q_sync_icon_button.widget.dart';
-import 'package:mass_pro/data_run/screens/sync_dialog/sync_dialog.widget.dart';
-import 'package:mass_pro/data_run/screens/sync_dialog/sync_submission_repository.dart';
 import 'package:mass_pro/generated/l10n.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 
