@@ -57,7 +57,7 @@ FutureOr<IList<DActivity>> userAssignedActivities(UserAssignedActivitiesRef ref,
       .map((t) => t.activity!)
       .toList();
 
-  final activities = await D2Remote.activityModuleD.activity
+  final List<DActivity> activities = await D2Remote.activityModuleD.activity
       .byIds(userActivitiesUids)
       .byActivityStatus(activeStatus)
       .get();
@@ -160,7 +160,7 @@ Future<IList<ProjectDetailItemModel>> projectDetailItemModels(
 
   /// get the list of active activities
   final IList<DActivity> activeActivities =
-      await ref.watch(userAssignedActivitiesProvider().future);
+      await ref.watch(userAssignedActivitiesProvider(project: projectUid).future);
 
   /// Filter activities By project Id
   final Iterable<DActivity> projectActivities =

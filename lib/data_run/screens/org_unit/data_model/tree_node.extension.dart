@@ -2,9 +2,12 @@ import 'package:d2_remote/shared/entities/identifiable_tree_node.entity.dart';
 import 'package:mass_pro/data_run/screens/org_unit/data_model/tree_node.dart';
 
 extension TreeNodeExtension<T extends IdentifiableTreeNode> on T {
-  TreeNode<T> toTreeNode({bool selectable = false}) {
+  TreeNode toTreeNode({bool selectable = false}) {
     return TreeNode(
-        data: this,
+        uid: this.uid,
+        code: this.code,
+        name: this.name,
+        displayName: this.displayName,
         parent: this.parent,
         path: this.path,
         selectable: selectable);

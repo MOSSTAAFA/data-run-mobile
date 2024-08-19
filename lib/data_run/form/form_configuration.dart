@@ -32,18 +32,7 @@ Future<FormConfiguration> formConfiguration(FormConfigurationRef ref,
       .formModule.formDefinition
       .byForm(form)
       .byVersion(selectedFormVersion)
-      .withOrganisationUnit()
       .getOne();
-
-  final formOrgUnitsUids =
-      formDefinition?.formOrgUnits?.map((fo) => fo.orgUnit).toList() ?? [];
-
-  // List<String> formOrgUnitTreeUids = [];
-  // if (formOrgUnitsUids.isNotEmpty) {
-  //   formOrgUnitTreeUids = (await D2Remote.organisationUnitModuleD.orgUnit
-  //       // .byIds(formOrgUnitsUids)
-  //       .get()).getPathsUids().toList();
-  // }
 
   return FormConfiguration(
       form: form,
@@ -52,7 +41,7 @@ Future<FormConfiguration> formConfiguration(FormConfigurationRef ref,
       version: selectedFormVersion,
       fields: formDefinition?.fields,
       options: formDefinition?.options,
-      orgUnits: formOrgUnitsUids);
+      orgUnits: formDefinition?.orgUnits ?? []);
 }
 
 class FormConfiguration {

@@ -1095,10 +1095,40 @@ class S {
   }
 
   /// `Select Org Unit`
-  String get selectOrgUnit {
+  String get orgUnitHelpText {
     return Intl.message(
       'Select Org Unit',
-      name: 'selectOrgUnit',
+      name: 'orgUnitHelpText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Org Unit`
+  String get orgUnitInputLabel {
+    return Intl.message(
+      'Select Org Unit',
+      name: 'orgUnitInputLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search for and Select OrgUnit`
+  String get orgUnitDialogTitle {
+    return Intl.message(
+      'Search for and Select OrgUnit',
+      name: 'orgUnitDialogTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search Org Units...`
+  String get searchOrgUnitsHelpText {
+    return Intl.message(
+      'Search Org Units...',
+      name: 'searchOrgUnitsHelpText',
       desc: '',
       args: [],
     );

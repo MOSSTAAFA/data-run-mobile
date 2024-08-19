@@ -1,3 +1,5 @@
+// ignore_for_file: strict_raw_type
+
 import 'package:animated_tree_view/animated_tree_view.dart';
 import 'package:flutter/material.dart';
 import 'package:mass_pro/tree_examples/tree1.dart';
@@ -40,7 +42,7 @@ class _TreeViewIndexedModificationState extends State<TreeViewIndexedModificatio
                 child: ElevatedButton.icon(
                     onPressed: () => tree.add(IndexedTreeNode()),
                     icon: const Icon(Icons.add),
-                    label: const Text("Add Node")),
+                    label: const Text('Add Node')),
               ),
             const SizedBox(height: 32),
           ],
@@ -62,7 +64,7 @@ class _TreeViewIndexedModificationState extends State<TreeViewIndexedModificatio
           children: [
             ListTile(
               title: Text(
-                "Item ${node.level}-${node.key}",
+                'Item ${node.level}-${node.key}',
                 style: TextStyle(color: color.byLuminance()),
               ),
               subtitle: Text(
@@ -111,7 +113,7 @@ class _TreeViewIndexedModificationState extends State<TreeViewIndexedModificatio
           ),
         ),
         icon: const Icon(Icons.add_circle, color: Colors.green),
-        label: const Text("Child", style: TextStyle(color: Colors.green)),
+        label: const Text('Child', style: TextStyle(color: Colors.green)),
         onPressed: () => item.add(IndexedTreeNode()),
       ),
     );
@@ -127,7 +129,7 @@ class _TreeViewIndexedModificationState extends State<TreeViewIndexedModificatio
             borderRadius: BorderRadius.all(Radius.circular(4)),
           ),
         ),
-        child: const Text("Insert Above", style: TextStyle(color: Colors.green)),
+        child: const Text('Insert Above', style: TextStyle(color: Colors.green)),
         onPressed: () {
           item.parent?.insertBefore(item, IndexedTreeNode());
         },
@@ -145,7 +147,7 @@ class _TreeViewIndexedModificationState extends State<TreeViewIndexedModificatio
             borderRadius: BorderRadius.all(Radius.circular(4)),
           ),
         ),
-        child: const Text("Insert Below", style: TextStyle(color: Colors.green)),
+        child: const Text('Insert Below', style: TextStyle(color: Colors.green)),
         onPressed: () {
           item.parent?.insertAfter(item, IndexedTreeNode());
         },
@@ -179,7 +181,7 @@ class _TreeViewIndexedModificationState extends State<TreeViewIndexedModificatio
             ),
           ),
           icon: const Icon(Icons.delete, color: Colors.red),
-          label: const Text("Clear All", style: TextStyle(color: Colors.red)),
+          label: const Text('Clear All', style: TextStyle(color: Colors.red)),
           onPressed: () => item.clear()),
     );
   }

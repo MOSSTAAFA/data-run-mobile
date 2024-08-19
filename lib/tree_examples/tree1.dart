@@ -27,14 +27,14 @@ class TreeViwPage1State extends State<TreeViwPage1> {
           return FloatingActionButton.extended(
             onPressed: () {
               if (sampleTree.isExpanded) {
-                _controller?.collapseNode(TreeNode(key: "0C1C2A3A"));
+                _controller?.collapseNode(TreeNode(key: '0C1C2A3A'));
               } else {
                 _controller?.expandAllChildren(sampleTree);
               }
             },
             label: isExpanded
-                ? const Text("Collapse all")
-                : const Text("Expand all"),
+                ? const Text('Collapse all')
+                : const Text('Expand all'),
           );
         },
       ),
@@ -49,12 +49,12 @@ class TreeViwPage1State extends State<TreeViwPage1> {
             ),
         indentation: const Indentation(style: IndentStyle.squareJoint),
         onItemTap: (item) {
-          if (kDebugMode) print("Item tapped: ${item.key}");
+          if (kDebugMode) print('Item tapped: ${item.key}');
 
           if (showSnackBar) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text("Item tapped: ${item.key}"),
+                content: Text('Item tapped: ${item.key}'),
                 duration: const Duration(milliseconds: 750),
               ),
             );
@@ -65,9 +65,9 @@ class TreeViwPage1State extends State<TreeViwPage1> {
           if (expandChildrenOnReady) controller.expandAllChildren(sampleTree);
         },
         builder: (context, node) => Card(
-          color: colorMapper[node.level.clamp(0, colorMapper.length - 1)]!,
+          color: colorMapper[node.level.clamp(0, colorMapper.length - 1)],
           child: ListTile(
-            title: Text("Item ${node.level}-${node.key}"),
+            title: Text('Item ${node.level}-${node.key}'),
             // subtitle: Text('Level ${node.level}'),
           ),
         ),
@@ -78,23 +78,23 @@ class TreeViwPage1State extends State<TreeViwPage1> {
 
 final sampleTree = TreeNode.root()
   ..addAll([
-    TreeNode(key: "0A")..add(TreeNode(key: "0A1A")),
-    TreeNode(key: "0C")
+    TreeNode(key: '0A')..add(TreeNode(key: '0A1A')),
+    TreeNode(key: '0C')
       ..addAll([
-        TreeNode(key: "0C1A"),
-        TreeNode(key: "0C1B"),
-        TreeNode(key: "0C1C")
+        TreeNode(key: '0C1A'),
+        TreeNode(key: '0C1B'),
+        TreeNode(key: '0C1C')
           ..addAll([
-            TreeNode(key: "0C1C2A")
+            TreeNode(key: '0C1C2A')
               ..addAll([
-                TreeNode(key: "0C1C2A3A"),
-                TreeNode(key: "0C1C2A3B"),
-                TreeNode(key: "0C1C2A3C"),
+                TreeNode(key: '0C1C2A3A'),
+                TreeNode(key: '0C1C2A3B'),
+                TreeNode(key: '0C1C2A3C'),
               ]),
           ]),
       ]),
-    TreeNode(key: "0D"),
-    TreeNode(key: "0E"),
+    TreeNode(key: '0D'),
+    TreeNode(key: '0E'),
   ]);
 
 final Map<int, Color> colorMapper = {

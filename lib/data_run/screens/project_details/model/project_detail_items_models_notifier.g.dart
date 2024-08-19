@@ -176,7 +176,7 @@ class _UserAssignedTeamsProviderElement
 }
 
 String _$userAssignedActivitiesHash() =>
-    r'0f383103aaa57efd9961cc3e0c0c98d6c7c3c624';
+    r'a432069388ed78d36d6cebf74483078da6fb4853';
 
 /// See also [userAssignedActivities].
 @ProviderFor(userAssignedActivities)
@@ -806,7 +806,7 @@ final formListItemModelsProvider =
 typedef FormListItemModelsRef
     = AutoDisposeFutureProviderRef<IList<FormListItemModel>>;
 String _$projectDetailItemModelsHash() =>
-    r'd1d0a41954fb34f9ccef8ee78e87a3edac4cf626';
+    r'cfd36494eba8dad7d11cd8639a105f52a095657c';
 
 /// See also [projectDetailItemModels].
 @ProviderFor(projectDetailItemModels)

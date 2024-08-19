@@ -43,20 +43,18 @@ class ActivitiesAccessRepository {
         .where(attribute: 'disabled', value: false)
         .get();
 
-    return enabledActivities.any((DActivity activity) => activity.id == team.activity);
+    return enabledActivities
+        .any((DActivity activity) => activity.id == team.activity);
   }
 
   /// activity is Active and has one or more active teams assigned to user
-  Future<bool> activityIsActiveWithActiveTeams(String activityUid) async {
-    final DActivity? activity =
-        await D2Remote.activityModuleD.activity.byId(activityUid).getOne();
-
+  Future<bool> activityWithActiveTeams(String activityUid) async {
     final List<DTeam> enabledTeams = await D2Remote.teamModuleD.team
+        .byActivity(activityUid)
         .where(attribute: 'disabled', value: false)
         .get();
 
-    return activity?.disabled != true &&
-        enabledTeams.any((DTeam team) => activityUid == team.activity);
+    return enabledTeams.any((DTeam team) => team.disabled = false);
   }
 
   // /// form's activity is Active, and activity has one
@@ -82,7 +80,8 @@ class ActivitiesAccessRepository {
         .where(attribute: 'disabled', value: false)
         .get();
 
-    return enabledActivities.any((DActivity activity) => activity.project == project.id);
+    return enabledActivities
+        .any((DActivity activity) => activity.project == project.id);
   }
 
   ///
@@ -90,17 +89,19 @@ class ActivitiesAccessRepository {
   /// Only Active teams (Enabled)
   Future<IList<DTeam>> getActiveTeams() async {
     /// get all teams from teamsProvider and filter disabled
-    final IList<DTeam> enabledTeams = await getAllTeams()
-        .then((IList<DTeam> teams) => teams.where((DTeam team) => !team.disabled).toIList());
+    final IList<DTeam> enabledTeams = await getAllTeams().then(
+        (IList<DTeam> teams) =>
+            teams.where((DTeam team) => !team.disabled).toIList());
 
     /// get all activities from activitiesProvider and filter disabled
     final IList<DActivity> enabledActivities = await getAllActivities().then(
-        (IList<DActivity> activities) =>
-            activities.where((DActivity activity) => !activity.disabled).toIList());
+        (IList<DActivity> activities) => activities
+            .where((DActivity activity) => !activity.disabled)
+            .toIList());
 
     /// Predicate<T>
-    bool teamInActiveActivity(DTeam team) =>
-        enabledActivities.any((DActivity activity) => activity.id == team.activity);
+    bool teamInActiveActivity(DTeam team) => enabledActivities
+        .any((DActivity activity) => activity.id == team.activity);
 
     return enabledTeams.where(teamInActiveActivity).toIList();
   }
@@ -108,13 +109,15 @@ class ActivitiesAccessRepository {
   /// Only Active activities (Enabled)
   Future<IList<DActivity>> getActiveActivities() async {
     /// get all teams from teamsProvider and filter disabled
-    final IList<DTeam> enabledTeams = await getAllTeams()
-        .then((IList<DTeam> teams) => teams.where((DTeam team) => !team.disabled).toIList());
+    final IList<DTeam> enabledTeams = await getAllTeams().then(
+        (IList<DTeam> teams) =>
+            teams.where((DTeam team) => !team.disabled).toIList());
 
     /// get all activities from activitiesProvider and filter disabled
     final IList<DActivity> enabledActivities = await getAllActivities().then(
-        (IList<DActivity> activities) =>
-            activities.where((DActivity activity) => !activity.disabled).toIList());
+        (IList<DActivity> activities) => activities
+            .where((DActivity activity) => !activity.disabled)
+            .toIList());
 
     /// Predicate<T>
     bool activityHasActiveTeam(DActivity activitie) =>

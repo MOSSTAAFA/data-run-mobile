@@ -188,9 +188,15 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Search grid parse error"),
         "open": MessageLookupByLibrary.simpleMessage("Open"),
         "openNewForm": MessageLookupByLibrary.simpleMessage("Open New Form"),
-        "password": MessageLookupByLibrary.simpleMessage("password"),
-        "selectOrgUnit":
+        "orgUnitDialogTitle": MessageLookupByLibrary.simpleMessage(
+            "Search for and Select OrgUnit"),
+        "orgUnitHelpText":
             MessageLookupByLibrary.simpleMessage("Select Org Unit"),
+        "orgUnitInputLabel":
+            MessageLookupByLibrary.simpleMessage("Select Org Unit"),
+        "password": MessageLookupByLibrary.simpleMessage("password"),
+        "searchOrgUnitsHelpText":
+            MessageLookupByLibrary.simpleMessage("Search Org Units..."),
         "send": MessageLookupByLibrary.simpleMessage("Send"),
         "showPassword": MessageLookupByLibrary.simpleMessage("Show Password"),
         "syncFormData": MessageLookupByLibrary.simpleMessage("Sync Form Data"),

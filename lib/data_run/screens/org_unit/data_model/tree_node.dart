@@ -1,21 +1,79 @@
-import 'package:d2_remote/shared/entities/identifiable_tree_node.entity.dart';
 import 'package:equatable/equatable.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:flutter/widgets.dart';
 
-class TreeNode<T extends IdentifiableTreeNode> with EquatableMixin {
+class TreeNode with EquatableMixin {
   TreeNode({
-    required this.data,
-    List<TreeNode<T>>? children,
+    required this.uid,
+    this.code,
+    this.name,
+    this.displayName,
     this.path,
     this.parent,
-    this.selectable = false})
-      : this.children = children ?? [];
+    List<TreeNode>? children,
+    this.selectable = false,
+  }) : children = children ?? [];
 
-  final T data;
+  final String? uid;
+  final String? code;
+  final String? name;
+  final String? displayName;
   final String? path;
   final String? parent;
   final bool selectable;
-  final List<TreeNode<T>> children;
+  final List<TreeNode> children;
 
   @override
-  List<Object?> get props => [data.uid, path, parent, selectable];
+  List<Object?> get props =>
+      [uid, code, name, displayName, path, parent, selectable, children];
+
+  Map<String, dynamic> toJson() {
+    return {
+      'uid': uid,
+      'code': code,
+      'name': name,
+      'displayName': displayName,
+      'path': path,
+      'parent': parent,
+      'selectable': selectable,
+      'children': children.map((child) => child.toJson()).toList(),
+    };
+  }
+
+  static TreeNode fromJson(Map<String, dynamic> json) {
+    return TreeNode(
+      uid: json['uid'] as String?,
+      code: json['code'] as String?,
+      name: json['name'] as String?,
+      displayName: json['displayName'] as String?,
+      path: json['path'] as String?,
+      parent: json['parent'] as String?,
+      selectable: json['selectable'] as bool? ?? false,
+      children: (json['children'] as List<dynamic>?)
+              ?.map((child) => TreeNode.fromJson(child as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+  }
+}
+
+class RestorableTreeNode extends RestorableValue<TreeNode?> {
+  RestorableTreeNode(TreeNode? defaultValue) : _defaultValue = defaultValue;
+
+  final TreeNode? _defaultValue;
+
+  @override
+  TreeNode? createDefaultValue() => _defaultValue;
+
+  @override
+  void didUpdateValue(TreeNode? oldValue) {
+    notifyListeners();
+  }
+
+  @override
+  TreeNode? fromPrimitives(Object? data) =>
+      data != null ? TreeNode.fromJson(data as Map<String, dynamic>) : null;
+
+  @override
+  Object? toPrimitives() => value?.toJson();
 }

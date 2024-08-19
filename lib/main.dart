@@ -57,7 +57,7 @@ Future<void> main() async {
     observers: <ProviderObserver>[
       ProviderLogger(
           providersNameToLog:
-              const IListConst(<String>['formFieldsRepositoryProvider']))
+              const IListConst(<String>['formConfigurationProvider', 'treeNodeDataSourceProvider']))
     ],
     child: const App(),
   )) /*,

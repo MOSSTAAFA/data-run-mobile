@@ -8,15 +8,18 @@ class TreeTile extends StatefulWidget {
     required this.entry,
     required this.match,
     required this.searchPattern,
-    this.onSelect,
+    this.onTap,
+    this.selectedColor,
     this.isSelected = false,
   });
 
   final TreeEntry<TreeNode> entry;
   final TreeSearchMatch? match;
   final Pattern? searchPattern;
-  final void Function(TreeNode?)? onSelect;
-  final bool isSelected; // New parameter
+  final void Function(String)? onTap;
+  final Color? selectedColor;
+
+  final bool isSelected;
 
   @override
   State<TreeTile> createState() => _TreeTileState();
@@ -33,22 +36,29 @@ class _TreeTileState extends State<TreeTile> {
 
   @override
   Widget build(BuildContext context) {
+    final _selectedColor = widget.selectedColor ?? Colors.blue.withOpacity(0.2);
+
+    final expandIcon =  switch(widget.entry.node.children.length) {
+      > 0 => ExpandIcon(
+        key: GlobalObjectKey(widget.entry.node),
+        isExpanded: widget.entry.isExpanded,
+        onPressed: (_) => TreeViewScope.of<TreeNode>(context)
+          ..controller.toggleExpansion(widget.entry.node),
+      ),
+    _ => SizedBox.shrink()
+    };
+
     return TreeIndentation(
       entry: widget.entry,
       child: GestureDetector(
-        onTap: () => widget.onSelect?.call(widget.entry.node),
+        onTap: () => widget.onTap?.call(widget.entry.node.uid!),
         child: Container(
           color: widget.isSelected
-              ? Colors.blue.withOpacity(0.2) // Highlight color
+              ? _selectedColor // Highlight color
               : Colors.transparent, // Default background color
           child: Row(
             children: [
-              ExpandIcon(
-                key: GlobalObjectKey(widget.entry.node),
-                isExpanded: widget.entry.isExpanded,
-                onPressed: (_) => TreeViewScope.of<TreeNode>(context)
-                  ..controller.toggleExpansion(widget.entry.node),
-              ),
+              expandIcon,
               if (shouldShowBadge)
                 Padding(
                   padding: const EdgeInsetsDirectional.only(end: 8),
@@ -59,10 +69,7 @@ class _TreeTileState extends State<TreeTile> {
               Flexible(
                 child: Text.rich(
                   titleSpan,
-                  style: widget.isSelected
-                      ? const TextStyle(
-                          fontWeight: FontWeight.bold) // Bold text for selected
-                      : null,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
             ],
@@ -83,7 +90,7 @@ class _TreeTileState extends State<TreeTile> {
   void didUpdateWidget(covariant TreeTile oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.searchPattern != widget.searchPattern ||
-        oldWidget.entry.node.data.name != widget.entry.node.data.name) {
+        oldWidget.entry.node.name != widget.entry.node.name) {
       titleSpan = buildTextSpan();
     }
   }
@@ -100,7 +107,7 @@ class _TreeTileState extends State<TreeTile> {
   }
 
   InlineSpan buildTextSpan() {
-    final String title = widget.entry.node.data.name!;
+    final String title = widget.entry.node.name!;
 
     if (widget.searchPattern == null) {
       return TextSpan(text: title);
@@ -113,7 +120,7 @@ class _TreeTileState extends State<TreeTile> {
       widget.searchPattern!,
       onMatch: (Match match) {
         hasAnyMatches = true;
-        spans.add(TextSpan(text: match.group(0)!, style: highlightStyle));
+        spans.add(TextSpan(text: match.group(0), style: highlightStyle));
         return '';
       },
       onNonMatch: (String text) {

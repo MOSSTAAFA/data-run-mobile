@@ -1,3 +1,5 @@
+// ignore_for_file: strict_raw_type
+
 import 'package:animated_tree_view/animated_tree_view.dart';
 import 'package:flutter/material.dart';
 import 'package:mass_pro/tree_examples/tree1.dart';
@@ -41,7 +43,7 @@ class _TreeViewModificationState extends State<TreeViewModification> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             ListTile(
-              title: Text("Item ${node.level}-${node.key}"),
+              title: Text('Item ${node.level}-${node.key}'),
               subtitle: Text('Level ${node.level}'),
             ),
             Row(
@@ -61,9 +63,9 @@ class _TreeViewModificationState extends State<TreeViewModification> {
 
   Widget buildListItem(TreeNode node) {
     return Card(
-      color: colorMapper[node.level.clamp(0, colorMapper.length - 1)]!,
+      color: colorMapper[node.level.clamp(0, colorMapper.length - 1)],
       child: ListTile(
-        title: Text("Item ${node.level}-${node.key}"),
+        title: Text('Item ${node.level}-${node.key}'),
         subtitle: Text('Level ${node.level}'),
         dense: true,
         trailing: Row(
@@ -104,7 +106,7 @@ class _TreeViewModificationState extends State<TreeViewModification> {
           ),
         ),
         icon: const Icon(Icons.add_circle, color: Colors.green),
-        label: const Text("Add Child", style: TextStyle(color: Colors.green)),
+        label: const Text('Add Child', style: TextStyle(color: Colors.green)),
         onPressed: () => item.add(TreeNode()),
       ),
     );
@@ -121,7 +123,7 @@ class _TreeViewModificationState extends State<TreeViewModification> {
             ),
           ),
           icon: const Icon(Icons.delete, color: Colors.red),
-          label: const Text("Clear All", style: TextStyle(color: Colors.red)),
+          label: const Text('Clear All', style: TextStyle(color: Colors.red)),
           onPressed: () => item.clear()),
     );
   }

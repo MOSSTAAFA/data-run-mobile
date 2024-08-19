@@ -113,7 +113,11 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
     final String? result = await showDialog<String?>(
         context: context,
         builder: (BuildContext context) {
-          return EntityCreationDialog();
+          return EntityCreationDialog(
+            form: formModel!.form.form!,
+            activity: formModel.form.activity,
+            team: formModel.team!,
+          );
         });
     // go to form
     if (result != null) {
@@ -129,7 +133,7 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
     Bundle bundle = Bundle();
     bundle = bundle.putString(ACTIVITY_UID, formModel.form.activity);
     bundle = bundle.putString(TEAM_UID, formModel.team);
-    bundle = bundle.putString(FORM_UID, formModel.form.uid);
+    bundle = bundle.putString(FORM_UID, formModel.form.form);
     bundle = bundle.putInt(FORM_VERSION, formModel.form.version);
 
     bundle = bundle.putString(SYNCABLE_UID, createdEntityUid);
@@ -141,7 +145,7 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
     Bundle bundle = Bundle();
     bundle = bundle.putString(ACTIVITY_UID, formModel!.form.activity);
     bundle = bundle.putString(TEAM_UID, formModel.team);
-    bundle = bundle.putString(FORM_UID, formModel.form.uid);
+    bundle = bundle.putString(FORM_UID, formModel.form.form);
     bundle = bundle.putInt(FORM_VERSION, formModel.form.version);
 
     await Get.to(EntitiesListScreen(), arguments: bundle);

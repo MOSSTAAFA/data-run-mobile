@@ -1,44 +1,45 @@
+import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/shared/entities/identifiable_tree_node.entity.dart';
 import 'package:d2_remote/shared/queries/base.query.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:flutter/material.dart';
 import 'package:mass_pro/data_run/screens/org_unit/data_model/tree_node.extension.dart';
 import 'package:mass_pro/data_run/screens/org_unit/data_model/tree_node.dart';
 
-class TreeNodeDataSource<T extends IdentifiableTreeNode, Q extends BaseQuery> {
-  TreeNodeDataSource(
-      {required Q query, required List<String> selectableNodesUids})
-      : _selectableNodesUids = selectableNodesUids,
-        _query = query;
+class TreeNodeDataSource {
+  TreeNodeDataSource({required List<String> selectableNodesUids})
+      : _selectableNodesUids = selectableNodesUids;
 
-  IMap<String, TreeNode<T>> _treeNodeCache = IMap();
-  TreeNode<T>? _rootNode;
-  Q _query;
+  IMap<String, TreeNode> _treeNodeCache = IMap();
+
+  IMap<String, TreeNode> _allNodesCache = IMap();
 
   List<String> _selectableNodesUids;
 
-  Q getQuery() {
-    return _query;
+  BaseQuery getQuery() {
+    return D2Remote.organisationUnitModuleD.orgUnit;
   }
 
   List<String> getSelectableNodesUids() {
     return _selectableNodesUids;
   }
 
-  IMap<String, TreeNode<T>> getTreeNodeMap() => _treeNodeCache;
+  IMap<String, TreeNode> getTreeNodeMap() => _allNodesCache;
 
-  TreeNode<T>? getNode(String? uid) {
-    return uid != null ? _treeNodeCache.get(uid) : null;
+  TreeNode? getNode(String? uid) {
+    final node = uid != null ? _allNodesCache.get(uid) : null;
+    return node;
   }
 
-  T? fetchEntityByUid(String uid) {
-    return _treeNodeCache.get(uid)?.data;
+  TreeNode? fetchEntityByUid(String uid) {
+    return _allNodesCache.get(uid);
   }
 
-  TreeNode<T>? getRootNode() {
-    return _rootNode;
+  List<TreeNode> getRoots() {
+    return _treeNodeCache.values.toList();
   }
 
-  Future<IMap<String, TreeNode<T>>> initTreeNodeMap() async {
+  Future<IMap<String, TreeNode>> initTreeNodeMap() async {
     final list = await fetchTreeNodeList();
 
     _treeNodeCache = _composeTreeMap(list).lock;
@@ -49,39 +50,41 @@ class TreeNodeDataSource<T extends IdentifiableTreeNode, Q extends BaseQuery> {
       throw Exception("No common ancestor found");
     }
 
-    _rootNode = _treeNodeCache.get(commonAncestorUid!);
     return _treeNodeCache;
   }
 
-  Future<List<T>> fetchTreeNodeList() async {
-    final List<T> selectedOrgUnits =
-        await _query.byIds(_selectableNodesUids).get();
+  Future<List<IdentifiableTreeNode>> fetchTreeNodeList() async {
+    final List<IdentifiableTreeNode> selectedOrgUnits =
+        await getQuery().byIds(_selectableNodesUids).get();
     final allUids = selectedOrgUnits.getPathsUids();
 
-    final List<T> combinedUnits = await _query.byIds(allUids.toList()).get();
+    final List<IdentifiableTreeNode> combinedUnits =
+        await getQuery().byIds(allUids.toList()).get();
     return combinedUnits;
   }
 
-  Map<String, TreeNode<T>> _composeTreeMap(List<T> nodes) {
-    final selectedOrgUnitsUids = nodes.getPathsUids();
-
-    final IMap<String, TreeNode<T>> nodeMap =
-        IMap.fromIterable<String, TreeNode<T>, T>(nodes,
+  Map<String, TreeNode> _composeTreeMap(List<IdentifiableTreeNode> nodes) {
+    final IMap<String, TreeNode> nodeMap =
+        IMap.fromIterable<String, TreeNode, IdentifiableTreeNode>(nodes,
             keyMapper: (o) => o.uid!,
-            valueMapper: (o) =>
-                o.toTreeNode(selectable: selectedOrgUnitsUids.contains(o.uid)));
+            valueMapper: (o) {
+              debugPrint('${_selectableNodesUids.contains(o.uid)}');
+              return o.toTreeNode(
+                  selectable: _selectableNodesUids.contains(o.uid));
+            });
 
-    // Build the tree structure
-    final Map<String, TreeNode<T>> tree = {};
+    _allNodesCache = nodeMap;
+    // Build the roots structure
+    final Map<String, TreeNode> roots = {};
     for (final node in nodeMap.values) {
       if (node.parent == null) {
-        tree[node.data.uid!] = node;
+        roots[node.uid!] = node;
       } else {
         final parent = nodeMap[node.parent!];
         parent?.children.add(node);
       }
     }
 
-    return tree;
+    return roots;
   }
 }

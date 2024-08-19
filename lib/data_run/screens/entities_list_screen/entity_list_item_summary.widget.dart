@@ -6,6 +6,7 @@ import 'package:mass_pro/core/common/state.dart';
 import 'package:mass_pro/data_run/screens/entities_list_screen/entities_list_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/entities_list_screen/state/entity_summary.dart';
 import 'package:mass_pro/data_run/screens/entities_list_screen/state/form_submission_list_repository.dart';
+import 'package:mass_pro/data_run/screens/shared_widgets/get_error_widget.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/q_sync_icon_button.widget.dart';
 import 'package:mass_pro/data_run/screens/sync_dialog/sync_dialog.widget.dart';
 import 'package:mass_pro/data_run/screens/sync_dialog/sync_submission_repository.dart';
@@ -32,7 +33,7 @@ class EntityListItemSummaryState extends ConsumerState<EntityListItemSummary> {
         submissionSummaryProvider(
             submissionUid: widget.entity.uid!, form: widget.form));
     return switch (submissionSummary) {
-      AsyncValue(:final Object error?) => ErrorWidget(error),
+      AsyncValue(:final Object error?, :final stackTrace) => getErrorWidget(error, stackTrace),
       AsyncValue(:final SubmissionSummary valueOrNull?) => ListTile(
           isThreeLine: true,
           leading: buildStatusIcon(entitySyncableStatus),
@@ -76,7 +77,7 @@ class EntityListItemSummaryState extends ConsumerState<EntityListItemSummary> {
   }
 }
 
-String generateFormSummary(IMap<String, dynamic> fields) {
+String generateFormSummary(Map<String, dynamic> fields) {
   final String fieldSummary = fields.entries
       .where((MapEntry<String, dynamic> entry) =>
           entry.key != 'name' &&

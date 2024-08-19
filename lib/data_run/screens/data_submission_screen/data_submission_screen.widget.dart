@@ -18,6 +18,7 @@ import 'package:mass_pro/data_run/screens/shared_widgets/bottom_sheet/bottom_she
 import 'package:mass_pro/data_run/screens/shared_widgets/bottom_sheet/bottom_sheet.widget.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/bottom_sheet/q_bottom_sheet_dialog_ui_model.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/form/q_field_widget_factory.dart';
+import 'package:mass_pro/data_run/screens/shared_widgets/get_error_widget.dart';
 import 'package:mass_pro/form/ui/intent/form_intent.dart';
 import 'package:mass_pro/form/ui/view_model/form_pending_intents.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
@@ -55,7 +56,7 @@ class DataSubmissionScreenState extends ConsumerState<DataSubmissionScreen> {
         ref.watch(formScreenStateModelProvider);
 
     return switch (formScreenStateModel) {
-      AsyncValue(:final Object error?) => ErrorWidget(error),
+      AsyncValue(:final Object error?, :final stackTrace) => getErrorWidget(error, stackTrace),
       AsyncValue(:final FormScreenStateModel valueOrNull?) =>
         _EagerInitialization(
           form: form,
@@ -133,7 +134,7 @@ class DataSubmissionScaffoldState extends ConsumerState<DataSubmissionScaffold>
                 formConfigurationProvider(
                     form: form, formVersion: formVersion));
             return switch (formConfig) {
-              AsyncValue(:final Object error?) => ErrorWidget(error),
+              AsyncValue(:final Object error?, :final stackTrace) => getErrorWidget(error, stackTrace),
               AsyncValue(:final FormConfiguration valueOrNull?) =>
                 Text(valueOrNull.label),
               _ => const SizedBox.shrink(),
@@ -141,7 +142,7 @@ class DataSubmissionScaffoldState extends ConsumerState<DataSubmissionScaffold>
           },
         )),
         body: switch (fields) {
-          AsyncValue(:final Object error?) => ErrorWidget(error),
+          AsyncValue(:final Object error?, :final stackTrace) => getErrorWidget(error, stackTrace),
           AsyncValue(:final IMap<String, QFieldModel> valueOrNull?) =>
             GestureDetector(
                 onTap: () => hideTheKeyboard(context),

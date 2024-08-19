@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_item.model.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_item.widget.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_items_models_notifier.dart';
+import 'package:mass_pro/data_run/screens/shared_widgets/get_error_widget.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class DashboardItemsWidget extends ConsumerStatefulWidget {
@@ -50,11 +51,7 @@ class _DashboardItemsWidgetState extends ConsumerState<DashboardItemsWidget> {
               itemScrollController: itemScrollController,
               // itemPositionsListener: itemPositionsListener,
             ),
-        error: (Object error, StackTrace s) {
-          debugPrint('error: $error');
-          debugPrintStack(stackTrace: s, label: error.toString());
-          return Text('Error: $error');
-        },
+        error: (Object error, StackTrace s) => getErrorWidget(error, s),
         loading: () => const CircularProgressIndicator());
   }
 }

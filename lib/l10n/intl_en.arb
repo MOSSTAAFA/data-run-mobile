@@ -169,5 +169,8 @@
   "clear": "Clear",
   "accept": "Accept",
   "level": "Level",
-  "selectOrgUnit": "Select Org Unit"
+  "orgUnitHelpText": "Select Org Unit",
+  "orgUnitInputLabel": "Select Org Unit",
+  "orgUnitDialogTitle": "Search for and Select OrgUnit",
+  "searchOrgUnitsHelpText": "Search Org Units..."
 }

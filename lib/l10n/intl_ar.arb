@@ -130,5 +130,8 @@
   "clear": "تصفية",
   "accept": "قبول",
   "level": "المستوى",
-  "selectOrgUnit": "Select Org Unit"
+  "orgUnitHelpText": "اختر اسم المكان",
+  "orgUnitInputLabel": "اختر اسم المكان",
+  "orgUnitDialogTitle": "Search for and Select OrgUnit",
+  "searchOrgUnitsHelpText": "Search Org Units..."
 }

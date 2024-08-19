@@ -112,17 +112,19 @@ class FormSubmissionListRepository {
 @riverpod
 Future<SubmissionSummary> submissionSummary(SubmissionSummaryRef ref,
     {required String submissionUid, required String form}) async {
-  final submission =
-      await D2Remote.formModule.formSubmission.byId(submissionUid).getOne();
+  final submission = await D2Remote.formModule.formSubmission
+      .byId(submissionUid)
+      .getOne();
   final formConfig = await ref.watch(
       formConfigurationProvider(form: form, formVersion: submission!.version)
           .future);
   final orgUnit = await D2Remote.organisationUnitModuleD.orgUnit
-      .byId(submission.orgUnit)
+      .byId(submission.orgUnit!)
       .getOne();
-  final formData = submission.formData
-      ?.map((k, v) => MapEntry(formConfig.getFieldDisplayName(k), v));
+  final formData = submission.formData?.map<String, dynamic>(
+      (k, v) => MapEntry(formConfig.getFieldDisplayName(k), v));
 
   return SubmissionSummary(
-      orgUnit: getItemLocalString(orgUnit?.label), formData: formData);
+      orgUnit: getItemLocalString(orgUnit?.label),
+      formData: formData);
 }

@@ -10,6 +10,7 @@ import 'package:mass_pro/data_run/screens/data_submission_screen/data_submission
 import 'package:mass_pro/data_run/screens/entities_list_screen/entity_list_item_summary.widget.dart';
 import 'package:mass_pro/data_run/screens/project_details/entity_creation_dialog/entity_creation_dialog.widget.dart';
 import 'package:mass_pro/data_run/screens/project_details/model/project_detail_items_models_notifier.dart';
+import 'package:mass_pro/data_run/screens/shared_widgets/get_error_widget.dart';
 import 'package:mass_pro/generated/l10n.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 
@@ -48,9 +49,9 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
             builder: (context, ref, child) {
               final AsyncValue<FormConfiguration> formConfig = ref.watch(
                   formConfigurationProvider(
-                      form: form, formVersion: latestFormVersion));
+                      form: form));
               return switch (formConfig) {
-                AsyncValue(:final Object error?) => ErrorWidget(error),
+                AsyncValue(:final Object error?, :final stackTrace) => getErrorWidget(error, stackTrace),
                 AsyncValue(:final FormConfiguration valueOrNull?) =>
                   Text(valueOrNull.label),
                 _ => const SizedBox.shrink(),
@@ -95,11 +96,7 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
           ),
         );
       },
-      error: (Object error, StackTrace s) {
-        debugPrint('error: $error');
-        debugPrintStack(stackTrace: s, label: error.toString());
-        return Text('Error: $error');
-      },
+      error: (Object error, StackTrace s) => getErrorWidget(error, s),
       loading: () => const CircularProgressIndicator(),
     );
   }
@@ -164,11 +161,7 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
                 );
               },
             ),
-        error: (Object error, StackTrace s) {
-          debugPrint('error: $error');
-          debugPrintStack(stackTrace: s, label: error.toString());
-          return Text('Error: $error');
-        },
+        error: (Object error, StackTrace s) => getErrorWidget(error, s),
         loading: () => const CircularProgressIndicator());
   }
 
@@ -180,7 +173,11 @@ class EntitiesListScreenState extends ConsumerState<EntitiesListScreen> {
     final String? result = await showDialog<String?>(
         context: context,
         builder: (BuildContext context) {
-          return EntityCreationDialog();
+          return EntityCreationDialog(
+            form: form,
+            activity: activity,
+            team: team,
+          );
         });
     // go to form
     if (result != null) {

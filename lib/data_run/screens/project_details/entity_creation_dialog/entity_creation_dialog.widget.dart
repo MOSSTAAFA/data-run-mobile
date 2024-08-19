@@ -1,21 +1,25 @@
-import 'package:d2_remote/modules/metadatarun/org_unit/entities/org_unit.entity.dart';
-import 'package:d2_remote/modules/metadatarun/org_unit/queries/org_unit.query.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/get.dart';
-import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/data_run/form/form_configuration.dart';
 import 'package:mass_pro/data_run/screens/org_unit/data_model/data_model.dart';
 import 'package:mass_pro/data_run/screens/org_unit/data_model/tree_node_data_source.dart';
+import 'package:mass_pro/data_run/screens/shared_widgets/get_error_widget.dart';
 import 'package:mass_pro/data_run/submission/submission.dart';
 import 'package:mass_pro/data_run/submission/submission_initial_repository.dart';
 import 'package:mass_pro/generated/l10n.dart';
-import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 
 class EntityCreationDialog extends ConsumerStatefulWidget {
-  const EntityCreationDialog({super.key});
+  const EntityCreationDialog(
+      {super.key,
+      required this.form,
+      required this.activity,
+      required this.team});
+
+  final String form;
+  final String activity;
+  final String team;
 
   @override
   EntityCreationDialogState createState() => EntityCreationDialogState();
@@ -24,18 +28,22 @@ class EntityCreationDialog extends ConsumerStatefulWidget {
 class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
   bool _isLoading = false;
-  late final String form;
-  late final String activity;
-  late final String team;
-  late final int latestFormVersion;
+  String? _orgUnitUid;
+
+  // late final String form;
+
+  // late final String activity;
+  // late final String team;
+
+  // late final int latestFormVersion;
 
   @override
   void initState() {
-    final Bundle eventBundle = Get.arguments as Bundle;
-    form = eventBundle.getString(FORM_UID)!;
-    activity = eventBundle.getString(ACTIVITY_UID)!;
-    team = eventBundle.getString(TEAM_UID)!;
-    latestFormVersion = eventBundle.getInt(FORM_VERSION)!;
+    // final Bundle eventBundle = Get.arguments as Bundle;
+    // form = eventBundle.getString(FORM_UID)!;
+    // activity = eventBundle.getString(ACTIVITY_UID)!;
+    // team = eventBundle.getString(TEAM_UID)!;
+    // latestFormVersion = eventBundle.getInt(FORM_VERSION)!;
     super.initState();
   }
 
@@ -45,8 +53,9 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
             formConfiguration: formConfiguration));
 
     return submissionInitialRepository.createSyncable(
-        activityUid: activity,
-        teamUid: team,
+        activityUid: widget.activity,
+        orgUnit: _orgUnitUid!,
+        teamUid: widget.team,
         formData: Map<String, String?>.from(_formKey.currentState!.value));
   }
 
@@ -59,8 +68,7 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
     String? syncableId;
     try {
       if (_formKey.currentState?.validate() ?? false) {
-        // Call the function to create entity
-        _formKey.currentState!.save();
+
         syncableId = await _createEntity(formConfiguration);
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -83,19 +91,20 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final formConfigAsync = ref.watch(
-        formConfigurationProvider(form: form, formVersion: latestFormVersion));
+    final AsyncValue<FormConfiguration> formConfigAsync =
+        ref.watch(formConfigurationProvider(form: widget.form));
 
     return switch (formConfigAsync) {
-      AsyncValue(:final Object error?) => ErrorWidget(error),
-      AsyncValue(:final FormConfiguration valueOrNull?) => AlertDialog(
+      AsyncValue(error: final error?, stackTrace: final stackTrace?) =>
+        getErrorWidget(error, stackTrace),
+      AsyncValue(valueOrNull: final formConfig?) => AlertDialog(
           surfaceTintColor: Theme.of(context).colorScheme.primary,
           shadowColor: Theme.of(context).colorScheme.shadow,
           title: Column(
             children: [
               Text('${S.of(context).openNewForm}:',
                   style: Theme.of(context).textTheme.titleMedium),
-              Text(valueOrNull.label,
+              Text(formConfig.label,
                   style: Theme.of(context).textTheme.titleLarge)
             ],
           ),
@@ -104,30 +113,38 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
               children: <Widget>[
                 FormBuilder(
                   key: _formKey,
-                  clearValueOnUnregister: true,
+                  // clearValueOnUnregister: true,
                   onChanged: () {
                     _formKey.currentState!.save();
+                    debugPrint('${_formKey.currentState!.value}');
+                    _formKey.currentState!.save();
+
                   },
                   child: Consumer(
                     builder: (context, ref, child) {
-                      final formConfig = valueOrNull;
                       final dataSource = ref.watch(treeNodeDataSourceProvider(
-                          query: OrgUnitQuery(),
-                          selectableUids: valueOrNull.orgUnitTreeUids));
+                          selectableUids: formConfig.orgUnitTreeUids));
                       return switch (dataSource) {
-                        AsyncValue(:final Object error?) => ErrorWidget(error),
                         AsyncValue(
-                          :final TreeNodeDataSource<OrgUnit, OrgUnitQuery>
-                          valueOrNull?
+                          error: final error?,
+                          stackTrace: final stackTrace?
                         ) =>
-                          FormField<String>(builder: (field) {
-                            return OrgUnitPickerField(
-                              dataSource: valueOrNull,
-                              initialValueUid: formConfig.isSingleOrgUnit
-                                  ? formConfig.orgUnitTreeUids.first
-                                  : null,
-                            );
-                          }),
+                          getErrorWidget(error, stackTrace),
+                        AsyncValue(valueOrNull: final dataSource?) =>
+                          OrgUnitPickerField(
+                            dataSource: dataSource,
+                            initialValueUid: formConfig.isSingleOrgUnit
+                                ? formConfig.orgUnitTreeUids.first
+                                : null,
+                            onChanged: (value) {
+                              debugPrint('### Value: $value');
+                              _orgUnitUid = value;
+                            },
+                            onSubmitted: (value) {
+                              debugPrint('### Value: $value');
+                              _orgUnitUid = value;
+                            },
+                          ),
                         _ => const CircularProgressIndicator(),
                       };
                     },
@@ -151,7 +168,7 @@ class EntityCreationDialogState extends ConsumerState<EntityCreationDialog> {
             TextButton(
               onPressed: _isLoading
                   ? null
-                  : () => createAndPopupWithResult(context, valueOrNull),
+                  : () => createAndPopupWithResult(context, formConfig),
               child: Text(S.of(context).open),
             ),
           ],

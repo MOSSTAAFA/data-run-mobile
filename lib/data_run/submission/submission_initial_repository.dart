@@ -21,12 +21,14 @@ class SubmissionInitialRepository {
   Future<String> createSyncable(
       {required String activityUid,
       required String teamUid,
+      required String orgUnit,
       required Map<String, String?> formData,
       Geometry? geometry}) async {
     final DataFormSubmission submission =
         await (D2Remote.formModule.formSubmission
               ..activity = activityUid
               ..team = teamUid
+              ..orgUnit = orgUnit
               ..form = _formConfiguration.form
               ..version = _formConfiguration.version)
             .create();
@@ -35,7 +37,8 @@ class SubmissionInitialRepository {
 
     formData.forEach((String key, String? value) => submissionData[key] =
         mapFieldToValueType(
-            value: value, valueType: _formConfiguration.allFields.get(key)?.type));
+            value: value,
+            valueType: _formConfiguration.allFields.get(key)?.type));
 
     submission.formData = submissionData;
 

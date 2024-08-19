@@ -1,3 +1,5 @@
+// ignore_for_file: sort_constructors_first
+
 import 'package:animated_tree_view/animated_tree_view.dart';
 import 'package:flutter/material.dart';
 import 'package:mass_pro/main_app.dart';
@@ -26,9 +28,9 @@ class _TreeViewCustomObjectState extends State<TreeViewCustomObject> {
         expansionBehavior: ExpansionBehavior.collapseOthersAndSnapToTop,
         shrinkWrap: true,
         builder: (context, node) => Card(
-          color: colorMapper[node.level.clamp(0, colorMapper.length - 1)]!,
+          color: colorMapper[node.level.clamp(0, colorMapper.length - 1)],
           child: ListTile(
-            title: Text("Item ${node.level}-${node.key}"),
+            title: Text('Item ${node.level}-${node.key}'),
             subtitle: Text('${node.data?.firstName} ${node.data?.lastName}'),
           ),
         ),
@@ -44,19 +46,19 @@ class UserName {
   UserName(this.firstName, this.lastName);
 }
 
-final tree = TreeNode<UserName>.root(data: UserName("User", "Names"))
+final tree = TreeNode<UserName>.root(data: UserName('User', 'Names'))
   ..addAll([
-    TreeNode<UserName>(key: "0A", data: UserName("Sr. John", "Doe"))
-      ..add(TreeNode(key: "0A1A", data: UserName("Jr. John", "Doe"))),
-    TreeNode<UserName>(key: "0C", data: UserName("General", "Lee"))
+    TreeNode<UserName>(key: '0A', data: UserName('Sr. John', 'Doe'))
+      ..add(TreeNode(key: '0A1A', data: UserName('Jr. John', 'Doe'))),
+    TreeNode<UserName>(key: '0C', data: UserName('General', 'Lee'))
       ..addAll([
-        TreeNode<UserName>(key: "0C1A", data: UserName("Major", "Lee")),
-        TreeNode<UserName>(key: "0C1B", data: UserName("Happy", "Lee")),
-        TreeNode<UserName>(key: "0C1C", data: UserName("Busy", "Lee"))
+        TreeNode<UserName>(key: '0C1A', data: UserName('Major', 'Lee')),
+        TreeNode<UserName>(key: '0C1B', data: UserName('Happy', 'Lee')),
+        TreeNode<UserName>(key: '0C1C', data: UserName('Busy', 'Lee'))
           ..addAll([
-            TreeNode<UserName>(key: "0C1C2A", data: UserName("Jr. Busy", "Lee"))
+            TreeNode<UserName>(key: '0C1C2A', data: UserName('Jr. Busy', 'Lee'))
           ]),
       ]),
-    TreeNode<UserName>(key: "0D", data: UserName("Mr. Anderson", "Neo")),
-    TreeNode<UserName>(key: "0E", data: UserName("Mr. Smith", "Agent")),
+    TreeNode<UserName>(key: '0D', data: UserName('Mr. Anderson', 'Neo')),
+    TreeNode<UserName>(key: '0E', data: UserName('Mr. Smith', 'Agent')),
   ]);

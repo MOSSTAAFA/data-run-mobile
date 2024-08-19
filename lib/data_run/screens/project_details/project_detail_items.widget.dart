@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/data_run/screens/project_details/activity_item_expansion_tile.widget.dart';
 import 'package:mass_pro/data_run/screens/project_details/model/project_detail_item.model.dart';
 import 'package:mass_pro/data_run/screens/project_details/model/project_detail_items_models_notifier.dart';
+import 'package:mass_pro/data_run/screens/shared_widgets/get_error_widget.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class ProjectDetailItemsWidget extends ConsumerStatefulWidget {
@@ -53,11 +54,7 @@ class _ProjectItemsWidgetState extends ConsumerState<ProjectDetailItemsWidget> {
               ),
               itemScrollController: itemScrollController,
             ),
-        error: (Object error, StackTrace s) {
-          debugPrint('error: $error');
-          debugPrintStack(stackTrace: s, label: error.toString());
-          return Text('Error: $error');
-        },
+        error: (Object error, StackTrace s) => getErrorWidget(error, s),
         loading: () => const CircularProgressIndicator());
   }
 }

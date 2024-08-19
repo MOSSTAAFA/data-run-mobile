@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/data_run/screens/project_details/model/project_detail_item.model.dart';
 import 'package:mass_pro/data_run/screens/project_details/model/project_detail_items_models_notifier.dart';
+import 'package:mass_pro/data_run/screens/shared_widgets/get_error_widget.dart';
 import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
 import 'package:mass_pro/generated/l10n.dart';
 
@@ -132,11 +133,7 @@ class FormsTiles extends ConsumerWidget {
                 ))
             .toList(),
       ),
-      error: (Object error, StackTrace s) {
-        debugPrint('error: $error');
-        debugPrintStack(stackTrace: s, label: error.toString());
-        return Text('Error: $error');
-      },
+      error: (Object error, StackTrace s) => getErrorWidget(error, s),
       loading: () => const CircularProgressIndicator(),
     );
   }

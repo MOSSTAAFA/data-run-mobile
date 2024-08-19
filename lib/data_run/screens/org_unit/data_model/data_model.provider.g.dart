@@ -7,7 +7,7 @@ part of 'data_model.provider.dart';
 // **************************************************************************
 
 String _$treeNodeDataSourceHash() =>
-    r'40cd636ba893a2339734597508f1a1efbe46b1cf';
+    r'165974c26044e17a0759bfb8a3a4e66d9f691c33';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -35,18 +35,15 @@ class _SystemHash {
 const treeNodeDataSourceProvider = TreeNodeDataSourceFamily();
 
 /// See also [treeNodeDataSource].
-class TreeNodeDataSourceFamily
-    extends Family<AsyncValue<TreeNodeDataSource<T, Q>>> {
+class TreeNodeDataSourceFamily extends Family<AsyncValue<TreeNodeDataSource>> {
   /// See also [treeNodeDataSource].
   const TreeNodeDataSourceFamily();
 
   /// See also [treeNodeDataSource].
   TreeNodeDataSourceProvider call({
-    required Q query,
     required IList<String> selectableUids,
   }) {
     return TreeNodeDataSourceProvider(
-      query: query,
       selectableUids: selectableUids,
     );
   }
@@ -56,7 +53,6 @@ class TreeNodeDataSourceFamily
     covariant TreeNodeDataSourceProvider provider,
   ) {
     return call(
-      query: provider.query,
       selectableUids: provider.selectableUids,
     );
   }
@@ -78,15 +74,13 @@ class TreeNodeDataSourceFamily
 
 /// See also [treeNodeDataSource].
 class TreeNodeDataSourceProvider
-    extends AutoDisposeFutureProvider<TreeNodeDataSource<T, Q>> {
+    extends AutoDisposeFutureProvider<TreeNodeDataSource> {
   /// See also [treeNodeDataSource].
   TreeNodeDataSourceProvider({
-    required Q query,
     required IList<String> selectableUids,
   }) : this._internal(
           (ref) => treeNodeDataSource(
             ref as TreeNodeDataSourceRef,
-            query: query,
             selectableUids: selectableUids,
           ),
           from: treeNodeDataSourceProvider,
@@ -98,7 +92,6 @@ class TreeNodeDataSourceProvider
           dependencies: TreeNodeDataSourceFamily._dependencies,
           allTransitiveDependencies:
               TreeNodeDataSourceFamily._allTransitiveDependencies,
-          query: query,
           selectableUids: selectableUids,
         );
 
@@ -109,16 +102,14 @@ class TreeNodeDataSourceProvider
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.query,
     required this.selectableUids,
   }) : super.internal();
 
-  final Q query;
   final IList<String> selectableUids;
 
   @override
   Override overrideWith(
-    FutureOr<TreeNodeDataSource<T, Q>> Function(TreeNodeDataSourceRef provider)
+    FutureOr<TreeNodeDataSource> Function(TreeNodeDataSourceRef provider)
         create,
   ) {
     return ProviderOverride(
@@ -130,28 +121,25 @@ class TreeNodeDataSourceProvider
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        query: query,
         selectableUids: selectableUids,
       ),
     );
   }
 
   @override
-  AutoDisposeFutureProviderElement<TreeNodeDataSource<T, Q>> createElement() {
+  AutoDisposeFutureProviderElement<TreeNodeDataSource> createElement() {
     return _TreeNodeDataSourceProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
     return other is TreeNodeDataSourceProvider &&
-        other.query == query &&
         other.selectableUids == selectableUids;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, query.hashCode);
     hash = _SystemHash.combine(hash, selectableUids.hashCode);
 
     return _SystemHash.finish(hash);
@@ -159,21 +147,16 @@ class TreeNodeDataSourceProvider
 }
 
 mixin TreeNodeDataSourceRef
-    on AutoDisposeFutureProviderRef<TreeNodeDataSource<T, Q>> {
-  /// The parameter `query` of this provider.
-  Q get query;
-
+    on AutoDisposeFutureProviderRef<TreeNodeDataSource> {
   /// The parameter `selectableUids` of this provider.
   IList<String> get selectableUids;
 }
 
 class _TreeNodeDataSourceProviderElement
-    extends AutoDisposeFutureProviderElement<TreeNodeDataSource<T, Q>>
+    extends AutoDisposeFutureProviderElement<TreeNodeDataSource>
     with TreeNodeDataSourceRef {
   _TreeNodeDataSourceProviderElement(super.provider);
 
-  @override
-  Q get query => (origin as TreeNodeDataSourceProvider).query;
   @override
   IList<String> get selectableUids =>
       (origin as TreeNodeDataSourceProvider).selectableUids;
