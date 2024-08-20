@@ -2,11 +2,11 @@ import 'package:d2_remote/modules/datarun/form/entities/data_form_submission.ent
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/core/common/state.dart';
-import 'package:mass_pro/data_run/screens/submission/model/submission.provider.dart';
-import 'package:mass_pro/data_run/screens/submission/model/submission_summary.model.dart';
+import 'package:mass_pro/data_run/screens/submission_list/model/submission_list.provider.dart';
+import 'package:mass_pro/data_run/screens/submission_list/model/submission_summary.model.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/get_error_widget.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/q_sync_icon_button.widget.dart';
-import 'package:mass_pro/data_run/screens/submission/submission_list_screen.widget.dart';
+import 'package:mass_pro/data_run/screens/submission_list/submission_list_screen.widget.dart';
 import 'package:mass_pro/generated/l10n.dart';
 
 class SubmissionSummary extends ConsumerStatefulWidget {

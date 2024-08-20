@@ -163,26 +163,8 @@ class _SubmissionTabScreenState extends ConsumerState<SubmissionTabScreen> {
                   margin: const EdgeInsets.all(8.0),
                   child: SizedBox.expand(
                     child: Center(
-                      child: Consumer(
-                        builder: (context, ref, child) {
-                          final submissionValue = ref.watch(
-                              submissionProvider(submissionId: submissionId));
-                          return switch (submissionValue) {
-                            AsyncValue(
-                              :final Object error?,
-                              :final stackTrace
-                            ) =>
-                              getErrorWidget(error, stackTrace),
-                            AsyncValue(valueOrNull: final submission?) =>
-                              SubmissionInitialView(
-                                initialOrgUnit: submission.orgUnit,
-                                submissionId: submission.uid!,
-                                selectableUids:
-                                    formConfig.orgUnitTreeUids.unlock,
-                              ),
-                            _ => const SizedBox.shrink(),
-                          };
-                        },
+                      child: SubmissionInitialView(
+                        selectableUids: formConfig.orgUnitTreeUids.unlock,
                       ),
                     ),
                   ),
@@ -357,19 +339,20 @@ class _EagerInitialization extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final loadingFieldsRepositoryResult =
-        ref.watch(formFieldsRepositoryProvider);
+    // init formFieldsRepository
+    final formFieldRepository = ref.watch(formFieldsRepositoryProvider);
     final formFieldsStateNotifier = ref.watch(formFieldsStateNotifierProvider);
 
+    // init submission
     final submission =
         ref.watch(submissionProvider(submissionId: submissionId));
 
     ref.watch(fieldWidgetFactoryProvider);
-    if (loadingFieldsRepositoryResult.isLoading ||
+    if (formFieldRepository.isLoading ||
         formFieldsStateNotifier.isLoading ||
         submission.isLoading) {
       return const Center(child: CircularProgressIndicator());
-    } else if (loadingFieldsRepositoryResult.hasError) {
+    } else if (formFieldRepository.hasError) {
       return Center(
         child: Text(
           'Error Loading FormConfiguration',

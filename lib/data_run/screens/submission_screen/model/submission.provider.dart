@@ -20,6 +20,7 @@ Future<bool> submissionEditStatus(SubmissionEditStatusRef ref) async {
 @riverpod
 class Submission extends _$Submission {
   Future<DataFormSubmission> build({required String submissionId}) async {
+    // ref.watch(submissionListProvider);
     final submission =
     await D2Remote.formModule.formSubmission.byId(submissionId).getOne();
     return submission!;

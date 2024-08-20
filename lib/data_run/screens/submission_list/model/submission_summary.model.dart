@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
 class SubmissionItemSummaryModel with EquatableMixin {
   SubmissionItemSummaryModel({required this.orgUnit, Map<String, dynamic>? formData})

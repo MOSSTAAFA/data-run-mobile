@@ -13,7 +13,7 @@ import 'package:mass_pro/commons/prefs/preference_provider.dart';
 import 'package:mass_pro/commons/resources/resource_manager.dart';
 import 'package:mass_pro/commons/ui/metadata_icon_data.dart';
 import 'package:mass_pro/data_run/screens/project_activity_detail/model/project_detail_item.model.dart';
-import 'package:mass_pro/data_run/screens/submission/model/submission.provider.dart';
+import 'package:mass_pro/data_run/screens/submission_list/model/submission_list.provider.dart';
 import 'package:mass_pro/data_run/utils/activities_access_repository.dart';
 import 'package:mass_pro/data_run/utils/screens_constants.dart';
 import 'package:mass_pro/main/data/server/user_manager_impl.dart';

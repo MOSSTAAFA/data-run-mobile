@@ -1,13 +1,14 @@
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/datarun/form/entities/data_form_submission.entity.dart';
 import 'package:d2_remote/modules/metadatarun/org_unit/entities/org_unit.entity.dart';
+import 'package:d2_remote/shared/utilities/save_option.util.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:mass_pro/core/common/state.dart';
 import 'package:mass_pro/data_run/form/form_configuration.dart';
-import 'package:mass_pro/data_run/screens/submission/model/submission_list_util.dart';
-import 'package:mass_pro/data_run/screens/submission/model/submission_summary.model.dart';
-import 'package:mass_pro/data_run/screens/submission/model/submission_list.repository.dart';
-import 'package:mass_pro/data_run/screens/submission/model/submission_status_count.model.dart';
+import 'package:mass_pro/data_run/screens/submission_list/model/submission_list_util.dart';
+import 'package:mass_pro/data_run/screens/submission_list/model/submission_summary.model.dart';
+import 'package:mass_pro/data_run/screens/submission_list/model/submission_list.repository.dart';
+import 'package:mass_pro/data_run/screens/submission_list/model/submission_status_count.model.dart';
 import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -33,6 +34,20 @@ class SubmissionList extends _$SubmissionList {
 
   Future<void> syncEntities(List<String> uids) async {
     await D2Remote.formModule.formSubmission.byIds(uids).upload();
+
+    ref.invalidateSelf();
+    await future;
+  }
+
+
+  Future<void> saveSubmission(DataFormSubmission submission) async {
+
+    submission.status = 'ACTIVE';
+    submission.dirty = true;
+
+    await D2Remote.formModule.formSubmission
+        .setData(submission)
+        .save(saveOptions: SaveOptions(skipLocalSyncStatus: false));
 
     ref.invalidateSelf();
     await future;
