@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_fancy_tree_view/flutter_fancy_tree_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/data_run/screens/org_unit/data_model/tree_node.dart';
-import 'package:mass_pro/data_run/screens/org_unit/data_model/tree_node_data_source.dart';
+import 'package:mass_pro/data_run/screens/org_unit/model/tree_node.dart';
+import 'package:mass_pro/data_run/screens/org_unit/model/tree_node_data_source.dart';
 import 'package:mass_pro/data_run/screens/org_unit/settings/controller.dart';
 import 'package:mass_pro/data_run/screens/org_unit/tree_tile.widget.dart';
 import 'package:mass_pro/generated/l10n.dart';
@@ -53,8 +53,8 @@ class OrgUnitPickerDialog extends ConsumerStatefulWidget {
       _OrgUnitPickerDialogState();
 }
 
-class _OrgUnitPickerDialogState extends ConsumerState<OrgUnitPickerDialog>
-    /*with RestorationMixin*/ {
+class _OrgUnitPickerDialogState
+    extends ConsumerState<OrgUnitPickerDialog> /*with RestorationMixin*/ {
   late TextEditingController _textFieldController = TextEditingController();
 
   late final TreeController<TreeNode> treeController;
@@ -63,6 +63,7 @@ class _OrgUnitPickerDialogState extends ConsumerState<OrgUnitPickerDialog>
   Pattern? searchPattern;
 
   String? _selectedNode;
+
   // late final RestorableStringN _selectedNode =
   //     RestorableStringN(widget.initialNode);
 
@@ -92,7 +93,7 @@ class _OrgUnitPickerDialogState extends ConsumerState<OrgUnitPickerDialog>
       roots: widget.dataSource.getRoots(),
       childrenProvider: getChildren,
       parentProvider: (node) => _getNode(node.parent),
-    ) ..expandAll();
+    )..expandAll();
     _textFieldController.addListener(onSearchQueryChanged);
   }
 
@@ -119,6 +120,7 @@ class _OrgUnitPickerDialogState extends ConsumerState<OrgUnitPickerDialog>
 
   void _handleOk() {
     Navigator.pop(context, _selectedNode);
+    // Navigator.pop(context, _getNode(_selectedNode));
   }
 
   void _handleCancel() {
@@ -126,10 +128,11 @@ class _OrgUnitPickerDialogState extends ConsumerState<OrgUnitPickerDialog>
   }
 
   void _handleNodeChanged(String id) {
-    _vibrate();
+    final isSelectable = _isSelectable(id);
+    if (isSelectable) _vibrate();
     setState(() {
       debugPrint('is Selectable: ${_isSelectable(id)}');
-      if (_isSelectable(id)) {
+      if (isSelectable) {
         _selectedNode = id;
         widget.onChange?.call(id);
       }
@@ -284,14 +287,12 @@ class _OrgUnitPickerDialogState extends ConsumerState<OrgUnitPickerDialog>
           key: _nodePickerKey,
           treeController: treeController,
           nodeBuilder: (BuildContext context, TreeEntry<TreeNode> entry) {
-            return Card(
-              child: TreeTile(
-                entry: entry,
-                match: filter?.matches[entry.node],
-                searchPattern: searchPattern,
-                onTap: _handleNodeChanged,
-                isSelected: entry.node.uid == _selectedNode,
-              ),
+            return TreeTile(
+              entry: entry,
+              match: filter?.matches[entry.node],
+              searchPattern: searchPattern,
+              onTap: _handleNodeChanged,
+              isSelected: entry.node.uid == _selectedNode,
             );
           },
           duration: ref.watch(watchAnimationDurationSettingProvider),
@@ -317,10 +318,7 @@ class _OrgUnitPickerDialogState extends ConsumerState<OrgUnitPickerDialog>
         child: ClipRRect(
           borderRadius: BorderRadius.circular(12),
           child: Column(
-            children: [
-
-
-            ],
+            children: [],
           ),
         ),
       );
@@ -329,9 +327,13 @@ class _OrgUnitPickerDialogState extends ConsumerState<OrgUnitPickerDialog>
     return Column(
       children: [
         _buildSearchField(),
-        SizedBox(height: 32,),
+        SizedBox(
+          height: 32,
+        ),
         Expanded(child: _buildTreeNodes()),
-        SizedBox(height: 32,),
+        SizedBox(
+          height: 32,
+        ),
         actions,
       ],
     );

@@ -273,7 +273,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
 
   @override
   void setUrl(String url) {
-    ref.read(loginModelProvider.notifier).onServerChanged(url);
+    // ref.read(loginModelProvider.notifier).onServerChanged(url);
     _urlController.text = url;
   }
 

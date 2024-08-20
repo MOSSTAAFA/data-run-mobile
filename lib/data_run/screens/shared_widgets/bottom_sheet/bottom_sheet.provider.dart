@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mass_pro/core/common/state.dart';
-import 'package:mass_pro/data_run/screens/data_submission_form/model/q_data_integrity_check_result.dart';
+import 'package:mass_pro/data_run/screens/submission_form/model/q_data_integrity_check_result.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/bottom_sheet/q_bottom_sheet_dialog_ui_model.dart';
 import 'package:mass_pro/generated/l10n.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

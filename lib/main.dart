@@ -8,7 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:mass_pro/commons/prefs/preference_provider.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen.widget.dart';
-import 'package:mass_pro/data_run/screens/project_details/project_detail_screen.widget.dart';
+import 'package:mass_pro/data_run/screens/project_activity_detail/project_detail_screen.widget.dart';
 import 'package:mass_pro/generated/l10n.dart';
 import 'package:mass_pro/main/usescases/splash/splash_presenter.dart';
 import 'package:mass_pro/main/usescases/splash/splash_screen.widget.dart';
@@ -56,8 +56,13 @@ Future<void> main() async {
   runApp(ProviderScope(
     observers: <ProviderObserver>[
       ProviderLogger(
-          providersNameToLog:
-              const IListConst(<String>['formConfigurationProvider', 'treeNodeDataSourceProvider']))
+        providersNameToLog: const IListConst(<String>[
+          'formConfigurationProvider',
+          'treeNodeDataSourceProvider',
+          'formFieldsRepositoryProvider',
+          'formFieldsStateNotifierProvider'
+        ]),
+      )
     ],
     child: const App(),
   )) /*,

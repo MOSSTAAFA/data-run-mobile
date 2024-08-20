@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:mass_pro/commons/extensions/string_extension.dart';
-import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
+import 'package:mass_pro/data_run/screens/submission_form/model/q_field.model.dart';
 
 class QSwitchField extends StatefulWidget {
   const QSwitchField({super.key, required this.fieldModel});

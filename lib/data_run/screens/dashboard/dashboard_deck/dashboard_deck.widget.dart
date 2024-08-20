@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_item.model.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_items.widget.dart';
-import 'package:mass_pro/data_run/screens/project_details/project_detail_screen.widget.dart';
+import 'package:mass_pro/data_run/screens/project_activity_detail/project_detail_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/view/view_base.dart';
 import 'package:mass_pro/data_run/utils/screens_constants.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';

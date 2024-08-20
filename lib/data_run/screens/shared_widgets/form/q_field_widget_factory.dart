@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
+import 'package:mass_pro/data_run/screens/submission_form/model/q_field.model.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/form/form.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/form/q_age_slider.widget.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/form/q_multi_choice_chip.widget.dart';

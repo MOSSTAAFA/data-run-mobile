@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fancy_tree_view/flutter_fancy_tree_view.dart';
-import 'package:mass_pro/data_run/screens/org_unit/data_model/tree_node.dart';
+import 'package:mass_pro/data_run/screens/org_unit/model/tree_node.dart';
 
 class TreeTile extends StatefulWidget {
   const TreeTile({
@@ -37,42 +37,54 @@ class _TreeTileState extends State<TreeTile> {
   @override
   Widget build(BuildContext context) {
     final _selectedColor = widget.selectedColor ?? Colors.blue.withOpacity(0.2);
-
-    final expandIcon =  switch(widget.entry.node.children.length) {
-      > 0 => ExpandIcon(
-        key: GlobalObjectKey(widget.entry.node),
-        isExpanded: widget.entry.isExpanded,
-        onPressed: (_) => TreeViewScope.of<TreeNode>(context)
-          ..controller.toggleExpansion(widget.entry.node),
-      ),
-    _ => SizedBox.shrink()
+    final expandable = widget.entry.node.children.length > 0;
+    final expandIcon = switch (expandable) {
+      true =>
+          ExpandIcon(
+            key: GlobalObjectKey(widget.entry.node),
+            isExpanded: widget.entry.isExpanded,
+            onPressed: (_) =>
+            TreeViewScope.of<TreeNode>(context)
+              ..controller.toggleExpansion(widget.entry.node),
+          ),
+      _ => SizedBox.shrink()
     };
 
     return TreeIndentation(
       entry: widget.entry,
       child: GestureDetector(
-        onTap: () => widget.onTap?.call(widget.entry.node.uid!),
-        child: Container(
-          color: widget.isSelected
-              ? _selectedColor // Highlight color
-              : Colors.transparent, // Default background color
-          child: Row(
-            children: [
-              expandIcon,
-              if (shouldShowBadge)
-                Padding(
-                  padding: const EdgeInsetsDirectional.only(end: 8),
-                  child: Badge(
-                    label: Text('${widget.match?.subtreeMatchCount}'),
+        onTap: () {
+          if (expandable)
+            TreeViewScope.of<TreeNode>(context)
+              ..controller.toggleExpansion(widget.entry.node);
+          widget.onTap?.call(widget.entry.node.uid!);
+        },
+        child: Card(
+          child: ListTile(
+
+            title: Container(
+              color: widget.isSelected
+                  ? _selectedColor // Highlight color
+                  : Colors.transparent, // Default background color
+              child: Row(
+                children: [
+                  expandIcon,
+                  if (shouldShowBadge)
+                    Padding(
+                      padding: const EdgeInsetsDirectional.only(end: 8),
+                      child: Badge(
+                        label: Text('${widget.match?.subtreeMatchCount}'),
+                      ),
+                    ),
+                  Flexible(
+                    child: Text.rich(
+                      titleSpan,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
-                ),
-              Flexible(
-                child: Text.rich(
-                  titleSpan,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
@@ -96,8 +108,13 @@ class _TreeTileState extends State<TreeTile> {
   }
 
   void setupTextStyles() {
-    final TextStyle style = DefaultTextStyle.of(context).style;
-    final Color highlightColor = Theme.of(context).colorScheme.primary;
+    final TextStyle style = DefaultTextStyle
+        .of(context)
+        .style;
+    final Color highlightColor = Theme
+        .of(context)
+        .colorScheme
+        .primary;
     highlightStyle = style.copyWith(
       color: highlightColor,
       decorationColor: highlightColor,

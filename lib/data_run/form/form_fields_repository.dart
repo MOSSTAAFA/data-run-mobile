@@ -10,7 +10,7 @@ import 'package:mass_pro/commons/helpers/iterable.dart';
 import 'package:mass_pro/data_run/engine/rule_engine.dart';
 import 'package:mass_pro/data_run/form/display_name_provider.dart';
 import 'package:mass_pro/data_run/form/form_configuration.dart';
-import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
+import 'package:mass_pro/data_run/screens/submission_form/model/q_field.model.dart';
 import 'package:mass_pro/data_run/submission/submission.dart';
 import 'package:mass_pro/data_run/submission/submission_mapping_repository.dart';
 import 'package:mass_pro/form/model/row_action.dart';

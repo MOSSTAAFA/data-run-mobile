@@ -178,6 +178,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "لا تتوفر استمارات لهذا النشاط"),
         "notMappedError": MessageLookupByLibrary.simpleMessage("خطأ غير معتمد"),
         "notNow": MessageLookupByLibrary.simpleMessage("ليس الآن"),
+        "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "objectAccessClosed":
             MessageLookupByLibrary.simpleMessage("الوصول مغلق لهذا الكائن"),
         "objectAccessDenied":
@@ -199,6 +200,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Search Org Units..."),
         "send": MessageLookupByLibrary.simpleMessage("إرسال"),
         "showPassword": MessageLookupByLibrary.simpleMessage("أظهر كلمة السر"),
+        "submissionDataEntry": MessageLookupByLibrary.simpleMessage("Data"),
+        "submissionInitialData": MessageLookupByLibrary.simpleMessage("Main"),
         "syncFormData":
             MessageLookupByLibrary.simpleMessage("مزامنة بيانات الاستمارة"),
         "syncingConfiguration":

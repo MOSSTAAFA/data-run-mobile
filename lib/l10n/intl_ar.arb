@@ -133,5 +133,8 @@
   "orgUnitHelpText": "اختر اسم المكان",
   "orgUnitInputLabel": "اختر اسم المكان",
   "orgUnitDialogTitle": "Search for and Select OrgUnit",
-  "searchOrgUnitsHelpText": "Search Org Units..."
+  "searchOrgUnitsHelpText": "Search Org Units...",
+  "submissionInitialData": "Main",
+  "submissionDataEntry": "Data",
+  "notifications": "Notifications"
 }

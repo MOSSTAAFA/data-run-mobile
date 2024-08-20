@@ -1133,6 +1133,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Main`
+  String get submissionInitialData {
+    return Intl.message(
+      'Main',
+      name: 'submissionInitialData',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Data`
+  String get submissionDataEntry {
+    return Intl.message(
+      'Data',
+      name: 'submissionDataEntry',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notifications`
+  String get notifications {
+    return Intl.message(
+      'Notifications',
+      name: 'notifications',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

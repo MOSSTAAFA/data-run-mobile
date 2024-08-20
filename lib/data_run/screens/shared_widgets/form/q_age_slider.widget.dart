@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
-import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
+import 'package:mass_pro/data_run/screens/submission_form/model/q_field.model.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/form/q_field_validator.dart';
 import 'package:mass_pro/generated/l10n.dart';
 

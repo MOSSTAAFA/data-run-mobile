@@ -8,7 +8,7 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mass_pro/data_run/form/form_configuration.dart';
 import 'package:mass_pro/data_run/form/map_field_value_to_user.dart';
-import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
+import 'package:mass_pro/data_run/screens/submission_form/model/q_field.model.dart';
 import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
 
 class RuleEngine {

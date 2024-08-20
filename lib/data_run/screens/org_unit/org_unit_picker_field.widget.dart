@@ -1,14 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:mass_pro/data_run/screens/org_unit/data_model/tree_node.dart';
-import 'package:mass_pro/data_run/screens/org_unit/data_model/tree_node_data_source.dart';
-import 'package:mass_pro/data_run/screens/org_unit/org_unit_picker.widget.dart';
+import 'package:mass_pro/data_run/screens/org_unit/model/tree_node.dart';
+import 'package:mass_pro/data_run/screens/org_unit/model/tree_node_data_source.dart';
 import 'package:mass_pro/data_run/screens/org_unit/org_unit_picker_dialog.widget.dart';
 import 'package:mass_pro/generated/l10n.dart';
 
-class OrgUnitPickerField extends ConsumerStatefulWidget {
+class OrgUnitPickerField extends StatefulWidget {
   const OrgUnitPickerField(
       {Key? key,
       required this.dataSource,
@@ -47,9 +47,11 @@ class OrgUnitPickerField extends ConsumerStatefulWidget {
 }
 
 class _OrgUnitPickerFieldState
-    extends ConsumerState<OrgUnitPickerField/*<T>*/ > {
+    extends State<OrgUnitPickerField/*<T>*/ > {
   late final TextEditingController _controller;
   String? _selectedNode;
+  GlobalKey<FormFieldState<String>> _fieldkey =
+      GlobalKey<FormFieldState<String>>();
 
   TreeNode? _getNode(String? uid) {
     return widget.dataSource.getNode(uid);
@@ -95,11 +97,10 @@ class _OrgUnitPickerFieldState
 
   void _updateNode(String? nodeUid) {
     setState(() {
-      _selectedNode = nodeUid;
+    _selectedNode = nodeUid;
       final node = _getNode(_selectedNode);
       _controller.text =
           _selectedNode == null ? '' : (node?.displayName ?? node?.name)!;
-
       widget.onSubmitted?.call(_selectedNode);
       widget.onSaved?.call(_selectedNode);
     });
@@ -125,7 +126,7 @@ class _OrgUnitPickerFieldState
 
   // In the _showOrgUnitPickerDialog:
   Future<String?> _showOrgUnitPickerDialog(String? currentValue) async {
-    return showDialog<String>(
+    return showDialog<String?>(
       context: context,
       builder: (BuildContext context) {
         return Dialog(
@@ -157,12 +158,15 @@ class _OrgUnitPickerFieldState
     return Semantics(
       container: true,
       child: FormBuilderField<String?>(
+          key: _fieldkey,
           name: 'orgUnit',
+          // validator: FormBuilderValidators.required(),
           // valueTransformer: (value) => _selectedNode,
-          builder: (field) => TextFormField(
+          builder: (FormFieldState<String?> field) => TextFormField(
                 readOnly: true,
                 validator: FormBuilderValidators.required(),
                 decoration: InputDecoration(
+                  isDense: true,
                   suffixIcon: _selectedNode != null
                       ? IconButton(
                           padding: EdgeInsets.zero,
@@ -179,20 +183,25 @@ class _OrgUnitPickerFieldState
                       // .merge(datePickerTheme.inputDecorationTheme)
                       .copyWith(border: effectiveInputBorder),
                 ),
-                keyboardType: widget.keyboardType,
-                autofocus: widget.autofocus,
                 controller: _controller,
                 focusNode: widget.focusNode,
-                style: Theme.of(context).textTheme.bodySmall,
+                style: Theme.of(context).textTheme.bodyMedium,
                 onChanged: (value) {
+                  debugPrint('## onChanged: $value');
+                  field.didChange(value);
                   widget.onChanged?.call(value);
                 },
                 onSaved: (value) {
+                  debugPrint('## onSaved: $value');
                   field.didChange(value);
                   widget.onChanged?.call(value);
+
                 },
                 onFieldSubmitted: (value) {
+                  debugPrint('## onFieldSubmitted: $value');
                   field.didChange(value);
+                  field.save();
+                  field.validate();
                   widget.onChanged?.call(value);
                 },
                 onTap: onShowPicker,

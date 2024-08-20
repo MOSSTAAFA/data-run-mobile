@@ -179,6 +179,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "notMappedError":
             MessageLookupByLibrary.simpleMessage("Not mapped error"),
         "notNow": MessageLookupByLibrary.simpleMessage("Not Now"),
+        "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "objectAccessClosed":
             MessageLookupByLibrary.simpleMessage("objectAccessClosed"),
         "objectAccessDenied":
@@ -199,6 +200,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Search Org Units..."),
         "send": MessageLookupByLibrary.simpleMessage("Send"),
         "showPassword": MessageLookupByLibrary.simpleMessage("Show Password"),
+        "submissionDataEntry": MessageLookupByLibrary.simpleMessage("Data"),
+        "submissionInitialData": MessageLookupByLibrary.simpleMessage("Main"),
         "syncFormData": MessageLookupByLibrary.simpleMessage("Sync Form Data"),
         "syncingConfiguration":
             MessageLookupByLibrary.simpleMessage("Syncing Configuration"),

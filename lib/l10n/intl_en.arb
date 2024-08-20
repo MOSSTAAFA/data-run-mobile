@@ -172,5 +172,8 @@
   "orgUnitHelpText": "Select Org Unit",
   "orgUnitInputLabel": "Select Org Unit",
   "orgUnitDialogTitle": "Search for and Select OrgUnit",
-  "searchOrgUnitsHelpText": "Search Org Units..."
+  "searchOrgUnitsHelpText": "Search Org Units...",
+  "submissionInitialData": "Main",
+  "submissionDataEntry": "Data",
+  "notifications": "Notifications"
 }

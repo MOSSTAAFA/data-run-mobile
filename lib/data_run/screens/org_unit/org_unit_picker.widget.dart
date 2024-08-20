@@ -2,8 +2,8 @@
 // import 'package:flutter/services.dart';
 // import 'package:flutter_fancy_tree_view/flutter_fancy_tree_view.dart';
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:mass_pro/data_run/screens/org_unit/data_model/tree_node.dart';
-// import 'package:mass_pro/data_run/screens/org_unit/data_model/tree_node_data_source.dart';
+// import 'package:mass_pro/data_run/screens/org_unit/model/tree_node.dart';
+// import 'package:mass_pro/data_run/screens/org_unit/model/tree_node_data_source.dart';
 // import 'package:mass_pro/data_run/screens/org_unit/settings/controller.dart';
 // import 'package:mass_pro/data_run/screens/org_unit/tree_tile.widget.dart';
 //
