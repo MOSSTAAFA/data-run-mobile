@@ -20,16 +20,16 @@ class SubmissionInitialView extends ConsumerStatefulWidget {
 }
 
 class SubmissionInitialViewState extends ConsumerState<SubmissionInitialView> {
-  late final String form;
-  late final int formVersion;
+  // late final String form;
+  // late final int formVersion;
   late final String submissionId;
 
   @override
   void initState() {
     super.initState();
     final Bundle eventBundle = Get.arguments as Bundle;
-    form = eventBundle.getString(FORM_UID)!;
-    formVersion = eventBundle.getInt(FORM_VERSION)!;
+    // form = eventBundle.getString(FORM_UID)!;
+    // formVersion = eventBundle.getInt(FORM_VERSION)!;
     submissionId = eventBundle.getString(SYNCABLE_UID)!;
   }
 

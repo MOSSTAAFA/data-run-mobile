@@ -1,4 +1,5 @@
 import 'package:d2_remote/modules/datarun/form/entities/data_form_submission.entity.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/core/common/state.dart';
@@ -29,29 +30,27 @@ class SubmissionSummary extends ConsumerStatefulWidget {
 class SubmissionSummaryState extends ConsumerState<SubmissionSummary> {
   @override
   Widget build(BuildContext context) {
-    final SyncableEntityState? entitySyncableStatus =
-        SyncableEntityState.getEntityStatus(widget.entity);
     final AsyncValue<SubmissionItemSummaryModel> submissionSummaryModelValue =
         ref.watch(submissionItemSummaryModelProvider(
             submissionUid: widget.entity.uid!, form: widget.form));
     return switch (submissionSummaryModelValue) {
       AsyncValue(error: final error?, stackTrace: final stackTrace) =>
         getErrorWidget(error, stackTrace),
-      AsyncValue(valueOrNull: final valueOrNull?) => ListTile(
+      AsyncValue(valueOrNull: final submissionSummary?) => ListTile(
           isThreeLine: true,
-          leading: buildStatusIcon(entitySyncableStatus),
+          leading: buildStatusIcon(submissionSummary.syncStatus),
           title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text(valueOrNull.orgUnit),
+                Text(submissionSummary.orgUnit),
                 Text(
                   '${S.of(context).version}: ${widget.entity.version}',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ]),
-          subtitle: Text(generateFormSummary(valueOrNull.formData)),
+          subtitle: Text(generateFormSummary(submissionSummary.formData)),
           trailing: QSyncIconButton(
-            state: entitySyncableStatus,
+            state: submissionSummary.syncStatus,
             onUnsyncedPressed: () =>
                 widget.onSyncPressed?.call(widget.entity.uid!),
             // onUnsyncedPressed: () =>
@@ -66,7 +65,7 @@ class SubmissionSummaryState extends ConsumerState<SubmissionSummary> {
   }
 }
 
-String generateFormSummary(Map<String, dynamic> fields) {
+String generateFormSummary(IMap<String, dynamic> fields) {
   final String fieldSummary = fields.entries
       .where((MapEntry<String, dynamic> entry) =>
           entry.key != 'name' &&

@@ -32,7 +32,7 @@ class DashboardItemsModelsNotifier extends _$DashboardItemsModelsNotifier {
 
     IList<DashboardItemModel> programModles = IList<DashboardItemModel>();
     for (final DProject project in projects) {
-      final SyncableEntityState state = SyncableEntityState.SYNCED;
+      final SyncStatus state = SyncStatus.SYNCED;
       // await ref.read(projectUtilsProvider).getProjectState(project);
 
       // final count =

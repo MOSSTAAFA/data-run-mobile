@@ -25,7 +25,7 @@ class QBottomSheetProvider {
     );
   }
 
-  QBottomSheetDialogUiModel syncBottomSheet(SyncableEntityState status) {
+  QBottomSheetDialogUiModel syncBottomSheet(SyncStatus status) {
     return QBottomSheetDialogUiModel(
       title: 'Send to Server',
       subtitle: 'After Sending, Item will no longer be editable.',

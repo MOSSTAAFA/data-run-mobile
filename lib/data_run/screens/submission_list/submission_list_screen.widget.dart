@@ -7,6 +7,7 @@ import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/core/common/state.dart';
 import 'package:mass_pro/data_run/form/form_configuration.dart';
 import 'package:mass_pro/data_run/screens/submission_list/model/submission_list.provider.dart';
+import 'package:mass_pro/data_run/screens/submission_list/model/submission_list_util.dart';
 import 'package:mass_pro/data_run/screens/submission_list/submission_summary.widget.dart';
 import 'package:mass_pro/data_run/screens/submission_list/submission_creation_dialog.widget.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/get_error_widget.dart';
@@ -25,7 +26,7 @@ class SubmissionListScreen extends ConsumerStatefulWidget {
 }
 
 class SubmissionListState extends ConsumerState<SubmissionListScreen> {
-  SyncableEntityState? _selectedStatus;
+  SyncStatus? _selectedStatus;
   late final String form;
   late final String activity;
   late final String team;
@@ -94,33 +95,32 @@ class SubmissionListState extends ConsumerState<SubmissionListScreen> {
   }
 
   Widget _buildFilterBar() {
-    final AsyncValue<IList<DataFormSubmission>> allEntities =
-        ref.watch(submissionListProvider(form: form, entityStatus: null));
+    final statusCountModelValue =
+        ref.watch(submissionStatusModelProvider(form: form));
 
-    return allEntities.when(
-      data: (entities) {
-        final Map<SyncableEntityState, int> counts = _calculateCounts(entities);
-
-        return Padding(
+    return switch (statusCountModelValue) {
+      AsyncValue(:final Object error?, :final stackTrace) =>
+        getErrorWidget(error, stackTrace),
+      AsyncValue(valueOrNull: final model?) => Padding(
           padding: const EdgeInsets.all(8.0),
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: SyncableEntityState.statusFilterItems()
-                  .map((SyncableEntityState status) =>
-                      _buildFilterChip(status, counts[status] ?? 0))
-                  .toList(),
+              children: [
+                _buildFilterChip(SyncStatus.SYNCED, model.synced),
+                _buildFilterChip(SyncStatus.TO_POST, model.toPost),
+                _buildFilterChip(SyncStatus.TO_UPDATE, model.toUpdate),
+                _buildFilterChip(SyncStatus.ERROR, model.withError),
+              ],
             ),
           ),
-        );
-      },
-      error: (Object error, StackTrace s) => getErrorWidget(error, s),
-      loading: () => const CircularProgressIndicator(),
-    );
+        ),
+      _ => const SizedBox.shrink(),
+    };
   }
 
-  Widget _buildFilterChip(SyncableEntityState status, int count) {
+  Widget _buildFilterChip(SyncStatus status, int count) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4.0),
       child: ChoiceChip(
@@ -138,27 +138,12 @@ class SubmissionListState extends ConsumerState<SubmissionListScreen> {
     );
   }
 
-  Map<SyncableEntityState, int> _calculateCounts(
-      IList<DataFormSubmission> entities) {
-    final Map<SyncableEntityState, int> counts = <SyncableEntityState, int>{};
-
-    for (final DataFormSubmission entity in entities) {
-      final SyncableEntityState? status =
-          SyncableEntityState.getEntityStatus(entity);
-      if (status != null) {
-        counts[status] = (counts[status] ?? 0) + 1;
-      }
-    }
-
-    return counts;
-  }
-
   Widget _buildEntitiesList() {
-    final AsyncValue<IList<DataFormSubmission>> entitiesByStatus = ref.watch(
-        submissionListProvider(form: form, entityStatus: _selectedStatus));
+    final entitiesByStatus = ref.watch(submissionFilteredByStateProvider(
+        form: form, syncState: _selectedStatus));
 
     return entitiesByStatus.when(
-        data: (IList<DataFormSubmission> filteredEntities) => ListView.builder(
+        data: (filteredEntities) => ListView.builder(
               itemCount: filteredEntities.length,
               itemBuilder: (BuildContext context, int index) {
                 final DataFormSubmission entity = filteredEntities[index];
@@ -171,7 +156,7 @@ class SubmissionListState extends ConsumerState<SubmissionListScreen> {
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                   child: SubmissionSummary(
-                      key: ValueKey('${entity.uid}_${entity.version}'),
+                      // key: ValueKey('${entity.uid}_${entity.version}'),
                       form: form,
                       entity: entity,
                       onSyncPressed: (uid) => _showSyncDialog([entity.uid!]),
@@ -219,15 +204,15 @@ class SubmissionListState extends ConsumerState<SubmissionListScreen> {
   }
 }
 
-Widget buildStatusIcon(SyncableEntityState? status) {
+Widget buildStatusIcon(SyncStatus? status) {
   switch (status) {
-    case SyncableEntityState.SYNCED:
+    case SyncStatus.SYNCED:
       return const Icon(Icons.cloud_done, color: Colors.green);
-    case SyncableEntityState.TO_POST:
+    case SyncStatus.TO_POST:
       return const Icon(Icons.cloud_upload, color: Colors.blue);
-    case SyncableEntityState.TO_UPDATE:
+    case SyncStatus.TO_UPDATE:
       return const Icon(Icons.update, color: Colors.orange);
-    case SyncableEntityState.ERROR:
+    case SyncStatus.ERROR:
       return const Icon(Icons.error, color: Colors.red);
     default:
       return const Icon(Icons.all_inclusive);

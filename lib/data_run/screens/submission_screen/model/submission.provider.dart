@@ -3,6 +3,7 @@ import 'package:d2_remote/modules/datarun/form/entities/data_form_submission.ent
 import 'package:d2_remote/shared/utilities/save_option.util.dart';
 import 'package:get/get.dart';
 import 'package:mass_pro/commons/constants.dart';
+import 'package:mass_pro/data_run/screens/submission_list/model/submission_list.provider.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -20,7 +21,6 @@ Future<bool> submissionEditStatus(SubmissionEditStatusRef ref) async {
 @riverpod
 class Submission extends _$Submission {
   Future<DataFormSubmission> build({required String submissionId}) async {
-    // ref.watch(submissionListProvider);
     final submission =
     await D2Remote.formModule.formSubmission.byId(submissionId).getOne();
     return submission!;
@@ -38,6 +38,7 @@ class Submission extends _$Submission {
         .save(saveOptions: SaveOptions(skipLocalSyncStatus: false));
 
     ref.invalidateSelf();
+    ref.invalidate(submissionListProvider);
     await future;
   }
 }

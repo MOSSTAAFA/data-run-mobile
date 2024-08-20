@@ -10,8 +10,8 @@ import 'package:mass_pro/main/data/service/sync_repository.dart';
 class SyncRepositoryImpl implements SyncRepository {
   @override
   Future<List<TrackedEntityInstance>> getTeiByNotInStates(
-      String uid, List<SyncableEntityState> states) {
-    if (states.lock.containsAny(SyncableEntityState.uploadableStatesIncludingError)) {
+      String uid, List<SyncStatus> states) {
+    if (states.lock.containsAny(SyncStatus.uploadableStatesIncludingError)) {
       // return dirty
       return D2Remote.trackerModule.trackedEntityInstance
           .byId(uid)
@@ -28,8 +28,8 @@ class SyncRepositoryImpl implements SyncRepository {
 
   @override
   Future<List<TrackedEntityInstance>> getTeiByInStates(
-      String uid, List<SyncableEntityState> states) {
-    if (states.lock.containsAny(SyncableEntityState.uploadableStatesIncludingError)) {
+      String uid, List<SyncStatus> states) {
+    if (states.lock.containsAny(SyncStatus.uploadableStatesIncludingError)) {
       // return dirty
       return D2Remote.trackerModule.trackedEntityInstance
           .byId(uid)

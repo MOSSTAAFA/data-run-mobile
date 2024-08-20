@@ -6,8 +6,8 @@ part of 'submission_list.provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$submissionListRepositoryHash() =>
-    r'575187dd8075f1404926c41c8cbf19bf1dbb46b6';
+String _$submissionMappingRepositoryHash() =>
+    r'24cf3fb29ae7ea84fe4cffc912b109aafc5d06cc';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -30,30 +30,34 @@ class _SystemHash {
   }
 }
 
-/// See also [submissionListRepository].
-@ProviderFor(submissionListRepository)
-const submissionListRepositoryProvider = SubmissionListRepositoryFamily();
+/// See also [submissionMappingRepository].
+@ProviderFor(submissionMappingRepository)
+const submissionMappingRepositoryProvider = SubmissionMappingRepositoryFamily();
 
-/// See also [submissionListRepository].
-class SubmissionListRepositoryFamily extends Family<SubmissionListRepository> {
-  /// See also [submissionListRepository].
-  const SubmissionListRepositoryFamily();
+/// See also [submissionMappingRepository].
+class SubmissionMappingRepositoryFamily
+    extends Family<SubmissionMappingRepository> {
+  /// See also [submissionMappingRepository].
+  const SubmissionMappingRepositoryFamily();
 
-  /// See also [submissionListRepository].
-  SubmissionListRepositoryProvider call(
-    String form,
-  ) {
-    return SubmissionListRepositoryProvider(
-      form,
+  /// See also [submissionMappingRepository].
+  SubmissionMappingRepositoryProvider call({
+    required FormConfiguration formConfiguration,
+    required String submissionUid,
+  }) {
+    return SubmissionMappingRepositoryProvider(
+      formConfiguration: formConfiguration,
+      submissionUid: submissionUid,
     );
   }
 
   @override
-  SubmissionListRepositoryProvider getProviderOverride(
-    covariant SubmissionListRepositoryProvider provider,
+  SubmissionMappingRepositoryProvider getProviderOverride(
+    covariant SubmissionMappingRepositoryProvider provider,
   ) {
     return call(
-      provider.form,
+      formConfiguration: provider.formConfiguration,
+      submissionUid: provider.submissionUid,
     );
   }
 
@@ -69,33 +73,196 @@ class SubmissionListRepositoryFamily extends Family<SubmissionListRepository> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'submissionListRepositoryProvider';
+  String? get name => r'submissionMappingRepositoryProvider';
 }
 
-/// See also [submissionListRepository].
-class SubmissionListRepositoryProvider
-    extends AutoDisposeProvider<SubmissionListRepository> {
-  /// See also [submissionListRepository].
-  SubmissionListRepositoryProvider(
-    String form,
-  ) : this._internal(
-          (ref) => submissionListRepository(
-            ref as SubmissionListRepositoryRef,
-            form,
+/// See also [submissionMappingRepository].
+class SubmissionMappingRepositoryProvider
+    extends AutoDisposeProvider<SubmissionMappingRepository> {
+  /// See also [submissionMappingRepository].
+  SubmissionMappingRepositoryProvider({
+    required FormConfiguration formConfiguration,
+    required String submissionUid,
+  }) : this._internal(
+          (ref) => submissionMappingRepository(
+            ref as SubmissionMappingRepositoryRef,
+            formConfiguration: formConfiguration,
+            submissionUid: submissionUid,
           ),
-          from: submissionListRepositoryProvider,
-          name: r'submissionListRepositoryProvider',
+          from: submissionMappingRepositoryProvider,
+          name: r'submissionMappingRepositoryProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$submissionListRepositoryHash,
-          dependencies: SubmissionListRepositoryFamily._dependencies,
+                  : _$submissionMappingRepositoryHash,
+          dependencies: SubmissionMappingRepositoryFamily._dependencies,
           allTransitiveDependencies:
-              SubmissionListRepositoryFamily._allTransitiveDependencies,
-          form: form,
+              SubmissionMappingRepositoryFamily._allTransitiveDependencies,
+          formConfiguration: formConfiguration,
+          submissionUid: submissionUid,
         );
 
-  SubmissionListRepositoryProvider._internal(
+  SubmissionMappingRepositoryProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.formConfiguration,
+    required this.submissionUid,
+  }) : super.internal();
+
+  final FormConfiguration formConfiguration;
+  final String submissionUid;
+
+  @override
+  Override overrideWith(
+    SubmissionMappingRepository Function(
+            SubmissionMappingRepositoryRef provider)
+        create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: SubmissionMappingRepositoryProvider._internal(
+        (ref) => create(ref as SubmissionMappingRepositoryRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        formConfiguration: formConfiguration,
+        submissionUid: submissionUid,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeProviderElement<SubmissionMappingRepository> createElement() {
+    return _SubmissionMappingRepositoryProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is SubmissionMappingRepositoryProvider &&
+        other.formConfiguration == formConfiguration &&
+        other.submissionUid == submissionUid;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, formConfiguration.hashCode);
+    hash = _SystemHash.combine(hash, submissionUid.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin SubmissionMappingRepositoryRef
+    on AutoDisposeProviderRef<SubmissionMappingRepository> {
+  /// The parameter `formConfiguration` of this provider.
+  FormConfiguration get formConfiguration;
+
+  /// The parameter `submissionUid` of this provider.
+  String get submissionUid;
+}
+
+class _SubmissionMappingRepositoryProviderElement
+    extends AutoDisposeProviderElement<SubmissionMappingRepository>
+    with SubmissionMappingRepositoryRef {
+  _SubmissionMappingRepositoryProviderElement(super.provider);
+
+  @override
+  FormConfiguration get formConfiguration =>
+      (origin as SubmissionMappingRepositoryProvider).formConfiguration;
+  @override
+  String get submissionUid =>
+      (origin as SubmissionMappingRepositoryProvider).submissionUid;
+}
+
+String _$submissionFilteredByStateHash() =>
+    r'cea2e756f0a2a288724f01a252fab19e77506829';
+
+/// See also [submissionFilteredByState].
+@ProviderFor(submissionFilteredByState)
+const submissionFilteredByStateProvider = SubmissionFilteredByStateFamily();
+
+/// See also [submissionFilteredByState].
+class SubmissionFilteredByStateFamily
+    extends Family<AsyncValue<List<DataFormSubmission>>> {
+  /// See also [submissionFilteredByState].
+  const SubmissionFilteredByStateFamily();
+
+  /// See also [submissionFilteredByState].
+  SubmissionFilteredByStateProvider call({
+    required String form,
+    SyncStatus? syncState,
+    String sortBy = 'name',
+  }) {
+    return SubmissionFilteredByStateProvider(
+      form: form,
+      syncState: syncState,
+      sortBy: sortBy,
+    );
+  }
+
+  @override
+  SubmissionFilteredByStateProvider getProviderOverride(
+    covariant SubmissionFilteredByStateProvider provider,
+  ) {
+    return call(
+      form: provider.form,
+      syncState: provider.syncState,
+      sortBy: provider.sortBy,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'submissionFilteredByStateProvider';
+}
+
+/// See also [submissionFilteredByState].
+class SubmissionFilteredByStateProvider
+    extends AutoDisposeFutureProvider<List<DataFormSubmission>> {
+  /// See also [submissionFilteredByState].
+  SubmissionFilteredByStateProvider({
+    required String form,
+    SyncStatus? syncState,
+    String sortBy = 'name',
+  }) : this._internal(
+          (ref) => submissionFilteredByState(
+            ref as SubmissionFilteredByStateRef,
+            form: form,
+            syncState: syncState,
+            sortBy: sortBy,
+          ),
+          from: submissionFilteredByStateProvider,
+          name: r'submissionFilteredByStateProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$submissionFilteredByStateHash,
+          dependencies: SubmissionFilteredByStateFamily._dependencies,
+          allTransitiveDependencies:
+              SubmissionFilteredByStateFamily._allTransitiveDependencies,
+          form: form,
+          syncState: syncState,
+          sortBy: sortBy,
+        );
+
+  SubmissionFilteredByStateProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -103,65 +270,88 @@ class SubmissionListRepositoryProvider
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.form,
+    required this.syncState,
+    required this.sortBy,
   }) : super.internal();
 
   final String form;
+  final SyncStatus? syncState;
+  final String sortBy;
 
   @override
   Override overrideWith(
-    SubmissionListRepository Function(SubmissionListRepositoryRef provider)
+    FutureOr<List<DataFormSubmission>> Function(
+            SubmissionFilteredByStateRef provider)
         create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: SubmissionListRepositoryProvider._internal(
-        (ref) => create(ref as SubmissionListRepositoryRef),
+      override: SubmissionFilteredByStateProvider._internal(
+        (ref) => create(ref as SubmissionFilteredByStateRef),
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         form: form,
+        syncState: syncState,
+        sortBy: sortBy,
       ),
     );
   }
 
   @override
-  AutoDisposeProviderElement<SubmissionListRepository> createElement() {
-    return _SubmissionListRepositoryProviderElement(this);
+  AutoDisposeFutureProviderElement<List<DataFormSubmission>> createElement() {
+    return _SubmissionFilteredByStateProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is SubmissionListRepositoryProvider && other.form == form;
+    return other is SubmissionFilteredByStateProvider &&
+        other.form == form &&
+        other.syncState == syncState &&
+        other.sortBy == sortBy;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, form.hashCode);
+    hash = _SystemHash.combine(hash, syncState.hashCode);
+    hash = _SystemHash.combine(hash, sortBy.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
-mixin SubmissionListRepositoryRef
-    on AutoDisposeProviderRef<SubmissionListRepository> {
+mixin SubmissionFilteredByStateRef
+    on AutoDisposeFutureProviderRef<List<DataFormSubmission>> {
   /// The parameter `form` of this provider.
   String get form;
+
+  /// The parameter `syncState` of this provider.
+  SyncStatus? get syncState;
+
+  /// The parameter `sortBy` of this provider.
+  String get sortBy;
 }
 
-class _SubmissionListRepositoryProviderElement
-    extends AutoDisposeProviderElement<SubmissionListRepository>
-    with SubmissionListRepositoryRef {
-  _SubmissionListRepositoryProviderElement(super.provider);
+class _SubmissionFilteredByStateProviderElement
+    extends AutoDisposeFutureProviderElement<List<DataFormSubmission>>
+    with SubmissionFilteredByStateRef {
+  _SubmissionFilteredByStateProviderElement(super.provider);
 
   @override
-  String get form => (origin as SubmissionListRepositoryProvider).form;
+  String get form => (origin as SubmissionFilteredByStateProvider).form;
+  @override
+  SyncStatus? get syncState =>
+      (origin as SubmissionFilteredByStateProvider).syncState;
+  @override
+  String get sortBy => (origin as SubmissionFilteredByStateProvider).sortBy;
 }
 
 String _$submissionStatusModelHash() =>
-    r'94108f421a31925f7d3c834d27617e16a0074188';
+    r'aedbf7430d3c7445c38f9233de37ce129dd9f1d2';
 
 /// See also [submissionStatusModel].
 @ProviderFor(submissionStatusModel)
@@ -295,7 +485,7 @@ class _SubmissionStatusModelProviderElement
 }
 
 String _$submissionItemSummaryModelHash() =>
-    r'9274df0544afedc7af91b319634e83e2670d625f';
+    r'c431450ac9baa0d9b4efc935d9183d6c3a1aedd4';
 
 /// See also [submissionItemSummaryModel].
 @ProviderFor(submissionItemSummaryModel)
@@ -447,18 +637,14 @@ class _SubmissionItemSummaryModelProviderElement
   String get form => (origin as SubmissionItemSummaryModelProvider).form;
 }
 
-String _$submissionListHash() => r'a245e559bfb5c8c23c49ac8bb8b78d68f49f22c5';
+String _$submissionListHash() => r'4e69caec5ca82be1f08ce76a483d79d172f8d8a5';
 
 abstract class _$SubmissionList
     extends BuildlessAutoDisposeAsyncNotifier<IList<DataFormSubmission>> {
   late final String form;
-  late final SyncableEntityState? entityStatus;
-  late final String sortBy;
 
   FutureOr<IList<DataFormSubmission>> build({
     required String form,
-    SyncableEntityState? entityStatus,
-    String sortBy = 'name',
   });
 }
 
@@ -475,13 +661,9 @@ class SubmissionListFamily
   /// See also [SubmissionList].
   SubmissionListProvider call({
     required String form,
-    SyncableEntityState? entityStatus,
-    String sortBy = 'name',
   }) {
     return SubmissionListProvider(
       form: form,
-      entityStatus: entityStatus,
-      sortBy: sortBy,
     );
   }
 
@@ -491,8 +673,6 @@ class SubmissionListFamily
   ) {
     return call(
       form: provider.form,
-      entityStatus: provider.entityStatus,
-      sortBy: provider.sortBy,
     );
   }
 
@@ -517,13 +697,8 @@ class SubmissionListProvider extends AutoDisposeAsyncNotifierProviderImpl<
   /// See also [SubmissionList].
   SubmissionListProvider({
     required String form,
-    SyncableEntityState? entityStatus,
-    String sortBy = 'name',
   }) : this._internal(
-          () => SubmissionList()
-            ..form = form
-            ..entityStatus = entityStatus
-            ..sortBy = sortBy,
+          () => SubmissionList()..form = form,
           from: submissionListProvider,
           name: r'submissionListProvider',
           debugGetCreateSourceHash:
@@ -534,8 +709,6 @@ class SubmissionListProvider extends AutoDisposeAsyncNotifierProviderImpl<
           allTransitiveDependencies:
               SubmissionListFamily._allTransitiveDependencies,
           form: form,
-          entityStatus: entityStatus,
-          sortBy: sortBy,
         );
 
   SubmissionListProvider._internal(
@@ -546,13 +719,9 @@ class SubmissionListProvider extends AutoDisposeAsyncNotifierProviderImpl<
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.form,
-    required this.entityStatus,
-    required this.sortBy,
   }) : super.internal();
 
   final String form;
-  final SyncableEntityState? entityStatus;
-  final String sortBy;
 
   @override
   FutureOr<IList<DataFormSubmission>> runNotifierBuild(
@@ -560,8 +729,6 @@ class SubmissionListProvider extends AutoDisposeAsyncNotifierProviderImpl<
   ) {
     return notifier.build(
       form: form,
-      entityStatus: entityStatus,
-      sortBy: sortBy,
     );
   }
 
@@ -570,18 +737,13 @@ class SubmissionListProvider extends AutoDisposeAsyncNotifierProviderImpl<
     return ProviderOverride(
       origin: this,
       override: SubmissionListProvider._internal(
-        () => create()
-          ..form = form
-          ..entityStatus = entityStatus
-          ..sortBy = sortBy,
+        () => create()..form = form,
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         form: form,
-        entityStatus: entityStatus,
-        sortBy: sortBy,
       ),
     );
   }
@@ -594,18 +756,13 @@ class SubmissionListProvider extends AutoDisposeAsyncNotifierProviderImpl<
 
   @override
   bool operator ==(Object other) {
-    return other is SubmissionListProvider &&
-        other.form == form &&
-        other.entityStatus == entityStatus &&
-        other.sortBy == sortBy;
+    return other is SubmissionListProvider && other.form == form;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, form.hashCode);
-    hash = _SystemHash.combine(hash, entityStatus.hashCode);
-    hash = _SystemHash.combine(hash, sortBy.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -615,12 +772,6 @@ mixin SubmissionListRef
     on AutoDisposeAsyncNotifierProviderRef<IList<DataFormSubmission>> {
   /// The parameter `form` of this provider.
   String get form;
-
-  /// The parameter `entityStatus` of this provider.
-  SyncableEntityState? get entityStatus;
-
-  /// The parameter `sortBy` of this provider.
-  String get sortBy;
 }
 
 class _SubmissionListProviderElement
@@ -630,11 +781,6 @@ class _SubmissionListProviderElement
 
   @override
   String get form => (origin as SubmissionListProvider).form;
-  @override
-  SyncableEntityState? get entityStatus =>
-      (origin as SubmissionListProvider).entityStatus;
-  @override
-  String get sortBy => (origin as SubmissionListProvider).sortBy;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

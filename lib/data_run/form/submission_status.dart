@@ -1,8 +1,8 @@
-enum SubmissionStatus {
+enum EntryStatus {
   ACTIVE,
   COMPLETED;
 
-  static SubmissionStatus getEnumValue(String? status) {
+  static EntryStatus getEnumValue(String? status) {
     switch (status?.toLowerCase()) {
       case 'active':
         return ACTIVE;

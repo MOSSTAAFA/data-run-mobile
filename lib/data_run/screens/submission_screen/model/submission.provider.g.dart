@@ -22,7 +22,7 @@ final submissionEditStatusProvider = AutoDisposeFutureProvider<bool>.internal(
 );
 
 typedef SubmissionEditStatusRef = AutoDisposeFutureProviderRef<bool>;
-String _$submissionHash() => r'c955a56a0046fb93bdb221c1fd8081ee28e82aca';
+String _$submissionHash() => r'0e1fcbf4ebdf93f55ce712fab9eb2ba206660b50';
 
 /// Copied from Dart SDK
 class _SystemHash {

@@ -11,8 +11,8 @@ import 'package:mass_pro/data_run/engine/rule_engine.dart';
 import 'package:mass_pro/data_run/form/display_name_provider.dart';
 import 'package:mass_pro/data_run/form/form_configuration.dart';
 import 'package:mass_pro/data_run/screens/submission_form/model/q_field.model.dart';
-import 'package:mass_pro/data_run/submission/submission.dart';
-import 'package:mass_pro/data_run/submission/submission_mapping_repository.dart';
+import 'package:mass_pro/data_run/screens/submission_list/model/submission_list.provider.dart';
+import 'package:mass_pro/data_run/screens/submission_list/model/submission_mapping_repository.dart';
 import 'package:mass_pro/form/model/row_action.dart';
 import 'package:mass_pro/form/ui/validation/field_error_message_provider.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
@@ -106,7 +106,7 @@ class FormFieldsRepository {
         .updateById(<QFieldModel>[toUpdatedItem], (QFieldModel id) => id.uid);
   }
 
-  Future<int> batchUpdateValues(Map<String, dynamic>? formData) async {
+  Future<void> batchUpdateValues(Map<String, dynamic>? formData) async {
     return submissionMappingRepository.saveSubmission(_pendingUpdates);
   }
 

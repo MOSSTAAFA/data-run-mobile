@@ -5,8 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/data_run/form/form_configuration.dart';
 import 'package:mass_pro/data_run/screens/org_unit/model/data_model.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/get_error_widget.dart';
-import 'package:mass_pro/data_run/submission/submission.dart';
-import 'package:mass_pro/data_run/submission/submission_initial_repository.dart';
+import 'package:mass_pro/data_run/screens/submission_list/model/submission_list.provider.dart';
 import 'package:mass_pro/generated/l10n.dart';
 
 class SubmissionCreationDialog extends ConsumerStatefulWidget {
@@ -49,11 +48,11 @@ class SubmissionCreationDialogState
   // }
 
   Future<String?> _createEntity(FormConfiguration formConfiguration) async {
-    final SubmissionInitialRepository submissionInitialRepository = ref.read(
-        submissionInitialRepositoryProvider(
-            formConfiguration: formConfiguration));
+    final submissionInitialRepository = ref.read(
+        submissionListProvider(
+            form: widget.form).notifier);
 
-    return submissionInitialRepository.createSyncable(
+    return submissionInitialRepository.createSubmission(
         activityUid: widget.activity,
         orgUnit: _orgUnitUid!,
         teamUid: widget.team,

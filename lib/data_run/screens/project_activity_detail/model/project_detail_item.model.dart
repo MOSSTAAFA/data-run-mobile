@@ -38,7 +38,7 @@ class FormListItemModel with EquatableMixin {
           SubmissionStatusModel? entityCount,
           bool? canAddNewEvent,
           List<QFieldModel>? fields,
-          SyncableEntityState? state}) =>
+          SyncStatus? state}) =>
       FormListItemModel(
         form: form ?? this.form,
         team: team ?? this.team,

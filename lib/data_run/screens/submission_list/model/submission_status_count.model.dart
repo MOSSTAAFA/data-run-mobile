@@ -14,12 +14,12 @@ class SubmissionStatusModel with EquatableMixin {
   final int synced;
   final int withError;
 
-  SyncableEntityState get syncStatus => switch (this) {
+  SyncStatus get syncStatus => switch (this) {
         SubmissionStatusModel(:final int withError) when withError > 0 =>
-          SyncableEntityState.ERROR,
+          SyncStatus.ERROR,
         SubmissionStatusModel(:final int toPost) when toPost > 0 =>
-          SyncableEntityState.TO_POST,
-        _ => SyncableEntityState.SYNCED,
+          SyncStatus.TO_POST,
+        _ => SyncStatus.SYNCED,
       };
 
   @override

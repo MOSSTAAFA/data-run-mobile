@@ -33,13 +33,11 @@ class DataSubmissionScreen extends ConsumerStatefulWidget {
 
 class DataSubmissionScreenState extends ConsumerState<DataSubmissionScreen> {
   late final String form;
-  late final String submissionId;
 
   @override
   void initState() {
     final Bundle eventBundle = Get.arguments as Bundle;
     form = eventBundle.getString(FORM_UID)!;
-    submissionId = eventBundle.getString(SYNCABLE_UID)!;
     super.initState();
   }
 
@@ -53,7 +51,6 @@ class DataSubmissionScreenState extends ConsumerState<DataSubmissionScreen> {
         getErrorWidget(error, stackTrace),
       AsyncValue(valueOrNull: final editStatus?) => _EagerInitialization(
           form: form,
-          submissionId: submissionId,
           child: SubmissionTabScreen(
             editStatus: editStatus,
             currentPageIndex: widget.currentPageIndex,
@@ -164,6 +161,7 @@ class _SubmissionTabScreenState extends ConsumerState<SubmissionTabScreen> {
                   child: SizedBox.expand(
                     child: Center(
                       child: SubmissionInitialView(
+                        key: ValueKey('SubmissionInitialView_$submissionId'),
                         selectableUids: formConfig.orgUnitTreeUids.unlock,
                       ),
                     ),
@@ -183,7 +181,7 @@ class _SubmissionTabScreenState extends ConsumerState<SubmissionTabScreen> {
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: SubmissionEntryView(
-                    key: ValueKey('Data_entry_$submissionId'),
+                    key: ValueKey('SubmissionEntryView_$submissionId'),
                   ),
                 ),
               ),
@@ -233,9 +231,9 @@ class _SubmissionTabScreenState extends ConsumerState<SubmissionTabScreen> {
             floatingActionButton: _isKeyboardVisible
                 ? const SizedBox.shrink()
                 : FloatingActionButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (widget.editStatus) {
-                        _saveAndShowBottomSheet(context);
+                        await _saveAndShowBottomSheet(context);
                       } else {
                         Navigator.pop(context);
                       }
@@ -261,10 +259,10 @@ class _SubmissionTabScreenState extends ConsumerState<SubmissionTabScreen> {
     }
   }
 
-  void backButtonPressed(BuildContext context) {
-    if (_initialFormKey.currentState?.isDirty == true ||
-        _entryFormKey.currentState?.isDirty == true) {
-      _saveAndShowBottomSheet(context);
+  Future<void> backButtonPressed(BuildContext context) async {
+    if (_initialFormKey.currentState!.isDirty == true ||
+        _entryFormKey.currentState!.isDirty == true) {
+      await _saveAndShowBottomSheet(context);
     } else {
       Navigator.pop(context);
     }
@@ -272,12 +270,12 @@ class _SubmissionTabScreenState extends ConsumerState<SubmissionTabScreen> {
 
   /// Save the form
   Future<void> _onSaveForm() async {
-    // _initialFormKey.currentState!.save();
-    _entryFormKey.currentState?.save();
+    _initialFormKey.currentState!.save();
+    _entryFormKey.currentState!.save();
     ref.read(formPendingIntentsProvider.notifier).submitIntent(
         (FormIntent current) =>
-            FormIntent.onFinish(_entryFormKey.currentState?.value));
-    debugPrint('Form State: ${_entryFormKey.currentState?.value}');
+            FormIntent.onFinish(_entryFormKey.currentState!.value));
+    debugPrint('Form State: ${_entryFormKey.currentState!.value}');
   }
 
   Future<void> _showBottomSheet(BuildContext context) async {
@@ -296,12 +294,12 @@ class _SubmissionTabScreenState extends ConsumerState<SubmissionTabScreen> {
   }
 
   Future<void> _onFinalDataClicked(BuildContext context) async {
-    if (/*_initialFormKey.currentState!.validate(focusOnInvalid: false) &&*/
-        _entryFormKey.currentState?.validate(focusOnInvalid: false) == true) {
+    if (_initialFormKey.currentState!.validate(focusOnInvalid: false) &&
+        _entryFormKey.currentState!.validate(focusOnInvalid: false) == true) {
       await _markEntityAsFinal();
       ref.read(formPendingIntentsProvider.notifier).submitIntent(
           (FormIntent current) =>
-              FormIntent.onFinish(_entryFormKey.currentState?.value));
+              FormIntent.onFinish(_entryFormKey.currentState!.value));
       if (context.mounted) {
         Navigator.pop(context);
       }
@@ -309,7 +307,7 @@ class _SubmissionTabScreenState extends ConsumerState<SubmissionTabScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content: Text(
-                'Form contains some errors: ${_entryFormKey.currentState?.errors}')),
+                'Form contains some errors: ${_entryFormKey.currentState!.errors}')),
       );
     }
   }
@@ -319,7 +317,7 @@ class _SubmissionTabScreenState extends ConsumerState<SubmissionTabScreen> {
         sdk.DateUtils.databaseDateFormat().format(DateTime.now().toUtc());
     final submission =
         (await D2Remote.formModule.formSubmission.byId(submissionId).getOne())
-          ?..status = SubmissionStatus.COMPLETED.name
+          ?..status = EntryStatus.COMPLETED.name
           ..finishedEntryTime = completedDate;
 
     return D2Remote.formModule.formSubmission.setData(submission).save();
@@ -327,15 +325,10 @@ class _SubmissionTabScreenState extends ConsumerState<SubmissionTabScreen> {
 }
 
 class _EagerInitialization extends ConsumerWidget {
-  _EagerInitialization(
-      {super.key,
-      required this.form,
-      required this.child,
-      required this.submissionId});
+  _EagerInitialization({required this.form, required this.child});
 
   final String form;
   final Widget child;
-  final String submissionId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -343,14 +336,8 @@ class _EagerInitialization extends ConsumerWidget {
     final formFieldRepository = ref.watch(formFieldsRepositoryProvider);
     final formFieldsStateNotifier = ref.watch(formFieldsStateNotifierProvider);
 
-    // init submission
-    final submission =
-        ref.watch(submissionProvider(submissionId: submissionId));
-
     ref.watch(fieldWidgetFactoryProvider);
-    if (formFieldRepository.isLoading ||
-        formFieldsStateNotifier.isLoading ||
-        submission.isLoading) {
+    if (formFieldRepository.isLoading || formFieldsStateNotifier.isLoading) {
       return const Center(child: CircularProgressIndicator());
     } else if (formFieldRepository.hasError) {
       return Center(
