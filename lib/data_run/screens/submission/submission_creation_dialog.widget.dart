@@ -95,7 +95,7 @@ class SubmissionCreationDialogState
     if (uid != null) {
       // WidgetsBinding.instance.addPostFrameCallback((_) {
       //   setState(() {
-          _orgUnitUid = formConfig.orgUnitTreeUids.first;
+      _orgUnitUid = formConfig.orgUnitTreeUids.first;
       //   });
       // });
     }
@@ -127,14 +127,15 @@ class SubmissionCreationDialogState
               children: <Widget>[
                 FormBuilder(
                   key: _formKey,
-                  // clearValueOnUnregister: true,
                   onChanged: () {
                     _formKey.currentState!.save();
                     debugPrint('${_formKey.currentState!.value}');
                     _formKey.currentState!.save();
                   },
-                  child: Consumer(
-                    builder: (context, ref, child) {
+                  child: FormBuilderField<String?>(
+                    key: ValueKey('FormBuilderField_${formConfig.form}'),
+                    name: 'orgUnit',
+                    builder: (field) {
                       final dataSource = ref.watch(treeNodeDataSourceProvider(
                           selectableUids: formConfig.orgUnitTreeUids));
                       return switch (dataSource) {
@@ -145,15 +146,13 @@ class SubmissionCreationDialogState
                           getErrorWidget(error, stackTrace),
                         AsyncValue(valueOrNull: final dataSource?) =>
                           OrgUnitPickerField(
+                            key: ValueKey('orgPicker_${formConfig.form}'),
                             dataSource: dataSource,
-                            initialValueUid: _getInitialUid(formConfig),
+                            // initialValueUid: _getInitialUid(formConfig),
                             onChanged: (value) {
-                              debugPrint('### Value: $value');
+                              // debugPrint('### Value: $value');
                               _orgUnitUid = value;
-                            },
-                            onSubmitted: (value) {
-                              debugPrint('### Value: $value');
-                              _orgUnitUid = value;
+                              field.didChange(value);
                             },
                           ),
                         _ => const CircularProgressIndicator(),

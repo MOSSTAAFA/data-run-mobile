@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:mass_pro/data_run/screens/org_unit/model/tree_node.dart';
 import 'package:mass_pro/data_run/screens/org_unit/model/tree_node_data_source.dart';
 import 'package:mass_pro/data_run/screens/org_unit/org_unit_picker_dialog.widget.dart';
@@ -19,6 +17,7 @@ class OrgUnitPickerField extends StatefulWidget {
       this.keyboardType,
       this.onChanged,
       this.focusNode,
+      this.validator,
       this.onSaved})
       : super(key: key);
 
@@ -41,12 +40,13 @@ class OrgUnitPickerField extends StatefulWidget {
 
   final FocusNode? focusNode;
 
+  final FormFieldValidator<String>? validator;
+
   @override
   _OrgUnitPickerFieldState createState() => _OrgUnitPickerFieldState();
 }
 
-class _OrgUnitPickerFieldState
-    extends State<OrgUnitPickerField/*<T>*/ > {
+class _OrgUnitPickerFieldState extends State<OrgUnitPickerField/*<T>*/ > {
   late final TextEditingController _controller;
   String? _selectedNode;
   GlobalKey<FormFieldState<String>> _fieldkey =
@@ -71,6 +71,11 @@ class _OrgUnitPickerFieldState
     final node = _getNode(_selectedNode);
     _controller.text =
         _selectedNode == null ? '' : (node?.displayName ?? node?.name)!;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      widget.onChanged?.call(_selectedNode);
+      widget.onSubmitted?.call(_selectedNode);
+    });
   }
 
   @override
@@ -90,46 +95,40 @@ class _OrgUnitPickerFieldState
           _controller.text =
               _selectedNode == null ? '' : (node?.displayName ?? node?.name)!;
         });
+        widget.onChanged?.call(_selectedNode);
+        widget.onSubmitted?.call(_selectedNode);
       });
     }
   }
 
-  void _updateNode(String? nodeUid) {
-    setState(() {
-    _selectedNode = nodeUid;
-      final node = _getNode(_selectedNode);
-      _controller.text =
-          _selectedNode == null ? '' : (node?.displayName ?? node?.name)!;
-      widget.onSubmitted?.call(_selectedNode);
-      widget.onSaved?.call(_selectedNode);
-    });
-  }
-
   void _clearValue() {
     setState(() {
-      _selectedNode = null;
       _controller.text = '';
+      _selectedNode = null;
     });
+    widget.onChanged?.call(null);
+    widget.onSubmitted?.call(null);
   }
 
-  Future<String?> onShowPicker() async {
-    String? currentValue = _selectedNode;
-    String? newValue;
+  Future<void> onShowPicker() async {
+    final selectedOrgUnit = await _showOrgUnitPickerDialog(_selectedNode);
 
-    newValue = await _showOrgUnitPickerDialog(currentValue);
-    if (!mounted) return null;
-    final finalValue = newValue ?? currentValue;
-    _updateNode(finalValue);
-    return finalValue;
+    if (selectedOrgUnit != null) {
+      final node = _getNode(selectedOrgUnit);
+      setState(() {
+        _controller.text = node!.displayName ?? node.name ?? '';
+        _selectedNode = selectedOrgUnit;
+      });
+      widget.onChanged?.call(selectedOrgUnit);
+      widget.onSubmitted?.call(selectedOrgUnit);
+    }
   }
 
-  // In the _showOrgUnitPickerDialog:
   Future<String?> _showOrgUnitPickerDialog(String? currentValue) async {
     return showDialog<String?>(
       context: context,
       builder: (BuildContext context) {
         return Dialog(
-          // title: Text(S.of(context).orgUnitDialogTitle),
           child: OrgUnitPickerDialog(
             cancelText: S.of(context).cancel,
             confirmText: S.of(context).confirm,
@@ -154,58 +153,41 @@ class _OrgUnitPickerFieldState
                 ? const OutlineInputBorder()
                 : const UnderlineInputBorder());
 
-    return Semantics(
-      container: true,
-      child: FormBuilderField<String?>(
-          key: _fieldkey,
-          name: 'orgUnit',
-          // validator: FormBuilderValidators.required(),
-          // valueTransformer: (value) => _selectedNode,
-          builder: (FormFieldState<String?> field) =>
-              TextFormField(
-                readOnly: true,
-                validator: FormBuilderValidators.required(),
-                decoration: InputDecoration(
-                  isDense: true,
-                  suffixIcon: _selectedNode != null
-                      ? IconButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: _clearValue,
-                          icon: Icon(Icons.close))
-                      : null,
-                  prefixIcon: Icon(Icons.account_tree),
-                  hintText:
-                      widget.fieldHintText ?? S.of(context).orgUnitHelpText,
-                  labelText:
-                      widget.fieldLabelText ?? S.of(context).orgUnitInputLabel,
-                ).applyDefaults(
-                  inputTheme
-                      // .merge(datePickerTheme.inputDecorationTheme)
-                      .copyWith(border: effectiveInputBorder),
-                ),
-                controller: _controller,
-                focusNode: widget.focusNode,
-                style: Theme.of(context).textTheme.bodyMedium,
-                onChanged: (value) {
-                  debugPrint('## onChanged: $value');
-                  field.didChange(value);
-                  widget.onChanged?.call(value);
-                },
-                onSaved: (value) {
-                  debugPrint('## onSaved: $value');
-                  field.didChange(value);
-                  widget.onChanged?.call(value);
-
-                },
-                onFieldSubmitted: (value) {
-                  debugPrint('## onFieldSubmitted: $value');
-                  field.didChange(value);
-                  field.save();
-                  field.validate();
-                  widget.onChanged?.call(value);
-                },
-                onTap: onShowPicker,
-              )),
+    return TextFormField(
+      readOnly: true,
+      validator: widget.validator,
+      decoration: InputDecoration(
+        isDense: true,
+        suffixIcon: _selectedNode != null
+            ? IconButton(
+                padding: EdgeInsets.zero,
+                onPressed: _clearValue,
+                icon: Icon(Icons.close))
+            : null,
+        prefixIcon: Icon(Icons.account_tree),
+        hintText: widget.fieldHintText ?? S.of(context).orgUnitHelpText,
+        labelText: widget.fieldLabelText ?? S.of(context).orgUnitInputLabel,
+      ).applyDefaults(
+        inputTheme
+            .copyWith(border: effectiveInputBorder),
+      ),
+      controller: _controller,
+      focusNode: widget.focusNode,
+      style: Theme.of(context).textTheme.bodyMedium,
+      // onChanged: (value) {
+      //   debugPrint('## onChanged: $value');
+      //   widget.onChanged?.call(value);
+      // },
+      // onSaved: (value) {
+      //   debugPrint('## onSaved: $value');
+      //   widget.onSaved?.call(value);
+      // },
+      // onFieldSubmitted: (value) {
+      //   debugPrint('## onFieldSubmitted: $value');
+      //   widget.onSubmitted?.call(value);
+      //
+      // },
+      onTap: onShowPicker,
     );
   }
 }
