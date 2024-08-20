@@ -14,7 +14,7 @@ import 'package:mass_pro/data_run/screens/shared_widgets/bottom_sheet/q_bottom_s
 import 'package:mass_pro/data_run/screens/shared_widgets/form/q_field_widget_factory.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/get_error_widget.dart';
 import 'package:mass_pro/data_run/screens/submission_form/model/form_fields_state_notifier.dart';
-import 'package:mass_pro/data_run/screens/submission_screen/model/submission_screen.provider.dart';
+import 'package:mass_pro/data_run/screens/submission_screen/model/submission.provider.dart';
 import 'package:mass_pro/data_run/screens/submission_screen/submission_entry_view.widget.dart';
 import 'package:mass_pro/data_run/screens/submission_screen/submission_initial_view.widget.dart';
 import 'package:mass_pro/form/ui/intent/form_intent.dart';

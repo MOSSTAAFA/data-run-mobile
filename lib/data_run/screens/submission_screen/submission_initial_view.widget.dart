@@ -4,7 +4,6 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/data_run/screens/org_unit/model/data_model.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/get_error_widget.dart';
-import 'package:mass_pro/data_run/screens/submission_screen/model/submission_screen.provider.dart';
 
 class SubmissionInitialView extends ConsumerStatefulWidget {
   SubmissionInitialView(

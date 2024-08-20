@@ -6,7 +6,7 @@ import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'submission_screen.provider.g.dart';
+part 'submission.provider.g.dart';
 
 @riverpod
 Future<bool> submissionEditStatus(SubmissionEditStatusRef ref) async {
@@ -16,11 +16,12 @@ Future<bool> submissionEditStatus(SubmissionEditStatusRef ref) async {
   return D2Remote.formModule.formSubmission.byId(syncableUid).canEdit();
 }
 
+
 @riverpod
 class Submission extends _$Submission {
   Future<DataFormSubmission> build({required String submissionId}) async {
     final submission =
-        await D2Remote.formModule.formSubmission.byId(submissionId).getOne();
+    await D2Remote.formModule.formSubmission.byId(submissionId).getOne();
     return submission!;
   }
 
