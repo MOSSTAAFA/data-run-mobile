@@ -10,10 +10,11 @@ import 'package:mass_pro/data_run/screens/submission_screen/model/submission.pro
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 
 class SubmissionInitialView extends ConsumerStatefulWidget {
-  SubmissionInitialView({super.key, required List<String> selectableUids})
+  SubmissionInitialView({super.key, this.enabled = true, required List<String> selectableUids})
       : this.selectableUids = selectableUids;
 
   final List<String> selectableUids;
+  final bool enabled;
 
   @override
   SubmissionInitialViewState createState() => SubmissionInitialViewState();
@@ -38,29 +39,44 @@ class SubmissionInitialViewState extends ConsumerState<SubmissionInitialView> {
     final submissionValue =
         ref.watch(submissionProvider(submissionId: submissionId));
 
-    return switch (submissionValue) {
-      AsyncValue(error: final error?, stackTrace: final stackTrace?) =>
-        getErrorWidget(error, stackTrace),
-      AsyncValue(valueOrNull: final submission?) => FormBuilderField<String?>(
-          name: 'orgUnit',
-          builder: (field) {
-            final dataSourceValue = ref.watch(treeNodeDataSourceProvider(
-                selectableUids: widget.selectableUids.lock));
-            return switch (dataSourceValue) {
-              AsyncValue(error: final error?, stackTrace: final stackTrace?) =>
-                getErrorWidget(error, stackTrace),
-              AsyncValue(valueOrNull: final dataSource?) => OrgUnitPickerField(
-                  dataSource: dataSource,
-                  initialValueUid: submission.orgUnit,
-                  onChanged: (value) {
-                    field.didChange(value);
-                  },
-                ),
-              _ => const CircularProgressIndicator(),
-            };
+    return Card(
+      shadowColor: Colors.transparent,
+      margin: const EdgeInsets.all(8.0),
+      child: SizedBox.expand(
+        child: Center(
+          child: switch (submissionValue) {
+            AsyncValue(error: final error?, stackTrace: final stackTrace?) =>
+              getErrorWidget(error, stackTrace),
+            AsyncValue(valueOrNull: final submission?) =>
+              FormBuilderField<String?>(
+                name: 'orgUnit',
+                enabled: widget.enabled,
+                builder: (field) {
+                  final dataSourceValue = ref.watch(treeNodeDataSourceProvider(
+                      selectableUids: widget.selectableUids.lock));
+                  return switch (dataSourceValue) {
+                    AsyncValue(
+                      error: final error?,
+                      stackTrace: final stackTrace?
+                    ) =>
+                      getErrorWidget(error, stackTrace),
+                    AsyncValue(valueOrNull: final dataSource?) =>
+                      OrgUnitPickerField(
+                        enabled: widget.enabled,
+                        dataSource: dataSource,
+                        initialValueUid: submission.orgUnit,
+                        onChanged: (value) {
+                          field.didChange(value);
+                        },
+                      ),
+                    _ => const CircularProgressIndicator(),
+                  };
+                },
+              ),
+            _ => const CircularProgressIndicator(),
           },
         ),
-      _ => const CircularProgressIndicator(),
-    };
+      ),
+    );
   }
 }

@@ -81,7 +81,11 @@ enum ValueType {
 
   bool get isText => TEXT_TYPES.contains(this);
 
-  bool get isDate => DATE_TYPES.contains(this);
+  bool get isDateTime => DATE_TYPES.contains(this);
+
+  bool get isDate => this == ValueType.Date;
+
+  bool get isTime => this == ValueType.Time;
 
   bool get isFile => FILE_TYPES.contains(this);
 

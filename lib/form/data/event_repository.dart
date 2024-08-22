@@ -188,7 +188,7 @@ class EventRepository extends DataEntryBaseRepository {
     final String error = ''; //checkConflicts(de.uid(), dataValue);
     final isOrgUnit = valueType == ValueType.OrganisationUnit;
 
-    final isDate = valueType != null && valueType.isDate;
+    final isDate = valueType != null && valueType.isDateTime;
 
     if (!isOrgUnit && !isDate) {
       dataValue = friendlyValue;

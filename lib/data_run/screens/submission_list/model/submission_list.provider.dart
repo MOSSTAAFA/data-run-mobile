@@ -9,12 +9,14 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:mass_pro/core/common/state.dart';
 import 'package:mass_pro/data_run/errors_management/errors/d_error.dart';
 import 'package:mass_pro/data_run/form/form_configuration.dart';
+import 'package:mass_pro/data_run/form/submission_status.dart';
 import 'package:mass_pro/data_run/screens/submission_list/model/submission_list_util.dart';
 import 'package:mass_pro/data_run/screens/submission_list/model/submission_summary.model.dart';
 import 'package:mass_pro/data_run/screens/submission_list/model/submission_status_count.model.dart';
 import 'package:mass_pro/data_run/screens/submission_list/model/submission_mapping_repository.dart';
 import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:d2_remote/core/datarun/utilities/date_utils.dart' as sdk;
 
 part 'submission_list.provider.g.dart';
 
@@ -35,13 +37,30 @@ class SubmissionList extends _$SubmissionList {
     return submissions.lock;
   }
 
+  Future<void> markSubmissionAsFinal(String uid) async {
+    final String? completedDate =
+        sdk.DateUtils.databaseDateFormat().format(DateTime.now().toUtc());
+    final DataFormSubmission? submission =
+        await D2Remote.formModule.formSubmission.byId(uid).getOne();
+    submission!
+      ..status = EntryStatus.COMPLETED.name
+      ..finishedEntryTime = completedDate;
+
+    await D2Remote.formModule.formSubmission
+        .setData(submission)
+        .save(saveOptions: SaveOptions(skipLocalSyncStatus: false));
+
+    ref.invalidateSelf();
+    await future;
+  }
+
   Future<void> saveOrgUnit(String uid, String orgUnit) async {
     await future;
 
     final DataFormSubmission? submission =
         await D2Remote.formModule.formSubmission.byId(uid).getOne();
 
-    saveSubmission(submission!..orgUnit = orgUnit);
+    return saveSubmission(submission!..orgUnit = orgUnit);
   }
 
   Future<String> createSubmission(
@@ -88,8 +107,7 @@ class SubmissionList extends _$SubmissionList {
         .setData(submission)
         .save(saveOptions: SaveOptions(skipLocalSyncStatus: false));
 
-    // ref.invalidateSelf();
-    ref.invalidate(submissionListProvider);
+    ref.invalidateSelf();
     await future;
   }
 
@@ -184,11 +202,14 @@ Future<SubmissionItemSummaryModel> submissionItemSummaryModel(
           .getOne()
       : null;
 
-  final formData = submission.formData?.map<String, dynamic>(
-      (k, v) => MapEntry(formConfig.getFieldDisplayName(k), v));
+  final formData = submission.formData?.map<String, dynamic>((k, v) => MapEntry(
+      formConfig.getFieldDisplayName(k),
+      formConfig.getUserFriendlyValue(k, v)));
 
   return SubmissionItemSummaryModel(
       syncStatus: SubmissionListUtil.getSyncStatus(submission)!,
-      orgUnit: orgUnit?.displayName ?? getItemLocalString(orgUnit?.label),
+      code: orgUnit?.code,
+      orgUnit:
+          '${orgUnit?.displayName ?? getItemLocalString(orgUnit?.label)}',
       formData: formData);
 }

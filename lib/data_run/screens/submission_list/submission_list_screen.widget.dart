@@ -41,7 +41,7 @@ class SubmissionListState extends ConsumerState<SubmissionListScreen> {
           syncEntity: (uids) async {
             if (uids != null) {
               await ref
-                  .read(submissionListProvider(form: '').notifier)
+                  .read(submissionListProvider(form: form).notifier)
                   .syncEntities(uids);
             }
           },

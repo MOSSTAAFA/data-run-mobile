@@ -1,19 +1,17 @@
-import 'package:d2_remote/d2_remote.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
-import 'package:d2_remote/core/datarun/utilities/date_utils.dart' as sdk;
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/data_run/form/form_configuration.dart';
 import 'package:mass_pro/data_run/form/form_fields_repository.dart';
-import 'package:mass_pro/data_run/form/submission_status.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/bottom_sheet/bottom_sheet.provider.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/bottom_sheet/bottom_sheet.widget.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/bottom_sheet/q_bottom_sheet_dialog_ui_model.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/form/q_field_widget_factory.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/get_error_widget.dart';
 import 'package:mass_pro/data_run/screens/submission_form/model/form_fields_state_notifier.dart';
+import 'package:mass_pro/data_run/screens/submission_list/model/submission_list.provider.dart';
 import 'package:mass_pro/data_run/screens/submission_screen/model/submission.provider.dart';
 import 'package:mass_pro/data_run/screens/submission_screen/submission_entry_view.widget.dart';
 import 'package:mass_pro/data_run/screens/submission_screen/submission_initial_view.widget.dart';
@@ -33,11 +31,13 @@ class DataSubmissionScreen extends ConsumerStatefulWidget {
 
 class DataSubmissionScreenState extends ConsumerState<DataSubmissionScreen> {
   late final String form;
+  late final int formVersion;
 
   @override
   void initState() {
     final Bundle eventBundle = Get.arguments as Bundle;
     form = eventBundle.getString(FORM_UID)!;
+    formVersion = eventBundle.getInt(FORM_VERSION)!;
     super.initState();
   }
 
@@ -49,10 +49,11 @@ class DataSubmissionScreenState extends ConsumerState<DataSubmissionScreen> {
     return switch (submissionEditStatus) {
       AsyncValue(:final Object error?, :final stackTrace) =>
         getErrorWidget(error, stackTrace),
-      AsyncValue(valueOrNull: final editStatus?) => _EagerInitialization(
+      AsyncValue(valueOrNull: final canEdit?) => _EagerInitialization(
           form: form,
+          formVersion: formVersion,
           child: SubmissionTabScreen(
-            editStatus: editStatus,
+            enabled: canEdit,
             currentPageIndex: widget.currentPageIndex,
           ),
         ),
@@ -63,10 +64,10 @@ class DataSubmissionScreenState extends ConsumerState<DataSubmissionScreen> {
 
 class SubmissionTabScreen extends ConsumerStatefulWidget {
   const SubmissionTabScreen(
-      {super.key, this.currentPageIndex = 0, this.editStatus = true});
+      {super.key, this.currentPageIndex = 0, this.enabled = true});
 
   final int currentPageIndex;
-  final bool editStatus;
+  final bool enabled;
 
   @override
   ConsumerState<SubmissionTabScreen> createState() =>
@@ -99,10 +100,26 @@ class _SubmissionTabScreenState extends ConsumerState<SubmissionTabScreen> {
     final EdgeInsets viewInsets = MediaQuery.of(context).viewInsets;
     _isKeyboardVisible = viewInsets.bottom > 0.0;
 
-    final formConfigValue = ref
-        .watch(formConfigurationProvider(form: form, formVersion: formVersion));
+    final formConfig = ref
+        .watch(formConfigurationProvider(form: form, formVersion: formVersion))
+        .requireValue;
 
     final ThemeData theme = Theme.of(context);
+
+    final _buildBody = <Widget>[
+      FormBuilder(
+          key: _initialFormKey,
+          enabled: widget.enabled,
+          child: SubmissionInitialView(
+              enabled: widget.enabled,
+              key: ValueKey('SubmissionInitialView_$submissionId'),
+              selectableUids: formConfig.orgUnitTreeUids.unlock)),
+      FormBuilder(
+          key: _entryFormKey,
+          enabled: widget.enabled,
+          child: SubmissionEntryView(
+              key: ValueKey('SubmissionEntryView_$submissionId')))
+    ];
 
     return PopScope(
       canPop: false,
@@ -112,142 +129,56 @@ class _SubmissionTabScreenState extends ConsumerState<SubmissionTabScreen> {
         }
         backButtonPressed(context);
       },
-      child: switch (formConfigValue) {
-        AsyncValue(:final Object error?, :final stackTrace) =>
-          getErrorWidget(error, stackTrace),
-        AsyncValue(valueOrNull: final formConfig?) => Scaffold(
-            key: _scaffoldKey,
-            appBar: AppBar(title: Text(formConfig.label)),
-            bottomNavigationBar: NavigationBar(
-              onDestinationSelected: (int index) {
-                setState(() {
-                  _currentPageIndex = index;
-                });
-              },
-              indicatorColor: Colors.amber,
-              selectedIndex: _currentPageIndex,
-              destinations: <Widget>[
-                NavigationDestination(
-                  selectedIcon: Icon(Icons.home),
-                  icon: Icon(Icons.home_outlined),
-                  label: S.of(context).submissionInitialData,
-                ),
-                NavigationDestination(
-                  icon: Badge(child: Icon(Icons.notifications_sharp)),
-                  label: S.of(context).submissionDataEntry,
-                ),
-                NavigationDestination(
-                  icon: Badge(
-                    label: Text('2'),
-                    child: Icon(Icons.messenger_sharp),
-                  ),
-                  label: S.of(context).notifications,
-                ),
-              ],
+      child: Scaffold(
+        key: _scaffoldKey,
+        appBar: AppBar(title: Text(formConfig.label)),
+        bottomNavigationBar: NavigationBar(
+          onDestinationSelected: (int index) {
+            setState(() {
+              _currentPageIndex = index;
+            });
+          },
+          indicatorColor: Colors.amber,
+          selectedIndex: _currentPageIndex,
+          destinations: <Widget>[
+            NavigationDestination(
+              selectedIcon: Icon(Icons.home),
+              icon: Icon(Icons.home_outlined),
+              label: S.of(context).submissionInitialData,
             ),
-            body: <Widget>[
-              /// Home page
-              FormBuilder(
-                key: _initialFormKey,
-                onChanged: () {
-                  _initialFormKey.currentState!.save();
-                  debugPrint('${_initialFormKey.currentState!.value}');
-                  _initialFormKey.currentState!.save();
-                },
-                enabled: widget.editStatus,
-                child: Card(
-                  shadowColor: Colors.transparent,
-                  margin: const EdgeInsets.all(8.0),
-                  child: SizedBox.expand(
-                    child: Center(
-                      child: SubmissionInitialView(
-                        key: ValueKey('SubmissionInitialView_$submissionId'),
-                        selectableUids: formConfig.orgUnitTreeUids.unlock,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-
-              /// Data EntryPage page
-              FormBuilder(
-                key: _entryFormKey,
-                onChanged: () {
-                  _entryFormKey.currentState!.save();
-                  debugPrint('${_entryFormKey.currentState!.value}');
-                  _entryFormKey.currentState!.save();
-                },
-                enabled: widget.editStatus,
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: SubmissionEntryView(
-                    key: ValueKey('SubmissionEntryView_$submissionId'),
-                  ),
-                ),
-              ),
-
-              /// Messages page
-              ListView.builder(
-                reverse: true,
-                itemCount: 2,
-                itemBuilder: (BuildContext context, int index) {
-                  if (index == 0) {
-                    return Align(
-                      alignment: Alignment.centerRight,
-                      child: Container(
-                        margin: const EdgeInsets.all(8.0),
-                        padding: const EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.primary,
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        child: Text(
-                          'Hello',
-                          style: theme.textTheme.bodyLarge!
-                              .copyWith(color: theme.colorScheme.onPrimary),
-                        ),
-                      ),
-                    );
+            NavigationDestination(
+              icon: Badge(child: Icon(Icons.notifications_sharp)),
+              label: S.of(context).submissionDataEntry,
+            )
+          ],
+        ),
+        body: Stack(
+          children: [
+            IndexedStack(
+              index: _currentPageIndex,
+              children: _buildBody,
+            ),
+          ],
+        ),
+        floatingActionButton: _isKeyboardVisible
+            ? const SizedBox.shrink()
+            : FloatingActionButton(
+                onPressed: () {
+                  if (widget.enabled) {
+                    _saveAndShowBottomSheet(context);
+                  } else {
+                    Navigator.pop(context);
                   }
-                  return Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
-                      margin: const EdgeInsets.all(8.0),
-                      padding: const EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(
-                        color: theme.colorScheme.primary,
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: Text(
-                        'Hi!',
-                        style: theme.textTheme.bodyLarge!
-                            .copyWith(color: theme.colorScheme.onPrimary),
-                      ),
-                    ),
-                  );
+                  // Navigator.pop(context);
                 },
+                child: getFloatIcon(),
               ),
-            ][_currentPageIndex],
-            floatingActionButton: _isKeyboardVisible
-                ? const SizedBox.shrink()
-                : FloatingActionButton(
-                    onPressed: () async {
-                      if (widget.editStatus) {
-                        await _saveAndShowBottomSheet(context);
-                      } else {
-                        Navigator.pop(context);
-                      }
-                    },
-                    child: getFloatIcon(),
-                  ),
-          ),
-        _ => const SizedBox.shrink(),
-      },
+      ),
     );
   }
 
   Widget getFloatIcon() {
-    return widget.editStatus
+    return widget.enabled
         ? const Icon(Icons.save)
         : const Icon(Icons.arrow_back);
   }
@@ -260,8 +191,8 @@ class _SubmissionTabScreenState extends ConsumerState<SubmissionTabScreen> {
   }
 
   Future<void> backButtonPressed(BuildContext context) async {
-    if (_initialFormKey.currentState!.isDirty == true ||
-        _entryFormKey.currentState!.isDirty == true) {
+    if (widget.enabled && (_initialFormKey.currentState?.isDirty == true ||
+        _entryFormKey.currentState?.isDirty == true)) {
       await _saveAndShowBottomSheet(context);
     } else {
       Navigator.pop(context);
@@ -270,18 +201,17 @@ class _SubmissionTabScreenState extends ConsumerState<SubmissionTabScreen> {
 
   /// Save the form
   Future<void> _onSaveForm() async {
-    _initialFormKey.currentState!.save();
-    _entryFormKey.currentState!.save();
+    _initialFormKey.currentState?.save();
+    _entryFormKey.currentState?.save();
     ref.read(formPendingIntentsProvider.notifier).submitIntent(
         (FormIntent current) =>
-            FormIntent.onFinish(_entryFormKey.currentState!.value));
-    debugPrint('Form State: ${_entryFormKey.currentState!.value}');
+            FormIntent.onFinish(_entryFormKey.currentState?.value));
   }
 
   Future<void> _showBottomSheet(BuildContext context) async {
     final QBottomSheetDialogUiModel bottomSheetUiModel =
         ref.watch(bottomSheetProvider).formFinishBottomSheet();
-    showModalBottomSheet(
+    await showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
         return QBottomSheetDialog(
@@ -294,12 +224,12 @@ class _SubmissionTabScreenState extends ConsumerState<SubmissionTabScreen> {
   }
 
   Future<void> _onFinalDataClicked(BuildContext context) async {
-    if (_initialFormKey.currentState!.validate(focusOnInvalid: false) &&
-        _entryFormKey.currentState!.validate(focusOnInvalid: false) == true) {
+    if (_initialFormKey.currentState?.validate(focusOnInvalid: false) == true &&
+        _entryFormKey.currentState?.validate(focusOnInvalid: false) == true) {
       await _markEntityAsFinal();
       ref.read(formPendingIntentsProvider.notifier).submitIntent(
           (FormIntent current) =>
-              FormIntent.onFinish(_entryFormKey.currentState!.value));
+              FormIntent.onFinish(_entryFormKey.currentState?.value));
       if (context.mounted) {
         Navigator.pop(context);
       }
@@ -307,39 +237,42 @@ class _SubmissionTabScreenState extends ConsumerState<SubmissionTabScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content: Text(
-                'Form contains some errors: ${_entryFormKey.currentState!.errors}')),
+                'Form contains some errors: ${_entryFormKey.currentState?.errors}')),
       );
     }
   }
 
-  Future<int> _markEntityAsFinal() async {
-    final String? completedDate =
-        sdk.DateUtils.databaseDateFormat().format(DateTime.now().toUtc());
-    final submission =
-        (await D2Remote.formModule.formSubmission.byId(submissionId).getOne())
-          ?..status = EntryStatus.COMPLETED.name
-          ..finishedEntryTime = completedDate;
-
-    return D2Remote.formModule.formSubmission.setData(submission).save();
+  Future<void> _markEntityAsFinal() async {
+    return ref
+        .read(submissionListProvider(form: form).notifier)
+        .markSubmissionAsFinal(submissionId);
   }
 }
 
 class _EagerInitialization extends ConsumerWidget {
-  _EagerInitialization({required this.form, required this.child});
+  _EagerInitialization(
+      {required this.form, required this.formVersion, required this.child});
 
   final String form;
+  final int formVersion;
   final Widget child;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // init formFieldsRepository
+    final formConfigValue = ref
+        .watch(formConfigurationProvider(form: form, formVersion: formVersion));
+
     final formFieldRepository = ref.watch(formFieldsRepositoryProvider);
     final formFieldsStateNotifier = ref.watch(formFieldsStateNotifierProvider);
 
     ref.watch(fieldWidgetFactoryProvider);
-    if (formFieldRepository.isLoading || formFieldsStateNotifier.isLoading) {
+    if (formFieldRepository.isLoading ||
+        formFieldsStateNotifier.isLoading ||
+        formConfigValue.isLoading) {
       return const Center(child: CircularProgressIndicator());
-    } else if (formFieldRepository.hasError) {
+    } else if (formFieldRepository.hasError ||
+        formFieldsStateNotifier.hasError ||
+        formConfigValue.hasError) {
       return Center(
         child: Text(
           'Error Loading FormConfiguration',

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:d2_remote/core/datarun/utilities/date_utils.dart';
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/datarun/form/entities/form_definition.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
@@ -8,6 +9,7 @@ import 'package:d2_remote/modules/datarun/form/shared/rule.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:mass_pro/data_run/errors_management/errors/form_does_not_exist.exception.dart';
 import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
+import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'form_configuration.g.dart';
@@ -94,6 +96,29 @@ class FormConfiguration {
       allFields.where((k, v) => v.mainField);
 
   bool get isSingleOrgUnit => orgUnitTreeUids.length == 1;
+
+  FormOption? getOption(String listName, value) =>
+      optionLists.get(listName)?.where((t) => t.name == value).firstOrNull;
+
+  dynamic getUserFriendlyValue(String fieldName, dynamic value) =>
+      switch (allFields.get(fieldName)) {
+        DynamicFormField(type: final type, listName: final listName?)
+            when ValueType.getValueType(type).isWithOptions =>
+          getItemLocalString(getOption(listName, value)?.label,
+              defaultString: value),
+        DynamicFormField(type: final type)
+            when ValueType.getValueType(type).isDate =>
+          DateUtils.format(value) ??
+              DateUtils.uiDateFormat().tryParse(value ?? '') ??
+              value,
+        DynamicFormField(type: final type)
+            when ValueType.getValueType(type).isDateTime =>
+          DateUtils.dateTimeFormat().tryParse(value ?? '') ?? value,
+        DynamicFormField(type: final type)
+            when ValueType.getValueType(type).isTime =>
+          DateUtils.twelveHourTimeFormat().tryParse(value ?? '') ?? value,
+        _ => value
+      };
 
   String getFieldDisplayName(String fieldName) =>
       getItemLocalString(allFields.get(fieldName)?.label,

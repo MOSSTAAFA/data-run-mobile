@@ -66,7 +66,7 @@ class _FormEditTextState extends ConsumerState<FormEditText> {
         focusNode: _focusNode,
         enabled: widget.item?.editable,
         maxLength: _maxLength,
-        readOnly: widget.item?.valueType?.isDate ?? false,
+        readOnly: widget.item?.valueType?.isDateTime ?? false,
         maxLengthEnforcement: _maxLengthEnforcement,
         style: _getInputStyle(widget.item),
         decoration: InputDecoration(

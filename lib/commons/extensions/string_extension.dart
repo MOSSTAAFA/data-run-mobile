@@ -8,6 +8,12 @@ extension StringNullExtension on String? {
   DateTime? toDate() {
     DateTime? date;
     try {
+      return DateUtils.databaseDateFormat().parse(this ?? '');
+    } catch (e) {
+      logError(info: 'wrong DateTime format');
+    }
+
+    try {
       return DateUtils.uiDateFormat().parse(this ?? '');
     } catch (e) {
       logError(info: 'wrong DateTime format');
@@ -15,12 +21,6 @@ extension StringNullExtension on String? {
 
     try {
       return DateUtils.oldUiDateFormat().parse(this ?? '');
-    } catch (e) {
-      logError(info: 'wrong DateTime format');
-    }
-
-    try {
-      return DateUtils.databaseDateFormat().parse(this ?? '');
     } catch (e) {
       logError(info: 'wrong DateTime format');
     }

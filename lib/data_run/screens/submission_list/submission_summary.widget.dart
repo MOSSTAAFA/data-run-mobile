@@ -38,17 +38,38 @@ class SubmissionSummaryState extends ConsumerState<SubmissionSummary> {
         getErrorWidget(error, stackTrace),
       AsyncValue(valueOrNull: final submissionSummary?) => ListTile(
           isThreeLine: true,
-          leading: buildStatusIcon(submissionSummary.syncStatus),
+          leading: Column(
+            children: [
+              buildStatusIcon(submissionSummary.syncStatus),
+              Text(
+                'V: ${widget.entity.version}',
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.secondary,
+                    fontSize:
+                    Theme.of(context).textTheme.bodySmall?.fontSize),
+              ),
+            ],
+          ),
           title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(submissionSummary.orgUnit),
-                Text(
-                  '${S.of(context).version}: ${widget.entity.version}',
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
+                if (submissionSummary.code != null)
+                  Text(submissionSummary.code!,
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary,
+                          fontSize:
+                          Theme.of(context).textTheme.bodySmall?.fontSize)),
               ]),
-          subtitle: Text(generateFormSummary(submissionSummary.formData)),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+
+              Divider(),
+              Text(generateFormSummary(submissionSummary.formData),
+                  style: Theme.of(context).textTheme.bodySmall),
+            ],
+          ),
           trailing: QSyncIconButton(
             state: submissionSummary.syncStatus,
             onUnsyncedPressed: () =>
@@ -84,6 +105,7 @@ final List<String> syncableVariable = <String>[
   'uid',
   'code',
   'name',
+  'orgUnit',
   'createdDate',
   'lastModifiedDate',
   'deleted',

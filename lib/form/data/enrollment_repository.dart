@@ -229,7 +229,7 @@ class EnrollmentRepository extends DataEntryBaseRepository {
 
     String? error; // = _getError(conflict, dataValue);
 
-    if ((valueType == ValueType.OrganisationUnit || valueType.isDate == true) &&
+    if ((valueType == ValueType.OrganisationUnit || valueType.isDateTime == true) &&
         !dataValue.isNullOrEmpty) {
       dataValue = attrValue?.value;
     }

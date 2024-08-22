@@ -9,14 +9,17 @@ class SubmissionListUtil {
   /// returns all entities
   static SyncStatus? getSyncStatus(DataFormSubmission? submission) {
     return switch (submission) {
+      var s? when s.synced == true => SyncStatus.SYNCED,
+      var s? when s.syncFailed == true && s.dirty == true => SyncStatus.ERROR,
+      var s?
+      when EntryStatus.getEnumValue(s.status) == EntryStatus.COMPLETED &&
+          s.synced == false =>
+      SyncStatus.TO_POST,
       var s? when EntryStatus.getEnumValue(s.status) == EntryStatus.ACTIVE =>
         SyncStatus.TO_UPDATE,
-      var s?
-          when EntryStatus.getEnumValue(s.status) == EntryStatus.COMPLETED &&
-              s.synced == false =>
-        SyncStatus.TO_POST,
-      var s? when s.syncFailed == true && s.dirty == true => SyncStatus.ERROR,
-      var s? when s.synced == true => SyncStatus.SYNCED,
+
+
+
       _ => null,
     };
   }
@@ -24,11 +27,11 @@ class SubmissionListUtil {
   static SubmissionFilterPredicate getFilterPredicate(SyncStatus? state) {
     final predicate = switch (state) {
       == SyncStatus.TO_UPDATE => (t) =>
-          EntryStatus.getEnumValue(t.status) == EntryStatus.ACTIVE,
+          EntryStatus.getEnumValue(t.status) == EntryStatus.ACTIVE && t.synced == false,
       == SyncStatus.TO_POST => (t) =>
           EntryStatus.getEnumValue(t.status) == EntryStatus.COMPLETED &&
           t.synced == false,
-      == SyncStatus.ERROR => (t) => t.syncFailed == true && t.dirty == true,
+      == SyncStatus.ERROR => (t) => t.syncFailed == true && t.dirty == true  && t.synced == false,
       == SyncStatus.SYNCED => (t) => t.synced == true,
       _ => (t) => true,
     };

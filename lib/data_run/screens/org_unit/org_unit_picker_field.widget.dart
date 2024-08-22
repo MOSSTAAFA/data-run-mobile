@@ -18,6 +18,7 @@ class OrgUnitPickerField extends StatefulWidget {
       this.onChanged,
       this.focusNode,
       this.validator,
+      this.enabled = true,
       this.onSaved})
       : super(key: key);
 
@@ -37,6 +38,8 @@ class OrgUnitPickerField extends StatefulWidget {
   final TextInputType? keyboardType;
 
   final bool autofocus;
+
+  final bool enabled;
 
   final FocusNode? focusNode;
 
@@ -154,6 +157,7 @@ class _OrgUnitPickerFieldState extends State<OrgUnitPickerField/*<T>*/ > {
                 : const UnderlineInputBorder());
 
     return TextFormField(
+      enabled: widget.enabled,
       readOnly: true,
       validator: widget.validator,
       decoration: InputDecoration(
@@ -168,8 +172,7 @@ class _OrgUnitPickerFieldState extends State<OrgUnitPickerField/*<T>*/ > {
         hintText: widget.fieldHintText ?? S.of(context).orgUnitHelpText,
         labelText: widget.fieldLabelText ?? S.of(context).orgUnitInputLabel,
       ).applyDefaults(
-        inputTheme
-            .copyWith(border: effectiveInputBorder),
+        inputTheme.copyWith(border: effectiveInputBorder),
       ),
       controller: _controller,
       focusNode: widget.focusNode,
