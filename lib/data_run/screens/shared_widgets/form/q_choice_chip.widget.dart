@@ -1,9 +1,7 @@
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:mass_pro/data_run/screens/submission_form/model/option_configuration.dart';
 import 'package:mass_pro/data_run/screens/submission_form/model/q_field.model.dart';
 import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
 

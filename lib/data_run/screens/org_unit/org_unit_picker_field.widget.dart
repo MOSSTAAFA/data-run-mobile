@@ -52,8 +52,6 @@ class OrgUnitPickerField extends StatefulWidget {
 class _OrgUnitPickerFieldState extends State<OrgUnitPickerField/*<T>*/ > {
   late final TextEditingController _controller;
   String? _selectedNode;
-  GlobalKey<FormFieldState<String>> _fieldkey =
-      GlobalKey<FormFieldState<String>>();
 
   TreeNode? _getNode(String? uid) {
     return widget.dataSource.getNode(uid);
