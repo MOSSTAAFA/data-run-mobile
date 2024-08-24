@@ -119,11 +119,14 @@ class FormFieldsRepository {
 
   FutureOr<IList<QFieldModel>> _composeFieldsList(
       IList<QFieldModel> list) async {
-    _pendingUpdates = await applyRuleEffects(_pendingUpdates)
+    final updates = await applyRuleEffects(_pendingUpdates)
         // .then((IList<QFieldModel> listOfItems) =>
         //     _mergeListWithErrorFields(_pendingUpdates, _itemsWithError))
-        .then((IList<QFieldModel> listOfItems) =>
-            _setLastItemKeyboardAction(listOfItems));
+        /*.then((IList<QFieldModel> listOfItems) =>
+            _setLastItemKeyboardAction(listOfItems))*/;
+
+    _pendingUpdates = updates;
+    final tt = updates.unlock.map((f)=> f.optionConfiguration?.optionsToDisplay).where((o) => o?.first.listName == 'treatments').toList();
     return _pendingUpdates;
   }
 

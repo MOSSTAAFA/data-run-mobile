@@ -24,33 +24,29 @@ class RuleEngine {
   }
 
   /// Evaluates rules and applies actions to fields
-  FutureOr<IList<QFieldModel>> _evaluateAndApplyRules(
-      IList<QFieldModel> fields) {
+  IList<QFieldModel> _evaluateAndApplyRules(IList<QFieldModel> fields) {
     final context = _getContext(fields);
-    final rulesMap = _getFieldRulesMap(fields);
+    return fields.map((field) => _applyFieldRules(field, context)).toIList();
+  }
 
-    return fields.map((field) {
-      final rules = rulesMap[field.uid];
-      if (rules != null) {
-        for (final rule in rules) {
-          if (rule.expression != null) {
-            try {
-              final expression = Expression.parse(rule.expression!);
-              final bool conditionMet =
-                  evaluator.eval(expression, context.unlock);
-              if (conditionMet) {
-                return _applyAction(field, rule);
-              } else {
-                return _resetAction(field, rule);
-              }
-            } catch (e) {
-              debugPrint('Error evaluating expression: $e');
-            }
+  QFieldModel _applyFieldRules(QFieldModel field, IMap<String, dynamic> context) {
+    final rules = formConfiguration.fieldRules.get(field.uid)?.toList() ?? [];
+    for (final rule in rules) {
+      if (rule.expression != null) {
+        try {
+          final expression = Expression.parse(rule.expression!);
+          final bool conditionMet = evaluator.eval(expression, context.unlock);
+          if (conditionMet) {
+            field = _applyAction(field, rule);
+          } else {
+            field = _resetAction(field, rule);
           }
+        } catch (e) {
+          debugPrint('Error evaluating expression: $e');
         }
       }
-      return field;
-    }).toIList();
+    }
+    return field;
   }
 
   /// Gets the context for evaluating expressions based on the current state of fields
@@ -127,41 +123,31 @@ class RuleEngine {
     final optionsToShow = rule.filterInfo!.optionsToShow;
     final optionsToHide = rule.filterInfo!.optionsToHide;
 
-    if (field.uid == fieldToFilter &&
-        field.optionConfiguration?.options != null) {
-      return field
-          .builder()
-          .setOptionConfiguration(field.optionConfiguration
-              ?.updateOptionsToHideAndShow(
-                  optionsToShow: optionsToShow?.lock ?? IList(),
-                  optionsToHide: optionsToHide?.lock ?? IList()))
-          .build();
+    if (field.optionConfiguration?.options != null) {
+      final applyToShowAndToHide = field.optionConfiguration!
+          .copyWith(optionsToShow: optionsToShow, optionsToHide: optionsToHide);
+
+      field = field.builder().setOptionConfiguration(applyToShowAndToHide).build();
     }
 
     return field;
   }
 
   QFieldModel _resetFilter(QFieldModel field, Rule rule) {
-    // if (rule.filterInfo == null) return field;
+    if (rule.filterInfo == null) return field;
 
     final fieldToFilter = rule.filterInfo!.fieldToFilter;
-    // final optionsToShow = rule.filterInfo!.optionsToShow;
-    // final optionsToHide = rule.filterInfo!.optionsToHide;
+    final List<String> optionsToShow = [];
+    final List<String> optionsToHide = [];
 
-    /// if there is a rule that doesn't apply filter all options
-    /// until all rules apply
-    // if (field.uid == fieldToFilter &&
-    //     field.optionConfiguration?.options != null) {
-    //   final optionsToHide = field.optionConfiguration!.options
-    //       .map((option) => option.name!)
-    //       .toIList();
-    //   return field
-    //       .builder()
-    //       .setOptionConfiguration(field.optionConfiguration
-    //           ?.updateOptionsToHideAndShow(
-    //               optionsToShow: IList(), optionsToHide: optionsToHide))
-    //       .build();
-    // }
+    if (field.uid == fieldToFilter &&
+        field.optionConfiguration?.options != null) {
+      return field
+          .builder()
+          .setOptionConfiguration(field.optionConfiguration?.copyWith(
+              optionsToShow: optionsToShow, optionsToHide: optionsToHide))
+          .build();
+    }
 
     return field;
   }

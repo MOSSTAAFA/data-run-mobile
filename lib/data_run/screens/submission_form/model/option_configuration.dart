@@ -1,79 +1,66 @@
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
+import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'option_configuration.freezed.dart';
+class OptionConfiguration with EquatableMixin {
+  OptionConfiguration(
+      {List<FormOption>? options,
+      List<String>? optionsToHide,
+      List<String>? optionsToShow})
+      : this.options = IList.orNull(options) ?? IList(),
+        this.optionsToHide = IList.orNull(optionsToHide) ?? IList(),
+        this.optionsToShow = IList.orNull(optionsToShow) ?? IList();
 
-@freezed
-class OptionConfiguration with _$OptionConfiguration {
-  const factory OptionConfiguration.defaultOptionSet(
-      {required IList<FormOption> options,
-      @Default(IListConst([])) IList<String> optionsToHide,
-      @Default(IListConst([])) IList<String> optionsToShow}) = DefaultOptionSet;
+  final IList<FormOption> options;
+  final IList<String> optionsToHide;
+  final IList<String> optionsToShow;
 
-  const factory OptionConfiguration.bigOptionSet(
-      {@Default(IListConst([])) IList<FormOption> options,
-      @Default(IListConst([])) IList<String> optionsToHide,
-      @Default(IListConst([])) IList<String> optionsToShow}) = BigOptionSet;
+  OptionConfiguration copyWith(
+          {List<FormOption>? options,
+          List<String>? optionsToHide,
+          List<String>? optionsToShow}) =>
+      OptionConfiguration(
+        options: options ?? this.options.unlock,
+        optionsToHide: optionsToHide ?? this.optionsToHide.unlock,
+        optionsToShow: optionsToShow ?? this.optionsToShow.unlock,
+      );
 
-  const OptionConfiguration._();
-
-  static OptionConfiguration config(
-      int optionCount, IList<FormOption> Function() optionRequestCallback) {
-    return optionCount > 15
-        ? const BigOptionSet()
-        : OptionConfiguration.defaultOptionSet(
-            options: optionRequestCallback());
-  }
-
-  OptionConfiguration updateOptionsToHideAndShow(
-      {required IList<String> optionsToShow,
-      required IList<String> optionsToHide}) {
-    return setOptionsToHide(
-            optionsToHide)
-        .setOptionsToShow(
-            optionsToShow);
-  }
-
-  OptionConfiguration setOptionsToHide(IList<String> optionsToHide) {
-    return map(
-        defaultOptionSet: (DefaultOptionSet defaultOptionSet) =>
-            defaultOptionSet.copyWith(optionsToHide: optionsToHide),
-        bigOptionSet: (BigOptionSet bigOptionSet) =>
-            bigOptionSet.copyWith(optionsToHide: optionsToHide));
-  }
-
-  OptionConfiguration setOptionsToShow(IList<String> optionsToShow) {
-    return map(
-        defaultOptionSet: (DefaultOptionSet defaultOptionSet) =>
-            defaultOptionSet.copyWith(optionsToShow: optionsToShow),
-        bigOptionSet: (BigOptionSet bigOptionSet) =>
-            bigOptionSet.copyWith(optionsToShow: optionsToShow));
-  }
-
-  IList<FormOption> get optionsToDisplay => options
-      .where((FormOption option) => optionsToShow.isNotEmpty
-          ? optionsToShow.contains(option.name)
-          : !optionsToHide.contains(option.name))
-      .toIList();
-
-  // NMC
-  IList<FormOption> get optionsToDisplayCumulative => _getOptions();
-
-  IList<FormOption> _getOptions() {
-    IList<FormOption> optionsToDisplay = options;
-
-    if (optionsToHide.isNotEmpty) {
-      optionsToDisplay =
-          options.removeWhere((item) => optionsToHide.contains(item.name));
-    }
+  List<FormOption> get optionsToDisplay {
+    List<FormOption> toDisplay = [];
 
     if (optionsToShow.isNotEmpty) {
-      optionsToDisplay =
-          options.retainWhere((item) => optionsToShow.contains(item.name));
+      toDisplay = options
+          .where((FormOption option) => optionsToShow.contains(option.name))
+          .toList();
+    } else {
+      toDisplay = options
+          .where((FormOption option) => !optionsToHide.contains(option.name))
+          .toList();
     }
-
-    return optionsToDisplay
-        .sort((a, b) => (a.sortOrder).compareTo(b.sortOrder));
+    return toDisplay;
   }
+
+  @override
+  List<Object?> get props => [optionsToHide, optionsToShow];
+//
+// // NMC
+// IList<FormOption> get optionsToDisplayCumulative => _getOptions();
+//
+// IList<FormOption> _getOptions() {
+//   IList<FormOption> optionsToDisplay = options;
+//
+//   if (optionsToHide.isNotEmpty) {
+//     optionsToDisplay =
+//         options.removeWhere((item) => optionsToHide.contains(item.name));
+//   }
+//
+//   if (optionsToShow.isNotEmpty) {
+//     optionsToDisplay =
+//         options.retainWhere((item) => optionsToShow.contains(item.name));
+//   }
+//
+//   return optionsToDisplay
+//       .sort((a, b) => (a.sortOrder).compareTo(b.sortOrder));
+// }
 }

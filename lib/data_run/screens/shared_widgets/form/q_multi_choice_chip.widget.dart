@@ -48,7 +48,7 @@ class _QMultiChoiceChipState extends State<QMultiChoiceChip> {
   }
 
   List<FormBuilderChipOption<FormOption>> _getChipOptions(
-      IList<FormOption> options,
+      List<FormOption> options,
       {bool? wide}) {
     return options
         .map((FormOption option) => FormBuilderChipOption<FormOption>(

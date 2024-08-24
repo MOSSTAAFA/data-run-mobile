@@ -1,5 +1,4 @@
 import 'package:d2_remote/modules/datarun/form/shared/field_value_rendering_type.dart';
-import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +10,6 @@ import 'package:mass_pro/sdk/core/common/value_type.dart';
 class QFieldModelBuilder {
   QFieldModelBuilder(QFieldModel model) {
     uid = model.uid;
-    // options = model.options;
     optionListName = model.optionListName;
     optionConfiguration = model.optionConfiguration;
     autocompleteList = model.autocompleteList;
@@ -39,7 +37,6 @@ class QFieldModelBuilder {
   }
 
   String? uid;
-  IList<FormOption>? options;
   String? optionListName;
   OptionConfiguration? optionConfiguration;
   List<String>? autocompleteList;
@@ -67,11 +64,6 @@ class QFieldModelBuilder {
 
   QFieldModelBuilder setUid(String uid) {
     this.uid = uid;
-    return this;
-  }
-
-  QFieldModelBuilder setOptions(IList<FormOption>? options) {
-    this.options = options;
     return this;
   }
 
@@ -201,7 +193,6 @@ class QFieldModelBuilder {
   QFieldModel build() {
     return QFieldModel(
       uid: uid!,
-      // options: options,
       optionListName: optionListName,
       optionConfiguration: optionConfiguration,
       autocompleteList: autocompleteList,

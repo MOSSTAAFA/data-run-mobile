@@ -58,25 +58,6 @@ class SubmissionMappingRepository {
     }.lock;
   }
 
-  // Future<int> _savePreparedData(
-  //     IMap<String, dynamic> pendingUpdatesDataMap) async {
-  //   final DataFormSubmission? storedFormSubmission =
-  //       await D2Remote.formModule.formSubmission.byId(_submissionUid).getOne();
-  //
-  //   storedFormSubmission!.formData!.addAll(pendingUpdatesDataMap.unlock);
-  //
-  //   storedFormSubmission.status = 'ACTIVE';
-  //   storedFormSubmission.dirty = true;
-  //
-  //   return _getQuery()
-  //       .setData(storedFormSubmission)
-  //       .save(saveOptions: SaveOptions(skipLocalSyncStatus: false));
-  // }
-
-  // Future<DataFormSubmission?> getSyncableEntity() {
-  //   return _getQuery().byId(_submissionUid).getOne();
-  // }
-
   dynamic mapFieldToValueType(QFieldModel? field) {
     switch (field?.valueType) {
       case ValueType.Percentage:
@@ -162,15 +143,13 @@ class SubmissionMappingRepository {
   }
 
   OptionConfiguration? _getOptionConfiguration(DynamicFormField field) {
-    final IList<FormOption> options =
-        _formConfiguration.optionLists.get(field.listName!) ?? IList();
+    final options =
+        _formConfiguration.optionLists.get(field.listName!) ?? <FormOption>[];
 
-    return OptionConfiguration.config(options.length, () {
-      return options;
-    }).updateOptionsToHideAndShow(
-        optionsToShow:
-            options.map((FormOption option) => option.name).toIList(),
-        optionsToHide: const IListConst([]));
+    return OptionConfiguration(
+        options: options.toList(),
+        optionsToShow: [],
+        optionsToHide: []);
   }
 
   FutureOr<QFieldModel> updateField(

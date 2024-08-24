@@ -485,7 +485,7 @@ class _SubmissionStatusModelProviderElement
 }
 
 String _$submissionItemSummaryModelHash() =>
-    r'c431450ac9baa0d9b4efc935d9183d6c3a1aedd4';
+    r'41de1e604b8dc37832f1de312f6cf5aa8a5732fe';
 
 /// See also [submissionItemSummaryModel].
 @ProviderFor(submissionItemSummaryModel)
@@ -637,7 +637,7 @@ class _SubmissionItemSummaryModelProviderElement
   String get form => (origin as SubmissionItemSummaryModelProvider).form;
 }
 
-String _$submissionListHash() => r'4e69caec5ca82be1f08ce76a483d79d172f8d8a5';
+String _$submissionListHash() => r'fd6285a21bea574a2f7418fd9091c6399c31e203';
 
 abstract class _$SubmissionList
     extends BuildlessAutoDisposeAsyncNotifier<IList<DataFormSubmission>> {

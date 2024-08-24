@@ -263,15 +263,15 @@ class _EagerInitialization extends ConsumerWidget {
         .watch(formConfigurationProvider(form: form, formVersion: formVersion));
 
     final formFieldRepository = ref.watch(formFieldsRepositoryProvider);
-    final formFieldsStateNotifier = ref.watch(formFieldsStateNotifierProvider);
+    // final formFieldsStateNotifier = ref.watch(formFieldsStateNotifierProvider);
 
     ref.watch(fieldWidgetFactoryProvider);
     if (formFieldRepository.isLoading ||
-        formFieldsStateNotifier.isLoading ||
+        // formFieldsStateNotifier.isLoading ||
         formConfigValue.isLoading) {
       return const Center(child: CircularProgressIndicator());
     } else if (formFieldRepository.hasError ||
-        formFieldsStateNotifier.hasError ||
+        // formFieldsStateNotifier.hasError ||
         formConfigValue.hasError) {
       return Center(
         child: Text(

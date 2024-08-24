@@ -6,7 +6,7 @@ part of 'project_detail_items_models_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$userAssignedTeamsHash() => r'bd82782bbc44c5b03a7ee39e598720bad40188f7';
+String _$userAssignedTeamsHash() => r'28492b2fab2d21cd737a60b79a34c60bd1b4e795';
 
 /// Copied from Dart SDK
 class _SystemHash {

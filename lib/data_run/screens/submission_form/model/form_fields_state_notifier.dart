@@ -53,9 +53,11 @@ class FormFieldsStateNotifier extends _$FormFieldsStateNotifier {
   /// Updates the state with the updated list of fields, usually triggered
   /// when some fields are updated after running the rule engine.
   Future<void> processCalculatedItems() async {
+    await future;
     final repository = getFormRepository();
-    state = await AsyncValue.guard(
-        () => Future.value(repository.composeFieldsMap()));
+    final map = await repository.composeFieldsMap();
+
+    state = AsyncData(map);
   }
 
   /// Creates a row action based on the provided [FormIntent] and triggers

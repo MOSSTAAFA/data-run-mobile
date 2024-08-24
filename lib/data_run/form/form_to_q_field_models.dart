@@ -86,9 +86,8 @@ QFieldModel mapToModel(
 
 OptionConfiguration? _getOptionConfiguration(
     DynamicFormField field, IList<FormOption> options) {
-  return OptionConfiguration.config(options.length, () {
-    return options;
-  }).updateOptionsToHideAndShow(
-      optionsToShow: options.map((FormOption option) => option.name).toIList(),
-      optionsToHide: const IListConst([]));
+  return OptionConfiguration(
+      options: options.unlock,
+      optionsToShow: options.map((FormOption option) => option.name).toList(),
+      optionsToHide: []);
 }

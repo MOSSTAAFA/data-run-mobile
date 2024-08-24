@@ -30,7 +30,6 @@ const NullValue nullValue = NullValue();
 class QFieldModel with EquatableMixin {
   const QFieldModel(
       {required this.uid,
-      // this.options,
       this.optionListName,
       this.optionConfiguration,
       this.autocompleteList,
@@ -57,7 +56,7 @@ class QFieldModel with EquatableMixin {
       this.focusNode});
 
   final String uid;
-  // final IList<FormOption>? options;
+
   final String? optionListName;
   final OptionConfiguration? optionConfiguration;
   final List<String>? autocompleteList;
@@ -165,7 +164,7 @@ class QFieldModel with EquatableMixin {
   }
 
   FormOption? getOption() {
-    return optionConfiguration?.optionsToDisplayCumulative
+    return optionConfiguration?.optionsToDisplay
         .where((FormOption option) => option.name == value)
         .firstOrNull;
   }
@@ -174,6 +173,10 @@ class QFieldModel with EquatableMixin {
     return optionConfiguration?.optionsToDisplay
         .where((FormOption option) => values?.contains(option.name) == true)
         .toList();
+  }
+
+  List<FormOption>? getOptionsToDisplay() {
+    return optionConfiguration?.optionsToDisplay.toList();
   }
 
   /// invoke FormInputFieldIntent.onSave
@@ -225,33 +228,30 @@ class QFieldModel with EquatableMixin {
     return mapPropsToString(runtimeType, <Object?>[
       'uid: $uid',
       'value: $value',
-      'isVisible: $isVisible',
-      'isLoading:  $isLoading',
-      'isFocused:  $isFocused',
-      'dataIntegrityResult: $isMandatory',
-      'error:  $error',
-      'warning:  $warning',
-      // 'options:  $options',
-      'displayName:  $displayName',
+      // 'isVisible: $isVisible',
+      // 'isLoading:  $isLoading',
+      // 'isFocused:  $isFocused',
+      // 'dataIntegrityResult: $isMandatory',
+      // 'error:  $error',
+      // 'optionsToShow:  ${optionConfiguration?.optionsToShow}',
+      // 'optionsToHide:  ${optionConfiguration?.optionsToHide}',
+      'optionsToDisplay:  ${optionConfiguration?.optionsToDisplay.map((o) => '${o.name}')}',
+      // 'warning:  $warning',
+      // // 'options:  $options',
+      // 'displayName:  $displayName',
     ]);
   }
 
   @override
   List<Object?> get props => <Object?>[
         uid,
-        // options,
         optionConfiguration,
         isVisible,
         value,
-        // isFocused,
         error,
-        // fieldMask,
         isEditable,
         warning,
         displayName,
         isMandatory,
-        // allowFutureDates,
-        // isLoading,
-        // intentCallback
       ];
 }

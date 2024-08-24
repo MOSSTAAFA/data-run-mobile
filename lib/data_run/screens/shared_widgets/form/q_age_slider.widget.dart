@@ -71,15 +71,21 @@ class QAgeSliders extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  fieldModel.label,
-                  style: Theme.of(context).textTheme.titleMedium,
+                Row(
+                  children: [
+                    Text(
+                      fieldModel.label,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    SizedBox(width: 16,),
+                    Expanded(child: Text(getValueString()))
+                  ],
                 ),
                 FormBuilderSlider(
                   // key: ValueKey('${fieldModel.uid}_years'),
                   numberFormat: NumberFormat('0'),
                   initialValue: years,
-                  displayValues: DisplayValues.minMax,
+                  displayValues: DisplayValues.all,
                   name: '${fieldModel.uid}_years',
                   enabled: fieldModel.isEditable,
                   min: 0.0,
@@ -112,7 +118,7 @@ class QAgeSliders extends StatelessWidget {
                   onChanged: (double? monthsValue) {
                     updateFieldValue();
                   },
-                  valueWidget: (String value) => Text(getValueString()),
+                  // valueWidget: (String value) => Text(getValueString()),
                 ),
               ],
             ),
