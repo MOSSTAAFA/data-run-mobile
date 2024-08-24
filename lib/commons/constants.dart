@@ -11,7 +11,7 @@ class Constants {
 // const String kApiBaseUrl = 'http://localhost:8080';
 // VM IP for localhost
 // const String kApiBaseUrl = 'http://10.0.2.2:8080'; // Vm network
-// const String kApiBaseUrl = 'http://192.168.8.50:8080'; // hNet
+// const String kApiBaseUrl = 'http://192.168.8.110:8080'; // hNet
 const String kApiBaseUrl = 'http://192.168.43.237:8080'; // mobile hotspot
 
 // const String kApiBaseUrl = 'https://api.nmcpye.org';

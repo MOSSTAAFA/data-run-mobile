@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mass_pro/data_run/screens/shared_widgets/form/q_full_name_field.widget.dart';
 import 'package:mass_pro/data_run/screens/submission_form/model/q_field.model.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/form/form.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/form/q_age_slider.widget.dart';
@@ -16,7 +17,8 @@ QFieldWidgetFactory fieldWidgetFactory(FieldWidgetFactoryRef ref) {
 typedef QFormFieldBuilder = Widget Function(QFieldModel fieldState);
 
 class QFieldWidgetFactory {
-  final Map<ValueType?, QFormFieldBuilder> _cache = <ValueType?, QFormFieldBuilder>{};
+  final Map<ValueType?, QFormFieldBuilder> _cache =
+      <ValueType?, QFormFieldBuilder>{};
 
   QFormFieldBuilder getBuilder(ValueType? valueType) {
     if (_cache.containsKey(valueType)) {
@@ -44,15 +46,20 @@ class QFieldWidgetFactory {
         return (QFieldModel fieldModel) => QTextField(fieldModel: fieldModel);
       case ValueType.Boolean:
         return (QFieldModel fieldModel) => QSwitchField(fieldModel: fieldModel);
-
       case ValueType.Age:
         return (QFieldModel fieldModel) => QAgeSliders(fieldModel: fieldModel);
+      case ValueType.FullName:
+        return (QFieldModel fieldModel) =>
+            QFullNameField(fieldModel: fieldModel);
+
       case ValueType.Date:
       case ValueType.DateTime:
       case ValueType.Time:
-        return (QFieldModel fieldModel) => QDateTimePicker(fieldModel: fieldModel);
+        return (QFieldModel fieldModel) =>
+            QDateTimePicker(fieldModel: fieldModel);
       case ValueType.SelectMulti:
-        return (QFieldModel fieldModel) => QMultiChoiceChip(fieldModel: fieldModel);
+        return (QFieldModel fieldModel) =>
+            QMultiChoiceChip(fieldModel: fieldModel);
       case ValueType.SelectOne:
         return (QFieldModel fieldModel) => QChoiceChip(fieldModel: fieldModel);
       default:

@@ -36,6 +36,17 @@ Future<FormConfiguration> formConfiguration(FormConfigurationRef ref,
       .byVersion(selectedFormVersion)
       .getOne();
 
+  Iterable<String> orgUnits = formDefinition?.orgUnits ?? [];
+
+  if (formDefinition != null) {
+    final assignments = await D2Remote.assignmentModuleD.assignment
+        .byActivity(formDefinition.activity)
+        .get();
+    final assigned =
+        assignments.where((a) => a.orgUnit != null).map((a) => a.orgUnit!);
+    orgUnits = orgUnits.where((o) => assigned.contains(o));
+  }
+
   return FormConfiguration(
       form: form,
       label: getItemLocalString(formDefinition?.label,
@@ -43,7 +54,7 @@ Future<FormConfiguration> formConfiguration(FormConfigurationRef ref,
       version: selectedFormVersion,
       fields: formDefinition?.fields,
       options: formDefinition?.options,
-      orgUnits: formDefinition?.orgUnits ?? []);
+      orgUnits: orgUnits.toList());
 }
 
 class FormConfiguration {

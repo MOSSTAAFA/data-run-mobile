@@ -116,12 +116,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                     Text(L('login'),
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.headlineMedium),
-                    SizedBox(height: 16,),
+                    SizedBox(
+                      height: 16,
+                    ),
                     Form(
                       key: _formKey,
                       child: AutofillGroup(
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                          padding:
+                              const EdgeInsets.only(left: 16.0, right: 16.0),
                           child: Column(
                             children: [
                               Consumer(
@@ -135,10 +138,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                         controller: _userController,
                                         label: L('username'),
                                         keyboardType: TextInputType.name,
-                                        readOnly:
-                                            ref.watch(showLoginProgressProvider),
+                                        readOnly: ref
+                                            .watch(showLoginProgressProvider),
                                         validator: (String? val) {
-                                          return val?.trim().isNullOrEmpty ?? false
+                                          return val?.trim().isNullOrEmpty ??
+                                                  false
                                               ? L('enterYourUsername')
                                               : null;
                                         },
@@ -153,9 +157,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                         onChanged: (value) => ref
                                             .read(loginModelProvider.notifier)
                                             .onPassChanged(value),
-                                        readOnly:
-                                            ref.watch(showLoginProgressProvider),
-                                        // controller: _passwordController,
+                                        readOnly: ref
+                                            .watch(showLoginProgressProvider),
+                                        controller: _passwordController,
                                         onSavePressed: (_) =>
                                             presenter.onButtonClick(),
                                       ),
@@ -172,12 +176,21 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                         borderRadius: 4,
                                         width: 430,
                                         controller: _buttonController,
-                                        onPressed: ref.watch(loginModelProvider
-                                                    .select((value) =>
-                                                        value.isDataComplete)) ==
-                                                true
-                                            ? () => presenter.onButtonClick()
-                                            : null,
+                                        onPressed: () {
+                                          if (_formKey.currentState
+                                                  ?.validate() ==
+                                              true) {
+                                            presenter.onButtonClick();
+                                          } else {
+                                            showLoginProgress(false);
+                                          }
+                                        },
+                                        // onPressed: ref.watch(loginModelProvider
+                                        //             .select((value) =>
+                                        //                 value.isDataComplete)) ==
+                                        //         true
+                                        //     ? () => presenter.onButtonClick()
+                                        //     : null,
                                         child: Row(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
@@ -250,8 +263,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
     if (showLogin) {
       ref.read(showLoginProgressProvider.notifier).update((state) => true);
       _buttonController.start();
-      await presenter.logIn(kApiBaseUrl, ref.read(loginModelProvider).userName!,
-          ref.read(loginModelProvider).password!);
+      await presenter.logIn(kApiBaseUrl, _userController.text,
+          _passwordController.text);
     } else {
       ref.read(showLoginProgressProvider.notifier).update((state) => false);
       _buttonController.reset();
@@ -318,10 +331,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
             ${isInitialSyncDone ? 'so will skipSync' : 'so will start ync'}''');
 
     skipSync = isInitialSyncDone;
-    if (!presenter.areSameCredentials(
-        ref.read(loginModelProvider).serverUrl,
-        ref.read(loginModelProvider).userName,
-        ref.read(loginModelProvider).password)) {
+    // if (!presenter.areSameCredentials(
+    //     ref.read(loginModelProvider).serverUrl,
+    //     ref.read(loginModelProvider).userName,
+    //     ref.read(loginModelProvider).password)) {
       // This is commented until fingerprint login for multiuser is supported
       /* if (presenter.canHandleBiometrics() == true) {
                 showInfoDialog(
@@ -354,9 +367,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
       presenter.saveUserCredentials(ref.read(loginModelProvider).serverUrl!,
           ref.read(loginModelProvider).userName!, '');
       goToNextScreen();
-    } else {
-      goToNextScreen();
-    }
+    // } else {
+    //   goToNextScreen();
+    // }
   }
 
   @override

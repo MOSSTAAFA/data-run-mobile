@@ -73,12 +73,7 @@ class _OrgUnitPickerFieldState extends State<OrgUnitPickerField/*<T>*/ > {
     _controller = TextEditingController();
     final node = _getNode(_selectedNode);
     _controller.text =
-        _selectedNode == null ? '' : (node?.displayName ?? node?.name)!;
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      widget.onChanged?.call(_selectedNode);
-      widget.onSubmitted?.call(_selectedNode);
-    });
+        node?.displayName ?? node?.name ?? '';
   }
 
   @override

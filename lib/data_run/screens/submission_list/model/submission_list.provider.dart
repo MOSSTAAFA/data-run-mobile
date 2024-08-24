@@ -54,7 +54,7 @@ class SubmissionList extends _$SubmissionList {
     await future;
   }
 
-  Future<void> saveOrgUnit(String uid, String orgUnit) async {
+  Future<void> saveOrgUnit(String uid, String? orgUnit) async {
     await future;
 
     final DataFormSubmission? submission =

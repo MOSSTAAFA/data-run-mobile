@@ -150,8 +150,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "error_value_reservation_time": MessageLookupByLibrary.simpleMessage(
             "استغرق حجز القيم وقتًا طويلاً"),
         "finalData": MessageLookupByLibrary.simpleMessage("بيانات نهائية"),
+        "firstName": MessageLookupByLibrary.simpleMessage("الاسم الأول"),
         "form": m0,
+        "fullName": MessageLookupByLibrary.simpleMessage("الاسم الكامل"),
         "hidePassword": MessageLookupByLibrary.simpleMessage("اخفاء كلمة السر"),
+        "lastName": MessageLookupByLibrary.simpleMessage("اللقب"),
         "level": MessageLookupByLibrary.simpleMessage("المستوى"),
         "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
         "loginErrorBadCredentials": MessageLookupByLibrary.simpleMessage(
@@ -170,6 +173,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("استجابة غير ناجحة من الخادم"),
         "markAsFinalData": MessageLookupByLibrary.simpleMessage(
             "تعيين هذه البيانات كنهائية وجاهزة للإرسال."),
+        "middleName": MessageLookupByLibrary.simpleMessage("الاسم الأوسط"),
         "month": m1,
         "months": MessageLookupByLibrary.simpleMessage("أشهر"),
         "nmcpYemen": MessageLookupByLibrary.simpleMessage(
@@ -178,7 +182,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "لا تتوفر استمارات لهذا النشاط"),
         "notMappedError": MessageLookupByLibrary.simpleMessage("خطأ غير معتمد"),
         "notNow": MessageLookupByLibrary.simpleMessage("ليس الآن"),
-        "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
+        "notifications": MessageLookupByLibrary.simpleMessage("تنبيهات"),
         "objectAccessClosed":
             MessageLookupByLibrary.simpleMessage("الوصول مغلق لهذا الكائن"),
         "objectAccessDenied":
@@ -189,19 +193,20 @@ class MessageLookup extends MessageLookupByLibrary {
         "open": MessageLookupByLibrary.simpleMessage("فتح"),
         "openNewForm":
             MessageLookupByLibrary.simpleMessage("فتح استمارة جديدة"),
-        "orgUnitDialogTitle": MessageLookupByLibrary.simpleMessage(
-            "Search for and Select OrgUnit"),
+        "orgUnitDialogTitle":
+            MessageLookupByLibrary.simpleMessage("ابحث عن المكان"),
         "orgUnitHelpText":
             MessageLookupByLibrary.simpleMessage("اختر اسم المكان"),
         "orgUnitInputLabel":
             MessageLookupByLibrary.simpleMessage("اختر اسم المكان"),
         "password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
         "searchOrgUnitsHelpText":
-            MessageLookupByLibrary.simpleMessage("Search Org Units..."),
+            MessageLookupByLibrary.simpleMessage("البحث عن مكان..."),
         "send": MessageLookupByLibrary.simpleMessage("إرسال"),
         "showPassword": MessageLookupByLibrary.simpleMessage("أظهر كلمة السر"),
-        "submissionDataEntry": MessageLookupByLibrary.simpleMessage("Data"),
-        "submissionInitialData": MessageLookupByLibrary.simpleMessage("Main"),
+        "submissionDataEntry": MessageLookupByLibrary.simpleMessage("بيانات"),
+        "submissionInitialData":
+            MessageLookupByLibrary.simpleMessage("الرئيسة"),
         "syncFormData":
             MessageLookupByLibrary.simpleMessage("مزامنة بيانات الاستمارة"),
         "syncingConfiguration":

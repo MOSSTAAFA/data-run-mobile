@@ -134,6 +134,7 @@ class SubmissionCreationDialogState
                   child: FormBuilderField<String?>(
                     key: ValueKey('FormBuilderField_${formConfig.form}'),
                     name: 'orgUnit',
+                    initialValue: _getInitialUid(formConfig),
                     builder: (field) {
                       final dataSource = ref.watch(treeNodeDataSourceProvider(
                           selectableUids: formConfig.orgUnitTreeUids));

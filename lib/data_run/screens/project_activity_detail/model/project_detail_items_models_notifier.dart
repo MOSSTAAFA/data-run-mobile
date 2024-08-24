@@ -9,14 +9,12 @@ import 'package:d2_remote/modules/metadatarun/teams/entities/d_team.entity.dart'
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mass_pro/commons/prefs/preference_provider.dart';
 import 'package:mass_pro/commons/resources/resource_manager.dart';
 import 'package:mass_pro/commons/ui/metadata_icon_data.dart';
 import 'package:mass_pro/data_run/screens/project_activity_detail/model/project_detail_item.model.dart';
 import 'package:mass_pro/data_run/screens/submission_list/model/submission_list.provider.dart';
 import 'package:mass_pro/data_run/utils/activities_access_repository.dart';
 import 'package:mass_pro/data_run/utils/screens_constants.dart';
-import 'package:mass_pro/main/data/server/user_manager_impl.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -26,12 +24,12 @@ part 'project_detail_items_models_notifier.g.dart';
 Future<IList<DTeam>> userAssignedTeams(UserAssignedTeamsRef ref,
     {ActiveStatus activeStatus = ActiveStatus.EnabledOnly,
     String? activity}) async {
-  final isLoggedIn = await ref.read(userManagerProvider).isUserLoggedIn(
-      sharedPreferenceInstance: PreferenceProvider.sharedPreferences());
+  // final isLoggedIn = await ref.read(userManagerProvider).isUserLoggedIn(
+  //     sharedPreferenceInstance: PreferenceProvider.sharedPreferences());
 
-  if (!isLoggedIn) {
-    return IList();
-  }
+  // if (!isLoggedIn) {
+  //   return IList();
+  // }
 
   List<DTeam> teams = await (activity != null
       ? D2Remote.teamModuleD.team

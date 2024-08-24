@@ -1,5 +1,4 @@
 import 'package:d2_remote/modules/datarun/form/entities/data_form_submission.entity.dart';
-import 'package:fast_immutable_collections/src/ilist/ilist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
@@ -7,7 +6,6 @@ import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/core/common/state.dart';
 import 'package:mass_pro/data_run/form/form_configuration.dart';
 import 'package:mass_pro/data_run/screens/submission_list/model/submission_list.provider.dart';
-import 'package:mass_pro/data_run/screens/submission_list/model/submission_list_util.dart';
 import 'package:mass_pro/data_run/screens/submission_list/submission_summary.widget.dart';
 import 'package:mass_pro/data_run/screens/submission_list/submission_creation_dialog.widget.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/get_error_widget.dart';

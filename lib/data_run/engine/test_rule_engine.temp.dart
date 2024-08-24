@@ -1,54 +1,69 @@
-// import 'package:d2_remote/modules/datarun/engine/rule_engine.dart';
-// import 'package:d2_remote/modules/datarun/form/shared/rule.dart';
-// import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-//
-// void main() {
-//   // Define form data (simplified for testing purposes)
-//   final formState = <String, Map<String, dynamic>>{
-//     "visitDate": {"value": "2024-06-13", "visible": true, "error": null, "warning": null},
-//     "patientName": {"value": "John Doe", "visible": true, "error": null, "warning": null},
-//     "patientAge": {"value": 12, "visible": true, "error": null, "warning": null},
-//     "patientLocation": {"value": "New York", "visible": true, "error": null, "warning": null},
-//     "gender": {"value": "Female", "visible": true, "error": null, "warning": null},
-//     "pregnant": {"value": false, "visible": false, "error": null, "warning": null},
-//     "testResult": {"value": "PF", "visible": true, "error": null, "warning": null},
-//     "severity": {"value": null, "visible": false, "error": null, "warning": null},
-//     "treatment": {"value": null, "visible": false, "error": null, "warning": null},
-//     "comment": {"value": "", "visible": true, "error": null, "warning": null},
-//   };
-//
-//   // Define rules
-//   final rules = [
-//     Rule(
-//       field: 'pregnant',
-//       expression: 'gender == "Female" && patientAge >= 10',
-//       action: 'show',
-//       message: "This field is hidden/invalid/requires attention because...",
-//       id: '1',
-//     ),
-//     Rule(
-//       field: 'severity',
-//       expression: 'testResult == "PF" || testResult == "PV" || testResult == "MIX"',
-//       action: 'show',
-//       id: '2',
-//     ),
-//     Rule(
-//       field: 'treatment',
-//       expression: 'testResult == "PF" || testResult == "PV" || testResult == "MIX"',
-//       action: 'warning',
-//       message: 'Treatment might be required',
-//       id: '3',
-//     ),
-//   ];
-//
-//   // Create the RuleEngine
-//   final ruleEngine = RuleEngine(formState: formState.lock);
-//
-//   // Apply rules
-//   ruleEngine.applyRules(rules);
-//
-//   // Print the updated form state
-//   formState.forEach((key, value) {
-//     print('$key: $value');
-//   });
-// }
+
+import 'package:expressions/expressions.dart';
+
+void main() {
+
+  const expressionString = "regex(x, \'^\\+?[0-9]{1,3}?[-. ]?(\\d{1,4})[-. ]?(\\d{1,4})[-. ]?(\\d{1,9})\$\')";
+  // Parse expression:
+  // Expression expression = Expression.parse("'Hello '+person.name");
+  Expression expression = Expression.parse(expressionString);
+
+// Create context containing all the variables and functions used in the expression
+  final formFieldsContext = {
+    'x': '+123-456-7890',
+    'regex': (String x, String regEx) => RegExp(regEx).hasMatch(x),
+  };
+
+  var context = {
+    "person": new Person("Jane")
+  };
+
+// The default evaluator can not handle member expressions like `person.name`.
+// When you want to use these kind of expressions, you'll need to create a
+// custom evaluator that implements the `evalMemberExpression` to get property
+// values of an object (e.g. with `dart:mirrors` or some other strategy).
+  final evaluator = const ExpressionEvaluator();
+  var r = evaluator.eval(expression, formFieldsContext);
+
+  List<MemberAccessor> memberAccessors;
+
+  print(r); // = 'Hello Jane'
+
+}
+
+final accessor = {
+  'name': (obj){},
+};
+
+final memberAccessor = MemberAccessor(accessor);
+
+typedef SingleMemberAccessor3<T> = dynamic Function(T);
+typedef AnyMemberAccessor3<T> = dynamic Function(T, String member);
+
+class MyMemberAccessor<T> implements MemberAccessor<T> {
+  final Map<String, AnyMemberAccessor<T>> accessors;
+
+  const MyMemberAccessor(this.accessors);
+
+  @override
+  bool canHandle(object, String member) {
+    if (object is! T) return false;
+    if (accessors.containsKey(member)) return true;
+    return false;
+  }
+
+  @override
+  dynamic getMember(T object, String member) {
+    return accessors[member]!(object, member);
+  }
+}
+
+class Person {
+  Person(this.name);
+
+  String name;
+
+  String getName() {
+    return name;
+  }
+}

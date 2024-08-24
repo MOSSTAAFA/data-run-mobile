@@ -25,6 +25,7 @@ enum ValueType {
   OrganisationUnit(UidValidator()),
   Reference(TextValidator()),
   Age(NumberValidator()),
+  FullName(TextValidator()),
   URL(TextValidator()),
   FileResource(UidValidator()),
   Image(UidValidator()),
@@ -57,15 +58,13 @@ enum ValueType {
         Percentage
       ];
 
-  static List<ValueType> get WITH_OPTIONS_TYPES => <ValueType>[
-    SelectOne,
-    SelectMulti
-  ];
+  static List<ValueType> get WITH_OPTIONS_TYPES =>
+      <ValueType>[SelectOne, SelectMulti];
 
   static List<ValueType> get BOOLEAN_TYPES => <ValueType>[Boolean, TrueOnly];
 
   static List<ValueType> get TEXT_TYPES =>
-      <ValueType>[Text, LongText, Letter, Coordinate, Time];
+      <ValueType>[Text, LongText, Letter, Coordinate, Time, FullName];
 
   static List<ValueType> get DATE_TYPES => <ValueType>[Date, DateTime];
 
@@ -139,6 +138,8 @@ enum ValueType {
         return ValueType.Reference;
       case 'age':
         return ValueType.Age;
+      case 'fullname':
+        return ValueType.FullName;
       case 'url':
         return ValueType.URL;
       case 'fileresource':

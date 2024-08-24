@@ -25,27 +25,29 @@ class QAgeSliders extends StatelessWidget {
       }
     }
 
-    void updateFieldValue(FormFieldState<String?> field) {
-      final yearsValue = FormBuilder.of(context)
-              ?.fields['${fieldModel.uid}_years']
-              ?.value ??
-          0;
-      final monthsValue = FormBuilder.of(context)
-              ?.fields['${fieldModel.uid}_months']
-              ?.value ??
-          0;
+    void updateFieldValue() {
+      final yearsValue =
+          FormBuilder.of(context)?.fields['${fieldModel.uid}_years']?.value ??
+              0;
+      final monthsValue =
+          FormBuilder.of(context)?.fields['${fieldModel.uid}_months']?.value ??
+              0;
       final String ageDoubleValueString =
           '${yearsValue.toInt()}.${monthsValue.toInt()}';
-      field.didChange(ageDoubleValueString);
+      FormBuilder.of(context)?.fields[fieldModel.uid]?.didChange(ageDoubleValueString);
     }
 
     String getValueString() {
-      final int yearsValue =
-          FormBuilder.of(context)?.fields['${fieldModel.uid}_years']?.value.toInt() ??
-              0;
-      final int monthsValue =
-          FormBuilder.of(context)?.fields['${fieldModel.uid}_months']?.value.toInt() ??
-              0;
+      final int yearsValue = FormBuilder.of(context)
+              ?.fields['${fieldModel.uid}_years']
+              ?.value
+              .toInt() ??
+          0;
+      final int monthsValue = FormBuilder.of(context)
+              ?.fields['${fieldModel.uid}_months']
+              ?.value
+              .toInt() ??
+          0;
       return '${S.of(context).year(yearsValue)} ${monthsValue > 0 && yearsValue > 0 ? S.of(context).and : ''} ${S.of(context).month(monthsValue)}';
     }
 
@@ -54,6 +56,7 @@ class QAgeSliders extends StatelessWidget {
       child: FormBuilderField<String?>(
         key: ValueKey(fieldModel.uid),
         name: fieldModel.uid,
+        initialValue: fieldModel.value,
         validator: QFieldValidators.getValidators(fieldModel),
         onChanged: (String? value) {
           fieldModel.onTextChange(value.toString());
@@ -88,7 +91,7 @@ class QAgeSliders extends StatelessWidget {
                     labelText: S.of(context).years,
                   ),
                   onChanged: (double? yearsValue) {
-                    updateFieldValue(field);
+                    updateFieldValue();
                   },
                 ),
                 FormBuilderSlider(
@@ -107,7 +110,7 @@ class QAgeSliders extends StatelessWidget {
                     labelText: S.of(context).months,
                   ),
                   onChanged: (double? monthsValue) {
-                    updateFieldValue(field);
+                    updateFieldValue();
                   },
                   valueWidget: (String value) => Text(getValueString()),
                 ),

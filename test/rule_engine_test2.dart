@@ -1,194 +1,126 @@
-// import 'package:d2_remote/modules/datarun/form/shared/rule.dart';
-// import 'package:expressions/expressions.dart';
-// import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-// import 'package:flutter_test/flutter_test.dart';
-// import 'package:mass_pro/data_run/engine/rule_engine.dart';
-// import 'package:mass_pro/data_run/screens/data_submission_form/model/q_field.model.dart';
-// import 'package:mockito/annotations.dart';
-// import 'package:mockito/mockito.dart';
-//
-// @GenerateNiceMocks(<MockSpec>[MockSpec<Expression>()])
-// @GenerateNiceMocks(<MockSpec>[MockSpec<ExpressionEvaluator>()])
-// import 'rule_engine_test2.mocks.dart';
-//
-// void main() {
-//   group('RuleEngine', () {
-//     late RuleEngine ruleEngine;
-//     late MockExpressionEvaluator evaluator;
-//
-//     setUp(() {
-//       evaluator = MockExpressionEvaluator();
-//       ruleEngine = RuleEngine(evaluator);
-//     });
-//
-//     test('should initialize field visibility based on show rules', () async {
-//       // Setup your fields and rules
-//       final IList<QFieldModel> fields = IList<QFieldModel>(<QFieldModel>[
-//         QFieldModel(
-//             uid: 'field1',
-//             fieldRules: IList(<Rule>[
-//               Rule(
-//                   action: 'show',
-//                   expression: 'true',
-//                   id: 'id1',
-//                   field: 'field1')
-//             ]),
-//             isFocused: false,
-//             isVisible: true,
-//             isEditable: true,
-//             isMandatory: false,
-//             label: 'label1'),
-//         QFieldModel(
-//             uid: 'field2',
-//             fieldRules: IList(<Rule>[
-//               Rule(
-//                   action: 'show',
-//                   expression: 'false',
-//                   id: 'id1',
-//                   field: 'field1')
-//             ]),
-//             isFocused: false,
-//             isEditable: true,
-//             isVisible: true,
-//             isMandatory: false,
-//             label: 'label1')
-//       ]);
-//
-//       when(evaluator.eval(any, any)).thenReturn(true);
-//
-//       // Apply rules
-//       final IList<QFieldModel> updatedFields = await ruleEngine.applyRules(fields);
-//
-//       // Assertions
-//       expect(updatedFields[0].isVisible, isTrue);
-//       expect(updatedFields[1].isVisible, isTrue);
-//     });
-//
-//     test('should apply show action based on expression evaluation', () async {
-//       final IList<QFieldModel> fields = IList<QFieldModel>(<QFieldModel>[
-//         QFieldModel(
-//             uid: 'field1',
-//             fieldRules: IList(<Rule>[
-//               Rule(
-//                   action: 'show',
-//                   expression: 'true',
-//                   id: 'id1',
-//                   field: 'field1')
-//             ]),
-//             isFocused: false,
-//             isVisible: false,
-//             isEditable: true,
-//             isMandatory: false,
-//             label: 'label1'),
-//       ]);
-//
-//       when(evaluator.eval(any, any)).thenReturn(true);
-//
-//       final IList<QFieldModel> updatedFields = await ruleEngine.applyRules(fields);
-//
-//       expect(updatedFields[0].isVisible, isTrue);
-//     });
-//
-//     test('should apply hide action based on expression evaluation', () async {
-//       final IList<QFieldModel> fields = IList<QFieldModel>(<QFieldModel>[
-//         QFieldModel(
-//             uid: 'field1',
-//             fieldRules: IList(<Rule>[
-//               Rule(
-//                   action: 'hide',
-//                   expression: 'true',
-//                   id: 'id1',
-//                   field: 'field1')
-//             ]),
-//             isFocused: false,
-//             isVisible: true,
-//             isEditable: true,
-//             isMandatory: false,
-//             label: 'label1'),
-//       ]);
-//
-//       when(evaluator.eval(any, any)).thenReturn(true);
-//
-//       final IList<QFieldModel> updatedFields = await ruleEngine.applyRules(fields);
-//
-//       expect(updatedFields[0].isVisible, isFalse);
-//     });
-//
-//     test('should apply error action based on expression evaluation', () async {
-//       final IList<QFieldModel> fields = IList<QFieldModel>(<QFieldModel>[
-//         QFieldModel(
-//             uid: 'field1',
-//             fieldRules: IList(<Rule>[
-//               Rule(
-//                   action: 'error',
-//                   expression: 'true',
-//                   message: <String, String>{'en': 'Error message'},
-//                   id: 'id1',
-//                   field: 'field1')
-//             ]),
-//             isFocused: false,
-//             isEditable: true,
-//             isMandatory: false,
-//             label: 'label1'),
-//       ]);
-//
-//       when(evaluator.eval(any, any)).thenReturn(true);
-//
-//       final IList<QFieldModel> updatedFields = await ruleEngine.applyRules(fields);
-//
-//       expect(updatedFields[0].error, equals('Error message'));
-//     });
-//
-//     test('should reset error action if condition is not met', () async {
-//       final IList<QFieldModel> fields = IList<QFieldModel>(<QFieldModel>[
-//         QFieldModel(
-//             uid: 'field1',
-//             error: 'Initial error',
-//             fieldRules: IList(<Rule>[
-//               Rule(
-//                   action: 'error',
-//                   expression: 'false',
-//                   message: <String, String>{'en': 'Error message'},
-//                   id: 'id1',
-//                   field: 'field1')
-//             ]),
-//             isFocused: false,
-//             isEditable: true,
-//             isMandatory: false,
-//             label: 'label1'),
-//       ]);
-//
-//       when(evaluator.eval(any, any)).thenReturn(false);
-//
-//       final IList<QFieldModel> updatedFields = await ruleEngine.applyRules(fields);
-//
-//       expect(updatedFields[0].error, isNull);
-//     });
-//
-//     test('should handle invalid expressions gracefully', () async {
-//       final IList<QFieldModel> fields = IList<QFieldModel>(<QFieldModel>[
-//         QFieldModel(
-//             uid: 'field1',
-//             fieldRules: IList(<Rule>[
-//               Rule(
-//                   action: 'error',
-//                   expression: 'invalid expression',
-//                   message: <String, String>{'en': 'Error message'},
-//                   id: 'id1',
-//                   field: 'field1')
-//             ]),
-//             isFocused: false,
-//             isEditable: true,
-//             isMandatory: false,
-//             label: 'label1'),
-//       ]);
-//
-//       when(evaluator.eval(any, any))
-//           .thenThrow(const FormatException('Invalid expression'));
-//
-//       final IList<QFieldModel> updatedFields = await ruleEngine.applyRules(fields);
-//
-//       expect(updatedFields[0].error, isNull);
-//     });
-//   });
-// }
+import 'dart:math';
+
+import 'package:fast_expressions/fast_expressions.dart';
+
+void validateField(String expression, Map<String, dynamic> formFields) {
+  final r = parseExpression(
+    expression,
+    context: formFields,
+    resolve: (object, member) => formFields[member],
+  );
+
+  print(r());  // Evaluate the expression and print the result (true or false)
+}
+
+void main() {
+  {
+
+    const e = "hasMatch(x, '^\\+?[0-9]{1,3}?[-. ]?(\\d{1,4})[-. ]?(\\d{1,4})[-. ]?(\\d{1,9})\$')";
+    final r = parseExpression(
+      e,
+      context: {
+        'x': '+123-456-7890',
+        'hasMatch': (String x, String regEx) =>  RegExp(regEx).hasMatch(x),
+      },
+    );
+    print(r());
+  }
+
+  {
+    const e = '1 + 2 * foo.add(1, 2)';
+    final r = parseExpression(
+      e,
+      context: {
+        'foo': Foo(),
+      },
+      resolve: _resolve,
+    );
+    print(r());
+  }
+
+  {
+    const e = '1 + 2 * foo.list()[foo.add(1, 1)]';
+    final r = parseExpression(
+      e,
+      context: {
+        'foo': Foo(),
+      },
+      resolve: _resolve,
+    );
+    print(r());
+  }
+
+  {
+    const e = '1 + 2 * sub(x: 7, y: 4)';
+    final r = parseExpression(
+      e,
+      context: {
+        'sub': ({required num x, required num y}) => x - y,
+      },
+    );
+    print(r());
+  }
+
+  {
+    const e = '''
+"Hello, " + friends[random()].name
+''';
+    final friends = [
+      Person('Jack'),
+      Person('Jerry'),
+      Person('John'),
+    ];
+    final r = parseExpression(
+      e,
+      context: {
+        'friends': friends,
+        'random': () => Random().nextInt(friends.length - 1),
+      },
+      resolve: _resolve,
+    );
+    print(r());
+  }
+}
+
+dynamic _resolve(dynamic object, String member) {
+  Never error() {
+    throw StateError("Invalid member '$member', object is $object");
+  }
+
+  if (object is Foo) {
+    switch (member) {
+      case 'add':
+        return object.add;
+      case 'list':
+        return object.list;
+    }
+  }
+
+  if (object is Person) {
+    switch (member) {
+      case 'name':
+        return object.name;
+    }
+  }
+
+  if (object is int) {
+    switch (member) {
+      case 'isEven':
+        return object.isEven;
+    }
+  }
+
+  error();
+}
+
+class Foo {
+  num add(num x, num y) => x + y;
+
+  List<num> list() => [1, 2, 3];
+}
+
+class Person {
+  final String name;
+
+  Person(this.name);
+}

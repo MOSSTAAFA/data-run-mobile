@@ -2,15 +2,18 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/data_run/screens/org_unit/model/data_model.dart';
 import 'package:mass_pro/data_run/screens/shared_widgets/get_error_widget.dart';
+import 'package:mass_pro/data_run/screens/submission_list/model/submission_list.provider.dart';
 import 'package:mass_pro/data_run/screens/submission_screen/model/submission.provider.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 
 class SubmissionInitialView extends ConsumerStatefulWidget {
-  SubmissionInitialView({super.key, this.enabled = true, required List<String> selectableUids})
+  SubmissionInitialView(
+      {super.key, this.enabled = true, required List<String> selectableUids})
       : this.selectableUids = selectableUids;
 
   final List<String> selectableUids;
@@ -21,7 +24,8 @@ class SubmissionInitialView extends ConsumerStatefulWidget {
 }
 
 class SubmissionInitialViewState extends ConsumerState<SubmissionInitialView> {
-  // late final String form;
+  late final String form;
+
   // late final int formVersion;
   late final String submissionId;
 
@@ -29,7 +33,7 @@ class SubmissionInitialViewState extends ConsumerState<SubmissionInitialView> {
   void initState() {
     super.initState();
     final Bundle eventBundle = Get.arguments as Bundle;
-    // form = eventBundle.getString(FORM_UID)!;
+    form = eventBundle.getString(FORM_UID)!;
     // formVersion = eventBundle.getInt(FORM_VERSION)!;
     submissionId = eventBundle.getString(SYNCABLE_UID)!;
   }
@@ -51,6 +55,13 @@ class SubmissionInitialViewState extends ConsumerState<SubmissionInitialView> {
               FormBuilderField<String?>(
                 name: 'orgUnit',
                 enabled: widget.enabled,
+                initialValue: submission.orgUnit,
+                validator: FormBuilderValidators.required(),
+                onChanged: (value) {
+                  ref
+                      .watch(submissionListProvider(form: form).notifier)
+                      .saveOrgUnit(submissionId, value);
+                },
                 builder: (field) {
                   final dataSourceValue = ref.watch(treeNodeDataSourceProvider(
                       selectableUids: widget.selectableUids.lock));

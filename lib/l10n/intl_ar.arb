@@ -132,9 +132,13 @@
   "level": "المستوى",
   "orgUnitHelpText": "اختر اسم المكان",
   "orgUnitInputLabel": "اختر اسم المكان",
-  "orgUnitDialogTitle": "Search for and Select OrgUnit",
-  "searchOrgUnitsHelpText": "Search Org Units...",
-  "submissionInitialData": "Main",
-  "submissionDataEntry": "Data",
-  "notifications": "Notifications"
+  "orgUnitDialogTitle": "ابحث عن المكان",
+  "searchOrgUnitsHelpText": "البحث عن مكان...",
+  "submissionInitialData": "الرئيسة",
+  "submissionDataEntry": "بيانات",
+  "notifications": "تنبيهات",
+  "fullName": "الاسم الكامل",
+  "firstName": "الاسم الأول",
+  "middleName": "الاسم الأوسط",
+  "lastName": "اللقب"
 }

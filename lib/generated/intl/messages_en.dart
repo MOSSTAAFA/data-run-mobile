@@ -151,8 +151,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "error_value_reservation_time": MessageLookupByLibrary.simpleMessage(
             "Values reservation took too long"),
         "finalData": MessageLookupByLibrary.simpleMessage("Final Data"),
+        "firstName": MessageLookupByLibrary.simpleMessage("First Name"),
         "form": m0,
+        "fullName": MessageLookupByLibrary.simpleMessage("Full Name"),
         "hidePassword": MessageLookupByLibrary.simpleMessage("Hide Password"),
+        "lastName": MessageLookupByLibrary.simpleMessage("Last Name"),
         "level": MessageLookupByLibrary.simpleMessage("Level"),
         "login": MessageLookupByLibrary.simpleMessage("Login"),
         "loginErrorBadCredentials":
@@ -171,6 +174,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Unsuccessful response from server"),
         "markAsFinalData": MessageLookupByLibrary.simpleMessage(
             "Make the form Final before exiting."),
+        "middleName": MessageLookupByLibrary.simpleMessage("Middle Name"),
         "month": m1,
         "months": MessageLookupByLibrary.simpleMessage("Months"),
         "nmcpYemen": MessageLookupByLibrary.simpleMessage("NMCP Yemen"),

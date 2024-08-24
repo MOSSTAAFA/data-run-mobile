@@ -175,5 +175,9 @@
   "searchOrgUnitsHelpText": "Search Org Units...",
   "submissionInitialData": "Main",
   "submissionDataEntry": "Data",
-  "notifications": "Notifications"
+  "notifications": "Notifications",
+  "fullName": "Full Name",
+  "firstName": "First Name",
+  "middleName": "Middle Name",
+  "lastName": "Last Name"
 }
