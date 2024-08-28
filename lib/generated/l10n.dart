@@ -640,10 +640,10 @@ class S {
     );
   }
 
-  /// `MASS PRO`
+  /// `Datarun`
   String get appName {
     return Intl.message(
-      'MASS PRO',
+      'Datarun',
       name: 'appName',
       desc: '',
       args: [],

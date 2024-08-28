@@ -29,7 +29,8 @@ class RuleEngine {
     return fields.map((field) => _applyFieldRules(field, context)).toIList();
   }
 
-  QFieldModel _applyFieldRules(QFieldModel field, IMap<String, dynamic> context) {
+  QFieldModel _applyFieldRules(
+      QFieldModel field, IMap<String, dynamic> context) {
     final rules = formConfiguration.fieldRules.get(field.uid)?.toList() ?? [];
     for (final rule in rules) {
       if (rule.expression != null) {
@@ -120,14 +121,15 @@ class RuleEngine {
     if (rule.filterInfo == null) return field;
 
     final fieldToFilter = rule.filterInfo!.fieldToFilter;
-    final optionsToShow = rule.filterInfo!.optionsToShow;
-    final optionsToHide = rule.filterInfo!.optionsToHide;
+    final optionsToShow = rule.filterInfo!.optionsToShow ?? [];
+    final optionsToHide = rule.filterInfo!.optionsToHide ?? [];
 
     if (field.optionConfiguration?.options != null) {
-      final applyToShowAndToHide = field.optionConfiguration!
-          .copyWith(optionsToShow: optionsToShow, optionsToHide: optionsToHide);
+      final applyToShowAndToHide = field.optionConfiguration!.updateToShowToHid(
+          optionsToShow: optionsToShow, optionsToHide: optionsToHide);
 
-      field = field.builder().setOptionConfiguration(applyToShowAndToHide).build();
+      field =
+          field.builder().setOptionConfiguration(applyToShowAndToHide).build();
     }
 
     return field;
@@ -137,14 +139,14 @@ class RuleEngine {
     if (rule.filterInfo == null) return field;
 
     final fieldToFilter = rule.filterInfo!.fieldToFilter;
-    final List<String> optionsToShow = [];
-    final List<String> optionsToHide = [];
+    final optionsToShow = rule.filterInfo!.optionsToShow ?? [];
+    final optionsToHide = rule.filterInfo!.optionsToHide ?? [];
 
     if (field.uid == fieldToFilter &&
         field.optionConfiguration?.options != null) {
       return field
           .builder()
-          .setOptionConfiguration(field.optionConfiguration?.copyWith(
+          .setOptionConfiguration(field.optionConfiguration!.resetToShowToHide(
               optionsToShow: optionsToShow, optionsToHide: optionsToHide))
           .build();
     }

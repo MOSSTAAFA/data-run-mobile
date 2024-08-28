@@ -2,7 +2,7 @@
     package="org.nmcpye.mass_pro">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="MASS PRO"
+        android:label="Datarun"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

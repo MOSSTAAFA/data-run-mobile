@@ -25,6 +25,20 @@ class OptionConfiguration with EquatableMixin {
         optionsToShow: optionsToShow ?? this.optionsToShow.unlock,
       );
 
+  OptionConfiguration updateToShowToHid(
+      {List<String>? optionsToShow, List<String>? optionsToHide}) {
+    return copyWith(
+        optionsToShow: this.optionsToShow.addAll(optionsToShow ?? []).unlock,
+        optionsToHide: this.optionsToHide.addAll(optionsToHide ?? []).unlock);
+  }
+
+  OptionConfiguration resetToShowToHide(
+      {List<String>? optionsToShow, List<String>? optionsToHide}) {
+    return copyWith(
+        optionsToShow: this.optionsToShow.removeAll(optionsToShow ?? []).unlock,
+        optionsToHide: this.optionsToHide.removeAll(optionsToHide ?? []).unlock);
+  }
+
   List<FormOption> get optionsToDisplay {
     List<FormOption> toDisplay = [];
 

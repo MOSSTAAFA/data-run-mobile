@@ -34,7 +34,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "accept": MessageLookupByLibrary.simpleMessage("Accept"),
         "addNew": MessageLookupByLibrary.simpleMessage("Add New"),
         "and": MessageLookupByLibrary.simpleMessage("And"),
-        "appName": MessageLookupByLibrary.simpleMessage("MASS PRO"),
+        "appName": MessageLookupByLibrary.simpleMessage("Datarun"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "clear": MessageLookupByLibrary.simpleMessage("Clear"),
         "configurationReady":

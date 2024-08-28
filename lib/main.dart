@@ -80,7 +80,7 @@ class App extends ConsumerWidget {
 
     return GetMaterialApp(
       navigatorKey: navigatorKey,
-      title: 'MASS PRO',
+      title: 'Datarun',
       debugShowCheckedModeBanner: false,
       themeMode: ref.watch(appAppearanceNotifierProvider).themeMode,
       theme: ThemeData(

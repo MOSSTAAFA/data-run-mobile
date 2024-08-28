@@ -59,7 +59,7 @@
   "error_org_unit_scope": "Org unit not in search scope",
   "error_invalid_characters": "Invalid characters",
   "notMappedError": "Not mapped error",
-  "appName": "MASS PRO",
+  "appName": "Datarun",
   "showPassword": "Show Password",
   "hidePassword": "Hide Password",
   "syncingConfiguration": "Syncing Configuration",
