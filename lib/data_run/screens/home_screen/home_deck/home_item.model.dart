@@ -2,8 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:mass_pro/commons/ui/metadata_icon_data.dart';
 import 'package:mass_pro/core/common/state.dart';
 
-class DashboardItemModel with EquatableMixin {
-  DashboardItemModel(
+class HomeItemModel with EquatableMixin {
+  HomeItemModel(
       {this.uid = '',
       this.title = '',
       this.metadataIconData,
@@ -59,7 +59,7 @@ class DashboardItemModel with EquatableMixin {
 
   double getAlphaValue() => isDownloading() ? 0.5 : 1;
 
-  DashboardItemModel copyWith(
+  HomeItemModel copyWith(
           {final String? uid,
           String? title,
           MetadataIconData? metadataIconData,
@@ -77,7 +77,7 @@ class DashboardItemModel with EquatableMixin {
           ProjectDownloadState? downloadState,
           bool? downloadActive,
           bool? hasShownCompleteSyncAnimation}) =>
-      DashboardItemModel(
+      HomeItemModel(
           uid: uid ?? this.uid,
           title: title ?? this.title,
           metadataIconData: metadataIconData ?? this.metadataIconData,

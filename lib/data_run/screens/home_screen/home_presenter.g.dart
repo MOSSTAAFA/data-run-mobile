@@ -1,13 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'dashboard_presenter.dart';
+part of 'home_presenter.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$dashboardPresenterHash() =>
-    r'e7308ee98bbb4f093a1865d85502e49ff65bb6da';
+String _$homePresenterHash() => r'db5aff693434ffdb927fcd686fff1d2d3fec78d6';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -30,27 +29,27 @@ class _SystemHash {
   }
 }
 
-/// See also [dashboardPresenter].
-@ProviderFor(dashboardPresenter)
-const dashboardPresenterProvider = DashboardPresenterFamily();
+/// See also [homePresenter].
+@ProviderFor(homePresenter)
+const homePresenterProvider = HomePresenterFamily();
 
-/// See also [dashboardPresenter].
-class DashboardPresenterFamily extends Family<DashboardPresenter> {
-  /// See also [dashboardPresenter].
-  const DashboardPresenterFamily();
+/// See also [homePresenter].
+class HomePresenterFamily extends Family<HomePresenter> {
+  /// See also [homePresenter].
+  const HomePresenterFamily();
 
-  /// See also [dashboardPresenter].
-  DashboardPresenterProvider call(
-    DashboardScreenView view,
+  /// See also [homePresenter].
+  HomePresenterProvider call(
+    HomeScreenView view,
   ) {
-    return DashboardPresenterProvider(
+    return HomePresenterProvider(
       view,
     );
   }
 
   @override
-  DashboardPresenterProvider getProviderOverride(
-    covariant DashboardPresenterProvider provider,
+  HomePresenterProvider getProviderOverride(
+    covariant HomePresenterProvider provider,
   ) {
     return call(
       provider.view,
@@ -69,32 +68,32 @@ class DashboardPresenterFamily extends Family<DashboardPresenter> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'dashboardPresenterProvider';
+  String? get name => r'homePresenterProvider';
 }
 
-/// See also [dashboardPresenter].
-class DashboardPresenterProvider extends Provider<DashboardPresenter> {
-  /// See also [dashboardPresenter].
-  DashboardPresenterProvider(
-    DashboardScreenView view,
+/// See also [homePresenter].
+class HomePresenterProvider extends Provider<HomePresenter> {
+  /// See also [homePresenter].
+  HomePresenterProvider(
+    HomeScreenView view,
   ) : this._internal(
-          (ref) => dashboardPresenter(
-            ref as DashboardPresenterRef,
+          (ref) => homePresenter(
+            ref as HomePresenterRef,
             view,
           ),
-          from: dashboardPresenterProvider,
-          name: r'dashboardPresenterProvider',
+          from: homePresenterProvider,
+          name: r'homePresenterProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$dashboardPresenterHash,
-          dependencies: DashboardPresenterFamily._dependencies,
+                  : _$homePresenterHash,
+          dependencies: HomePresenterFamily._dependencies,
           allTransitiveDependencies:
-              DashboardPresenterFamily._allTransitiveDependencies,
+              HomePresenterFamily._allTransitiveDependencies,
           view: view,
         );
 
-  DashboardPresenterProvider._internal(
+  HomePresenterProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -104,16 +103,16 @@ class DashboardPresenterProvider extends Provider<DashboardPresenter> {
     required this.view,
   }) : super.internal();
 
-  final DashboardScreenView view;
+  final HomeScreenView view;
 
   @override
   Override overrideWith(
-    DashboardPresenter Function(DashboardPresenterRef provider) create,
+    HomePresenter Function(HomePresenterRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: DashboardPresenterProvider._internal(
-        (ref) => create(ref as DashboardPresenterRef),
+      override: HomePresenterProvider._internal(
+        (ref) => create(ref as HomePresenterRef),
         from: from,
         name: null,
         dependencies: null,
@@ -125,13 +124,13 @@ class DashboardPresenterProvider extends Provider<DashboardPresenter> {
   }
 
   @override
-  ProviderElement<DashboardPresenter> createElement() {
-    return _DashboardPresenterProviderElement(this);
+  ProviderElement<HomePresenter> createElement() {
+    return _HomePresenterProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is DashboardPresenterProvider && other.view == view;
+    return other is HomePresenterProvider && other.view == view;
   }
 
   @override
@@ -143,17 +142,17 @@ class DashboardPresenterProvider extends Provider<DashboardPresenter> {
   }
 }
 
-mixin DashboardPresenterRef on ProviderRef<DashboardPresenter> {
+mixin HomePresenterRef on ProviderRef<HomePresenter> {
   /// The parameter `view` of this provider.
-  DashboardScreenView get view;
+  HomeScreenView get view;
 }
 
-class _DashboardPresenterProviderElement
-    extends ProviderElement<DashboardPresenter> with DashboardPresenterRef {
-  _DashboardPresenterProviderElement(super.provider);
+class _HomePresenterProviderElement extends ProviderElement<HomePresenter>
+    with HomePresenterRef {
+  _HomePresenterProviderElement(super.provider);
 
   @override
-  DashboardScreenView get view => (origin as DashboardPresenterProvider).view;
+  HomeScreenView get view => (origin as HomePresenterProvider).view;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

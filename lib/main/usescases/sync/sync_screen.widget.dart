@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:mass_pro/commons/state/app_state_notifier.dart';
-import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen.widget.dart';
+import 'package:mass_pro/data_run/screens/home_screen/home_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/view/view_base.dart';
 import 'package:mass_pro/generated/l10n.dart';
 import 'package:mass_pro/main/data/service/work_manager/nmc_worker/work_info.dart';
@@ -140,7 +140,7 @@ class _SyncScreenState extends ConsumerState<SyncScreen>
 
   @override
   void goToMain() {
-    Get.offNamed(DashboardScreenWidget.route);
+    Get.offNamed(HomeScreenWidget.route);
   }
 
   @override

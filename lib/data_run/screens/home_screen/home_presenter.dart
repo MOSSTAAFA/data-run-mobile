@@ -1,11 +1,9 @@
-// ignore_for_file: strict_raw_type
-
 import 'package:flutter/foundation.dart';
 import 'package:mass_pro/commons/prefs/preference.dart';
 import 'package:mass_pro/commons/prefs/preference_provider.dart';
-import 'package:mass_pro/data_run/screens/dashboard/dashboard_repository.dart';
-import 'package:mass_pro/data_run/screens/dashboard/dashboard_repository_impl.dart';
-import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen_view.dart';
+import 'package:mass_pro/data_run/screens/home_screen/home_repository.dart';
+import 'package:mass_pro/data_run/screens/home_screen/home_repository_impl.dart';
+import 'package:mass_pro/data_run/screens/home_screen/home_screen_view.dart';
 import 'package:mass_pro/main/data/service/sync_status_controller.dart';
 import 'package:mass_pro/main/data/service/work_manager/work_manager_controller.dart';
 import 'package:mass_pro/main/data/service/work_manager/work_manager_controller_impl.dart';
@@ -15,22 +13,22 @@ import 'package:mass_pro/main/usescases/login/sync_is_performed_interactor.dart'
 import 'package:mass_pro/main/usescases/sync/sync_screen_presenter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'dashboard_presenter.g.dart';
+part 'home_presenter.g.dart';
 
 @Riverpod(keepAlive: true)
-DashboardPresenter dashboardPresenter(
-    DashboardPresenterRef ref, DashboardScreenView view) {
-  return DashboardPresenter(
+HomePresenter homePresenter(
+    HomePresenterRef ref, HomeScreenView view) {
+  return HomePresenter(
       view,
-      ref.read(dashboardRepositoryProvider),
+      ref.read(homeRepositoryProvider),
       ref.read(preferencesInstanceProvider),
       ref.read(workManagerControllerProvider),
       ref.read(syncStatusControllerInstanceProvider),
       ref.read(syncIsPerformedInteractorProvider));
 }
 
-class DashboardPresenter {
-  DashboardPresenter(
+class HomePresenter {
+  HomePresenter(
       this.view,
       this.repository,
       this.preferencesProvider,
@@ -38,8 +36,8 @@ class DashboardPresenter {
       this.syncStatusController,
       this.syncIsPerformedInteractor);
 
-  final DashboardScreenView view;
-  final DashboardRepository repository;
+  final HomeScreenView view;
+  final HomeRepository repository;
   final PreferenceProvider preferencesProvider;
   final WorkManagerController workManagerController;
 

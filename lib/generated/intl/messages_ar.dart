@@ -154,6 +154,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "form": m0,
         "fullName": MessageLookupByLibrary.simpleMessage("الاسم الكامل"),
         "hidePassword": MessageLookupByLibrary.simpleMessage("اخفاء كلمة السر"),
+        "home": MessageLookupByLibrary.simpleMessage("الرئيسة"),
         "lastName": MessageLookupByLibrary.simpleMessage("اللقب"),
         "level": MessageLookupByLibrary.simpleMessage("المستوى"),
         "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),

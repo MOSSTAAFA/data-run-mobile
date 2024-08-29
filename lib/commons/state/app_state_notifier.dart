@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
 import 'package:mass_pro/commons/state/app_state.dart';
-import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen.widget.dart';
+import 'package:mass_pro/data_run/screens/home_screen/home_screen.widget.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 import 'package:mass_pro/utils/mass_utils/strings.dart';
 import 'package:mass_pro/utils/navigator_key.dart';
@@ -115,11 +115,11 @@ class AppStateNotifier extends _$AppStateNotifier {
     // WidgetsBinding.instance.addPostFrameCallback((duration) {
     //   navigatorKey.currentState!.pushNamed('MainScreen.route');
     // });
-    updateCurrentRoute(DashboardScreenWidget.route);
+    updateCurrentRoute(HomeScreenWidget.route);
 
     if (state.prefState.isMobile) {
       navigatorKey.currentState!.pushNamedAndRemoveUntil(
-          DashboardScreenWidget.route, (Route<dynamic> route) => false);
+          HomeScreenWidget.route, (Route<dynamic> route) => false);
     }
   }
 

@@ -155,6 +155,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "form": m0,
         "fullName": MessageLookupByLibrary.simpleMessage("Full Name"),
         "hidePassword": MessageLookupByLibrary.simpleMessage("Hide Password"),
+        "home": MessageLookupByLibrary.simpleMessage("Home"),
         "lastName": MessageLookupByLibrary.simpleMessage("Last Name"),
         "level": MessageLookupByLibrary.simpleMessage("Level"),
         "login": MessageLookupByLibrary.simpleMessage("Login"),

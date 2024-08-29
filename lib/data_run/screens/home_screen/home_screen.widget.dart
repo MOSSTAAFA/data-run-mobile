@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:mass_pro/commons/state/app_state_notifier.dart';
-import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_deck.widget.dart';
-import 'package:mass_pro/data_run/screens/dashboard/dashboard_presenter.dart';
-import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen_view.dart';
+import 'package:mass_pro/data_run/screens/home_screen/home_deck/home_deck.widget.dart';
+import 'package:mass_pro/data_run/screens/home_screen/home_presenter.dart';
+import 'package:mass_pro/data_run/screens/home_screen/home_screen_view.dart';
 import 'package:mass_pro/data_run/screens/view/view_base.dart';
 import 'package:mass_pro/generated/l10n.dart';
 import 'package:mass_pro/main/data/service/sync_status_controller.dart';
@@ -15,8 +15,8 @@ import 'package:mass_pro/utils/app_appearance.dart';
 
 /// Dashboard Screen is the main Screen of the app the show after login
 /// Currently it lists the available projects as items other General relevant data
-class DashboardScreenWidget extends ConsumerStatefulWidget {
-  const DashboardScreenWidget(
+class HomeScreenWidget extends ConsumerStatefulWidget {
+  const HomeScreenWidget(
       {super.key, this.launchDataSync = false, this.forceToNotSynced = false});
 
   static const String route = '/';
@@ -26,13 +26,13 @@ class DashboardScreenWidget extends ConsumerStatefulWidget {
   final bool launchDataSync;
 
   @override
-  ConsumerState<DashboardScreenWidget> createState() =>
-      _DashboardScreenWidgetState();
+  ConsumerState<HomeScreenWidget> createState() =>
+      _HomeScreenWidgetState();
 }
 
-class _DashboardScreenWidgetState extends ConsumerState<DashboardScreenWidget>
-    with DashboardScreenView, ViewBase {
-  late final DashboardPresenter presenter;
+class _HomeScreenWidgetState extends ConsumerState<HomeScreenWidget>
+    with HomeScreenView, ViewBase {
+  late final HomePresenter presenter;
 
   @override
   Widget build(BuildContext context) {
@@ -51,14 +51,14 @@ class _DashboardScreenWidgetState extends ConsumerState<DashboardScreenWidget>
             const _ColorSeedButton(),
             const _ColorImageButton()
           ],
-          title: Text(S.of(context).dashboard),
+          title: Text(S.of(context).home),
         ),
-        body: const DashboardDeckWidget());
+        body: const HomeDeck());
   }
 
   @override
   void initState() {
-    presenter = ref.read(dashboardPresenterProvider(this));
+    presenter = ref.read(homePresenterProvider(this));
 
     ref.listenManual<bool?>(
         syncStatusControllerInstanceProvider.select((syncStatusController) =>

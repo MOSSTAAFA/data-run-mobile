@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_item.model.dart';
-import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_items_models_notifier.dart';
+import 'package:mass_pro/data_run/screens/home_screen/home_deck/home_item.model.dart';
+import 'package:mass_pro/data_run/screens/home_screen/home_deck/home_items_models_notifier.dart';
 
-class DashboardItemWidget extends ConsumerStatefulWidget {
-  const DashboardItemWidget({
+class HomeItem extends ConsumerStatefulWidget {
+  const HomeItem({
     super.key,
     required this.onItemClick,
     required this.onGranularSyncClick,
     this.onDescriptionClick,
   });
 
-  final void Function(DashboardItemModel? dashboardItemModel)? onItemClick;
-  final void Function(DashboardItemModel? dashboardItemModel)?
+  final void Function(HomeItemModel? homeDeckItemModel)? onItemClick;
+  final void Function(HomeItemModel? homeDeckItemModel)?
       onGranularSyncClick;
-  final void Function(DashboardItemModel? dashboardItemModel)?
+  final void Function(HomeItemModel? homeDeckItemModel)?
       onDescriptionClick;
 
   @override
-  ConsumerState<DashboardItemWidget> createState() =>
-      _DashboardItemWidgetState();
+  ConsumerState<HomeItem> createState() =>
+      _HomeItemState();
 }
 
-class _DashboardItemWidgetState extends ConsumerState<DashboardItemWidget> {
+class _HomeItemState extends ConsumerState<HomeItem> {
   @override
   Widget build(BuildContext context) {
-    final item = ref.watch(dashboardItemModelProvider);
+    final item = ref.watch(homeItemModelProvider);
     return Card(
       shadowColor: Theme.of(context).colorScheme.shadow,
       surfaceTintColor: Theme.of(context).colorScheme.primary,

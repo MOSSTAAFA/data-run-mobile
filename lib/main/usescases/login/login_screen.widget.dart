@@ -11,7 +11,7 @@ import 'package:mass_pro/commons/extensions/string_extension.dart';
 import 'package:mass_pro/commons/network/network_utils.dart';
 import 'package:mass_pro/commons/resources/resource_manager.dart';
 import 'package:mass_pro/commons/state/app_state_notifier.dart';
-import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen.widget.dart';
+import 'package:mass_pro/data_run/screens/home_screen/home_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/view/view_base.dart';
 import 'package:mass_pro/generated/l10n.dart';
 import 'package:mass_pro/main/usescases/login/login_presenter.dart';
@@ -311,7 +311,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
     } else {
       ref
           .read(appStateNotifierProvider.notifier)
-          .gotToNextScreenPopAll(DashboardScreenWidget());
+          .gotToNextScreenPopAll(HomeScreenWidget());
     }
   }
 

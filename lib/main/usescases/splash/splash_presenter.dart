@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/commons/prefs/preference.dart';
 import 'package:mass_pro/commons/prefs/preference_provider.dart';
-import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen.widget.dart';
+import 'package:mass_pro/data_run/screens/home_screen/home_screen.widget.dart';
 import 'package:mass_pro/main/data/server/user_manager.dart';
 import 'package:mass_pro/main/data/server/user_manager_impl.dart';
 import 'package:mass_pro/main/usescases/login/login_screen.widget.dart';
@@ -91,7 +91,7 @@ class SplashPresenter {
       required bool initialSyncDone,
       required bool initialDataSyncDone}) {
     if (isUserLogged && initialSyncDone && !sessionLocked) {
-      Get.offNamed(DashboardScreenWidget.route);
+      Get.offNamed(HomeScreenWidget.route);
     } else if (isUserLogged && !initialSyncDone) {
       Get.off(const SyncScreen());
     } else {

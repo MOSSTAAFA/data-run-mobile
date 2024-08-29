@@ -140,5 +140,6 @@
   "fullName": "الاسم الكامل",
   "firstName": "الاسم الأول",
   "middleName": "الاسم الأوسط",
-  "lastName": "اللقب"
+  "lastName": "اللقب",
+  "home": "الرئيسة"
 }

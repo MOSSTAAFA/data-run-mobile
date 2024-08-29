@@ -7,30 +7,30 @@ import 'package:flutter/material.dart';
 import 'package:mass_pro/commons/resources/resource_manager.dart';
 import 'package:mass_pro/commons/ui/metadata_icon_data.dart';
 import 'package:mass_pro/core/common/state.dart';
-import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_item.model.dart';
+import 'package:mass_pro/data_run/screens/home_screen/home_deck/home_item.model.dart';
 import 'package:mass_pro/data_run/utils/activities_access_repository.dart';
 import 'package:mass_pro/main/data/service/sync_status_controller.dart';
 import 'package:mass_pro/main/data/service/sync_status_data.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'dashboard_items_models_notifier.g.dart';
+part 'home_items_models_notifier.g.dart';
 
 @riverpod
-DashboardItemModel dashboardItemModel(DashboardItemModelRef ref) {
+HomeItemModel homeItemModel(HomeItemModelRef ref) {
   throw UnimplementedError();
 }
 
 @riverpod
-class DashboardItemsModelsNotifier extends _$DashboardItemsModelsNotifier {
+class HomeItemsModelsNotifier extends _$HomeItemsModelsNotifier {
   @override
-  Future<IList<DashboardItemModel>> build() async {
+  Future<IList<HomeItemModel>> build() async {
     final syncStatusData = ref.watch(syncStatusControllerInstanceProvider
         .select((value) => value.syncStatusData));
 
     final IList<DProject> projects =
         await ref.watch(activitiesAccessRepositoryProvider).getActiveProjects();
 
-    IList<DashboardItemModel> programModles = IList<DashboardItemModel>();
+    IList<HomeItemModel> programModles = IList<HomeItemModel>();
     for (final DProject project in projects) {
       final SyncStatus state = SyncStatus.SYNCED;
       // await ref.read(projectUtilsProvider).getProjectState(project);
@@ -38,7 +38,7 @@ class DashboardItemsModelsNotifier extends _$DashboardItemsModelsNotifier {
       // final count =
       //     await ref.read(projectUtilsProvider).getActivitiesCount(project);
 
-      final DashboardItemModel programModel = DashboardItemModel(
+      final HomeItemModel programModel = HomeItemModel(
           uid: project.uid!,
           title: project.name!,
           metadataIconData: MetadataIconData(
@@ -70,12 +70,12 @@ class DashboardItemsModelsNotifier extends _$DashboardItemsModelsNotifier {
             p1.title.toLowerCase().compareTo(p2.title.toLowerCase()));
   }
 
-  IList<DashboardItemModel> applyFilters(IList<DashboardItemModel> models) {
+  IList<HomeItemModel> applyFilters(IList<HomeItemModel> models) {
     return models;
   }
 
-  IList<DashboardItemModel> applySync(
-      IList<DashboardItemModel> models, SyncStatusData syncStatusData) {
+  IList<HomeItemModel> applySync(
+      IList<HomeItemModel> models, SyncStatusData syncStatusData) {
     return models;
   }
 }

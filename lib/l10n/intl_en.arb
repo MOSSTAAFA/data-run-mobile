@@ -179,5 +179,6 @@
   "fullName": "Full Name",
   "firstName": "First Name",
   "middleName": "Middle Name",
-  "lastName": "Last Name"
+  "lastName": "Last Name",
+  "home": "Home"
 }

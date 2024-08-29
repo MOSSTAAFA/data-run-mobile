@@ -1,7 +1,7 @@
 // import 'package:auto_route/auto_route.dart';
 // import 'package:flutter/material.dart';
-// import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_deck.widget.dart';
-// import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen.widget.dart';
+// import 'package:mass_pro/data_run/screens/home_screen/home_deck/home_deck.widget.dart';
+// import 'package:mass_pro/data_run/screens/home_screen/home_screen.widget.dart';
 // import 'package:mass_pro/data_run/screens/project_details/project_detail_screen.widget.dart';
 //
 // part 'app_router.gr.dart';

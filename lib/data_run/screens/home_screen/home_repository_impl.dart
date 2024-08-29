@@ -1,16 +1,16 @@
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/auth/user/entities/d_user.entity.dart';
-import 'package:mass_pro/data_run/screens/dashboard/dashboard_repository.dart';
+import 'package:mass_pro/data_run/screens/home_screen/home_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'dashboard_repository_impl.g.dart';
+part 'home_repository_impl.g.dart';
 
 @Riverpod(keepAlive: true)
-DashboardRepository dashboardRepository(DashboardRepositoryRef ref) {
-  return DashboardRepositoryImpl();
+HomeRepository homeRepository(HomeRepositoryRef ref) {
+  return HomeRepositoryImpl();
 }
 
-class DashboardRepositoryImpl implements DashboardRepository {
+class HomeRepositoryImpl implements HomeRepository {
   @override
   Future<DUser?> user() async {
     return D2Remote.userModule.user.getOne();

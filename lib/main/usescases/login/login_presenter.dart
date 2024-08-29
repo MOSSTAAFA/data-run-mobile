@@ -7,7 +7,7 @@ import 'package:mass_pro/commons/prefs/preference.dart';
 import 'package:mass_pro/commons/prefs/preference_provider.dart';
 import 'package:mass_pro/commons/state/app_state_notifier.dart';
 import 'package:mass_pro/data_run/errors_management/error_management.dart';
-import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen.widget.dart';
+import 'package:mass_pro/data_run/screens/home_screen/home_screen.widget.dart';
 import 'package:mass_pro/main/data/server/user_manager.dart';
 import 'package:mass_pro/main/data/server/user_manager_impl.dart';
 import 'package:mass_pro/main/usescases/login/login_view.dart';
@@ -81,7 +81,7 @@ class LoginScreenPresenter {
         if (isUserLoggedIn && !isSessionLocked) {
           ref
               .read(appStateNotifierProvider.notifier)
-              .gotToNextScreenPopAll(DashboardScreenWidget());
+              .gotToNextScreenPopAll(HomeScreenWidget());
         } else if (isSessionLocked) {
           view.showUnlockButton();
         }

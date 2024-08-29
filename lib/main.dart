@@ -7,7 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:mass_pro/commons/prefs/preference_provider.dart';
-import 'package:mass_pro/data_run/screens/dashboard/dashboard_screen.widget.dart';
+import 'package:mass_pro/data_run/screens/home_screen/home_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/project_activity_detail/project_detail_screen.widget.dart';
 import 'package:mass_pro/generated/l10n.dart';
 import 'package:mass_pro/main/usescases/splash/splash_presenter.dart';
@@ -130,8 +130,8 @@ class App extends ConsumerWidget {
           transition: Transition.fade,
         ),
         GetPage(
-          name: DashboardScreenWidget.route,
-          page: () => const DashboardScreenWidget(),
+          name: HomeScreenWidget.route,
+          page: () => const HomeScreenWidget(),
           transition: Transition.fade,
         ),
         GetPage(
