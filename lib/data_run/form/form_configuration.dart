@@ -17,12 +17,6 @@ part 'form_configuration.g.dart';
 @riverpod
 Future<FormConfiguration> formConfiguration(FormConfigurationRef ref,
     {required String form, int? formVersion}) async {
-  // final Bundle? eventBundle = Get.arguments;
-  // final String? submissionUid = eventBundle?.getString(SYNCABLE_UID);
-
-  // final formVersion = await ref
-  //     .watch(formVersionProvider(form, submissionUid: submissionUid).future);
-
   final currentForm = await D2Remote.formModule.form.byId(form).getOne();
 
   if (currentForm == null) {
@@ -47,19 +41,29 @@ Future<FormConfiguration> formConfiguration(FormConfigurationRef ref,
     orgUnits = orgUnits.where((o) => assigned.contains(o));
   }
 
+  final fields = formDefinition?.fields
+      ?.where((field) => !ValueType.getValueType(field.type).isSection)
+      .toList();
+
+  final sections = formDefinition?.fields
+      ?.where((field) => ValueType.getValueType(field.type).isSection)
+      .toList();
+
   return FormConfiguration(
       form: form,
       label: getItemLocalString(formDefinition?.label,
           defaultString: currentForm.name),
       version: selectedFormVersion,
-      fields: formDefinition?.fields,
+      sections: sections,
+      fields: fields,
       options: formDefinition?.options,
       orgUnits: orgUnits.toList());
 }
 
 class FormConfiguration {
   FormConfiguration(
-      {List<DynamicFormField>? fields,
+      {List<DynamicFormField>? sections,
+      List<DynamicFormField>? fields,
       List<FormOption>? options,
       required this.form,
       required this.label,
@@ -70,9 +74,15 @@ class FormConfiguration {
                 fields ?? [],
                 keyMapper: (DynamicFormField field) => field.name,
                 valueMapper: (DynamicFormField field) => field),
+        this.sections =
+            IMap.fromIterable<String, DynamicFormField, DynamicFormField>(
+                sections ?? [],
+                keyMapper: (DynamicFormField section) => section.name,
+                valueMapper: (DynamicFormField section) => section),
         this.optionLists =
             IMap.fromIterable<String, IList<FormOption>, FormOption>(
-                options ?? [],
+                (options ?? [])
+                  ..sort((p1, p2) => p1.sortOrder.compareTo(p2.sortOrder)),
                 keyMapper: (FormOption option) => option.listName,
                 valueMapper: (FormOption option) =>
                     options
@@ -94,6 +104,9 @@ class FormConfiguration {
 
   /// {field.name: field}
   final IMap<String, DynamicFormField> allFields;
+
+  /// {field.name: field}
+  final IMap<String, DynamicFormField> sections;
 
   /// {listName: List<option>}
   final IMap<String, IList<FormOption>> optionLists;

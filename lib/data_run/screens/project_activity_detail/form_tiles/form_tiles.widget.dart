@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/data_run/screens/project_activity_detail/model/project_detail_item.model.dart';
 import 'package:mass_pro/data_run/screens/project_activity_detail/model/project_detail_items_models_notifier.dart';
-import 'package:mass_pro/data_run/screens/shared_widgets/get_error_widget.dart';
+import 'package:mass_pro/data_run/screens/form_ui_elements/get_error_widget.dart';
 import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
 import 'package:mass_pro/generated/l10n.dart';
 
@@ -53,7 +53,7 @@ class FormsTiles extends ConsumerWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
-                                    getItemLocalString(t.form.label),
+                                    getItemLocalString(t.form.label, defaultString: t.form.name),
                                     style: const TextStyle(
                                         fontWeight: FontWeight.bold),
                                   ),

@@ -4,8 +4,8 @@ import 'package:d2_remote/modules/metadatarun/teams/entities/d_team.entity.dart'
 import 'package:equatable/equatable.dart';
 import 'package:mass_pro/commons/ui/metadata_icon_data.dart';
 import 'package:mass_pro/core/common/state.dart';
-import 'package:mass_pro/data_run/screens/submission_form/model/q_field.model.dart';
-import 'package:mass_pro/data_run/screens/submission_list/model/submission_status_count.model.dart';
+import 'package:mass_pro/data_run/screens/form/model/q_field.model.dart';
+import 'package:mass_pro/data_run/screens/form_submission_list/model/submission_status_count.model.dart';
 
 class FormListItemModel with EquatableMixin {
   FormListItemModel({

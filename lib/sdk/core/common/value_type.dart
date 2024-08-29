@@ -2,6 +2,8 @@ import 'package:mass_pro/sdk/core/common/exception/validation_exception.dart';
 import 'package:mass_pro/sdk/core/common/value_type/validators/validators.dart';
 
 enum ValueType {
+  Section(TextValidator()),
+  RepeatableSection(TextValidator()),
   Text(TextValidator()),
   LongText(LongTextValidator()),
   Letter(LetterValidator()),
@@ -58,6 +60,11 @@ enum ValueType {
         Percentage
       ];
 
+  static List<ValueType> get SECTION_TYPES => <ValueType>[
+    Section,
+    RepeatableSection
+  ];
+
   static List<ValueType> get WITH_OPTIONS_TYPES =>
       <ValueType>[SelectOne, SelectMulti];
 
@@ -71,6 +78,8 @@ enum ValueType {
   static List<ValueType> get FILE_TYPES => <ValueType>[Image, FileResource];
 
   bool get isInteger => INTEGER_TYPES.contains(this);
+
+  bool get isSection => SECTION_TYPES.contains(this);
 
   bool get isWithOptions => WITH_OPTIONS_TYPES.contains(this);
 
@@ -92,6 +101,10 @@ enum ValueType {
 
   static ValueType getValueType(String? valueType) {
     switch (valueType?.toLowerCase()) {
+      case 'section':
+        return ValueType.Section;
+      case 'repeatablesection':
+        return ValueType.RepeatableSection;
       case 'text':
         return ValueType.Text;
       case 'longtext':

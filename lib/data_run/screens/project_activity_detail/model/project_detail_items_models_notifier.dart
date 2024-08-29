@@ -12,7 +12,7 @@ import 'package:get/get.dart';
 import 'package:mass_pro/commons/resources/resource_manager.dart';
 import 'package:mass_pro/commons/ui/metadata_icon_data.dart';
 import 'package:mass_pro/data_run/screens/project_activity_detail/model/project_detail_item.model.dart';
-import 'package:mass_pro/data_run/screens/submission_list/model/submission_list.provider.dart';
+import 'package:mass_pro/data_run/screens/form_submission_list/model/submission_list.provider.dart';
 import 'package:mass_pro/data_run/utils/activities_access_repository.dart';
 import 'package:mass_pro/data_run/utils/screens_constants.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
@@ -90,12 +90,12 @@ ProjectDetailItemModel projectDetailItemModel(ProjectDetailItemModelRef ref) {
 @riverpod
 Future<IList<FormListItemModel>> formListItemModels(FormListItemModelsRef ref,
     {required String activity, required String team}) async {
-  final formDefinitions = await ref
+  final formInstances = await ref
       .watch(activityFormsDefinitionsProvider(activity: activity).future);
 
   IList<FormListItemModel> formListItemModels = IList(<FormListItemModel>[]);
 
-  for (final form in formDefinitions) {
+  for (final form in formInstances) {
     formListItemModels = formListItemModels.add(FormListItemModel(
         form: form!,
         team: team,

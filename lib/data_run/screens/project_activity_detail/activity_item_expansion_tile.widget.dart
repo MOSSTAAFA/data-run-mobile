@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:mass_pro/commons/constants.dart';
-import 'package:mass_pro/data_run/screens/submission_list/submission_list_screen.widget.dart';
-import 'package:mass_pro/data_run/screens/submission_list/submission_creation_dialog.widget.dart';
+import 'package:mass_pro/data_run/screens/form_submission_list/submission_list_screen.widget.dart';
+import 'package:mass_pro/data_run/screens/form_submission_list/submission_creation_dialog.widget.dart';
 import 'package:mass_pro/data_run/screens/project_activity_detail/form_tiles/form_tiles.widget.dart';
 import 'package:mass_pro/data_run/screens/project_activity_detail/model/project_detail_item.model.dart';
 import 'package:mass_pro/data_run/screens/project_activity_detail/model/project_detail_items_models_notifier.dart';
-import 'package:mass_pro/data_run/screens/submission_screen/submission_tab_screen.widget.dart';
+import 'package:mass_pro/data_run/screens/form_submission_screen/submission_tab_screen.widget.dart';
 import 'package:mass_pro/generated/l10n.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 

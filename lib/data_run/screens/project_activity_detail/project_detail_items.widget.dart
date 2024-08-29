@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/data_run/screens/project_activity_detail/activity_item_expansion_tile.widget.dart';
 import 'package:mass_pro/data_run/screens/project_activity_detail/model/project_detail_item.model.dart';
 import 'package:mass_pro/data_run/screens/project_activity_detail/model/project_detail_items_models_notifier.dart';
-import 'package:mass_pro/data_run/screens/shared_widgets/get_error_widget.dart';
+import 'package:mass_pro/data_run/screens/form_ui_elements/get_error_widget.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class ProjectDetailItemsWidget extends ConsumerStatefulWidget {

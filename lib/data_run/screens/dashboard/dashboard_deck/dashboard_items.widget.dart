@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_item.model.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_item.widget.dart';
 import 'package:mass_pro/data_run/screens/dashboard/dashboard_deck/dashboard_items_models_notifier.dart';
-import 'package:mass_pro/data_run/screens/shared_widgets/get_error_widget.dart';
+import 'package:mass_pro/data_run/screens/form_ui_elements/get_error_widget.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class DashboardItemsWidget extends ConsumerStatefulWidget {

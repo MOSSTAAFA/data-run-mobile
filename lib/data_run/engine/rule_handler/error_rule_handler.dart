@@ -1,6 +1,6 @@
 import 'package:mass_pro/data_run/engine/rule_handler/expression_evaluator_util.dart';
 import 'package:mass_pro/data_run/engine/rule_handler/field_rule_handler.dart';
-import 'package:mass_pro/data_run/screens/submission_form/model/q_field.model.dart';
+import 'package:mass_pro/data_run/screens/form/model/q_field.model.dart';
 
 class ErrorRuleHandler extends FormRuleHandler {
   FormRuleHandler? nextHandler;

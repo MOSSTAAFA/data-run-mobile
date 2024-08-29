@@ -1,7 +1,7 @@
 import 'package:mass_pro/data_run/engine/rule_handler/error_rule_handler.dart';
 import 'package:mass_pro/data_run/engine/rule_handler/visibility_rule_handler.dart';
 import 'package:mass_pro/data_run/engine/rule_handler/warning_rule_handler.dart';
-import 'package:mass_pro/data_run/screens/submission_form/model/q_field.model.dart';
+import 'package:mass_pro/data_run/screens/form/model/q_field.model.dart';
 
 /// Chain of handler
 abstract class FormRuleHandler {

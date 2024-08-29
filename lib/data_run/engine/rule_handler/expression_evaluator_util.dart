@@ -1,5 +1,5 @@
 import 'package:expressions/expressions.dart';
-import 'package:mass_pro/data_run/screens/submission_form/model/q_field.model.dart';
+import 'package:mass_pro/data_run/screens/form/model/q_field.model.dart';
 
 class ExpressionEvaluatorUtil {
   final ExpressionEvaluator _evaluator = ExpressionEvaluator();
