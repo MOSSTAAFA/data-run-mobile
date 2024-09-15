@@ -1,27 +1,29 @@
 import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
-import 'package:flutter/foundation.dart';
+import 'package:dartx/dartx.dart';
+import 'package:mass_pro/data_run/form_reactive/form_element/form_control_factory.dart';
 import 'package:mass_pro/data_run/form_reactive/form_element/form_element_exception.dart';
+import 'package:mass_pro/data_run/form_reactive/form_element/form_element_factory.dart';
 import 'package:mass_pro/data_run/form_reactive/form_element/form_element_members.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
-/// A FormElement can generically be
-/// [FieldInstance], [SectionInstance], or [RepeatSection]
-///
-/// which will make representing Tree of Form elements easier,
-/// for example a section can have other sections or fields or both as children
 sealed class FormElementInstance<T> with ElementAttributesMixin {
+  final FieldTemplate template;
+
   FormElementInstance(
       {required this.name,
       required this.type,
       required this.form,
       this.parentSection,
+      this.path,
+      required this.template,
       T? value,
       ElementProperties? properties})
       : _value = value,
         _properties = properties ?? ElementProperties();
 
+  final String? path;
   final FormGroup form;
   final String name;
   final ValueType type;
@@ -56,7 +58,8 @@ sealed class FormElementInstance<T> with ElementAttributesMixin {
     }
   }
 
-  void updateValueAndValidity({bool updateParent = true}) {
+  void updateValueAndValidity(
+      {bool updateParent = true, bool emitEvent = true}) {
     _setInitialStatus();
     _updateValue();
 
@@ -76,17 +79,18 @@ sealed class FormElementInstance<T> with ElementAttributesMixin {
 
   T? reduceValue();
 
-  void updateValue(T? value, {bool updateParent = true});
+  void updateValue(T? value, {bool updateParent = true, bool emitEvent = true});
 
-  void patchValue(T? value, {bool updateParent = true});
+  void patchValue(T? value, {bool updateParent = true, bool emitEvent = true});
 
   void reset({
     T? value,
     bool? disabled,
     bool? hidden,
     bool updateParent = true,
+    bool emitEvent = true,
   }) {
-    updateValue(value, updateParent: updateParent);
+    updateValue(value, updateParent: updateParent, emitEvent: emitEvent);
     if (disabled != null) {
       disabled
           ? markAsDisabled(updateParent: true)
@@ -99,7 +103,7 @@ sealed class FormElementInstance<T> with ElementAttributesMixin {
     }
   }
 
-  void markAsEnabled({bool updateParent = true}) {
+  void markAsEnabled({bool updateParent = true, bool emitEvent = true}) {
     if (enabled) {
       return;
     }
@@ -107,7 +111,7 @@ sealed class FormElementInstance<T> with ElementAttributesMixin {
     _updateAncestors(updateParent);
   }
 
-  void markAsDisabled({bool updateParent = true}) {
+  void markAsDisabled({bool updateParent = true, bool emitEvent = true}) {
     if (disabled) {
       return;
     }
@@ -115,7 +119,7 @@ sealed class FormElementInstance<T> with ElementAttributesMixin {
     _updateAncestors(updateParent);
   }
 
-  void markAsHidden({bool updateParent = true}) {
+  void markAsHidden({bool updateParent = true, bool emitEvent = true}) {
     if (hidden) {
       return;
     }
@@ -123,7 +127,7 @@ sealed class FormElementInstance<T> with ElementAttributesMixin {
     _updateAncestors(updateParent);
   }
 
-  void markAsVisible({bool updateParent = true}) {
+  void markAsVisible({bool updateParent = true, bool emitEvent = true}) {
     if (visible) {
       return;
     }
@@ -131,9 +135,14 @@ sealed class FormElementInstance<T> with ElementAttributesMixin {
     _updateAncestors(updateParent);
   }
 
-  String get path {
-    return parentSection != null ? '${parentSection!.path}.${name}' : name;
+  String get pathRecursive {
+    return parentSection != null
+        ? '${parentSection!.pathRecursive}.${name}'
+        : name;
   }
+
+  String pathBuilder(String? pathItem) =>
+      [path, pathItem].whereType<String>().join('.');
 
   @protected
   bool anyElements(
@@ -158,6 +167,12 @@ sealed class FormElementInstance<T> with ElementAttributesMixin {
     });
     return flatMap;
   }
+
+  void dispose() {
+    // _statusChanges.close();
+    // _valueChanges.close();
+    // _asyncValidationSubscription?.cancel();
+  }
 }
 
 class FieldInstance<T> extends FormElementInstance<T> {
@@ -167,10 +182,12 @@ class FieldInstance<T> extends FormElementInstance<T> {
       super.properties,
       super.parentSection,
       required super.form,
+      required super.template,
       T? value,
       this.defaultValue,
       this.listName,
       this.choiceFilter,
+      super.path,
       List<FormOption> options = const []}) {
     /*if (value != null)*/ this._value = value;
   }
@@ -181,16 +198,17 @@ class FieldInstance<T> extends FormElementInstance<T> {
   final List<OptionConfig> options = [];
 
   @override
-  void updateValue(T? value, {bool updateParent = true}) {
+  void updateValue(T? value,
+      {bool updateParent = true, bool emitEvent = true}) {
     if (_value != value) {
       _value = value;
-      updateValueAndValidity(updateParent: updateParent);
+      updateValueAndValidity(updateParent: updateParent, emitEvent: emitEvent);
     }
   }
 
   @override
-  void patchValue(T? value, {bool updateParent = true}) {
-    updateValue(value, updateParent: updateParent);
+  void patchValue(T? value, {bool updateParent = true, bool emitEvent = true}) {
+    updateValue(value, updateParent: updateParent, emitEvent: emitEvent);
   }
 
   @override
@@ -208,26 +226,51 @@ class FieldInstance<T> extends FormElementInstance<T> {
   void forEachChild(
           void Function(FormElementInstance<dynamic> element) callback) =>
       <FormElementInstance<dynamic>>[];
+
+  @override
+  void dispose() {
+    // _focusChanges.close();
+    super.dispose();
+  }
+
+  void get fieldFocus => form.focus(fieldControlPath());
+
+  String fieldControlPath() => pathBuilder(name);
+
+  /// stockItemsControl
+  FormControl<T> get fieldControl =>
+      form.control(fieldControlPath()) as FormControl<T>;
+
+  void updateFieldValue(
+    FieldInstance<T> value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    updateValue(value.value, updateParent: updateParent, emitEvent: emitEvent);
+
+    fieldControl.updateValue(
+      value.value,
+      updateParent: updateParent,
+      emitEvent: emitEvent,
+    );
+  }
 }
 
 /// SectionElement is a Form Element representing the
 /// father of either a [SectionInstance] element or a [RepeatSection] element
 sealed class SectionElement<T> extends FormElementInstance<T> {
-  final SectionInstance? _sectionTemplate;
-
   SectionElement({
     required super.name,
     required super.type,
+    required super.template,
+    required super.properties,
     super.value,
     super.parentSection,
-    SectionInstance? sectionTemplate,
-    required super.properties,
+    super.path,
     required super.form,
-  }) : _sectionTemplate = sectionTemplate;
+  });
 
   FormElementInstance<dynamic> element(String name);
-
-  SectionInstance? get sectionTemplate => _sectionTemplate;
 
   /// Checks if [SectionElement] contains an element by a given [name].
   ///
@@ -265,8 +308,10 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
     required super.name,
     required super.type,
     required super.properties,
+    super.parentSection,
+    required super.template,
     required super.form,
-    super.sectionTemplate,
+    super.path,
     Map<String, FormElementInstance<dynamic>> elements = const {},
   }) : assert(!elements.keys.any((name) => name.contains('.')),
             'element name should not contain dot(.)') {
@@ -280,68 +325,19 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
     }
   }
 
-  String get path {
+  String get pathRecursive {
     String? parentPath;
 
     if (parentSection != null) {
-      parentPath = '${parentSection!.path}';
+      parentPath = '${parentSection!.pathRecursive}';
       if (parentSection is RepeatSectionInstance) {
         int sectionIndex = (parentSection as RepeatSectionInstance)
             .sectionIndexWhere((section) => section.name == this.name);
         return '${parentPath}.$sectionIndex';
       }
-      return '${parentSection!.path}.${name}';
+      return '${parentSection!.pathRecursive}.${name}';
     }
     return name;
-  }
-
-  void removeChildControl(
-    String controlName, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (contains(controlName)) {
-      final controlPath = path;
-      final formGroup = form.control(controlPath);
-
-      if (formGroup is FormGroup) {
-        formGroup.removeControl(
-          controlName,
-          updateParent: updateParent,
-          emitEvent: emitEvent,
-        );
-      } else {
-        form.removeControl(
-          controlName,
-          updateParent: updateParent,
-          emitEvent: emitEvent,
-        );
-      }
-    }
-  }
-
-  void UpdateChildControlValue(String name,
-      dynamic value, {
-        bool updateParent = true,
-        bool emitEvent = true,
-      }) {
-
-    final controlPath = path;
-    final formControl = form.control(controlPath);
-
-    if (formControl is FormGroup) {
-      formControl.updateValue(
-        value as Map<String, Object?>?,
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    } else {
-      formControl.updateValue(
-        value as String?,
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    }
   }
 
   @override
@@ -361,35 +357,35 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
   }
 
   @override
-  void markAsDisabled({bool updateParent = true}) {
+  void markAsDisabled({bool updateParent = true, bool emitEvent = true}) {
     _elements.forEach((_, element) {
       element.markAsDisabled(updateParent: true);
     });
-    super.markAsDisabled(updateParent: updateParent);
+    super.markAsDisabled(updateParent: updateParent, emitEvent: emitEvent);
   }
 
   @override
-  void markAsEnabled({bool updateParent = true}) {
+  void markAsEnabled({bool updateParent = true, bool emitEvent = true}) {
     _elements.forEach((_, element) {
       element.markAsEnabled(updateParent: true);
     });
-    super.markAsEnabled(updateParent: updateParent);
+    super.markAsEnabled(updateParent: updateParent, emitEvent: emitEvent);
   }
 
   @override
-  void markAsHidden({bool updateParent = true}) {
+  void markAsHidden({bool updateParent = true, bool emitEvent = true}) {
     _elements.forEach((_, element) {
       element.markAsHidden(updateParent: true);
     });
-    super.markAsHidden(updateParent: updateParent);
+    super.markAsHidden(updateParent: updateParent, emitEvent: emitEvent);
   }
 
   @override
-  void markAsVisible({bool updateParent = true}) {
+  void markAsVisible({bool updateParent = true, bool emitEvent = true}) {
     _elements.forEach((_, element) {
       element.markAsVisible();
     });
-    super.markAsVisible(updateParent: updateParent);
+    super.markAsVisible(updateParent: updateParent, emitEvent: emitEvent);
   }
 
   /// Appends all [elements] to the group.
@@ -399,6 +395,9 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
       element.parentSection = this;
     });
     updateValueAndValidity();
+    // updateTouched();
+    // updatePristine();
+    // emitsCollectionChanged(_controls.values.toList());
   }
 
   /// Retrieves a child element given the element's [name] or path.
@@ -474,14 +473,34 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
       });
 
   @override
-  void patchValue(Map<String, Object?>? value, {bool updateParent = true}) {
+  void updateValue(Map<String, Object?>? value,
+      {bool updateParent = true, bool emitEvent = true}) {
+    value ??= {};
+
+    for (final key in _elements.keys) {
+      _elements[key]!.updateValue(
+        value[key],
+        updateParent: false,
+        emitEvent: emitEvent,
+      );
+    }
+    updateValueAndValidity(updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  @override
+  void patchValue(Map<String, Object?>? value,
+      {bool updateParent = true, bool emitEvent = true}) {
     value?.forEach((name, value) {
       if (_elements.containsKey(name)) {
-        _elements[name]!.patchValue(value, updateParent: false);
+        _elements[name]!.patchValue(
+          value,
+          updateParent: false,
+          emitEvent: emitEvent,
+        );
       }
     });
 
-    updateValueAndValidity(updateParent: updateParent);
+    updateValueAndValidity(updateParent: updateParent, emitEvent: emitEvent);
   }
 
   @override
@@ -504,24 +523,14 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
     return _elements.values.every((element) => element.disabled);
   }
 
-  @override
-  void updateValue(Map<String, Object?>? value, {bool updateParent = true}) {
-    value ??= {};
-
-    for (final key in _elements.keys) {
-      _elements[key]!.updateValue(value[key], updateParent: false);
-    }
-
-    updateValueAndValidity(updateParent: updateParent);
-  }
-
-  void removeElement(String name, {bool updateParent = true}) {
+  void removeElement(String name,
+      {bool updateParent = true, bool emitEvent = true}) {
     if (!_elements.containsKey(name)) {
       throw FormElementNotFoundException(elementName: name);
     }
 
     _elements.removeWhere((key, value) => key == name);
-    updateValueAndValidity(updateParent: updateParent);
+    updateValueAndValidity(updateParent: updateParent, emitEvent: emitEvent);
   }
 
   @override
@@ -540,20 +549,70 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
       void Function(FormElementInstance<dynamic> element) callback) {
     _elements.forEach((name, element) => callback(element));
   }
+
+  @override
+  void dispose() {
+    forEachChild((element) {
+      element.parentSection = null;
+      // element.dispose();
+    });
+    // closeCollectionEvents();
+    super.dispose();
+  }
+
+  AbstractControl<dynamic> get currentForm {
+    return path == null ? form : form.control(path!);
+  }
+
+  void addElement(FormElementInstance<dynamic> element) {
+    addAll({element.name: element});
+    sectionControl.addAll({
+      element.name: FromElementControlFactory.createElementControl(element)
+    });
+  }
+
+  void addElements(Map<String, FormElementInstance<dynamic>> elements) {
+    elements.mapValues((e) => addElement(e.value));
+  }
+
+  void get sectionFocus => form.focus(sectionControlPath());
+
+  String sectionControlPath() => pathBuilder(name);
+
+  /// stockItemsControl
+  FormGroup get sectionControl =>
+      form.control(sectionControlPath()) as FormGroup;
+
+  void updateSectionValue(
+    SectionInstance value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    updateValue(value.rawValue,
+        updateParent: updateParent, emitEvent: emitEvent);
+
+    sectionControl.updateValue(
+      value.rawValue,
+      updateParent: updateParent,
+      emitEvent: emitEvent,
+    );
+  }
 }
 
 class RepeatSectionInstance
     extends SectionElement<List<Map<String, Object?>?>> {
-  final List<SectionInstance> _elements = [];
+  // final List<SectionInstance> _elements = [];
+  final List<FormElementInstance<Map<String, Object?>?>> _elements = [];
 
   RepeatSectionInstance(
       {required super.name,
       required super.type,
-      super.parentSection,
-      super.sectionTemplate,
-      required super.form,
       ElementProperties? properties,
-      List<SectionInstance> elements = const []})
+      required super.template,
+      required super.form,
+      super.path,
+      super.parentSection,
+      List<FormElementInstance<Map<String, Object?>?>> elements = const []})
       : super(properties: properties) {
     this._elements.addAll(elements);
     addAll(elements);
@@ -568,20 +627,25 @@ class RepeatSectionInstance
   }
 
   /// Gets the list of child elements.
-  List<SectionInstance> get elements =>
-      List<SectionInstance>.unmodifiable(_elements);
+  List<FormElementInstance<Map<String, Object?>?>> get elements =>
+      List.unmodifiable(_elements);
 
   @override
   List<Map<String, Object?>?> get rawValue =>
-      _elements.map<Map<String, Object?>?>((element) {
-        return element.rawValue;
+      _elements.map<Map<String, Object?>?>((control) {
+        if (control is FormControlCollection<Map<String, Object?>?>) {
+          return (control as FormControlCollection<Map<String, Object?>?>)
+              .rawValue;
+        }
+
+        return control.value;
       }).toList();
 
   @override
   List<Map<String, Object?>?>? reduceValue() {
     return _elements
-        .where((element) => element.enabled || disabled)
-        .map((element) => element.value)
+        .where((control) => control.enabled || disabled)
+        .map((control) => control.value)
         .toList();
   }
 
@@ -599,98 +663,122 @@ class RepeatSectionInstance
   }
 
   @override
-  void markAsDisabled({bool updateParent = true}) {
+  void markAsDisabled({bool updateParent = true, bool emitEvent = true}) {
     for (final element in _elements) {
       element.markAsDisabled(updateParent: true);
     }
-    super.markAsDisabled(updateParent: updateParent);
+    super.markAsDisabled(updateParent: updateParent, emitEvent: emitEvent);
   }
 
   @override
-  void markAsEnabled({bool updateParent = true}) {
+  void markAsEnabled({bool updateParent = true, bool emitEvent = true}) {
     forEachChild((element) {
       element.markAsEnabled(updateParent: true);
     });
-    super.markAsEnabled(updateParent: updateParent);
+    super.markAsEnabled(updateParent: updateParent, emitEvent: emitEvent);
   }
 
   @override
-  void markAsHidden({bool updateParent = true}) {
+  void markAsHidden({bool updateParent = true, bool emitEvent = true}) {
     for (final element in _elements) {
       element.markAsHidden(updateParent: true);
     }
-    super.markAsHidden(updateParent: updateParent);
+    super.markAsHidden(updateParent: updateParent, emitEvent: emitEvent);
   }
 
   @override
-  void markAsVisible({bool updateParent = true}) {
+  void markAsVisible({bool updateParent = true, bool emitEvent = true}) {
     forEachChild((element) {
       element.markAsVisible(updateParent: true);
     });
-    super.markAsVisible(updateParent: updateParent);
+    super.markAsVisible(updateParent: updateParent, emitEvent: emitEvent);
   }
 
-  void insert(int index, SectionInstance element,
-      {bool updateParent = true, bool emitEvent = true}) {
+  void insert(
+    int index,
+    FormElementInstance<Map<String, Object?>?> element, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
     _elements.insert(index, element);
     element.parentSection = this;
 
     updateValueAndValidity(
+      emitEvent: emitEvent,
       updateParent: updateParent,
     );
+
+    // if (emitEvent) {
+    //   emitsCollectionChanged(_controls);
+    // }
   }
 
   /// Insert a new [element] at the end of the RepeatSection.
-  void add(SectionInstance element, {bool updateParent = true}) {
-    addAll([element], updateParent: updateParent);
+  void add(FormElementInstance<Map<String, Object?>?> element,
+      {bool updateParent = true, bool emitEvent = true}) {
+    addAll([element], emitEvent: emitEvent, updateParent: updateParent);
   }
 
   /// Appends all [elements] to the end of the RepeatSection.
-  void addAll(List<SectionInstance> elements, {bool updateParent = true}) {
+  void addAll(List<FormElementInstance<Map<String, Object?>?>> elements,
+      {bool updateParent = true, bool emitEvent = true}) {
     _elements.addAll(elements);
     for (final element in elements) {
       element.parentSection = this;
     }
 
-    updateValueAndValidity(updateParent: updateParent);
+    updateValueAndValidity(
+      updateParent: updateParent,
+      emitEvent: emitEvent,
+    );
+    // emitsCollectionChanged(_controls);
   }
 
   /// Removes and returns the child element at the given [index].
-  SectionInstance removeAt(
+  void remove(
+    FormElementInstance<Map<String, Object?>?> element, {
+    bool emitEvent = true,
+    bool updateParent = true,
+  }) {
+    final index = _elements.indexOf(element);
+    if (index == -1) {
+      throw FormControlNotFoundException();
+    }
+    removeAt(index, emitEvent: emitEvent, updateParent: updateParent);
+  }
+
+  FormElementInstance<Map<String, Object?>?> removeAt(
     int index, {
+    bool emitEvent = true,
     bool updateParent = true,
   }) {
     final removedElement = _elements.removeAt(index);
     removedElement.parentSection = null;
     updateValueAndValidity(
+      emitEvent: emitEvent,
       updateParent: updateParent,
     );
+
+    // if (emitEvent) {
+    //   emitsCollectionChanged(_controls);
+    // }
 
     return removedElement;
   }
 
-  void remove(
-    SectionInstance element, {
-    bool updateParent = true,
-  }) {
-    final index = _elements.indexOf(element);
-    if (index == -1) {
-      throw FormElementNotFoundException();
-    }
-    removeAt(index, updateParent: updateParent);
-  }
-
   /// Removes all children elements from the repeatSection.
-  void clear({bool updateParent = true}) {
+  void clear({bool emitEvent = true, bool updateParent = true}) {
     forEachChild((element) => element.parentSection = null);
     _elements.clear();
     updateValueAndValidity(
+      emitEvent: emitEvent,
       updateParent: updateParent,
     );
-  }
 
-  @override
-  List<Map<String, Object?>> get value => List.unmodifiable(_value!);
+    // if (emitEvent) {
+    //   emitsCollectionChanged(_controls);
+    // }
+  }
 
   /// Checks if repeatSection contains a element by a given [name].
   /// The name here must be the string representation of the children index.
@@ -706,7 +794,8 @@ class RepeatSectionInstance
     return false;
   }
 
-  int sectionIndexWhere(bool test(SectionInstance section), [int start = 0]) {
+  int sectionIndexWhere(bool test(FormElementInstance<dynamic> section),
+      [int start = 0]) {
     return elements.indexWhere(test);
   }
 
@@ -714,9 +803,9 @@ class RepeatSectionInstance
   FormElementInstance<dynamic> element(String name) {
     final namePath = name.split('.');
     if (namePath.length > 1) {
-      final element = findElementInCollection(namePath);
-      if (element != null) {
-        return element;
+      final control = findElementInCollection(namePath);
+      if (control != null) {
+        return control;
       }
     } else {
       final index = int.tryParse(name);
@@ -726,6 +815,7 @@ class RepeatSectionInstance
         return _elements[index];
       }
     }
+
     throw FormElementNotFoundException(elementName: name);
   }
 
@@ -745,11 +835,18 @@ class RepeatSectionInstance
       _elements.forEach(callback);
 
   @override
-  void patchValue(List<Map<String, Object?>?>? value,
-      {bool updateParent = true}) {
+  void patchValue(
+    List<Map<String, Object?>?>? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
     for (var i = 0; i < _elements.length; i++) {
       if (value == null || i < value.length) {
-        _elements[i].updateValue(value?.elementAt(i), updateParent: false);
+        _elements[i].updateValue(
+          value?.elementAt(i),
+          updateParent: false,
+          emitEvent: emitEvent,
+        );
       }
     }
 
@@ -758,10 +855,14 @@ class RepeatSectionInstance
 
   @override
   void updateValue(List<Map<String, Object?>?>? value,
-      {bool updateParent = true}) {
+      {bool updateParent = true, bool emitEvent = true}) {
     for (var i = 0; i < _elements.length; i++) {
       if (value == null || i < value.length) {
-        _elements[i].updateValue(value?.elementAt(i), updateParent: false);
+        _elements[i].updateValue(
+          value?.elementAt(i),
+          updateParent: false,
+          emitEvent: emitEvent,
+        );
       }
     }
 
@@ -770,14 +871,11 @@ class RepeatSectionInstance
           .toList()
           .asMap()
           .entries
-          .where((entry) => entry.key >= _elements.length)
-          .map((MapEntry<int, Map<String, Object?>?> entry) => SectionInstance(
-              name: '',
-              form: form,
-              type: type,
-              elements: sectionTemplate?.elements ?? {},
-              properties: ElementProperties())
-            ..updateValue(entry.value, updateParent: false))
+          .where((MapEntry<int, Map<String, Object?>?> entry) =>
+              entry.key >= _elements.length)
+          .map((MapEntry<int, Map<String, Object?>?> entry) =>
+              FromElementFactory.createSectionInstance(form, template,
+                  savedValue: entry.value))
           .toList();
 
       addAll(
@@ -787,6 +885,220 @@ class RepeatSectionInstance
     } else {
       updateValueAndValidity(
         updateParent: updateParent,
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    forEachChild((element) {
+      element.parentSection = null;
+      element.dispose();
+    });
+    // closeCollectionEvents();
+    super.dispose();
+  }
+
+  AbstractControl<dynamic> get currentForm {
+    return path == null ? form : form.control(path!);
+  }
+
+  void get repeatSectionFocus => form.focus(repeatSectionControlPath());
+
+  String repeatSectionControlPath() => pathBuilder(name);
+
+  /// stockItemsControl
+  FormArray<Map<String, Object?>> get repeatSectionControl =>
+      form.control(repeatSectionControlPath())
+          as FormArray<Map<String, Object?>>;
+
+  /// stockItemsRepeatedStockItemForm
+  /// create the items list empty with length = count of items
+  // List<Map<String, Object?>?> get repeatSectionItems
+  List<SectionInstance> get repeatSectionItems {
+    final values = (repeatSectionControl.controls).map((e) => e.value).toList();
+
+    return values
+        .asMap()
+        .map((k, Map<String, Object?>? v) => MapEntry(
+            k,
+            SectionInstance(
+                form: form,
+                path: pathBuilder('stockItems.$k'),
+                name: '',
+                template: template,
+                type: ValueType.Section,
+                properties: ElementProperties())
+              ..value = v))
+        .values
+        .toList();
+  }
+
+  ExtendedControl<List<Map<String, Object?>?>, List<SectionInstance>>
+      get repeatSectionExtendedControl =>
+          ExtendedControl<List<Map<String, Object?>?>, List<SectionInstance>>(
+              form.control(repeatSectionControlPath())
+                  as FormArray<Map<String, Object?>>,
+              () => repeatSectionItems);
+
+  ///
+  void addRepeatSectionItem(SectionInstance value) {
+    add(value);
+    repeatSectionControl
+        .add(FromElementControlFactory.createSectionControl(value));
+  }
+
+  void addRepeatSectionItemList(List<SectionInstance> value) {
+    value.map((e) => addRepeatSectionItem(e));
+  }
+
+  void removeRepeatSectionItemAtIndex(int i) {
+    if ((repeatSectionControl.value ?? []).length > i) {
+      removeAt(i);
+      repeatSectionControl.removeAt(i);
+    }
+  }
+
+  void repeatSectionClear({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    // repeatedSectionItems.clear();
+    clear(updateParent: updateParent, emitEvent: emitEvent);
+    repeatSectionControl.clear(
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void updateRepeatSectionValue(
+    List<SectionInstance> value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    final List<SectionInstance> localValue = (value);
+    if (localValue.isEmpty) {
+      repeatSectionClear(updateParent: updateParent, emitEvent: emitEvent);
+      return;
+    }
+
+    final toUpdate = <SectionInstance>[];
+    final toAdd = <SectionInstance>[];
+
+    localValue.asMap().forEach((int k, SectionInstance v) {
+
+      final List<Map<String, Object?>?> controlValues =
+          (repeatSectionControl.controls).map((e) => e.value).toList();
+
+      if (repeatSectionItems.asMap().containsKey(k) &&
+          controlValues.asMap().containsKey(k)) {
+        toUpdate.add(v);
+      } else {
+        toAdd.add(v);
+      }
+    });
+
+    if (toUpdate.isNotEmpty) {
+      repeatSectionControl.updateValue(
+          toUpdate
+              .map((e) =>
+                  FromElementControlFactory.createSectionControl(e).rawValue)
+              .toList(),
+          updateParent: updateParent,
+          emitEvent: emitEvent);
+      updateValue(toUpdate.map((e) => e.rawValue).toList(),
+          updateParent: updateParent, emitEvent: emitEvent);
+    }
+
+    if (toAdd.isNotEmpty) {
+      toAdd.forEach((e) {
+        repeatSectionControl.add(
+            FromElementControlFactory.createSectionControl(e),
+            updateParent: updateParent,
+            emitEvent: emitEvent);
+        add(e);
+      });
+    }
+  }
+
+  void repeatSectionItemInsert(
+    int i,
+    SectionInstance value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    final List<Map<String, Object?>?> values =
+        (repeatSectionControl.controls).map((e) => e.value).toList();
+    if (values.length < i) {
+      addRepeatSectionItem(value);
+      return;
+    }
+
+    repeatSectionControl.insert(
+      i,
+      FromElementControlFactory.createSectionControl(value),
+      updateParent: updateParent,
+      emitEvent: emitEvent,
+    );
+  }
+
+  void repeatSectionValuePatch(
+    List<SectionInstance> value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    final keys = repeatSectionItems.asMap().keys;
+
+    final toPatch = <SectionInstance>[];
+    (value).asMap().forEach(
+      (k, v) {
+        if (keys.contains(k)) {
+          toPatch.add(v);
+        }
+      },
+    );
+
+    repeatSectionControl.patchValue(
+        toPatch
+            .map((e) =>
+                FromElementControlFactory.createSectionControl(e).rawValue)
+            .toList(),
+        updateParent: updateParent,
+        emitEvent: emitEvent);
+  }
+
+  void repeatSectionValueReset(
+    List<SectionInstance> value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      repeatSectionControl.reset(
+          value: value
+              .map((e) =>
+                  FromElementControlFactory.createSectionControl(e).rawValue)
+              .toList(),
+          updateParent: updateParent,
+          emitEvent: emitEvent);
+
+  void repeatSectionSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      markAsDisabled(updateParent: updateParent, emitEvent: emitEvent);
+      repeatSectionControl.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+      repeatSectionControl.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
       );
     }
   }
