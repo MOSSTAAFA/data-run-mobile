@@ -1,5 +1,5 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:mass_pro/sdk/core/common/value_type.dart';
+import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 
 import 'package:mass_pro/form/model/field_ui_model.dart';
 import 'package:mass_pro/form/model/row_action.dart';

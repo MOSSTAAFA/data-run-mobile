@@ -1,4 +1,4 @@
-// import 'package:mass_pro/sdk/core/common/value_type.dart';
+// import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 // import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 //
 

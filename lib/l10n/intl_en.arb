@@ -180,5 +180,8 @@
   "firstName": "First Name",
   "middleName": "Middle Name",
   "lastName": "Last Name",
-  "home": "Home"
+  "home": "Home",
+  "itemRemoved": "Item Removed",
+  "conformDeleteMsg": "Are you sure you want to remove this section?",
+  "undo": "Undo"
 }

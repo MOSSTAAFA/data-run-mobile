@@ -1213,6 +1213,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Item Removed`
+  String get itemRemoved {
+    return Intl.message(
+      'Item Removed',
+      name: 'itemRemoved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to remove this section?`
+  String get conformDeleteMsg {
+    return Intl.message(
+      'Are you sure you want to remove this section?',
+      name: 'conformDeleteMsg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Undo`
+  String get undo {
+    return Intl.message(
+      'Undo',
+      name: 'undo',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

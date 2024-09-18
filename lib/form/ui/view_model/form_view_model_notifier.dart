@@ -1,7 +1,6 @@
 import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
-import 'package:mass_pro/commons/extensions/string_extension.dart';
 import 'package:mass_pro/commons/helpers/collections.dart';
 import 'package:mass_pro/commons/logging/logging.dart';
 import 'package:mass_pro/form/data/form_repository.dart';
@@ -14,13 +13,11 @@ import 'package:mass_pro/form/model/row_action.dart';
 import 'package:mass_pro/form/model/store_result.dart';
 import 'package:mass_pro/form/model/value_store_result.dart';
 import 'package:mass_pro/form/ui/intent/form_intent.dart';
-import 'package:mass_pro/form/ui/validation/validators/field_mask_validator.dart';
 import 'package:mass_pro/form/ui/view_model/form_model_notifier.dart';
 import 'package:mass_pro/form/ui/view_model/form_pending_intents.dart';
 import 'package:mass_pro/sdk/core/common/exception/validation_exception.dart';
 import 'package:mass_pro/sdk/core/common/feature_type.dart';
-import 'package:mass_pro/sdk/core/common/value_type.dart';
-import 'package:mass_pro/sdk/core/mp/helpers/result.dart';
+import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'form_view_model_notifier.g.dart';
@@ -513,30 +510,30 @@ class FormViewModelNotifier extends _$FormViewModelNotifier {
   /// Validate the value against all validation rules
   ValidationException? _checkFieldError(
       ValueType? valueType, String? fieldValue, String? fieldMask) {
-    if (fieldValue.isNullOrEmpty) {
-      return null;
-    }
+    // if (fieldValue.isNullOrEmpty) {
+    //   return null;
+    // }
+    //
+    // /// for debugging or directly return it
+    // final ValidationException? checkResult = fieldValue!.let((String value) {
+    //   ValidationException? error;
+    //   final Result<String, ValidationException>? result = valueType
+    //       ?.takeIf((ValueType item) => item != ValueType.Image)
+    //       ?.validator
+    //       .validate(value);
+    //   error = result?.fold(
+    //       (ValidationException failure) => failure, (String success) => null);
+    //
+    //   fieldMask?.let((String mask) {
+    //     final Result<String, ValidationException> result =
+    //         FieldMaskValidator(mask).validate(value);
+    //     error = result.fold(
+    //         (ValidationException failure) => failure, (String success) => error);
+    //   });
+    //   return error;
+    // });
 
-    /// for debugging or directly return it
-    final ValidationException? checkResult = fieldValue!.let((String value) {
-      ValidationException? error;
-      final Result<String, ValidationException>? result = valueType
-          ?.takeIf((ValueType item) => item != ValueType.Image)
-          ?.validator
-          .validate(value);
-      error = result?.fold(
-          (ValidationException failure) => failure, (String success) => null);
-
-      fieldMask?.let((String mask) {
-        final Result<String, ValidationException> result =
-            FieldMaskValidator(mask).validate(value);
-        error = result.fold(
-            (ValidationException failure) => failure, (String success) => error);
-      });
-      return error;
-    });
-
-    return checkResult;
+    return null;
   }
 
   RowAction _setCoordinateFieldValue(

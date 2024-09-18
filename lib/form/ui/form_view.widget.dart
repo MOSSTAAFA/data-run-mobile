@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/commons/custom_widgets/mixins/keyboard_manager.dart';
 import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
-import 'package:mass_pro/commons/helpers/iterable.dart';
+import 'package:mass_pro/commons/extensions/list_extensions.dart';
 import 'package:mass_pro/form/data/data_integrity_check_result.dart';
 import 'package:mass_pro/form/data/form_repository.dart';
 import 'package:mass_pro/form/model/Ui_render_type.dart';
@@ -22,7 +22,7 @@ import 'package:mass_pro/form/ui/provider/enrollment_result_dialog_ui_provider.d
 import 'package:mass_pro/form/ui/view_model/form_model_notifier.dart';
 import 'package:mass_pro/form/ui/view_model/form_pending_intents.dart';
 import 'package:mass_pro/form/ui/view_model/form_view_model_notifier.dart';
-import 'package:mass_pro/sdk/core/common/value_type.dart';
+import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 
 class FormViewWidget extends ConsumerStatefulWidget {
   FormViewWidget(

@@ -42,6 +42,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "confirm": MessageLookupByLibrary.simpleMessage("تأكيد"),
         "confirmSyncFormData": MessageLookupByLibrary.simpleMessage(
             "هل أنت متأكد أنك تريد مزامنة البيانات المحددة؟"),
+        "conformDeleteMsg": MessageLookupByLibrary.simpleMessage(
+            "هل أنت متأكد أنك تريد إزالة هذا القسم؟"),
         "dashboard": MessageLookupByLibrary.simpleMessage("الرئيسية"),
         "discard": MessageLookupByLibrary.simpleMessage("تجاهل"),
         "enterYourUsername":
@@ -155,6 +157,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "fullName": MessageLookupByLibrary.simpleMessage("الاسم الكامل"),
         "hidePassword": MessageLookupByLibrary.simpleMessage("اخفاء كلمة السر"),
         "home": MessageLookupByLibrary.simpleMessage("الرئيسة"),
+        "itemRemoved": MessageLookupByLibrary.simpleMessage("تم الحذف"),
         "lastName": MessageLookupByLibrary.simpleMessage("اللقب"),
         "level": MessageLookupByLibrary.simpleMessage("المستوى"),
         "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
@@ -215,6 +218,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "syncingData": MessageLookupByLibrary.simpleMessage("مزامنة بيانات"),
         "syncingEvents":
             MessageLookupByLibrary.simpleMessage("مزامنة الإستمارات"),
+        "undo": MessageLookupByLibrary.simpleMessage("تراجع"),
         "user": MessageLookupByLibrary.simpleMessage("مستخدم"),
         "username": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
         "version": MessageLookupByLibrary.simpleMessage("الإصدار"),

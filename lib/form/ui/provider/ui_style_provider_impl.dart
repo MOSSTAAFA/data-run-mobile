@@ -1,4 +1,4 @@
-import 'package:mass_pro/sdk/core/common/value_type.dart';
+import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 
 import 'package:mass_pro/form/ui/style/basic_form_ui_model_style.dart';
 import 'package:mass_pro/form/ui/style/form_ui_color_factory.dart';

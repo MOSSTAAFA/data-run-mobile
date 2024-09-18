@@ -4,7 +4,6 @@ import 'package:d2_remote/modules/metadatarun/teams/entities/d_team.entity.dart'
 import 'package:equatable/equatable.dart';
 import 'package:mass_pro/commons/ui/metadata_icon_data.dart';
 import 'package:mass_pro/core/common/state.dart';
-import 'package:mass_pro/data_run/screens/form/model/q_field.model.dart';
 import 'package:mass_pro/data_run/screens/form_submission_list/model/submission_status_count.model.dart';
 
 class FormListItemModel with EquatableMixin {
@@ -14,18 +13,13 @@ class FormListItemModel with EquatableMixin {
     SubmissionStatusModel? submissionStatusModel,
     this.canAddNewEvent = true,
     // this.fields
-  }) : this.entityCountByStatus = submissionStatusModel ?? SubmissionStatusModel();
+  }) : this.entityCountByStatus =
+            submissionStatusModel ?? SubmissionStatusModel();
 
   final FormDefinition form;
   final String? team;
   final SubmissionStatusModel entityCountByStatus;
   final bool canAddNewEvent;
-
-  // final IList<QFieldModel>? fields;
-
-  FormListItemModel setFields(List<QFieldModel>? fields) {
-    return copyWith(fields: fields);
-  }
 
   FormListItemModel copyWith(
           {FormDefinition? form,
@@ -37,14 +31,12 @@ class FormListItemModel with EquatableMixin {
           int? version,
           SubmissionStatusModel? entityCount,
           bool? canAddNewEvent,
-          List<QFieldModel>? fields,
           SyncStatus? state}) =>
       FormListItemModel(
         form: form ?? this.form,
         team: team ?? this.team,
         submissionStatusModel: entityCount ?? this.entityCountByStatus,
         canAddNewEvent: canAddNewEvent ?? this.canAddNewEvent,
-        // fields: IList.orNull(fields) ?? this.fields,
       );
 
   @override
@@ -60,7 +52,6 @@ class FormListItemModel with EquatableMixin {
 class ProjectDetailItemModel with EquatableMixin {
   ProjectDetailItemModel(
       {
-      /// activity uid
       required this.activity,
       this.team,
       this.activityForms = 0,

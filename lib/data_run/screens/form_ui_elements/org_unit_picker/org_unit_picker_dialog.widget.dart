@@ -22,7 +22,6 @@ class OrgUnitPickerDialog extends ConsumerStatefulWidget {
       this.onChange,
       this.initialNode,
       this.restorationId,
-      // this.controller,
       this.cancelText,
       this.confirmText,
       this.helpText});
@@ -93,7 +92,7 @@ class _OrgUnitPickerDialogState
       roots: widget.dataSource.getRoots(),
       childrenProvider: getChildren,
       parentProvider: (node) => _getNode(node.parent),
-    )..expandAll();
+    )..collapseAll();
     _textFieldController.addListener(onSearchQueryChanged);
   }
 

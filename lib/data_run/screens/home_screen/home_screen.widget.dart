@@ -39,8 +39,8 @@ class _HomeScreenWidgetState extends ConsumerState<HomeScreenWidget>
     return Scaffold(
         appBar: AppBar(
           actions: [
-            IconButton(
-                onPressed: () => presenter.logOut(), icon: const Icon(Icons.logout)),
+            // IconButton(
+            //     onPressed: () => presenter.logOut(), icon: const Icon(Icons.logout)),
             IconButton(
                 onPressed: () => presenter
                     .onSyncAllClick()

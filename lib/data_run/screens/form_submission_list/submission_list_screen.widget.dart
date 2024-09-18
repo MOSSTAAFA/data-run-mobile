@@ -5,11 +5,11 @@ import 'package:get/get.dart';
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/core/common/state.dart';
 import 'package:mass_pro/data_run/form/form_configuration.dart';
+import 'package:mass_pro/data_run/screens/form_reactive/form_tab_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/form_submission_list/model/submission_list.provider.dart';
 import 'package:mass_pro/data_run/screens/form_submission_list/submission_summary.widget.dart';
 import 'package:mass_pro/data_run/screens/form_submission_list/submission_creation_dialog.widget.dart';
 import 'package:mass_pro/data_run/screens/form_ui_elements/get_error_widget.dart';
-import 'package:mass_pro/data_run/screens/form_submission_screen/submission_tab_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/form_submission_list/submission_sync_dialog.widget.dart';
 import 'package:mass_pro/generated/l10n.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
@@ -39,7 +39,7 @@ class SubmissionListState extends ConsumerState<SubmissionListScreen> {
           syncEntity: (uids) async {
             if (uids != null) {
               await ref
-                  .read(submissionListProvider(form: form).notifier)
+                  .read(formSubmissionListProvider(form: form).notifier)
                   .syncEntities(uids);
             }
           },
@@ -197,7 +197,11 @@ class SubmissionListState extends ConsumerState<SubmissionListScreen> {
     bundle = bundle.putInt(FORM_VERSION, version);
 
     // await Get.to(DataSubmissionScreen(), arguments: bundle);
-    await Get.to(DataSubmissionScreen(), arguments: bundle);
+    await Get.to(
+        FormSubmissionScreen(
+          currentPageIndex: 1,
+        ),
+        arguments: bundle);
     // ref.invalidate(submissionListProvider);
   }
 }

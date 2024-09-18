@@ -9,7 +9,6 @@ import 'package:d2_remote/modules/datarun/form/shared/rule.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:mass_pro/data_run/errors_management/errors/form_does_not_exist.exception.dart';
 import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
-import 'package:mass_pro/sdk/core/common/value_type.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'form_configuration.g.dart';
@@ -41,44 +40,34 @@ Future<FormConfiguration> formConfiguration(FormConfigurationRef ref,
     orgUnits = orgUnits.where((o) => assigned.contains(o));
   }
 
-  final fields = formDefinition?.fields
-      ?.where((field) => !ValueType.getValueType(field.type).isSection)
-      .toList();
-
-  final sections = formDefinition?.fields
-      ?.where((field) => ValueType.getValueType(field.type).isSection)
-      .toList();
-
   return FormConfiguration(
       form: form,
       label: getItemLocalString(formDefinition?.label,
           defaultString: currentForm.name),
       version: selectedFormVersion,
-      sections: sections,
-      fields: fields,
+      fields: formDefinition?.fields,
       options: formDefinition?.options,
       orgUnits: orgUnits.toList());
 }
 
 class FormConfiguration {
   FormConfiguration(
-      {List<DynamicFormField>? sections,
-      List<DynamicFormField>? fields,
+      {List<FieldTemplate>? sections,
+      List<FieldTemplate>? fields,
       List<FormOption>? options,
       required this.form,
       required this.label,
       List<String>? orgUnits,
       required this.version})
       : this.allFields =
-            IMap.fromIterable<String, DynamicFormField, DynamicFormField>(
+            IMap.fromIterable<String, FieldTemplate, FieldTemplate>(
                 fields ?? [],
-                keyMapper: (DynamicFormField field) => field.name,
-                valueMapper: (DynamicFormField field) => field),
-        this.sections =
-            IMap.fromIterable<String, DynamicFormField, DynamicFormField>(
-                sections ?? [],
-                keyMapper: (DynamicFormField section) => section.name,
-                valueMapper: (DynamicFormField section) => section),
+                keyMapper: (FieldTemplate field) => field.name,
+                valueMapper: (FieldTemplate field) => field),
+        this.sections = IMap.fromIterable<String, FieldTemplate, FieldTemplate>(
+            sections ?? [],
+            keyMapper: (FieldTemplate section) => section.name,
+            valueMapper: (FieldTemplate section) => section),
         this.optionLists =
             IMap.fromIterable<String, IList<FormOption>, FormOption>(
                 (options ?? [])
@@ -90,10 +79,9 @@ class FormConfiguration {
                         .toIList() ??
                     const IListConst([])),
         this.fieldRules =
-            IMap.fromIterable<String, IList<Rule>?, DynamicFormField>(
-                fields ?? [],
-                keyMapper: (DynamicFormField field) => field.name,
-                valueMapper: (DynamicFormField field) => field.rules?.lock),
+            IMap.fromIterable<String, IList<Rule>?, FieldTemplate>(fields ?? [],
+                keyMapper: (FieldTemplate field) => field.name,
+                valueMapper: (FieldTemplate field) => field.rules?.lock),
         this.orgUnitTreeUids = orgUnits?.lock ?? IList();
 
   final String form;
@@ -103,10 +91,10 @@ class FormConfiguration {
   final int version;
 
   /// {field.name: field}
-  final IMap<String, DynamicFormField> allFields;
+  final IMap<String, FieldTemplate> allFields;
 
   /// {field.name: field}
-  final IMap<String, DynamicFormField> sections;
+  final IMap<String, FieldTemplate> sections;
 
   /// {listName: List<option>}
   final IMap<String, IList<FormOption>> optionLists;
@@ -116,7 +104,7 @@ class FormConfiguration {
 
   final IList<String> orgUnitTreeUids;
 
-  IMap<String, DynamicFormField> get mainFields =>
+  IMap<String, FieldTemplate> get mainFields =>
       allFields.where((k, v) => v.mainField);
 
   bool get isSingleOrgUnit => orgUnitTreeUids.length == 1;
@@ -126,20 +114,17 @@ class FormConfiguration {
 
   dynamic getUserFriendlyValue(String fieldName, dynamic value) =>
       switch (allFields.get(fieldName)) {
-        DynamicFormField(type: final type, listName: final listName?)
-            when ValueType.getValueType(type).isWithOptions =>
+        FieldTemplate(type: final type, listName: final listName?)
+            when type.selectTypes =>
           getItemLocalString(getOption(listName, value)?.label,
               defaultString: value),
-        DynamicFormField(type: final type)
-            when ValueType.getValueType(type).isDate =>
+        FieldTemplate(type: final type) when type.isDate =>
           DateUtils.format(value) ??
               DateUtils.uiDateFormat().tryParse(value ?? '') ??
               value,
-        DynamicFormField(type: final type)
-            when ValueType.getValueType(type).isDateTime =>
+        FieldTemplate(type: final type) when type.isDateTime =>
           DateUtils.dateTimeFormat().tryParse(value ?? '') ?? value,
-        DynamicFormField(type: final type)
-            when ValueType.getValueType(type).isTime =>
+        FieldTemplate(type: final type) when type.isTime =>
           DateUtils.twelveHourTimeFormat().tryParse(value ?? '') ?? value,
         _ => value
       };

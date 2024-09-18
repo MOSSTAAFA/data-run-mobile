@@ -38,7 +38,7 @@ class Submission extends _$Submission {
         .save(saveOptions: SaveOptions(skipLocalSyncStatus: false));
 
     ref.invalidateSelf();
-    ref.invalidate(submissionListProvider);
+    ref.invalidate(formSubmissionListProvider);
     await future;
   }
 }

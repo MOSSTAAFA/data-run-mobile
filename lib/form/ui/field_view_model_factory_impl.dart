@@ -14,9 +14,9 @@ import 'package:mass_pro/form/ui/provider/keyboard_action_provider.dart';
 import 'package:mass_pro/form/ui/provider/ui_event_types_provider.dart';
 import 'package:mass_pro/form/ui/provider/ui_style_provider.dart';
 import 'package:mass_pro/sdk/core/common/feature_type.dart';
-import 'package:mass_pro/sdk/core/common/value_type.dart';
+import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:mass_pro/sdk/core/common/value_type_device_rendering.dart';
-import 'package:mass_pro/sdk/core/program/section_rendering_type.dart';
+import 'package:mass_pro/data_run/screens/form_section/model/section_rendering_type.dart';
 
 class FieldViewModelFactoryImpl implements FieldViewModelFactory {
   // LegendValueProvider legendValueProvider;

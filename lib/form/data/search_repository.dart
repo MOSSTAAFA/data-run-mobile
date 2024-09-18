@@ -1,4 +1,4 @@
-import 'package:mass_pro/sdk/core/common/value_type.dart';
+import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_tracked_entity_attribute.entity.dart';

@@ -1,11 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/data_run/form/form_configuration.dart';
-import 'package:mass_pro/data_run/form/form_to_q_field_models.dart';
 import 'package:mass_pro/data_run/screens/form_ui_elements/org_unit_picker/model/data_model.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/fields/q_field_widget_factory.dart';
 import 'package:mass_pro/data_run/screens/form_ui_elements/get_error_widget.dart';
 import 'package:mass_pro/data_run/screens/form_submission_list/model/submission_list.provider.dart';
 import 'package:mass_pro/generated/l10n.dart';
@@ -32,26 +29,9 @@ class SubmissionCreationDialogState
   bool _isLoading = false;
   String? _orgUnitUid;
 
-  // late final String form;
-
-  // late final String activity;
-  // late final String team;
-
-  // late final int latestFormVersion;
-  //
-  // @override
-  // void initState() {
-  //   // final Bundle eventBundle = Get.arguments as Bundle;
-  //   // form = eventBundle.getString(FORM_UID)!;
-  //   // activity = eventBundle.getString(ACTIVITY_UID)!;
-  //   // team = eventBundle.getString(TEAM_UID)!;
-  //   // latestFormVersion = eventBundle.getInt(FORM_VERSION)!;
-  //   super.initState();
-  // }
-
   Future<String?> _createEntity(FormConfiguration formConfiguration) async {
     final submissionInitialRepository =
-        ref.read(submissionListProvider(form: widget.form).notifier);
+        ref.read(formSubmissionListProvider(form: widget.form).notifier);
 
     return submissionInitialRepository.createSubmission(
         activityUid: widget.activity,
@@ -170,22 +150,22 @@ class SubmissionCreationDialogState
                     ],
                   ),
                 ),
-                ...formConfig.mainFields.values.map((f) {
-                  final fieldModel = mapToModel(
-                      field: f,
-                      options: formConfig.optionLists.get(f.listName ?? ''));
-                  final QFormFieldBuilder builder = ref
-                      .watch(fieldWidgetFactoryProvider)
-                      .getBuilder(fieldModel.valueType);
-
-                  final Widget fieldWidget = builder.call(fieldModel);
-
-                  if (!fieldModel.isVisible) {
-                    return const SizedBox.shrink();
-                  }
-
-                  return fieldWidget;
-                }),
+                // ...formConfig.mainFields.values.map((f) {
+                //   final fieldModel = mapToQFieldModel(
+                //       field: f,
+                //       options: formConfig.optionLists.get(f.listName ?? ''));
+                //   final QFormFieldBuilder builder = ref
+                //       .watch(fieldWidgetFactoryProvider)
+                //       .getBuilder(fieldModel.valueType);
+                //
+                //   final Widget fieldWidget = builder.call(fieldModel);
+                //
+                //   if (!fieldModel.isVisible) {
+                //     return const SizedBox.shrink();
+                //   }
+                //
+                //   return fieldWidget;
+                // }),
                 if (_isLoading)
                   const Padding(
                     padding: EdgeInsets.all(8.0),

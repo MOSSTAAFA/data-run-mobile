@@ -1,5 +1,5 @@
 import 'package:mass_pro/commons/data_run/utils/view_actions.dart';
-import 'package:mass_pro/commons/helpers/iterable.dart';
+import 'package:mass_pro/commons/extensions/list_extensions.dart';
 
 enum NavigationPage {
   DETAILS(ViewAction.details),

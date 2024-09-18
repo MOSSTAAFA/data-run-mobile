@@ -181,8 +181,22 @@ class _SubmissionMappingRepositoryProviderElement
       (origin as SubmissionMappingRepositoryProvider).submissionUid;
 }
 
+String _$formInstanceHash() => r'0f38df503c073c46255cf66fa6c48ff0a029dc8a';
+
+/// See also [formInstance].
+@ProviderFor(formInstance)
+final formInstanceProvider = AutoDisposeFutureProvider<FormInstance>.internal(
+  formInstance,
+  name: r'formInstanceProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$formInstanceHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef FormInstanceRef = AutoDisposeFutureProviderRef<FormInstance>;
 String _$submissionFilteredByStateHash() =>
-    r'cea2e756f0a2a288724f01a252fab19e77506829';
+    r'875044d467a0f5a9af266938d3cda3060a299efc';
 
 /// See also [submissionFilteredByState].
 @ProviderFor(submissionFilteredByState)
@@ -351,7 +365,7 @@ class _SubmissionFilteredByStateProviderElement
 }
 
 String _$submissionStatusModelHash() =>
-    r'aedbf7430d3c7445c38f9233de37ce129dd9f1d2';
+    r'b30e32673c15ba14ed1b946f207367e251f60155';
 
 /// See also [submissionStatusModel].
 @ProviderFor(submissionStatusModel)
@@ -485,7 +499,7 @@ class _SubmissionStatusModelProviderElement
 }
 
 String _$submissionItemSummaryModelHash() =>
-    r'41de1e604b8dc37832f1de312f6cf5aa8a5732fe';
+    r'd2cebc2be3fca7ccb1926d2a7ee8329c52ff8568';
 
 /// See also [submissionItemSummaryModel].
 @ProviderFor(submissionItemSummaryModel)
@@ -637,9 +651,10 @@ class _SubmissionItemSummaryModelProviderElement
   String get form => (origin as SubmissionItemSummaryModelProvider).form;
 }
 
-String _$submissionListHash() => r'a62c1d1909979acf086aab21dda89ebd077e1ede';
+String _$formSubmissionListHash() =>
+    r'011cef57905d061913c1787ca26496af27b13551';
 
-abstract class _$SubmissionList
+abstract class _$FormSubmissionList
     extends BuildlessAutoDisposeAsyncNotifier<IList<DataFormSubmission>> {
   late final String form;
 
@@ -648,28 +663,28 @@ abstract class _$SubmissionList
   });
 }
 
-/// See also [SubmissionList].
-@ProviderFor(SubmissionList)
-const submissionListProvider = SubmissionListFamily();
+/// See also [FormSubmissionList].
+@ProviderFor(FormSubmissionList)
+const formSubmissionListProvider = FormSubmissionListFamily();
 
-/// See also [SubmissionList].
-class SubmissionListFamily
+/// See also [FormSubmissionList].
+class FormSubmissionListFamily
     extends Family<AsyncValue<IList<DataFormSubmission>>> {
-  /// See also [SubmissionList].
-  const SubmissionListFamily();
+  /// See also [FormSubmissionList].
+  const FormSubmissionListFamily();
 
-  /// See also [SubmissionList].
-  SubmissionListProvider call({
+  /// See also [FormSubmissionList].
+  FormSubmissionListProvider call({
     required String form,
   }) {
-    return SubmissionListProvider(
+    return FormSubmissionListProvider(
       form: form,
     );
   }
 
   @override
-  SubmissionListProvider getProviderOverride(
-    covariant SubmissionListProvider provider,
+  FormSubmissionListProvider getProviderOverride(
+    covariant FormSubmissionListProvider provider,
   ) {
     return call(
       form: provider.form,
@@ -688,30 +703,30 @@ class SubmissionListFamily
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'submissionListProvider';
+  String? get name => r'formSubmissionListProvider';
 }
 
-/// See also [SubmissionList].
-class SubmissionListProvider extends AutoDisposeAsyncNotifierProviderImpl<
-    SubmissionList, IList<DataFormSubmission>> {
-  /// See also [SubmissionList].
-  SubmissionListProvider({
+/// See also [FormSubmissionList].
+class FormSubmissionListProvider extends AutoDisposeAsyncNotifierProviderImpl<
+    FormSubmissionList, IList<DataFormSubmission>> {
+  /// See also [FormSubmissionList].
+  FormSubmissionListProvider({
     required String form,
   }) : this._internal(
-          () => SubmissionList()..form = form,
-          from: submissionListProvider,
-          name: r'submissionListProvider',
+          () => FormSubmissionList()..form = form,
+          from: formSubmissionListProvider,
+          name: r'formSubmissionListProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$submissionListHash,
-          dependencies: SubmissionListFamily._dependencies,
+                  : _$formSubmissionListHash,
+          dependencies: FormSubmissionListFamily._dependencies,
           allTransitiveDependencies:
-              SubmissionListFamily._allTransitiveDependencies,
+              FormSubmissionListFamily._allTransitiveDependencies,
           form: form,
         );
 
-  SubmissionListProvider._internal(
+  FormSubmissionListProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -725,7 +740,7 @@ class SubmissionListProvider extends AutoDisposeAsyncNotifierProviderImpl<
 
   @override
   FutureOr<IList<DataFormSubmission>> runNotifierBuild(
-    covariant SubmissionList notifier,
+    covariant FormSubmissionList notifier,
   ) {
     return notifier.build(
       form: form,
@@ -733,10 +748,10 @@ class SubmissionListProvider extends AutoDisposeAsyncNotifierProviderImpl<
   }
 
   @override
-  Override overrideWith(SubmissionList Function() create) {
+  Override overrideWith(FormSubmissionList Function() create) {
     return ProviderOverride(
       origin: this,
-      override: SubmissionListProvider._internal(
+      override: FormSubmissionListProvider._internal(
         () => create()..form = form,
         from: from,
         name: null,
@@ -749,14 +764,14 @@ class SubmissionListProvider extends AutoDisposeAsyncNotifierProviderImpl<
   }
 
   @override
-  AutoDisposeAsyncNotifierProviderElement<SubmissionList,
+  AutoDisposeAsyncNotifierProviderElement<FormSubmissionList,
       IList<DataFormSubmission>> createElement() {
-    return _SubmissionListProviderElement(this);
+    return _FormSubmissionListProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is SubmissionListProvider && other.form == form;
+    return other is FormSubmissionListProvider && other.form == form;
   }
 
   @override
@@ -768,19 +783,19 @@ class SubmissionListProvider extends AutoDisposeAsyncNotifierProviderImpl<
   }
 }
 
-mixin SubmissionListRef
+mixin FormSubmissionListRef
     on AutoDisposeAsyncNotifierProviderRef<IList<DataFormSubmission>> {
   /// The parameter `form` of this provider.
   String get form;
 }
 
-class _SubmissionListProviderElement
-    extends AutoDisposeAsyncNotifierProviderElement<SubmissionList,
-        IList<DataFormSubmission>> with SubmissionListRef {
-  _SubmissionListProviderElement(super.provider);
+class _FormSubmissionListProviderElement
+    extends AutoDisposeAsyncNotifierProviderElement<FormSubmissionList,
+        IList<DataFormSubmission>> with FormSubmissionListRef {
+  _FormSubmissionListProviderElement(super.provider);
 
   @override
-  String get form => (origin as SubmissionListProvider).form;
+  String get form => (origin as FormSubmissionListProvider).form;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

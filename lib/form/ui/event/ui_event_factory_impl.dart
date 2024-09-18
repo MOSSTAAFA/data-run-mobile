@@ -7,7 +7,7 @@ import 'package:mass_pro/form/model/ui_event_type.dart';
 import 'package:mass_pro/form/ui/event/list_view_ui_events.dart';
 import 'package:mass_pro/form/ui/event/ui_event_factory.dart';
 import 'package:mass_pro/sdk/core/common/feature_type.dart';
-import 'package:mass_pro/sdk/core/common/value_type.dart';
+import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 
 class UiEventFactoryImpl implements UiEventFactory {
   const UiEventFactoryImpl(

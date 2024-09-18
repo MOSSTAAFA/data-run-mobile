@@ -5,7 +5,7 @@ import 'package:d2_remote/modules/metadata/data_element/entities/data_element.en
 import 'package:d2_remote/modules/metadata/program/entities/tracked_entity_attribute.entity.dart';
 import 'package:mass_pro/commons/extensions/dynamic_value_extensions.dart';
 import 'package:mass_pro/commons/extensions/string_extension.dart';
-import 'package:mass_pro/sdk/core/common/value_type.dart';
+import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 
 /// UserFriendlyTrackedEntityAttributeValueExtension
 extension UserFriendlyTrackedEntityAttributeValueExtension

@@ -17,9 +17,9 @@ import 'package:mass_pro/form/model/option_set_configuration.dart';
 import 'package:mass_pro/form/ui/field_view_model_factory.dart';
 import 'package:mass_pro/sdk/core/arch/helpers/uids_helper.dart';
 import 'package:mass_pro/sdk/core/common/feature_type.dart';
-import 'package:mass_pro/sdk/core/common/value_type.dart';
+import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:mass_pro/sdk/core/common/value_type_device_rendering.dart';
-import 'package:mass_pro/sdk/core/program/section_rendering_type.dart';
+import 'package:mass_pro/data_run/screens/form_section/model/section_rendering_type.dart';
 
 // TODO(NMC): avoid asynchronicity using scopes
 /// see:

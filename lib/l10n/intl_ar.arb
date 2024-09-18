@@ -141,5 +141,8 @@
   "firstName": "الاسم الأول",
   "middleName": "الاسم الأوسط",
   "lastName": "اللقب",
-  "home": "الرئيسة"
+  "home": "الرئيسة",
+  "itemRemoved": "تم الحذف",
+  "conformDeleteMsg": "هل أنت متأكد أنك تريد إزالة هذا القسم؟",
+  "undo": "تراجع"
 }

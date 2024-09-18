@@ -22,7 +22,7 @@ import 'package:mass_pro/core/enrollment/enrollment_object_repository.dart';
 import 'package:mass_pro/form/model/enrollment_detail.dart';
 import 'package:mass_pro/form/model/store_result.dart';
 import 'package:mass_pro/form/model/value_store_result.dart';
-import 'package:mass_pro/sdk/core/common/value_type.dart';
+import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 
 import 'package:mass_pro/data_run/errors_management/error_management.dart';
 

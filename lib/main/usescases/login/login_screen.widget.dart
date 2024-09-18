@@ -1,13 +1,12 @@
 // ignore_for_file: always_specify_types
 
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:mass_pro/commons/constants.dart';
-import 'package:mass_pro/commons/custom_widgets/fields/decorated_form_field.dart';
-import 'package:mass_pro/commons/custom_widgets/fields/password_field.dart';
 import 'package:mass_pro/commons/custom_widgets/mixins/keyboard_manager.dart';
 import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
-import 'package:mass_pro/commons/extensions/string_extension.dart';
 import 'package:mass_pro/commons/network/network_utils.dart';
 import 'package:mass_pro/commons/resources/resource_manager.dart';
 import 'package:mass_pro/commons/state/app_state_notifier.dart';
@@ -45,8 +44,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
     with LoginView, ViewBase, KeyboardManager {
   late final LoginScreenPresenter presenter;
 
-  final GlobalKey<FormState> _formKey =
-      GlobalKey<FormState>(debugLabel: '_login');
+  final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
 
   final TextEditingController _userController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -119,8 +117,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                     SizedBox(
                       height: 16,
                     ),
-                    Form(
+                    FormBuilder(
                       key: _formKey,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       child: AutofillGroup(
                         child: Padding(
                           padding:
@@ -131,37 +130,36 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                 builder: (context, ref, child) {
                                   return Column(
                                     children: <Widget>[
-                                      DecoratedFormField(
+                                      FormBuilderTextField(
                                         onChanged: (value) => ref
                                             .read(loginModelProvider.notifier)
                                             .onUserChanged(value),
+                                        decoration: InputDecoration(
+                                            labelText: L('username'),
+                                            suffixIcon: Icon(Icons.login)),
                                         controller: _userController,
-                                        label: L('username'),
+                                        validator:
+                                            FormBuilderValidators.required(),
                                         keyboardType: TextInputType.name,
                                         readOnly: ref
                                             .watch(showLoginProgressProvider),
-                                        validator: (String? val) {
-                                          return val?.trim().isNullOrEmpty ??
-                                                  false
-                                              ? L('enterYourUsername')
-                                              : null;
-                                        },
                                         autofillHints: const [
                                           AutofillHints.username
                                         ],
                                         autofocus: true,
-                                        onSavePressed: (_) =>
-                                            presenter.onButtonClick(),
+                                        name: 'username',
                                       ),
-                                      PasswordFormField(
+                                      FormBuilderTextField(
                                         onChanged: (value) => ref
                                             .read(loginModelProvider.notifier)
                                             .onPassChanged(value),
+                                        obscureText: true,
+                                        validator:
+                                            FormBuilderValidators.required(),
                                         readOnly: ref
                                             .watch(showLoginProgressProvider),
                                         controller: _passwordController,
-                                        onSavePressed: (_) =>
-                                            presenter.onButtonClick(),
+                                        name: 'password',
                                       ),
                                     ],
                                   );
@@ -177,11 +175,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                         width: 430,
                                         controller: _buttonController,
                                         onPressed: () {
-                                          if (_formKey.currentState
-                                                  ?.validate() ==
-                                              true) {
+                                          if (_formKey.currentState!
+                                              .validate()) {
                                             presenter.onButtonClick();
                                           } else {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                  content: Text(
+                                                      'Form contains some errors: ${_formKey.currentState!.errors}')),
+                                            );
                                             showLoginProgress(false);
                                           }
                                         },
@@ -263,8 +266,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
     if (showLogin) {
       ref.read(showLoginProgressProvider.notifier).update((state) => true);
       _buttonController.start();
-      await presenter.logIn(kApiBaseUrl, _userController.text,
-          _passwordController.text);
+      await presenter.logIn(
+          kApiBaseUrl, _userController.text, _passwordController.text);
     } else {
       ref.read(showLoginProgressProvider.notifier).update((state) => false);
       _buttonController.reset();
@@ -335,8 +338,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
     //     ref.read(loginModelProvider).serverUrl,
     //     ref.read(loginModelProvider).userName,
     //     ref.read(loginModelProvider).password)) {
-      // This is commented until fingerprint login for multiuser is supported
-      /* if (presenter.canHandleBiometrics() == true) {
+    // This is commented until fingerprint login for multiuser is supported
+    /* if (presenter.canHandleBiometrics() == true) {
                 showInfoDialog(
                     getString(string.biometrics_security_title),
                     getString(string.biometrics_security_text),
@@ -364,9 +367,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                 )
                 goToNextScreen()
             } */
-      presenter.saveUserCredentials(ref.read(loginModelProvider).serverUrl!,
-          ref.read(loginModelProvider).userName!, '');
-      goToNextScreen();
+    // presenter.saveUserCredentials(ref.read(loginModelProvider).serverUrl!,
+    //     ref.read(loginModelProvider).userName!, '');
+    goToNextScreen();
     // } else {
     //   goToNextScreen();
     // }

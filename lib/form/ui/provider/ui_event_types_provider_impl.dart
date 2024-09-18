@@ -1,6 +1,6 @@
 import 'package:mass_pro/sdk/core/common/feature_type.dart';
 import 'package:mass_pro/sdk/core/common/value_type_rendering_type.dart';
-import 'package:mass_pro/sdk/core/program/section_rendering_type.dart';
+import 'package:mass_pro/data_run/screens/form_section/model/section_rendering_type.dart';
 
 import 'package:mass_pro/form/model/Ui_render_type.dart';
 import 'package:mass_pro/form/ui/provider/ui_event_types_provider.dart';

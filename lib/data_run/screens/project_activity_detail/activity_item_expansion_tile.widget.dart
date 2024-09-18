@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:mass_pro/commons/constants.dart';
+import 'package:mass_pro/data_run/screens/form_reactive/form_tab_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/form_submission_list/submission_list_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/form_submission_list/submission_creation_dialog.widget.dart';
 import 'package:mass_pro/data_run/screens/project_activity_detail/form_tiles/form_tiles.widget.dart';
 import 'package:mass_pro/data_run/screens/project_activity_detail/model/project_detail_item.model.dart';
 import 'package:mass_pro/data_run/screens/project_activity_detail/model/project_detail_items_models_notifier.dart';
-import 'package:mass_pro/data_run/screens/form_submission_screen/submission_tab_screen.widget.dart';
 import 'package:mass_pro/generated/l10n.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 
@@ -27,21 +27,6 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final ProjectDetailItemModel projectDetailItemModel =
         ref.watch(projectDetailItemModelProvider);
-
-    // /// Get the icon based on Synced/synced status
-    // final Widget statusActionButton = when(
-    //     projectDetailItemModel.syncablesState, <Object,
-    //         StatelessWidget Function()>{
-    //   item_state.SyncableEntityState.uploadableStates: () => IconButton(
-    //       style: IconButton.styleFrom(
-    //         foregroundColor: Colors.grey,
-    //       ),
-    //       icon: const Icon(Icons.cloud_sync),
-    //       onPressed: () => onGranularSyncClick?.call(projectDetailItemModel)),
-    //   item_state.SyncableEntityState.ERROR: () =>
-    //       const Icon(Icons.warning_amber, color: Colors.red),
-    // }).orElse(() => Icon(Icons.check, color: Colors.green[300]));
-
     return Card(
       shadowColor: Theme.of(context).colorScheme.shadow,
       surfaceTintColor: Theme.of(context).colorScheme.primary,
@@ -52,11 +37,6 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
       child: ExpansionTile(
         initiallyExpanded: projectDetailItemModel.valueListIsOpen,
         leading: const Icon(Icons.event_note_sharp),
-        // trailing: Consumer(
-        //   builder: (context, ref, child) {
-        //     ref.watch(provider)
-        //   },
-        // ),
         title: Row(
           children: <Widget>[
             Expanded(
@@ -140,7 +120,7 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
 
     bundle = bundle.putString(SYNCABLE_UID, createdEntityUid);
 
-    await Get.to(DataSubmissionScreen(), arguments: bundle);
+    await Get.to(FormSubmissionScreen(currentPageIndex: 1,), arguments: bundle);
   }
 
   Future<void> navigateToEntitiesList(FormListItemModel? formModel) async {

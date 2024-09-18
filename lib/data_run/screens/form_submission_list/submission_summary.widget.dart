@@ -1,5 +1,4 @@
 import 'package:d2_remote/modules/datarun/form/entities/data_form_submission.entity.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/data_run/screens/form_submission_list/model/submission_list.provider.dart';
@@ -43,8 +42,7 @@ class SubmissionSummaryState extends ConsumerState<SubmissionSummary> {
                 'V: ${widget.entity.version}',
                 style: TextStyle(
                     color: Theme.of(context).colorScheme.secondary,
-                    fontSize:
-                    Theme.of(context).textTheme.bodySmall?.fontSize),
+                    fontSize: Theme.of(context).textTheme.bodySmall?.fontSize),
               ),
             ],
           ),
@@ -52,19 +50,18 @@ class SubmissionSummaryState extends ConsumerState<SubmissionSummary> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(submissionSummary.orgUnit),
-                if (submissionSummary.code != null)
-                  Text(submissionSummary.code!,
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.secondary,
-                          fontSize:
-                          Theme.of(context).textTheme.bodySmall?.fontSize)),
               ]),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
+              if (submissionSummary.code != null)
+                Text(submissionSummary.code!,
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.secondary,
+                        fontSize:
+                        Theme.of(context).textTheme.bodySmall?.fontSize)),
               Divider(),
-              Text(generateFormSummary(submissionSummary.formData),
+              Text(generateFormSummary(submissionSummary.formData.unlock),
                   style: Theme.of(context).textTheme.bodySmall),
             ],
           ),
@@ -84,13 +81,14 @@ class SubmissionSummaryState extends ConsumerState<SubmissionSummary> {
   }
 }
 
-String generateFormSummary(IMap<String, dynamic> fields) {
+String generateFormSummary(Map<String, dynamic> fields, [int itemsToTake = 5]) {
   final String fieldSummary = fields.entries
       .where((MapEntry<String, dynamic> entry) =>
           entry.key != 'name' &&
           entry.value != null &&
+          !(entry.value is List) &&
           !syncableVariable.contains(entry.key))
-      .take(3)
+      .take(itemsToTake)
       .map((MapEntry<String, dynamic> entry) => '${entry.key}: ${entry.value}')
       .join(', ');
 
@@ -120,4 +118,5 @@ final List<String> syncableVariable = <String>[
   'dirty',
   'version',
   'form',
+  'formData',
 ];

@@ -1,4 +1,5 @@
 // ignore_for_file: strict_raw_type, unused_element
+typedef Condition = bool Function();
 
 extension IterableMinBy<E> on Iterable<E> {
   /// Returns the first element yielding the smallest value of the given
@@ -75,4 +76,52 @@ extension _MinMaxHelper<E> on Iterable<E> {
 
 extension NullOrEmpty<T> on List<T>? {
   bool get isNullOrEmpty => this?.isEmpty ?? true;
+}
+
+extension IterableFirstOrNullWhere<E> on Iterable<E> {
+  /// Returns the first element matching the given [predicate], or `null` if no
+  /// such element was found.
+  ///
+  /// ```dart
+  /// final list = ['a', 'Test'];
+  /// final firstLong= list.firstOrNullWhere((e) => e.length > 1); // 'Test'
+  /// final firstVeryLong = list.firstOrNullWhere((e) => e.length > 5); // null
+  /// ```
+  E? firstOrNullWhere(bool Function(E element) predicate) {
+    for (final element in this) {
+      if (predicate(element)) return element;
+    }
+    return null;
+  }
+}
+
+extension ListExtension<E> on List<E> {
+  /// Add [item] to [List<E>] only if [item] is not null.
+  void addNonNull(E item) {
+    if (item != null) add(item);
+  }
+
+  /// Add [item] to List<E> only if [condition] is true.
+  void addIf(dynamic condition, E item) {
+    if (condition is Condition) condition = condition();
+    if (condition is bool && condition) add(item);
+  }
+
+  /// Adds [Iterable<E>] to [List<E>] only if [condition] is true.
+  void addAllIf(dynamic condition, Iterable<E> items) {
+    if (condition is Condition) condition = condition();
+    if (condition is bool && condition) addAll(items);
+  }
+
+  /// Replaces all existing items of this list with [item]
+  void assign(E item) {
+    clear();
+    add(item);
+  }
+
+  /// Replaces all existing items of this list with [items]
+  void assignAll(Iterable<E> items) {
+    clear();
+    addAll(items);
+  }
 }

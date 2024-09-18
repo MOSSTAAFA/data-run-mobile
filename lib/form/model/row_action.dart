@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:mass_pro/commons/global_functions/global_functions.dart';
-import 'package:mass_pro/sdk/core/common/value_type.dart';
+import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 
 import 'package:mass_pro/form/model/action_type.dart';
 

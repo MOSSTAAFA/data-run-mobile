@@ -6,6 +6,7 @@ import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/data/tracker/entities/enrollment.entity.dart';
 import 'package:d2_remote/modules/data/tracker/entities/tracked-entity.entity.dart';
 import 'package:d2_remote/modules/data/tracker/entities/tracked_entity_attribute_value.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/program_section.entity.dart';
@@ -24,8 +25,7 @@ import 'package:mass_pro/form/ui/field_view_model_factory.dart';
 import 'package:mass_pro/form/ui/provider/enrollment_form_labels_provider.dart';
 import 'package:mass_pro/sdk/core/arch/helpers/uids_helper.dart';
 import 'package:mass_pro/sdk/core/common/feature_type.dart';
-import 'package:mass_pro/sdk/core/common/value_type.dart';
-import 'package:mass_pro/sdk/core/program/section_rendering_type.dart';
+import 'package:mass_pro/data_run/screens/form_section/model/section_rendering_type.dart';
 
 class EnrollmentRepository extends DataEntryBaseRepository {
 

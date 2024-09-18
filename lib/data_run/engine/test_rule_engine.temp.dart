@@ -1,5 +1,6 @@
 
 import 'package:expressions/expressions.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 
 void main() {
 
@@ -31,6 +32,15 @@ void main() {
 
 }
 
+final fg =  fb.group({
+  'name': FormControl<String>(),
+  'age': FormControl<int>(value: 0),
+  'discount': FormControl<int>(),
+  'email': FormControl<String>(),
+});
+
+final List<String> Sections = ['mainSection', 'stockItems'];
+final List<String> fields = ['mainSection.age', 'stockItems.price'];
 final accessor = {
   'name': (obj){},
 };

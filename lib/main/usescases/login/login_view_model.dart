@@ -28,14 +28,14 @@ class LoginModel extends _$LoginModel {
     }
   }
 
-  void onUserChanged(String userName) {
+  void onUserChanged(String? userName) {
     if (userName != state.userName) {
       state = state.copyWith(userName: userName);
       _checkData();
     }
   }
 
-  void onPassChanged(String password) {
+  void onPassChanged(String? password) {
     if (password != state.password) {
       state = state.copyWith(password: password);
       _checkData();

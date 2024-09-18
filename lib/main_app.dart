@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:mass_pro/commons/prefs/preference_provider.dart';
 import 'package:mass_pro/main.reflectable.dart';
 import 'package:mass_pro/temp_testing/main_app_tree.dart';
+import 'package:mass_pro/tree_examples/custom_fields.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const showSnackBar = true;
@@ -88,7 +89,7 @@ class TreeViwPage1State extends State<TreeViwPage1> {
         builder: (context, node) => Card(
           color: colorMapper[node.level.clamp(0, colorMapper.length - 1)],
           child: ListTile(
-            title: Text('Item ${node.level}-${node.key}'),
+            title: CustomFields(),
             // subtitle: Text('Level ${node.level}'),
           ),
         ),

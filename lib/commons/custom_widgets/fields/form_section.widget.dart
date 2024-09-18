@@ -3,7 +3,7 @@
 import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import 'package:dartx/src/map.dart';
 import 'package:flutter/material.dart';
-import 'package:mass_pro/sdk/core/common/value_type.dart';
+import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:mass_pro/utils/mass_utils/utils.dart';
 
 import 'package:mass_pro/form/model/field_ui_model.dart';

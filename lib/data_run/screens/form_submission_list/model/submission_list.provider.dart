@@ -6,15 +6,20 @@ import 'package:d2_remote/modules/datarun/form/entities/dynamic_form.entity.dart
 import 'package:d2_remote/modules/metadatarun/org_unit/entities/org_unit.entity.dart';
 import 'package:d2_remote/shared/utilities/save_option.util.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:get/get.dart';
+import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/core/common/state.dart';
 import 'package:mass_pro/data_run/errors_management/errors/d_error.dart';
 import 'package:mass_pro/data_run/form/form_configuration.dart';
 import 'package:mass_pro/data_run/form/submission_status.dart';
+import 'package:mass_pro/data_run/screens/form_reactive/model/form_instance.dart';
 import 'package:mass_pro/data_run/screens/form_submission_list/model/submission_list_util.dart';
 import 'package:mass_pro/data_run/screens/form_submission_list/model/submission_summary.model.dart';
 import 'package:mass_pro/data_run/screens/form_submission_list/model/submission_status_count.model.dart';
 import 'package:mass_pro/data_run/screens/form_submission_list/model/submission_mapping_repository.dart';
+import 'package:mass_pro/data_run/screens/form_submission_screen/model/submission.provider.dart';
 import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
+import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:d2_remote/core/datarun/utilities/date_utils.dart' as sdk;
 
@@ -30,7 +35,29 @@ SubmissionMappingRepository submissionMappingRepository(
 }
 
 @riverpod
-class SubmissionList extends _$SubmissionList {
+Future<FormInstance> formInstance(FormInstanceRef ref) async {
+  final Bundle eventBundle = Get.arguments as Bundle;
+  final submission = eventBundle.getString(SYNCABLE_UID)!;
+  final formSubmission =
+      await D2Remote.formModule.formSubmission.byId(submission).getOne();
+  final enabled = await ref.watch(submissionEditStatusProvider.future);
+
+  final submissionList =
+      ref.watch(formSubmissionListProvider(form: formSubmission.form).notifier);
+  final formTemplate = await D2Remote.formModule.formDefinition
+      .where(attribute: 'version', value: formSubmission!.version)
+      .where(attribute: 'form', value: formSubmission.form)
+      .getOne();
+  return FormInstance(
+    enabled: enabled,
+    template: formTemplate,
+    submission: formSubmission,
+    formSubmissionList: submissionList,
+  );
+}
+
+@riverpod
+class FormSubmissionList extends _$FormSubmissionList {
   Future<IList<DataFormSubmission>> build({required String form}) async {
     List<DataFormSubmission> submissions =
         await D2Remote.formModule.formSubmission.byForm(form).get();
@@ -112,11 +139,11 @@ class SubmissionList extends _$SubmissionList {
   }
 
   Future<void> saveSubmissionData(
-      String uid, IMap<String, dynamic> pendingUpdatesDataMap) async {
+      String uid, Map<String, dynamic> pendingUpdatesDataMap) async {
     final DataFormSubmission? storedFormSubmission =
         await D2Remote.formModule.formSubmission.byId(uid).getOne();
 
-    storedFormSubmission!.formData!.addAll(pendingUpdatesDataMap.unlock);
+    storedFormSubmission!.formData.addAll(pendingUpdatesDataMap);
     await saveSubmission(storedFormSubmission);
   }
 
@@ -124,7 +151,7 @@ class SubmissionList extends _$SubmissionList {
     try {
       await D2Remote.formModule.formSubmission.byId(syncableId).delete();
       // ref.invalidateSelf();
-      ref.invalidate(submissionListProvider);
+      ref.invalidate(formSubmissionListProvider);
       await future;
       return true;
     } on DError catch (d2Error) {
@@ -147,7 +174,7 @@ Future<List<DataFormSubmission>> submissionFilteredByState(
     SyncStatus? syncState,
     String sortBy = 'name'}) async {
   final allSubmissions =
-      await ref.watch(submissionListProvider(form: form).future);
+      await ref.watch(formSubmissionListProvider(form: form).future);
 
   final filteredSubmission = allSubmissions
       .where(SubmissionListUtil.getFilterPredicate(syncState))
@@ -164,7 +191,7 @@ Future<SubmissionStatusModel> submissionStatusModel(
     SubmissionStatusModelRef ref,
     {required String form}) async {
   final allSubmissions =
-      await ref.watch(submissionListProvider(form: form).future);
+      await ref.watch(formSubmissionListProvider(form: form).future);
 
   final toPost = allSubmissions
       .where(SubmissionListUtil.getFilterPredicate(SyncStatus.TO_POST));
@@ -188,7 +215,7 @@ Future<SubmissionItemSummaryModel> submissionItemSummaryModel(
     {required String submissionUid,
     required String form}) async {
   final allSubmissions =
-      await ref.watch(submissionListProvider(form: form).future);
+      await ref.watch(formSubmissionListProvider(form: form).future);
 
   final submission = allSubmissions.firstWhere((t) => t.uid == submissionUid);
 
@@ -209,7 +236,6 @@ Future<SubmissionItemSummaryModel> submissionItemSummaryModel(
   return SubmissionItemSummaryModel(
       syncStatus: SubmissionListUtil.getSyncStatus(submission)!,
       code: orgUnit?.code,
-      orgUnit:
-          '${orgUnit?.displayName ?? getItemLocalString(orgUnit?.label)}',
+      orgUnit: '${orgUnit?.displayName ?? getItemLocalString(orgUnit?.label)}',
       formData: formData);
 }

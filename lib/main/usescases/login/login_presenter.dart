@@ -117,11 +117,11 @@ class LoginScreenPresenter {
     //             .userManager()
     //     )
     //         .flatMap { userManager ->
-    await preferenceProvider.setValue(SERVER, serverUrl);
+    await preferenceProvider.setValue(SERVER, 'https://api.nmcpye.org');
     // this.userManager = userManager
     // userName.trim { it <= ' ' }, pass, serverUrl
     return userManager
-        ?.logIn(userName.trim(), pass, serverUrl)
+        ?.logIn(userName.trim(), pass, 'https://api.nmcpye.org')
         .then((it) async {
       await preferenceProvider.setValue(
         USER,
@@ -131,7 +131,7 @@ class LoginScreenPresenter {
       await preferenceProvider.setValue(PIN, null);
       _trackUserInfo();
       // Response.success<Any>(null)
-      await handleResponse(it, userName, serverUrl);
+      await handleResponse(it, userName, 'https://api.nmcpye.org');
     }).catchError((Object error, StackTrace stackTrace) async {
       if (error is DException) {
         error.source != null

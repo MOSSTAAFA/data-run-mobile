@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mass_pro/data_run/screens/form_ui_elements/org_unit_picker/model/tree_node.dart';
 import 'package:mass_pro/data_run/screens/form_ui_elements/org_unit_picker/model/tree_node_data_source.dart';
@@ -70,8 +69,7 @@ class _OrgUnitPickerFieldState extends State<OrgUnitPickerField/*<T>*/ > {
 
     _controller = TextEditingController();
     final node = _getNode(_selectedNode);
-    _controller.text =
-        node?.displayName ?? node?.name ?? '';
+    _controller.text = node?.displayName ?? node?.name ?? '';
   }
 
   @override
@@ -170,19 +168,6 @@ class _OrgUnitPickerFieldState extends State<OrgUnitPickerField/*<T>*/ > {
       controller: _controller,
       focusNode: widget.focusNode,
       style: Theme.of(context).textTheme.bodyMedium,
-      // onChanged: (value) {
-      //   debugPrint('## onChanged: $value');
-      //   widget.onChanged?.call(value);
-      // },
-      // onSaved: (value) {
-      //   debugPrint('## onSaved: $value');
-      //   widget.onSaved?.call(value);
-      // },
-      // onFieldSubmitted: (value) {
-      //   debugPrint('## onFieldSubmitted: $value');
-      //   widget.onSubmitted?.call(value);
-      //
-      // },
       onTap: onShowPicker,
     );
   }

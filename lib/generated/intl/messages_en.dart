@@ -42,6 +42,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "confirmSyncFormData": MessageLookupByLibrary.simpleMessage(
             "Are you sure you want to sync the selected entities?"),
+        "conformDeleteMsg": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to remove this section?"),
         "dashboard": MessageLookupByLibrary.simpleMessage("Dashboard"),
         "discard": MessageLookupByLibrary.simpleMessage("Discard"),
         "enterYourUsername":
@@ -156,6 +158,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "fullName": MessageLookupByLibrary.simpleMessage("Full Name"),
         "hidePassword": MessageLookupByLibrary.simpleMessage("Hide Password"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
+        "itemRemoved": MessageLookupByLibrary.simpleMessage("Item Removed"),
         "lastName": MessageLookupByLibrary.simpleMessage("Last Name"),
         "level": MessageLookupByLibrary.simpleMessage("Level"),
         "login": MessageLookupByLibrary.simpleMessage("Login"),
@@ -212,6 +215,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Syncing Configuration"),
         "syncingData": MessageLookupByLibrary.simpleMessage("Syncing Data"),
         "syncingEvents": MessageLookupByLibrary.simpleMessage("Syncing Events"),
+        "undo": MessageLookupByLibrary.simpleMessage("Undo"),
         "user": MessageLookupByLibrary.simpleMessage("user"),
         "username": MessageLookupByLibrary.simpleMessage("Username"),
         "version": MessageLookupByLibrary.simpleMessage("Version"),

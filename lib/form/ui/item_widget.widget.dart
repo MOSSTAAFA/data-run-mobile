@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:mass_pro/commons/custom_widgets/fields/form_edit_text.widget.dart';
 import 'package:mass_pro/commons/custom_widgets/form_card.dart';
 import 'package:mass_pro/form/model/field_ui_model.dart';
-import 'package:mass_pro/sdk/core/common/value_type.dart';
+import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:mass_pro/sdk/core/common/value_type_rendering_type.dart';
-import 'package:mass_pro/sdk/core/program/section_rendering_type.dart';
+import 'package:mass_pro/data_run/screens/form_section/model/section_rendering_type.dart';
 
 class ItemWidget extends StatelessWidget {
   const ItemWidget({super.key, this.item});
