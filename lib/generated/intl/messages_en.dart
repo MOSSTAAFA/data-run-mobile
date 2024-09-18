@@ -23,10 +23,18 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m0(count) =>
       "${Intl.plural(count, zero: 'no forms', one: '1 form', two: '2 forms', other: '${count} forms')}";
 
-  static String m1(count) =>
-      "${Intl.plural(count, zero: ' ', one: '1 Month', two: '2 Months', few: '${count} Years', other: '${count} Months')}";
+  static String m1(error) => "The maximum allowed length is \$${error}.";
 
   static String m2(count) =>
+      "${Intl.plural(count, zero: ' ', one: '1 Month', two: '2 Months', few: '${count} Years', other: '${count} Months')}";
+
+  static String m5(error) =>
+      "The value must be greater than or equal to \$${error}.";
+
+  static String m3(error) =>
+      "The value must be less than or equal to \$${error}.";
+
+  static String m4(count) =>
       "${Intl.plural(count, zero: ' ', one: '1 Year', two: '2 Years', few: '${count} Years', other: '${count} Years')}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -46,6 +54,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Are you sure you want to remove this section?"),
         "dashboard": MessageLookupByLibrary.simpleMessage("Dashboard"),
         "discard": MessageLookupByLibrary.simpleMessage("Discard"),
+        "enterAValidNumber": MessageLookupByLibrary.simpleMessage(
+            "Please enter a valid number."),
         "enterYourUsername":
             MessageLookupByLibrary.simpleMessage("Enter Your Username"),
         "error": MessageLookupByLibrary.simpleMessage("Error"),
@@ -178,8 +188,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "Unsuccessful response from server"),
         "markAsFinalData": MessageLookupByLibrary.simpleMessage(
             "Make the form Final before exiting."),
+        "maximumAllowedLengthIsError": m1,
         "middleName": MessageLookupByLibrary.simpleMessage("Middle Name"),
-        "month": m1,
+        "month": m2,
         "months": MessageLookupByLibrary.simpleMessage("Months"),
         "nmcpYemen": MessageLookupByLibrary.simpleMessage("NMCP Yemen"),
         "noFormsAvailable":
@@ -204,8 +215,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "orgUnitInputLabel":
             MessageLookupByLibrary.simpleMessage("Select Org Unit"),
         "password": MessageLookupByLibrary.simpleMessage("password"),
+        "pleaseEnterAValidEmailAddress": MessageLookupByLibrary.simpleMessage(
+            "enter a valid email address."),
         "searchOrgUnitsHelpText":
             MessageLookupByLibrary.simpleMessage("Search Org Units..."),
+        "selected": MessageLookupByLibrary.simpleMessage("selected"),
         "send": MessageLookupByLibrary.simpleMessage("Send"),
         "showPassword": MessageLookupByLibrary.simpleMessage("Show Password"),
         "submissionDataEntry": MessageLookupByLibrary.simpleMessage("Data"),
@@ -215,14 +229,18 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Syncing Configuration"),
         "syncingData": MessageLookupByLibrary.simpleMessage("Syncing Data"),
         "syncingEvents": MessageLookupByLibrary.simpleMessage("Syncing Events"),
+        "thisFieldIsRequired":
+            MessageLookupByLibrary.simpleMessage("This field is required."),
         "undo": MessageLookupByLibrary.simpleMessage("Undo"),
         "user": MessageLookupByLibrary.simpleMessage("user"),
         "username": MessageLookupByLibrary.simpleMessage("Username"),
+        "valueMustBeGreaterThanOrEqualToError": m5,
+        "valueMustBeLessThanOrEqualToError": m3,
         "version": MessageLookupByLibrary.simpleMessage("Version"),
         "viewAvailableForms":
             MessageLookupByLibrary.simpleMessage("View Available Forms"),
         "viewList": MessageLookupByLibrary.simpleMessage("View List"),
-        "year": m2,
+        "year": m4,
         "years": MessageLookupByLibrary.simpleMessage("Years")
       };
 }

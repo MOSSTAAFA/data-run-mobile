@@ -74,29 +74,17 @@ class _SubmissionTabScreenState extends ConsumerState<FormTabScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   late int _currentPageIndex;
-  late final String form;
-  late final int formVersion;
-  late final String submissionId;
 
   @override
   void initState() {
     super.initState();
-    final Bundle eventBundle = Get.arguments as Bundle;
-    form = eventBundle.getString(FORM_UID)!;
-    formVersion = eventBundle.getInt(FORM_VERSION)!;
-    submissionId = eventBundle.getString(SYNCABLE_UID)!;
     _currentPageIndex = widget.currentPageIndex;
   }
 
-  FormGroup get formGroup => ref
-      .read(formInstanceProvider)
-      .requireValue
-      .form;
+  FormGroup get formGroup => ref.read(formInstanceProvider).requireValue.form;
 
-  FormGroup get formGroupInit => ref
-      .read(formInstanceProvider)
-      .requireValue
-      .formInit;
+  FormGroup get formGroupInit =>
+      ref.read(formInstanceProvider).requireValue.formInit;
 
   @override
   Widget build(BuildContext context) {
@@ -105,16 +93,13 @@ class _SubmissionTabScreenState extends ConsumerState<FormTabScreen> {
     final scrollController =
         useScrollControllerForAnimation(hideFabAnimController);
 
-    final formInstance =
-        ref.watch(formInstanceProvider).requireValue;
+    final formInstance = ref.watch(formInstanceProvider).requireValue;
 
     final _buildBody = <Widget>[
       ReactiveForm(
           key: _initialFormKey,
           formGroup: formInstance.formInit,
-          child: FormInitialView(
-              enabled: widget.enabled,
-              key: ValueKey('SubmissionInitialView_$submissionId'))),
+          child: FormInitialView(enabled: widget.enabled)),
       ReactiveForm(
         key: _entryFormKey,
         formGroup: formInstance.form,
@@ -199,7 +184,7 @@ class _SubmissionTabScreenState extends ConsumerState<FormTabScreen> {
   }
 
   Future<void> backButtonPressed(BuildContext context) async {
-    if (widget.enabled && (formGroup.dirty == true || formGroupInit.dirty)) {
+    if (widget.enabled && (formGroup.pristine || formGroupInit.pristine)) {
       await _saveAndShowBottomSheet(context);
     } else {
       Navigator.pop(context);
@@ -208,10 +193,7 @@ class _SubmissionTabScreenState extends ConsumerState<FormTabScreen> {
 
   /// Save the form
   Future<void> _onSaveForm() async {
-    ref
-        .read(formInstanceProvider)
-        .requireValue
-        .saveFormData();
+    ref.read(formInstanceProvider).requireValue.saveFormData();
   }
 
   Future<void> _showBottomSheet(BuildContext context) async {
@@ -246,10 +228,7 @@ class _SubmissionTabScreenState extends ConsumerState<FormTabScreen> {
   }
 
   Future<void> _markEntityAsFinal() async {
-    return ref
-        .read(formInstanceProvider)
-        .requireValue
-        .markSubmissionAsFinal();
+    return ref.read(formInstanceProvider).requireValue.markSubmissionAsFinal();
   }
 }
 
@@ -260,8 +239,7 @@ class _EagerInitialization extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final formInstance =
-        ref.watch(formInstanceProvider);
+    final formInstance = ref.watch(formInstanceProvider);
     if (formInstance.isLoading) {
       return const Center(child: CircularProgressIndicator());
     } else if (formInstance.hasError) {

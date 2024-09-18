@@ -23,10 +23,14 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m0(count) =>
       "${Intl.plural(count, zero: 'لا توجد استمارات', one: 'استمارة واحدة', two: 'استمارتان', other: '${count} استمارة')}";
 
-  static String m1(count) =>
-      "${Intl.plural(count, zero: ' ', one: 'شهر', two: 'شهران', few: '${count} أشهر', other: '${count} شهر')}";
+  static String m1(error) => "الحد الأقصى للطول المسموح به هو \$${error}.";
 
   static String m2(count) =>
+      "${Intl.plural(count, zero: ' ', one: 'شهر', two: 'شهران', few: '${count} أشهر', other: '${count} شهر')}";
+
+  static String m3(error) => "يجب أن تكون القيمة أقل من أو تساوي \$${error}.";
+
+  static String m4(count) =>
       "${Intl.plural(count, zero: '', one: 'سنة', two: 'سنتان', few: '${count} سنوات', other: '${count} سنة')}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -46,6 +50,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "هل أنت متأكد أنك تريد إزالة هذا القسم؟"),
         "dashboard": MessageLookupByLibrary.simpleMessage("الرئيسية"),
         "discard": MessageLookupByLibrary.simpleMessage("تجاهل"),
+        "enterAValidNumber":
+            MessageLookupByLibrary.simpleMessage("يرجى إدخال رقم صالح."),
         "enterYourUsername":
             MessageLookupByLibrary.simpleMessage("من فضلك أدخل اسم المستخدم"),
         "error": MessageLookupByLibrary.simpleMessage("خطأ"),
@@ -177,8 +183,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("استجابة غير ناجحة من الخادم"),
         "markAsFinalData": MessageLookupByLibrary.simpleMessage(
             "تعيين هذه البيانات كنهائية وجاهزة للإرسال."),
+        "maximumAllowedLengthIsError": m1,
         "middleName": MessageLookupByLibrary.simpleMessage("الاسم الأوسط"),
-        "month": m1,
+        "month": m2,
         "months": MessageLookupByLibrary.simpleMessage("أشهر"),
         "nmcpYemen": MessageLookupByLibrary.simpleMessage(
             "البرنامج الوطني لمكافحة الملاريا"),
@@ -204,8 +211,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "orgUnitInputLabel":
             MessageLookupByLibrary.simpleMessage("اختر اسم المكان"),
         "password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
+        "pleaseEnterAValidEmailAddress": MessageLookupByLibrary.simpleMessage(
+            "يرجى إدخال عنوان بريد إلكتروني صالح."),
         "searchOrgUnitsHelpText":
             MessageLookupByLibrary.simpleMessage("البحث عن مكان..."),
+        "selected": MessageLookupByLibrary.simpleMessage("عناصر محددة"),
         "send": MessageLookupByLibrary.simpleMessage("إرسال"),
         "showPassword": MessageLookupByLibrary.simpleMessage("أظهر كلمة السر"),
         "submissionDataEntry": MessageLookupByLibrary.simpleMessage("بيانات"),
@@ -218,14 +228,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "syncingData": MessageLookupByLibrary.simpleMessage("مزامنة بيانات"),
         "syncingEvents":
             MessageLookupByLibrary.simpleMessage("مزامنة الإستمارات"),
+        "thisFieldIsRequired":
+            MessageLookupByLibrary.simpleMessage("هذا الحقل مطلوب."),
         "undo": MessageLookupByLibrary.simpleMessage("تراجع"),
         "user": MessageLookupByLibrary.simpleMessage("مستخدم"),
         "username": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
+        "valueMustBeLessThanOrEqualToError": m3,
         "version": MessageLookupByLibrary.simpleMessage("الإصدار"),
         "viewAvailableForms":
             MessageLookupByLibrary.simpleMessage("استعرض الاستمارات المتاحة"),
         "viewList": MessageLookupByLibrary.simpleMessage("عرض القائمة"),
-        "year": m2,
+        "year": m4,
         "years": MessageLookupByLibrary.simpleMessage("سنوات")
       };
 }

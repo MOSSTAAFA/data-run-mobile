@@ -2,6 +2,7 @@ import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mass_pro/data_run/screens/form_reactive/fields/improved_expansion_tile.widget.dart';
 import 'package:mass_pro/data_run/screens/form_reactive/model/form_element_factory.dart';
 import 'package:mass_pro/data_run/screens/form_reactive/model/form_element_model.dart';
 import 'package:mass_pro/data_run/screens/form_reactive/section.widget.dart';
@@ -77,43 +78,6 @@ class RepeatSectionWidget extends HookConsumerWidget {
   }
 }
 
-// class RepeatedSectionItem extends HookWidget {
-//   const RepeatedSectionItem({
-//     super.key,
-//     required this.element,
-//     this.onDeleteItem,
-//     required this.index,
-//   });
-//
-//   final SectionInstance element;
-//   final Function(int index)? onDeleteItem;
-//   final int index;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     final expanded = useState(element.expanded);
-//     return ExpansionTile(
-//         maintainState: true,
-//         onExpansionChanged: (bool isExpanded) {
-//           expanded.value = isExpanded;
-//         },
-//         title: Text('$index. ${element.properties.label}.'),
-//         subtitle: Text('${generateFormSummary(element.value, 3)}'),
-//         trailing: Icon(
-//           expanded.value ? Icons.arrow_drop_down_circle : Icons.arrow_drop_down,
-//         ),
-//         children: [
-//           IconButton(
-//             icon: const Icon(Icons.remove_circle),
-//             onPressed: () {
-//               onDeleteItem?.call(index);
-//             },
-//           ),
-//           SectionWidget(element: element),
-//         ]);
-//   }
-// }
-
 class RepeatedSectionItem extends HookWidget {
   const RepeatedSectionItem({
     super.key,
@@ -131,20 +95,20 @@ class RepeatedSectionItem extends HookWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(S.of(context).confirm),  // Localized title
+          title: Text(S.of(context).confirm), // Localized title
           content: Text(
-            S.of(context).conformDeleteMsg,  // Localized message
+            S.of(context).conformDeleteMsg, // Localized message
           ),
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(false);  // Cancel the deletion
+                Navigator.of(context).pop(false); // Cancel the deletion
               },
               child: Text(S.of(context).cancel),
             ),
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(true);  // Confirm the deletion
+                Navigator.of(context).pop(true); // Confirm the deletion
               },
               child: Text(S.of(context).confirm),
             ),
@@ -167,9 +131,9 @@ class RepeatedSectionItem extends HookWidget {
 
     scaffoldMessenger.showSnackBar(
       SnackBar(
-        content: Text(S.of(context).itemRemoved),  // Localized: "Item removed"
+        content: Text(S.of(context).itemRemoved), // Localized: "Item removed"
         action: SnackBarAction(
-          label: S.of(context).undo,  // Localized: "Undo"
+          label: S.of(context).undo, // Localized: "Undo"
           onPressed: () {
             // Code to undo deletion, potentially restore item
             // Logic here depends on how you want to re-add the item
@@ -182,30 +146,45 @@ class RepeatedSectionItem extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final expanded = useState(element.expanded);
-    return ExpansionTile(
+    return ImprovedExpansionTile(
       maintainState: true,
-      onExpansionChanged: (bool isExpanded) {
-        expanded.value = isExpanded;
+      enabled: element.form.enabled,
+      isExpanded: false,
+      initiallyExpanded: true,
+      onExpansionChanged: (ex) {
+        expanded.value = ex;
       },
-      title: Row(
-        children: [
-          Text('$index. ${element.properties.label}'),
-          const Spacer(),
-          // Better positioned delete button for ease of access
-          IconButton(
-            icon: const Icon(Icons.remove_circle_outline, color: Colors.red),
-            onPressed: () {
-              _confirmDelete(context, index);  // Trigger confirmation dialog
-            },
-          ),
-        ],
+      titleWidget: Tooltip(
+        message: '$index. ${element.properties.label}',
+        child: Row(
+          children: [
+            // Wrap the Text widget with Expanded or Flexible to manage long text
+            Expanded(
+              child: Text(
+                '$index. ${element.properties.label}',
+                overflow: TextOverflow.fade,
+
+                // Prevents overflow, adds "..." if the text is too long
+                maxLines: 1,
+                // Ensures the text stays on a single line
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue,
+                ), // Adjust the style as needed
+              ),
+            ),
+            const Spacer(),
+            IconButton(
+              icon: const Icon(Icons.remove_circle_outline, color: Colors.red),
+              onPressed: () {
+                _confirmDelete(context, index); // Trigger confirmation dialog
+              },
+            ),
+          ],
+        ),
       ),
-      trailing: Icon(
-        expanded.value ? Icons.arrow_drop_down_circle : Icons.arrow_drop_down,
-      ),
-      children: [
-        SectionWidget(element: element),
-      ],
+      child: SectionWidget(element: element),
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mass_pro/data_run/screens/form_reactive/fields/improved_expansion_tile.widget.dart';
 import 'package:mass_pro/data_run/screens/form_reactive/model/form_element_model.dart';
 import 'package:mass_pro/data_run/screens/form_reactive/model/form_instance.dart';
 import 'package:mass_pro/data_run/screens/form_reactive/repeat_section.widget.dart';
@@ -41,29 +42,26 @@ class SectionElementWidgetState extends ConsumerState<SectionElementWidget> {
 
     return SectionInheritedWidget(
       section: element,
-      child: ExpansionTile(
-          enabled: element.elementControl.enabled,
-          initiallyExpanded: true,
-          title: Text('${element.properties.label}'),
-          trailing: Icon(
-            expanded.value
-                ? Icons.arrow_drop_down_circle
-                : Icons.arrow_drop_down,
-          ),
-          children: [
-            switch (element) {
-              SectionInstance() => SectionWidget(
-                  // key: ValueKey('${element.elementPath}_section'),
-                  element: element as SectionInstance),
-              RepeatSectionInstance() => RepeatSectionWidget(
-                  // key: ValueKey('${element.elementPath}_repeatSection'),
-                  element: element as RepeatSectionInstance,
-                  formOptionsMap: formOptionsMap,
-                  onRemove: (index) => (element as RepeatSectionInstance)
-                      .removeRepeatSectionItemAtIndex(index),
-                ),
-            }
-          ]),
+      child: ImprovedExpansionTile(
+        title: '${element.properties.label}',
+        enabled: element.elementControl.enabled,
+        isExpanded: expanded.value,
+        // onExpansionChanged: (bool value) {
+        //   expanded.value = !expanded.value;
+        // },
+        child: switch (element) {
+          SectionInstance() => SectionWidget(
+              // key: ValueKey('${element.elementPath}_section'),
+              element: element as SectionInstance),
+          RepeatSectionInstance() => RepeatSectionWidget(
+              // key: ValueKey('${element.elementPath}_repeatSection'),
+              element: element as RepeatSectionInstance,
+              formOptionsMap: formOptionsMap,
+              onRemove: (index) => (element as RepeatSectionInstance)
+                  .removeRepeatSectionItemAtIndex(index),
+            ),
+        },
+      ),
     );
   }
 }

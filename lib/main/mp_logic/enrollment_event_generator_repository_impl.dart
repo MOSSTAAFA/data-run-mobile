@@ -31,7 +31,7 @@ class EnrollmentEventGeneratorRepositoryImpl
         .resetFilters()
         .byProgram(programUid)
         .where(attribute: 'autoGenerateEvent', value: true)
-        .orderBy(attribute: 'sortOrder', sortOrder: SortOrder.ASC)
+        .orderBy(attribute: 'sortOrder', order: SortOrder.ASC)
         .get();
   }
 
@@ -45,7 +45,7 @@ class EnrollmentEventGeneratorRepositoryImpl
     return await D2Remote.programModule.programStage
         .resetFilters()
         .byProgram(programUid)
-        .orderBy(attribute: 'sortOrder', sortOrder: SortOrder.ASC)
+        .orderBy(attribute: 'sortOrder', order: SortOrder.ASC)
         .getOne();
   }
 
@@ -55,7 +55,7 @@ class EnrollmentEventGeneratorRepositoryImpl
         .resetFilters()
         .byProgram(programUid)
         .where(attribute: 'openAfterEnrollment', value: true)
-        .orderBy(attribute: 'sortOrder', sortOrder: SortOrder.ASC)
+        .orderBy(attribute: 'sortOrder', order: SortOrder.ASC)
         .getOne();
   }
 
@@ -68,7 +68,7 @@ class EnrollmentEventGeneratorRepositoryImpl
         .byProgramStage(stageUid)
         // "Order By (CASE WHEN status IN (Active, completed, visited) THEN EVENT_DATE ELSE DUE_DATE END)"
         // .orderByTimeline(RepositoryScope.OrderByDirection.ASC)
-        .orderBy(attribute: 'eventDate', sortOrder: SortOrder.ASC)
+        .orderBy(attribute: 'eventDate', order: SortOrder.ASC)
         .getOne();
   }
 
@@ -81,7 +81,7 @@ class EnrollmentEventGeneratorRepositoryImpl
             .byProgramStage(stageUid)
             // "Order By (CASE WHEN status IN (Active, completed, visited) THEN EVENT_DATE ELSE DUE_DATE END)"
             // .orderByTimeline(RepositoryScope.OrderByDirection.ASC)
-            .orderBy(attribute: 'eventDate', sortOrder: SortOrder.ASC)
+            .orderBy(attribute: 'eventDate', order: SortOrder.ASC)
             .getOne())!
         .id!;
   }

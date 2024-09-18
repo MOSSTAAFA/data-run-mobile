@@ -652,7 +652,7 @@ class _SubmissionItemSummaryModelProviderElement
 }
 
 String _$formSubmissionListHash() =>
-    r'011cef57905d061913c1787ca26496af27b13551';
+    r'd56bd4e88f938c7dccc9d8f3b7aeba551b614c4f';
 
 abstract class _$FormSubmissionList
     extends BuildlessAutoDisposeAsyncNotifier<IList<DataFormSubmission>> {

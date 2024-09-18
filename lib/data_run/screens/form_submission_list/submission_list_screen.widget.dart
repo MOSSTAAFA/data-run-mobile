@@ -1,7 +1,7 @@
 import 'package:d2_remote/modules/datarun/form/entities/data_form_submission.entity.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/core/common/state.dart';
 import 'package:mass_pro/data_run/form/form_configuration.dart';
@@ -14,10 +14,8 @@ import 'package:mass_pro/data_run/screens/form_submission_list/submission_sync_d
 import 'package:mass_pro/generated/l10n.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 
-class SubmissionListScreen extends ConsumerStatefulWidget {
+class SubmissionListScreen extends StatefulHookConsumerWidget {
   const SubmissionListScreen({super.key});
-
-  // final FormListItemModel? formModel;
 
   @override
   SubmissionListState createState() => SubmissionListState();
@@ -60,9 +58,54 @@ class SubmissionListState extends ConsumerState<SubmissionListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // final isSelectionMode = useState(false);
+    // final selectedItems = useState(Set<String>());
+    //
+    // void _syncSelectedItems() {
+    //   _showSyncDialog(selectedItems.value.toList());
+    // }
+    //
+    // void _deleteSelectedItems() {
+    //   ref
+    //       .read(formSubmissionListProvider(form: form).notifier)
+    //       .deleteSubmission(selectedItems.value);
+    //   selectedItems.value.clear();
+    //   isSelectionMode.value = false;
+    // }
+
+    // AppBar _buildSelectionAppBar() {
+    //   return AppBar(
+    //     title: Text('${selectedItems.value.length} ${S.of(context).selected}'),
+    //     leading: Row(
+    //       children: [
+    //         IconButton(
+    //           icon: Icon(Icons.close),
+    //           onPressed: () {
+    //             isSelectionMode.value = false;
+    //
+    //             selectedItems.value.clear();
+    //           },
+    //         ),
+    //       ],
+    //     ),
+    //     actions: [
+    //       IconButton(
+    //         tooltip: S.of(context).syncFormData,
+    //         icon: Icon(Icons.sync),
+    //         onPressed: () {
+    //           _syncSelectedItems();
+    //         },
+    //       ),
+    //     ],
+    //   );
+    // }
+
     return Scaffold(
         key: ValueKey(form),
-        appBar: AppBar(
+        appBar: /*isSelectionMode.value
+            ? _buildSelectionAppBar()
+            :*/
+            AppBar(
           title: Consumer(
             builder: (context, ref, child) {
               final AsyncValue<FormConfiguration> formConfig =
@@ -80,7 +123,41 @@ class SubmissionListState extends ConsumerState<SubmissionListScreen> {
         body: Column(
           children: [
             _buildFilterBar(),
-            Expanded(child: _buildEntitiesList()),
+            Expanded(
+                child: ref
+                    .watch(submissionFilteredByStateProvider(
+                        form: form, syncState: _selectedStatus))
+                    .when(
+                        data: (filteredEntities) => ListView.builder(
+                              itemCount: filteredEntities.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                final DataFormSubmission entity =
+                                    filteredEntities[index];
+
+                                return Card(
+                                  shadowColor:
+                                      Theme.of(context).colorScheme.shadow,
+                                  surfaceTintColor:
+                                      Theme.of(context).colorScheme.primary,
+                                  elevation: .7,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                  ),
+                                  child: SubmissionSummary(
+                                      // key: ValueKey('${entity.uid}_${entity.version}'),
+                                      form: form,
+                                      entity: entity,
+                                      onSyncPressed: (uid) =>
+                                          _showSyncDialog([entity.uid!]),
+                                      onTap: () => _goToDataEntryForm(
+                                          entity.uid!, entity.version)),
+                                );
+                              },
+                            ),
+                        error: (Object error, StackTrace s) =>
+                            getErrorWidget(error, s),
+                        loading: () => const CircularProgressIndicator())),
           ],
         ),
         floatingActionButton: FloatingActionButton(
@@ -136,37 +213,6 @@ class SubmissionListState extends ConsumerState<SubmissionListScreen> {
     );
   }
 
-  Widget _buildEntitiesList() {
-    final entitiesByStatus = ref.watch(submissionFilteredByStateProvider(
-        form: form, syncState: _selectedStatus));
-
-    return entitiesByStatus.when(
-        data: (filteredEntities) => ListView.builder(
-              itemCount: filteredEntities.length,
-              itemBuilder: (BuildContext context, int index) {
-                final DataFormSubmission entity = filteredEntities[index];
-
-                return Card(
-                  shadowColor: Theme.of(context).colorScheme.shadow,
-                  surfaceTintColor: Theme.of(context).colorScheme.primary,
-                  elevation: .7,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  child: SubmissionSummary(
-                      // key: ValueKey('${entity.uid}_${entity.version}'),
-                      form: form,
-                      entity: entity,
-                      onSyncPressed: (uid) => _showSyncDialog([entity.uid!]),
-                      onTap: () =>
-                          _goToDataEntryForm(entity.uid!, entity.version)),
-                );
-              },
-            ),
-        error: (Object error, StackTrace s) => getErrorWidget(error, s),
-        loading: () => const CircularProgressIndicator());
-  }
-
   Future<void> _showAddEntityDialog(BuildContext context, WidgetRef ref) async {
     if (!context.mounted) {
       return;
@@ -203,6 +249,59 @@ class SubmissionListState extends ConsumerState<SubmissionListScreen> {
         ),
         arguments: bundle);
     // ref.invalidate(submissionListProvider);
+  }
+
+  Future<void> _confirmDelete(BuildContext context, List<String> uids) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(S.of(context).confirm),
+          content: Text(
+            S.of(context).conformDeleteMsg,
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              child: Text(S.of(context).cancel),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              child: Text(S.of(context).confirm),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirmed == true) {
+      _showUndoSnackBar(context, uids);
+    }
+  }
+
+  void _showUndoSnackBar(BuildContext context, List<String> toDeleteUids) {
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+
+    ref
+        .read(formSubmissionListProvider(form: form).notifier)
+        .deleteSubmission(toDeleteUids);
+
+    scaffoldMessenger.showSnackBar(
+      SnackBar(
+        content: Text(S.of(context).itemRemoved), // Localized: "Item removed"
+        action: SnackBarAction(
+          label: S.of(context).undo, // Localized: "Undo"
+          onPressed: () {
+            // Code to undo deletion, potentially restore item
+            // Logic here depends on how you want to re-add the item
+          },
+        ),
+      ),
+    );
   }
 }
 

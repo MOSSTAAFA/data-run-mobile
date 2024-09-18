@@ -16,6 +16,9 @@ class FieldWidget extends HookWidget {
       return SizedBox.shrink();
     }
 
-    return FieldFactory.fromType(element: element);
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+      child: FieldFactory.fromType(element: element),
+    );
   }
 }

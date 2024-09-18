@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mass_pro/data_run/screens/form_reactive/inherited_widget.dart';
 import 'package:mass_pro/data_run/screens/form_reactive/model/form_element_model.dart';
+import 'package:mass_pro/data_run/screens/form_reactive/model/form_element_validator.dart';
 import 'package:mass_pro/data_run/screens/form_submission_list/model/submission_list.provider.dart';
 import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
 import 'package:reactive_dropdown_search/reactive_dropdown_search.dart';
@@ -16,17 +17,20 @@ class QDropDownSearchField extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final formOptionsMap =
         ref.watch(formInstanceProvider).requireValue.formOptionsMap;
+    final fieldOptions = formOptionsMap[element.listName]
+      ?..sort((a, b) => (a.order).compareTo(b.order));
+    //
+    // final section = SectionInheritedWidget.of(context);
+    // final pathR = section.pathRecursive;
+    // final pathBu = section.pathBuilder(element.name);
+    // final pathBu2 = section.elementPath;
+    // final formControl = section.elementControl;
+    // final forfmControl = formControl;
 
-    final section = SectionInheritedWidget.of(context);
-    final pathR = section.pathRecursive;
-    final pathBu = section.pathBuilder(element.name);
-    final pathBu2 = section.elementPath;
-    final formControl = section.elementControl;
-    final forfmControl = formControl;
     return ReactiveDropdownSearchMultiSelection<String, String>(
       // formControl: element.elementControl as FormControl<List<String>>,
       formControlName: element.name,
-      validationMessages: element.validationMessages,
+      validationMessages: validationMessages(context),
       dropdownDecoratorProps: DropDownDecoratorProps(
         dropdownSearchDecoration: InputDecoration(
           labelText: element.properties.label,
@@ -40,9 +44,11 @@ class QDropDownSearchField extends HookConsumerWidget {
         //   return s.startsWith('I');
         // },
       ),
-      items: formOptionsMap[element.listName]
-          ?.map((option) => getItemLocalString(option.label))
-          .toList() ?? [],
+      items: fieldOptions
+              ?.map((option) => getItemLocalString(option.label))
+              .toSet()
+              .toList() ??
+          [],
       /*const [
         "Brazil",
         "Italia (Disabled)",

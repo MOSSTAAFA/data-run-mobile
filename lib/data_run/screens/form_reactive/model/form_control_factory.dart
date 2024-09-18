@@ -44,6 +44,7 @@ extension FromElementControlFactory<T> on FormElementInstance<T?> {
       case ValueType.Letter:
       case ValueType.FullName:
       case ValueType.Email:
+      case ValueType.OrganisationUnit:
         return FormControl<String>(
           value: element.value ?? element.defaultValue,
           validators: FieldValidators.getValidators(element),
@@ -70,7 +71,6 @@ extension FromElementControlFactory<T> on FormElementInstance<T?> {
           value: element.value ?? element.defaultValue,
           validators: FieldValidators.getValidators(element),
         );
-      case ValueType.OrganisationUnit:
       case ValueType.Number:
       case ValueType.Age:
       case ValueType.Percentage:
@@ -146,6 +146,7 @@ extension FormTemplateControlFactory<T> on FormElementInstance<T?> {
       {List<FormOption> fieldOptions = const []}) {
     switch (fieldTemplate.type) {
       case ValueType.Text:
+      case ValueType.OrganisationUnit:
         return FormControl<String>(
           value: fieldTemplate.defaultValue,
           validators: FieldValidators.getValidators(fieldTemplate),
@@ -184,11 +185,6 @@ extension FormTemplateControlFactory<T> on FormElementInstance<T?> {
       case ValueType.IntegerNegative:
       case ValueType.IntegerZeroOrPositive:
         return FormControl<int>(
-          value: fieldTemplate.defaultValue,
-          validators: FieldValidators.getValidators(fieldTemplate),
-        );
-      case ValueType.OrganisationUnit:
-        return FormControl<String>(
           value: fieldTemplate.defaultValue,
           validators: FieldValidators.getValidators(fieldTemplate),
         );

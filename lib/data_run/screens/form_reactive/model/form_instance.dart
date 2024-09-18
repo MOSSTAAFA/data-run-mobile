@@ -14,7 +14,9 @@ class FormInstance {
     required this.submission,
     required this.formSubmissionList,
     required this.enabled,
-  }) : formOptionsMap = Map.fromIterable(template.options,
+  }) : formOptionsMap = Map.fromIterable(
+            template.options
+              ..sort((a, b) => (a.order).compareTo(b.order)),
             key: (option) => option.listName,
             value: (option) => template.options
                 .where((o) => o.listName == option.listName)

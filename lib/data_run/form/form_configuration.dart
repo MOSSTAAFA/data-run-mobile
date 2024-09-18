@@ -71,7 +71,7 @@ class FormConfiguration {
         this.optionLists =
             IMap.fromIterable<String, IList<FormOption>, FormOption>(
                 (options ?? [])
-                  ..sort((p1, p2) => p1.sortOrder.compareTo(p2.sortOrder)),
+                  ..sort((p1, p2) => p1.order.compareTo(p2.order)),
                 keyMapper: (FormOption option) => option.listName,
                 valueMapper: (FormOption option) =>
                     options

@@ -147,9 +147,13 @@ class FormSubmissionList extends _$FormSubmissionList {
     await saveSubmission(storedFormSubmission);
   }
 
-  Future<bool> deleteSubmission(String syncableId) async {
+  Future<bool> deleteSubmission(Iterable<String?> syncableIds) async {
     try {
-      await D2Remote.formModule.formSubmission.byId(syncableId).delete();
+      await Future.forEach(
+          syncableIds,
+          (uid) =>
+              D2Remote.formModule.formSubmission.byId(uid!).delete());
+      // await D2Remote.formModule.formSubmission.byId(syncableId!).delete();
       // ref.invalidateSelf();
       ref.invalidate(formSubmissionListProvider);
       await future;

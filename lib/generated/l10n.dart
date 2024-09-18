@@ -1243,6 +1243,76 @@ class S {
       args: [],
     );
   }
+
+  /// `selected`
+  String get selected {
+    return Intl.message(
+      'selected',
+      name: 'selected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This field is required.`
+  String get thisFieldIsRequired {
+    return Intl.message(
+      'This field is required.',
+      name: 'thisFieldIsRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `enter a valid email address.`
+  String get pleaseEnterAValidEmailAddress {
+    return Intl.message(
+      'enter a valid email address.',
+      name: 'pleaseEnterAValidEmailAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a valid number.`
+  String get enterAValidNumber {
+    return Intl.message(
+      'Please enter a valid number.',
+      name: 'enterAValidNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The value must be greater than or equal to ${error}.`
+  String valueMustBeGreaterThanOrEqualToError(Object error) {
+    return Intl.message(
+      'The value must be greater than or equal to \$$error.',
+      name: 'valueMustBeGreaterThanOrEqualToError',
+      desc: '',
+      args: [error],
+    );
+  }
+
+  /// `The value must be less than or equal to ${error}.`
+  String valueMustBeLessThanOrEqualToError(Object error) {
+    return Intl.message(
+      'The value must be less than or equal to \$$error.',
+      name: 'valueMustBeLessThanOrEqualToError',
+      desc: '',
+      args: [error],
+    );
+  }
+
+  /// `The maximum allowed length is ${error}.`
+  String maximumAllowedLengthIsError(Object error) {
+    return Intl.message(
+      'The maximum allowed length is \$$error.',
+      name: 'maximumAllowedLengthIsError',
+      desc: '',
+      args: [error],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

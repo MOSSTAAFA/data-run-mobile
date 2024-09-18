@@ -637,7 +637,7 @@ class RepeatSectionInstance
       required super.form,
       super.path,
       super.parentSection,
-      super.expanded,
+      super.expanded = false,
       List<FormElementInstance<Map<String, Object?>?>> elements = const []})
       : super(properties: properties) {
     this._elements.addAll(elements);
