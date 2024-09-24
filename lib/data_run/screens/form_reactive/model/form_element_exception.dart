@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:mass_pro/data_run/errors_management/errors/d_exception.dart';
 
 class FormElementNotFoundException extends DException {
+  FormElementNotFoundException({this.elementName});
+
   /// The name of the element that was not found.
   final String? elementName;
-
-  FormElementNotFoundException({this.elementName});
 
   @override
   String toString() {
@@ -18,14 +18,14 @@ class FormElementNotFoundException extends DException {
 }
 
 class FormRepeatElementInvalidIndexException extends DException {
-  /// The invalid index that was the cause of this exception.
-  final String index;
-
   /// Creates an instance of the exception.
   ///
   /// The [index] argument is the invalid index that was the cause
   /// of this exception.
   FormRepeatElementInvalidIndexException(this.index);
+
+  /// The invalid index that was the cause of this exception.
+  final String index;
 
   @override
   String toString() {
@@ -36,12 +36,12 @@ class FormRepeatElementInvalidIndexException extends DException {
 /// This exception is thrown by Reactive Widgets that doesn't find a
 /// parent widget [ReactiveForm] or [ReactiveFormArray] in the widgets tree.
 class FormElementParentNotFoundException extends DException {
-  /// The widget that throws this exception.
-  Widget widget;
-
   /// Creates an instance of the exception
   /// passing the [widget] that throws the exception.
   FormElementParentNotFoundException(this.widget);
+
+  /// The widget that throws this exception.
+  Widget widget;
 
   @override
   String toString() {

@@ -25,11 +25,6 @@ class ImprovedExpansionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
-// Adjust colors based on the current theme
-    final backgroundColor = isDarkMode ? theme.cardColor : Colors.blue.shade50;
-    final textColor =
-        isDarkMode ? theme.textTheme.bodyMedium!.color : Colors.blue;
-    final iconColor = isDarkMode ? theme.iconTheme.color : Colors.blue;
 
     return Card(
       shadowColor: Theme.of(context).colorScheme.shadow,

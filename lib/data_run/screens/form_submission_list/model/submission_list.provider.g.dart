@@ -181,20 +181,6 @@ class _SubmissionMappingRepositoryProviderElement
       (origin as SubmissionMappingRepositoryProvider).submissionUid;
 }
 
-String _$formInstanceHash() => r'0f38df503c073c46255cf66fa6c48ff0a029dc8a';
-
-/// See also [formInstance].
-@ProviderFor(formInstance)
-final formInstanceProvider = AutoDisposeFutureProvider<FormInstance>.internal(
-  formInstance,
-  name: r'formInstanceProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$formInstanceHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef FormInstanceRef = AutoDisposeFutureProviderRef<FormInstance>;
 String _$submissionFilteredByStateHash() =>
     r'875044d467a0f5a9af266938d3cda3060a299efc';
 
@@ -499,7 +485,7 @@ class _SubmissionStatusModelProviderElement
 }
 
 String _$submissionItemSummaryModelHash() =>
-    r'd2cebc2be3fca7ccb1926d2a7ee8329c52ff8568';
+    r'81855375553d3142a08bb4addbfbd7a11ff93588';
 
 /// See also [submissionItemSummaryModel].
 @ProviderFor(submissionItemSummaryModel)
@@ -652,7 +638,7 @@ class _SubmissionItemSummaryModelProviderElement
 }
 
 String _$formSubmissionListHash() =>
-    r'd56bd4e88f938c7dccc9d8f3b7aeba551b614c4f';
+    r'5bb7b5efd217f658e803b749de417d081b4a6f1c';
 
 abstract class _$FormSubmissionList
     extends BuildlessAutoDisposeAsyncNotifier<IList<DataFormSubmission>> {

@@ -17,7 +17,7 @@
 //                 .where((o) => o.listName == option.listName)
 //                 .toList());
 //
-//   final FormDefinition template;
+//   final FormVersion template;
 //   final Map<String, List<FormOption>> formOptionsMap;
 //
 //   /// Initialize the form elements based on the template or previously saved data

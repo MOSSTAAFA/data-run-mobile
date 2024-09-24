@@ -9,21 +9,21 @@ void validateField(String expression, Map<String, dynamic> formFields) {
     resolve: (object, member) => formFields[member],
   );
 
-  print(r());  // Evaluate the expression and print the result (true or false)
+  // print(r()); // Evaluate the expression and print the result (true or false)
 }
 
 void main() {
   {
-
-    const e = "hasMatch(x, '^\\+?[0-9]{1,3}?[-. ]?(\\d{1,4})[-. ]?(\\d{1,4})[-. ]?(\\d{1,9})\$')";
+    const e =
+        "hasMatch(x, '^\\+?[0-9]{1,3}?[-. ]?(\\d{1,4})[-. ]?(\\d{1,4})[-. ]?(\\d{1,9})\$')";
     final r = parseExpression(
       e,
       context: {
         'x': '+123-456-7890',
-        'hasMatch': (String x, String regEx) =>  RegExp(regEx).hasMatch(x),
+        'hasMatch': (String x, String regEx) => RegExp(regEx).hasMatch(x),
       },
     );
-    print(r());
+    // print(r());
   }
 
   {
@@ -35,7 +35,7 @@ void main() {
       },
       resolve: _resolve,
     );
-    print(r());
+    // print(r());
   }
 
   {
@@ -47,7 +47,7 @@ void main() {
       },
       resolve: _resolve,
     );
-    print(r());
+    // print(r());
   }
 
   {
@@ -58,7 +58,7 @@ void main() {
         'sub': ({required num x, required num y}) => x - y,
       },
     );
-    print(r());
+    // print(r());
   }
 
   {
@@ -78,7 +78,7 @@ void main() {
       },
       resolve: _resolve,
     );
-    print(r());
+    // print(r());
   }
 }
 
@@ -120,7 +120,7 @@ class Foo {
 }
 
 class Person {
-  final String name;
-
   Person(this.name);
+
+  final String name;
 }

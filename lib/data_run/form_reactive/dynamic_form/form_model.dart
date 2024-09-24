@@ -1,7 +1,7 @@
 import 'package:reactive_forms/reactive_forms.dart';
 
-class DynamicFormModel {
-  DynamicFormModel(this.formGroup);
+class FormTemplateModel {
+  FormTemplateModel(this.formGroup);
 
   final FormGroup formGroup;
 

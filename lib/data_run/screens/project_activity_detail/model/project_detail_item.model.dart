@@ -16,13 +16,13 @@ class FormListItemModel with EquatableMixin {
   }) : this.entityCountByStatus =
             submissionStatusModel ?? SubmissionStatusModel();
 
-  final FormDefinition form;
+  final FormTemplateV form;
   final String? team;
   final SubmissionStatusModel entityCountByStatus;
   final bool canAddNewEvent;
 
   FormListItemModel copyWith(
-          {FormDefinition? form,
+          {FormTemplateV? form,
           String? formCode,
           String? formName,
           String? team,

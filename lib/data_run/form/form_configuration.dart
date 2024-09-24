@@ -15,25 +15,25 @@ part 'form_configuration.g.dart';
 
 @riverpod
 Future<FormConfiguration> formConfiguration(FormConfigurationRef ref,
-    {required String form, int? formVersion}) async {
-  final currentForm = await D2Remote.formModule.form.byId(form).getOne();
+    {required String form, int? version}) async {
+  final currentForm = await D2Remote.formModule.formTemplate.byId(form).getOne();
 
   if (currentForm == null) {
     throw FormDoesNotExistException('formUid: $form dose not exist');
   }
 
-  final selectedFormVersion = formVersion ?? currentForm.version;
-  final FormDefinition? formDefinition = await D2Remote
-      .formModule.formDefinition
-      .byForm(form)
+  final selectedFormVersion = version ?? currentForm.version;
+  final FormTemplateV? formVersion = await D2Remote
+      .formModule.formTemplateV
+      .byFormTemplate(form)
       .byVersion(selectedFormVersion)
       .getOne();
 
-  Iterable<String> orgUnits = formDefinition?.orgUnits ?? [];
+  Iterable<String> orgUnits = formVersion?.orgUnits ?? [];
 
-  if (formDefinition != null) {
+  if (formVersion != null) {
     final assignments = await D2Remote.assignmentModuleD.assignment
-        .byActivity(formDefinition.activity)
+        .byActivity(formVersion.activity)
         .get();
     final assigned =
         assignments.where((a) => a.orgUnit != null).map((a) => a.orgUnit!);
@@ -42,11 +42,11 @@ Future<FormConfiguration> formConfiguration(FormConfigurationRef ref,
 
   return FormConfiguration(
       form: form,
-      label: getItemLocalString(formDefinition?.label,
+      label: getItemLocalString(formVersion?.label,
           defaultString: currentForm.name),
       version: selectedFormVersion,
-      fields: formDefinition?.fields,
-      options: formDefinition?.options,
+      fields: formVersion?.fields,
+      options: formVersion?.options,
       orgUnits: orgUnits.toList());
 }
 
@@ -81,7 +81,7 @@ class FormConfiguration {
         this.fieldRules =
             IMap.fromIterable<String, IList<Rule>?, FieldTemplate>(fields ?? [],
                 keyMapper: (FieldTemplate field) => field.name,
-                valueMapper: (FieldTemplate field) => field.rules?.lock),
+                valueMapper: (FieldTemplate field) => field.rules.lock),
         this.orgUnitTreeUids = orgUnits?.lock ?? IList();
 
   final String form;

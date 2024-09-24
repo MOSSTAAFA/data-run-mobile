@@ -6,13 +6,6 @@ import 'package:reactive_forms/reactive_forms.dart';
 import 'package:rxdart/rxdart.dart';
 
 class FormControlState<T> {
-  final AbstractControl<T?> control;
-  final BehaviorSubject<T?> _valueChanges = BehaviorSubject<T>();
-  final BehaviorSubject<ControlStatus> _statusChanges =
-      BehaviorSubject<ControlStatus>();
-  final BehaviorSubject<bool> _touchChanges = BehaviorSubject<bool>();
-  final _visibilityChanges = StreamController<bool>.broadcast();
-
   FormControlState(
     this.control, {
     required String name,
@@ -38,6 +31,13 @@ class FormControlState<T> {
       _touchChanges.add(errors);
     });
   }
+
+  final AbstractControl<T?> control;
+  final BehaviorSubject<T?> _valueChanges = BehaviorSubject<T>();
+  final BehaviorSubject<ControlStatus> _statusChanges =
+      BehaviorSubject<ControlStatus>();
+  final BehaviorSubject<bool> _touchChanges = BehaviorSubject<bool>();
+  final _visibilityChanges = StreamController<bool>.broadcast();
 
   String _name;
   String _path;

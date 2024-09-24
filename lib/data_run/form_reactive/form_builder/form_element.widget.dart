@@ -5,16 +5,16 @@
 // import 'package:mass_pro/data_run/form_reactive/form_element/form_instance.dart';
 // import 'package:reactive_forms/reactive_forms.dart';
 //
-// class DynamicFormPage extends StatefulWidget {
+// class FormTemplatePage extends StatefulWidget {
 //   final SectionInstance formModel;
 //
-//   DynamicFormPage({required this.formModel});
+//   FormTemplatePage({required this.formModel});
 //
 //   @override
-//   _DynamicFormPageState createState() => _DynamicFormPageState();
+//   _FormTemplatePageState createState() => _FormTemplatePageState();
 // }
 //
-// class _DynamicFormPageState extends State<DynamicFormPage> {
+// class _FormTemplatePageState extends State<FormTemplatePage> {
 //   late FormGroup formGroup;
 //
 //   @override

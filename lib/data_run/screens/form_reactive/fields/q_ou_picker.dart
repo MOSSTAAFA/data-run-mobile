@@ -27,7 +27,7 @@ class QOrgUnitPickerField extends HookConsumerWidget {
     final formVersion = eventBundle.getInt(FORM_VERSION)!;
 
     final formConfig = ref
-        .watch(formConfigurationProvider(form: form, formVersion: formVersion))
+        .watch(formConfigurationProvider(form: form, version: formVersion))
         .requireValue;
 
     final dataSourceValue = ref.watch(

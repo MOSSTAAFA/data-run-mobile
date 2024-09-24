@@ -33,11 +33,12 @@ class SubmissionCreationDialogState
     final submissionInitialRepository =
         ref.read(formSubmissionListProvider(form: widget.form).notifier);
 
-    return submissionInitialRepository.createSubmission(
+    final submission = await submissionInitialRepository.createSubmission(
         activityUid: widget.activity,
         orgUnit: _orgUnitUid!,
         teamUid: widget.team,
         formData: Map<String, dynamic>.from(_formKey.currentState!.value));
+    return submission.uid;
   }
 
   Future<void> createAndPopupWithResult(

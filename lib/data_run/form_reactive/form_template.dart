@@ -1,5 +1,4 @@
 // import 'package:d2_remote/modules/datarun/form/entities/data_form_submission.entity.dart';
-// import 'package:d2_remote/modules/datarun/form/entities/dynamic_form.entity.dart';
 // import 'package:d2_remote/modules/datarun/form/entities/form_definition.entity.dart';
 // import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
 // import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
@@ -73,7 +72,7 @@
 // }
 //
 //
-// Map<String, dynamic> extractFlatValues(Map<String, dynamic> savedData, FormDefinition formTemplate) {
+// Map<String, dynamic> extractFlatValues(Map<String, dynamic> savedData, FormVersion formTemplate) {
 //   Map<String, dynamic> flatValues = {};
 //
 //   for (var field in formTemplate.fields) {
@@ -130,7 +129,7 @@
 //   return result;
 // }
 //
-// FormInstance deserializeFlattenedData(Map<String, dynamic> flattenedData, FormDefinition formTemplate) {
+// FormInstance deserializeFlattenedData(Map<String, dynamic> flattenedData, FormVersion formTemplate) {
 //   List<FieldTemplate> formElements = [];
 //
 //   formTemplate.fields.forEach((field) {

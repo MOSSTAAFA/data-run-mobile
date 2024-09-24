@@ -28,7 +28,7 @@ class _CustomFieldsState extends State<CustomFields> {
           const SizedBox(height: 20),
           FormBuilderField<Map<String, dynamic>?>(
             name: 'date',
-            builder: (FormFieldState field) {
+            builder: (FormFieldState<dynamic> field) {
               return Builder(
                 builder: (context) {
                   return Column(
@@ -61,7 +61,7 @@ class _CustomFieldsState extends State<CustomFields> {
           const SizedBox(height: 10),
           FormBuilderField<String?>(
             name: 'name',
-            builder: (FormFieldState field) {
+            builder: (FormFieldState<dynamic> field) {
               return Autocomplete<String>(
                 optionsBuilder: (TextEditingValue textEditingValue) {
                   if (textEditingValue.text == '') {
@@ -91,7 +91,7 @@ class _CustomFieldsState extends State<CustomFields> {
                 child: MaterialButton(
                   color: Theme.of(context).colorScheme.secondary,
                   child: const Text(
-                    "Submit",
+                    'Submit',
                     style: TextStyle(color: Colors.white),
                   ),
                   onPressed: () {
@@ -99,7 +99,7 @@ class _CustomFieldsState extends State<CustomFields> {
                     if (_formKey.currentState!.validate()) {
                       debugPrint(_formKey.currentState!.value.toString());
                     } else {
-                      debugPrint("validation failed");
+                      debugPrint('validation failed');
                     }
                   },
                 ),
@@ -109,7 +109,7 @@ class _CustomFieldsState extends State<CustomFields> {
                 child: MaterialButton(
                   color: Theme.of(context).colorScheme.secondary,
                   child: const Text(
-                    "Reset",
+                    'Reset',
                     style: TextStyle(color: Colors.white),
                   ),
                   onPressed: () {

@@ -1,9 +1,9 @@
 class Filter {
+  Filter(this.field, this.value, this.condition);
+
   final String field;
   final dynamic value;
   final bool Function(dynamic fieldValue, dynamic filterValue) condition;
-
-  Filter(this.field, this.value, this.condition);
 
   bool apply(Map<String, dynamic> item) {
     return condition(item[field], value);
@@ -11,9 +11,9 @@ class Filter {
 }
 
 List<Map<String, dynamic>> applyFilters(
-    List<Map<String, dynamic>> data,
-    List<Filter> filters,
-    ) {
+  List<Map<String, dynamic>> data,
+  List<Filter> filters,
+) {
   var filteredData = data;
 
   for (var filter in filters) {
@@ -34,12 +34,13 @@ void main() {
 
   // Define filters
   final filters = [
-    Filter('country', 'USA', (fieldValue, filterValue) => fieldValue == filterValue),
+    Filter('country', 'USA',
+        (fieldValue, filterValue) => fieldValue == filterValue),
     Filter('age', 30, (fieldValue, filterValue) => fieldValue > filterValue),
   ];
 
   // Apply filters cumulatively
   final result = applyFilters(data, filters);
 
-  print(result);
+  // print(result);
 }

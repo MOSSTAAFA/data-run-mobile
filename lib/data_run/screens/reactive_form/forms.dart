@@ -4,16 +4,16 @@
 // import 'package:mass_pro/data_run/form_reactive/form_element/form_element_model.dart';
 // import 'package:reactive_forms/reactive_forms.dart';
 //
-// class DynamicFormPage extends StatefulWidget {
+// class FormTemplatePage extends StatefulWidget {
 //   final Map<String, dynamic> formJson;
 //
-//   DynamicFormPage({required this.formJson});
+//   FormTemplatePage({required this.formJson});
 //
 //   @override
-//   _DynamicFormPageState createState() => _DynamicFormPageState();
+//   _FormTemplatePageState createState() => _FormTemplatePageState();
 // }
 //
-// class _DynamicFormPageState extends State<DynamicFormPage> {
+// class _FormTemplatePageState extends State<FormTemplatePage> {
 //   late FormGroup formGroup;
 //   final FormBuilderService _formBuilderService = FormBuilderService();
 //
@@ -111,7 +111,7 @@
 //   }
 //
 //   Widget _buildNestedField(BuildContext context, FieldModel field) {
-//     // Implement similar to _buildField in DynamicFormPage
+//     // Implement similar to _buildField in FormTemplatePage
 //     // Possibly use a helper or pass the formBuilderService
 //     return SizedBox.shrink(); // Placeholder
 //   }
@@ -145,7 +145,7 @@
 //                   formGroup: group,
 //                   child: Column(
 //                     children: repeatableField.fields!.map((field) {
-//                       return DynamicFormFieldWidget(field: field);
+//                       return FormTemplateFieldWidget(field: field);
 //                     }).toList(),
 //                   ),
 //                 );
@@ -164,10 +164,10 @@
 //   }
 // }
 //
-// class DynamicFormFieldWidget extends StatelessWidget {
+// class FormTemplateFieldWidget extends StatelessWidget {
 //   final FieldModel field;
 //
-//   DynamicFormFieldWidget({required this.field});
+//   FormTemplateFieldWidget({required this.field});
 //
 //   @override
 //   Widget build(BuildContext context) {

@@ -5,26 +5,29 @@ import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:mass_pro/data_run/screens/form_reactive/model/form_control_factory.dart';
 import 'package:mass_pro/data_run/screens/form_reactive/model/form_element_factory.dart';
 import 'package:mass_pro/data_run/screens/form_reactive/model/form_element_model.dart';
+import 'package:mass_pro/data_run/screens/form_reactive/model/form_instance.provider.dart';
 import 'package:mass_pro/data_run/screens/form_submission_list/model/submission_list.provider.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
 class FormInstance {
-  FormInstance({
-    required this.template,
-    required this.submission,
-    required this.formSubmissionList,
+  FormInstance(
+    this.ref, {
+    required FormTemplateV template,
+    DataFormSubmission? submission,
     required this.enabled,
-  }) : formOptionsMap = Map.fromIterable(
-            template.options
-              ..sort((a, b) => (a.order).compareTo(b.order)),
-            key: (option) => option.listName,
-            value: (option) => template.options
-                .where((o) => o.listName == option.listName)
-                .toList()) {
+  })  : _template = template,
+        _submission = submission {
+    _formOptionsMap.addAll(Map.fromIterable(
+        template.options..sort((a, b) => (a.order).compareTo(b.order)),
+        key: (option) => option.listName,
+        value: (option) => template.options
+            .where((o) => o.listName == option.listName)
+            .toList()));
     initializeForm();
   }
 
   /// the root reactive form group
+  final FormInstanceRef ref;
   late final FormGroup formInit;
   late final FormGroup form;
   final bool enabled;
@@ -35,13 +38,24 @@ class FormInstance {
 
   /// the form Template, dynamically describes the form
   /// elements and their configurations
-  final FormDefinition template;
-  final DataFormSubmission submission;
-  final Map<String, List<FormOption>> formOptionsMap;
-  final FormSubmissionList formSubmissionList;
+  final FormTemplateV _template;
+  DataFormSubmission? _submission;
+  final Map<String, List<FormOption>> _formOptionsMap = {};
+
+  FormTemplateV get template => _template;
+
+  DataFormSubmission? get submission => _submission;
+
+  Map<String, List<FormOption>> get formOptionsMap =>
+      Map.unmodifiable(_formOptionsMap);
 
   Map<String, FormElementInstance<dynamic>> get elements =>
       Map.unmodifiable(_elements);
+
+  FormSubmissionList get formSubmissionList => ref
+      .watch(formSubmissionListProvider(form: template.formTemplate).notifier);
+
+  List<String> get selectableOrgUnits => template.orgUnits;
 
   /// Initialize/instantiate the form elements based on the template
   /// and/or load previous saved data to it
@@ -60,9 +74,13 @@ class FormInstance {
     }
 
     form = FormGroup(controls, disabled: !enabled);
-    formInit = FormGroup(
-        {'orgUnit': FormControl<String>(value: submission.orgUnit)},
-        disabled: !enabled);
+    formInit = FormGroup({
+      'orgUnit': FormControl<String>(
+          value: submission?.orgUnit ??
+              (selectableOrgUnits.length == 1
+                  ? selectableOrgUnits.first
+                  : null))
+    }, disabled: !enabled);
 
     for (var element in template.fields) {
       formElements[element.name] = FromElementFactory.createElement(
@@ -72,33 +90,9 @@ class FormInstance {
 
     _elements.addAll(formElements);
 
-    updateFormData(submission.formData);
-  }
-
-  Map<String, dynamic> get rawValue {
-    Map<String, dynamic> valuesMap =
-        elements.map<String, Object?>((key, element) {
-      if (element is SectionElement<dynamic>) {
-        return MapEntry(key, element.rawValue);
-      }
-
-      return MapEntry(key, element.value);
-    });
-
-    return {'formData': valuesMap};
-  }
-
-  Map<String, dynamic> get rawValueFormGroup {
-    Map<String, dynamic> valuesMap =
-        elements.map<String, dynamic>((key, element) {
-      if (element is SectionElement<dynamic>) {
-        return MapEntry(key, element.rawValue);
-      }
-
-      return MapEntry(key, element.value);
-    });
-
-    return valuesMap;
+    if (submission != null) {
+      updateFormData(submission!.formData);
+    }
   }
 
   /// Update the form data with new values (for patching or rehydration)
@@ -153,15 +147,50 @@ class FormInstance {
   }
 
   Future<void> markSubmissionAsFinal() {
-    return formSubmissionList.markSubmissionAsFinal(submission.uid!);
+    return formSubmissionList.markSubmissionAsFinal(submission!.uid!);
   }
 
-  Future<void> saveFormData() {
-    final value1 = rawValue;
+  Future<DataFormSubmission> saveFormData() async {
     final value2 = form.value;
-    submission.orgUnit = formInit.control('orgUnit').value;
-    submission.formData.clear();
-    submission.formData.addAll(value2);
-    return formSubmissionList.saveSubmission(submission);
+    if (_submission != null) {
+      _submission!.orgUnit = formInit.control('orgUnit').value;
+      _submission!.formData.clear();
+      _submission!.formData.addAll(value2);
+      return formSubmissionList.saveSubmission(_submission!);
+    } else {
+      _submission = await formSubmissionList.createSubmission(
+        activityUid: _template.activity,
+        orgUnit: formInit.control('orgUnit').value,
+        formData: value2,
+      );
+      return _submission!;
+    }
   }
+
+  Map<String, dynamic> get rawValue {
+    Map<String, dynamic> valuesMap =
+    elements.map<String, Object?>((key, element) {
+      if (element is SectionElement<dynamic>) {
+        return MapEntry(key, element.rawValue);
+      }
+
+      return MapEntry(key, element.value);
+    });
+
+    return {'formData': valuesMap};
+  }
+
+  Map<String, dynamic> get rawValueFormGroup {
+    Map<String, dynamic> valuesMap =
+    elements.map<String, dynamic>((key, element) {
+      if (element is SectionElement<dynamic>) {
+        return MapEntry(key, element.rawValue);
+      }
+
+      return MapEntry(key, element.value);
+    });
+
+    return valuesMap;
+  }
+
 }

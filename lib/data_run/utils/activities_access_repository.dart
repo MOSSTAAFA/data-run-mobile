@@ -60,7 +60,7 @@ class ActivitiesAccessRepository {
   // /// form's activity is Active, and activity has one
   // /// or more active teams assigned to user
   // Future<bool> formIsActive(String formUid) async {
-  //   final DynamicForm? form =
+  //   final FormTemplate? form =
   //       await D2Remote.formModule.form.byId(formUid).getOne();
   //
   //   final DActivity? activity =
@@ -144,10 +144,10 @@ class ActivitiesAccessRepository {
 
   // /// Only Active forms (Enabled)
   // /// that has active activity and active team
-  // Future<IList<DynamicForm>> getActiveForms() async {
-  //   final List<DynamicForm> forms = await D2Remote.formModule.form.get();
+  // Future<IList<FormTemplate>> getActiveForms() async {
+  //   final List<FormTemplate> forms = await D2Remote.formModule.form.get();
   //
-  //   final List<DynamicForm> enabledForms = [];
+  //   final List<FormTemplate> enabledForms = [];
   //
   //   for (final form in forms) {
   //     final formActivityIsActive =
@@ -161,15 +161,15 @@ class ActivitiesAccessRepository {
 
   // /// Only Active forms (Enabled)
   // /// that has active activity and active team
-  // Future<IList<DynamicForm>> getActiveFormsByActivity(
+  // Future<IList<FormTemplate>> getActiveFormsByActivity(
   //     [String? activityUid]) async {
-  //   DynamicFormQuery query = D2Remote.formModule.form;
+  //   FormTemplateQuery query = D2Remote.formModule.form;
   //   if(activityUid != null) {
   //     query = query.where(attribute: 'activity', value: activityUid);
   //   }
-  //   final List<DynamicForm> forms = await D2Remote.formModule.form.get();
+  //   final List<FormTemplate> forms = await D2Remote.formModule.form.get();
   //
-  //   final List<DynamicForm> enabledForms = [];
+  //   final List<FormTemplate> enabledForms = [];
   //
   //   for (final form in forms) {
   //     final formActivityIsActive =

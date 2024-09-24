@@ -81,7 +81,7 @@ class SubmissionMappingRepository {
 // }
 
 //
-// Map<String, dynamic> mapFormRecursively(List<DynamicFormField> fields) {
+// Map<String, dynamic> mapFormRecursively(List<FormTemplateField> fields) {
 //
 //   List<QFieldModel> mappedFields = [];
 //
@@ -135,7 +135,7 @@ class SubmissionMappingRepository {
 // }
 
 // QFieldModel mapToModel({
-//   required DynamicFormField field,
+//   required FormTemplateField field,
 //   dynamic value,
 // }) {
 //   final ValueType valueType = ValueType.getValueType(field.type);
@@ -162,7 +162,7 @@ class SubmissionMappingRepository {
 //       }, path: field.path);
 // }
 //
-// OptionConfiguration? _getOptionConfiguration(DynamicFormField field) {
+// OptionConfiguration? _getOptionConfiguration(FormTemplateField field) {
 //   final options =
 //       _formConfiguration.optionLists.get(field.listName!) ?? <FormOption>[];
 //

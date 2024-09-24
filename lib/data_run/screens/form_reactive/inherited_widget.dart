@@ -1,14 +1,13 @@
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mass_pro/data_run/screens/form_reactive/fields/improved_expansion_tile.widget.dart';
 import 'package:mass_pro/data_run/screens/form_reactive/model/form_element_model.dart';
 import 'package:mass_pro/data_run/screens/form_reactive/model/form_instance.dart';
+import 'package:mass_pro/data_run/screens/form_reactive/model/form_instance.provider.dart';
 import 'package:mass_pro/data_run/screens/form_reactive/repeat_section.widget.dart';
 import 'package:mass_pro/data_run/screens/form_reactive/section.widget.dart';
-import 'package:mass_pro/data_run/screens/form_submission_list/model/submission_list.provider.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
 class SectionElementWidget extends StatefulHookConsumerWidget {
@@ -46,15 +45,10 @@ class SectionElementWidgetState extends ConsumerState<SectionElementWidget> {
         title: '${element.properties.label}',
         enabled: element.elementControl.enabled,
         isExpanded: expanded.value,
-        // onExpansionChanged: (bool value) {
-        //   expanded.value = !expanded.value;
-        // },
         child: switch (element) {
           SectionInstance() => SectionWidget(
-              // key: ValueKey('${element.elementPath}_section'),
               element: element as SectionInstance),
           RepeatSectionInstance() => RepeatSectionWidget(
-              // key: ValueKey('${element.elementPath}_repeatSection'),
               element: element as RepeatSectionInstance,
               formOptionsMap: formOptionsMap,
               onRemove: (index) => (element as RepeatSectionInstance)

@@ -63,7 +63,7 @@ class StringTreeNode extends TreeNode<String> {
   StringTreeNode({super.data, super.parent});
 }
 
-final testTrees = <MapEntry<String, TreeNode>>[
+final testTrees = <MapEntry<String, TreeNode<dynamic>>>[
   MapEntry('Default tree', defaultTree),
   MapEntry('Updated tree', updatedTree),
   MapEntry('Updated tree 2', updatedTree2),

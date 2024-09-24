@@ -28,7 +28,6 @@ class RepeatSectionWidget extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final double scrollableHeight = 300.0;
-    // final formArray = useMemoized(() => element.elementControl, [element]);
 
     return ReactiveFormArray(
       formArray: element.elementControl,

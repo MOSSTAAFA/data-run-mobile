@@ -13,15 +13,20 @@ import 'package:mass_pro/data_run/screens/form_reactive/fields/q_text_type_field
 import 'package:mass_pro/data_run/screens/form_reactive/inherited_widget.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
+/// Factory that instantiate form input fields based on a dynamic element tree
 class FormElementWidgetFactory {
   static Widget createWidget(FormElementInstance<dynamic> element) {
     return switch (element) {
+      /// [FieldWidget] is a leaf in the tr
       FieldInstance() => FieldWidget(element: element),
+
+      /// a [SectionWidget] with other widgets inside which also call this factory to build the tree recursively until it reaches the leaf which is a [FieldWidget]
       SectionElement() => SectionElementWidget(element: element),
     };
   }
 }
 
+/// a Factory that is called by the [FieldWidget] to create the input widget based on ValueType of element
 class FieldFactory {
   static Widget fromType({required FieldInstance<dynamic> element}) {
     switch (element.type) {

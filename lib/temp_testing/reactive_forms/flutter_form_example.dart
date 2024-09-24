@@ -41,9 +41,9 @@ class MyApp extends StatelessWidget {
                       formControlName: 'menu',
                       dropdownDecoratorProps: const DropDownDecoratorProps(
                         dropdownSearchDecoration: InputDecoration(
-                          hintText: "Select a country",
+                          hintText: 'Select a country',
                           helperText: '',
-                          labelText: "Menu mode *",
+                          labelText: 'Menu mode *',
                           contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
                           border: OutlineInputBorder(),
                         ),
@@ -55,9 +55,9 @@ class MyApp extends StatelessWidget {
                         },
                       ),
                       items: const [
-                        "Brazil",
-                        "Italia (Disabled)",
-                        "Tunisia",
+                        'Brazil',
+                        'Italia (Disabled)',
+                        'Tunisia',
                         'Canada'
                       ],
                       showClearButton: true,
@@ -67,8 +67,8 @@ class MyApp extends StatelessWidget {
                       formControlName: 'menuMultiple',
                       dropdownDecoratorProps: const DropDownDecoratorProps(
                         dropdownSearchDecoration: InputDecoration(
-                          hintText: "Select a country",
-                          labelText: "Menu mode *",
+                          hintText: 'Select a country',
+                          labelText: 'Menu mode *',
                           helperText: '',
                           contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
                           border: OutlineInputBorder(),
@@ -81,9 +81,9 @@ class MyApp extends StatelessWidget {
                         },
                       ),
                       items: const [
-                        "Brazil",
-                        "Italia (Disabled)",
-                        "Tunisia",
+                        'Brazil',
+                        'Italia (Disabled)',
+                        'Tunisia',
                         'Canada'
                       ],
                       showClearButton: true,
@@ -125,13 +125,13 @@ class MyApp extends StatelessWidget {
                       ),
                       dropdownDecoratorProps: const DropDownDecoratorProps(
                         dropdownSearchDecoration: InputDecoration(
-                          labelText: "Custom BottomSheet mode",
+                          labelText: 'Custom BottomSheet mode',
                           helperText: '',
                           contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
                           border: OutlineInputBorder(),
                         ),
                       ),
-                      items: const ["Brazil", "Italia", "Tunisia", 'Canada'],
+                      items: const ['Brazil', 'Italia', 'Tunisia', 'Canada'],
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton(

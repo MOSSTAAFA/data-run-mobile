@@ -46,7 +46,7 @@
 //   ///```
 //   final Map<String, List<String>> dependencyGraph = {};
 //
-//   FormGroup buildDynamicForm() {
+//   FormGroup buildFormTemplate() {
 //     // Parse JSON and create FormGroup with FormControls/FormArrays
 //     final formControls = parseFormElements(fields, options: options);
 //     return FormGroup(formControls);

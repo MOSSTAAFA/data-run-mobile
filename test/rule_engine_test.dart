@@ -40,7 +40,7 @@ void main() {
   // Evaluating the expression
   final result = parsedExpression();
 
-  print(result); // Outputs: true
+  // print(result); // Outputs: true
 
   // const expression = "regex(x, r'^\+?[0-9]{1,3}?[-. ]?(\d{1,4})[-. ]?(\d{1,4})[-. ]?(\d{1,9})\$')";
 

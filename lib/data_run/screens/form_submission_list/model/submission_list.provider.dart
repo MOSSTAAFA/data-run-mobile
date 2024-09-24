@@ -6,18 +6,17 @@ import 'package:d2_remote/modules/datarun/form/entities/dynamic_form.entity.dart
 import 'package:d2_remote/modules/metadatarun/org_unit/entities/org_unit.entity.dart';
 import 'package:d2_remote/shared/utilities/save_option.util.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/core/common/state.dart';
 import 'package:mass_pro/data_run/errors_management/errors/d_error.dart';
 import 'package:mass_pro/data_run/form/form_configuration.dart';
 import 'package:mass_pro/data_run/form/submission_status.dart';
-import 'package:mass_pro/data_run/screens/form_reactive/model/form_instance.dart';
 import 'package:mass_pro/data_run/screens/form_submission_list/model/submission_list_util.dart';
 import 'package:mass_pro/data_run/screens/form_submission_list/model/submission_summary.model.dart';
 import 'package:mass_pro/data_run/screens/form_submission_list/model/submission_status_count.model.dart';
 import 'package:mass_pro/data_run/screens/form_submission_list/model/submission_mapping_repository.dart';
-import 'package:mass_pro/data_run/screens/form_submission_screen/model/submission.provider.dart';
 import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
 import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -32,28 +31,6 @@ SubmissionMappingRepository submissionMappingRepository(
     required String submissionUid}) {
   return SubmissionMappingRepository(ref,
       formConfiguration: formConfiguration, submissionUid: submissionUid);
-}
-
-@riverpod
-Future<FormInstance> formInstance(FormInstanceRef ref) async {
-  final Bundle eventBundle = Get.arguments as Bundle;
-  final submission = eventBundle.getString(SYNCABLE_UID)!;
-  final formSubmission =
-      await D2Remote.formModule.formSubmission.byId(submission).getOne();
-  final enabled = await ref.watch(submissionEditStatusProvider.future);
-
-  final submissionList =
-      ref.watch(formSubmissionListProvider(form: formSubmission.form).notifier);
-  final formTemplate = await D2Remote.formModule.formDefinition
-      .where(attribute: 'version', value: formSubmission!.version)
-      .where(attribute: 'form', value: formSubmission.form)
-      .getOne();
-  return FormInstance(
-    enabled: enabled,
-    template: formTemplate,
-    submission: formSubmission,
-    formSubmissionList: submissionList,
-  );
 }
 
 @riverpod
@@ -81,7 +58,7 @@ class FormSubmissionList extends _$FormSubmissionList {
     await future;
   }
 
-  Future<void> saveOrgUnit(String uid, String? orgUnit) async {
+  Future<DataFormSubmission> saveOrgUnit(String uid, String? orgUnit) async {
     await future;
 
     final DataFormSubmission? submission =
@@ -90,21 +67,24 @@ class FormSubmissionList extends _$FormSubmissionList {
     return saveSubmission(submission!..orgUnit = orgUnit);
   }
 
-  Future<String> createSubmission(
+  Future<DataFormSubmission> createSubmission(
       {required String activityUid,
-      required String teamUid,
+      String? teamUid,
       required String orgUnit,
-      required Map<String, dynamic> formData,
+      Map<String, dynamic> formData = const {},
       Geometry? geometry}) async {
-    final DynamicForm? submissionForm =
-        await D2Remote.formModule.form.byId(form).getOne();
+    final Bundle? eventBundle = Get.arguments as Bundle?;
+    final String team = teamUid ?? eventBundle!.getString(TEAM_UID)!;
+
+    final FormTemplate? submissionForm =
+        await D2Remote.formModule.formTemplate.byId(form).getOne();
 
     final DataFormSubmission submission = DataFormSubmission(
         status: 'ACTIVE',
         form: form,
         version: submissionForm!.version,
         activity: activityUid,
-        team: teamUid,
+        team: team,
         orgUnit: orgUnit,
         formData: formData,
         dirty: true,
@@ -119,14 +99,15 @@ class FormSubmissionList extends _$FormSubmissionList {
 
     await saveSubmission(submission);
 
-    return submission.id!;
+    return submission;
   }
 
   Future<DataFormSubmission?> getSubmission(String uid) {
     return D2Remote.formModule.formSubmission.byId(uid).getOne();
   }
 
-  Future<void> saveSubmission(DataFormSubmission submission) async {
+  Future<DataFormSubmission> saveSubmission(
+      DataFormSubmission submission) async {
     submission.status = 'ACTIVE';
     submission.dirty = true;
 
@@ -136,6 +117,8 @@ class FormSubmissionList extends _$FormSubmissionList {
 
     ref.invalidateSelf();
     await future;
+
+    return submission;
   }
 
   Future<void> saveSubmissionData(
@@ -149,16 +132,13 @@ class FormSubmissionList extends _$FormSubmissionList {
 
   Future<bool> deleteSubmission(Iterable<String?> syncableIds) async {
     try {
-      await Future.forEach(
-          syncableIds,
-          (uid) =>
-              D2Remote.formModule.formSubmission.byId(uid!).delete());
-      // await D2Remote.formModule.formSubmission.byId(syncableId!).delete();
-      // ref.invalidateSelf();
+      await Future.forEach(syncableIds,
+          (uid) => D2Remote.formModule.formSubmission.byId(uid!).delete());
       ref.invalidate(formSubmissionListProvider);
       await future;
       return true;
-    } on DError catch (d2Error) {
+    } on DError catch (e) {
+      debugPrint('# DataRun Error: ${e.toString()}');
       return false;
     }
   }
@@ -224,7 +204,7 @@ Future<SubmissionItemSummaryModel> submissionItemSummaryModel(
   final submission = allSubmissions.firstWhere((t) => t.uid == submissionUid);
 
   final formConfig = await ref.watch(
-      formConfigurationProvider(form: form, formVersion: submission.version)
+      formConfigurationProvider(form: form, version: submission.version)
           .future);
 
   final OrgUnit? orgUnit = submission.orgUnit != null
@@ -233,7 +213,7 @@ Future<SubmissionItemSummaryModel> submissionItemSummaryModel(
           .getOne()
       : null;
 
-  final formData = submission.formData?.map<String, dynamic>((k, v) => MapEntry(
+  final formData = submission.formData.map<String, dynamic>((k, v) => MapEntry(
       formConfig.getFieldDisplayName(k),
       formConfig.getUserFriendlyValue(k, v)));
 

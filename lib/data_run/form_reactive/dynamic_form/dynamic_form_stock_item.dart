@@ -11,14 +11,14 @@
 //   final Widget? child;
 //
 //   final Widget Function(
-//           BuildContext context, DynamicFormModel formModel, Widget? child)
+//           BuildContext context, FormTemplateModel formModel, Widget? child)
 //       builder;
 //
 //   @override
 //   Widget build(BuildContext context) {
 //     final formModel = ReactiveStockDistributionForm.of(context);
 //
-//     if (formModel is! DynamicFormModel) {
+//     if (formModel is! FormTemplateModel) {
 //       throw FormControlParentNotFoundException(this);
 //     }
 //     return builder(context, formModel, child);
@@ -38,7 +38,7 @@
 //           key: key,
 //         );
 //
-//   final DynamicFormModel form;
+//   final FormTemplateModel form;
 // }
 //
 // class ReactiveStockDistributionForm extends StatelessWidget {
@@ -52,13 +52,13 @@
 //
 //   final Widget child;
 //
-//   final DynamicFormModel form;
+//   final FormTemplateModel form;
 //
 //   final bool Function(FormGroup formGroup)? canPop;
 //
 //   final void Function(FormGroup formGroup, bool didPop)? onPopInvoked;
 //
-//   static DynamicFormModel? of(
+//   static FormTemplateModel? of(
 //     BuildContext context, {
 //     bool listen = true,
 //   }) {
@@ -91,10 +91,10 @@
 // }
 //
 // extension ReactiveReactiveStockDistributionFormExt on BuildContext {
-//   DynamicFormModel? stockDistributionFormWatch() =>
+//   FormTemplateModel? stockDistributionFormWatch() =>
 //       ReactiveStockDistributionForm.of(this);
 //
-//   DynamicFormModel? stockDistributionFormRead() =>
+//   FormTemplateModel? stockDistributionFormRead() =>
 //       ReactiveStockDistributionForm.of(this, listen: false);
 // }
 //
@@ -109,7 +109,7 @@
 //     this.initState,
 //   }) : super(key: key);
 //
-//   final DynamicFormModel? model;
+//   final FormTemplateModel? model;
 //
 //   final Widget? child;
 //
@@ -118,10 +118,10 @@
 //   final void Function(FormGroup formGroup, bool didPop)? onPopInvoked;
 //
 //   final Widget Function(
-//           BuildContext context, DynamicFormModel formModel, Widget? child)
+//           BuildContext context, FormTemplateModel formModel, Widget? child)
 //       builder;
 //
-//   final void Function(BuildContext context, DynamicFormModel formModel)?
+//   final void Function(BuildContext context, FormTemplateModel formModel)?
 //       initState;
 //
 //   @override
@@ -131,7 +131,7 @@
 //
 // class _StockDistributionFormBuilderState
 //     extends State<StockDistributionFormBuilder> {
-//   late DynamicFormModel _formModel;
+//   late FormTemplateModel _formModel;
 //
 //   @override
 //   void initState() {

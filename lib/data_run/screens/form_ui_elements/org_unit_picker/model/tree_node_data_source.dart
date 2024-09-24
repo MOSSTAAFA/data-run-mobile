@@ -47,7 +47,7 @@ class TreeNodeDataSource {
     final commonAncestorUid = list.getCommonAncestorUid();
 
     if (_treeNodeCache.isNotEmpty && commonAncestorUid == null) {
-      throw Exception("No common ancestor found");
+      throw Exception('No common ancestor found');
     }
 
     return _treeNodeCache;

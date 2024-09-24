@@ -71,7 +71,7 @@ class HomePresenter {
         .then((_) => true);
   }
 
-  Future onDeleteAccount() async {
+  Future<dynamic> onDeleteAccount() async {
     // view.showProgressDeleteNotification();
     try {
       workManagerController.cancelAllWork();

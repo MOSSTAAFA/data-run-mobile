@@ -82,7 +82,7 @@ class FieldConfig {
   final dynamic initialValue;
   final FormElementProperties? templateOptions;
   final Map<String, String>? validationMessages;
-  final List<Map<String, dynamic>? Function(AbstractControl value)>? validators;
+  final List<Map<String, dynamic>? Function(AbstractControl<dynamic> value)>? validators;
   final List<dynamic>? asyncValidators;
   final List<dynamic>? fieldGroup;
   final FieldConfig? fieldArray;
@@ -118,7 +118,7 @@ class FormElementProperties with EquatableMixin {
 }
 
 class FormState {
-  Map<String, ControlState> controls;
+  Map<String, ControlState<dynamic>> controls;
   FormSubmissionState submissionState;
   AsyncActionState asyncActionState;
 

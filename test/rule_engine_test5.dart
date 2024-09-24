@@ -34,7 +34,7 @@ void main() {
 
 // Function to escape backslashes in regex strings
 String escapeRegex(String expression) {
-  return expression.replaceAllMapped(RegExp(r"(?<!\\)\\([^\\])"), (match) {
+  return expression.replaceAllMapped(RegExp(r'(?<!\\)\\([^\\])'), (match) {
     return '\\\\${match[1]}';
   });
 }
@@ -47,6 +47,6 @@ void validateField(String expression, Map<String, dynamic> formFields) {
     resolve: (object, member) => formFields[member],
   );
 
-  print(r());  // Evaluate the expression and print the result (true or false)
+  // print(r());  // Evaluate the expression and print the result (true or false)
 }
 

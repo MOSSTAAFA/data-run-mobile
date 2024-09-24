@@ -26,11 +26,11 @@ class QDoubleTypeField extends HookWidget {
 }
 
 class DoubleValueAccessor extends ControlValueAccessor<double?, String> {
-  final int fractionDigits;
-
   DoubleValueAccessor({
     this.fractionDigits = 2,
   });
+
+  final int fractionDigits;
 
   @override
   String modelToViewValue(double? modelValue) {

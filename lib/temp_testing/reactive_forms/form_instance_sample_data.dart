@@ -138,6 +138,6 @@
 //   final user = DUser.fromApi(userData);
 //   await userQuery.setData(user).save();
 //
-//   final formQuery = DynamicFormQuery(database: db);
-//   final formDefinition = FormDefinitionQuery(database: db);
+//   final formQuery = FormTemplateQuery(database: db);
+//   final formVersion = FormVersionQuery(database: db);
 // }

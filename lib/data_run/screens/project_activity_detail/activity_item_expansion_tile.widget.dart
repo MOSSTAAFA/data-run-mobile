@@ -96,7 +96,7 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
         context: context,
         builder: (BuildContext context) {
           return SubmissionCreationDialog(
-            form: formModel!.form.form!,
+            form: formModel!.form.formTemplate!,
             activity: formModel.form.activity,
             team: formModel.team!,
           );
@@ -115,7 +115,7 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
     Bundle bundle = Bundle();
     bundle = bundle.putString(ACTIVITY_UID, formModel.form.activity);
     bundle = bundle.putString(TEAM_UID, formModel.team);
-    bundle = bundle.putString(FORM_UID, formModel.form.form);
+    bundle = bundle.putString(FORM_UID, formModel.form.formTemplate);
     bundle = bundle.putInt(FORM_VERSION, formModel.form.version);
 
     bundle = bundle.putString(SYNCABLE_UID, createdEntityUid);
@@ -127,7 +127,7 @@ class ActivityItemsExpansionTiles extends ConsumerWidget {
     Bundle bundle = Bundle();
     bundle = bundle.putString(ACTIVITY_UID, formModel!.form.activity);
     bundle = bundle.putString(TEAM_UID, formModel.team);
-    bundle = bundle.putString(FORM_UID, formModel.form.form);
+    bundle = bundle.putString(FORM_UID, formModel.form.formTemplate);
     bundle = bundle.putInt(FORM_VERSION, formModel.form.version);
 
     await Get.to(SubmissionListScreen(), arguments: bundle);

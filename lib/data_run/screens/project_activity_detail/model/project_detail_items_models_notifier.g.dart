@@ -328,7 +328,7 @@ class _UserAssignedActivitiesProviderElement
 }
 
 String _$activityFormsDefinitionsHash() =>
-    r'e2bf38297a25c13e15c05ef49f020e7f5a5ad675';
+    r'b4e34771e28702d8bd58812215d528bca45feb5d';
 
 /// See also [activityFormsDefinitions].
 @ProviderFor(activityFormsDefinitions)
@@ -336,7 +336,7 @@ const activityFormsDefinitionsProvider = ActivityFormsDefinitionsFamily();
 
 /// See also [activityFormsDefinitions].
 class ActivityFormsDefinitionsFamily
-    extends Family<AsyncValue<List<FormDefinition?>>> {
+    extends Family<AsyncValue<List<FormTemplateV?>>> {
   /// See also [activityFormsDefinitions].
   const ActivityFormsDefinitionsFamily();
 
@@ -375,7 +375,7 @@ class ActivityFormsDefinitionsFamily
 
 /// See also [activityFormsDefinitions].
 class ActivityFormsDefinitionsProvider
-    extends AutoDisposeFutureProvider<List<FormDefinition?>> {
+    extends AutoDisposeFutureProvider<List<FormTemplateV?>> {
   /// See also [activityFormsDefinitions].
   ActivityFormsDefinitionsProvider({
     required String activity,
@@ -410,7 +410,7 @@ class ActivityFormsDefinitionsProvider
 
   @override
   Override overrideWith(
-    FutureOr<List<FormDefinition?>> Function(
+    FutureOr<List<FormTemplateV?>> Function(
             ActivityFormsDefinitionsRef provider)
         create,
   ) {
@@ -429,7 +429,7 @@ class ActivityFormsDefinitionsProvider
   }
 
   @override
-  AutoDisposeFutureProviderElement<List<FormDefinition?>> createElement() {
+  AutoDisposeFutureProviderElement<List<FormTemplateV?>> createElement() {
     return _ActivityFormsDefinitionsProviderElement(this);
   }
 
@@ -449,13 +449,13 @@ class ActivityFormsDefinitionsProvider
 }
 
 mixin ActivityFormsDefinitionsRef
-    on AutoDisposeFutureProviderRef<List<FormDefinition?>> {
+    on AutoDisposeFutureProviderRef<List<FormTemplateV?>> {
   /// The parameter `activity` of this provider.
   String get activity;
 }
 
 class _ActivityFormsDefinitionsProviderElement
-    extends AutoDisposeFutureProviderElement<List<FormDefinition?>>
+    extends AutoDisposeFutureProviderElement<List<FormTemplateV?>>
     with ActivityFormsDefinitionsRef {
   _ActivityFormsDefinitionsProviderElement(super.provider);
 
@@ -482,7 +482,7 @@ final projectDetailItemModelProvider =
 typedef ProjectDetailItemModelRef
     = AutoDisposeProviderRef<ProjectDetailItemModel>;
 String _$formListItemModelsHash() =>
-    r'6f0844eff7b548e5a9a045572f8194bce8289317';
+    r'd810936b8bbfc6603d08730fe7189045bcfb2afa';
 
 /// See also [formListItemModels].
 @ProviderFor(formListItemModels)
@@ -633,7 +633,7 @@ class _FormListItemModelsProviderElement
 }
 
 String _$projectDetailItemModelsHash() =>
-    r'e512327a40e43e36f7adb18c6affeeff4c57e6f3';
+    r'9f34e21fd7ae3c3d63c8a135a5ccf203ced9e227';
 
 /// See also [projectDetailItemModels].
 @ProviderFor(projectDetailItemModels)

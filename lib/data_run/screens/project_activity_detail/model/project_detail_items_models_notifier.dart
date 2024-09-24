@@ -64,17 +64,17 @@ FutureOr<IList<DActivity>> userAssignedActivities(UserAssignedActivitiesRef ref,
 }
 
 @riverpod
-Future<List<FormDefinition?>> activityFormsDefinitions(
+Future<List<FormTemplateV?>> activityFormsDefinitions(
     ActivityFormsDefinitionsRef ref,
     {required String activity}) async {
-  final List<DynamicForm> activeForms = await D2Remote.formModule.form
+  final List<FormTemplate> activeForms = await D2Remote.formModule.formTemplate
       .where(attribute: 'activity', value: activity)
       .get();
 
   final formsDefinitions = Future.wait([
     for (final form in activeForms)
-      D2Remote.formModule.formDefinition
-          .byForm(form.uid!)
+      D2Remote.formModule.formTemplateV
+          .byFormTemplate(form.uid!)
           .byVersion(form.version)
           .getOne(),
   ]);
@@ -90,17 +90,17 @@ ProjectDetailItemModel projectDetailItemModel(ProjectDetailItemModelRef ref) {
 @riverpod
 Future<IList<FormListItemModel>> formListItemModels(FormListItemModelsRef ref,
     {required String activity, required String team}) async {
-  final formInstances = await ref
+  final formVersions = await ref
       .watch(activityFormsDefinitionsProvider(activity: activity).future);
 
   IList<FormListItemModel> formListItemModels = IList(<FormListItemModel>[]);
 
-  for (final form in formInstances) {
+  for (final formVersion in formVersions) {
     formListItemModels = formListItemModels.add(FormListItemModel(
-        form: form!,
+        form: formVersion!,
         team: team,
         submissionStatusModel: await ref
-            .watch(submissionStatusModelProvider(form: form.form!).future),
+            .watch(submissionStatusModelProvider(form: formVersion.formTemplate!).future),
         canAddNewEvent: true));
   }
   return formListItemModels;
@@ -126,7 +126,7 @@ Future<IList<ProjectDetailItemModel>> projectDetailItemModels(
 
   /// iterate over all activities
   for (final DActivity activity in projectActivities) {
-    final List<DynamicForm> activeFormCount = await D2Remote.formModule.form
+    final List<FormTemplate> activeFormCount = await D2Remote.formModule.formTemplate
         .where(attribute: 'activity', value: activity.id)
         .get();
 

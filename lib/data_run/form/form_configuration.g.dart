@@ -6,7 +6,7 @@ part of 'form_configuration.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$formConfigurationHash() => r'84302d4c9890e5248eb87bdcea33e630c72468dd';
+String _$formConfigurationHash() => r'2474aa95d23fe51cd5bbd7d093bf651297fc00a1';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -41,11 +41,11 @@ class FormConfigurationFamily extends Family<AsyncValue<FormConfiguration>> {
   /// See also [formConfiguration].
   FormConfigurationProvider call({
     required String form,
-    int? formVersion,
+    int? version,
   }) {
     return FormConfigurationProvider(
       form: form,
-      formVersion: formVersion,
+      version: version,
     );
   }
 
@@ -55,7 +55,7 @@ class FormConfigurationFamily extends Family<AsyncValue<FormConfiguration>> {
   ) {
     return call(
       form: provider.form,
-      formVersion: provider.formVersion,
+      version: provider.version,
     );
   }
 
@@ -80,12 +80,12 @@ class FormConfigurationProvider
   /// See also [formConfiguration].
   FormConfigurationProvider({
     required String form,
-    int? formVersion,
+    int? version,
   }) : this._internal(
           (ref) => formConfiguration(
             ref as FormConfigurationRef,
             form: form,
-            formVersion: formVersion,
+            version: version,
           ),
           from: formConfigurationProvider,
           name: r'formConfigurationProvider',
@@ -97,7 +97,7 @@ class FormConfigurationProvider
           allTransitiveDependencies:
               FormConfigurationFamily._allTransitiveDependencies,
           form: form,
-          formVersion: formVersion,
+          version: version,
         );
 
   FormConfigurationProvider._internal(
@@ -108,11 +108,11 @@ class FormConfigurationProvider
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.form,
-    required this.formVersion,
+    required this.version,
   }) : super.internal();
 
   final String form;
-  final int? formVersion;
+  final int? version;
 
   @override
   Override overrideWith(
@@ -128,7 +128,7 @@ class FormConfigurationProvider
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         form: form,
-        formVersion: formVersion,
+        version: version,
       ),
     );
   }
@@ -142,14 +142,14 @@ class FormConfigurationProvider
   bool operator ==(Object other) {
     return other is FormConfigurationProvider &&
         other.form == form &&
-        other.formVersion == formVersion;
+        other.version == version;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, form.hashCode);
-    hash = _SystemHash.combine(hash, formVersion.hashCode);
+    hash = _SystemHash.combine(hash, version.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -159,8 +159,8 @@ mixin FormConfigurationRef on AutoDisposeFutureProviderRef<FormConfiguration> {
   /// The parameter `form` of this provider.
   String get form;
 
-  /// The parameter `formVersion` of this provider.
-  int? get formVersion;
+  /// The parameter `version` of this provider.
+  int? get version;
 }
 
 class _FormConfigurationProviderElement
@@ -171,7 +171,7 @@ class _FormConfigurationProviderElement
   @override
   String get form => (origin as FormConfigurationProvider).form;
   @override
-  int? get formVersion => (origin as FormConfigurationProvider).formVersion;
+  int? get version => (origin as FormConfigurationProvider).version;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
