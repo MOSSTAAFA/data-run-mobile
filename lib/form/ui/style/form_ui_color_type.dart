@@ -1,8 +1,0 @@
-enum FormUiColorType {
-  PRIMARY,
-  TEXT_PRIMARY,
-  FIELD_LABEL_TEXT,
-  WARNING,
-  ERROR,
-  ACTION_ICON
-}

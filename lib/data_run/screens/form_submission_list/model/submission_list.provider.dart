@@ -2,13 +2,10 @@ import 'package:d2_remote/core/datarun/utilities/date_utils.dart';
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/data/tracker/models/geometry.dart';
 import 'package:d2_remote/modules/datarun/form/entities/data_form_submission.entity.dart';
-import 'package:d2_remote/modules/datarun/form/entities/dynamic_form.entity.dart';
 import 'package:d2_remote/modules/metadatarun/org_unit/entities/org_unit.entity.dart';
 import 'package:d2_remote/shared/utilities/save_option.util.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
-import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/core/common/state.dart';
 import 'package:mass_pro/data_run/errors_management/errors/d_error.dart';
 import 'package:mass_pro/data_run/form/form_configuration.dart';
@@ -18,11 +15,19 @@ import 'package:mass_pro/data_run/screens/form_submission_list/model/submission_
 import 'package:mass_pro/data_run/screens/form_submission_list/model/submission_status_count.model.dart';
 import 'package:mass_pro/data_run/screens/form_submission_list/model/submission_mapping_repository.dart';
 import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
-import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:d2_remote/core/datarun/utilities/date_utils.dart' as sdk;
 
 part 'submission_list.provider.g.dart';
+
+@riverpod
+class SelectedStatus extends _$SelectedStatus {
+  SyncStatus? build() {
+    return null;
+  }
+
+  void set status(SyncStatus? status) => state = status;
+}
 
 @riverpod
 SubmissionMappingRepository submissionMappingRepository(
@@ -69,22 +74,17 @@ class FormSubmissionList extends _$FormSubmissionList {
 
   Future<DataFormSubmission> createSubmission(
       {required String activityUid,
-      String? teamUid,
+      required String teamUid,
       required String orgUnit,
+      required int version,
       Map<String, dynamic> formData = const {},
       Geometry? geometry}) async {
-    final Bundle? eventBundle = Get.arguments as Bundle?;
-    final String team = teamUid ?? eventBundle!.getString(TEAM_UID)!;
-
-    final FormTemplate? submissionForm =
-        await D2Remote.formModule.formTemplate.byId(form).getOne();
-
     final DataFormSubmission submission = DataFormSubmission(
         status: 'ACTIVE',
         form: form,
-        version: submissionForm!.version,
+        version: version,
         activity: activityUid,
-        team: team,
+        team: teamUid,
         orgUnit: orgUnit,
         formData: formData,
         dirty: true,
@@ -155,13 +155,13 @@ class FormSubmissionList extends _$FormSubmissionList {
 Future<List<DataFormSubmission>> submissionFilteredByState(
     SubmissionFilteredByStateRef ref,
     {required String form,
-    SyncStatus? syncState,
+    SyncStatus? status,
     String sortBy = 'name'}) async {
   final allSubmissions =
       await ref.watch(formSubmissionListProvider(form: form).future);
 
   final filteredSubmission = allSubmissions
-      .where(SubmissionListUtil.getFilterPredicate(syncState))
+      .where(SubmissionListUtil.getFilterPredicate(status))
       .toList();
 
   filteredSubmission.sort((a, b) =>

@@ -21,7 +21,7 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
   static String m0(count) =>
-      "${Intl.plural(count, zero: 'no forms', one: '1 form', two: '2 forms', other: '${count} forms')}";
+      "${Intl.plural(count, zero: 'no forms available', one: '1 form available', two: '2 forms available', other: '${count} forms available')}";
 
   static String m1(error) => "The maximum allowed length is \$${error}.";
 
@@ -237,8 +237,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "valueMustBeGreaterThanOrEqualToError": m5,
         "valueMustBeLessThanOrEqualToError": m3,
         "version": MessageLookupByLibrary.simpleMessage("Version"),
-        "viewAvailableForms":
-            MessageLookupByLibrary.simpleMessage("View Available Forms"),
+        "viewAvailableForms": MessageLookupByLibrary.simpleMessage(
+            "Expand to View Available Forms"),
         "viewList": MessageLookupByLibrary.simpleMessage("View List"),
         "year": m4,
         "years": MessageLookupByLibrary.simpleMessage("Years")

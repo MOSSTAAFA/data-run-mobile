@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/data_run/screens/view/view_base.dart';
+import 'package:mass_pro/main/usescases/splash/splash_presenter.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -14,6 +15,7 @@ class SplashScreen extends ConsumerStatefulWidget {
 class _SplashScreenState extends ConsumerState<SplashScreen> with ViewBase {
   @override
   Widget build(BuildContext context) {
+    ref.read(splashPresenterProvider).init();
     return Scaffold(
       body: Center(
         child: Column(

@@ -72,7 +72,7 @@
   "username": "اسم المستخدم",
   "viewList": "عرض القائمة",
   "addNew": "إضافة جديد",
-  "form": "{count, plural, =0{لا توجد استمارات} =1{استمارة واحدة} =2{استمارتان} other{{count} استمارة}}",
+  "form": "{count, plural, =0{لا تتوفر استمارات لهذا النشاط} =1{تتوفر 1 استمارة} =2{تتوفر استمارتان} other{{count} استمارة متوفرة}}",
   "@form": {
     "description": "A plural message",
     "placeholders": {
@@ -82,7 +82,7 @@
       }
     }
   },
-  "viewAvailableForms": "استعرض الاستمارات المتاحة",
+  "viewAvailableForms": "افتح لاستعرض الاستمارات المتاحة",
   "dashboard": "الرئيسية",
   "enterYourUsername": "من فضلك أدخل اسم المستخدم",
   "syncFormData": "مزامنة بيانات الاستمارة",

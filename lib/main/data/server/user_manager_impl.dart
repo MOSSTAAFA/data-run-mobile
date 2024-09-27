@@ -3,14 +3,15 @@ import 'package:d2_remote/modules/auth/user/entities/d_user.entity.dart';
 import 'package:d2_remote/modules/auth/user/models/login-response.model.dart';
 import 'package:dartlin/control_flow.dart';
 import 'package:dio/dio.dart';
-import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 import 'package:mass_pro/main/usescases/login/login_screen.widget.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:mass_pro/core/user/internal/log_in_exceptions.dart';
-import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 import 'package:mass_pro/main/data/server/user_manager.dart';
+
+import '../../../utils/navigator_key.dart';
 
 part 'user_manager_impl.g.dart';
 
@@ -50,7 +51,7 @@ class UserManagerImpl implements UserManager {
 
   @override
   Future<DUser?> handleAuthData(
-      {String serverUrl = '', Bundle? data, int? requestCode}) {
+      {String serverUrl = '', int? requestCode}) {
     return Future.value();
   }
 
@@ -93,7 +94,11 @@ class UserManagerImpl implements UserManager {
 
   @override
   Future<bool> logOut() {
-    Get.offAll(() => const LoginScreen());
+    // Get.offAll(() => const LoginScreen());
+    Navigator.push(
+      navigatorKey.currentContext!,
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
+    );
     return D2Remote.logOut();
   }
 

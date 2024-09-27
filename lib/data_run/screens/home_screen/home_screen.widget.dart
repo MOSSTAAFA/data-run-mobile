@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/get.dart';
-import 'package:mass_pro/commons/state/app_state_notifier.dart';
 import 'package:mass_pro/data_run/screens/home_screen/home_deck/home_deck.widget.dart';
 import 'package:mass_pro/data_run/screens/home_screen/home_presenter.dart';
 import 'package:mass_pro/data_run/screens/home_screen/home_screen_view.dart';
@@ -12,6 +10,8 @@ import 'package:mass_pro/main/usescases/login/login_screen.widget.dart';
 import 'package:mass_pro/main/usescases/sync/sync_screen.widget.dart';
 import 'package:mass_pro/main_constants/main_constants.dart';
 import 'package:mass_pro/utils/app_appearance.dart';
+
+import '../../../utils/navigator_key.dart';
 
 /// Dashboard Screen is the main Screen of the app the show after login
 /// Currently it lists the available projects as items other General relevant data
@@ -26,8 +26,7 @@ class HomeScreenWidget extends ConsumerStatefulWidget {
   final bool launchDataSync;
 
   @override
-  ConsumerState<HomeScreenWidget> createState() =>
-      _HomeScreenWidgetState();
+  ConsumerState<HomeScreenWidget> createState() => _HomeScreenWidgetState();
 }
 
 class _HomeScreenWidgetState extends ConsumerState<HomeScreenWidget>
@@ -42,9 +41,14 @@ class _HomeScreenWidgetState extends ConsumerState<HomeScreenWidget>
             // IconButton(
             //     onPressed: () => presenter.logOut(), icon: const Icon(Icons.logout)),
             IconButton(
-                onPressed: () => presenter
-                    .onSyncAllClick()
-                    .then((t) => Get.to(const SyncScreen())),
+                onPressed: () => presenter.onSyncAllClick().then((t) {
+                      Navigator.push(
+                        navigatorKey.currentContext!,
+                        MaterialPageRoute(
+                            builder: (context) => const SyncScreen()),
+                      );
+                      // Get.to(const SyncScreen());
+                    }),
                 icon: const Icon(Icons.sync)),
             const _BrightnessButton(),
             const _Material3Button(),
@@ -83,12 +87,20 @@ class _HomeScreenWidgetState extends ConsumerState<HomeScreenWidget>
 
   @override
   void goToLogin(int accountsCount, {bool isDeletion = false}) {
-    ref
-        .read(appStateNotifierProvider.notifier)
-        .gotToNextScreenPopAll(LoginScreen(
-          accountsCount: accountsCount,
-          isDeletion: isDeletion,
-        ));
+    // ref
+    //     .read(appStateNotifierProvider.notifier)
+    //     .gotToNextScreenPopAll(LoginScreen(
+    //       accountsCount: accountsCount,
+    //       isDeletion: isDeletion,
+    //     ));
+    Navigator.pushAndRemoveUntil(
+        navigatorKey.currentContext!,
+        MaterialPageRoute(
+            builder: (context) => LoginScreen(
+                  accountsCount: accountsCount,
+                  isDeletion: isDeletion,
+                )),
+        (r) => r.isFirst);
   }
 
   @override

@@ -1,91 +1,42 @@
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:get/get.dart';
-import 'package:mass_pro/commons/constants.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/org_unit_picker/model/data_model.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/get_error_widget.dart';
-import 'package:mass_pro/data_run/screens/form_submission_list/model/submission_list.provider.dart';
-import 'package:mass_pro/data_run/screens/form_submission_screen/model/submission.provider.dart';
-import 'package:mass_pro/main/usescases/bundle/bundle.dart';
-
-class SubmissionInitialView extends ConsumerStatefulWidget {
-  SubmissionInitialView(
-      {super.key, this.enabled = true, required List<String> selectableUids})
-      : this.selectableUids = selectableUids;
-
-  final List<String> selectableUids;
-  final bool enabled;
-
-  @override
-  SubmissionInitialViewState createState() => SubmissionInitialViewState();
-}
-
-class SubmissionInitialViewState extends ConsumerState<SubmissionInitialView> {
-  late final String form;
-
-  late final String submissionId;
-
-  @override
-  void initState() {
-    super.initState();
-    final Bundle eventBundle = Get.arguments as Bundle;
-    form = eventBundle.getString(FORM_UID)!;
-    submissionId = eventBundle.getString(SYNCABLE_UID)!;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final submissionValue =
-        ref.watch(submissionProvider(submissionId: submissionId));
-
-    return Card(
-      shadowColor: Colors.transparent,
-      margin: const EdgeInsets.all(8.0),
-      child: SizedBox.expand(
-        child: Center(
-          child: switch (submissionValue) {
-            AsyncValue(error: final error?, stackTrace: final stackTrace?) =>
-              getErrorWidget(error, stackTrace),
-            AsyncValue(valueOrNull: final submission?) =>
-              FormBuilderField<String?>(
-                name: 'orgUnit',
-                enabled: widget.enabled,
-                initialValue: submission.orgUnit,
-                validator: FormBuilderValidators.required(),
-                onChanged: (value) {
-                  ref
-                      .watch(formSubmissionListProvider(form: form).notifier)
-                      .saveOrgUnit(submissionId, value);
-                },
-                builder: (field) {
-                  final dataSourceValue = ref.watch(treeNodeDataSourceProvider(
-                      selectableUids: widget.selectableUids.lock));
-                  return switch (dataSourceValue) {
-                    AsyncValue(
-                      error: final error?,
-                      stackTrace: final stackTrace?
-                    ) =>
-                      getErrorWidget(error, stackTrace),
-                    AsyncValue(valueOrNull: final dataSource?) =>
-                      OrgUnitPickerField(
-                        enabled: widget.enabled,
-                        dataSource: dataSource,
-                        initialValueUid: submission.orgUnit,
-                        onChanged: (value) {
-                          field.didChange(value);
-                        },
-                      ),
-                    _ => const CircularProgressIndicator(),
-                  };
-                },
-              ),
-            _ => const CircularProgressIndicator(),
-          },
-        ),
-      ),
-    );
-  }
-}
+// import 'package:d2_remote/modules/datarun/form/shared/attribute_type.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:mass_pro/commons/custom_widgets/async_value.widget.dart';
+// import 'package:mass_pro/data_run/screens/form/fields/ou_picker_data_source.provider.dart';
+// import 'package:mass_pro/data_run/screens/form/fields/reactive_o_u_picker.dart';
+// import 'package:mass_pro/data_run/screens/form/form_metadata_inherit_widget.dart';
+// import 'package:mass_pro/data_run/screens/form/model/form_instance.provider.dart';
+// import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
+//
+// class SubmissionInitialView extends ConsumerWidget {
+//   const SubmissionInitialView({super.key});
+//
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final dataSource = ref.watch(ouPickerDataSourceProvider(
+//         formMetaData: FormMetadataWidget.of(context)));
+//
+//     final formInstance = ref
+//         .watch(
+//             formInstanceProvider(formMetaData: FormMetadataWidget.of(context)))
+//         .requireValue;
+//
+//     return Card(
+//       shadowColor: Colors.transparent,
+//       margin: const EdgeInsets.all(8.0),
+//       child: SizedBox.expand(
+//         child: Center(
+//           child: AsyncValueWidget(
+//             value: dataSource,
+//             data: (dataSource) => ReactiveOuPicker<String?>(
+//               dataSource: dataSource,
+//               formControl:
+//                   formInstance.form.control('_${AttributeType.orgUnit.name}')
+//                       as FormControl<String>,
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

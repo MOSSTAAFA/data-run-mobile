@@ -1,6 +1,6 @@
-// Generic AsyncValueWidget to work with values of type T
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mass_pro/data_run/screens/form_ui_elements/get_error_widget.dart';
 
 /// Generic AsyncValueWidget to work with values of type T
 class AsyncValueWidget<T> extends StatelessWidget {
@@ -14,22 +14,11 @@ class AsyncValueWidget<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return value.when(
-        data: data,
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (Object error, stackTrace) {
-          debugPrint('error: $error');
-          debugPrintStack(stackTrace: stackTrace, label: error.toString());
-
-          return Center(
-            child: Text(
-              error.toString(),
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineSmall!
-                  .copyWith(color: Colors.red),
-            ),
-          );
-        });
+    return switch (value) {
+      AsyncValue(error: final error?, stackTrace: final stackTrace) =>
+        getErrorWidget(error, stackTrace),
+      AsyncValue(valueOrNull: final valueOrNull?) => data.call(valueOrNull),
+      _ => const CircularProgressIndicator(),
+    };
   }
 }

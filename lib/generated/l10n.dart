@@ -770,24 +770,24 @@ class S {
     );
   }
 
-  /// `{count, plural, =0{no forms} =1{1 form} =2{2 forms} other{{count} forms}}`
+  /// `{count, plural, =0{no forms available} =1{1 form available} =2{2 forms available} other{{count} forms available}}`
   String form(num count) {
     return Intl.plural(
       count,
-      zero: 'no forms',
-      one: '1 form',
-      two: '2 forms',
-      other: '$count forms',
+      zero: 'no forms available',
+      one: '1 form available',
+      two: '2 forms available',
+      other: '$count forms available',
       name: 'form',
       desc: 'A plural message',
       args: [count],
     );
   }
 
-  /// `View Available Forms`
+  /// `Expand to View Available Forms`
   String get viewAvailableForms {
     return Intl.message(
-      'View Available Forms',
+      'Expand to View Available Forms',
       name: 'viewAvailableForms',
       desc: '',
       args: [],

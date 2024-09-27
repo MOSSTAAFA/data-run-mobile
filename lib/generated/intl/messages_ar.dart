@@ -21,7 +21,7 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'ar';
 
   static String m0(count) =>
-      "${Intl.plural(count, zero: 'لا توجد استمارات', one: 'استمارة واحدة', two: 'استمارتان', other: '${count} استمارة')}";
+      "${Intl.plural(count, zero: 'لا تتوفر استمارات لهذا النشاط', one: 'تتوفر 1 استمارة', two: 'تتوفر استمارتان', other: '${count} استمارة متوفرة')}";
 
   static String m1(error) => "الحد الأقصى للطول المسموح به هو \$${error}.";
 
@@ -235,8 +235,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "username": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
         "valueMustBeLessThanOrEqualToError": m3,
         "version": MessageLookupByLibrary.simpleMessage("الإصدار"),
-        "viewAvailableForms":
-            MessageLookupByLibrary.simpleMessage("استعرض الاستمارات المتاحة"),
+        "viewAvailableForms": MessageLookupByLibrary.simpleMessage(
+            "افتح لاستعرض الاستمارات المتاحة"),
         "viewList": MessageLookupByLibrary.simpleMessage("عرض القائمة"),
         "year": m4,
         "years": MessageLookupByLibrary.simpleMessage("سنوات")

@@ -1,9 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:mass_pro/commons/custom_widgets/copy_to_clipboard.dart';
 import 'package:mass_pro/commons/data_run/utils/view_actions.dart';
 import 'package:mass_pro/data_run/screens/view/view_abstract.dart';
-import 'package:mass_pro/utils/mass_utils/utils.dart';
 
 /// any screen ActivityGlobalAbstract
 mixin ViewBase implements ViewAbstract {
@@ -66,21 +62,21 @@ mixin ViewBase implements ViewAbstract {
   void setTutorial() {}
 
   @override
-  Future<void> showDescription(String description) {
+  Future<void> showDescription(String description) async {
     // final localization = AppLocalization.of(context)!;
-    return Get.defaultDialog(
-      radius: 10,
-      // title: localization.lookup('description'),
-      title: 'description',
-      content: SingleChildScrollView(
-        child: Text(description),
-      ),
-      // textCancel: localization.lookup('close'),
-      textCancel: 'close',
-      onCancel: () {
-        Get.back();
-      },
-    );
+    // return Get.defaultDialog(
+    //   radius: 10,
+    //   // title: localization.lookup('description'),
+    //   title: 'description',
+    //   content: SingleChildScrollView(
+    //     child: Text(description),
+    //   ),
+    //   // textCancel: localization.lookup('close'),
+    //   textCancel: 'close',
+    //   onCancel: () {
+    //     Get.back();
+    //   },
+    // );
 
     // return showDialog<String>(
     //     context: navigatorKey.currentContext!,
@@ -113,25 +109,25 @@ mixin ViewBase implements ViewAbstract {
       String? positiveButtonText,
       String? negativeButtonText,
       void Function()? onPositiveClick,
-      void Function()? onNegativeClick}) {
-    return Get.defaultDialog(
-      title: title,
-      content: CopyToClipboard(
-        prefix: prefix,
-        value: message,
-        child: SingleChildScrollView(
-          child: Text(message),
-        ),
-      ),
-      textConfirm: positiveButtonText ?? L('ok'),
-      textCancel: negativeButtonText ?? L('cancel'),
-      onConfirm: () {
-        positiveButtonText != null ? onPositiveClick?.call() : Get.back();
-      },
-      onCancel: () {
-        negativeButtonText != null ? onNegativeClick?.call() : Get.back();
-      },
-    );
+      void Function()? onNegativeClick}) async {
+    // return Get.defaultDialog(
+    //   title: title,
+    //   content: CopyToClipboard(
+    //     prefix: prefix,
+    //     value: message,
+    //     child: SingleChildScrollView(
+    //       child: Text(message),
+    //     ),
+    //   ),
+    //   textConfirm: positiveButtonText ?? L('ok'),
+    //   textCancel: negativeButtonText ?? L('cancel'),
+    //   onConfirm: () {
+    //     positiveButtonText != null ? onPositiveClick?.call() : Get.back();
+    //   },
+    //   onCancel: () {
+    //     negativeButtonText != null ? onNegativeClick?.call() : Get.back();
+    //   },
+    // );
     // return showDialog<void>(
     //   context: navigatorKey.currentContext!,
     //   // barrierDismissible: false,

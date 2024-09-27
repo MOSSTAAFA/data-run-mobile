@@ -1,18 +1,16 @@
 import 'package:d2_remote/modules/datarun/form/entities/data_form_submission.entity.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mass_pro/commons/constants.dart';
+import 'package:mass_pro/commons/custom_widgets/async_value.widget.dart';
 import 'package:mass_pro/core/common/state.dart';
-import 'package:mass_pro/data_run/form/form_configuration.dart';
-import 'package:mass_pro/data_run/screens/form_reactive/form_tab_screen.widget.dart';
+import 'package:mass_pro/data_run/screens/form/form_metadata_inherit_widget.dart';
+import 'package:mass_pro/data_run/screens/form/form_tab_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/form_submission_list/model/submission_list.provider.dart';
 import 'package:mass_pro/data_run/screens/form_submission_list/submission_summary.widget.dart';
 import 'package:mass_pro/data_run/screens/form_submission_list/submission_creation_dialog.widget.dart';
 import 'package:mass_pro/data_run/screens/form_ui_elements/get_error_widget.dart';
 import 'package:mass_pro/data_run/screens/form_submission_list/submission_sync_dialog.widget.dart';
 import 'package:mass_pro/generated/l10n.dart';
-import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 
 class SubmissionListScreen extends StatefulHookConsumerWidget {
   const SubmissionListScreen({super.key});
@@ -23,12 +21,9 @@ class SubmissionListScreen extends StatefulHookConsumerWidget {
 
 class SubmissionListState extends ConsumerState<SubmissionListScreen> {
   SyncStatus? _selectedStatus;
-  late final String form;
-  late final String activity;
-  late final String team;
-  late final int latestFormVersion;
 
   Future<void> _showSyncDialog(List<String> entityUids) async {
+    final form = FormMetadataWidget.of(context).form;
     await showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -47,122 +42,49 @@ class SubmissionListState extends ConsumerState<SubmissionListScreen> {
   }
 
   @override
-  void initState() {
-    final Bundle eventBundle = Get.arguments as Bundle;
-    form = eventBundle.getString(FORM_UID)!;
-    activity = eventBundle.getString(ACTIVITY_UID)!;
-    team = eventBundle.getString(TEAM_UID)!;
-    latestFormVersion = eventBundle.getInt(FORM_VERSION)!;
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    // final isSelectionMode = useState(false);
-    // final selectedItems = useState(Set<String>());
-    //
-    // void _syncSelectedItems() {
-    //   _showSyncDialog(selectedItems.value.toList());
-    // }
-    //
-    // void _deleteSelectedItems() {
-    //   ref
-    //       .read(formSubmissionListProvider(form: form).notifier)
-    //       .deleteSubmission(selectedItems.value);
-    //   selectedItems.value.clear();
-    //   isSelectionMode.value = false;
-    // }
-
-    // AppBar _buildSelectionAppBar() {
-    //   return AppBar(
-    //     title: Text('${selectedItems.value.length} ${S.of(context).selected}'),
-    //     leading: Row(
-    //       children: [
-    //         IconButton(
-    //           icon: Icon(Icons.close),
-    //           onPressed: () {
-    //             isSelectionMode.value = false;
-    //
-    //             selectedItems.value.clear();
-    //           },
-    //         ),
-    //       ],
-    //     ),
-    //     actions: [
-    //       IconButton(
-    //         tooltip: S.of(context).syncFormData,
-    //         icon: Icon(Icons.sync),
-    //         onPressed: () {
-    //           _syncSelectedItems();
-    //         },
-    //       ),
-    //     ],
-    //   );
-    // }
-
+    final formMetadata = FormMetadataWidget.of(context);
     return Scaffold(
-        key: ValueKey(form),
-        appBar: /*isSelectionMode.value
-            ? _buildSelectionAppBar()
-            :*/
-            AppBar(
-          title: Consumer(
-            builder: (context, ref, child) {
-              final AsyncValue<FormConfiguration> formConfig =
-                  ref.watch(formConfigurationProvider(form: form));
-              return switch (formConfig) {
-                AsyncValue(:final Object error?, :final stackTrace) =>
-                  getErrorWidget(error, stackTrace),
-                AsyncValue(:final FormConfiguration valueOrNull?) =>
-                  Text(valueOrNull.label),
-                _ => const SizedBox.shrink(),
-              };
-            },
-          ),
+        key: ValueKey(formMetadata.form),
+        appBar: AppBar(
+          title: Text(formMetadata.formLabel),
         ),
         body: Column(
           children: [
             _buildFilterBar(),
             Expanded(
-                child: ref
-                    .watch(submissionFilteredByStateProvider(
-                        form: form, syncState: _selectedStatus))
-                    .when(
-                        data: (filteredEntities) => ListView.builder(
-                              itemCount: filteredEntities.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                final DataFormSubmission entity =
-                                    filteredEntities[index];
+                child: AsyncValueWidget(
+              value: ref.watch(
+                submissionFilteredByStateProvider(
+                    form: formMetadata.form, status: _selectedStatus),
+              ),
+              data: (submissions) => ListView.builder(
+                itemCount: submissions.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final DataFormSubmission entity = submissions[index];
 
-                                return Card(
-                                  shadowColor:
-                                      Theme.of(context).colorScheme.shadow,
-                                  surfaceTintColor:
-                                      Theme.of(context).colorScheme.primary,
-                                  elevation: .7,
-                                  shape: const RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10)),
-                                  ),
-                                  child: SubmissionSummary(
-                                      // key: ValueKey('${entity.uid}_${entity.version}'),
-                                      form: form,
-                                      entity: entity,
-                                      onSyncPressed: (uid) =>
-                                          _showSyncDialog([entity.uid!]),
-                                      onTap: () => _goToDataEntryForm(
-                                          entity.uid!, entity.version)),
-                                );
-                              },
-                            ),
-                        error: (Object error, StackTrace s) =>
-                            getErrorWidget(error, s),
-                        loading: () => const CircularProgressIndicator())),
+                  return Card(
+                    shadowColor: Theme.of(context).colorScheme.shadow,
+                    surfaceTintColor: Theme.of(context).colorScheme.primary,
+                    elevation: .7,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    child: SubmissionSummary(
+                        form: formMetadata.form,
+                        entity: entity,
+                        onSyncPressed: (uid) => _showSyncDialog([entity.uid!]),
+                        onTap: () =>
+                            _goToDataEntryForm(entity.uid!, entity.version)),
+                  );
+                },
+              ),
+            )),
           ],
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            _showAddEntityDialog(context, ref);
+            _showAddEntityDialog();
           },
           tooltip: S.current.addNew,
           child: const Icon(Icons.add),
@@ -170,8 +92,10 @@ class SubmissionListState extends ConsumerState<SubmissionListScreen> {
   }
 
   Widget _buildFilterBar() {
+    final formMetadata = FormMetadataWidget.of(context);
+
     final statusCountModelValue =
-        ref.watch(submissionStatusModelProvider(form: form));
+        ref.watch(submissionStatusModelProvider(form: formMetadata.form));
 
     return switch (statusCountModelValue) {
       AsyncValue(:final Object error?, :final stackTrace) =>
@@ -213,95 +137,59 @@ class SubmissionListState extends ConsumerState<SubmissionListScreen> {
     );
   }
 
-  Future<void> _showAddEntityDialog(BuildContext context, WidgetRef ref) async {
+  Future<void> _showAddEntityDialog() async {
     if (!context.mounted) {
       return;
     }
 
+    final formMetadata = FormMetadataWidget.of(context);
     final String? result = await showDialog<String?>(
         context: context,
         builder: (BuildContext context) {
-          return SubmissionCreationDialog(
-            form: form,
-            activity: activity,
-            team: team,
+          return FormMetadataWidget(
+            formMetadata: formMetadata,
+            child: const SubmissionCreationDialog(),
           );
         });
-    // go to form
     if (result != null) {
-      await _goToDataEntryForm(result, latestFormVersion);
-      // ref.invalidate(submissionListProvider(form: form));
-      // ref.invalidate(projectDetailItemModelProvider);
+      _goToDataEntryForm(result, formMetadata.version);
     } else {
       // Handle cancellation or failure
     }
   }
 
-  Future<void> _goToDataEntryForm(String uid, int version) async {
-    final Bundle eventBundle = Get.arguments as Bundle;
-    Bundle bundle = eventBundle.putString(SYNCABLE_UID, uid);
-    bundle = bundle.putInt(FORM_VERSION, version);
-
+  void _goToDataEntryForm(String submission, int version) async {
+    // final Bundle eventBundle = Get.arguments as Bundle;
+    // Bundle bundle = eventBundle.putString(SYNCABLE_UID, uid);
+    // bundle = bundle.putInt(FORM_VERSION, version);
+    //
+    // await Get.to(const FormSubmissionScreen(currentPageIndex: 1),
+    //     arguments: bundle);
     // await Get.to(DataSubmissionScreen(), arguments: bundle);
-    await Get.to(
-        FormSubmissionScreen(
-          currentPageIndex: 1,
-        ),
-        arguments: bundle);
-    // ref.invalidate(submissionListProvider);
-  }
-
-  Future<void> _confirmDelete(BuildContext context, List<String> uids) async {
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(S.of(context).confirm),
-          content: Text(
-            S.of(context).conformDeleteMsg,
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(false);
-              },
-              child: Text(S.of(context).cancel),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(true);
-              },
-              child: Text(S.of(context).confirm),
-            ),
-          ],
-        );
-      },
+    final metas = FormMetadataWidget.of(context).copyWith(
+      submission: submission,
+      version: version,
     );
 
-    if (confirmed == true) {
-      _showUndoSnackBar(context, uids);
-    }
-  }
-
-  void _showUndoSnackBar(BuildContext context, List<String> toDeleteUids) {
-    final scaffoldMessenger = ScaffoldMessenger.of(context);
-
-    ref
-        .read(formSubmissionListProvider(form: form).notifier)
-        .deleteSubmission(toDeleteUids);
-
-    scaffoldMessenger.showSnackBar(
-      SnackBar(
-        content: Text(S.of(context).itemRemoved), // Localized: "Item removed"
-        action: SnackBarAction(
-          label: S.of(context).undo, // Localized: "Undo"
-          onPressed: () {
-            // Code to undo deletion, potentially restore item
-            // Logic here depends on how you want to re-add the item
-          },
-        ),
-      ),
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => FormMetadataWidget(
+                formMetadata: metas,
+                child: FormSubmissionScreen(
+                  currentPageIndex: 1,
+                ),
+              )),
     );
+
+    // Get.to(
+    //   FormMetadataWidget(
+    //     formMetadata: metas,
+    //     child: FormSubmissionScreen(
+    //       currentPageIndex: 1,
+    //     ),
+    //   ),
+    // );
   }
 }
 

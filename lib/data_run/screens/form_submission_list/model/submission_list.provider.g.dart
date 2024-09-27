@@ -182,7 +182,7 @@ class _SubmissionMappingRepositoryProviderElement
 }
 
 String _$submissionFilteredByStateHash() =>
-    r'875044d467a0f5a9af266938d3cda3060a299efc';
+    r'8babdca9160839049f42f4e7ab630def623629b8';
 
 /// See also [submissionFilteredByState].
 @ProviderFor(submissionFilteredByState)
@@ -197,12 +197,12 @@ class SubmissionFilteredByStateFamily
   /// See also [submissionFilteredByState].
   SubmissionFilteredByStateProvider call({
     required String form,
-    SyncStatus? syncState,
+    SyncStatus? status,
     String sortBy = 'name',
   }) {
     return SubmissionFilteredByStateProvider(
       form: form,
-      syncState: syncState,
+      status: status,
       sortBy: sortBy,
     );
   }
@@ -213,7 +213,7 @@ class SubmissionFilteredByStateFamily
   ) {
     return call(
       form: provider.form,
-      syncState: provider.syncState,
+      status: provider.status,
       sortBy: provider.sortBy,
     );
   }
@@ -239,13 +239,13 @@ class SubmissionFilteredByStateProvider
   /// See also [submissionFilteredByState].
   SubmissionFilteredByStateProvider({
     required String form,
-    SyncStatus? syncState,
+    SyncStatus? status,
     String sortBy = 'name',
   }) : this._internal(
           (ref) => submissionFilteredByState(
             ref as SubmissionFilteredByStateRef,
             form: form,
-            syncState: syncState,
+            status: status,
             sortBy: sortBy,
           ),
           from: submissionFilteredByStateProvider,
@@ -258,7 +258,7 @@ class SubmissionFilteredByStateProvider
           allTransitiveDependencies:
               SubmissionFilteredByStateFamily._allTransitiveDependencies,
           form: form,
-          syncState: syncState,
+          status: status,
           sortBy: sortBy,
         );
 
@@ -270,12 +270,12 @@ class SubmissionFilteredByStateProvider
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.form,
-    required this.syncState,
+    required this.status,
     required this.sortBy,
   }) : super.internal();
 
   final String form;
-  final SyncStatus? syncState;
+  final SyncStatus? status;
   final String sortBy;
 
   @override
@@ -294,7 +294,7 @@ class SubmissionFilteredByStateProvider
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         form: form,
-        syncState: syncState,
+        status: status,
         sortBy: sortBy,
       ),
     );
@@ -309,7 +309,7 @@ class SubmissionFilteredByStateProvider
   bool operator ==(Object other) {
     return other is SubmissionFilteredByStateProvider &&
         other.form == form &&
-        other.syncState == syncState &&
+        other.status == status &&
         other.sortBy == sortBy;
   }
 
@@ -317,7 +317,7 @@ class SubmissionFilteredByStateProvider
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, form.hashCode);
-    hash = _SystemHash.combine(hash, syncState.hashCode);
+    hash = _SystemHash.combine(hash, status.hashCode);
     hash = _SystemHash.combine(hash, sortBy.hashCode);
 
     return _SystemHash.finish(hash);
@@ -329,8 +329,8 @@ mixin SubmissionFilteredByStateRef
   /// The parameter `form` of this provider.
   String get form;
 
-  /// The parameter `syncState` of this provider.
-  SyncStatus? get syncState;
+  /// The parameter `status` of this provider.
+  SyncStatus? get status;
 
   /// The parameter `sortBy` of this provider.
   String get sortBy;
@@ -344,8 +344,8 @@ class _SubmissionFilteredByStateProviderElement
   @override
   String get form => (origin as SubmissionFilteredByStateProvider).form;
   @override
-  SyncStatus? get syncState =>
-      (origin as SubmissionFilteredByStateProvider).syncState;
+  SyncStatus? get status =>
+      (origin as SubmissionFilteredByStateProvider).status;
   @override
   String get sortBy => (origin as SubmissionFilteredByStateProvider).sortBy;
 }
@@ -637,8 +637,24 @@ class _SubmissionItemSummaryModelProviderElement
   String get form => (origin as SubmissionItemSummaryModelProvider).form;
 }
 
+String _$selectedStatusHash() => r'9bd7335246209a7e86bf8ff40ebaea3690d3b5db';
+
+/// See also [SelectedStatus].
+@ProviderFor(SelectedStatus)
+final selectedStatusProvider =
+    AutoDisposeNotifierProvider<SelectedStatus, SyncStatus?>.internal(
+  SelectedStatus.new,
+  name: r'selectedStatusProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$selectedStatusHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$SelectedStatus = AutoDisposeNotifier<SyncStatus?>;
 String _$formSubmissionListHash() =>
-    r'5bb7b5efd217f658e803b749de417d081b4a6f1c';
+    r'85974aad176b1795ad799314180f10e95f6a480d';
 
 abstract class _$FormSubmissionList
     extends BuildlessAutoDisposeAsyncNotifier<IList<DataFormSubmission>> {

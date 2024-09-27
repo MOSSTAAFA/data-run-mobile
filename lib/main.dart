@@ -5,12 +5,8 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/get.dart';
 import 'package:mass_pro/commons/prefs/preference_provider.dart';
-import 'package:mass_pro/data_run/screens/home_screen/home_screen.widget.dart';
-import 'package:mass_pro/data_run/screens/project_activity_detail/project_detail_screen.widget.dart';
 import 'package:mass_pro/generated/l10n.dart';
-import 'package:mass_pro/main/usescases/splash/splash_presenter.dart';
 import 'package:mass_pro/main/usescases/splash/splash_screen.widget.dart';
 import 'package:mass_pro/main_constants/main_constants.dart';
 import 'package:mass_pro/riverpod/provider_logger.dart';
@@ -75,10 +71,10 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // const locale = Locale('en', 'en_us');
-    const Locale locale = Locale('ar', '');
+    const locale = Locale('en', 'en_us');
+    // const Locale locale = Locale('ar', '');
 
-    return GetMaterialApp(
+    return MaterialApp(
       navigatorKey: navigatorKey,
       title: 'Datarun',
       debugShowCheckedModeBanner: false,
@@ -119,27 +115,28 @@ class App extends ConsumerWidget {
         Locale('en', 'en_us'),
       ],
       locale: locale,
-      initialRoute: SplashScreen.route,
-      getPages: <GetPage>[
-        GetPage(
-          name: SplashScreen.route,
-          page: () {
-            ref.read(splashPresenterProvider).init();
-            return const SplashScreen();
-          },
-          transition: Transition.fade,
-        ),
-        GetPage(
-          name: HomeScreenWidget.route,
-          page: () => const HomeScreenWidget(),
-          transition: Transition.fade,
-        ),
-        GetPage(
-          name: ProjectDetailScreenWidget.route,
-          page: () => const ProjectDetailScreenWidget(),
-          transition: Transition.fade,
-        ),
-      ],
+      home: SplashScreen(),
+      // initialRoute: SplashScreen.route,
+      // getPages: <GetPage>[
+      //   GetPage(
+      //     name: SplashScreen.route,
+      //     page: () {
+      //       ref.read(splashPresenterProvider).init();
+      //       return const SplashScreen();
+      //     },
+      //     transition: Transition.fade,
+      //   ),
+      //   GetPage(
+      //     name: HomeScreenWidget.route,
+      //     page: () => const HomeScreenWidget(),
+      //     transition: Transition.fade,
+      //   ),
+      //   GetPage(
+      //     name: ProjectActivitiesScreenWidget.route,
+      //     page: () => const ProjectActivitiesScreenWidget(),
+      //     transition: Transition.fade,
+      //   ),
+      // ],
     );
   }
 }

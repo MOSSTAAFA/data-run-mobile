@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/get.dart';
-import 'package:mass_pro/commons/state/app_state_notifier.dart';
 import 'package:mass_pro/data_run/screens/home_screen/home_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/view/view_base.dart';
 import 'package:mass_pro/generated/l10n.dart';
@@ -13,6 +11,7 @@ import 'package:mass_pro/main/usescases/sync/sync_view.dart';
 import 'package:mass_pro/riverpod/use_on_init_hook.dart';
 import 'package:mass_pro/utils/mass_utils/utils.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+
 
 class SyncScreen extends ConsumerStatefulWidget {
   const SyncScreen({super.key});
@@ -133,14 +132,22 @@ class _SyncScreenState extends ConsumerState<SyncScreen>
 
   @override
   void goToLogin() {
-    ref
-        .read(appStateNotifierProvider.notifier)
-        .gotToNextScreenPopAll(const LoginScreen());
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
+    );
+    // ref
+    //     .read(appStateNotifierProvider.notifier)
+    //     .gotToNextScreenPopAll(const LoginScreen());
   }
 
   @override
   void goToMain() {
-    Get.offNamed(HomeScreenWidget.route);
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const HomeScreenWidget()),
+    );
+    // Get.offNamed(HomeScreenWidget.route);
   }
 
   @override

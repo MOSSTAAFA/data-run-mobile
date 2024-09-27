@@ -1,22 +1,18 @@
+import 'package:d2_remote/modules/datarun/form/shared/attribute_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/data_run/form/form_configuration.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/org_unit_picker/model/data_model.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/get_error_widget.dart';
+import 'package:mass_pro/commons/custom_widgets/async_value.widget.dart';
+import 'package:mass_pro/data_run/screens/form/fields/reactive_o_u_picker.dart';
+import 'package:mass_pro/data_run/screens/form/form_metadata_inherit_widget.dart';
+import 'package:mass_pro/data_run/screens/form/model/form_element_validator.dart';
+import 'package:mass_pro/data_run/screens/form_submission_list/model/submission_creation_model.provider.dart';
 import 'package:mass_pro/data_run/screens/form_submission_list/model/submission_list.provider.dart';
 import 'package:mass_pro/generated/l10n.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 
 class SubmissionCreationDialog extends ConsumerStatefulWidget {
-  const SubmissionCreationDialog(
-      {super.key,
-      required this.form,
-      required this.activity,
-      required this.team});
-
-  final String form;
-  final String activity;
-  final String team;
+  const SubmissionCreationDialog({super.key});
 
   @override
   SubmissionCreationDialogState createState() =>
@@ -27,35 +23,38 @@ class SubmissionCreationDialogState
     extends ConsumerState<SubmissionCreationDialog> {
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
   bool _isLoading = false;
-  String? _orgUnitUid;
 
-  Future<String?> _createEntity(FormConfiguration formConfiguration) async {
-    final submissionInitialRepository =
-        ref.read(formSubmissionListProvider(form: widget.form).notifier);
+  Future<String?> _createEntity(
+      BuildContext context, SubmissionCreationModel model) async {
+    final submissionInitialRepository = ref.read(
+        formSubmissionListProvider(form: FormMetadataWidget.of(context).form)
+            .notifier);
 
     final submission = await submissionInitialRepository.createSubmission(
-        activityUid: widget.activity,
-        orgUnit: _orgUnitUid!,
-        teamUid: widget.team,
-        formData: Map<String, dynamic>.from(_formKey.currentState!.value));
+      activityUid: FormMetadataWidget.of(context).activity,
+      orgUnit: model.form.control('_${AttributeType.orgUnit.name}').value,
+      teamUid: model.team,
+      version: FormMetadataWidget.of(context).version,
+    );
     return submission.uid;
   }
 
   Future<void> createAndPopupWithResult(
-      BuildContext context, FormConfiguration formConfiguration) async {
+      BuildContext context, SubmissionCreationModel model) async {
     setState(() {
       _isLoading = true;
     });
 
     String? syncableId;
     try {
-      if (_formKey.currentState?.validate() ?? false) {
-        syncableId = await _createEntity(formConfiguration);
+      if (model.form.valid) {
+        syncableId = await _createEntity(context, model);
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
           Navigator.of(context).pop(syncableId);
         });
       } else {
+        // model.form.
         setState(() {
           _isLoading = false;
         });
@@ -70,127 +69,58 @@ class SubmissionCreationDialogState
     }
   }
 
-  String? _getInitialUid(FormConfiguration formConfig) {
-    String? uid =
-        formConfig.isSingleOrgUnit ? formConfig.orgUnitTreeUids.first : null;
-    if (uid != null) {
-      // WidgetsBinding.instance.addPostFrameCallback((_) {
-      //   setState(() {
-      _orgUnitUid = formConfig.orgUnitTreeUids.first;
-      //   });
-      // });
-    }
-
-    return uid;
-  }
-
   @override
   Widget build(BuildContext context) {
-    final AsyncValue<FormConfiguration> formConfigAsync =
-        ref.watch(formConfigurationProvider(form: widget.form));
-
-    return switch (formConfigAsync) {
-      AsyncValue(error: final error?, stackTrace: final stackTrace?) =>
-        getErrorWidget(error, stackTrace),
-      AsyncValue(valueOrNull: final formConfig?) => AlertDialog(
-          surfaceTintColor: Theme.of(context).colorScheme.primary,
-          shadowColor: Theme.of(context).colorScheme.shadow,
-          title: Column(
-            children: [
-              Text('${S.of(context).openNewForm}:',
-                  style: Theme.of(context).textTheme.titleMedium),
-              Text(formConfig.label,
-                  style: Theme.of(context).textTheme.titleLarge)
-            ],
-          ),
-          content: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                FormBuilder(
-                  key: _formKey,
-                  onChanged: () {
-                    _formKey.currentState!.save();
-                    debugPrint('${_formKey.currentState!.value}');
-                    _formKey.currentState!.save();
-                  },
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: FormBuilderField<String?>(
-                          key: ValueKey('FormBuilderField_${formConfig.form}'),
-                          name: 'orgUnit',
-                          initialValue: _getInitialUid(formConfig),
-                          builder: (field) {
-                            final dataSource = ref.watch(
-                                treeNodeDataSourceProvider(
-                                    selectableUids:
-                                        formConfig.orgUnitTreeUids));
-                            return switch (dataSource) {
-                              AsyncValue(
-                                error: final error?,
-                                stackTrace: final stackTrace?
-                              ) =>
-                                getErrorWidget(error, stackTrace),
-                              AsyncValue(valueOrNull: final dataSource?) =>
-                                OrgUnitPickerField(
-                                  key: ValueKey('orgPicker_${formConfig.form}'),
-                                  dataSource: dataSource,
-                                  // initialValueUid: _getInitialUid(formConfig),
-                                  onChanged: (value) {
-                                    // debugPrint('### Value: $value');
-                                    _orgUnitUid = value;
-                                    field.didChange(value);
-                                  },
-                                ),
-                              _ => const CircularProgressIndicator(),
-                            };
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                // ...formConfig.mainFields.values.map((f) {
-                //   final fieldModel = mapToQFieldModel(
-                //       field: f,
-                //       options: formConfig.optionLists.get(f.listName ?? ''));
-                //   final QFormFieldBuilder builder = ref
-                //       .watch(fieldWidgetFactoryProvider)
-                //       .getBuilder(fieldModel.valueType);
-                //
-                //   final Widget fieldWidget = builder.call(fieldModel);
-                //
-                //   if (!fieldModel.isVisible) {
-                //     return const SizedBox.shrink();
-                //   }
-                //
-                //   return fieldWidget;
-                // }),
-                if (_isLoading)
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: CircularProgressIndicator(),
-                  ),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text(S.of(context).cancel),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              onPressed: _isLoading
-                  ? null
-                  : () => createAndPopupWithResult(context, formConfig),
-              child: Text(S.of(context).open),
-            ),
+    final templateAsyncValue = ref.watch(submissionCreationModelProvider(
+        formMetaData: FormMetadataWidget.of(context)));
+    return AsyncValueWidget(
+      value: templateAsyncValue,
+      data: (SubmissionCreationModel model) => AlertDialog(
+        surfaceTintColor: Theme.of(context).colorScheme.primary,
+        shadowColor: Theme.of(context).colorScheme.shadow,
+        title: Column(
+          children: [
+            Text('${S.of(context).openNewForm}:',
+                style: Theme.of(context).textTheme.titleMedium),
+            Text(FormMetadataWidget.of(context).formLabel,
+                style: Theme.of(context).textTheme.titleLarge)
           ],
         ),
-      _ => const CircularProgressIndicator(),
-    };
+        content: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ReactiveOuPicker<String?>(
+                  dataSource: model.dataSource,
+                  validationMessages: validationMessages(context),
+                  formControl:
+                      model.form.control('_${AttributeType.orgUnit.name}') as FormControl<String>,
+                ),
+              ),
+              if (_isLoading)
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: CircularProgressIndicator(),
+                ),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: Text(S.of(context).cancel),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            onPressed: _isLoading
+                ? null
+                : () => createAndPopupWithResult(context, model),
+            child: Text(S.of(context).open),
+          ),
+        ],
+      ),
+    );
   }
 }

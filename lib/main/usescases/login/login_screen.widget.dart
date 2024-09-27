@@ -9,7 +9,6 @@ import 'package:mass_pro/commons/custom_widgets/mixins/keyboard_manager.dart';
 import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
 import 'package:mass_pro/commons/network/network_utils.dart';
 import 'package:mass_pro/commons/resources/resource_manager.dart';
-import 'package:mass_pro/commons/state/app_state_notifier.dart';
 import 'package:mass_pro/data_run/screens/home_screen/home_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/view/view_base.dart';
 import 'package:mass_pro/generated/l10n.dart';
@@ -20,6 +19,8 @@ import 'package:mass_pro/main/usescases/sync/sync_screen.widget.dart';
 import 'package:mass_pro/riverpod/use_on_init_hook.dart';
 import 'package:mass_pro/utils/mass_utils/utils.dart';
 import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
+
+import '../../../utils/navigator_key.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen(
@@ -308,13 +309,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
   @override
   void goToNextScreen() {
     if (isNetworkAvailable() && !widget.skipSync) {
-      ref
-          .read(appStateNotifierProvider.notifier)
-          .gotToNextScreen(const SyncScreen());
+      // ref
+      //     .read(appStateNotifierProvider.notifier)
+      //     .gotToNextScreen(const SyncScreen());
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const SyncScreen()));
     } else {
-      ref
-          .read(appStateNotifierProvider.notifier)
-          .gotToNextScreenPopAll(HomeScreenWidget());
+      Navigator.pushAndRemoveUntil(
+          navigatorKey.currentContext!,
+          MaterialPageRoute(builder: (context) => const HomeScreenWidget()),
+              (r) => r.isFirst);
+      // ref
+      //     .read(appStateNotifierProvider.notifier)
+      //     .gotToNextScreenPopAll(HomeScreenWidget());
     }
   }
 

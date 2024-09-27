@@ -57,22 +57,6 @@ class ActivitiesAccessRepository {
     return enabledTeams.any((DTeam team) => team.disabled = false);
   }
 
-  // /// form's activity is Active, and activity has one
-  // /// or more active teams assigned to user
-  // Future<bool> formIsActive(String formUid) async {
-  //   final FormTemplate? form =
-  //       await D2Remote.formModule.form.byId(formUid).getOne();
-  //
-  //   final DActivity? activity =
-  //       await D2Remote.activityModuleD.activity.byId(form?.activity!).getOne();
-  //
-  //   if (activity?.id != null) {
-  //     return activityIsActiveWithActiveTeams(activity!.id!);
-  //   } else {
-  //     return false;
-  //   }
-  // }
-
   /// project has one or more active activities
   Future<bool> projectHasActiveActivities(DProject project) async {
     final List<DActivity> enabledActivities = await D2Remote
@@ -181,10 +165,10 @@ class ActivitiesAccessRepository {
   //   return enabledForms.toIList();
   // }
 
-  /// Only Active forms (Enabled)
-  Future<DTeam?> getActivityTeam(String activityUid) async {
-    return D2Remote.teamModuleD.team
-        .where(attribute: 'activity', value: activityUid)
-        .getOne();
-  }
+  // /// Only Active forms (Enabled)
+  // Future<DTeam?> getActivityTeam(String activityUid) async {
+  //   return D2Remote.teamModuleD.team
+  //       .where(attribute: 'activity', value: activityUid)
+  //       .getOne();
+  // }
 }

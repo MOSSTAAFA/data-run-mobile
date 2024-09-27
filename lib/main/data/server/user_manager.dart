@@ -3,7 +3,6 @@ import 'package:d2_remote/modules/auth/user/models/login-response.model.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:mass_pro/main/usescases/bundle/bundle.dart';
 
 abstract class UserManager {
   Future<LoginResponseStatus> logIn(
@@ -13,7 +12,7 @@ abstract class UserManager {
       Dio? dioTestClient});
 
   Future<DUser?> handleAuthData(
-      {String serverUrl, Bundle? data, int? requestCode});
+      {String serverUrl, int? requestCode});
 
   Future<bool> isUserLoggedIn(
       {Future<SharedPreferences>? sharedPreferenceInstance, bool? inMemory});

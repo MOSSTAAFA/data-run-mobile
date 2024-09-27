@@ -1,25 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/get.dart';
-import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
 import 'package:mass_pro/data_run/screens/home_screen/home_deck/home_item.model.dart';
 import 'package:mass_pro/data_run/screens/home_screen/home_deck/home_items.widget.dart';
-import 'package:mass_pro/data_run/screens/project_activity_detail/project_detail_screen.widget.dart';
+import 'package:mass_pro/data_run/screens/project_activity_detail/project_activities_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/view/view_base.dart';
-import 'package:mass_pro/data_run/utils/screens_constants.dart';
-import 'package:mass_pro/main/usescases/bundle/bundle.dart';
+
 
 class HomeDeck extends ConsumerStatefulWidget {
   const HomeDeck({super.key});
 
   @override
-  ConsumerState<HomeDeck> createState() =>
-      _HomeDeckState();
+  ConsumerState<HomeDeck> createState() => _HomeDeckState();
 }
 
-class _HomeDeckState extends ConsumerState<HomeDeck>
-    with ViewBase {
-  Bundle bundle = Bundle();
+class _HomeDeckState extends ConsumerState<HomeDeck> with ViewBase {
+  // Bundle bundle = Bundle();
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +23,7 @@ class _HomeDeckState extends ConsumerState<HomeDeck>
       onGranularSyncClick: (homeDeckItemModel) =>
           showSyncDialog(homeDeckItemModel),
       onDescriptionClick: (homeDeckItemModel) =>
-      homeDeckItemModel?.description != null
+          homeDeckItemModel?.description != null
               ? showDescription(homeDeckItemModel!.description!)
               : null,
     );
@@ -44,11 +39,19 @@ class _HomeDeckState extends ConsumerState<HomeDeck>
   }
 
   void navigateTo(HomeItemModel homeDeckItem) {
-    bundle = bundle.putString(EXTRA_PROJECT_UID, homeDeckItem.uid);
-    logInfo(info: '$EXTRA_PROJECT_UID, ${homeDeckItem.uid}');
-    // navigatorKey.currentState!
+    // bundle = bundle.putString(EXTRA_PROJECT_UID, homeDeckItem.uid);
+    // logInfo(info: '$EXTRA_PROJECT_UID, ${homeDeckItem.uid}');
+    // // navigatorKey.currentState!
     //     .pushNamed(ProjectDetailScreenWidget.route, arguments: bundle);
-    Get.to(const ProjectDetailScreenWidget(), arguments: bundle);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => ProjectActivitiesScreenWidget(
+                project: homeDeckItem.uid,
+              )),
+    );
+    // Get.to(const ProjectActivitiesScreenWidget(), arguments: bundle);
     // ref
     //     .read(appStateNotifierProvider.notifier)
     //     .gotToNextRoute(ProjectDetailScreenWidget(), arguments: bundle);

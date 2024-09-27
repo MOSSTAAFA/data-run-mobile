@@ -1,17 +1,18 @@
 import 'package:d2_remote/modules/auth/user/models/login-response.model.dart';
+import 'package:flutter/material.dart';
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
 import 'package:mass_pro/commons/extensions/string_extension.dart';
 import 'package:mass_pro/commons/network/network_utils.dart';
 import 'package:mass_pro/commons/prefs/preference.dart';
 import 'package:mass_pro/commons/prefs/preference_provider.dart';
-import 'package:mass_pro/commons/state/app_state_notifier.dart';
 import 'package:mass_pro/data_run/errors_management/error_management.dart';
 import 'package:mass_pro/data_run/screens/home_screen/home_screen.widget.dart';
 import 'package:mass_pro/main/data/server/user_manager.dart';
 import 'package:mass_pro/main/data/server/user_manager_impl.dart';
 import 'package:mass_pro/main/usescases/login/login_view.dart';
 import 'package:mass_pro/main/usescases/login/sync_is_performed_interactor.dart';
+import 'package:mass_pro/utils/navigator_key.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'login_presenter.g.dart';
@@ -79,9 +80,13 @@ class LoginScreenPresenter {
         final isSessionLocked =
             preferenceProvider.getBool(SESSION_LOCKED, false);
         if (isUserLoggedIn && !isSessionLocked) {
-          ref
-              .read(appStateNotifierProvider.notifier)
-              .gotToNextScreenPopAll(HomeScreenWidget());
+          // ref
+          //     .read(appStateNotifierProvider.notifier)
+          //     .gotToNextScreenPopAll(HomeScreenWidget());
+          Navigator.pushAndRemoveUntil(
+              navigatorKey.currentContext!,
+              MaterialPageRoute(builder: (context) => const HomeScreenWidget()),
+              (r) => r.isFirst);
         } else if (isSessionLocked) {
           view.showUnlockButton();
         }
@@ -117,11 +122,11 @@ class LoginScreenPresenter {
     //             .userManager()
     //     )
     //         .flatMap { userManager ->
-    await preferenceProvider.setValue(SERVER, 'https://api.nmcpye.org');
+    await preferenceProvider.setValue(SERVER, kApiBaseUrl);
     // this.userManager = userManager
     // userName.trim { it <= ' ' }, pass, serverUrl
     return userManager
-        ?.logIn(userName.trim(), pass, 'https://api.nmcpye.org')
+        ?.logIn(userName.trim(), pass, serverUrl)
         .then((it) async {
       await preferenceProvider.setValue(
         USER,
@@ -131,7 +136,7 @@ class LoginScreenPresenter {
       await preferenceProvider.setValue(PIN, null);
       _trackUserInfo();
       // Response.success<Any>(null)
-      await handleResponse(it, userName, 'https://api.nmcpye.org');
+      await handleResponse(it, userName, kApiBaseUrl);
     }).catchError((Object error, StackTrace stackTrace) async {
       if (error is DException) {
         error.source != null

@@ -64,6 +64,9 @@ dependencies:
   reactive_dropdown_search: ^4.0.0
   reactive_date_time_picker: ^4.0.0
   scrollable: ^1.0.5
+  uuid: ^4.5.0
+  device_info_plus: ^10.1.2
+  toggle_switch: ^2.3.0
   ## End of Temp
 #  sentry_flutter: ^8.3.0
 

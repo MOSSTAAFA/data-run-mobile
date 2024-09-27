@@ -30,13 +30,9 @@ class HomeItemsModelsNotifier extends _$HomeItemsModelsNotifier {
     final IList<DProject> projects =
         await ref.watch(activitiesAccessRepositoryProvider).getActiveProjects();
 
-    IList<HomeItemModel> programModles = IList<HomeItemModel>();
+    IList<HomeItemModel> programModels = IList<HomeItemModel>();
     for (final DProject project in projects) {
       final SyncStatus state = SyncStatus.SYNCED;
-      // await ref.read(projectUtilsProvider).getProjectState(project);
-
-      // final count =
-      //     await ref.read(projectUtilsProvider).getActivitiesCount(project);
 
       final HomeItemModel programModel = HomeItemModel(
           uid: project.uid!,
@@ -44,26 +40,22 @@ class HomeItemsModelsNotifier extends _$HomeItemsModelsNotifier {
           metadataIconData: MetadataIconData(
               programColor: ref
                   .read(resourceManagerProvider)
-                  .getColorOrDefaultFrom(/* program.style?.color */ null),
+                  .getColorOrDefaultFrom(null),
               iconResource: ref
                   .read(resourceManagerProvider)
                   .getObjectStyleDrawableResource(
-                      /* program.style()?.icon() */
                       null,
                       Icons.question_mark)),
-          // count: count,
+
           type: project.name,
           dirty: project.dirty,
           state: state,
-          // State.valueOf(state.name),
-          // hasOverdueEvent: hasOverdue,
-          // filtersAreActive: filtersAreActive,
           downloadState: ProjectDownloadState.NONE);
 
-      programModles = programModles.add(programModel);
+      programModels = programModels.add(programModel);
     }
 
-    return programModles
+    return programModels
         .let((t) => applyFilters(t))
         .let((t) => applySync(t, syncStatusData))
         .sort((p1, p2) =>

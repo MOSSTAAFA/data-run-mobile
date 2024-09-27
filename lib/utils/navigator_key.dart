@@ -11,7 +11,8 @@ final GlobalKey<NavigatorState> profileKey = GlobalKey<NavigatorState>();
 //     return L.of(currentContext!)!;
 //   }
 // }
-
+// Navigator.of(navigatorKey.currentContext!, rootNavigator: false)
+//     .pushNamed(route, arguments: arguments);
 Future<void> navigate(BuildContext? context, String route,
         {bool isDialog = false,
         bool isRootNavigator = true,
@@ -19,6 +20,16 @@ Future<void> navigate(BuildContext? context, String route,
     Navigator.of(context ?? navigatorKey.currentContext!,
             rootNavigator: isRootNavigator)
         .pushNamed(route, arguments: arguments);
+
+Future<void> navigatePush(Widget page,
+        {bool isDialog = false,
+        bool isRootNavigator = true,
+        Map<String, dynamic>? arguments,
+        BuildContext? context}) =>
+    Navigator.push(
+      context ?? navigatorKey.currentContext!,
+      MaterialPageRoute(builder: (context) => page),
+    );
 
 /// Color list
 const Color mediumPurple = Color.fromRGBO(79, 0, 241, 1.0);

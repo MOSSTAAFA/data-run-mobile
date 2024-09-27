@@ -1,7 +1,7 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:d2_remote/d2_remote.dart';
-import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/commons/prefs/preference.dart';
 import 'package:mass_pro/commons/prefs/preference_provider.dart';
@@ -11,6 +11,8 @@ import 'package:mass_pro/main/data/server/user_manager_impl.dart';
 import 'package:mass_pro/main/usescases/login/login_screen.widget.dart';
 import 'package:mass_pro/main/usescases/sync/sync_screen.widget.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../../../utils/navigator_key.dart';
 
 part 'splash_presenter.g.dart';
 
@@ -91,12 +93,26 @@ class SplashPresenter {
       required bool initialSyncDone,
       required bool initialDataSyncDone}) {
     if (isUserLogged && initialSyncDone && !sessionLocked) {
-      Get.offNamed(HomeScreenWidget.route);
+      Navigator.pushReplacement(
+        navigatorKey.currentContext!,
+        MaterialPageRoute(builder: (context) => const HomeScreenWidget()),
+      );
+      // Get.offNamed(HomeScreenWidget.route);
     } else if (isUserLogged && !initialSyncDone) {
-      Get.off(const SyncScreen());
+      // Get.off(const SyncScreen());
+      Navigator.pushReplacement(
+        navigatorKey.currentContext!,
+        MaterialPageRoute(builder: (context) => const SyncScreen()),
+      );
     } else {
       getAccounts().then((count) {
-        Get.off(LoginScreen(accountsCount: count));
+        Navigator.pushReplacement(
+          navigatorKey.currentContext!,
+          MaterialPageRoute(
+              builder: (context) => LoginScreen(accountsCount: count)),
+        );
+
+        // Get.off(LoginScreen(accountsCount: count));
       });
     }
   }

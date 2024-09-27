@@ -72,7 +72,7 @@
   "username": "Username",
   "viewList": "View List",
   "addNew": "Add New",
-  "form": "{count, plural, =0{no forms} =1{1 form} =2{2 forms} other{{count} forms}}",
+  "form": "{count, plural, =0{no forms available} =1{1 form available} =2{2 forms available} other{{count} forms available}}",
   "@form": {
     "description": "A plural message",
     "placeholders": {
@@ -82,7 +82,7 @@
       }
     }
   },
-  "viewAvailableForms": "View Available Forms",
+  "viewAvailableForms": "Expand to View Available Forms",
   "dashboard": "Dashboard",
   "enterYourUsername": "Enter Your Username",
   "syncFormData": "Sync Form Data",
