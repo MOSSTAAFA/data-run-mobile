@@ -6,7 +6,7 @@ import 'package:mass_pro/data_run/screens/form/fields/q_drop_down_search_field.w
 import 'package:mass_pro/data_run/screens/form/fields/q_int_type_field.widget.dart';
 import 'package:mass_pro/data_run/screens/form/fields/q_ou_picker.dart';
 import 'package:mass_pro/data_run/screens/form/fields/q_switch_field.widget.dart';
-import 'package:mass_pro/data_run/screens/form/model/form_element_model.dart';
+import 'package:mass_pro/data_run/screens/form/model/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/field.widget.dart';
 import 'package:mass_pro/data_run/screens/form/fields/q_drop_down_field.widget.dart';
 import 'package:mass_pro/data_run/screens/form/fields/q_text_type_field.widget.dart';

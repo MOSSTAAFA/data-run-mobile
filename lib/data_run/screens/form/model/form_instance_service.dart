@@ -10,7 +10,7 @@ import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:mass_pro/data_run/screens/form/model/device_info_service.dart';
 import 'package:mass_pro/data_run/screens/form/model/form_control_factory.dart';
 import 'package:mass_pro/data_run/screens/form/model/form_element_factory.dart';
-import 'package:mass_pro/data_run/screens/form/model/form_element_model.dart';
+import 'package:mass_pro/data_run/screens/form/model/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/model/form_metadata.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 import 'package:uuid/uuid.dart';

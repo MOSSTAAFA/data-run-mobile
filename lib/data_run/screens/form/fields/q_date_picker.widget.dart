@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mass_pro/data_run/screens/form/inherited_widget.dart';
-import 'package:mass_pro/data_run/screens/form/model/form_element_model.dart';
+import 'package:mass_pro/data_run/screens/form/model/form_element.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 import 'package:d2_remote/core/datarun/utilities/date_utils.dart' as sdk;
 

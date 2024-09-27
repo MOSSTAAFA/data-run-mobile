@@ -1,6 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mass_pro/data_run/screens/form/inherited_widget.dart';
-import 'package:mass_pro/data_run/screens/form/model/form_element_model.dart';
+import 'package:mass_pro/data_run/screens/form/model/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/form_widget_factory.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 

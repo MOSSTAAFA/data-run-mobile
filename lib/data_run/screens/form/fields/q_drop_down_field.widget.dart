@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mass_pro/data_run/screens/form/form_metadata_inherit_widget.dart';
-import 'package:mass_pro/data_run/screens/form/model/form_element_model.dart';
+import 'package:mass_pro/data_run/screens/form/model/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/model/form_element_validator.dart';
 import 'package:mass_pro/data_run/screens/form/model/form_instance.provider.dart';
 import 'package:mass_pro/data_run/utils/get_item_local_string.dart';

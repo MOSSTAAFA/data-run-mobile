@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mass_pro/data_run/screens/form/model/form_element_model.dart';
+import 'package:mass_pro/data_run/screens/form/model/form_element.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 
 extension FormFieldModelExtensions<T> on FieldInstance<T> {

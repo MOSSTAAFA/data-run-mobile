@@ -2,7 +2,7 @@ import 'package:d2_remote/modules/datarun/form/entities/data_form_submission.ent
 import 'package:d2_remote/modules/datarun/form/entities/form_definition.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/attribute_type.dart';
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
-import 'package:mass_pro/data_run/screens/form/model/form_element_model.dart';
+import 'package:mass_pro/data_run/screens/form/model/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/model/form_instance.provider.dart';
 import 'package:mass_pro/data_run/screens/form/model/form_instance_service.dart';
 import 'package:mass_pro/data_run/screens/form/model/form_metadata.dart';

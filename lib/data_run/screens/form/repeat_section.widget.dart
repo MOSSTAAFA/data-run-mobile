@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mass_pro/data_run/screens/form/fields/improved_expansion_tile.widget.dart';
 import 'package:mass_pro/data_run/screens/form/model/form_element_factory.dart';
-import 'package:mass_pro/data_run/screens/form/model/form_element_model.dart';
+import 'package:mass_pro/data_run/screens/form/model/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/section.widget.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:mass_pro/generated/l10n.dart';

@@ -5,7 +5,7 @@ import 'package:mass_pro/commons/custom_widgets/async_value.widget.dart';
 import 'package:mass_pro/data_run/screens/form/fields/ou_picker_data_source.provider.dart';
 import 'package:mass_pro/data_run/screens/form/fields/reactive_o_u_picker.dart';
 import 'package:mass_pro/data_run/screens/form/form_metadata_inherit_widget.dart';
-import 'package:mass_pro/data_run/screens/form/model/form_element_model.dart';
+import 'package:mass_pro/data_run/screens/form/model/form_element.dart';
 
 class QOrgUnitPickerField extends HookConsumerWidget {
   const QOrgUnitPickerField({super.key, required this.element});
