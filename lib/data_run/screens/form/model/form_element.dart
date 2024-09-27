@@ -7,12 +7,13 @@ import 'package:mass_pro/data_run/screens/form/model/form_control_factory.dart';
 import 'package:mass_pro/data_run/screens/form/model/form_element_exception.dart';
 import 'package:mass_pro/data_run/screens/form/model/form_element_factory.dart';
 import 'package:mass_pro/data_run/screens/form/model/form_element_members.dart';
+import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
 sealed class FormElementInstance<T> with ElementAttributesMixin {
   FormElementInstance(
-      {required this.name,
-      required this.type,
+      {/*required this.name,
+      required this.type,*/
       required this.form,
       this.parentSection,
       this.path,
@@ -20,14 +21,23 @@ sealed class FormElementInstance<T> with ElementAttributesMixin {
       T? value,
       ElementProperties? properties})
       : _value = value,
-        _properties = properties ?? ElementProperties();
+        _properties = properties ??
+            ElementProperties(
+                mandatory: template.mandatory,
+                order: template.order,
+                label: getItemLocalString(template.label,
+                    defaultString: template.name));
   final FieldTemplate template;
 
   final String? path;
   final FormGroup form;
-  final String name;
-  final ValueType type;
+
+  String get name => template.name;
+
+  ValueType get type => template.type;
+
   FormElementInstance<Object>? parentSection;
+
   ElementProperties _properties;
 
   ElementProperties get properties => _properties;
@@ -183,16 +193,11 @@ sealed class FormElementInstance<T> with ElementAttributesMixin {
 
 class FieldInstance<T> extends FormElementInstance<T> {
   FieldInstance({
-    required super.name,
-    required super.type,
     super.properties,
     super.parentSection,
     required super.form,
     required super.template,
     T? value,
-    this.defaultValue,
-    this.listName,
-    this.choiceFilter,
     super.path,
     List<FormOption> options = const [],
     Map<String, ValidationMessageFunction> validationMessages = const {},
@@ -202,11 +207,14 @@ class FieldInstance<T> extends FormElementInstance<T> {
     this.validationMessages.addAll(validationMessages);
   }
 
-  final dynamic defaultValue;
-  final String? listName;
-  final String? choiceFilter;
   final List<FormOption> options = [];
   final Map<String, ValidationMessageFunction> validationMessages = {};
+
+  String? get listName => template.listName;
+
+  String? get choiceFilter => template.choiceFilter;
+
+  dynamic get defaultValue => template.defaultValue;
 
   AttributeType? get attributeType => template.attributeType;
 
@@ -274,10 +282,7 @@ class FieldInstance<T> extends FormElementInstance<T> {
 /// father of either a [SectionInstance] element or a [RepeatSection] element
 sealed class SectionElement<T> extends FormElementInstance<T> {
   SectionElement({
-    required super.name,
-    required super.type,
     required super.template,
-    required super.properties,
     bool expanded = true,
     super.value,
     super.parentSection,
@@ -332,9 +337,6 @@ sealed class SectionElement<T> extends FormElementInstance<T> {
 /// A section
 class SectionInstance extends SectionElement<Map<String, Object?>> {
   SectionInstance({
-    required super.name,
-    required super.type,
-    required super.properties,
     super.parentSection,
     required super.template,
     required super.form,
@@ -414,54 +416,6 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
     // updatePristine();
     // emitsCollectionChanged(_controls.values.toList());
   }
-
-  /// Retrieves a child element given the element's [name] or path.
-  ///
-  /// The [name] is a dot-delimited string that define the path to the
-  /// element.
-  ///
-  ///
-  /// ```dart
-  /// ### Example:
-  ///
-  /// ```dart
-  /// SectionInstance(
-  ///   name: 'addressSection',
-  ///   type: ValueType.Section,
-  ///   properties: ElementProperties(disabled: false),
-  ///   value: [
-  ///     SectionInstance(
-  ///       name: 'location',
-  ///       type: ValueType.Section,
-  ///       properties: ElementProperties(disabled: false),
-  ///       value: [
-  ///          FieldInstance(
-  ///             name: 'point1',
-  ///             type: ValueType.Text,
-  ///             properties: ElementProperties(disabled: false),
-  ///             value: 'Point 1',
-  ///           ),
-  ///          FieldInstance(
-  ///             name: 'point2',
-  ///             type: ValueType.Text,
-  ///             properties: ElementProperties(disabled: false),
-  ///             value: 'Point 2',
-  ///           ),
-  ///       ],
-  ///     ),
-  ///     FieldInstance(
-  ///       name: 'city',
-  ///       type: ValueType.Text,
-  ///       properties: ElementProperties(disabled: false),
-  ///       value: 'New York',
-  ///     ),
-  ///   ],
-  /// )
-  ///
-  /// final element = sectionInstance.element('city'); // retrieve the Section
-  /// final element = sectionInstance.element('location.point1');
-  /// ```
-  ///
 
   @override
   FormElementInstance<dynamic> element(String name) {
@@ -612,6 +566,12 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
 
   bool get repeatParent => (parentSection is RepeatSectionInstance);
 
+  @override
+  String get name => repeatParent ? '' : template.name;
+
+  @override
+  ValueType get type => repeatParent ? ValueType.Section : template.type;
+
   String get pathRecursive {
     String? parentPath;
     if (parentSection != null) {
@@ -633,29 +593,24 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
 class RepeatSectionInstance
     extends SectionElement<List<Map<String, Object?>?>> {
   RepeatSectionInstance(
-      {required super.name,
-      required super.type,
-      ElementProperties? properties,
-      required super.template,
+      {required super.template,
       required super.form,
       super.path,
       super.parentSection,
       super.expanded = false,
-      List<FormElementInstance<Map<String, Object?>?>> elements = const []})
-      : super(properties: properties) {
+      List<FormElementInstance<Map<String, Object?>?>> elements = const []}) {
     this._elements.addAll(elements);
     addAll(elements);
 
-    if (properties?.disabled == true) {
+    if (properties.disabled) {
       markAsDisabled();
     }
 
-    if (properties?.hidden == true) {
+    if (properties.hidden) {
       markAsHidden();
     }
   }
 
-  // final List<SectionInstance> _elements = [];
   final List<FormElementInstance<Map<String, Object?>?>> _elements = [];
 
   /// Gets the list of child elements.
@@ -950,10 +905,7 @@ class RepeatSectionInstance
             SectionInstance(
                 form: form,
                 path: pathBuilder('stockItems.$k'),
-                name: '',
-                template: template,
-                type: ValueType.Section,
-                properties: ElementProperties())
+                template: template)
               ..value = v))
         .values
         .toList();

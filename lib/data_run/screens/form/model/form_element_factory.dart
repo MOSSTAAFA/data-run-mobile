@@ -28,10 +28,7 @@ extension FromElementFactory<T> on FormElementInstance<T?> {
     return SectionInstance(
         form: form,
         template: templateElement,
-        name: templateElement.name,
-        type: ValueType.Section,
         path: path,
-        properties: elementProperties(templateElement),
         elements: elements);
   }
 
@@ -54,17 +51,11 @@ extension FromElementFactory<T> on FormElementInstance<T?> {
     final SectionInstance sectionInstance = SectionInstance(
         elements: initialGroups,
         template: fieldTemplate,
-        form: form,
-        name: '',
-        type: fieldTemplate.type,
-        properties: elementProperties(fieldTemplate));
+        form: form);
 
     return RepeatSectionInstance(
         form: form,
-        name: fieldTemplate.name,
-        type: fieldTemplate.type,
         template: fieldTemplate,
-        properties: elementProperties(fieldTemplate),
         elements: initialGroups.isNotEmpty ? [sectionInstance] : []);
   }
 
@@ -95,11 +86,7 @@ extension FromElementFactory<T> on FormElementInstance<T?> {
       case ValueType.Attribute:
         return FieldInstance<String?>(
             form: form,
-            name: templateElement.name,
-            type: templateElement.type,
             properties: ElementProperties(hidden: true, mandatory: false),
-            defaultValue: templateElement.defaultValue,
-            listName: templateElement.listName,
             template: templateElement,
             value: savedValue ??
                 formAttributes?.attribute(templateElement.attributeType));
@@ -109,11 +96,7 @@ extension FromElementFactory<T> on FormElementInstance<T?> {
       case ValueType.FullName:
         return FieldInstance<String?>(
             form: form,
-            name: templateElement.name,
-            type: templateElement.type,
             properties: elementProperties(templateElement),
-            defaultValue: templateElement.defaultValue,
-            listName: templateElement.listName,
             template: templateElement,
             value: savedValue ?? templateElement.defaultValue);
       case ValueType.Date:
@@ -121,22 +104,14 @@ extension FromElementFactory<T> on FormElementInstance<T?> {
       case ValueType.DateTime:
         return FieldInstance<String?>(
             form: form,
-            name: templateElement.name,
-            type: templateElement.type,
             properties: elementProperties(templateElement),
-            defaultValue: templateElement.defaultValue,
-            listName: templateElement.listName,
             template: templateElement,
             value: savedValue ?? templateElement.defaultValue);
 
       case ValueType.OrganisationUnit:
         return FieldInstance<String?>(
             form: form,
-            name: templateElement.name,
-            type: templateElement.type,
             properties: elementProperties(templateElement),
-            defaultValue: templateElement.defaultValue,
-            listName: templateElement.listName,
             template: templateElement,
             value: savedValue ?? templateElement.defaultValue);
 
@@ -146,11 +121,7 @@ extension FromElementFactory<T> on FormElementInstance<T?> {
       case ValueType.IntegerZeroOrPositive:
         return FieldInstance<int?>(
             form: form,
-            name: templateElement.name,
-            type: templateElement.type,
             properties: elementProperties(templateElement),
-            defaultValue: templateElement.defaultValue,
-            listName: templateElement.listName,
             template: templateElement,
             value: savedValue ?? templateElement.defaultValue);
 
@@ -160,11 +131,7 @@ extension FromElementFactory<T> on FormElementInstance<T?> {
       case ValueType.Age:
         return FieldInstance<double?>(
           form: form,
-          name: templateElement.name,
-          type: templateElement.type,
           properties: elementProperties(templateElement),
-          listName: templateElement.listName,
-          defaultValue: templateElement.defaultValue,
           template: templateElement,
           value: savedValue ?? templateElement.defaultValue,
         );
@@ -173,11 +140,7 @@ extension FromElementFactory<T> on FormElementInstance<T?> {
       case ValueType.YesNo:
         return FieldInstance<bool>(
           form: form,
-          name: templateElement.name,
-          type: templateElement.type,
           properties: elementProperties(templateElement),
-          listName: templateElement.listName,
-          defaultValue: templateElement.defaultValue,
           template: templateElement,
           value: savedValue ?? templateElement.defaultValue ?? false,
         );
@@ -188,25 +151,18 @@ extension FromElementFactory<T> on FormElementInstance<T?> {
 
         return FieldInstance<String?>(
           form: form,
-          name: templateElement.name,
-          type: templateElement.type,
           properties: elementProperties(templateElement),
-          defaultValue: templateElement.defaultValue,
-          listName: templateElement.listName,
-          choiceFilter: templateElement.choiceFilter,
           template: templateElement,
           value: savedValue ?? templateElement.defaultValue,
           options: formOptionsMap[templateElement.listName] ?? [],
         );
       case ValueType.SelectMulti:
+        templateElement.options.clear();
+        templateElement.options
+            .addAll(formOptionsMap[templateElement.listName] ?? []);
         return FieldInstance<List<String>>(
           form: form,
-          name: templateElement.name,
-          type: templateElement.type,
           properties: elementProperties(templateElement),
-          defaultValue: templateElement.defaultValue,
-          listName: templateElement.listName,
-          choiceFilter: templateElement.choiceFilter,
           template: templateElement,
           value: savedValue != null
               ? (savedValue is List)
