@@ -1,20 +1,23 @@
 import 'package:d2_remote/modules/datarun/form/shared/attribute_type.dart';
 import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/rule.dart';
+import 'package:d2_remote/modules/datarun/form/shared/rule_parse_extension.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:dartx/dartx.dart';
+import 'package:flutter/material.dart';
 import 'package:mass_pro/data_run/screens/form/model/form_control_factory.dart';
-import 'package:mass_pro/data_run/screens/form/model/form_element_exception.dart';
-import 'package:mass_pro/data_run/screens/form/model/form_element_factory.dart';
-import 'package:mass_pro/data_run/screens/form/model/form_element_members.dart';
+import 'package:mass_pro/data_run/screens/form/model/element/form_element_exception.dart';
+import 'package:mass_pro/data_run/screens/form/model/element/form_element_factory.dart';
+import 'package:mass_pro/data_run/screens/form/model/element/form_element_members.dart';
 import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
-sealed class FormElementInstance<T> with ElementAttributesMixin {
+part 'form_element.extension.dart';
+
+sealed class FormElementInstance<T> {
   FormElementInstance(
-      {/*required this.name,
-      required this.type,*/
-      required this.form,
+      {required this.form,
       this.parentSection,
       this.path,
       required this.template,
@@ -26,13 +29,28 @@ sealed class FormElementInstance<T> with ElementAttributesMixin {
                 mandatory: template.mandatory,
                 order: template.order,
                 label: getItemLocalString(template.label,
-                    defaultString: template.name));
+                    defaultString: template.name)) {
+    this
+        ._requiredDependencies
+        .addAll([...template.dependencies, ...template.filterDependencies]);
+  }
+
   final FieldTemplate template;
 
   final String? path;
   final FormGroup form;
 
   String get name => template.name;
+
+  //<editor-fold desc="Rules eval and dependencies management">
+  final List<FormElementInstance<dynamic>> _dependents = [];
+  final List<FormElementInstance<dynamic>> _dependencies = [];
+  final List<String> _requiredDependencies = [];
+  final List<String> _unresolvedDependencies = [];
+
+  bool _isEvaluating = false;
+
+  //</editor-fold>
 
   ValueType get type => template.type;
 
@@ -42,11 +60,20 @@ sealed class FormElementInstance<T> with ElementAttributesMixin {
 
   ElementProperties get properties => _properties;
 
+  // List<FormElementInstance<dynamic>> get elementDependencies =>
+
   T? _value;
 
   T? get value => _value;
 
-  set value(T? value) => _value;
+  set value(T? newValue) {
+    if (_value != newValue) {
+      _value = newValue;
+      notifyDependents();
+    }
+  }
+
+  // set value(T? value) => _value;
 
   bool get hidden => properties.hidden;
 
@@ -191,7 +218,8 @@ sealed class FormElementInstance<T> with ElementAttributesMixin {
   }
 }
 
-class FieldInstance<T> extends FormElementInstance<T> {
+class FieldInstance<T> extends FormElementInstance<T>
+    with ElementAttributesMixin {
   FieldInstance({
     super.properties,
     super.parentSection,
@@ -202,7 +230,7 @@ class FieldInstance<T> extends FormElementInstance<T> {
     List<FormOption> options = const [],
     Map<String, ValidationMessageFunction> validationMessages = const {},
   }) {
-    /*if (value != null)*/ this._value = value;
+    if (value != null) this._value = value;
     this.options.addAll(options);
     this.validationMessages.addAll(validationMessages);
   }

@@ -8,9 +8,10 @@ import 'package:d2_remote/modules/datarun/form/entities/form_definition.entity.d
 import 'package:d2_remote/modules/datarun/form/shared/attribute_type.dart';
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:mass_pro/data_run/screens/form/model/device_info_service.dart';
+import 'package:mass_pro/data_run/screens/form/model/element/dependency/dependency_resolver.dart';
 import 'package:mass_pro/data_run/screens/form/model/form_control_factory.dart';
-import 'package:mass_pro/data_run/screens/form/model/form_element_factory.dart';
-import 'package:mass_pro/data_run/screens/form/model/form_element.dart';
+import 'package:mass_pro/data_run/screens/form/model/element/form_element_factory.dart';
+import 'package:mass_pro/data_run/screens/form/model/element/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/model/form_metadata.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 import 'package:uuid/uuid.dart';
@@ -29,10 +30,12 @@ class FormInstanceService {
       {required FormTemplateV template,
       AndroidDeviceInfoService? deviceInfoService,
       required this.formMetadata,
+      required DependencyResolver dependencyResolver,
       required this.orgUnit})
       : _template = template,
         _uuid = Uuid().v4(),
-        _deviceInfoService = deviceInfoService {
+        _deviceInfoService = deviceInfoService,
+        _dependencyResolver = dependencyResolver {
     _formOptionsMapCache.addAll(Map.fromIterable(
         template.options..sort((a, b) => (a.order).compareTo(b.order)),
         key: (option) => option.listName,
@@ -47,6 +50,7 @@ class FormInstanceService {
   final AndroidDeviceInfoService? _deviceInfoService;
   final FormTemplateV _template;
   final Map<String, List<FormOption>> _formOptionsMapCache = {};
+  final DependencyResolver _dependencyResolver;
 
   FormTemplateV get template => _template;
 
@@ -185,7 +189,7 @@ class FormInstanceService {
     }
 
     await loadFormData(elements);
-
+    _dependencyResolver.resolvePendingDependencies();
     return elements;
   }
 
@@ -202,6 +206,8 @@ class FormInstanceService {
     }
     if (savedData != null) {
       for (var element in elements.values) {
+        _dependencyResolver.registerDependencyDeferred(
+            element, element.requiredDependencies);
         _updateElementValue(element, savedData[element.name]);
       }
     }

@@ -67,6 +67,7 @@ dependencies:
   uuid: ^4.5.0
   device_info_plus: ^10.1.2
   toggle_switch: ^2.3.0
+  petitparser: ^6.0.2
   ## End of Temp
 #  sentry_flutter: ^8.3.0
 

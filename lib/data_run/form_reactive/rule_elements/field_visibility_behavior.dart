@@ -1,23 +1,6 @@
 // import 'package:d2_remote/modules/datarun/form/shared/rule.dart';
-// import 'package:d2_remote/modules/datarun/form/shared/rule_action.dart';
-// import 'package:mass_pro/data_run/screens/form/model/form_element.dart';
+// import 'package:mass_pro/data_run/screens/form/model/element/form_element.dart';
 // import 'package:reactive_forms/reactive_forms.dart';
-//
-// class FormDependencyManager {
-//   final _dependencyMap = <FormElementInstance<dynamic>, List<FormElementInstance<dynamic>>>{};
-//
-//   void addDependency(FormElementInstance<dynamic> source, FormElementInstance<dynamic> dependent) {
-//     _dependencyMap.putIfAbsent(source, () => []).add(dependent);
-//   }
-//
-//   void notifyDependents(FormElementInstance<dynamic> element) {
-//     if (_dependencyMap.containsKey(element)) {
-//       for (var dependent in _dependencyMap[element]!) {
-//         dependent.evaluateRules();
-//       }
-//     }
-//   }
-// }
 //
 // class VisibilityRule extends Rule {
 //   final List<FormElementInstance<dynamic>> _dependencies = [];
@@ -38,25 +21,23 @@
 // //   Error
 // //
 // // }
-//
-// abstract class RuleEffect<T> {
+// /// rule evaluation context deps ['field1', 'field2']
+// abstract class FieldRule<T> {
 //   // Action action;
 //   /// rule dependencies
 //
-//   T apply(FormElementInstance<dynamic> element);
+//   bool isInEffect(FormElementInstance<dynamic> element);
 //
-//   // bool isVisible(FormElementInstance<dynamic> element) {
-//   //   return RuleEngine.evaluateRule(element.id, element.visibilityRule);
-//   // }
+// // bool isVisible(FormElementInstance<dynamic> element) {
+// //   return RuleEngine.evaluateRule(element.id, element.visibilityRule);
+// // }
 // }
 //
+// class FieldValidityAction {
+//   List<Validator<dynamic>> validators(FormElementInstance<dynamic> element) {}
 //
-// class FormFieldValidityBehavior {
-//   List<Validator<dynamic>> validators(FormElementInstance<dynamic> element) {
-//
-//   }
 //   bool isVisible(FormElementInstance<dynamic> element) {
-//     return RuleEngine.evaluateRule(element.id, element.visibilityRule);
+//     return RuleEngine.evaluateRule(element.name, element.visibilityRule);
 //   }
 // }
 //
@@ -71,6 +52,8 @@
 //   final FormFieldValidationBehavior validationBehavior;
 //
 //   Widget build() {
-//     return visibilityBehavior.isVisible(this) ? actualFieldWidget : SizedBox.shrink();
+//     return visibilityBehavior.isVisible(this)
+//         ? actualFieldWidget
+//         : SizedBox.shrink();
 //   }
 // }

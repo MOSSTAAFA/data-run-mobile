@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mass_pro/data_run/screens/form/fields/improved_expansion_tile.widget.dart';
 import 'package:mass_pro/data_run/screens/form/form_metadata_inherit_widget.dart';
-import 'package:mass_pro/data_run/screens/form/model/form_element.dart';
+import 'package:mass_pro/data_run/screens/form/model/element/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/model/form_instance.dart';
 import 'package:mass_pro/data_run/screens/form/model/form_instance.provider.dart';
 import 'package:mass_pro/data_run/screens/form/repeat_section.widget.dart';
@@ -44,21 +44,26 @@ class SectionElementWidgetState extends ConsumerState<SectionElementWidget> {
 
     return SectionInheritedWidget(
       section: element,
-      child: ImprovedExpansionTile(
-        title: '${element.properties.label}',
-        enabled: element.elementControl.enabled,
-        isExpanded: expanded.value,
-        child: switch (element) {
-          SectionInstance() =>
-            SectionWidget(element: element as SectionInstance),
-          RepeatSectionInstance() => RepeatSectionWidget(
+      child: switch (element) {
+        SectionInstance() => ImprovedExpansionTile(
+          leading: Icon(Icons.playlist_add_check_rounded),
+            title: '${element.properties.label}',
+            enabled: element.elementControl.enabled,
+            isExpanded: expanded.value,
+            child: SectionWidget(element: element as SectionInstance)),
+        RepeatSectionInstance() => ImprovedExpansionTile(
+            leading: Icon(Icons.repeat),
+            title: '${element.properties.label}',
+            enabled: element.elementControl.enabled,
+            isExpanded: expanded.value,
+            child: RepeatSectionWidget(
               element: element as RepeatSectionInstance,
               formOptionsMap: formOptionsMap,
               onRemove: (index) => (element as RepeatSectionInstance)
                   .removeRepeatSectionItemAtIndex(index),
             ),
-        },
-      ),
+          ),
+      },
     );
   }
 }

@@ -1,9 +1,10 @@
 import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/rule_parse_extension.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
-import 'package:mass_pro/data_run/screens/form/model/form_attributes.dart';
-import 'package:mass_pro/data_run/screens/form/model/form_element_members.dart';
-import 'package:mass_pro/data_run/screens/form/model/form_element.dart';
+import 'package:mass_pro/data_run/screens/form/model/element/form_attributes.dart';
+import 'package:mass_pro/data_run/screens/form/model/element/form_element_members.dart';
+import 'package:mass_pro/data_run/screens/form/model/element/form_element.dart';
 import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
@@ -16,14 +17,16 @@ extension FromElementFactory<T> on FormElementInstance<T?> {
       Map<String, List<FormOption>> formOptionsMap = const {},
       FormAttributes? formAttributes,
       String? path}) {
+    final dependencies = templateElement.dependencies;
     final Map<String, FormElementInstance<dynamic>> elements = {};
-    templateElement.fields.sort((a, b) => (a.order).compareTo(b.order));
 
     for (var element in templateElement.fields) {
       elements[element.name] = createElement(form, element,
           savedValue: savedValue?[element.name],
           formOptionsMap: formOptionsMap);
     }
+
+    templateElement.fields.sort((a, b) => (a.order).compareTo(b.order));
 
     return SectionInstance(
         form: form,
@@ -82,6 +85,7 @@ extension FromElementFactory<T> on FormElementInstance<T?> {
       {dynamic savedValue,
       Map<String, List<FormOption>> formOptionsMap = const {},
       FormAttributes? formAttributes}) {
+    final dependencies = templateElement.dependencies;
     switch (templateElement.type) {
       case ValueType.Attribute:
         return FieldInstance<String?>(

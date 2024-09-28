@@ -1,8 +1,12 @@
 import 'dart:io';
 
 import 'package:d2_remote/d2_remote.dart';
+import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:mass_pro/data_run/screens/form/model/device_info_service.dart';
+import 'package:mass_pro/data_run/screens/form/model/element/dependency/dependency_resolver.dart';
+import 'package:mass_pro/data_run/screens/form/model/element/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/model/form_instance.dart';
 import 'package:mass_pro/data_run/screens/form/model/form_instance_service.dart';
 import 'package:mass_pro/data_run/screens/form/model/form_metadata.dart';
@@ -93,11 +97,13 @@ Future<FormInstanceService> formInstanceService(FormInstanceServiceRef ref,
   final deviceInfo =
       Platform.isAndroid ? await deviceInfoPlugin.androidInfo : null;
   final deviceService = AndroidDeviceInfoService(deviceInfo: deviceInfo);
+  final dependencyResolver = ref.watch(dependencyResolverProvider);
 
   return FormInstanceService(
     template: formTemplate!,
     formMetadata: formMetaData,
     deviceInfoService: deviceService,
+    dependencyResolver: dependencyResolver,
     orgUnit: orgUnit,
   );
 }
@@ -119,7 +125,14 @@ Future<FormInstance> formInstance(FormInstanceRef ref,
           formMetaData: formMetaData, orgUnit: submission.orgUnit)
       .future);
   final form = FormGroup(await service.formDataControls());
-
+  final formSection = SectionInstance(
+      template: FieldTemplate(
+          mandatory: false,
+          mainField: false,
+          type: ValueType.Unknown,
+          name: ''),
+      form: form,
+      elements: await service.formDataElements(form));
   return FormInstance(ref,
       enabled: enabled,
       formInstanceService: service,

@@ -1,6 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:mass_pro/data_run/errors_management/errors/d_exception.dart';
 
+class CircularDependencyException extends DException {
+  CircularDependencyException({this.elementName});
+
+  /// The name of the element that have circular dependency with.
+  final String? elementName;
+
+  @override
+  String toString() {
+    if (elementName == null) {
+      return 'CircularDependencyException: element have circular dependency.';
+    }
+
+    return 'CircularDependencyException: element has circular dependency with: \'$elementName\'.';
+  }
+}
+
 class FormElementNotFoundException extends DException {
   FormElementNotFoundException({this.elementName});
 
