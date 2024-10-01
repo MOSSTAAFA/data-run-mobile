@@ -62,9 +62,8 @@ class SectionElementWidgetState extends ConsumerState<SectionElementWidget> {
               // key: ObjectKey(element.value?.lock),
               element: element,
               formOptionsMap: formOptionsMap,
-              onRemove: (index) {
-                element.removeAt(index);
-              },
+              // onAdd: (index) => ,
+              // onRemove: (index) =>,
             ),
           ),
       },

@@ -3,6 +3,7 @@ import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mass_pro/data_run/screens/form/element/factories/form_element_control_factory.dart';
+import 'package:mass_pro/data_run/screens/form/element_widgets/repeat_item.widget.dart';
 import 'package:mass_pro/data_run/screens/form/element_widgets/section.widget.dart';
 import 'package:mass_pro/data_run/screens/form/field_widgets/improved_expansion_tile.widget.dart';
 import 'package:mass_pro/data_run/screens/form/element/factories/form_element_factory.dart';
@@ -43,24 +44,17 @@ class RepeatSectionWidget extends HookConsumerWidget {
                 children: [
                   ...element.elements.asMap().entries.map((entry) {
                     final index = entry.key;
-                    final section = entry.value as RepeatItemInstance;
+                    final repeatItemInstance =
+                        entry.value as RepeatItemInstance;
 
-                    return RepeatedSectionItem(
-                      element: section,
-                      onDeleteItem: (i) => onRemove?.call(i),
+                    return RepeatItem(
+                      element: repeatItemInstance,
+                      onDeleteItem: (index) => onRemoveItem(index),
                       index: index,
                     );
                   }).toList(),
                   ElevatedButton.icon(
-                    onPressed: element.form.enabled
-                        ? () {
-                            element.elementControl.add(FromElementControlFactory
-                                .createSectionFormGroup(element.template));
-                            element.add(FromElementFactory.createRepeatItem(
-                                element.form, element.template));
-                            onAdd?.call(element.elements.lastIndex);
-                          }
-                        : null,
+                    onPressed: element.form.enabled ? () => onAddItem() : null,
                     icon: const Icon(Icons.add),
                     label: Text(S.of(context).addNew),
                     style: ElevatedButton.styleFrom(
@@ -76,110 +70,19 @@ class RepeatSectionWidget extends HookConsumerWidget {
       },
     );
   }
-}
 
-class RepeatedSectionItem extends HookWidget {
-  const RepeatedSectionItem({
-    super.key,
-    required this.element,
-    this.onDeleteItem,
-    required this.index,
-  });
-
-  final RepeatItemInstance element;
-  final Function(int index)? onDeleteItem;
-  final int index;
-
-  Future<void> _confirmDelete(BuildContext context, int index) async {
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(S.of(context).confirm),
-          content: Text(
-            S.of(context).conformDeleteMsg,
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(false);
-              },
-              child: Text(S.of(context).cancel),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(true);
-              },
-              child: Text(S.of(context).confirm),
-            ),
-          ],
-        );
-      },
-    );
-
-    if (confirmed == true) {
-      _showUndoSnackBar(context, index);
-    }
+  onRemoveItem(int index) {
+    element.removeAt(index);
+    element.elementControl.markAsDirty();
+    onRemove?.call(index);
   }
 
-  void _showUndoSnackBar(BuildContext context, int index) {
-    final scaffoldMessenger = ScaffoldMessenger.of(context);
-
-    Future.delayed(const Duration(milliseconds: 300), () {
-      onDeleteItem?.call(index);
-    });
-
-    scaffoldMessenger.showSnackBar(
-      SnackBar(
-        content: Text(S.of(context).itemRemoved),
-        action: SnackBarAction(
-          label: S.of(context).undo,
-          onPressed: () {
-            // Code to undo deletion
-          },
-        ),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final expanded = useState(element.expanded);
-    return ImprovedExpansionTile(
-      leading: Icon(Icons.table_rows),
-      maintainState: true,
-      enabled: element.form.enabled,
-      initiallyExpanded: false,
-      onExpansionChanged: (ex) {
-        expanded.value = ex;
-      },
-      titleWidget: Tooltip(
-        message: '${index + 1}. ${element.properties.label}',
-        child: Row(
-          children: [
-            Expanded(
-              child: Text(
-                '${index + 1}. ${element.properties.label}',
-                overflow: TextOverflow.fade,
-                maxLines: 1,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue,
-                ),
-              ),
-            ),
-            const Spacer(),
-            IconButton(
-              icon: const Icon(Icons.remove_circle_outline, color: Colors.red),
-              onPressed: () {
-                _confirmDelete(context, index);
-              },
-            ),
-          ],
-        ),
-      ),
-      child: SectionWidget(element: element),
-    );
+  void onAddItem() {
+    element.elementControl.add(
+        FromElementControlFactory.createSectionFormGroup(element.template));
+    element.add(
+        FromElementFactory.createRepeatItem(element.form, element.template));
+    element.elementControl.markAsDirty();
+    onAdd?.call(element.elements.lastIndex);
   }
 }
