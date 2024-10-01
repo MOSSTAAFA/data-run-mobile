@@ -57,7 +57,7 @@ class TransactionTypeField extends Field {
   }
 
   void _handleTransactionTypeChange(dynamic newValue) {
-    // print('Transaction type changed to $newValue');
+    print('Transaction type changed to $newValue');
   }
 }
 
@@ -74,7 +74,7 @@ class QuantityField extends Field {
   void _handleQuantityChange(dynamic newValue) {
     final totalPrice = newValue * 10; // Example calculation
     totalPriceField.onChange(totalPrice);
-    // print('Quantity changed to $newValue, Total Price updated to $totalPrice');
+    print('Quantity changed to $newValue, Total Price updated to $totalPrice');
   }
 }
 

@@ -49,7 +49,7 @@
 // }
 //
 // class EventManager {
-//   final Map<String, List<String>> _fieldDependencies = {};
+//   final Map<String, List<String>> dependencyGraph = {};
 //   final Map<String, ObserverList<Function>> _listeners = {};
 //
 //   void subscribe(FormEvent event, void Function(dynamic) listener) {

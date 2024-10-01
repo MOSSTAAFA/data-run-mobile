@@ -2,6 +2,7 @@
 // import 'package:d2_remote/modules/datarun/form/entities/form_definition.entity.dart';
 // import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
 // import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
+// import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
 //
 // class FormField {
 //   String name;
@@ -11,14 +12,22 @@
 //   String choiceFilter;
 //   dynamic value;
 //
-//   FormField({required this.name, required this.type, this.mandatory = false, this.listName = '', this.choiceFilter = '', this.value});
+//   FormField(
+//       {required this.name,
+//       required this.type,
+//       this.mandatory = false,
+//       this.listName = '',
+//       this.choiceFilter = '',
+//       this.value});
 // }
 //
 // // Apply the choice filter logic to dynamically filter options
-// void applyChoiceFilter(FormField field, Map<String, dynamic> savedData, FormTemplate template) {
+// void applyChoiceFilter(
+//     FormField field, Map<String, dynamic> savedData, FormTemplate template) {
 //   // Example logic for applying a choice filter
 //   // e.g., if "countryFilter == #{region}" -> filter options by the saved region value
-//   String filterCondition = field.choiceFilter.replaceAll("#{region}", savedData['region']);
+//   String filterCondition =
+//       field.choiceFilter.replaceAll("#{region}", savedData['region']);
 //
 //   // Fetch the list of countries and filter it
 //   List<String> availableOptions = fetchOptionsForListName(field.listName);
@@ -33,7 +42,7 @@
 // // Example function to simulate fetching options (could be from API or locally cached)
 // List<String> fetchOptionsForListName(String listName) {
 //   // Fetch the list of options for the given list name
-//   return ['option1', 'option2', 'option3'];  // Example
+//   return ['option1', 'option2', 'option3']; // Example
 // }
 //
 // // Simulate the FormInstance which will hold form fields and values
@@ -50,7 +59,8 @@
 // // }
 //
 // // Rehydrate function using the saved data and the form template
-// FormInstance rehydrateForm(Map<String, dynamic> savedData, FormTemplate template) {
+// FormInstance rehydrateForm(
+//     Map<String, dynamic> savedData, FormTemplate template) {
 //   FormInstance formInstance = FormInstance();
 //
 //   // Loop through the template fields and recreate the form controls
@@ -71,8 +81,8 @@
 //   return formInstance;
 // }
 //
-//
-// Map<String, dynamic> extractFlatValues(Map<String, dynamic> savedData, FormVersion formTemplate) {
+// Map<String, dynamic> extractFlatValues(
+//     Map<String, dynamic> savedData, FormVersion formTemplate) {
 //   Map<String, dynamic> flatValues = {};
 //
 //   for (var field in formTemplate.fields) {
@@ -105,7 +115,9 @@
 //   return result;
 // }
 //
-// Map<String, dynamic> flattenElementWithPrefix(Map<String, dynamic> savedData, FieldTemplate element, {String? prefix}) {
+// Map<String, dynamic> flattenElementWithPrefix(
+//     Map<String, dynamic> savedData, FieldTemplate element,
+//     {String? prefix}) {
 //   Map<String, dynamic> result = {};
 //   String fullPrefix = prefix != null ? '$prefix.' : '';
 //
@@ -129,20 +141,21 @@
 //   return result;
 // }
 //
-// FormInstance deserializeFlattenedData(Map<String, dynamic> flattenedData, FormVersion formTemplate) {
+// FormElementInstance<dynamic> deserializeFlattenedData(
+//     Map<String, dynamic> flattenedData, FormTemplateV formTemplate) {
 //   List<FieldTemplate> formElements = [];
 //
 //   formTemplate.fields.forEach((field) {
 //     // Handle non-repeatable sections
 //     // if (!field.containsKey('repeatable')) {
-//       if (!field.type.isRepeatSection) {
+//     if (!field.type.isRepeatSection) {
 //       Map<String, FieldInstance> sectionFields = {};
-//       for (var fieldTemplate in field['fields']) {
-//         String flattenedKey = '${field['name']}.${fieldTemplate['name']}';
+//       for (var childField in field.fields) {
+//         String flattenedKey = '${field['name']}.${childField['name']}';
 //         if (flattenedData.containsKey(flattenedKey)) {
-//           sectionFields[fieldTemplate['name']] = FieldInstance(
-//             name: fieldTemplate['name'],
-//             type: ValueType.getValueType(fieldTemplate['type']),
+//           sectionFields[childField['name']] = FieldInstance(
+//             name: childField['name'],
+//             type: ValueType.getValueType(childField['type']),
 //             value: flattenedData[flattenedKey],
 //           );
 //         }
@@ -170,7 +183,7 @@
 //             );
 //           }
 //         }
-//         if (sectionFields.isEmpty) break;  // No more sections, exit loop
+//         if (sectionFields.isEmpty) break; // No more sections, exit loop
 //         repeatedSections.add(SectionInstance(
 //           name: field['sections'][0]['name'],
 //           type: ValueType.Section,
@@ -189,10 +202,13 @@
 //
 //   return DataFormSubmission(
 //     name: formTemplate['name'],
-//     uid: 'generated-uid', // Assign UID as needed
+//     uid: 'generated-uid',
+//     // Assign UID as needed
 //     fields: formElements,
-//     version: 1, // Version info
-//     form: formTemplate, // Reference to form template
+//     version: 1,
+//     // Version info
+//     form: formTemplate,
+//     // Reference to form template
 //     orgUnit: 'orgUnit1',
 //     status: 'COMPLETED',
 //     dirty: false,

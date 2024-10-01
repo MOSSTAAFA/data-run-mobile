@@ -92,16 +92,16 @@ class DependencyGraph {
   }
 }
 
-//
-// void main() async {
-//
-//   final formFields = {
-//     'fieldA': FormField('fieldA', ['fieldB'], () => print('fieldA updated')),
-//     'fieldB': FormField('fieldB', [], () => print('fieldB updated')),
-//   };
-//
-//   final form = Form(fields: formFields, eventQueue: Queue(), data: {});
-//   form.updateField('fieldB', 'valueB');
-//   form.updateField('fieldA', 'valueA');
-//   form.updateField('fieldB', 'valueA');
-// }
+
+void main() async {
+
+  final formFields = {
+    'fieldA': FormField('fieldA', ['fieldB'], () => print('fieldA updated')),
+    'fieldB': FormField('fieldB', [], () => print('fieldB updated')),
+  };
+
+  final form = Form(fields: formFields, eventQueue: Queue(), data: {});
+  form.updateField('fieldB', 'valueB');
+  form.updateField('fieldA', 'valueA');
+  form.updateField('fieldB', 'valueA');
+}

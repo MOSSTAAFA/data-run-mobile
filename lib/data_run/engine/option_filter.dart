@@ -26,11 +26,21 @@ List<Map<String, dynamic>> applyFilters(
 void main() {
   // Sample data set
   final data = [
-    {'name': 'Alice', 'age': 25, 'country': 'USA'},
-    {'name': 'Bob', 'age': 30, 'country': 'UK'},
-    {'name': 'Charlie', 'age': 35, 'country': 'USA'},
-    {'name': 'David', 'age': 40, 'country': 'Canada'},
+    {'name': 'us rate 10', 'regionFilter': 'northAmerica', 'rate': 10}, // Item 1
+    {'name': 'us rate 70', 'regionFilter': 'northAmerica', 'rate': 70}, // Item 2
+    {'name': 'ca rate 20', 'regionFilter': 'northAmerica', 'rate': 10}, // Item 3
+    {'name': 'de rate 50', 'europe': 'northAmerica', 'temp': 50}, // Item 4
+    {'name': 'china rate 50', 'europe': 'northAmerica', 'temp': 50}, // Item 5
+    {'name': 'china rate 40', 'europe': 'northAmerica', 'temp': 40}, // Item 6
   ];
+
+  Map<String, dynamic> values = {
+    'region': 'northAmerica',
+    'rate': 50
+  };
+  /// regionFilter == #{region} // would return
+  /// regionFilter == #{region} && rate == 10
+  /// regionFilter == #{region} && rate == #{rateValue}
 
   // Define filters
   final filters = [
