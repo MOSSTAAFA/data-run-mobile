@@ -1,12 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
+import 'package:mass_pro/commons/logging/logging.dart';
 
 extension DateFormatExtension on DateFormat {
   DateTime? parseOrNull(String value) {
     try {
       return parse(value);
     } catch (e) {
-      debugPrint('DateFormatExtension: dateTime FormatException');
+      logError(info: 'DateFormatExtension: dateTime FormatException');
       return null;
     }
   }
