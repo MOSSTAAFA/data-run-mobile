@@ -5,6 +5,7 @@ import 'package:d2_remote/modules/datarun/form/shared/rule.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule_parse_extension.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:flutter/material.dart';
+import 'package:mass_pro/commons/logging/logging.dart';
 import 'package:mass_pro/data_run/screens/form/element/factories/form_element_control_factory.dart';
 import 'package:mass_pro/data_run/screens/form/element/exceptions/form_element_exception.dart';
 import 'package:mass_pro/data_run/screens/form/element/factories/form_element_factory.dart';
@@ -40,6 +41,7 @@ sealed class FormElementInstance<T> {
                 label: getItemLocalString(template.label,
                     defaultString: template.name));
 
+  /// serialized from the field json configuration
   final FieldTemplate template;
 
   final FormGroup form;
@@ -90,10 +92,6 @@ sealed class FormElementInstance<T> {
 
   T? get value => elementControl?.value;
 
-  void updateValue(T? value, {bool updateParent = true, bool emitEvent = true});
-
-  void patchValue(T? value, {bool updateParent = true, bool emitEvent = true});
-
   AbstractControl<dynamic>? get elementControl =>
       controlExist ? form.control(elementPath) : null;
 
@@ -106,9 +104,9 @@ sealed class FormElementInstance<T> {
   }
 
   String pathBuilder(String? pathItem) => [
-        parentSection?.pathRecursive,
-        pathItem
-      ].whereType<String>().join('.');
+    parentSection?.pathRecursive,
+    pathItem
+  ].whereType<String>().join('.');
 
   bool get controlExist {
     try {
@@ -118,6 +116,10 @@ sealed class FormElementInstance<T> {
       return false;
     }
   }
+
+  void updateValue(T? value, {bool updateParent = true, bool emitEvent = true});
+
+  void patchValue(T? value, {bool updateParent = true, bool emitEvent = true});
 
   @protected
   bool allElementsDisabled() => disabled;

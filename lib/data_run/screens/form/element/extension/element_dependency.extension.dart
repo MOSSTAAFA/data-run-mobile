@@ -2,17 +2,6 @@ part of '../form_element.dart';
 
 //<editor-fold desc="dependencies">
 extension ElementDependencyLookup<T> on FormElementInstance<T> {
-  // Extend findElement to handle searching by name
-  FormElementInstance<dynamic>? findDependency(String name) {
-    // Implement search logic within the current scope (e.g., section, repeat section)
-
-    if (this is SectionElement) {
-      return (this as SectionElement).contains(name)
-          ? (this as SectionElement).element(name)
-          : null;
-    }
-    return null; // Return null if no match is found in the current scope
-  }
 
   /// the element use name to find the dependency in closest parent
   /// and register itself and add them to their dependencies
@@ -59,30 +48,37 @@ extension ElementDependencyLookup<T> on FormElementInstance<T> {
       return element.findElement(namePart);
     });
   }
+
+  // Extend findElement to handle searching by name
+  FormElementInstance<dynamic>? findDependency(String name) {
+    // Implement search logic within the current scope (e.g., section, repeat section)
+
+    if (this is SectionElement) {
+      return (this as SectionElement).contains(name)
+          ? (this as SectionElement).findElementInParentSection(name)
+          : null;
+    }
+    return null; // Return null if no match is found in the current scope
+  }
+
 }
 
 extension ElementDependencyRegistration<T> on FormElementInstance<T> {
   List<String> get requiredDependencies =>
       [...template.dependencies, ...template.filterDependencies];
 
-  void registerDependency(String dependencyName) {
-    final dependency = findElementInParentSection(dependencyName);
-    if (dependency != null) {
-      addDependency(dependency);
-      dependency.addDependent(this);
-    }
+  void registerDependency(FormElementInstance<dynamic> dependency) {
+    addDependency(dependency);
+    dependency.elementControl!.valueChanges.listen(
+        (value) => dependency.onDependencyChanged(dependency.name, value));
   }
 
-  void registerDependencies() {
-    for (final dependencyName in requiredDependencies) {
-      final dependency = findElementInParentSection(dependencyName);
-      if (dependency != null) {
-        dependency.addDependent(this);
-        this.addDependency(dependency);
-      } else {
-        _unresolvedDependencies.add(dependencyName);
-      }
-    }
+  void setUnresolvedDependencies(List<String> unresolved) {
+    logInfo(
+        info:
+            'Unresolved ${unresolved.length} dependencies for element: $name');
+    _unresolvedDependencies.clear();
+    _unresolvedDependencies.addAll(unresolved);
   }
 
   void addDependent(FormElementInstance<dynamic> dependent) {
@@ -98,38 +94,48 @@ extension ElementDependencyRegistration<T> on FormElementInstance<T> {
     dependency.addDependent(this);
   }
 
+  // void registerDependencies() {
+  //   for (final dependencyName in requiredDependencies) {
+  //     final dependency = findElementInParentSection(dependencyName);
+  //     if (dependency != null) {
+  //       dependency.addDependent(this);
+  //       this.addDependency(dependency);
+  //     } else {
+  //       _unresolvedDependencies.add(dependencyName);
+  //     }
+  //   }
+  // }
+
+  /// for debugging
+  List<String> get _dependentsNames =>
+      _dependents.map((dependent) => dependent.name).toList();
+
   void notifyDependents() {
+    logInfo(info: '$name: value or dependency changed, notifying $_dependentsNames');
+
     for (final dependent in _dependents) {
       dependent.onDependencyChanged(name, value);
     }
   }
 
   void onDependencyChanged(String dependencyName, T? value) {
-    debugPrint(
-        'onDependencyChanged, FormElement: $name\'s Dependency: $dependencyName changed: $value');
+    logInfo(info: '$name: $dependencyName changed to $value');
     final toEvaluate = rulesToEvaluate(dependencyName);
     final contextEval = evalContext;
 
-    if (_isEvaluating) {
-      return;
-    }
-
-    _isEvaluating = true;
+    // if (_isEvaluating) {
+    //   return;
+    // }
+    //
+    // _isEvaluating = true;
 
     try {
-      //<editor-fold desc="Lazy Loading of Dependencies">
-      // for (var dependencyName in _requiredDependencies) {
-      //   if (!isDependencyResolved(dependencyName)) {
-      //     resolveDependency(dependencyName);
-      //   }
-      // }
-      //</editor-fold>
 
       reEvaluate();
 
       notifyDependents();
     } finally {
-      _isEvaluating = false;
+      // _isEvaluating = false;
     }
   }
 

@@ -29,7 +29,6 @@ extension FromElementFactory<T> on FormElementInstance<T?> {
 
   static SectionInstance createSectionInstance(
       FormGroup form, FieldTemplate template,
-      // TODO make Map<String, Object?>? savedValue
       {dynamic savedValue,
       Map<String, List<FormOption>> formOptionsMap = const {}}) {
     final Map<String, FormElementInstance<dynamic>> elements = {};
@@ -43,8 +42,6 @@ extension FromElementFactory<T> on FormElementInstance<T?> {
           savedValue: savedValue?[childTemplate.name]);
     }
     section.addAll(elements);
-
-    // section.buildElement(savedValue);
 
     return section;
 
@@ -205,10 +202,7 @@ extension FromElementFactory<T> on FormElementInstance<T?> {
       default:
         throw Exception('Unsupported element type: ${templateElement.type}');
     }
-    return fieldInstance
-      ..elementControl
-          ?.valueChanges
-          .listen((value) => fieldInstance.notifyDependents());
+    return fieldInstance;
   }
 
   static ElementProperties elementProperties(FieldTemplate templateElement) {

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mass_pro/commons/logging/logging.dart';
 
 Widget getErrorWidget(Object? error, StackTrace? stackTrace) {
-  debugPrint('error: $error');
+  logError(info: 'error: $error');
   debugPrintStack(stackTrace: stackTrace, label: error.toString());
   return Builder(
     builder: (context) {

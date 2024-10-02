@@ -26,6 +26,9 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
   Map<String, FormElementInstance<dynamic>> get elements =>
       Map.unmodifiable(_elements);
 
+  @override
+  FormGroup get elementControl => form.control(elementPath) as FormGroup;
+
   /// Appends all [elements] to the group.
   void addAll(Map<String, FormElementInstance<dynamic>> elements) {
         _elements.addAll(elements);
@@ -146,9 +149,6 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
     elementControl.closeCollectionEvents();
     super.dispose();
   }
-
-  @override
-  FormGroup get elementControl => form.control(elementPath) as FormGroup;
 
   @override
   Map<String, Object?> get rawValue => elementControl.rawValue;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:mass_pro/commons/logging/logging.dart';
 
 class CustomFields extends StatefulWidget {
   const CustomFields({super.key});
@@ -97,9 +98,9 @@ class _CustomFieldsState extends State<CustomFields> {
                   onPressed: () {
                     _formKey.currentState!.save();
                     if (_formKey.currentState!.validate()) {
-                      debugPrint(_formKey.currentState!.value.toString());
+                      logInfo(info: _formKey.currentState!.value.toString());
                     } else {
-                      debugPrint('validation failed');
+                      logInfo(info: 'validation failed');
                     }
                   },
                 ),

@@ -24,7 +24,6 @@ class QDropDownField extends HookConsumerWidget {
       final depElement = element
           .findElementInParentSection(element.requiredDependencies.first);
     }
-    debugPrint(elementName);
     final formOptionsMap = ref
         .watch(
             formInstanceProvider(formMetaData: FormMetadataWidget.of(context)))

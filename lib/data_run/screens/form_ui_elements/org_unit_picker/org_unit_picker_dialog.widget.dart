@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_fancy_tree_view/flutter_fancy_tree_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mass_pro/commons/logging/logging.dart';
 import 'package:mass_pro/data_run/screens/form_ui_elements/org_unit_picker/model/tree_node.dart';
 import 'package:mass_pro/data_run/screens/form_ui_elements/org_unit_picker/model/tree_node_data_source.dart';
 import 'package:mass_pro/data_run/screens/form_ui_elements/org_unit_picker/settings/controller.dart';
@@ -130,7 +131,7 @@ class _OrgUnitPickerDialogState
     final isSelectable = _isSelectable(id);
     if (isSelectable) _vibrate();
     setState(() {
-      debugPrint('is Selectable: ${_isSelectable(id)}');
+      logInfo(info: 'is Selectable: ${_isSelectable(id)}');
       if (isSelectable) {
         _selectedNode = id;
         widget.onChange?.call(id);

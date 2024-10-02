@@ -9,7 +9,7 @@ typedef LogWriterCallback = void Function(String text, {bool isError});
 /// default logger from GetX
 void defaultLogWriterCallback(String value, {bool isError = false}) {
   if (isError || Mp.isLogEnable) {
-    developer.log(value, name: 'MASSPRO');
+    developer.log(value, name: '');
   }
 }
 

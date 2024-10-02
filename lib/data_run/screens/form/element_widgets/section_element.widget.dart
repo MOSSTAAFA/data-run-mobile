@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mass_pro/data_run/screens/form/element_widgets/repeat_section.widget.dart';
 import 'package:mass_pro/data_run/screens/form/element_widgets/section.widget.dart';
+import 'package:mass_pro/data_run/screens/form/hooks/register_dependencies.dart';
 import 'package:mass_pro/data_run/screens/form/inherited_widgets/section_inherited.widget.dart';
 import 'package:mass_pro/data_run/screens/form/field_widgets/improved_expansion_tile.widget.dart';
 import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
@@ -31,6 +32,8 @@ class SectionElementWidgetState extends ConsumerState<SectionElementWidget> {
   Widget build(BuildContext context) {
     final hidden = useState(element.hidden);
     final expanded = useState(element.expanded);
+    final requiredDependencies = element.requiredDependencies;
+    useRegisterDependencies(element);
     final formOptionsMap = ref
         .watch(
             formInstanceProvider(formMetaData: FormMetadataWidget.of(context)))

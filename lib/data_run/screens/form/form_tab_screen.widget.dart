@@ -84,37 +84,34 @@ class _SubmissionTabScreenState extends ConsumerState<FormTabScreen> {
       FormInstanceEntryView(scrollController: scrollController),
     ];
 
-    return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(title: Text('NMCP')),
-      bottomNavigationBar: NavigationBar(
-        onDestinationSelected: (int index) => currentPageIndex.value = index,
-        indicatorColor: Colors.amber,
-        selectedIndex: currentPageIndex.value,
-        destinations: <Widget>[
-          NavigationDestination(
-            selectedIcon: Icon(Icons.home),
-            icon: Icon(Icons.home_outlined),
-            label: S.of(context).submissionInitialData,
-          ),
-          NavigationDestination(
-            icon: Badge(child: Icon(Icons.data_array)),
-            label: S.of(context).submissionDataEntry,
-          )
-        ],
-      ),
-      body: ReactiveForm(
-        canPop: (FormGroup formGroup) => false,
-        onPopInvoked: (
-            FormGroup formGroup, bool didPop) async {
-          if (didPop) {
-            return;
-          }
-          backButtonPressed(formGroup);
-        },
-        key: _entryFormKey,
-        formGroup: formInstance.form,
-        child: Stack(
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (bool didPop) async {
+        if (didPop) {
+          return;
+        }
+        backButtonPressed(formInstance.form);
+      },
+      child: Scaffold(
+        key: _scaffoldKey,
+        appBar: AppBar(title: Text('NMCP')),
+        bottomNavigationBar: NavigationBar(
+          onDestinationSelected: (int index) => currentPageIndex.value = index,
+          indicatorColor: Colors.amber,
+          selectedIndex: currentPageIndex.value,
+          destinations: <Widget>[
+            NavigationDestination(
+              selectedIcon: Icon(Icons.home),
+              icon: Icon(Icons.home_outlined),
+              label: S.of(context).submissionInitialData,
+            ),
+            NavigationDestination(
+              icon: Badge(child: Icon(Icons.data_array)),
+              label: S.of(context).submissionDataEntry,
+            )
+          ],
+        ),
+        body: Stack(
           children: [
             IndexedStack(
               index: currentPageIndex.value,
@@ -122,26 +119,26 @@ class _SubmissionTabScreenState extends ConsumerState<FormTabScreen> {
             ),
           ],
         ),
-      ),
-      floatingActionButton: FadeTransition(
-        opacity: hideFabAnimController,
-        child: ScaleTransition(
-          scale: hideFabAnimController,
-          child: FloatingActionButton(
-            child: getFloatIcon(),
-            // label: const Text('Useless Floating Action Button'),
-            onPressed: () {
-              if (widget.enabled) {
-                _saveAndShowBottomSheet(formGroup(context));
-              } else {
-                Navigator.pop(context);
-              }
-              // Navigator.pop(context);
-            },
+        floatingActionButton: FadeTransition(
+          opacity: hideFabAnimController,
+          child: ScaleTransition(
+            scale: hideFabAnimController,
+            child: FloatingActionButton(
+              child: getFloatIcon(),
+              // label: const Text('Useless Floating Action Button'),
+              onPressed: () {
+                if (widget.enabled) {
+                  _saveAndShowBottomSheet(formGroup(context));
+                } else {
+                  Navigator.pop(context);
+                }
+                // Navigator.pop(context);
+              },
+            ),
           ),
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 

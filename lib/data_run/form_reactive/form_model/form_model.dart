@@ -108,36 +108,6 @@
 //   }
 // }
 //
-// class FormDependencyManager {
-//   FormDependencyManager(
-//       {required String fieldName, List<Rule> rules = const []})
-//       : _fieldName = fieldName {
-//     _rules.clear();
-//     _rules.addAll(rules);
-//
-//     final dependenciesMap = Map<String, List<String>>.fromIterable(_rules,
-//         key: (rule) => rule.field, value: (rule) => rule.dependencies);
-//     final _rul = Map.fromIterable(_rules,
-//         key: (rule) => rule.field, value: (rule) => rule.dependencies);
-//
-//     _dependenciesMap.clear();
-//     _dependenciesMap.addAll(dependenciesMap);
-//
-//     for (final dependency in _dependenciesMap) {
-//       final event =
-//           FormEvent.valueChange(dependency, value: EventType.ValueChanged);
-//       _eventManager.subscribe(event, (value) {
-//         onNotify(value);
-//       });
-//     }
-//   }
-//
-//   final String _fieldName;
-//   final List<Rule> _rules = [];
-//   final Map<String, List<String>> _rulesMap = {};
-//   final Map<String, List<String>> _dependenciesMap = {};
-// }
-//
 // class EvaluationHandler {
 //   EvaluationHandler(
 //       {required String fieldName,
