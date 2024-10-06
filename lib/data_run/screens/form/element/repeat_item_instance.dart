@@ -5,6 +5,7 @@ class RepeatItemInstance extends SectionInstance {
   RepeatItemInstance({
     required super.template,
     required super.form,
+    super.elements,
     super.expanded,
   });
 

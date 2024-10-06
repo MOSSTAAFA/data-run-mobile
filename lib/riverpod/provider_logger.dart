@@ -1,7 +1,6 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
+import 'package:mass_pro/commons/logging/logging.dart';
 
 class ProviderLogger extends ProviderObserver {
   ProviderLogger({required this.providersNameToLog});
@@ -16,16 +15,16 @@ class ProviderLogger extends ProviderObserver {
   ) {
     if (providersNameToLog.isEmpty) {
       provider.name != null
-          ? logInfo(
+          ? logDebug(
               info: 'didAddProvider, NAME: ${provider.name}, VALUE: $value')
-          : logInfo(
+          : logDebug(
               info:
                   'didAddProvider, TYPE: ${provider.runtimeType}, VALUE: $value');
     } else {
       if (providersNameToLog.contains(provider.name)) {
         provider.name != null
-            ? logInfo(info: 'didAddProvider, VALUE: $value')
-            : logInfo(
+            ? logDebug(info: 'didAddProvider, VALUE: $value')
+            : logDebug(
                 info:
                     'didAddProvider, TYPE: ${provider.runtimeType}, VALUE: $value');
       }
@@ -41,15 +40,15 @@ class ProviderLogger extends ProviderObserver {
   ) {
     if (providersNameToLog.isEmpty) {
       provider.name != null
-          ? logInfo(info: 'didUpdateProvider, newValue: $newValue')
-          : logInfo(
+          ? logDebug(info: 'didUpdateProvider, newValue: $newValue')
+          : logDebug(
               info:
                   'didUpdateProvider, TYPE: ${provider.runtimeType}, newValue: $newValue');
     } else {
       if (providersNameToLog.contains(provider.name)) {
         provider.name != null
-            ? logInfo(info: 'didUpdateProvider, newValue: $newValue')
-            : logInfo(
+            ? logDebug(info: 'didUpdateProvider, newValue: $newValue')
+            : logDebug(
                 info:
                     'didUpdateProvider, TYPE: ${provider.runtimeType}, newValue: $newValue');
       }
@@ -63,13 +62,13 @@ class ProviderLogger extends ProviderObserver {
   ) {
     if (providersNameToLog.isEmpty) {
       provider.name != null
-          ? logInfo(info: 'NAME: ${provider.name}, didDisposeProvider')
-          : logInfo(info: 'TYPE: ${provider.runtimeType}, didDisposeProvider');
+          ? logDebug(info: 'NAME: ${provider.name}, didDisposeProvider')
+          : logDebug(info: 'TYPE: ${provider.runtimeType}, didDisposeProvider');
     } else {
       if (providersNameToLog.contains(provider.name)) {
         provider.name != null
-            ? logInfo(info: 'NAME: ${provider.name}, didDisposeProvider')
-            : logInfo(
+            ? logDebug(info: 'NAME: ${provider.name}, didDisposeProvider')
+            : logDebug(
                 info: 'TYPE: ${provider.runtimeType}, didDisposeProvider');
       }
     }

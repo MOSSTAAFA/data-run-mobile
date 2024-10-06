@@ -101,7 +101,7 @@ void main() async {
   };
 
   final form = Form(fields: formFields, eventQueue: Queue(), data: {});
-  form.updateField('fieldB', 'valueB');
+  // form.updateField('fieldB', 'valueB');
   form.updateField('fieldA', 'valueA');
-  form.updateField('fieldB', 'valueA');
+  // form.updateField('fieldB', 'valueA');
 }

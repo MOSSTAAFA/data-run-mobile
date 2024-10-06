@@ -5,7 +5,6 @@ import 'package:d2_remote/modules/datarun/form/entities/data_form_submission.ent
 import 'package:d2_remote/modules/metadatarun/org_unit/entities/org_unit.entity.dart';
 import 'package:d2_remote/shared/utilities/save_option.util.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:flutter/foundation.dart';
 import 'package:mass_pro/commons/logging/logging.dart';
 import 'package:mass_pro/core/common/state.dart';
 import 'package:mass_pro/data_run/errors_management/errors/d_error.dart';
@@ -139,7 +138,7 @@ class FormSubmissionList extends _$FormSubmissionList {
       await future;
       return true;
     } on DError catch (e) {
-      logError(info: '# DataRun Error: ${e.toString()}');
+      logError(error: '# DataRun Error: ${e.toString()}');
       return false;
     }
   }
@@ -215,7 +214,7 @@ Future<SubmissionItemSummaryModel> submissionItemSummaryModel(
       : null;
 
   final formData = submission.formData.map<String, dynamic>((k, v) => MapEntry(
-      formConfig.getFieldDisplayName(k),
+      formConfig.getFieldDisplayName(k)!,
       formConfig.getUserFriendlyValue(k, v)));
 
   return SubmissionItemSummaryModel(

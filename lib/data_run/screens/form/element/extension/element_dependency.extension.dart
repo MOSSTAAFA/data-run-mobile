@@ -1,10 +1,92 @@
 part of '../form_element.dart';
 
-//<editor-fold desc="dependencies">
-extension ElementDependencyLookup<T> on FormElementInstance<T> {
+final pretty = true;
+final LogPrinter logPrinter = pretty
+    ? PrettyPrinter(
+        colors: true,
+        methodCount: 0,
+        printEmojis: false,
+        excludeBox: {
+          Level.trace: true,
+          Level.info: true,
+        },
+      )
+    : SimplePrinter(
+        colors: true, /*methodCount: 0*/
+      );
 
+final loggerEvaluation = Logger(printer: logPrinter, level: Level.debug);
+
+extension ElementDependencyRegistration<T> on FormElementInstance<T> {
+  List<String> get filteringDependencies => template.filterDependencies;
+
+  List<String> get rulesDependencies => template.dependencies;
+
+  List<String> get requiredNotifiersNames =>
+      [...filteringDependencies, ...rulesDependencies];
+
+  void setUnresolvedDependencies(List<String> unresolved) {
+    logWarning(
+        warning: 'Unresolved ${unresolved} dependencies for element: $name');
+    _unresolvedDependencies.clear();
+    _unresolvedDependencies.addAll(unresolved);
+  }
+
+  void notifyListeners() {
+    for (final dependent in _listeners.values) {
+      dependent.onDependencyChanged(name, value);
+      // Future.microtask(() => dependent.onDependencyChanged(name, value));
+    }
+  }
+
+  // void notifyListeners() {
+  //   for (final dependent in _listeners.values) {
+  //     dependent.onDependencyChanged(name, value);
+  //   }
+  // }
+
+  void onDependencyChanged(String notifierName, dynamic value) {
+    final toEvaluate = template.rules.map((rule) => rule.expression);
+    loggerEvaluation.d({
+      'Listener: $name notified: $notifierName changed to':
+          '${dependencies[notifierName]?.value}',
+      '${toEvaluate.isNotEmpty ? 'Evaluating Rule: $toEvaluate' : ''}${template.choiceFilter != null ? 'Evaluating Filter:' : ''}':
+          '${toEvaluate.isNotEmpty ? '$toEvaluate' : ''}${template.choiceFilter != null ? '\'${template.choiceFilter}\'' : ''}',
+    });
+
+    if (_isEvaluating) {
+      return;
+    }
+
+    _isEvaluating = true;
+
+    try {
+      evaluateRules(notifierName);
+      elementControl?.markAsTouched(emitEvent: true, updateParent: false);
+      notifyListeners();
+    } finally {
+      _isEvaluating = false;
+    }
+  }
+
+  void setNotifiers(Map<String, FormElementInstance<dynamic>> notifiers) {
+    _unresolvedDependencies.clear();
+    _unresolvedDependencies.addAll(
+        requiredNotifiersNames.where((item) => !notifiers.keys.contains(item)));
+    if (_unresolvedDependencies.length > 0) {
+      loggerEvaluation.w({
+        'unresolved dependencies': _unresolvedDependencies,
+        'element': name,
+      });
+    }
+
+    _notifiers.addAll(notifiers);
+    // final Listenable fff = Listenable.merge(notifiers.values);
+  }
+}
+
+extension ElementDependencyLookup<T> on FormElementInstance<T> {
   /// the element use name to find the dependency in closest parent
-  /// and register itself and add them to their dependencies
   FormElementInstance<dynamic>? findElementInParentSection(String name) {
     FormElementInstance<dynamic>? current = this;
 
@@ -14,10 +96,32 @@ extension ElementDependencyLookup<T> on FormElementInstance<T> {
       if (found != null) return found;
     }
 
+    // reaching this point means current is the root Section element
+    return walkTreeForDependency(current!, name);
+  }
+
+  /// Recursively walk through all elements in the form tree and find a match
+  FormElementInstance<dynamic>? walkTreeForDependency(
+      FormElementInstance<dynamic> current, String name) {
+    if (current.name == name) {
+      return current;
+    }
+
+    if (current is SectionElement) {
+      final childElements = current is SectionInstance
+          ? current.elements.values
+          : (current as RepeatInstance).elements;
+      for (var nestedElement in childElements) {
+        var result = walkTreeForDependency(nestedElement, name);
+        if (result != null) {
+          return result;
+        }
+      }
+    }
+
     return null;
   }
 
-  // Add method to locate an element inside a repeated section by index
   FormElementInstance<dynamic>? findRepeatedSectionDependency(
       String sectionName, int index) {
     if (this is RepeatInstance) {
@@ -49,135 +153,19 @@ extension ElementDependencyLookup<T> on FormElementInstance<T> {
     });
   }
 
-  // Extend findElement to handle searching by name
   FormElementInstance<dynamic>? findDependency(String name) {
-    // Implement search logic within the current scope (e.g., section, repeat section)
+    // search logic within the current scope (e.g., section, repeat section)
 
     if (this is SectionElement) {
       return (this as SectionElement).contains(name)
           ? (this as SectionElement).findElementInParentSection(name)
           : null;
     }
-    return null; // Return null if no match is found in the current scope
+    return null;
   }
-
 }
-
-extension ElementDependencyRegistration<T> on FormElementInstance<T> {
-  List<String> get requiredDependencies =>
-      [...template.dependencies, ...template.filterDependencies];
-
-  void registerDependency(FormElementInstance<dynamic> dependency) {
-    addDependency(dependency);
-    dependency.elementControl!.valueChanges.listen(
-        (value) => dependency.onDependencyChanged(dependency.name, value));
-  }
-
-  void setUnresolvedDependencies(List<String> unresolved) {
-    logInfo(
-        info:
-            'Unresolved ${unresolved.length} dependencies for element: $name');
-    _unresolvedDependencies.clear();
-    _unresolvedDependencies.addAll(unresolved);
-  }
-
-  void addDependent(FormElementInstance<dynamic> dependent) {
-    _dependents.add(dependent);
-  }
-
-  void addDependency(FormElementInstance<dynamic> dependency) {
-    if (hasCircularDependency(dependency)) {
-      throw CircularDependencyException(elementName: dependency.name);
-    }
-
-    _dependencies.add(dependency);
-    dependency.addDependent(this);
-  }
-
-  // void registerDependencies() {
-  //   for (final dependencyName in requiredDependencies) {
-  //     final dependency = findElementInParentSection(dependencyName);
-  //     if (dependency != null) {
-  //       dependency.addDependent(this);
-  //       this.addDependency(dependency);
-  //     } else {
-  //       _unresolvedDependencies.add(dependencyName);
-  //     }
-  //   }
-  // }
-
-  /// for debugging
-  List<String> get _dependentsNames =>
-      _dependents.map((dependent) => dependent.name).toList();
-
-  void notifyDependents() {
-    logInfo(info: '$name: value or dependency changed, notifying $_dependentsNames');
-
-    for (final dependent in _dependents) {
-      dependent.onDependencyChanged(name, value);
-    }
-  }
-
-  void onDependencyChanged(String dependencyName, T? value) {
-    logInfo(info: '$name: $dependencyName changed to $value');
-    final toEvaluate = rulesToEvaluate(dependencyName);
-    final contextEval = evalContext;
-
-    // if (_isEvaluating) {
-    //   return;
-    // }
-    //
-    // _isEvaluating = true;
-
-    try {
-
-      reEvaluate();
-
-      notifyDependents();
-    } finally {
-      // _isEvaluating = false;
-    }
-  }
-
-  bool hasCircularDependency(FormElementInstance<dynamic> dependency) {
-    FormElementInstance<dynamic> current = this;
-    while (current.parentSection != null) {
-      if (current == dependency) {
-        return true;
-      }
-      current = current.parentSection!;
-    }
-    return false;
-  }
-
-//
-// bool isDependencyResolved(String dependencyName) {
-//   return _dependencies.any((dep) => dep.name == dependencyName);
-// }
-
-// void resolveDependencies() {
-//   final List<String> resolved = [];
-//   _unresolvedDependencies.removeWhere((dependencyName) {
-//     final dependency = findElementInParentSection(dependencyName);
-//     if (dependency != null) {
-//       dependency.addDependent(this);
-//       this.addDependency(dependency);
-//       resolved.add(dependencyName);
-//       return true;
-//     } else {
-//       return false;
-//     }
-//   });
-//   for (final toRemove in resolved) {
-//     _unresolvedDependencies.remove(toRemove);
-//   }
-// }
-}
-
-//</editor-fold>
 
 extension RepeatedSectionDependency on RepeatInstance {
-// Extend RepeatSectionInstance to allow finding elements by index
   bool containsIndex(String name, int index) {
     return _elements.length > index && index >= 0;
   }

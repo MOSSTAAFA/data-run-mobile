@@ -4,12 +4,11 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
   RepeatInstance({
     required super.template,
     required super.form,
-    // super.parentSection,
     super.expanded = false,
-    /*List<FormElementInstance<Map<String, Object?>?>> elements = const []*/
+    List<RepeatItemInstance> elements = const []
   }) {
-    // this._elements.addAll(elements);
-    // addAll(elements);
+    this._elements.addAll(elements);
+    addAll(elements);
 
     // if (properties.disabled) {
     //   markAsDisabled();

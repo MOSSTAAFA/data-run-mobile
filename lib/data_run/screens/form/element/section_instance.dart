@@ -7,11 +7,11 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
     required super.template,
     required super.form,
     super.expanded,
-    // Map<String, FormElementInstance<dynamic>> elements = const {},
-  }) /*: assert(!elements.keys.any((name) => name.contains('.')),
-            'element name should not contain dot(.)') */
+    Map<String, FormElementInstance<dynamic>> elements = const {},
+  }) : assert(!elements.keys.any((name) => name.contains('.')),
+            'element name should not contain dot(.)')
   {
-    // addAll(elements);
+    addAll(elements);
 
     // if (properties.disabled) {
     //   markAsDisabled();

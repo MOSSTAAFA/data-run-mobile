@@ -1,4 +1,4 @@
-// import 'package:d2_remote/modules/datarun/form/shared/rule.dart';
+// import 'package:d2_remote/modules/datarun/form/shared/rule/rule.dart';
 // import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
 // import 'package:reactive_forms/reactive_forms.dart';
 //

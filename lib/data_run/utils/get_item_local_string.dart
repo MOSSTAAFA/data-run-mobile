@@ -6,6 +6,5 @@ String getItemLocalString(Map<String?, String?>? localsMap,
 
   return localsMap?[local] ??
       localsMap?.values.firstOrNull ??
-      defaultString ??
-      'unProvidedLocale';
+      defaultString ?? '';
 }

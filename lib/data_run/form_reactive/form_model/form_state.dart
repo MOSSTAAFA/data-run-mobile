@@ -1,4 +1,4 @@
-import 'package:d2_remote/modules/datarun/form/shared/rule.dart';
+import 'package:d2_remote/modules/datarun/form/shared/rule/rule.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:d2_remote/shared/utilities/dhis_uid_generator.util.dart';
 import 'package:equatable/equatable.dart';

@@ -2,8 +2,6 @@ import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/shared/entities/identifiable_tree_node.entity.dart';
 import 'package:d2_remote/shared/queries/base.query.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:flutter/material.dart';
-import 'package:mass_pro/commons/logging/logging.dart';
 import 'package:mass_pro/data_run/screens/form_ui_elements/org_unit_picker/model/tree_node.extension.dart';
 import 'package:mass_pro/data_run/screens/form_ui_elements/org_unit_picker/model/tree_node.dart';
 

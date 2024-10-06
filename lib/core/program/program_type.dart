@@ -1,4 +1,4 @@
-import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
+import 'package:mass_pro/commons/logging/logging.dart';
 
 enum ProgramType { WITH_REGISTRATION, WITHOUT_REGISTRATION }
 
@@ -10,7 +10,7 @@ extension ToProgramTypeExtension on String? {
       //     orElse: throw ArgumentError(
       //         'The ProgramType $this does not match any ProgramType'));
     } catch (e) {
-      logInfo(info: 'The ProgramType $this does not match any Enum Value');
+      logDebug(info: 'The ProgramType $this does not match any Enum Value');
       return null;
     }
   }

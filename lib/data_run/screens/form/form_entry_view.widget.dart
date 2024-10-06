@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mass_pro/data_run/screens/form/element_widgets/form_element.widget.dart';
 import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
 import 'package:mass_pro/data_run/screens/form/element_widgets/form_widget_factory.dart';
 import 'package:mass_pro/data_run/screens/form/element/providers/form_instance.provider.dart';
@@ -25,7 +26,7 @@ class FormInstanceEntryView extends HookConsumerWidget {
       controller: scrollController,
       child: Column(
         children: formInstance.elements.values
-            .map((element) => FormElementWidgetFactory.createWidget(element))
+            .map((element) => FormElementWidget(element: element))
             .toList(),
       ),
     );

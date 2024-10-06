@@ -98,9 +98,9 @@ class _CustomFieldsState extends State<CustomFields> {
                   onPressed: () {
                     _formKey.currentState!.save();
                     if (_formKey.currentState!.validate()) {
-                      logInfo(info: _formKey.currentState!.value.toString());
+                      logDebug(info: _formKey.currentState!.value.toString());
                     } else {
-                      logInfo(info: 'validation failed');
+                      logDebug(info: 'validation failed');
                     }
                   },
                 ),

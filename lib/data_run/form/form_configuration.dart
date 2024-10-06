@@ -5,7 +5,7 @@ import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/datarun/form/entities/form_definition.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
-import 'package:d2_remote/modules/datarun/form/shared/rule.dart';
+import 'package:d2_remote/modules/datarun/form/shared/rule/rule.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:mass_pro/data_run/errors_management/errors/form_does_not_exist.exception.dart';
 import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
@@ -56,7 +56,7 @@ class FormConfiguration {
       List<FieldTemplate>? fields,
       List<FormOption>? options,
       required this.form,
-      required this.label,
+      this.label,
       List<String>? orgUnits,
       required this.version})
       : this.allFields =
@@ -86,7 +86,7 @@ class FormConfiguration {
 
   final String form;
 
-  final String label;
+  final String? label;
 
   final int version;
 
@@ -129,7 +129,7 @@ class FormConfiguration {
         _ => value
       };
 
-  String getFieldDisplayName(String fieldName) =>
+  String? getFieldDisplayName(String fieldName) =>
       getItemLocalString(allFields.get(fieldName)?.label,
           defaultString: fieldName);
 }

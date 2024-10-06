@@ -18,7 +18,7 @@ class QIntTypeField extends HookWidget {
       maxLines: element.maxLines,
       keyboardType: element.inputType,
       validationMessages: validationMessages(context),
-      decoration: InputDecoration(labelText: element.properties.label),
+      decoration: InputDecoration(labelText: element.label, enabled: element.enabled),
     );
   }
 }

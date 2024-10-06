@@ -485,7 +485,7 @@ class _SubmissionStatusModelProviderElement
 }
 
 String _$submissionItemSummaryModelHash() =>
-    r'81855375553d3142a08bb4addbfbd7a11ff93588';
+    r'1a011f4ca53e01408881358a396f6da9d8be5aaa';
 
 /// See also [submissionItemSummaryModel].
 @ProviderFor(submissionItemSummaryModel)
@@ -654,7 +654,7 @@ final selectedStatusProvider =
 
 typedef _$SelectedStatus = AutoDisposeNotifier<SyncStatus?>;
 String _$formSubmissionListHash() =>
-    r'85974aad176b1795ad799314180f10e95f6a480d';
+    r'fcdb664b54775cafd3e123d2dd30e98388600f61';
 
 abstract class _$FormSubmissionList
     extends BuildlessAutoDisposeAsyncNotifier<IList<DataFormSubmission>> {

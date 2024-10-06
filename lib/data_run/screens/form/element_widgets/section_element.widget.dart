@@ -30,17 +30,22 @@ class SectionElementWidgetState extends ConsumerState<SectionElementWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final hidden = useState(element.hidden);
+    // final hidden = useState(element.hidden);
     final expanded = useState(element.expanded);
-    final requiredDependencies = element.requiredDependencies;
-    useRegisterDependencies(element);
-    final formOptionsMap = ref
-        .watch(
-            formInstanceProvider(formMetaData: FormMetadataWidget.of(context)))
-        .requireValue
-        .formOptionsMap;
+    // useRegisterDependencies(element);
+    // final formOptionsMap = ref
+    //     .watch(
+    //         formInstanceProvider(formMetaData: FormMetadataWidget.of(context)))
+    //     .requireValue
+    //     .formOptionsMap;
 
-    if (hidden.value) {
+    // if (hidden.value) {
+    //   return SizedBox.shrink();
+    // }
+    final elementChanged =
+    useStream(element.elementChanged, initialData: element.properties);
+
+    if (elementChanged.data!.hidden) {
       return SizedBox.shrink();
     }
 
@@ -50,7 +55,7 @@ class SectionElementWidgetState extends ConsumerState<SectionElementWidget> {
       child: switch (element) {
         final SectionInstance element => ImprovedExpansionTile(
             leading: Icon(Icons.playlist_add_check_rounded),
-            title: '${element.properties.label}',
+            title: '${element.label}',
             enabled: element.elementControl.enabled == true,
             initiallyExpanded: expanded.value,
             child: SectionWidget(
@@ -58,13 +63,13 @@ class SectionElementWidgetState extends ConsumerState<SectionElementWidget> {
             )),
         final RepeatInstance element => ImprovedExpansionTile(
             leading: Icon(Icons.repeat),
-            title: '${element.properties.label}',
+            title: '${element.label}',
             enabled: element.elementControl.enabled == true,
             initiallyExpanded: expanded.value,
             child: RepeatSectionWidget(
               // key: ObjectKey(element.value?.lock),
               element: element,
-              formOptionsMap: formOptionsMap,
+              // formOptionsMap: formOptionsMap,
               // onAdd: (index) => ,
               // onRemove: (index) =>,
             ),

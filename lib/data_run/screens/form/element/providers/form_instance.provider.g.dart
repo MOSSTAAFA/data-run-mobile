@@ -7,7 +7,7 @@ part of 'form_instance.provider.dart';
 // **************************************************************************
 
 String _$submissionEditStatusHash() =>
-    r'211ed24c9eda1ce399fe5570db5949736a9b42a2';
+    r'f7954bffcf640f4d5d00114f4615c83fbd284e75';
 
 /// Copied from Dart SDK
 class _SystemHash {

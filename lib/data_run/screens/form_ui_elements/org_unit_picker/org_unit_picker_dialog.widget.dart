@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_fancy_tree_view/flutter_fancy_tree_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/commons/logging/logging.dart';
 import 'package:mass_pro/data_run/screens/form_ui_elements/org_unit_picker/model/tree_node.dart';
 import 'package:mass_pro/data_run/screens/form_ui_elements/org_unit_picker/model/tree_node_data_source.dart';
 import 'package:mass_pro/data_run/screens/form_ui_elements/org_unit_picker/settings/controller.dart';
 import 'package:mass_pro/data_run/screens/form_ui_elements/org_unit_picker/tree_tile.widget.dart';
 import 'package:mass_pro/generated/l10n.dart';
 
-// The M3 sizes are coming from the tokens, but are hand coded,
-// as the current token DB does not contain landscape versions.
 const Size _inputPortraitDialogSizeM2 = Size(330.0, 470.0);
 const Size _inputPortraitDialogSizeM3 = Size(328.0, 470.0);
 const Size _inputLandscapeDialogSize = Size(496, 160.0);
@@ -131,7 +128,6 @@ class _OrgUnitPickerDialogState
     final isSelectable = _isSelectable(id);
     if (isSelectable) _vibrate();
     setState(() {
-      logInfo(info: 'is Selectable: ${_isSelectable(id)}');
       if (isSelectable) {
         _selectedNode = id;
         widget.onChange?.call(id);

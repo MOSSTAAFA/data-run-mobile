@@ -1,4 +1,4 @@
-import 'package:d2_remote/modules/datarun/form/shared/rule_action.dart';
+import 'package:d2_remote/modules/datarun/form/shared/rule/rule_action.dart';
 
 class EvaluationResult {
   // Could be a message, assigned value, etc.

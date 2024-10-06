@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:mass_pro/commons/logging/logging.dart';
 
@@ -7,7 +6,7 @@ extension DateFormatExtension on DateFormat {
     try {
       return parse(value);
     } catch (e) {
-      logError(info: 'DateFormatExtension: dateTime FormatException');
+      logError(error: 'DateFormatExtension: dateTime FormatException');
       return null;
     }
   }

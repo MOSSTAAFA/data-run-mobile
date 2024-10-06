@@ -12,7 +12,7 @@ class OrgUnitPickerField extends StatefulWidget {
     this.autofocus = false,
     this.errorInvalidText,
     this.fieldHintText,
-    this.fieldLabelText,
+    this.labelText,
     this.keyboardType,
     this.onChanged,
     this.focusNode,
@@ -32,7 +32,7 @@ class OrgUnitPickerField extends StatefulWidget {
   final String? errorInvalidText;
   final String? fieldHintText;
 
-  final String? fieldLabelText;
+  final String? labelText;
 
   final TextInputType? keyboardType;
 
@@ -160,6 +160,7 @@ class _OrgUnitPickerFieldState extends State<OrgUnitPickerField /*<T>*/> {
       readOnly: true,
       validator: widget.validator,
       decoration: InputDecoration(
+        enabled: widget.enabled,
         isDense: true,
         suffixIcon: _selectedNode != null
             ? IconButton(
@@ -172,7 +173,7 @@ class _OrgUnitPickerFieldState extends State<OrgUnitPickerField /*<T>*/> {
         hintText: widget.fieldHintText ?? S
             .of(context)
             .orgUnitHelpText,
-        labelText: widget.fieldLabelText ?? S
+        labelText: widget.labelText ?? S
             .of(context)
             .orgUnitInputLabel,
       ).applyDefaults(

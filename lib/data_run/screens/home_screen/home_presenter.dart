@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:mass_pro/commons/logging/logging.dart';
 import 'package:mass_pro/commons/prefs/preference.dart';
 import 'package:mass_pro/commons/prefs/preference_provider.dart';
@@ -83,7 +82,7 @@ class HomePresenter {
 
       view.goToLogin(await repository.accountsCount(), isDeletion: true);
     } catch (exception) {
-      logError(info: 'Timber.e($exception)');
+      logError(error: 'Timber.e($exception)');
     }
   }
 

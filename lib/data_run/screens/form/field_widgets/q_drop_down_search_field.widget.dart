@@ -32,7 +32,8 @@ class QDropDownSearchField extends HookConsumerWidget {
       validationMessages: validationMessages(context),
       dropdownDecoratorProps: DropDownDecoratorProps(
         dropdownSearchDecoration: InputDecoration(
-          labelText: element.properties.label,
+          labelText: element.label,
+          enabled: element.enabled,
           contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
           border: OutlineInputBorder(),
         ),

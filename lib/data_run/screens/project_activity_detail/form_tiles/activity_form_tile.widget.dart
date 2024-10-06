@@ -40,7 +40,7 @@ class ActivityFormTile extends StatelessWidget {
                       children: <Widget>[
                         Text(
                           getItemLocalString(template.label,
-                              defaultString: template.name),
+                              defaultString: template.name)!,
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Text(

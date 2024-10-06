@@ -27,6 +27,8 @@ class QOrgUnitPickerField extends HookConsumerWidget {
       data: (dataSource) => ReactiveOuPicker(
         // formControl: element.elementControl,
         formControlName: element.name,
+        enabled: element.enabled,
+        labelText: element.label,
         validationMessages: element.validationMessages,
         dataSource: dataSource,
       ),

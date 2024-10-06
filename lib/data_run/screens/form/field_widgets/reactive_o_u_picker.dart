@@ -9,6 +9,8 @@ class ReactiveOuPicker<T> extends ReactiveFormField<T, String> {
     super.showErrors,
     super.validationMessages,
     super.focusNode,
+    bool enabled = true,
+    String? labelText,
     String? formControlName,
     FormControl<T>? formControl,
     required TreeNodeDataSource dataSource,
@@ -23,6 +25,8 @@ class ReactiveOuPicker<T> extends ReactiveFormField<T, String> {
               // errorInvalidText: validationMessages?.keys.first,
               onSubmitted: field.didChange,
               dataSource: dataSource,
+              labelText: labelText,
+              enabled: enabled,
             );
           },
         );

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:d2_remote/core/datarun/utilities/date_utils.dart';
 import 'package:dio/dio.dart';
 import 'package:mass_pro/commons/constants.dart';
-import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
+import 'package:mass_pro/commons/logging/logging.dart';
 import 'package:mass_pro/commons/network/network_utils.dart';
 import 'package:mass_pro/commons/prefs/preference_provider.dart';
 import 'package:mass_pro/commons/resources/resource_manager.dart';
@@ -50,7 +50,7 @@ class SyncDataWorker extends Worker {
       if (!ref.read(networkUtilsProvider).isOnline()) {
         presenter.setNetworkUnavailable();
       }
-      logError(info: 'Timber.e($e)');
+      logError(error: 'Timber.e($e)');
       isEventOk = false;
     }
 
@@ -60,7 +60,7 @@ class SyncDataWorker extends Worker {
       if (!ref.read(networkUtilsProvider).isOnline()) {
         presenter.setNetworkUnavailable();
       }
-      logError(info: 'Timber.e($e)');
+      logError(error: 'Timber.e($e)');
       isTeiOk = false;
     }
 
@@ -74,7 +74,7 @@ class SyncDataWorker extends Worker {
       if (!ref.read(networkUtilsProvider).isOnline()) {
         presenter.setNetworkUnavailable();
       }
-      logError(info: 'Timber.e($e)');
+      logError(error: 'Timber.e($e)');
       isDataValue = false;
     }
 
@@ -85,7 +85,7 @@ class SyncDataWorker extends Worker {
     try {
       await presenter.downloadResources();
     } catch (e) {
-      logError(info: 'Timber.e($e)');
+      logError(error: 'Timber.e($e)');
     }
 
     onProgressUpdate?.call(100);

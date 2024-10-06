@@ -9,12 +9,9 @@ class QSwitchField extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final elementConfig = useState(element.properties);
-
     return ReactiveSwitchListTile(
       formControlName: element.name,
-      // formControl: element.elementControl as FormControl<bool>,
-      title: Text('${elementConfig.value.label}'),
+      title: Text('${element.label}'),
     );
   }
 }

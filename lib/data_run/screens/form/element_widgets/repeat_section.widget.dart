@@ -4,26 +4,26 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mass_pro/data_run/screens/form/element/factories/form_element_control_factory.dart';
 import 'package:mass_pro/data_run/screens/form/element_widgets/repeat_item.widget.dart';
-import 'package:mass_pro/data_run/screens/form/element_widgets/section.widget.dart';
-import 'package:mass_pro/data_run/screens/form/field_widgets/improved_expansion_tile.widget.dart';
 import 'package:mass_pro/data_run/screens/form/element/factories/form_element_factory.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:mass_pro/data_run/screens/form/hooks/register_dependencies.dart';
 import 'package:mass_pro/generated/l10n.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 import 'package:scrollable/exports.dart';
 
 class RepeatSectionWidget extends HookConsumerWidget {
+
   const RepeatSectionWidget({
     super.key,
     required this.element,
     this.onAdd,
     this.onRemove,
-    required this.formOptionsMap,
+    // required this.formOptionsMap,
   });
 
   final RepeatInstance element;
-  final Map<String, List<FormOption>> formOptionsMap;
+
+  // final Map<String, List<FormOption>> formOptionsMap;
 
   final Function(int index)? onAdd;
   final Function(int index)? onRemove;
@@ -31,6 +31,7 @@ class RepeatSectionWidget extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final double scrollableHeight = 500.0;
+    useRegisterDependencies(element);
 
     return ReactiveFormArray(
       formArray: element.elementControl,

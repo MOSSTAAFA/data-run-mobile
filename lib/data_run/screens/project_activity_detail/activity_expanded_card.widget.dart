@@ -94,7 +94,7 @@ class ActivityExpandedCard extends HookConsumerWidget {
           builder: (context) => FormMetadataWidget(
               formMetadata: FormMetadata(
                   formLabel: getItemLocalString(template.label,
-                      defaultString: template.name),
+                      defaultString: template.name)!,
                   form: template.uid!,
                   activity: activity.uid!,
                   version: template.version),
@@ -118,7 +118,7 @@ class ActivityExpandedCard extends HookConsumerWidget {
           return FormMetadataWidget(
             formMetadata: FormMetadata(
                 formLabel: getItemLocalString(template.label,
-                    defaultString: template.name),
+                    defaultString: template.name)!,
                 activity: template.activity,
                 form: template.uid!,
                 version: template.version),
@@ -141,7 +141,7 @@ class ActivityExpandedCard extends HookConsumerWidget {
                 formMetadata: FormMetadata(
                     form: template.uid!,
                     formLabel: getItemLocalString(template.label,
-                        defaultString: template.name),
+                        defaultString: template.name)!,
                     submission: submissionCreated,
                     activity: activity.uid!,
                     version: template.version),

@@ -1,7 +1,7 @@
 // import 'dart:async';
 //
-// import 'package:d2_remote/modules/datarun/form/shared/rule.dart';
-// import 'package:d2_remote/modules/datarun/form/shared/rule_action.dart';
+// import 'package:d2_remote/modules/datarun/form/shared/rule/rule.dart';
+// import 'package:d2_remote/modules/datarun/form/shared/rule/rule_action.dart';
 // import 'package:expressions/expressions.dart';
 // import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 // import 'package:flutter/foundation.dart';

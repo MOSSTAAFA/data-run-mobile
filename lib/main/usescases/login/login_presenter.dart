@@ -1,7 +1,7 @@
 import 'package:d2_remote/modules/auth/user/models/login-response.model.dart';
 import 'package:flutter/material.dart';
 import 'package:mass_pro/commons/constants.dart';
-import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
+import 'package:mass_pro/commons/logging/logging.dart';
 import 'package:mass_pro/commons/extensions/string_extension.dart';
 import 'package:mass_pro/commons/network/network_utils.dart';
 import 'package:mass_pro/commons/prefs/preference.dart';
@@ -157,10 +157,10 @@ class LoginScreenPresenter {
 
   Future<void> logOut() async {
     if (userManager != null) {
-      logInfo(info: 'logging out...');
+      logDebug(info: 'logging out...');
       userManager!.logOut().catchError((error, stackTrace) {
-        logInfo(info: 'Error logging out...');
-        logError(info: '$error, StackTrace: $stackTrace');
+        logDebug(info: 'Error logging out...');
+        logError(error: '$error, StackTrace: $stackTrace');
         view.handleLogout();
       });
       await preferenceProvider.setValue(SESSION_LOCKED, false);
@@ -170,7 +170,7 @@ class LoginScreenPresenter {
 
   Future<void> handleResponse(
       LoginResponseStatus userResponse, String userName, String server) async {
-    logInfo(info: 'Login Response: $userResponse');
+    logDebug(info: 'Login Response: $userResponse');
     view.showLoginProgress(false);
     if (userResponse == LoginResponseStatus.ONLINE_LOGIN_SUCCESS ||
         userResponse == LoginResponseStatus.OFFLINE_LOGIN_SUCCESS) {
@@ -194,7 +194,7 @@ class LoginScreenPresenter {
 
   Future<void> _handleError(Exception throwable, String serverUrl,
       String userName, String pass) async {
-    logError(info: 'Timber.e($throwable)');
+    logError(error: 'Timber.e($throwable)');
     if (throwable is DError &&
         throwable.errorCode == DErrorCode.ALREADY_AUTHENTICATED) {
       await userManager?.logOut();

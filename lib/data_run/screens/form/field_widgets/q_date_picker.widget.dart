@@ -25,7 +25,7 @@ class QDatePickerField extends StatelessWidget {
       // valueAccessor: QDateTimeValueAccessor(),
       readOnly: true,
       decoration: InputDecoration(
-        labelText: element.properties.label,
+        labelText: element.label,
         suffixIcon: ReactiveDatePicker<String?>(
           formControl: element.elementControl as FormControl<String?>,
           firstDate: DateTime.now().subtract(const Duration(days: 10)),

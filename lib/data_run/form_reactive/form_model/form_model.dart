@@ -1,25 +1,14 @@
 // import 'dart:collection';
 //
-// import 'package:d2_remote/modules/datarun/form/shared/rule.dart';
-// import 'package:d2_remote/modules/datarun/form/shared/rule_action.dart';
+// import 'package:d2_remote/modules/datarun/form/shared/rule/rule.dart';
+// import 'package:d2_remote/modules/datarun/form/shared/rule/rule_action.dart';
 // import 'package:expressions/expressions.dart';
 // import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 // import 'package:flutter/foundation.dart';
 // import 'package:freezed_annotation/freezed_annotation.dart';
 // import 'package:reactive_forms/reactive_forms.dart';
 //
-// part 'form_model.freezed.dart';
 //
-// @freezed
-// class FormEvent with _$FormEvent {
-//   const factory FormEvent.valueChange(String source, {dynamic value}) =
-//       ValueChange;
-//
-//   const factory FormEvent.controlReset(String source) = ControlReset;
-//
-//   const factory FormEvent.ruleEvaluate(String source,
-//       {EvaluationAction? action}) = RuleEvaluate;
-// }
 //
 // @freezed
 // class EvaluationAction with _$EvaluationAction {

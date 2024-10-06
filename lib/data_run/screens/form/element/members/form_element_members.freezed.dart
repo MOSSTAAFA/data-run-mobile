@@ -16,12 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ElementProperties {
-  int get order => throw _privateConstructorUsedError;
-  String? get label => throw _privateConstructorUsedError;
-  String? get placeholder => throw _privateConstructorUsedError;
-  bool get disabled => throw _privateConstructorUsedError;
   bool get hidden => throw _privateConstructorUsedError;
-  bool get readonly => throw _privateConstructorUsedError;
   bool get mandatory => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -35,14 +30,7 @@ abstract class $ElementPropertiesCopyWith<$Res> {
           ElementProperties value, $Res Function(ElementProperties) then) =
       _$ElementPropertiesCopyWithImpl<$Res, ElementProperties>;
   @useResult
-  $Res call(
-      {int order,
-      String? label,
-      String? placeholder,
-      bool disabled,
-      bool hidden,
-      bool readonly,
-      bool mandatory});
+  $Res call({bool hidden, bool mandatory});
 }
 
 /// @nodoc
@@ -58,38 +46,13 @@ class _$ElementPropertiesCopyWithImpl<$Res, $Val extends ElementProperties>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? order = null,
-    Object? label = freezed,
-    Object? placeholder = freezed,
-    Object? disabled = null,
     Object? hidden = null,
-    Object? readonly = null,
     Object? mandatory = null,
   }) {
     return _then(_value.copyWith(
-      order: null == order
-          ? _value.order
-          : order // ignore: cast_nullable_to_non_nullable
-              as int,
-      label: freezed == label
-          ? _value.label
-          : label // ignore: cast_nullable_to_non_nullable
-              as String?,
-      placeholder: freezed == placeholder
-          ? _value.placeholder
-          : placeholder // ignore: cast_nullable_to_non_nullable
-              as String?,
-      disabled: null == disabled
-          ? _value.disabled
-          : disabled // ignore: cast_nullable_to_non_nullable
-              as bool,
       hidden: null == hidden
           ? _value.hidden
           : hidden // ignore: cast_nullable_to_non_nullable
-              as bool,
-      readonly: null == readonly
-          ? _value.readonly
-          : readonly // ignore: cast_nullable_to_non_nullable
               as bool,
       mandatory: null == mandatory
           ? _value.mandatory
@@ -107,14 +70,7 @@ abstract class _$$ElementPropertiesImplCopyWith<$Res>
       __$$ElementPropertiesImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {int order,
-      String? label,
-      String? placeholder,
-      bool disabled,
-      bool hidden,
-      bool readonly,
-      bool mandatory});
+  $Res call({bool hidden, bool mandatory});
 }
 
 /// @nodoc
@@ -128,38 +84,13 @@ class __$$ElementPropertiesImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? order = null,
-    Object? label = freezed,
-    Object? placeholder = freezed,
-    Object? disabled = null,
     Object? hidden = null,
-    Object? readonly = null,
     Object? mandatory = null,
   }) {
     return _then(_$ElementPropertiesImpl(
-      order: null == order
-          ? _value.order
-          : order // ignore: cast_nullable_to_non_nullable
-              as int,
-      label: freezed == label
-          ? _value.label
-          : label // ignore: cast_nullable_to_non_nullable
-              as String?,
-      placeholder: freezed == placeholder
-          ? _value.placeholder
-          : placeholder // ignore: cast_nullable_to_non_nullable
-              as String?,
-      disabled: null == disabled
-          ? _value.disabled
-          : disabled // ignore: cast_nullable_to_non_nullable
-              as bool,
       hidden: null == hidden
           ? _value.hidden
           : hidden // ignore: cast_nullable_to_non_nullable
-              as bool,
-      readonly: null == readonly
-          ? _value.readonly
-          : readonly // ignore: cast_nullable_to_non_nullable
               as bool,
       mandatory: null == mandatory
           ? _value.mandatory
@@ -174,38 +105,18 @@ class __$$ElementPropertiesImplCopyWithImpl<$Res>
 class _$ElementPropertiesImpl
     with DiagnosticableTreeMixin
     implements _ElementProperties {
-  const _$ElementPropertiesImpl(
-      {this.order = 0,
-      this.label,
-      this.placeholder,
-      this.disabled = false,
-      this.hidden = false,
-      this.readonly = false,
-      this.mandatory = false});
+  const _$ElementPropertiesImpl({this.hidden = false, this.mandatory = false});
 
   @override
   @JsonKey()
-  final int order;
-  @override
-  final String? label;
-  @override
-  final String? placeholder;
-  @override
-  @JsonKey()
-  final bool disabled;
-  @override
-  @JsonKey()
   final bool hidden;
-  @override
-  @JsonKey()
-  final bool readonly;
   @override
   @JsonKey()
   final bool mandatory;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ElementProperties(order: $order, label: $label, placeholder: $placeholder, disabled: $disabled, hidden: $hidden, readonly: $readonly, mandatory: $mandatory)';
+    return 'ElementProperties(hidden: $hidden, mandatory: $mandatory)';
   }
 
   @override
@@ -213,12 +124,7 @@ class _$ElementPropertiesImpl
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'ElementProperties'))
-      ..add(DiagnosticsProperty('order', order))
-      ..add(DiagnosticsProperty('label', label))
-      ..add(DiagnosticsProperty('placeholder', placeholder))
-      ..add(DiagnosticsProperty('disabled', disabled))
       ..add(DiagnosticsProperty('hidden', hidden))
-      ..add(DiagnosticsProperty('readonly', readonly))
       ..add(DiagnosticsProperty('mandatory', mandatory));
   }
 
@@ -227,22 +133,13 @@ class _$ElementPropertiesImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ElementPropertiesImpl &&
-            (identical(other.order, order) || other.order == order) &&
-            (identical(other.label, label) || other.label == label) &&
-            (identical(other.placeholder, placeholder) ||
-                other.placeholder == placeholder) &&
-            (identical(other.disabled, disabled) ||
-                other.disabled == disabled) &&
             (identical(other.hidden, hidden) || other.hidden == hidden) &&
-            (identical(other.readonly, readonly) ||
-                other.readonly == readonly) &&
             (identical(other.mandatory, mandatory) ||
                 other.mandatory == mandatory));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, order, label, placeholder,
-      disabled, hidden, readonly, mandatory);
+  int get hashCode => Object.hash(runtimeType, hidden, mandatory);
 
   @JsonKey(ignore: true)
   @override
@@ -253,27 +150,11 @@ class _$ElementPropertiesImpl
 }
 
 abstract class _ElementProperties implements ElementProperties {
-  const factory _ElementProperties(
-      {final int order,
-      final String? label,
-      final String? placeholder,
-      final bool disabled,
-      final bool hidden,
-      final bool readonly,
-      final bool mandatory}) = _$ElementPropertiesImpl;
+  const factory _ElementProperties({final bool hidden, final bool mandatory}) =
+      _$ElementPropertiesImpl;
 
   @override
-  int get order;
-  @override
-  String? get label;
-  @override
-  String? get placeholder;
-  @override
-  bool get disabled;
-  @override
   bool get hidden;
-  @override
-  bool get readonly;
   @override
   bool get mandatory;
   @override

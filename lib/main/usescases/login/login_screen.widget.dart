@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:mass_pro/commons/constants.dart';
 import 'package:mass_pro/commons/custom_widgets/mixins/keyboard_manager.dart';
-import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
+import 'package:mass_pro/commons/logging/logging.dart';
 import 'package:mass_pro/commons/network/network_utils.dart';
 import 'package:mass_pro/commons/resources/resource_manager.dart';
 import 'package:mass_pro/data_run/screens/home_screen/home_screen.widget.dart';
@@ -338,7 +338,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
 
   @override
   void saveUsersData(bool isInitialSyncDone) {
-    logInfo(info: '''saveUsersData, isInitialSyncDone: $isInitialSyncDone, 
+    logDebug(info: '''saveUsersData, isInitialSyncDone: $isInitialSyncDone, 
             ${isInitialSyncDone ? 'so will skipSync' : 'so will start ync'}''');
 
     skipSync = isInitialSyncDone;

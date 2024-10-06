@@ -8,7 +8,6 @@ import 'package:d2_remote/modules/datarun/form/entities/form_definition.entity.d
 import 'package:d2_remote/modules/datarun/form/shared/attribute_type.dart';
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:mass_pro/data_run/screens/form/element/service/device_info_service.dart';
-import 'package:mass_pro/data_run/screens/form/element/dependency/dependency_resolver.dart';
 import 'package:mass_pro/data_run/screens/form/element/factories/form_element_control_factory.dart';
 import 'package:mass_pro/data_run/screens/form/element/factories/form_element_factory.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
@@ -30,12 +29,10 @@ class FormInstanceService {
       {required FormTemplateV template,
       AndroidDeviceInfoService? deviceInfoService,
       required this.formMetadata,
-      required DependencyResolver dependencyResolver,
       required this.orgUnit})
       : _template = template,
         _uuid = Uuid().v4(),
-        _deviceInfoService = deviceInfoService,
-        _dependencyResolver = dependencyResolver {
+        _deviceInfoService = deviceInfoService {
     _formOptionsMapCache.addAll(Map.fromIterable(
         template.options..sort((a, b) => (a.order).compareTo(b.order)),
         key: (option) => option.listName,
@@ -50,7 +47,6 @@ class FormInstanceService {
   final AndroidDeviceInfoService? _deviceInfoService;
   final FormTemplateV _template;
   final Map<String, List<FormOption>> _formOptionsMapCache = {};
-  final DependencyResolver _dependencyResolver;
 
   FormTemplateV get template => _template;
 
@@ -139,8 +135,6 @@ class FormInstanceService {
   Future<Map<String, FormElementInstance<dynamic>>> formDataElements(
       FormGroup form) async {
     final Map<String, FormElementInstance<dynamic>> elements = {};
-    // final form = FormGroup(await _formDataControls());
-    // final form = await _form();
 
     final savedValue = await loadFormData();
     for (var element in template.fields) {
@@ -149,9 +143,6 @@ class FormInstanceService {
           formOptionsMap: formOptionsMapCache,
           savedValue: savedValue?[element.name]);
     }
-
-    // await loadFormData(elements);
-    // _dependencyResolver.resolvePendingDependencies();
     return elements;
   }
 

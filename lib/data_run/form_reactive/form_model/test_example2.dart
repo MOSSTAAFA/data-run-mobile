@@ -1,4 +1,3 @@
-
 class FormField {
   FormField({
     required this.name,
@@ -14,14 +13,15 @@ class FormField {
 }
 
 class Rule {
-  Rule({
-    required this.expression,
-    required this.action,
-    required this.dependencies,
-  });
+  Rule(
+      {required this.expression,
+      required this.action,
+      required this.dependencies,
+      required this.field});
 
   String expression;
   String action;
+  String field;
   List<String> dependencies;
 }
 
@@ -86,17 +86,26 @@ class EventDispatcher {
   bool _evaluateRule(Rule rule) {
     // Implement rule evaluation logic here
     // ...
+    print(
+
+            'rule: with dependencies: [${rule.dependencies}]: ${rule.expression}');
     return true; // Placeholder
   }
 
   void _applyAction(Rule rule) {
     // Implement action application logic here
     // ...
+    print(
+
+        'rule: applying action: [${rule.action}] for field: ${rule.field}');
   }
 
   void _applyChoiceFilter(FormField field) {
     // Implement choice filter application logic here
     // ...
+    print(
+
+        'rule: _applyChoiceFilter: ${field.name}');
   }
 
   // Topological sort algorithm
@@ -127,7 +136,7 @@ class EventDispatcher {
       }
     }
 
-    return result.reversed.toList();
+    return result.toList();
   }
 }
 
@@ -142,7 +151,10 @@ void main() {
     name: 'fieldB',
     rules: [
       Rule(
-          dependencies: ['fieldA'], expression: 'fieldA == 10', action: 'show'),
+          field: 'fieldB',
+          dependencies: ['fieldA'],
+          expression: 'fieldA == 10',
+          action: 'show'),
     ],
   );
 
@@ -150,13 +162,37 @@ void main() {
     name: 'fieldC',
     rules: [
       Rule(
+          field: 'fieldC',
           dependencies: ['fieldB'],
           expression: 'fieldB == 20',
           action: 'makeMandatory'),
     ],
   );
 
-  var form = Form(fields: [fieldA, fieldB, fieldC]);
+  var fieldD = FormField(
+    name: 'fieldD',
+    rules: [
+      Rule(
+          field: 'fieldD',
+          dependencies: ['fieldA', 'fieldB', 'fieldE'],
+          expression: 'fieldA == 20 && fieldB >= 20 && fieldD == 5',
+          action: 'makeMandatory'),
+    ],
+  );
+
+  var fieldE = FormField(
+    name: 'fieldE',
+
+    rules: [
+      Rule(
+          field: 'fieldE',
+          dependencies: ['fieldC', 'fieldB'],
+          expression: 'fieldB == 20 && fieldC >= 20',
+          action: 'makeMandatory'),
+    ],
+  );
+
+  var form = Form(fields: [fieldA, fieldB, fieldC, fieldD, fieldE]);
   var eventDispatcher = EventDispatcher(form);
 
   print('ff$form');

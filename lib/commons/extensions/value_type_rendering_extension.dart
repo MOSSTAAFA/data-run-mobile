@@ -1,6 +1,5 @@
 import 'package:mass_pro/sdk/core/common/value_type_rendering_type.dart';
-
-import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
+import 'package:mass_pro/commons/logging/logging.dart';
 
 extension ValueTypeRenderingExtnsion on String? {
   ValueTypeRenderingType? get toValueTypeRenderingType {
@@ -11,7 +10,7 @@ extension ValueTypeRenderingExtnsion on String? {
       //     orElse: throw ArgumentError(
       //         'The ValueTypeRenderingType $this does not match any Value type'));
     } catch (e) {
-      logInfo(info: 'The ValueTypeRenderingType $this does not match any Enum Value');
+      logDebug(info: 'The ValueTypeRenderingType $this does not match any Enum Value');
       return null;
     }
   }

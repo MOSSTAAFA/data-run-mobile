@@ -1,22 +1,29 @@
 part of '../form_element.dart';
 
 extension FormElementRuleEvaluation<T> on FormElementInstance<T> {
+  Map<String, dynamic> get evalContext {
+    return {
+      for (final dependency in _notifiers.values)
+        dependency.name: dependency.value
+    };
+  }
+
   List<Rule> rulesToEvaluate(String dependencyName) => template.rules
       .where((rule) => rule.dependencies.contains(dependencyName))
       .toList();
 
-  Map<String, dynamic> get evalContext {
-    return {
-      for (final dependency in _dependencies) dependency.name: dependency.value
-    };
-  }
-
-  void reEvaluate() {
-    // TODO
-    // Re-evaluate this field based on the values of multiple dependencies
-    // Logic to aggregate dependency values and decide new state
-    // the context of evaluation constructed from dependencies.
+  void evaluateRules(String dependencyChanged) {
+    try {
+      final ruleEvaluator = RuleEvaluator(actionsBehaviours);
+      ruleEvaluator.evaluateAndApply(this);
+      if (filteringDependencies.contains(dependencyChanged) &&
+          this is FieldInstance) {
+        (this as FieldInstance).filterOptions(
+            dependencyChanged, dependencies[dependencyChanged]?.value);
+      }
+    } catch (e) {
+      logError(
+          error: 'Error evaluating: ${name}, notifier: ${dependencyChanged}');
+    }
   }
 }
-
-extension FormElementEvaluation<T> on FormElementInstance<T> {}

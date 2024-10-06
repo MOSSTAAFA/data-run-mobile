@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/element_widgets/section.widget.dart';
 import 'package:mass_pro/data_run/screens/form/field_widgets/improved_expansion_tile.widget.dart';
+import 'package:mass_pro/data_run/screens/form/hooks/register_dependencies.dart';
 import 'package:mass_pro/data_run/screens/form/inherited_widgets/section_inherited.widget.dart';
 import 'package:mass_pro/generated/l10n.dart';
 
@@ -21,6 +22,7 @@ class RepeatItem extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final expanded = useState(element.expanded);
+    // useRegisterDependencies(element);
     return ImprovedExpansionTile(
       leading: Icon(Icons.table_rows),
       maintainState: true,
@@ -30,12 +32,12 @@ class RepeatItem extends HookWidget {
         expanded.value = ex;
       },
       titleWidget: Tooltip(
-        message: '${index + 1}. ${element.properties.label}',
+        message: '${index + 1}. ${element.label}',
         child: Row(
           children: [
             Expanded(
               child: Text(
-                '${index + 1}. ${element.properties.label}',
+                '${index + 1}. ${element.label}',
                 overflow: TextOverflow.fade,
                 maxLines: 1,
                 style: TextStyle(

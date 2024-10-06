@@ -36,6 +36,8 @@ class FormInstance {
   /// that will store the values, and values will be saved or loaded to it
   final Map<String, FormElementInstance<dynamic>> _elements = {};
 
+  /// serves as the root parent of the form
+
   SectionInstance get formSection => SectionInstance(
       template: FieldTemplate(
           mandatory: false,
@@ -45,16 +47,16 @@ class FormInstance {
       form: form)
     ..addAll(elements);
 
-  /// the form Template, dynamically describes the form
+  Map<String, List<FormOption>> get formOptionsMap =>
+      _formInstanceService.formOptionsMapCache;
+
+  /// the form Template, dynamically describes the form's
   /// elements and their configurations
   FormTemplateV get template => _formInstanceService.template;
 
   FormMetadata get metadata => _formInstanceService.formMetadata;
 
   String? get submissionUid => metadata.submission;
-
-  Map<String, List<FormOption>> get formOptionsMap =>
-      _formInstanceService.formOptionsMapCache;
 
   Map<String, FormElementInstance<dynamic>> get elements =>
       Map.unmodifiable(_elements);
