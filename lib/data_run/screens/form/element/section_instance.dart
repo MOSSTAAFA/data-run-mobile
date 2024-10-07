@@ -156,15 +156,17 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
   @override
   void markAsHidden({bool updateParent = true, bool emitEvent = true}) {
     _elements.forEach((_, element) {
-      element.markAsHidden(updateParent: true);
+      element.markAsHidden(updateParent: true, emitEvent: emitEvent);
     });
+    super.markAsHidden(updateParent: updateParent, emitEvent: emitEvent);
   }
 
   @override
   void markAsVisible({bool updateParent = true, bool emitEvent = true}) {
     _elements.forEach((_, element) {
-      element.markAsVisible();
+      element.markAsVisible(updateParent: true, emitEvent: emitEvent);
     });
+    super.markAsVisible(updateParent: updateParent, emitEvent: emitEvent);
   }
 // void updateSectionValue(
 //   Map<String, Object?>? value, {

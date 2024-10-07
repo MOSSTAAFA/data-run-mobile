@@ -18,8 +18,8 @@ class SectionWidget extends HookConsumerWidget {
       formGroup: element.elementControl,
       child: Column(
         children: element.elements.values.map((childElement) {
-          // return FormElementWidgetFactory.createWidget(childElement);
-          return FormElementWidget(element: childElement);
+          return FormElementWidgetFactory.createWidget(childElement);
+          // return FormElementWidget(element: childElement);
         }).toList(),
       ),
     );

@@ -1,12 +1,11 @@
 part of 'form_element.dart';
 
 class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
-  RepeatInstance({
-    required super.template,
-    required super.form,
-    super.expanded = false,
-    List<RepeatItemInstance> elements = const []
-  }) {
+  RepeatInstance(
+      {required super.template,
+      required super.form,
+      super.expanded = false,
+      List<RepeatItemInstance> elements = const []}) {
     this._elements.addAll(elements);
     addAll(elements);
 
@@ -564,6 +563,22 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
   //         savedValue: value)
   //   });
   // }
+
+  @override
+  void markAsHidden({bool updateParent = true, bool emitEvent = true}) {
+    forEachChild((element) {
+      element.markAsHidden(updateParent: true, emitEvent: emitEvent);
+    });
+    super.markAsHidden(updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  @override
+  void markAsVisible({bool updateParent = true, bool emitEvent = true}) {
+    forEachChild((element) {
+      element.markAsVisible(updateParent: true, emitEvent: emitEvent);
+    });
+    super.markAsVisible(updateParent: updateParent, emitEvent: emitEvent);
+  }
 
   @override
   FormArray<Map<String, Object?>> get elementControl =>

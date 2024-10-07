@@ -31,25 +31,20 @@ class FieldInstance<T> extends FormElementInstance<T>
   AttributeType? get attributeType => template.attributeType;
 
   void filterOptions(String dependencyChangedName, dynamic value) {
-    loggerEvaluation.d({
-      'Listener: $name notified: $dependencyChangedName changed to':
-          '${dependencies[dependencyChangedName]?.value}',
-      'Evaluating Filter:':
-          '${template.choiceFilter != null ? '\'${template.choiceFilter}\'' : ''}',
-    });
-    if (filteringDependencies.contains(dependencyChangedName)) {
-      final filteredOptions = template.options.where((option) {
-        final optionContext = option.toContext();
-        final evaluationContext = {...optionContext, ...evalContext};
-        return evaluationEngine.evaluateExpression(
-            template.evalChoiceFilterExpression!, evaluationContext);
-      }).toList();
+    final filteredOptions = template.options.where((option) {
+      final optionContext = option.toContext();
+      final evaluationContext = {...optionContext, ...evalContext};
+      return evaluationEngine.evaluateExpression(
+          template.evalChoiceFilterExpression!, evaluationContext);
+    }).toList();
 
-      // _options.clear();
-      // _options.addAll(filteredOptions);
-      _filterController.add(filteredOptions);
-      notifyListeners(); // which will mare this as dirty which emit statusChanged
-    }
+    // _options.clear();
+    // _options.addAll(filteredOptions);
+    _filterController.add(filteredOptions);
+    final filteredOp = filteredOptions
+        .where((option) => option.name == value).firstOrNull;
+    elementControl?.reset(value: filteredOp);
+    // notifyListeners(); // which will mare this as dirty which emit statusChanged
   }
 
   @override
@@ -89,4 +84,25 @@ class FieldInstance<T> extends FormElementInstance<T>
     elementControl?.dispose();
     super.dispose();
   }
+
+  @override
+  void evaluateRules(String dependencyChanged, dynamic value) {
+    super.evaluateRules(dependencyChanged, value);
+    try {
+      if (filteringDependencies.contains(dependencyChanged)) {
+        loggerEvaluation.d({
+          'Listener: $name notified: $dependencyChanged changed to':
+              '${_contextElement[dependencyChanged]}',
+          'Evaluating Filter:':
+              '${template.choiceFilter != null ? '\'${template.choiceFilter}\'' : ''}',
+        });
+        filterOptions(dependencyChanged, _contextElement[dependencyChanged]);
+      }
+    } catch (e) {
+      loggerEvaluation.e(
+          'Error evaluating filter: ${name}, for filter context element: ${dependencyChanged}');
+    }
+  }
+
+  List<String> get filteringDependencies => template.filterDependencies;
 }

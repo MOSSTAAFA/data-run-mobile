@@ -12,18 +12,18 @@ import 'package:mass_pro/data_run/screens/form/rule/actions/hide_behaviour.dart'
 class ActionBehaviourFactory {
   static ActionBehaviour createAction(Rule rule) =>
       switch (rule.ruleAction.action) {
-        Action.Assign =>
+        ActionType.Assign =>
             AssignBehaviour(rule.evalExpression!,
                 value: rule.ruleAction.assignedValue),
-        Action.Hide => HideBehaviour(rule.evalExpression!),
-        Action.Show => ShowBehaviour(rule.evalExpression!),
-        Action.Error =>
+        ActionType.Hide => HideBehaviour(rule.evalExpression!),
+        ActionType.Show => ShowBehaviour(rule.evalExpression!),
+        ActionType.Error =>
             ErrorBehaviour(rule.evalExpression!,
                 message: rule.ruleAction.message),
-        Action.Warning =>
+        ActionType.Warning =>
             WarningBehaviour(rule.evalExpression!,
                 message: rule.ruleAction.message),
-        Action.Mandatory => MarkMandatoryBehaviour(rule.evalExpression!),
+        ActionType.Mandatory => MarkMandatoryBehaviour(rule.evalExpression!),
         _ => UnimplementedActionBehaviour(rule.evalExpression!)
       };
 }

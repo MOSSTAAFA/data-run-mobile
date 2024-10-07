@@ -8,6 +8,6 @@ class EvaluationResult {
     this.value,
   });
 
-  final Action action;
+  final ActionType action;
   final dynamic value;
 }

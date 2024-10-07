@@ -4,33 +4,6 @@ import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/rule/actions/action_behaviour.dart';
 import 'package:mass_pro/data_run/screens/form/rule/actions/action_behaviour_factory.dart';
 
-final bool prettyPrinter = true;
-final LogPrinter logPrinter = prettyPrinter
-    ? PrettyPrinter(
-        colors: true,
-        methodCount: 0,
-        printEmojis: false,
-        excludeBox: {
-          Level.trace: true,
-          Level.info: true,
-        },
-      )
-    : SimplePrinter(
-        colors: true,
-      );
-
-final loggerInitialization = Logger(
-    printer: PrettyPrinter(
-      colors: true,
-      methodCount: 0,
-      printEmojis: false,
-      excludeBox: {
-        Level.trace: true,
-        Level.info: true,
-      },
-    ),
-    level: Level.debug);
-
 void useRegisterDependencies(FormElementInstance<dynamic> element) {
   final loggerInitialization = Logger(
       printer: PrettyPrinter(
@@ -39,6 +12,7 @@ void useRegisterDependencies(FormElementInstance<dynamic> element) {
           printEmojis: false,
           excludeBox: {Level.trace: true, Level.info: true}),
       level: Level.debug);
+
   final resolvedNotifiers = useMemoized(() {
     if (!element.type.isSectionType) {
       loggerInitialization.i(
@@ -66,25 +40,38 @@ void useRegisterDependencies(FormElementInstance<dynamic> element) {
 
   // resolved and bind notifiers and rule actions behaviours.
   useEffect(() {
-    // element.setNotifiers(resolvedNotifiers);
-
     // bind
     for (final notifier in resolvedNotifiers.values) {
       loggerInitialization
           .d('Setting ${element.name} as Listener for: ${notifier.name}');
-      element.addNotifier(notifier);
-      notifier.addListener(element);
-      element.setActionBehaviour(actionsBehaviours[notifier.name] ?? []);
-      // if (notifier.value != null) {
-      //   element.onDependencyChanged(notifier.name, notifier.value);
-      // }
+      element.addContextElement(notifier);
+
+      final elementCallback = () {
+        loggerInitialization.d(
+            'elementCallback.. Notifier changed: ${notifier.name}, notifying: ${element.name}');
+        element.onDependencyChanged(notifier.name, notifier.value);
+        element.elementControl
+            ?.reset(value: element.value, emitEvent: true, updateParent: true);
+      };
+
+      notifier.addListener(elementCallback);
+      element
+          .setActionBehaviourToEvaluate(actionsBehaviours[notifier.name] ?? []);
+
+      if (notifier.value == null) {
+        element.onDependencyChanged(notifier.name, notifier.value);
+      }
       notifier.elementControl!.statusChanged.listen((value) {
         loggerInitialization
-            .d('Notifier: ${notifier.name}, notifying: ${element.name}');
-        element.onDependencyChanged(notifier.name, value);
+            .d('${notifier.name} statusChanged, notifying: ${element.name}');
+        element.onDependencyChanged(notifier.name, notifier.value);
+      }, onDone: () {
+        loggerInitialization.d(
+            'notifier ${notifier.name} Done, removing ${element.name} listener');
+        notifier.removeListener(elementCallback);
       });
     }
-  }, [resolvedNotifiers]);
+  }, [element.elementChanged]);
 }
 
 Map<String, FormElementInstance<dynamic>> _resolveNotifiers(

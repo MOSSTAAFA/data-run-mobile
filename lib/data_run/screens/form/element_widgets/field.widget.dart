@@ -15,19 +15,6 @@ class FieldWidget extends HookWidget {
     // final elementConfig = useState(element.properties);
     useRegisterDependencies(element);
 
-    // registering deps.
-    // useRegisterDependencies(element);
-
-    // if (elementConfig.value.hidden) {
-    //   return SizedBox.shrink();
-    // }
-    // final elementChanged =
-    //     useStream(element.elementChanged, initialData: element.properties);
-
-    // if (elementChanged.data!.hidden) {
-    //   return SizedBox.shrink();
-    // }
-
     return Card(
       shadowColor: Theme.of(context).colorScheme.shadow,
       surfaceTintColor: Theme.of(context).colorScheme.primary,

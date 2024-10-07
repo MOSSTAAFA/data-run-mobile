@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:mass_pro/data_run/screens/form/inherited_widgets/section_inherited.widget.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 import 'package:d2_remote/core/datarun/utilities/date_utils.dart' as sdk;
+import 'package:rxdart/streams.dart';
 
-class QDatePickerField extends StatelessWidget {
+class QDatePickerField extends HookWidget {
   const QDatePickerField({super.key, required this.element});
 
   final FieldInstance<dynamic> element;
@@ -12,17 +14,8 @@ class QDatePickerField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final section = SectionInheritedWidget.of(context);
-    final pathR = section.pathRecursive;
-    final pathBu = section.pathBuilder(element.name);
-    final pathBu2 = section.elementPath;
-    final formControl = section.elementControl;
-    final forfmControl = formControl;
-
     return ReactiveTextField<String?>(
       formControl: element.elementControl as FormControl<String?>,
-      // formControlName: element.name,
-      // valueAccessor: QDateTimeValueAccessor(),
       readOnly: true,
       decoration: InputDecoration(
         labelText: element.label,

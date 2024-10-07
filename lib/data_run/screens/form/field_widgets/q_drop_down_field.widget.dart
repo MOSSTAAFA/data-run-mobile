@@ -7,6 +7,7 @@ import 'package:mass_pro/data_run/screens/form/element/validation/form_element_v
 import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
 import 'package:reactive_dropdown_search/reactive_dropdown_search.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
+import 'package:rxdart/streams.dart';
 
 class QDropDownField extends HookConsumerWidget {
   const QDropDownField({super.key, required this.element});
@@ -15,28 +16,14 @@ class QDropDownField extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // the element options from the form instance
-    // final formOptionsMap = ref
-    //     .watch(
-    //         formInstanceProvider(formMetaData: FormMetadataWidget.of(context)))
-    //     .requireValue
-    //     .formOptionsMap;
-    //
-    // final fieldOptions = formOptionsMap[element.listName]
-    //   ?..sort((a, b) => (a.order).compareTo(b.order));
-
     final filteredOptions =
         useStream(element.filterChanged, initialData: element.template.options);
 
-    return getAutoComplete(filteredOptions.data!, context);
-  }
-
-  getAutoComplete(List<FormOption> options, BuildContext context) {
     return ReactiveDropdownSearch<String, String>(
       formControlName: element.name,
       clearButtonProps: const ClearButtonProps(isVisible: true),
       validationMessages: validationMessages(context),
-      valueAccessor: NameToLabelValueAccessor(options),
+      valueAccessor: NameToLabelValueAccessor(filteredOptions.data!),
       dropdownDecoratorProps: DropDownDecoratorProps(
         dropdownSearchDecoration: InputDecoration(
           labelText: element.label,
@@ -47,10 +34,10 @@ class QDropDownField extends HookConsumerWidget {
       popupProps: PopupProps.menu(
         showSelectedItems: true,
       ),
-      items: options
-              .map((option) => getItemLocalString(option.label))
-              .toSet()
-              .toList() ??
+      items: filteredOptions.data!
+          .map((option) => getItemLocalString(option.label))
+          .toSet()
+          .toList() ??
           [],
       showClearButton: true,
     );

@@ -1,43 +1,27 @@
 part of '../form_element.dart';
 
-final pretty = true;
-final LogPrinter logPrinter = pretty
-    ? PrettyPrinter(
-        colors: true,
-        methodCount: 0,
-        printEmojis: false,
-        excludeBox: {
-          Level.trace: true,
-          Level.info: true,
-        },
-      )
-    : SimplePrinter(
-        colors: true, /*methodCount: 0*/
-      );
+abstract class ElementRuleDependencyManager<T> {
 
-final loggerEvaluation = Logger(printer: logPrinter, level: Level.debug);
+  // final Map<String, ElementRuleDependencyManager<dynamic>> _listeners = {};
 
-extension ElementDependencyRegistration<T> on FormElementInstance<T> {
-  List<String> get filteringDependencies => template.filterDependencies;
+  // void addListener(ElementRuleDependencyManager<dynamic> dependent) =>
+  //     _listeners[dependent.name] = dependent;
 
-  List<String> get rulesDependencies => template.dependencies;
 
-  List<String> get requiredNotifiersNames =>
-      [...filteringDependencies, ...rulesDependencies];
+  // Map<String, ElementRuleDependencyManager<dynamic>> get dependents =>
+  //     Map.unmodifiable(_listeners);
 
-  void setUnresolvedDependencies(List<String> unresolved) {
-    logWarning(
-        warning: 'Unresolved ${unresolved} dependencies for element: $name');
-    _unresolvedDependencies.clear();
-    _unresolvedDependencies.addAll(unresolved);
-  }
+  //
+  // Map<String, ElementRuleDependencyManager<dynamic>> get dependencies =>
+  //     Map.unmodifiable(_notifiers);
 
-  void notifyListeners() {
-    for (final dependent in _listeners.values) {
-      dependent.onDependencyChanged(name, value);
-      // Future.microtask(() => dependent.onDependencyChanged(name, value));
-    }
-  }
+
+  // void notifyListeners(String notifierName) {
+  //   for (final listener in _listeners.values) {
+  //     listener.onDependencyChanged(notifierName);
+  //     // Future.microtask(() => dependent.onDependencyChanged(name, value));
+  //   }
+  // }
 
   // void notifyListeners() {
   //   for (final dependent in _listeners.values) {
@@ -45,44 +29,21 @@ extension ElementDependencyRegistration<T> on FormElementInstance<T> {
   //   }
   // }
 
-  void onDependencyChanged(String notifierName, dynamic value) {
-    final toEvaluate = template.rules.map((rule) => rule.expression);
-    loggerEvaluation.d({
-      'Listener: $name notified: $notifierName changed to':
-          '${dependencies[notifierName]?.value}',
-      '${toEvaluate.isNotEmpty ? 'Evaluating Rule: $toEvaluate' : ''}${template.choiceFilter != null ? 'Evaluating Filter:' : ''}':
-          '${toEvaluate.isNotEmpty ? '$toEvaluate' : ''}${template.choiceFilter != null ? '\'${template.choiceFilter}\'' : ''}',
-    });
-
-    if (_isEvaluating) {
-      return;
-    }
-
-    _isEvaluating = true;
-
-    try {
-      evaluateRules(notifierName);
-      elementControl?.markAsTouched(emitEvent: true, updateParent: false);
-      notifyListeners();
-    } finally {
-      _isEvaluating = false;
-    }
-  }
-
-  void setNotifiers(Map<String, FormElementInstance<dynamic>> notifiers) {
-    _unresolvedDependencies.clear();
-    _unresolvedDependencies.addAll(
-        requiredNotifiersNames.where((item) => !notifiers.keys.contains(item)));
-    if (_unresolvedDependencies.length > 0) {
-      loggerEvaluation.w({
-        'unresolved dependencies': _unresolvedDependencies,
-        'element': name,
-      });
-    }
-
-    _notifiers.addAll(notifiers);
-    // final Listenable fff = Listenable.merge(notifiers.values);
-  }
+  // void onDependencyChanged(String notifierName);
+// void setNotifiers(Map<String, FormElementInstance<dynamic>> notifiers) {
+//   _unresolvedDependencies.clear();
+//   _unresolvedDependencies.addAll(
+//       requiredNotifiersNames.where((item) => !notifiers.keys.contains(item)));
+//   if (_unresolvedDependencies.length > 0) {
+//     loggerEvaluation.w({
+//       'unresolved dependencies': _unresolvedDependencies,
+//       'element': name,
+//     });
+//   }
+//
+//   _notifiers.addAll(notifiers);
+//   // final Listenable fff = Listenable.merge(notifiers.values);
+// }
 }
 
 extension ElementDependencyLookup<T> on FormElementInstance<T> {

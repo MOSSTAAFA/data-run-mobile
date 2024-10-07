@@ -7,6 +7,7 @@ import 'package:d2_remote/modules/datarun/form/shared/rule/rule.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule/rule_parse_extension.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:flutter/material.dart';
+import 'package:mass_pro/commons/extensions/list_extensions.dart';
 import 'package:mass_pro/commons/logging/logging.dart';
 import 'package:mass_pro/data_run/screens/form/element/factories/form_element_control_factory.dart';
 import 'package:mass_pro/data_run/screens/form/element/exceptions/form_element_exception.dart';
@@ -35,8 +36,18 @@ part 'extension/element_dependency.extension.dart';
 
 part 'extension/element_rule.extension.dart';
 
-sealed class FormElementInstance<T> {
+final _loggerEvaluation = Logger(
+    printer: PrettyPrinter(
+        colors: true,
+        methodCount: 0,
+        printEmojis: false,
+        excludeBox: {Level.trace: true, Level.info: true}),
+    level: Level.debug);
+
+sealed class FormElementInstance<T> extends ElementRuleEvaluationContext<T>
+    with ChangeNotifier {
   final _elementChanges = StreamController<ElementProperties>.broadcast();
+  final FormControl<ElementProperties> propertiesControl;
 
   // final _visibilityController = StreamController<bool>.broadcast();
   // final _mandatoryController = StreamController<bool>.broadcast();
@@ -48,36 +59,28 @@ sealed class FormElementInstance<T> {
   FormElementInstance(
       {required this.form, required this.template, bool hidden = false})
       : _properties =
-            ElementProperties(mandatory: template.mandatory, hidden: hidden);
+            ElementProperties(mandatory: template.mandatory, hidden: hidden),
+propertiesControl = FormControl(value: ElementProperties(hidden: hidden)) {
+    if (hidden) {
+      markAsHidden(emitEvent: false);
+    }
+  }
 
   /// serialized from the field json configuration
   final FieldTemplate template;
 
   final FormGroup form;
 
+  @override
   String get name => template.name;
 
-  //<editor-fold desc="Rules eval and dependencies management">
-  final Map<String, FormElementInstance<dynamic>> _listeners = {};
-  final Map<String, FormElementInstance<dynamic>> _notifiers = {};
+  @override
+  List<Rule> get rules => template.rules;
 
-  final List<ActionBehaviour> _actionBehaviours = [];
+  List<String> get rulesDependencies => template.dependencies;
 
-  FormElementInstance<dynamic>? removeListener(String name) {
-    return _listeners.remove(name);
-  }
-
-  Map<String, FormElementInstance<dynamic>> get dependents =>
-      Map.unmodifiable(_listeners);
-
-  Map<String, FormElementInstance<dynamic>> get dependencies =>
-      Map.unmodifiable(_notifiers);
-  final List<String> _unresolvedDependencies = [];
-
-  List<ActionBehaviour> get actionBehaviours =>
-      List.unmodifiable(_actionBehaviours);
-
-  bool _isEvaluating = false;
+  List<String> get requiredNotifiersNames =>
+      [...template.filterDependencies, ...rulesDependencies];
 
   //</editor-fold>
 
@@ -87,10 +90,10 @@ sealed class FormElementInstance<T> {
 
   FormElementInstance<Object>? get parentSection => _parentSection;
 
-  final List<ActionBehaviour> _actionsBehaviours = [];
-
-  List<ActionBehaviour> get actionsBehaviours =>
-      List.unmodifiable(_actionsBehaviours);
+  // final List<ActionBehaviour> _actionsBehaviours = [];
+  //
+  // List<ActionBehaviour> get actionsBehaviours =>
+  //     List.unmodifiable(_actionsBehaviours);
 
   set parentSection(FormElementInstance<Object>? parent) {
     if (this is RepeatItemInstance && !(parent is RepeatInstance?)) {
@@ -144,17 +147,6 @@ sealed class FormElementInstance<T> {
       return false;
     }
   }
-
-  void setActionBehaviour(List<ActionBehaviour> actionBehaviours) {
-    _actionBehaviours.clear();
-    _actionBehaviours.addAll(actionBehaviours);
-  }
-
-  void addListener(FormElementInstance<dynamic> dependent) =>
-      _listeners[dependent.name] = dependent;
-
-  void addNotifier(FormElementInstance<dynamic> dependency) =>
-      _notifiers[dependency.name] = dependency;
 
   void updateValue(T? value, {bool updateParent = true, bool emitEvent = true});
 
@@ -214,8 +206,8 @@ sealed class FormElementInstance<T> {
       return;
     }
     _elementChanges.add(_properties.copyWith(hidden: true));
-    // elementControl?.markAsDisabled(
-    //     updateParent: updateParent, emitEvent: emitEvent);
+    elementControl?.markAsDisabled(
+        updateParent: updateParent, emitEvent: emitEvent);
   }
 
   void markAsVisible({bool updateParent = true, bool emitEvent = true}) {
@@ -223,8 +215,8 @@ sealed class FormElementInstance<T> {
       return;
     }
     _elementChanges.add(_properties.copyWith(hidden: false));
-    // elementControl?.markAsEnabled(
-    //     updateParent: updateParent, emitEvent: emitEvent);
+    elementControl?.markAsEnabled(
+        updateParent: updateParent, emitEvent: emitEvent);
   }
 
   void toggleMandatory({bool updateParent = true, bool emitEvent = true}) {
@@ -262,11 +254,32 @@ sealed class FormElementInstance<T> {
     // implement
   }
 
+  // void applyActions() {
+  //   inEffectActions.forEach((action))
+  // }
+
+  @mustCallSuper
+  void evaluateRules(String dependencyChanged, dynamic value) {
+    if (rulesDependencies.contains(dependencyChanged)) {
+      loggerEvaluation
+          .d('element: $name evaluate rules with: $dependencyChanged= $value');
+      try {
+        final ruleEvaluator = RuleEvaluator(_actionBehaviours);
+        ruleEvaluator.evaluateAndApply(this);
+      } catch (e) {
+        logError(
+            error: 'Error evaluating: ${name}, notifier: ${dependencyChanged}');
+      }
+      notifyListeners();
+    }
+  }
+
   void dispose() {
+    super.dispose();
     loggerEvaluation.i({
       'element': '$name disposed,',
-      'Listeners': '${_listeners.values.map((i) => i.name).toList()}',
-      'Notifiers': '${_notifiers.values.map((i) => i.name).toList()}'
+      // 'Listeners': '${_listeners.values.map((i) => i.name).toList()}',
+      // 'Notifiers': '${_notifiers.values.map((i) => i.name).toList()}'
     });
     // _notifiers.values
     //     .forEach((notifyingElement) => notifyingElement.removeListener(name));

@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$ElementProperties {
   bool get hidden => throw _privateConstructorUsedError;
   bool get mandatory => throw _privateConstructorUsedError;
+  ControlStatus get controlStatus => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ElementPropertiesCopyWith<ElementProperties> get copyWith =>
@@ -30,7 +31,7 @@ abstract class $ElementPropertiesCopyWith<$Res> {
           ElementProperties value, $Res Function(ElementProperties) then) =
       _$ElementPropertiesCopyWithImpl<$Res, ElementProperties>;
   @useResult
-  $Res call({bool hidden, bool mandatory});
+  $Res call({bool hidden, bool mandatory, ControlStatus controlStatus});
 }
 
 /// @nodoc
@@ -48,6 +49,7 @@ class _$ElementPropertiesCopyWithImpl<$Res, $Val extends ElementProperties>
   $Res call({
     Object? hidden = null,
     Object? mandatory = null,
+    Object? controlStatus = null,
   }) {
     return _then(_value.copyWith(
       hidden: null == hidden
@@ -58,6 +60,10 @@ class _$ElementPropertiesCopyWithImpl<$Res, $Val extends ElementProperties>
           ? _value.mandatory
           : mandatory // ignore: cast_nullable_to_non_nullable
               as bool,
+      controlStatus: null == controlStatus
+          ? _value.controlStatus
+          : controlStatus // ignore: cast_nullable_to_non_nullable
+              as ControlStatus,
     ) as $Val);
   }
 }
@@ -70,7 +76,7 @@ abstract class _$$ElementPropertiesImplCopyWith<$Res>
       __$$ElementPropertiesImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool hidden, bool mandatory});
+  $Res call({bool hidden, bool mandatory, ControlStatus controlStatus});
 }
 
 /// @nodoc
@@ -86,6 +92,7 @@ class __$$ElementPropertiesImplCopyWithImpl<$Res>
   $Res call({
     Object? hidden = null,
     Object? mandatory = null,
+    Object? controlStatus = null,
   }) {
     return _then(_$ElementPropertiesImpl(
       hidden: null == hidden
@@ -96,6 +103,10 @@ class __$$ElementPropertiesImplCopyWithImpl<$Res>
           ? _value.mandatory
           : mandatory // ignore: cast_nullable_to_non_nullable
               as bool,
+      controlStatus: null == controlStatus
+          ? _value.controlStatus
+          : controlStatus // ignore: cast_nullable_to_non_nullable
+              as ControlStatus,
     ));
   }
 }
@@ -105,7 +116,10 @@ class __$$ElementPropertiesImplCopyWithImpl<$Res>
 class _$ElementPropertiesImpl
     with DiagnosticableTreeMixin
     implements _ElementProperties {
-  const _$ElementPropertiesImpl({this.hidden = false, this.mandatory = false});
+  const _$ElementPropertiesImpl(
+      {this.hidden = false,
+      this.mandatory = false,
+      this.controlStatus = ControlStatus.valid});
 
   @override
   @JsonKey()
@@ -113,10 +127,13 @@ class _$ElementPropertiesImpl
   @override
   @JsonKey()
   final bool mandatory;
+  @override
+  @JsonKey()
+  final ControlStatus controlStatus;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ElementProperties(hidden: $hidden, mandatory: $mandatory)';
+    return 'ElementProperties(hidden: $hidden, mandatory: $mandatory, controlStatus: $controlStatus)';
   }
 
   @override
@@ -125,7 +142,8 @@ class _$ElementPropertiesImpl
     properties
       ..add(DiagnosticsProperty('type', 'ElementProperties'))
       ..add(DiagnosticsProperty('hidden', hidden))
-      ..add(DiagnosticsProperty('mandatory', mandatory));
+      ..add(DiagnosticsProperty('mandatory', mandatory))
+      ..add(DiagnosticsProperty('controlStatus', controlStatus));
   }
 
   @override
@@ -135,11 +153,14 @@ class _$ElementPropertiesImpl
             other is _$ElementPropertiesImpl &&
             (identical(other.hidden, hidden) || other.hidden == hidden) &&
             (identical(other.mandatory, mandatory) ||
-                other.mandatory == mandatory));
+                other.mandatory == mandatory) &&
+            (identical(other.controlStatus, controlStatus) ||
+                other.controlStatus == controlStatus));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, hidden, mandatory);
+  int get hashCode =>
+      Object.hash(runtimeType, hidden, mandatory, controlStatus);
 
   @JsonKey(ignore: true)
   @override
@@ -150,13 +171,17 @@ class _$ElementPropertiesImpl
 }
 
 abstract class _ElementProperties implements ElementProperties {
-  const factory _ElementProperties({final bool hidden, final bool mandatory}) =
-      _$ElementPropertiesImpl;
+  const factory _ElementProperties(
+      {final bool hidden,
+      final bool mandatory,
+      final ControlStatus controlStatus}) = _$ElementPropertiesImpl;
 
   @override
   bool get hidden;
   @override
   bool get mandatory;
+  @override
+  ControlStatus get controlStatus;
   @override
   @JsonKey(ignore: true)
   _$$ElementPropertiesImplCopyWith<_$ElementPropertiesImpl> get copyWith =>

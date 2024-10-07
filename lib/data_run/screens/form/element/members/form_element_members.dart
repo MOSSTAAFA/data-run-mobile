@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 
 part 'form_element_members.freezed.dart';
 
@@ -10,6 +11,8 @@ class ElementProperties with _$ElementProperties {
   const factory ElementProperties({
     @Default(false) bool hidden,
     @Default(false) bool mandatory,
+    @Default(ControlStatus.valid) ControlStatus controlStatus,
+    // T? value,
   }) = _ElementProperties;
 }
 
@@ -17,10 +20,10 @@ class ElementProperties with _$ElementProperties {
 class OptionConfig with EquatableMixin {
   OptionConfig(
       {required this.listName,
-        required String name,
-        String? label,
-        this.order = 0,
-        Map<String, String> choiceFilters = const {}})
+      required String name,
+      String? label,
+      this.order = 0,
+      Map<String, String> choiceFilters = const {}})
       : this.name = name,
         this.label = label ?? name {
     this.choiceFilters.addAll(choiceFilters);
