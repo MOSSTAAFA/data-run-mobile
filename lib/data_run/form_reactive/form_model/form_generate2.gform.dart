@@ -172,6 +172,10 @@ class _StockDistributionFormBuilderState
 
   @override
   Widget build(BuildContext context) {
+    ReactiveValueListenableBuilder;
+    ReactiveFormFieldBuilder;
+    ReactiveListenableWidgetBuilder;
+    ReactiveFormConsumerBuilder;
     return ReactiveStockDistributionForm(
       key: ObjectKey(_formModel),
       form: _formModel,

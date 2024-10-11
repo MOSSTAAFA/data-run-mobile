@@ -1,69 +1,80 @@
 part of '../form_element.dart';
 
 abstract class ElementRuleEvaluationContext<T> {
-  String get name;
+  // String get name;
 
-  T? get value;
+  // T? get value;
 
-  List<Rule> get rules;
+  // IList<Rule> get rules;
 
-  List<String> get rulesDependencies;
+  // IList<String> get rulesDependencies;
 
-  AbstractControl<dynamic>? get elementControl;
+  // AbstractControl<dynamic>? get elementControl;
 
-  final List<ActionBehaviour> _actionBehaviours = [];
+  // final List<ActionBehaviour> _actionBehaviours = [];
 
-  final Set<String> _unresolvedDependencies = Set();
+  // IList<String> get unresolvedDependencies;
 
   // final Map<String, ElementRuleEvaluationContext<dynamic>> _contextElement = {};
-  final Map<String, dynamic> _contextElement = {};
+  // final Map<String, dynamic> _contextElement = {};
 
-  void addUnresolvedContextElement(String notifier) {
-    _loggerEvaluation
-        .w('Unresolved ${notifier} dependencies for element: $name');
-    _unresolvedDependencies.add(notifier);
-  }
+  // void addUnresolvedContextElement(String notifier) {
+  //   _loggerEvaluation
+  //       .w('Unresolved ${notifier} dependencies for element: $name');
+  //   unresolvedDependencies.add(notifier);
+  // }
 
-  Map<String, dynamic> get evalContext {
-    return _contextElement;
-    // return {
-    //   for (final dependency in _contextElement.values)
-    //     dependency.name: dependency.value
-    // };
-  }
+  // Map<String, dynamic> get evalContext {
+  //   return _contextElement;
+  //   // return {
+  //   //   for (final dependency in _contextElement.values)
+  //   //     dependency.name: dependency.value
+  //   // };
+  // }
 
-  void addContextElement(ElementRuleEvaluationContext<dynamic> dependency) =>
-      _contextElement[dependency.name] = dependency.value;
+  // void initElementContext(Map<String, dynamic> _contextElement) {
+  //   _contextElement.clear();
+  //   _contextElement.addAll(_contextElement);
+  // }
 
-  void setActionBehaviourToEvaluate(List<ActionBehaviour> actionBehaviours) {
-    _actionBehaviours.clear();
-    _actionBehaviours.addAll(actionBehaviours);
-  }
+  // void addContextElement(ElementRuleEvaluationContext<dynamic> dependency) =>
+  //     _contextElement[dependency.name] = dependency.value;
 
-  List<ActionBehaviour> get actionBehaviours =>
-      List.unmodifiable(_actionBehaviours);
+  // void setActionBehaviourToEvaluate(List<ActionBehaviour> actionBehaviours) {
+  //   _actionBehaviours.clear();
+  //   _actionBehaviours.addAll(actionBehaviours);
+  // }
 
-  List<Rule> rulesToEvaluate(String dependencyName) => rules
-      .where((rule) => rule.dependencies.contains(dependencyName))
-      .toList();
+  // List<ActionBehaviour> get actionBehaviours =>
+  //     List.unmodifiable(_actionBehaviours);
 
-  @mustCallSuper
-  void evaluateRules(String dependencyChanged, dynamic value);
+  // List<Rule> rulesToEvaluate(String dependencyName) => rules
+  //     .where((rule) => rule.dependencies.contains(dependencyName))
+  //     .toList();
 
-  bool _isEvaluating = false;
+  // @mustCallSuper
+  // void evaluateRules(String dependencyChanged, dynamic value,
+  //     {bool notify = true, RuleEvaluator? ruleEvaluator});
 
-  void onDependencyChanged(String notifierName, dynamic value) {
-    _contextElement[notifierName] = value;
-    if (_isEvaluating) {
-      return;
-    }
+  // bool _isEvaluating = false;
 
-    _isEvaluating = true;
-
-    try {
-      evaluateRules(notifierName, value);
-    } finally {
-      _isEvaluating = false;
-    }
-  }
+  /// didUpdateElement(covariant FormElement<E> oldElement)
+  /// void didChange(ViewDataType value)
+  /// void didChangeDependencies()
+  // void onDependencyChanged(String notifierName, dynamic value,
+  //     {bool notify = true,
+  //     List<ActionBehaviour> actionsToEvaluate = const []}) {
+  //   // _contextElement[notifierName] = value;
+  //   if (_isEvaluating) {
+  //     return;
+  //   }
+  //
+  //   _isEvaluating = true;
+  //
+  //   try {
+  //     evaluateRules(notifierName, value);
+  //   } finally {
+  //     _isEvaluating = false;
+  //   }
+  // }
 }

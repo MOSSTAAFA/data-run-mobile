@@ -69,16 +69,16 @@ class FormInstance {
 
   List<String> get selectableOrgUnits => template.orgUnits;
 
-  void submit({
-    required void Function(Map<String, dynamic> model) onValid,
-    void Function()? onNotValid,
-  }) {
-    if (form.valid) {
-      onValid(rawValue);
-    } else {
-      onNotValid?.call();
-    }
-  }
+  // void submit({
+  //   required void Function(Map<String, dynamic> model) onValid,
+  //   void Function()? onNotValid,
+  // }) {
+  //   if (form.valid) {
+  //     onValid(rawValue);
+  //   } else {
+  //     onNotValid?.call();
+  //   }
+  // }
 
   Future<void> markSubmissionAsFinal() {
     return formSubmissionList.markSubmissionAsFinal(submissionUid!);
@@ -95,29 +95,29 @@ class FormInstance {
     return formSubmissionList.saveSubmission(formSubmission);
   }
 
-  Map<String, dynamic> get rawValue {
-    Map<String, dynamic> valuesMap =
-        elements.map<String, Object?>((key, element) {
-      if (element is SectionElement<dynamic>) {
-        return MapEntry(key, element.rawValue);
-      }
-
-      return MapEntry(key, element.value);
-    });
-
-    return {'formData': valuesMap};
-  }
-
-  Map<String, dynamic> get rawValueFormGroup {
-    Map<String, dynamic> valuesMap =
-        elements.map<String, dynamic>((key, element) {
-      if (element is SectionElement<dynamic>) {
-        return MapEntry(key, element.rawValue);
-      }
-
-      return MapEntry(key, element.value);
-    });
-
-    return valuesMap;
-  }
+// Map<String, dynamic> get rawValue {
+//   Map<String, dynamic> valuesMap =
+//       elements.map<String, Object?>((key, element) {
+//     if (element is SectionElement<dynamic>) {
+//       return MapEntry(key, element.rawValue);
+//     }
+//
+//     return MapEntry(key, element.value);
+//   });
+//
+//   return {'formData': valuesMap};
+// }
+//
+// Map<String, dynamic> get rawValueFormGroup {
+//   Map<String, dynamic> valuesMap =
+//       elements.map<String, dynamic>((key, element) {
+//     if (element is SectionElement<dynamic>) {
+//       return MapEntry(key, element.rawValue);
+//     }
+//
+//     return MapEntry(key, element.value);
+//   });
+//
+//   return valuesMap;
+// }
 }

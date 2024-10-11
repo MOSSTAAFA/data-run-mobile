@@ -94,7 +94,7 @@ extension FromElementFactory<T> on FormElementInstance<T?> {
       case ValueType.SelectOne:
         templateElement.options.addAll(fieldOptions);
 
-        return FieldInstance<String?>(
+        return FieldInstance<String>(
           form: form,
           template: templateElement
         );
@@ -105,7 +105,7 @@ extension FromElementFactory<T> on FormElementInstance<T?> {
           template: templateElement
         );
       case ValueType.Attribute:
-        return FieldInstance<String?>(
+        return FieldInstance<String>(
             form: form,
             hidden: true,
             template: templateElement);
@@ -113,18 +113,18 @@ extension FromElementFactory<T> on FormElementInstance<T?> {
       case ValueType.LongText:
       case ValueType.Letter:
       case ValueType.FullName:
-        return FieldInstance<String?>(
+        return FieldInstance<String>(
             form: form,
             template: templateElement);
       case ValueType.Date:
       case ValueType.Time:
       case ValueType.DateTime:
-        return FieldInstance<String?>(
+        return FieldInstance<String>(
             form: form,
             template: templateElement);
 
       case ValueType.OrganisationUnit:
-        return FieldInstance<String?>(
+        return FieldInstance<String>(
             form: form,
             template: templateElement);
 
@@ -132,7 +132,7 @@ extension FromElementFactory<T> on FormElementInstance<T?> {
       case ValueType.IntegerPositive:
       case ValueType.IntegerNegative:
       case ValueType.IntegerZeroOrPositive:
-        return FieldInstance<int?>(
+        return FieldInstance<int>(
             form: form,
             template: templateElement);
 
@@ -140,7 +140,7 @@ extension FromElementFactory<T> on FormElementInstance<T?> {
       case ValueType.UnitInterval:
       case ValueType.Percentage:
       case ValueType.Age:
-        return FieldInstance<double?>(
+        return FieldInstance<double>(
           form: form,
           template: templateElement,
         );

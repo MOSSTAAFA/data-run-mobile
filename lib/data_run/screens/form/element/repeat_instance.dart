@@ -320,11 +320,11 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
   FormElementInstance<dynamic>? findElement(String path) =>
       findElementInCollection(path.split('.'));
 
-  @override
-  bool anyElements(
-      bool Function(FormElementInstance<dynamic> element) condition) {
-    return _elements.any((element) => element.enabled && condition(element));
-  }
+  // @override
+  // bool anyElements(
+  //     bool Function(FormElementInstance<dynamic> element) condition) {
+  //   return _elements.any((element) => element.enabled && condition(element));
+  // }
 
   //</editor-fold>
 
@@ -392,76 +392,76 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
   //       emitEvent: emitEvent);
   // }
   //
-  @override
-  void patchValue(
-    List<Map<String, Object?>?>? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    for (var i = 0; i < _elements.length; i++) {
-      if (value == null || i < value.length) {
-        _elements[i].updateValue(
-          value?.elementAt(i),
-          updateParent: false,
-          emitEvent: emitEvent,
-        );
-      }
-    }
-
-    // updateValueAndValidity(updateParent: updateParent);
-  }
+  // @override
+  // void patchValue(
+  //   List<Map<String, Object?>?>? value, {
+  //   bool updateParent = true,
+  //   bool emitEvent = true,
+  // }) {
+  //   for (var i = 0; i < _elements.length; i++) {
+  //     if (value == null || i < value.length) {
+  //       _elements[i].updateValue(
+  //         value?.elementAt(i),
+  //         updateParent: false,
+  //         emitEvent: emitEvent,
+  //       );
+  //     }
+  //   }
+  //
+  //   // updateValueAndValidity(updateParent: updateParent);
+  // }
 
   // updateRepeatSectionValue
-  @override
-  void updateValue(
-    List<Map<String, Object?>?>? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    final List<Map<String, Object?>?>? localValue = (value);
-    if ((localValue ?? []).isEmpty) {
-      clear(updateParent: updateParent, emitEvent: emitEvent);
-      return;
-    }
-
-    final toUpdate = <Map<String, Object?>?>[];
-    final toAdd = <Map<String, Object?>?>[];
-
-    localValue!.asMap().forEach((int k, Map<String, Object?>? v) {
-      final List<Map<String, Object?>?> controlValues =
-          elementControl.controls.map((e) => e.value).toList();
-
-      if (elements.asMap().containsKey(k) &&
-          controlValues.asMap().containsKey(k)) {
-        toUpdate.add(v);
-      } else {
-        toAdd.add(v);
-      }
-    });
-
-    if (toUpdate.isNotEmpty) {
-      elementControl.updateValue(
-          toUpdate
-              .map((Map<String, Object?>? e) =>
-                  FromElementControlFactory.createSectionFormGroup(template,
-                          savedValue: e)
-                      .rawValue)
-              .toList(),
-          updateParent: updateParent,
-          emitEvent: emitEvent);
-    }
-
-    if (toAdd.isNotEmpty) {
-      toAdd.forEach((e) {
-        elementControl.add(
-            FromElementControlFactory.createSectionFormGroup(template,
-                savedValue: e),
-            updateParent: updateParent,
-            emitEvent: emitEvent);
-        add(FromElementFactory.createRepeatItem(form, template, savedValue: e));
-      });
-    }
-  }
+  // @override
+  // void updateValue(
+  //   List<Map<String, Object?>?>? value, {
+  //   bool updateParent = true,
+  //   bool emitEvent = true,
+  // }) {
+  //   final List<Map<String, Object?>?>? localValue = (value);
+  //   if ((localValue ?? []).isEmpty) {
+  //     clear(updateParent: updateParent, emitEvent: emitEvent);
+  //     return;
+  //   }
+  //
+  //   final toUpdate = <Map<String, Object?>?>[];
+  //   final toAdd = <Map<String, Object?>?>[];
+  //
+  //   localValue!.asMap().forEach((int k, Map<String, Object?>? v) {
+  //     final List<Map<String, Object?>?> controlValues =
+  //         elementControl.controls.map((e) => e.value).toList();
+  //
+  //     if (elements.asMap().containsKey(k) &&
+  //         controlValues.asMap().containsKey(k)) {
+  //       toUpdate.add(v);
+  //     } else {
+  //       toAdd.add(v);
+  //     }
+  //   });
+  //
+  //   if (toUpdate.isNotEmpty) {
+  //     elementControl.updateValue(
+  //         toUpdate
+  //             .map((Map<String, Object?>? e) =>
+  //                 FromElementControlFactory.createSectionFormGroup(template,
+  //                         savedValue: e)
+  //                     .rawValue)
+  //             .toList(),
+  //         updateParent: updateParent,
+  //         emitEvent: emitEvent);
+  //   }
+  //
+  //   if (toAdd.isNotEmpty) {
+  //     toAdd.forEach((e) {
+  //       elementControl.add(
+  //           FromElementControlFactory.createSectionFormGroup(template,
+  //               savedValue: e),
+  //           updateParent: updateParent,
+  //           emitEvent: emitEvent);
+  //       add(FromElementFactory.createRepeatItem(form, template, savedValue: e));
+  //     });
+  //   }
+  // }
 
   // void updateRepeatSectionValue(
   //   List<SectionInstance> value, {

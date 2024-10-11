@@ -104,6 +104,7 @@ class SubmissionSummaryState extends ConsumerState<SubmissionSummary> {
               children: <Widget>[
                 Text(submissionSummary.orgUnit),
                 IconButton(
+                  tooltip: S.of(context).remove,
                     onPressed: () => _confirmDelete(context, widget.entity.uid),
                     icon: Icon(Icons.delete)),
               ]),

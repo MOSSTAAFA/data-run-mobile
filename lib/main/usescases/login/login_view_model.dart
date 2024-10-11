@@ -11,9 +11,9 @@ part 'login_view_model.g.dart';
 class LoginModel extends _$LoginModel {
   @override
   LoginViewModel build() {
-    logDebug(info: 'LoginModel created');
+    logDebug('LoginModel created');
 
-    ref.onDispose(() => logDebug(info: 'dispose: LoginModel'));
+    ref.onDispose(() => logDebug('dispose: LoginModel'));
     return LoginViewModel();
   }
 

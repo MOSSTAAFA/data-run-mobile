@@ -217,6 +217,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "password": MessageLookupByLibrary.simpleMessage("password"),
         "pleaseEnterAValidEmailAddress": MessageLookupByLibrary.simpleMessage(
             "enter a valid email address."),
+        "remove": MessageLookupByLibrary.simpleMessage("Remove"),
         "searchOrgUnitsHelpText":
             MessageLookupByLibrary.simpleMessage("Search Org Units..."),
         "selected": MessageLookupByLibrary.simpleMessage("selected"),

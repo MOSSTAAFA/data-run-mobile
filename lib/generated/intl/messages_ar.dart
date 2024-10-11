@@ -213,6 +213,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
         "pleaseEnterAValidEmailAddress": MessageLookupByLibrary.simpleMessage(
             "يرجى إدخال عنوان بريد إلكتروني صالح."),
+        "remove": MessageLookupByLibrary.simpleMessage("Remove"),
         "searchOrgUnitsHelpText":
             MessageLookupByLibrary.simpleMessage("البحث عن مكان..."),
         "selected": MessageLookupByLibrary.simpleMessage("عناصر محددة"),

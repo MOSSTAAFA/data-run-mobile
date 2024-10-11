@@ -28,12 +28,12 @@ void logError(
 //   }
 // }
 
-void logDebug(
+void logDebug(dynamic message,
         {String info = '',
         Function printFunction = MpUtils.printFunction,
         Type? runtimeType}) =>
     // ignore: unnecessary_this
-    printFunction('Info: ${runtimeType ?? ''}', '', info);
+    printFunction('Debug: ${runtimeType ?? ''}', '', message ?? info);
 
 void logInfo(
     {String info = '',

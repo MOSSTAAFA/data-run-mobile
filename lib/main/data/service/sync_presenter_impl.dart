@@ -140,7 +140,7 @@ class SyncPresenterImpl implements SyncPresenter {
     // final d2ProgressManager = D2ProgressManager(totalCalls: 4);
     return ref.read(syncMetadataProvider).download(
       callback: (progress) {
-        logDebug(info: 'syncMetadata progress: ${progress?.message}');
+        logDebug('syncMetadata progress: ${progress?.message}');
         onProgressUpdate?.call((progress?.percentage ?? 0.0).ceil());
       },
     );

@@ -54,13 +54,54 @@ class FormRepeatElementInvalidIndexException extends DException {
 class FormElementParentNotFoundException extends DException {
   /// Creates an instance of the exception
   /// passing the [widget] that throws the exception.
-  FormElementParentNotFoundException(this.widget);
+  FormElementParentNotFoundException(this.widget)
+      : super(
+            'FormElementParentNotFoundException: couldn\'t find a parent widget. An instance of ${widget.runtimeType.toString()} widget must be under a FormElement Widget in the widgets tree.',
+            widget);
 
   /// The widget that throws this exception.
   Widget widget;
 
-  @override
-  String toString() {
-    return 'FormElementParentNotFoundException: QReactiveFormField widget couldn\'t find a parent widget. An instance of ${widget.runtimeType.toString()} widget must be under a ReactiveForm or a ReactiveFormArray in the widgets tree.';
-  }
+// @override
+// String toString() {
+//   return 'FormElementParentNotFoundException: couldn\'t find a parent widget. An instance of ${widget.runtimeType.toString()} widget must be under a FormElement Widget in the widgets tree.';
+// }
+}
+
+/// This exception is thrown by Reactive Widgets that doesn't find a
+/// parent widget [ReactiveForm] or [ReactiveFormArray] in the widgets tree.
+class FormSectionParentNotFoundException extends DException {
+  /// Creates an instance of the exception
+  /// passing the [widget] that throws the exception.
+  FormSectionParentNotFoundException(this.widget)
+      : super(
+            'FormSectionParentNotFoundException: couldn\'t find a parent widget. An instance of ${widget.runtimeType.toString()} widget must be under a SectionElement Widget in the widgets tree.',
+            widget);
+
+  /// The widget that throws this exception.
+  Widget widget;
+
+// @override
+// String toString() {
+//   return 'FormSectionParentNotFoundException: widget couldn\'t find a parent widget. An instance of ${widget.runtimeType.toString()} widget must be under a Section Element widget in the widgets tree.';
+// }
+}
+
+/// This exception is thrown by Reactive Widgets that doesn't find a
+/// parent widget [ReactiveForm] or [ReactiveFormArray] in the widgets tree.
+class FormRepeatedParentNotFoundException extends DException {
+  /// Creates an instance of the exception
+  /// passing the [widget] that throws the exception.
+  FormRepeatedParentNotFoundException(this.widget)
+      : super(
+            'FormRepeatedParentNotFoundException: couldn\'t find a parent widget. An instance of ${widget.runtimeType.toString()} widget must be under a Repeat Element type Widget in the widgets tree.',
+            widget);
+
+  /// The widget that throws this exception.
+  Widget widget;
+
+// @override
+// String toString() {
+//   return 'FormRepeatedParentNotFoundException: couldn\'t find a parent widget. An instance of ${widget.runtimeType.toString()} widget must be under a ReactiveForm or a ReactiveFormArray in the widgets tree.';
+// }
 }

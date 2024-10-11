@@ -5,25 +5,6 @@
 // typedef ReactiveFieldBuilder<T, K> = Widget Function(ReactiveFieldState<T,
 //     K> field);
 //
-// class TestWid extends StatelessWidget {
-//   const TestWid({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return ReactiveValueListenableBuilder<bool>(
-//       // bound to the boolean control
-//         formControl: viewModel(context).sendSms,
-//         builder: (context, control, child) {
-//           return Visibility(
-//               visible: control.value,
-//               child: ReactiveTextField(
-//                   formControl: viewModel(context).smsRecipient)
-//           );
-//         }
-//     )
-//   }
-// }
-//
 // class ReactiveField<ModelDataType, ViewDataType>
 //     extends ReactiveFormField<ModelDataType, ViewDataType> {
 //   final FieldConfig fieldConfig;
@@ -135,7 +116,7 @@
 // // and provide only additional methods
 // class BarcodeScannerFormFieldState extends InputFormFieldState {
 //   BarcodeScannerFormFieldState({required FieldConfig fieldConfig})
-//       : super(fieldConfig: fieldConfig);
+//       : super(element: fieldConfig);
 //
 //   Future scanBarcode() async {
 //     try {
@@ -163,7 +144,7 @@
 //       }
 //     } catch (e, trace) {
 //       logError(
-//           'BarcodeField - updateBarcodeValue ${fieldConfig.key}', e, trace);
+//           'BarcodeField - updateBarcodeValue ${element.key}', e, trace);
 //     }
 //   }
 // }

@@ -10,7 +10,7 @@ extension ToProgramTypeExtension on String? {
       //     orElse: throw ArgumentError(
       //         'The ProgramType $this does not match any ProgramType'));
     } catch (e) {
-      logDebug(info: 'The ProgramType $this does not match any Enum Value');
+      logDebug('The ProgramType $this does not match any Enum Value');
       return null;
     }
   }

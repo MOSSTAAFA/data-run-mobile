@@ -6,13 +6,15 @@ class HideBehaviour extends ActionBehaviour {
   HideBehaviour(super.expression);
 
   @override
-  void applyAction(FormElementInstance<dynamic> element) {
+  void applyAction(FormElementInstance<dynamic> element,
+      {required Map<String, dynamic> evalContext}) {
     loggerEvaluation.d({
-      'Rule Evaluated': 'Element ${element.name}, Action Hide= ${actionIsInEffect(element.evalContext)}',
+      'Rule Evaluated':
+          'Element ${element.name}, Action Hide= ${actionIsInEffect(evalContext)}',
       'Mark as':
-      '${actionIsInEffect(element.evalContext) ? 'Hidden' : 'Visible'}'
+          '${actionIsInEffect(evalContext) ? 'Hidden' : 'Visible'}'
     });
-    actionIsInEffect(element.evalContext)
+    actionIsInEffect(evalContext)
         ? element.markAsHidden(emitEvent: false)
         : element.markAsVisible(emitEvent: false);
   }

@@ -5,11 +5,13 @@ class MarkMandatoryBehaviour extends ActionBehaviour {
   MarkMandatoryBehaviour(super.expression);
 
   @override
-  void applyAction(FormElementInstance<dynamic> element) {
+  void applyAction(FormElementInstance<dynamic> element,
+      {required Map<String, dynamic> evalContext}) {
     loggerEvaluation.d({
-      'Rule Evaluated': 'Action MarkMandatory= ${actionIsInEffect(element.evalContext)}',
+      'Rule Evaluated':
+          'Action MarkMandatory= ${actionIsInEffect(evalContext)}',
       'mark':
-          '${element.name} as ${actionIsInEffect(element.evalContext) ? 'Mandatory' : 'not Mandatory'}'
+          '${element.name} as ${actionIsInEffect(evalContext) ? 'Mandatory' : 'not Mandatory'}'
     });
     element.toggleMandatory(emitEvent: false);
   }

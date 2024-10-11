@@ -10,7 +10,7 @@ extension ValueTypeRenderingExtnsion on String? {
       //     orElse: throw ArgumentError(
       //         'The ValueTypeRenderingType $this does not match any Value type'));
     } catch (e) {
-      logDebug(info: 'The ValueTypeRenderingType $this does not match any Enum Value');
+      logDebug('The ValueTypeRenderingType $this does not match any Enum Value');
       return null;
     }
   }

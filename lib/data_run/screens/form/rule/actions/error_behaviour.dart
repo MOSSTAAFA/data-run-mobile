@@ -12,17 +12,18 @@ class ErrorBehaviour extends ActionBehaviour {
   final Map<String, String> _message = {};
 
   @override
-  void applyAction(FormElementInstance<dynamic> element) {
+  void applyAction(FormElementInstance<dynamic> element,
+      {required Map<String, dynamic> evalContext}) {
     logDebug(
-        info:
-            'apply ErrorBehaviour, make: ${element.name} ${actionIsInEffect(element.evalContext) ? '${getItemLocalString(_message)}' : ' Resetting ErrorBehaviour'} ');
-    actionIsInEffect(element.evalContext)
+        'apply ErrorBehaviour, make: ${element.name} ${actionIsInEffect(
+            evalContext) ? '${getItemLocalString(_message)}' : ' Resetting ErrorBehaviour'} ');
+    actionIsInEffect(evalContext)
         ? element.setErrors({
-            getItemLocalString(_message, defaultString: 'error')!:
+            getItemLocalString(_message, defaultString: 'error'):
                 getItemLocalString(_message, defaultString: 'error')
           }, markAsDirty: false)
         : element
-            .removeError(getItemLocalString(_message, defaultString: 'error')!);
+            .removeError(getItemLocalString(_message, defaultString: 'error'));
   }
 }
 
@@ -35,12 +36,12 @@ class WarningBehaviour extends ActionBehaviour {
   final Map<String, String> _message = {};
 
   @override
-  void applyAction(FormElementInstance<dynamic> element) =>
-      actionIsInEffect(element.evalContext)
+  void applyAction(FormElementInstance<dynamic> element, {required Map<String, dynamic> evalContext}) =>
+      actionIsInEffect(evalContext)
           ? element.setWarning({
-              getItemLocalString(_message, defaultString: 'warning')!:
+              getItemLocalString(_message, defaultString: 'warning'):
                   getItemLocalString(_message, defaultString: 'warning')
             }, markAsDirty: false)
           : element.removeWarning(
-              getItemLocalString(_message, defaultString: 'warning')!);
+              getItemLocalString(_message, defaultString: 'warning'));
 }

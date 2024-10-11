@@ -9,8 +9,7 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
     super.expanded,
     Map<String, FormElementInstance<dynamic>> elements = const {},
   }) : assert(!elements.keys.any((name) => name.contains('.')),
-            'element name should not contain dot(.)')
-  {
+            'element name should not contain dot(.)') {
     addAll(elements);
 
     // if (properties.disabled) {
@@ -31,12 +30,33 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
 
   /// Appends all [elements] to the group.
   void addAll(Map<String, FormElementInstance<dynamic>> elements) {
-        _elements.addAll(elements);
+    _elements.addAll(elements);
     elements.forEach((name, element) {
       element.parentSection = this;
     });
   }
 
+//   static FormGroup formElements(SectionInstance? sectionInstance) => FormGroup({
+//     mUnitNameControlName: FormControl<String>(
+//         value: sectionInstance?.mUnitName,
+//         validators: [],
+//         asyncValidators: [],
+//         asyncValidatorsDebounceTime: 250,
+//         disabled: false,
+//         touched: false),
+//     mUnitTypeControlName: FormControl<String>(
+//         value: sectionInstance?.mUnitType,
+//         validators: [],
+//         asyncValidators: [],
+//         asyncValidatorsDebounceTime: 250,
+//         disabled: false,
+//         touched: false)
+//   },
+//       validators: [],
+//       asyncValidators: [],
+//       asyncValidatorsDebounceTime: 250,
+//       disabled: false);
+// }
   // /// build this section and all its elements
   // void buildElement(
   //   Map<String, dynamic>? value, {
@@ -85,12 +105,12 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
   FormElementInstance<dynamic>? findElement(String path) =>
       findElementInCollection(path.split('.'));
 
-  @override
-  bool anyElements(
-      bool Function(FormElementInstance<dynamic> element) condition) {
-    return _elements.values
-        .any((element) => element.enabled && condition(element));
-  }
+  // @override
+  // bool anyElements(
+  //     bool Function(FormElementInstance<dynamic> element) condition) {
+  //   return _elements.values
+  //       .any((element) => element.enabled && condition(element));
+  // }
 
   @override
   void forEachChild(
@@ -101,44 +121,44 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
   //</editor-fold>
 
   //<editor-fold desc="Update Value">
-  @override
-  void updateValue(Map<String, Object?>? value,
-      {bool updateParent = true, bool emitEvent = true}) {
-    value ??= {};
+  // @override
+  // void updateValue(Map<String, Object?>? value,
+  //     {bool updateParent = true, bool emitEvent = true}) {
+  //   value ??= {};
+  //
+  //   for (final key in _elements.keys) {
+  //     _elements[key]!.updateValue(
+  //       value[key],
+  //       updateParent: false,
+  //       emitEvent: emitEvent,
+  //     );
+  //   }
+  // }
 
-    for (final key in _elements.keys) {
-      _elements[key]!.updateValue(
-        value[key],
-        updateParent: false,
-        emitEvent: emitEvent,
-      );
-    }
-  }
-
-  @override
-  void patchValue(Map<String, Object?>? value,
-      {bool updateParent = true, bool emitEvent = true}) {
-    value?.forEach((name, value) {
-      if (_elements.containsKey(name)) {
-        _elements[name]!.patchValue(
-          value,
-          updateParent: false,
-          emitEvent: emitEvent,
-        );
-      }
-    });
-  }
+  // @override
+  // void patchValue(Map<String, Object?>? value,
+  //     {bool updateParent = true, bool emitEvent = true}) {
+  //   value?.forEach((name, value) {
+  //     if (_elements.containsKey(name)) {
+  //       _elements[name]!.patchValue(
+  //         value,
+  //         updateParent: false,
+  //         emitEvent: emitEvent,
+  //       );
+  //     }
+  //   });
+  // }
 
 //</editor-fold>
 
   //<editor-fold desc="Util-methods">
-  @override
-  bool allElementsDisabled() {
-    if (_elements.isEmpty) {
-      return false;
-    }
-    return _elements.values.every((element) => element.disabled);
-  }
+  // @override
+  // bool allElementsDisabled() {
+  //   if (_elements.isEmpty) {
+  //     return false;
+  //   }
+  //   return _elements.values.every((element) => element.disabled);
+  // }
 
   @override
   void dispose() {

@@ -338,7 +338,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
 
   @override
   void saveUsersData(bool isInitialSyncDone) {
-    logDebug(info: '''saveUsersData, isInitialSyncDone: $isInitialSyncDone, 
+    logDebug('''saveUsersData, isInitialSyncDone: $isInitialSyncDone, 
             ${isInitialSyncDone ? 'so will skipSync' : 'so will start ync'}''');
 
     skipSync = isInitialSyncDone;

@@ -6,14 +6,15 @@ class ShowBehaviour extends ActionBehaviour {
   ShowBehaviour(super.expression);
 
   @override
-  void applyAction(FormElementInstance<dynamic> element) {
+  void applyAction(FormElementInstance<dynamic> element,
+      {required Map<String, dynamic> evalContext}) {
     loggerEvaluation.d({
       'Rule Evaluated':
-          'Element: ${element.name}, Action Show= ${actionIsInEffect(element.evalContext)}',
+          'Element: ${element.name}, Action Show= ${actionIsInEffect(evalContext)}',
       'Mark':
-          'As ${actionIsInEffect(element.evalContext) ? 'Visible' : 'Hidden'}'
+          'As ${actionIsInEffect(evalContext) ? 'Visible' : 'Hidden'}'
     });
-    actionIsInEffect(element.evalContext)
+    actionIsInEffect(evalContext)
         ? element.markAsVisible(emitEvent: false)
         : element.markAsHidden(emitEvent: false);
   }

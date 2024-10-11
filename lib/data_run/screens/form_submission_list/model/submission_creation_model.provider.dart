@@ -1,6 +1,9 @@
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/datarun/form/shared/attribute_type.dart';
-import 'package:mass_pro/data_run/screens/form/field_widgets/ou_picker_data_source.provider.dart';
+import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
+import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
+import 'package:mass_pro/data_run/screens/form/reactive_field/reactive_ou/ou_data_source.provider.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_metadata.dart';
 import 'package:mass_pro/data_run/screens/form_ui_elements/org_unit_picker/model/tree_node_data_source.dart';
 import 'package:mass_pro/data_run/screens/project_activity_detail/model/project_activities.provider.dart';
@@ -29,19 +32,31 @@ Future<SubmissionCreationModel> submissionCreationModel(
 
   final TreeNodeDataSource dataSource = await ref
       .watch(ouPickerDataSourceProvider(formMetaData: formMetaData).future);
+  final FieldInstance<String> ouElement = FieldInstance(
+      form: form,
+      template: FieldTemplate(
+          mandatory: true,
+          mainField: true,
+          type: ValueType.OrganisationUnit,
+          name: '_${AttributeType.orgUnit.name}'));
 
   return SubmissionCreationModel(
     dataSource: dataSource,
     form: form,
     team: team!.uid!,
+    ouElement: ouElement,
   );
 }
 
 class SubmissionCreationModel {
   SubmissionCreationModel(
-      {required this.form, required this.dataSource, required this.team});
+      {required this.form,
+      required this.dataSource,
+      required this.team,
+      required this.ouElement});
 
   final FormGroup form;
   final TreeNodeDataSource dataSource;
   final String team;
+  final FieldInstance<String> ouElement;
 }

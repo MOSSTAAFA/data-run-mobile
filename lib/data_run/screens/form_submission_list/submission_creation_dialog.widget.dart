@@ -2,8 +2,9 @@ import 'package:d2_remote/modules/datarun/form/shared/attribute_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mass_pro/commons/custom_widgets/async_value.widget.dart';
-import 'package:mass_pro/data_run/screens/form/field_widgets/reactive_o_u_picker.dart';
+import 'package:mass_pro/data_run/screens/form/reactive_field/reactive_ou/reactive_o_u_picker.dart';
 import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
 import 'package:mass_pro/data_run/screens/form/element/validation/form_element_validator.dart';
 import 'package:mass_pro/data_run/screens/form_submission_list/model/submission_creation_model.provider.dart';
@@ -11,7 +12,7 @@ import 'package:mass_pro/data_run/screens/form_submission_list/model/submission_
 import 'package:mass_pro/generated/l10n.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
-class SubmissionCreationDialog extends ConsumerStatefulWidget {
+class SubmissionCreationDialog extends StatefulHookConsumerWidget {
   const SubmissionCreationDialog({super.key});
 
   @override
@@ -94,8 +95,9 @@ class SubmissionCreationDialogState
                 child: ReactiveOuPicker<String?>(
                   dataSource: model.dataSource,
                   validationMessages: validationMessages(context),
-                  formControl:
-                      model.form.control('_${AttributeType.orgUnit.name}') as FormControl<String>,
+                  element: model.ouElement,
+                  // formControl:
+                  //     model.form.control('_${AttributeType.orgUnit.name}') as FormControl<String>,
                 ),
               ),
               if (_isLoading)

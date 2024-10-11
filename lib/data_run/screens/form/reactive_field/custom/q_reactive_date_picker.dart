@@ -1,0 +1,183 @@
+// Copyright 2020 Joan Pablo Jimenez Milian. All rights reserved.
+// Use of this source code is governed by the MIT license that can be
+// found in the LICENSE file.
+
+import 'package:flutter/material.dart';
+import 'package:mass_pro/data_run/screens/form/reactive_field/custom/q_reactive_field.dart';
+
+/// A builder that builds a widget responsible to decide when to show
+/// the picker dialog.
+///
+/// The builder passes a delegate [picker] as argument that has a method
+/// to show the dialog, it also has a property to access the [FormControl]
+/// that is bound to [ReactiveTimePicker].
+///
+/// See also [ReactiveDatePickerDelegate].
+typedef QReactiveDatePickerBuilder<T> = Widget Function(
+    BuildContext context, QReactiveDatePickerDelegate<T> picker, Widget? child);
+
+/// This is a convenience widget that wraps the function
+/// [showDatePicker] in a [ReactiveDatePicker].
+///
+/// The [formControlName] is required to bind this [ReactiveDatePicker]
+/// to a [FormControl].
+///
+/// For documentation about the various parameters, see the [showDatePicker]
+/// function parameters.
+///
+/// ## Example:
+///
+/// ```dart
+/// ReactiveDatePicker(
+///   formControlName: 'birthday',
+///   builder: (context, picker, child) {
+///     return IconButton(
+///       onPressed: picker.showPicker,
+///       icon: Icon(Icons.date_range),
+///     );
+///   },
+/// )
+/// ```
+class QReactiveDatePicker<T> extends QReactiveFormField<T, DateTime> {
+  /// Creates a [ReactiveDatePicker] that wraps the function [showDatePicker].
+  ///
+  /// Can optionally provide a [formControl] to bind this widget to a control.
+  ///
+  /// Can optionally provide a [formControlName] to bind this ReactiveFormField
+  /// to a [FormControl].
+  ///
+  /// Must provide one of the arguments [formControl] or a [formControlName],
+  /// but not both at the same time.
+  ///
+  /// The parameter [transitionBuilder] is the equivalent of [builder]
+  /// parameter in the [showTimePicker].
+  ///
+  /// For documentation about the various parameters, see the [showTimePicker]
+  /// function parameters.
+  QReactiveDatePicker({
+    super.key,
+    required super.element,
+    // super.formControl,
+    required QReactiveDatePickerBuilder<T> builder,
+    required DateTime firstDate,
+    required DateTime lastDate,
+    DatePickerEntryMode initialEntryMode = DatePickerEntryMode.calendar,
+    SelectableDayPredicate? selectableDayPredicate,
+    String? helpText,
+    String? cancelText,
+    String? confirmText,
+    Locale? locale,
+    bool useRootNavigator = true,
+    RouteSettings? routeSettings,
+    TextDirection? textDirection,
+    TransitionBuilder? transitionBuilder,
+    DatePickerMode initialDatePickerMode = DatePickerMode.day,
+    String? errorFormatText,
+    String? errorInvalidText,
+    String? fieldHintText,
+    String? fieldLabelText,
+    Widget? child,
+    DateTime? currentDate,
+    DateTime? initialDate,
+    TextInputType? keyboardType,
+    Offset? anchorPoint,
+  }) : super(
+          builder: (QReactiveFormFieldState<T, DateTime> field) {
+            return builder(
+              field.context,
+              QReactiveDatePickerDelegate<T>._(
+                field,
+                (field) => showDatePicker(
+                  context: field.context,
+                  initialDate: _getInitialDate(firstDate, lastDate,
+                      initialDate ?? field.value ?? DateTime.now()),
+                  firstDate: firstDate,
+                  lastDate: lastDate,
+                  initialEntryMode: initialEntryMode,
+                  selectableDayPredicate: selectableDayPredicate,
+                  helpText: helpText,
+                  cancelText: cancelText,
+                  confirmText: confirmText,
+                  locale: locale,
+                  useRootNavigator: useRootNavigator,
+                  routeSettings: routeSettings,
+                  textDirection: textDirection,
+                  builder: transitionBuilder,
+                  initialDatePickerMode: initialDatePickerMode,
+                  errorFormatText: errorFormatText,
+                  errorInvalidText: errorInvalidText,
+                  fieldHintText: fieldHintText,
+                  fieldLabelText: fieldLabelText,
+                  currentDate: currentDate,
+                  keyboardType: keyboardType,
+                  anchorPoint: anchorPoint,
+                ).then((value) {
+                  if (value != null) {
+                    field.didChange(value);
+                  }
+                }),
+              ),
+              child,
+            );
+          },
+        );
+
+  static DateTime _getInitialDate(
+      DateTime firstDate, DateTime lastDate, DateTime defaultInitDate) {
+    var initialDate = defaultInitDate;
+
+    if (initialDate.isBefore(firstDate)) {
+      initialDate = firstDate;
+    } else if (initialDate.isAfter(lastDate)) {
+      initialDate = lastDate;
+    }
+
+    return initialDate;
+  }
+
+  @override
+  QReactiveFormFieldState<T, DateTime> createState() =>
+      _ReactiveDatePickerState<T>();
+}
+
+/// Definition of the function responsible for show the date picker.
+typedef _ShowDatePickerCallback<T> = void Function(
+    QReactiveFormFieldState<T?, DateTime> field);
+
+/// This class is responsible of showing the picker dialog.
+///
+/// See also [ReactiveDatePicker].
+class QReactiveDatePickerDelegate<T> {
+  final QReactiveFormFieldState<T, DateTime> _field;
+  final _ShowDatePickerCallback<T> _showPickerCallback;
+
+  QReactiveDatePickerDelegate._(this._field, this._showPickerCallback);
+
+  /// Gets the control bound to the [ReactiveTimePicker] widget
+  FormControl<T> get control => _field.control;
+
+  /// Gets the value selected in the date picker.
+  DateTime? get value => _field.value;
+
+  /// Shows the time picker dialog.
+  void showPicker() {
+    _showPickerCallback(_field);
+  }
+}
+
+class _ReactiveDatePickerState<T> extends QReactiveFormFieldState<T, DateTime> {
+  @override
+  ControlValueAccessor<T, DateTime> selectValueAccessor() {
+    if (control is FormControl<String>) {
+      return Iso8601DateTimeValueAccessor()
+          as ControlValueAccessor<T, DateTime>;
+    } else if (control is FormControl<DateTime>) {
+      return super.selectValueAccessor();
+    }
+
+    throw ValueAccessorException('Invalid widget binding. ReactiveDatePicker '
+        'widget must be bound to a control that inherited from '
+        'AbstractControl<String> or AbstractControl<DateTime>. '
+        'Control of type: ${control.runtimeType} is not valid.');
+  }
+}

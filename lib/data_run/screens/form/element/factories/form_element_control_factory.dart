@@ -123,95 +123,95 @@ extension FromElementControlFactory<T> on FormElementInstance<T?> {
   }
 }
 
-//
-// /// from template wit value, use [FromTemplateControlFactory]
-// /// for adding new control with saved value
-// extension FromElementControlFactory<T> on FormElementInstance<T?> {
-//   static AbstractControl<dynamic> createElementControl(
-//       FormElementInstance<dynamic> element) {
-//     return switch (element) {
-//       FieldInstance() => createFieldControl(element),
-//       SectionInstance() => createSectionControl(element),
-//       RepeatInstance() => createRepeatSectionControl(element),
-//     };
-//   }
-//
-//   static FormGroup createSectionControl<T>(SectionInstance section) {
-//     final Map<String, AbstractControl<dynamic>> controls = {};
-//     for (var element in section.elements.values) {
-//       controls[element.name] = createElementControl(element);
-//     }
-//     return FormGroup(controls);
-//   }
-//
-//   static FormArray<Map<String, Object?>> createRepeatSectionControl(
-//       RepeatInstance section) {
-//     final Map<String, AbstractControl<dynamic>> initialGroups = {};
-//
-//     for (var element in section.elements) {
-//       initialGroups[element.name] = createElementControl(element);
-//     }
-//     final FormGroup formGroup = FormGroup(initialGroups);
-//     return FormArray<Map<String, Object?>>([formGroup]);
-//   }
-//
-//   static AbstractControl<dynamic> createFieldControl(
-//       FieldInstance<dynamic> element) {
-//     switch (element.type) {
-//       case ValueType.Text:
-//       case ValueType.LongText:
-//       case ValueType.Letter:
-//       case ValueType.FullName:
-//       case ValueType.Email:
-//       case ValueType.OrganisationUnit:
-//         return FormControl<String>(
-//           value: element.value ?? element.defaultValue,
-//           validators: FieldValidators.getValidators(element),
-//         );
-//       case ValueType.Boolean:
-//       case ValueType.TrueOnly:
-//       case ValueType.YesNo:
-//         return FormControl<bool>(
-//           value: element.value ?? element.defaultValue,
-//           validators: FieldValidators.getValidators(element),
-//         );
-//       case ValueType.Date:
-//       case ValueType.Time:
-//       case ValueType.DateTime:
-//         return FormControl<String?>(
-//           value: element.value ?? element.defaultValue,
-//           validators: FieldValidators.getValidators(element),
-//         );
-//       case ValueType.Integer:
-//       case ValueType.IntegerPositive:
-//       case ValueType.IntegerNegative:
-//       case ValueType.IntegerZeroOrPositive:
-//         return FormControl<int?>(
-//           value: element.value ?? element.defaultValue,
-//           validators: FieldValidators.getValidators(element),
-//         );
-//       case ValueType.Number:
-//       case ValueType.Age:
-//       case ValueType.Percentage:
-//         return FormControl<double?>(
-//           value: element.value ?? element.defaultValue,
-//           validators: FieldValidators.getValidators(element),
-//         );
-//       case ValueType.SelectOne:
-//         return FormControl<String>(
-//           value: element.value ?? element.defaultValue,
-//           validators: FieldValidators.getValidators(element),
-//         );
-//       case ValueType.SelectMulti:
-//         // return FormArray<String>(
-//         //   fieldTemplate.options.map((option) => FormControl<String>()).toList(),
-//         // );
-//         return FormControl<List<String>>(
-//           value:
-//               element.value is String ? [element.value] : element.value ?? [],
-//         );
-//       default:
-//         throw UnsupportedError('Unsupported element type: ${element}');
-//     }
-//   }
-// }
+
+/// from template wit value, use [FromTemplateControlFactory]
+/// for adding new control with saved value
+extension FromElementInstanceControlFactory<T> on FormElementInstance<T?> {
+  static AbstractControl<dynamic> createElementControl(
+      FormElementInstance<dynamic> element) {
+    return switch (element) {
+      FieldInstance() => createFieldControl(element),
+      SectionInstance() => createSectionControl(element),
+      RepeatInstance() => createRepeatSectionControl(element),
+    };
+  }
+
+  static FormGroup createSectionControl<T>(SectionInstance section) {
+    final Map<String, AbstractControl<dynamic>> controls = {};
+    for (var element in section.elements.values) {
+      controls[element.name] = createElementControl(element);
+    }
+    return FormGroup(controls);
+  }
+
+  static FormArray<Map<String, Object?>> createRepeatSectionControl(
+      RepeatInstance section) {
+    final Map<String, AbstractControl<dynamic>> initialGroups = {};
+
+    for (var element in section.elements) {
+      initialGroups[element.name] = createElementControl(element);
+    }
+    final FormGroup formGroup = FormGroup(initialGroups);
+    return FormArray<Map<String, Object?>>([formGroup]);
+  }
+
+  static AbstractControl<dynamic> createFieldControl(
+      FieldInstance<dynamic> element) {
+    switch (element.type) {
+      case ValueType.Text:
+      case ValueType.LongText:
+      case ValueType.Letter:
+      case ValueType.FullName:
+      case ValueType.Email:
+      case ValueType.OrganisationUnit:
+        return FormControl<String>(
+          value: element.value ?? element.defaultValue,
+          validators: FieldValidators.getValidators(element),
+        );
+      case ValueType.Boolean:
+      case ValueType.TrueOnly:
+      case ValueType.YesNo:
+        return FormControl<bool>(
+          value: element.value ?? element.defaultValue,
+          validators: FieldValidators.getValidators(element),
+        );
+      case ValueType.Date:
+      case ValueType.Time:
+      case ValueType.DateTime:
+        return FormControl<String?>(
+          value: element.value ?? element.defaultValue,
+          validators: FieldValidators.getValidators(element),
+        );
+      case ValueType.Integer:
+      case ValueType.IntegerPositive:
+      case ValueType.IntegerNegative:
+      case ValueType.IntegerZeroOrPositive:
+        return FormControl<int?>(
+          value: element.value ?? element.defaultValue,
+          validators: FieldValidators.getValidators(element),
+        );
+      case ValueType.Number:
+      case ValueType.Age:
+      case ValueType.Percentage:
+        return FormControl<double?>(
+          value: element.value ?? element.defaultValue,
+          validators: FieldValidators.getValidators(element),
+        );
+      case ValueType.SelectOne:
+        return FormControl<String>(
+          value: element.value ?? element.defaultValue,
+          validators: FieldValidators.getValidators(element),
+        );
+      case ValueType.SelectMulti:
+        // return FormArray<String>(
+        //   fieldTemplate.options.map((option) => FormControl<String>()).toList(),
+        // );
+        return FormControl<List<String>>(
+          value:
+              element.value is String ? [element.value] : element.value ?? [],
+        );
+      default:
+        throw UnsupportedError('Unsupported element type: ${element}');
+    }
+  }
+}

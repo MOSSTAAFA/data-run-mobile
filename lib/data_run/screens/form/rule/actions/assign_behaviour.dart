@@ -7,15 +7,16 @@ class AssignBehaviour extends ActionBehaviour {
   final dynamic _value;
 
   @override
-  void applyAction(FormElementInstance<dynamic> element) {
+  void applyAction(FormElementInstance<dynamic> element,
+      {required Map<String, dynamic> evalContext}) {
     loggerEvaluation.d({
       'Rule Evaluated':
-          'Element ${element.name}, Action Assign= ${actionIsInEffect(element.evalContext)}',
-      '${actionIsInEffect(element.evalContext) ? 'Assign' : 'reset'}':
+          'Element ${element.name}, Action Assign= ${actionIsInEffect(evalContext)}',
+      '${actionIsInEffect(evalContext) ? 'Assign' : 'reset'}':
           '${element.name} value:  $_value'
     });
-    actionIsInEffect(element.evalContext)
-        ? element.updateValue(_value, emitEvent: false)
+    actionIsInEffect(evalContext)
+        ? element.reset(value: _value, emitEvent: false)
         : element.reset(value: element.template.defaultValue, emitEvent: false);
   }
 }

@@ -6,6 +6,7 @@ class UnimplementedActionBehaviour extends ActionBehaviour {
   UnimplementedActionBehaviour(super.expression);
 
   @override
-  void applyAction(FormElementInstance<dynamic> element) =>
+  void applyAction(FormElementInstance<dynamic> element,
+          {required Map<String, dynamic> evalContext}) =>
       logError(error: 'UnImplemented Rule Action Behaviour');
 }

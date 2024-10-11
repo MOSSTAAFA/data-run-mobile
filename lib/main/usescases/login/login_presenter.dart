@@ -157,9 +157,9 @@ class LoginScreenPresenter {
 
   Future<void> logOut() async {
     if (userManager != null) {
-      logDebug(info: 'logging out...');
+      logDebug('logging out...');
       userManager!.logOut().catchError((error, stackTrace) {
-        logDebug(info: 'Error logging out...');
+        logDebug('Error logging out...');
         logError(error: '$error, StackTrace: $stackTrace');
         view.handleLogout();
       });
@@ -170,7 +170,7 @@ class LoginScreenPresenter {
 
   Future<void> handleResponse(
       LoginResponseStatus userResponse, String userName, String server) async {
-    logDebug(info: 'Login Response: $userResponse');
+    logDebug('Login Response: $userResponse');
     view.showLoginProgress(false);
     if (userResponse == LoginResponseStatus.ONLINE_LOGIN_SUCCESS ||
         userResponse == LoginResponseStatus.OFFLINE_LOGIN_SUCCESS) {
