@@ -39,12 +39,6 @@ class FormModel {
   void updateVisibility(String path, bool isVisible) {
     visibility[path] = isVisible;
   }
-
-  void resetValue(String path) {
-    // elements.update(key, update)
-    // elements.map(mapper)
-    // elements.visibility[path] = isVisible;
-  }
 }
 
 class RepeatElementState {

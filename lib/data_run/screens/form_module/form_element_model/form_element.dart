@@ -50,6 +50,15 @@ sealed class FormElementInstance<T> {
 
   bool get visible => !hidden;
 
+  set parentSection(FormElementInstance<Object>? parent) {
+    if (this is FormRepeatItemElement && !(parent is FormRepeatElement?)) {
+      throw StateError(
+          'A RepeatItemInstance\'s Parent can only be a RepeatInstance, parent: ${parent.runtimeType}');
+    }
+
+    _parentSection = parent;
+  }
+
   String get elementPath => pathBuilder(name);
 
   String get pathRecursive {
@@ -57,6 +66,12 @@ sealed class FormElementInstance<T> {
         ? '${parentSection!.pathRecursive}.${name}'
         : name;
   }
+
+  String pathBuilder(String? pathItem) => [
+    parentSection != null ? parentSection!.elementPath : null,
+    pathItem
+  ].whereType<String>().join('.');
+
 
   void _updateValue() {
     _value = reduceValue();
@@ -118,20 +133,6 @@ sealed class FormElementInstance<T> {
     _hidden = false;
     _updateAncestors(updateParent);
   }
-
-  set parentSection(FormElementInstance<Object>? parent) {
-    if (this is FormRepeatItemElement && !(parent is FormRepeatElement?)) {
-      throw StateError(
-          'A RepeatItemInstance\'s Parent can only be a RepeatInstance, parent: ${parent.runtimeType}');
-    }
-
-    _parentSection = parent;
-  }
-
-  String pathBuilder(String? pathItem) => [
-        parentSection != null ? parentSection!.pathRecursive : null,
-        pathItem
-      ].whereType<String>().join('.');
 
   @protected
   bool anyElements(

@@ -13,7 +13,16 @@ class FormRepeatItemElement extends FormSectionElement {
   @override
   String get name => '$sectionIndex';
 
-  String get pathRecursive {
+  set parentSection(FormElementInstance<Object>? parent) {
+    if (parent is! FormRepeatElement) {
+      throw StateError(
+          'A RepeatItemInstance\'s Parent can only be a RepeatInstance, parent: ${parent.runtimeType}');
+    }
+
+    _parentSection = parent;
+  }
+
+  String pathBuilder(String? pathItem) {
     if (parentSection == null) {
       throw StateError('RepeatItemInstance\'s Parent should not be null');
     }
@@ -23,7 +32,8 @@ class FormRepeatItemElement extends FormSectionElement {
           'A RepeatItemInstance\'s Parent can only be a RepeatInstance, parent: ${parentSection.runtimeType}');
     }
 
-    String? parentPath = '${parentSection!.pathRecursive}';
-    return '${parentPath}.$sectionIndex';
+   return [parentSection!.elementPath, pathItem]
+        .whereType<String>()
+        .join('.');
   }
 }
