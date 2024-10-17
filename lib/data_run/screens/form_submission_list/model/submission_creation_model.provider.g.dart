@@ -35,10 +35,23 @@ class _SystemHash {
 const submissionCreationModelProvider = SubmissionCreationModelFamily();
 
 /// See also [submissionCreationModel].
-class SubmissionCreationModelFamily
-    extends Family<AsyncValue<SubmissionCreationModel>> {
+class SubmissionCreationModelFamily extends Family {
   /// See also [submissionCreationModel].
   const SubmissionCreationModelFamily();
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'submissionCreationModelProvider';
 
   /// See also [submissionCreationModel].
   SubmissionCreationModelProvider call({
@@ -49,6 +62,7 @@ class SubmissionCreationModelFamily
     );
   }
 
+  @visibleForOverriding
   @override
   SubmissionCreationModelProvider getProviderOverride(
     covariant SubmissionCreationModelProvider provider,
@@ -58,19 +72,29 @@ class SubmissionCreationModelFamily
     );
   }
 
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
+  /// Enables overriding the behavior of this provider, no matter the parameters.
+  Override overrideWith(
+      FutureOr<SubmissionCreationModel> Function(SubmissionCreationModelRef ref)
+          create) {
+    return _$SubmissionCreationModelFamilyOverride(this, create);
+  }
+}
+
+class _$SubmissionCreationModelFamilyOverride implements FamilyOverride {
+  _$SubmissionCreationModelFamilyOverride(this.overriddenFamily, this.create);
+
+  final FutureOr<SubmissionCreationModel> Function(
+      SubmissionCreationModelRef ref) create;
 
   @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+  final SubmissionCreationModelFamily overriddenFamily;
 
   @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'submissionCreationModelProvider';
+  SubmissionCreationModelProvider getProviderOverride(
+    covariant SubmissionCreationModelProvider provider,
+  ) {
+    return provider._copyWith(create);
+  }
 }
 
 /// See also [submissionCreationModel].
@@ -97,7 +121,7 @@ class SubmissionCreationModelProvider
         );
 
   SubmissionCreationModelProvider._internal(
-    super._createNotifier, {
+    super.create, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
@@ -110,8 +134,7 @@ class SubmissionCreationModelProvider
 
   @override
   Override overrideWith(
-    FutureOr<SubmissionCreationModel> Function(
-            SubmissionCreationModelRef provider)
+    FutureOr<SubmissionCreationModel> Function(SubmissionCreationModelRef ref)
         create,
   ) {
     return ProviderOverride(
@@ -129,8 +152,30 @@ class SubmissionCreationModelProvider
   }
 
   @override
+  ({
+    FormMetadata formMetaData,
+  }) get argument {
+    return (formMetaData: formMetaData,);
+  }
+
+  @override
   AutoDisposeFutureProviderElement<SubmissionCreationModel> createElement() {
     return _SubmissionCreationModelProviderElement(this);
+  }
+
+  SubmissionCreationModelProvider _copyWith(
+    FutureOr<SubmissionCreationModel> Function(SubmissionCreationModelRef ref)
+        create,
+  ) {
+    return SubmissionCreationModelProvider._internal(
+      (ref) => create(ref as SubmissionCreationModelRef),
+      name: name,
+      dependencies: dependencies,
+      allTransitiveDependencies: allTransitiveDependencies,
+      debugGetCreateSourceHash: debugGetCreateSourceHash,
+      from: from,
+      formMetaData: formMetaData,
+    );
   }
 
   @override
@@ -164,4 +209,4 @@ class _SubmissionCreationModelProviderElement
       (origin as SubmissionCreationModelProvider).formMetaData;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package

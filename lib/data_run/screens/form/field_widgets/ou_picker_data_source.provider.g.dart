@@ -35,9 +35,23 @@ class _SystemHash {
 const ouPickerDataSourceProvider = OuPickerDataSourceFamily();
 
 /// See also [ouPickerDataSource].
-class OuPickerDataSourceFamily extends Family<AsyncValue<TreeNodeDataSource>> {
+class OuPickerDataSourceFamily extends Family {
   /// See also [ouPickerDataSource].
   const OuPickerDataSourceFamily();
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'ouPickerDataSourceProvider';
 
   /// See also [ouPickerDataSource].
   OuPickerDataSourceProvider call({
@@ -48,6 +62,7 @@ class OuPickerDataSourceFamily extends Family<AsyncValue<TreeNodeDataSource>> {
     );
   }
 
+  @visibleForOverriding
   @override
   OuPickerDataSourceProvider getProviderOverride(
     covariant OuPickerDataSourceProvider provider,
@@ -57,19 +72,27 @@ class OuPickerDataSourceFamily extends Family<AsyncValue<TreeNodeDataSource>> {
     );
   }
 
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
+  /// Enables overriding the behavior of this provider, no matter the parameters.
+  Override overrideWith(
+      FutureOr<TreeNodeDataSource> Function(OuPickerDataSourceRef ref) create) {
+    return _$OuPickerDataSourceFamilyOverride(this, create);
+  }
+}
+
+class _$OuPickerDataSourceFamilyOverride implements FamilyOverride {
+  _$OuPickerDataSourceFamilyOverride(this.overriddenFamily, this.create);
+
+  final FutureOr<TreeNodeDataSource> Function(OuPickerDataSourceRef ref) create;
 
   @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+  final OuPickerDataSourceFamily overriddenFamily;
 
   @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'ouPickerDataSourceProvider';
+  OuPickerDataSourceProvider getProviderOverride(
+    covariant OuPickerDataSourceProvider provider,
+  ) {
+    return provider._copyWith(create);
+  }
 }
 
 /// See also [ouPickerDataSource].
@@ -96,7 +119,7 @@ class OuPickerDataSourceProvider
         );
 
   OuPickerDataSourceProvider._internal(
-    super._createNotifier, {
+    super.create, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
@@ -109,8 +132,7 @@ class OuPickerDataSourceProvider
 
   @override
   Override overrideWith(
-    FutureOr<TreeNodeDataSource> Function(OuPickerDataSourceRef provider)
-        create,
+    FutureOr<TreeNodeDataSource> Function(OuPickerDataSourceRef ref) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -127,8 +149,29 @@ class OuPickerDataSourceProvider
   }
 
   @override
+  ({
+    FormMetadata formMetaData,
+  }) get argument {
+    return (formMetaData: formMetaData,);
+  }
+
+  @override
   AutoDisposeFutureProviderElement<TreeNodeDataSource> createElement() {
     return _OuPickerDataSourceProviderElement(this);
+  }
+
+  OuPickerDataSourceProvider _copyWith(
+    FutureOr<TreeNodeDataSource> Function(OuPickerDataSourceRef ref) create,
+  ) {
+    return OuPickerDataSourceProvider._internal(
+      (ref) => create(ref as OuPickerDataSourceRef),
+      name: name,
+      dependencies: dependencies,
+      allTransitiveDependencies: allTransitiveDependencies,
+      debugGetCreateSourceHash: debugGetCreateSourceHash,
+      from: from,
+      formMetaData: formMetaData,
+    );
   }
 
   @override
@@ -162,4 +205,4 @@ class _OuPickerDataSourceProviderElement
       (origin as OuPickerDataSourceProvider).formMetaData;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package

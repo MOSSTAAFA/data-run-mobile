@@ -35,9 +35,23 @@ class _SystemHash {
 const syncScreenPresenterProvider = SyncScreenPresenterFamily();
 
 /// See also [syncScreenPresenter].
-class SyncScreenPresenterFamily extends Family<SyncScreenPresenter> {
+class SyncScreenPresenterFamily extends Family {
   /// See also [syncScreenPresenter].
   const SyncScreenPresenterFamily();
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'syncScreenPresenterProvider';
 
   /// See also [syncScreenPresenter].
   SyncScreenPresenterProvider call(
@@ -48,6 +62,7 @@ class SyncScreenPresenterFamily extends Family<SyncScreenPresenter> {
     );
   }
 
+  @visibleForOverriding
   @override
   SyncScreenPresenterProvider getProviderOverride(
     covariant SyncScreenPresenterProvider provider,
@@ -57,19 +72,27 @@ class SyncScreenPresenterFamily extends Family<SyncScreenPresenter> {
     );
   }
 
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
+  /// Enables overriding the behavior of this provider, no matter the parameters.
+  Override overrideWith(
+      SyncScreenPresenter Function(SyncScreenPresenterRef ref) create) {
+    return _$SyncScreenPresenterFamilyOverride(this, create);
+  }
+}
+
+class _$SyncScreenPresenterFamilyOverride implements FamilyOverride {
+  _$SyncScreenPresenterFamilyOverride(this.overriddenFamily, this.create);
+
+  final SyncScreenPresenter Function(SyncScreenPresenterRef ref) create;
 
   @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+  final SyncScreenPresenterFamily overriddenFamily;
 
   @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'syncScreenPresenterProvider';
+  SyncScreenPresenterProvider getProviderOverride(
+    covariant SyncScreenPresenterProvider provider,
+  ) {
+    return provider._copyWith(create);
+  }
 }
 
 /// See also [syncScreenPresenter].
@@ -96,7 +119,7 @@ class SyncScreenPresenterProvider
         );
 
   SyncScreenPresenterProvider._internal(
-    super._createNotifier, {
+    super.create, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
@@ -109,7 +132,7 @@ class SyncScreenPresenterProvider
 
   @override
   Override overrideWith(
-    SyncScreenPresenter Function(SyncScreenPresenterRef provider) create,
+    SyncScreenPresenter Function(SyncScreenPresenterRef ref) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -126,8 +149,27 @@ class SyncScreenPresenterProvider
   }
 
   @override
+  (SyncView,) get argument {
+    return (view,);
+  }
+
+  @override
   AutoDisposeProviderElement<SyncScreenPresenter> createElement() {
     return _SyncScreenPresenterProviderElement(this);
+  }
+
+  SyncScreenPresenterProvider _copyWith(
+    SyncScreenPresenter Function(SyncScreenPresenterRef ref) create,
+  ) {
+    return SyncScreenPresenterProvider._internal(
+      (ref) => create(ref as SyncScreenPresenterRef),
+      name: name,
+      dependencies: dependencies,
+      allTransitiveDependencies: allTransitiveDependencies,
+      debugGetCreateSourceHash: debugGetCreateSourceHash,
+      from: from,
+      view: view,
+    );
   }
 
   @override
@@ -158,4 +200,4 @@ class _SyncScreenPresenterProviderElement
   SyncView get view => (origin as SyncScreenPresenterProvider).view;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package
