@@ -2,7 +2,7 @@ import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:flutter/material.dart';
 import 'package:mass_pro/data_run/screens/form/element_widgets/element_section.widget.dart';
 import 'package:mass_pro/data_run/screens/form/form_field/q_int_type_field.widget.dart';
-import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
+import 'package:mass_pro/data_run/screens/form_module/model/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/reactive_field/field_widgets.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
@@ -11,13 +11,13 @@ class FormElementWidgetFactory {
   static Widget createWidget(FormElementInstance<dynamic> element) {
     return switch (element) {
       /// [FieldWidget] is a leaf in the tr
-      FieldInstance() => ElementFieldTypeWidget(
+      FormFieldElement() => ElementFieldTypeWidget(
           key: Key('field_${element.pathRecursive}'), element: element),
 
       /// a [SectionWidget] with other widgets inside,
       /// which also call this factory to build the tree
       /// recursively until it reaches the leaf which is a [FieldWidget]
-      SectionElement() => ElementSectionWidget(
+      FormCollectionElement() => ElementSectionWidget(
           key: Key('SectionElement_${element.pathRecursive}'),
           sectionElement: element),
       // RepeatInstance() => ElementSectionWidget(key: Key(element.pathRecursive), sectionElement: element)
@@ -30,7 +30,7 @@ class FormElementWidgetFactory {
 /// each QField is a Form Widget which
 /// would call element using context from parent [FieldInstanceInheritedWidget]
 class FieldFactory {
-  static Widget fromType({required FieldInstance<dynamic> fieldElement}) {
+  static Widget fromType({required FormFieldElement<dynamic> fieldElement}) {
     switch (fieldElement.type) {
       case ValueType.Text:
       case ValueType.LongText:
@@ -39,21 +39,21 @@ class FieldFactory {
       case ValueType.FullName:
         return QReactiveTextField<String>(
           key: Key(fieldElement.pathRecursive),
-          element: fieldElement as FieldInstance<String>,
+          element: fieldElement as FormFieldElement<String>,
         );
       case ValueType.Date:
       case ValueType.Time:
       case ValueType.DateTime:
         return QReactiveDatePickerField(
           key: Key(fieldElement.pathRecursive),
-          element: fieldElement as FieldInstance<String>,
+          element: fieldElement as FormFieldElement<String>,
         );
       case ValueType.Boolean:
       case ValueType.YesNo:
       case ValueType.TrueOnly:
         return QReactiveSwitchField(
           key: Key(fieldElement.pathRecursive),
-          element: fieldElement as FieldInstance<bool>,
+          element: fieldElement as FormFieldElement<bool>,
         );
       case ValueType.Integer:
       case ValueType.IntegerPositive:
@@ -61,7 +61,7 @@ class FieldFactory {
       case ValueType.IntegerZeroOrPositive:
         return QReactiveTextField<int>(
           key: Key(fieldElement.pathRecursive),
-          element: fieldElement as FieldInstance<int>,
+          element: fieldElement as FormFieldElement<int>,
         );
       // return QReactiveIntTypeField(
       //   key: Key(fieldElement.pathRecursive),
@@ -71,7 +71,7 @@ class FieldFactory {
       case ValueType.Age:
         return QReactiveTextField<double>(
           key: Key(fieldElement.pathRecursive),
-          element: fieldElement as FieldInstance<double>,
+          element: fieldElement as FormFieldElement<double>,
         );
       // return QReactiveDoubleTypeField(
       //   key: Key(fieldElement.pathRecursive),
@@ -86,12 +86,12 @@ class FieldFactory {
       case ValueType.SelectOne:
         return QReactiveSingleSelect(
           key: Key(fieldElement.pathRecursive),
-          element: fieldElement as FieldInstance<String>,
+          element: fieldElement as FormFieldElement<String>,
         );
       case ValueType.SelectMulti:
         return QReactiveMultiSelect(
           key: Key(fieldElement.pathRecursive),
-          element: fieldElement as FieldInstance<List<String>>,
+          element: fieldElement as FormFieldElement<List<String>>,
         );
       default:
         return const Text('Unsupported element type');

@@ -1,7 +1,7 @@
 import 'package:mass_pro/data_run/errors_management/errors/d_error_code.dart';
 import 'package:mass_pro/data_run/errors_management/errors/d_exception.dart';
 
-class DError implements DException {
+class DError implements DException<dynamic> {
   const DError(
       {this.url,
       this.errorComponent,

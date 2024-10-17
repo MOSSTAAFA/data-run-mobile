@@ -1,4 +1,4 @@
-part of '../form_element.dart';
+part of '../../../form_module/model/form_element.dart';
 
 abstract class ElementRuleDependencyManager<T> {
 

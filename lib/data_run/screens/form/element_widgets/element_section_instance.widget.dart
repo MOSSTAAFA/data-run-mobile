@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
+import 'package:mass_pro/data_run/screens/form_module/model/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/element_widgets/element.widget.dart';
 import 'package:mass_pro/data_run/screens/form/reactive_field/improved_expansion_tile.widget.dart';
 import 'package:mass_pro/data_run/screens/form/inherited_widgets/element_section_inherited.widget.dart';
@@ -13,7 +13,7 @@ class ElementSectionInstanceWidget extends HookConsumerWidget {
   ElementSectionInstanceWidget(
       {super.key, required this.section, this.hidden = false});
 
-  final SectionInstance section;
+  final FormSectionElement section;
   final bool hidden;
 
   @override

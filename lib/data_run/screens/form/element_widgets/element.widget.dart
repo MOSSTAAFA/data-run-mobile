@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:mass_pro/commons/logging/logging.dart';
-import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
+import 'package:mass_pro/data_run/screens/form_module/model/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/element_widgets/form_widget_factory.dart';
 
 class ElementWidget extends HookWidget {

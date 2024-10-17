@@ -1,4 +1,4 @@
-import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
+import 'package:mass_pro/data_run/screens/form_module/model/form_element.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
 class ElementSectionInheritedWidget extends InheritedWidget {
@@ -7,10 +7,10 @@ class ElementSectionInheritedWidget extends InheritedWidget {
     required this.section,
     required this.child,
   }) : super(key: key, child: child);
-  final SectionInstance section;
+  final FormSectionElement section;
   final Widget child;
 
-  static SectionInstance of(BuildContext context) {
+  static FormSectionElement of(BuildContext context) {
     final ElementSectionInheritedWidget? inheritedWidget =
         context.dependOnInheritedWidgetOfExactType<ElementSectionInheritedWidget>();
     if (inheritedWidget == null) {

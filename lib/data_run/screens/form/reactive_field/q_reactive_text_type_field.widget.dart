@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
+import 'package:mass_pro/data_run/screens/form_module/model/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/reactive_field/custom/q_reactive_field.dart';
 import 'package:mass_pro/data_run/screens/form/reactive_field/custom/q_reactive_focusable_form_field.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
-typedef QReactiveFormFieldCallback<T> = void Function(FieldInstance<T> element);
+typedef QReactiveFormFieldCallback<T> = void Function(FormFieldElement<T> element);
 
 // created by a static factory method
 class QReactiveTextField<T> extends QReactiveFormField<T, String> {

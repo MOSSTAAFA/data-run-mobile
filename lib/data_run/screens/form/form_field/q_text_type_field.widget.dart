@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:mass_pro/commons/logging/logging.dart';
-import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
+import 'package:mass_pro/data_run/screens/form_module/model/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/element/validation/form_element_validator.dart';
 import 'package:mass_pro/data_run/screens/form/inherited_widgets/element_field_inherited.widget.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
@@ -13,7 +13,7 @@ class QReactiveTextTypeField extends HookWidget {
     required this.element,
   });
 
-  final FieldInstance<dynamic> element;
+  final FormFieldElement<dynamic> element;
 
   @override
   Widget build(BuildContext context) {

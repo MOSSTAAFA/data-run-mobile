@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
+import 'package:mass_pro/data_run/screens/form_module/model/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/element/validation/form_element_validator.dart';
 import 'package:mass_pro/data_run/screens/form/inherited_widgets/element_field_inherited.widget.dart';
 import 'package:mass_pro/data_run/screens/form/reactive_field/field_widgets.dart';
@@ -12,7 +12,7 @@ class QReactiveDoubleTypeField extends HookWidget {
     required this.element,
   });
 
-  final FieldInstance<double> element;
+  final FormFieldElement<double> element;
 
   @override
   Widget build(BuildContext context) {

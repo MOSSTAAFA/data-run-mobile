@@ -35,10 +35,23 @@ class _SystemHash {
 const submissionMappingRepositoryProvider = SubmissionMappingRepositoryFamily();
 
 /// See also [submissionMappingRepository].
-class SubmissionMappingRepositoryFamily
-    extends Family<SubmissionMappingRepository> {
+class SubmissionMappingRepositoryFamily extends Family {
   /// See also [submissionMappingRepository].
   const SubmissionMappingRepositoryFamily();
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'submissionMappingRepositoryProvider';
 
   /// See also [submissionMappingRepository].
   SubmissionMappingRepositoryProvider call({
@@ -51,6 +64,7 @@ class SubmissionMappingRepositoryFamily
     );
   }
 
+  @visibleForOverriding
   @override
   SubmissionMappingRepositoryProvider getProviderOverride(
     covariant SubmissionMappingRepositoryProvider provider,
@@ -61,19 +75,30 @@ class SubmissionMappingRepositoryFamily
     );
   }
 
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
+  /// Enables overriding the behavior of this provider, no matter the parameters.
+  Override overrideWith(
+      SubmissionMappingRepository Function(SubmissionMappingRepositoryRef ref)
+          create) {
+    return _$SubmissionMappingRepositoryFamilyOverride(this, create);
+  }
+}
+
+class _$SubmissionMappingRepositoryFamilyOverride implements FamilyOverride {
+  _$SubmissionMappingRepositoryFamilyOverride(
+      this.overriddenFamily, this.create);
+
+  final SubmissionMappingRepository Function(SubmissionMappingRepositoryRef ref)
+      create;
 
   @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+  final SubmissionMappingRepositoryFamily overriddenFamily;
 
   @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'submissionMappingRepositoryProvider';
+  SubmissionMappingRepositoryProvider getProviderOverride(
+    covariant SubmissionMappingRepositoryProvider provider,
+  ) {
+    return provider._copyWith(create);
+  }
 }
 
 /// See also [submissionMappingRepository].
@@ -103,7 +128,7 @@ class SubmissionMappingRepositoryProvider
         );
 
   SubmissionMappingRepositoryProvider._internal(
-    super._createNotifier, {
+    super.create, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
@@ -118,8 +143,7 @@ class SubmissionMappingRepositoryProvider
 
   @override
   Override overrideWith(
-    SubmissionMappingRepository Function(
-            SubmissionMappingRepositoryRef provider)
+    SubmissionMappingRepository Function(SubmissionMappingRepositoryRef ref)
         create,
   ) {
     return ProviderOverride(
@@ -138,8 +162,35 @@ class SubmissionMappingRepositoryProvider
   }
 
   @override
+  ({
+    FormConfiguration formConfiguration,
+    String submissionUid,
+  }) get argument {
+    return (
+      formConfiguration: formConfiguration,
+      submissionUid: submissionUid,
+    );
+  }
+
+  @override
   AutoDisposeProviderElement<SubmissionMappingRepository> createElement() {
     return _SubmissionMappingRepositoryProviderElement(this);
+  }
+
+  SubmissionMappingRepositoryProvider _copyWith(
+    SubmissionMappingRepository Function(SubmissionMappingRepositoryRef ref)
+        create,
+  ) {
+    return SubmissionMappingRepositoryProvider._internal(
+      (ref) => create(ref as SubmissionMappingRepositoryRef),
+      name: name,
+      dependencies: dependencies,
+      allTransitiveDependencies: allTransitiveDependencies,
+      debugGetCreateSourceHash: debugGetCreateSourceHash,
+      from: from,
+      formConfiguration: formConfiguration,
+      submissionUid: submissionUid,
+    );
   }
 
   @override
@@ -189,10 +240,23 @@ String _$submissionFilteredByStateHash() =>
 const submissionFilteredByStateProvider = SubmissionFilteredByStateFamily();
 
 /// See also [submissionFilteredByState].
-class SubmissionFilteredByStateFamily
-    extends Family<AsyncValue<List<DataFormSubmission>>> {
+class SubmissionFilteredByStateFamily extends Family {
   /// See also [submissionFilteredByState].
   const SubmissionFilteredByStateFamily();
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'submissionFilteredByStateProvider';
 
   /// See also [submissionFilteredByState].
   SubmissionFilteredByStateProvider call({
@@ -207,6 +271,7 @@ class SubmissionFilteredByStateFamily
     );
   }
 
+  @visibleForOverriding
   @override
   SubmissionFilteredByStateProvider getProviderOverride(
     covariant SubmissionFilteredByStateProvider provider,
@@ -218,19 +283,30 @@ class SubmissionFilteredByStateFamily
     );
   }
 
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
+  /// Enables overriding the behavior of this provider, no matter the parameters.
+  Override overrideWith(
+      FutureOr<List<DataFormSubmission>> Function(
+              SubmissionFilteredByStateRef ref)
+          create) {
+    return _$SubmissionFilteredByStateFamilyOverride(this, create);
+  }
+}
+
+class _$SubmissionFilteredByStateFamilyOverride implements FamilyOverride {
+  _$SubmissionFilteredByStateFamilyOverride(this.overriddenFamily, this.create);
+
+  final FutureOr<List<DataFormSubmission>> Function(
+      SubmissionFilteredByStateRef ref) create;
 
   @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+  final SubmissionFilteredByStateFamily overriddenFamily;
 
   @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'submissionFilteredByStateProvider';
+  SubmissionFilteredByStateProvider getProviderOverride(
+    covariant SubmissionFilteredByStateProvider provider,
+  ) {
+    return provider._copyWith(create);
+  }
 }
 
 /// See also [submissionFilteredByState].
@@ -263,7 +339,7 @@ class SubmissionFilteredByStateProvider
         );
 
   SubmissionFilteredByStateProvider._internal(
-    super._createNotifier, {
+    super.create, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
@@ -281,7 +357,7 @@ class SubmissionFilteredByStateProvider
   @override
   Override overrideWith(
     FutureOr<List<DataFormSubmission>> Function(
-            SubmissionFilteredByStateRef provider)
+            SubmissionFilteredByStateRef ref)
         create,
   ) {
     return ProviderOverride(
@@ -301,8 +377,39 @@ class SubmissionFilteredByStateProvider
   }
 
   @override
+  ({
+    String form,
+    SyncStatus? status,
+    String sortBy,
+  }) get argument {
+    return (
+      form: form,
+      status: status,
+      sortBy: sortBy,
+    );
+  }
+
+  @override
   AutoDisposeFutureProviderElement<List<DataFormSubmission>> createElement() {
     return _SubmissionFilteredByStateProviderElement(this);
+  }
+
+  SubmissionFilteredByStateProvider _copyWith(
+    FutureOr<List<DataFormSubmission>> Function(
+            SubmissionFilteredByStateRef ref)
+        create,
+  ) {
+    return SubmissionFilteredByStateProvider._internal(
+      (ref) => create(ref as SubmissionFilteredByStateRef),
+      name: name,
+      dependencies: dependencies,
+      allTransitiveDependencies: allTransitiveDependencies,
+      debugGetCreateSourceHash: debugGetCreateSourceHash,
+      from: from,
+      form: form,
+      status: status,
+      sortBy: sortBy,
+    );
   }
 
   @override
@@ -358,10 +465,23 @@ String _$submissionStatusModelHash() =>
 const submissionStatusModelProvider = SubmissionStatusModelFamily();
 
 /// See also [submissionStatusModel].
-class SubmissionStatusModelFamily
-    extends Family<AsyncValue<SubmissionStatusModel>> {
+class SubmissionStatusModelFamily extends Family {
   /// See also [submissionStatusModel].
   const SubmissionStatusModelFamily();
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'submissionStatusModelProvider';
 
   /// See also [submissionStatusModel].
   SubmissionStatusModelProvider call({
@@ -372,6 +492,7 @@ class SubmissionStatusModelFamily
     );
   }
 
+  @visibleForOverriding
   @override
   SubmissionStatusModelProvider getProviderOverride(
     covariant SubmissionStatusModelProvider provider,
@@ -381,19 +502,29 @@ class SubmissionStatusModelFamily
     );
   }
 
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
+  /// Enables overriding the behavior of this provider, no matter the parameters.
+  Override overrideWith(
+      FutureOr<SubmissionStatusModel> Function(SubmissionStatusModelRef ref)
+          create) {
+    return _$SubmissionStatusModelFamilyOverride(this, create);
+  }
+}
+
+class _$SubmissionStatusModelFamilyOverride implements FamilyOverride {
+  _$SubmissionStatusModelFamilyOverride(this.overriddenFamily, this.create);
+
+  final FutureOr<SubmissionStatusModel> Function(SubmissionStatusModelRef ref)
+      create;
 
   @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+  final SubmissionStatusModelFamily overriddenFamily;
 
   @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'submissionStatusModelProvider';
+  SubmissionStatusModelProvider getProviderOverride(
+    covariant SubmissionStatusModelProvider provider,
+  ) {
+    return provider._copyWith(create);
+  }
 }
 
 /// See also [submissionStatusModel].
@@ -420,7 +551,7 @@ class SubmissionStatusModelProvider
         );
 
   SubmissionStatusModelProvider._internal(
-    super._createNotifier, {
+    super.create, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
@@ -433,7 +564,7 @@ class SubmissionStatusModelProvider
 
   @override
   Override overrideWith(
-    FutureOr<SubmissionStatusModel> Function(SubmissionStatusModelRef provider)
+    FutureOr<SubmissionStatusModel> Function(SubmissionStatusModelRef ref)
         create,
   ) {
     return ProviderOverride(
@@ -451,8 +582,30 @@ class SubmissionStatusModelProvider
   }
 
   @override
+  ({
+    String form,
+  }) get argument {
+    return (form: form,);
+  }
+
+  @override
   AutoDisposeFutureProviderElement<SubmissionStatusModel> createElement() {
     return _SubmissionStatusModelProviderElement(this);
+  }
+
+  SubmissionStatusModelProvider _copyWith(
+    FutureOr<SubmissionStatusModel> Function(SubmissionStatusModelRef ref)
+        create,
+  ) {
+    return SubmissionStatusModelProvider._internal(
+      (ref) => create(ref as SubmissionStatusModelRef),
+      name: name,
+      dependencies: dependencies,
+      allTransitiveDependencies: allTransitiveDependencies,
+      debugGetCreateSourceHash: debugGetCreateSourceHash,
+      from: from,
+      form: form,
+    );
   }
 
   @override
@@ -492,10 +645,23 @@ String _$submissionItemSummaryModelHash() =>
 const submissionItemSummaryModelProvider = SubmissionItemSummaryModelFamily();
 
 /// See also [submissionItemSummaryModel].
-class SubmissionItemSummaryModelFamily
-    extends Family<AsyncValue<SubmissionItemSummaryModel>> {
+class SubmissionItemSummaryModelFamily extends Family {
   /// See also [submissionItemSummaryModel].
   const SubmissionItemSummaryModelFamily();
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'submissionItemSummaryModelProvider';
 
   /// See also [submissionItemSummaryModel].
   SubmissionItemSummaryModelProvider call({
@@ -508,6 +674,7 @@ class SubmissionItemSummaryModelFamily
     );
   }
 
+  @visibleForOverriding
   @override
   SubmissionItemSummaryModelProvider getProviderOverride(
     covariant SubmissionItemSummaryModelProvider provider,
@@ -518,19 +685,31 @@ class SubmissionItemSummaryModelFamily
     );
   }
 
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
+  /// Enables overriding the behavior of this provider, no matter the parameters.
+  Override overrideWith(
+      FutureOr<SubmissionItemSummaryModel> Function(
+              SubmissionItemSummaryModelRef ref)
+          create) {
+    return _$SubmissionItemSummaryModelFamilyOverride(this, create);
+  }
+}
+
+class _$SubmissionItemSummaryModelFamilyOverride implements FamilyOverride {
+  _$SubmissionItemSummaryModelFamilyOverride(
+      this.overriddenFamily, this.create);
+
+  final FutureOr<SubmissionItemSummaryModel> Function(
+      SubmissionItemSummaryModelRef ref) create;
 
   @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+  final SubmissionItemSummaryModelFamily overriddenFamily;
 
   @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'submissionItemSummaryModelProvider';
+  SubmissionItemSummaryModelProvider getProviderOverride(
+    covariant SubmissionItemSummaryModelProvider provider,
+  ) {
+    return provider._copyWith(create);
+  }
 }
 
 /// See also [submissionItemSummaryModel].
@@ -560,7 +739,7 @@ class SubmissionItemSummaryModelProvider
         );
 
   SubmissionItemSummaryModelProvider._internal(
-    super._createNotifier, {
+    super.create, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
@@ -576,7 +755,7 @@ class SubmissionItemSummaryModelProvider
   @override
   Override overrideWith(
     FutureOr<SubmissionItemSummaryModel> Function(
-            SubmissionItemSummaryModelRef provider)
+            SubmissionItemSummaryModelRef ref)
         create,
   ) {
     return ProviderOverride(
@@ -595,8 +774,36 @@ class SubmissionItemSummaryModelProvider
   }
 
   @override
+  ({
+    String submissionUid,
+    String form,
+  }) get argument {
+    return (
+      submissionUid: submissionUid,
+      form: form,
+    );
+  }
+
+  @override
   AutoDisposeFutureProviderElement<SubmissionItemSummaryModel> createElement() {
     return _SubmissionItemSummaryModelProviderElement(this);
+  }
+
+  SubmissionItemSummaryModelProvider _copyWith(
+    FutureOr<SubmissionItemSummaryModel> Function(
+            SubmissionItemSummaryModelRef ref)
+        create,
+  ) {
+    return SubmissionItemSummaryModelProvider._internal(
+      (ref) => create(ref as SubmissionItemSummaryModelRef),
+      name: name,
+      dependencies: dependencies,
+      allTransitiveDependencies: allTransitiveDependencies,
+      debugGetCreateSourceHash: debugGetCreateSourceHash,
+      from: from,
+      submissionUid: submissionUid,
+      form: form,
+    );
   }
 
   @override
@@ -670,10 +877,23 @@ abstract class _$FormSubmissionList
 const formSubmissionListProvider = FormSubmissionListFamily();
 
 /// See also [FormSubmissionList].
-class FormSubmissionListFamily
-    extends Family<AsyncValue<IList<DataFormSubmission>>> {
+class FormSubmissionListFamily extends Family {
   /// See also [FormSubmissionList].
   const FormSubmissionListFamily();
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'formSubmissionListProvider';
 
   /// See also [FormSubmissionList].
   FormSubmissionListProvider call({
@@ -684,6 +904,7 @@ class FormSubmissionListFamily
     );
   }
 
+  @visibleForOverriding
   @override
   FormSubmissionListProvider getProviderOverride(
     covariant FormSubmissionListProvider provider,
@@ -693,19 +914,26 @@ class FormSubmissionListFamily
     );
   }
 
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
+  /// Enables overriding the behavior of this provider, no matter the parameters.
+  Override overrideWith(FormSubmissionList Function() create) {
+    return _$FormSubmissionListFamilyOverride(this, create);
+  }
+}
+
+class _$FormSubmissionListFamilyOverride implements FamilyOverride {
+  _$FormSubmissionListFamilyOverride(this.overriddenFamily, this.create);
+
+  final FormSubmissionList Function() create;
 
   @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+  final FormSubmissionListFamily overriddenFamily;
 
   @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'formSubmissionListProvider';
+  FormSubmissionListProvider getProviderOverride(
+    covariant FormSubmissionListProvider provider,
+  ) {
+    return provider._copyWith(create);
+  }
 }
 
 /// See also [FormSubmissionList].
@@ -729,7 +957,7 @@ class FormSubmissionListProvider extends AutoDisposeAsyncNotifierProviderImpl<
         );
 
   FormSubmissionListProvider._internal(
-    super._createNotifier, {
+    super.create, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
@@ -766,9 +994,30 @@ class FormSubmissionListProvider extends AutoDisposeAsyncNotifierProviderImpl<
   }
 
   @override
+  ({
+    String form,
+  }) get argument {
+    return (form: form,);
+  }
+
+  @override
   AutoDisposeAsyncNotifierProviderElement<FormSubmissionList,
       IList<DataFormSubmission>> createElement() {
     return _FormSubmissionListProviderElement(this);
+  }
+
+  FormSubmissionListProvider _copyWith(
+    FormSubmissionList Function() create,
+  ) {
+    return FormSubmissionListProvider._internal(
+      () => create()..form = form,
+      name: name,
+      dependencies: dependencies,
+      allTransitiveDependencies: allTransitiveDependencies,
+      debugGetCreateSourceHash: debugGetCreateSourceHash,
+      from: from,
+      form: form,
+    );
   }
 
   @override
@@ -800,4 +1049,4 @@ class _FormSubmissionListProviderElement
   String get form => (origin as FormSubmissionListProvider).form;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package

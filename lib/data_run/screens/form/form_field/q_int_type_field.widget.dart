@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
+import 'package:mass_pro/data_run/screens/form_module/model/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/element/validation/form_element_validator.dart';
 import 'package:mass_pro/data_run/screens/form/inherited_widgets/element_field_inherited.widget.dart';
 import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_element_inherited.widget.dart';
@@ -13,7 +13,7 @@ class QReactiveIntTypeField extends HookWidget {
     required this.element,
   });
 
-  final FieldInstance<int> element;
+  final FormFieldElement<int> element;
 
   @override
   Widget build(BuildContext context) {

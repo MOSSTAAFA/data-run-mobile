@@ -173,7 +173,10 @@ class _StockDistributionFormBuilderState
   @override
   Widget build(BuildContext context) {
     return ReactiveStockDistributionForm(
+      key: ObjectKey(_formModel),
       form: _formModel,
+      // canPop: widget.canPop,
+      // onPopInvoked: widget.onPopInvoked,
       child: ReactiveFormBuilder(
         form: () => _formModel.form,
         canPop: widget.canPop,
@@ -1318,7 +1321,7 @@ class RepeatedStockItemForm implements FormModel<RepeatedStockItem> {
       FormGroup({
         itemTypeControlName: FormControl<String>(
             value: repeatedStockItem?.itemType,
-            validators: [],
+            validators: [const RequiredValidator()],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,
             disabled: false,

@@ -93,6 +93,13 @@ extension IterableFirstOrNullWhere<E> on Iterable<E> {
     }
     return null;
   }
+
+  E? firstWhereOrElse(bool test(E element), {E? orElse()?}) {
+    for (E element in this) {
+      if (test(element)) return element;
+    }
+    return orElse?.call();
+  }
 }
 
 extension ListExtension<E> on List<E> {

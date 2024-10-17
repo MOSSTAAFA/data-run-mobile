@@ -1,6 +1,4 @@
-import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
-import 'package:mass_pro/data_run/screens/form/element/form_instance.dart';
-import 'package:mass_pro/data_run/screens/form/reactive_elements/reactive_form_element_consumer.dart';
+import 'package:mass_pro/data_run/screens/form_module/form_element_model/form_element.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
 class FieldInstanceInheritedStreamer<T> extends InheritedStreamer<dynamic> {
@@ -15,5 +13,5 @@ class FieldInstanceInheritedStreamer<T> extends InheritedStreamer<dynamic> {
           key: key,
         );
 
-  final FieldInstance<T> fieldInstance;
+  final FormFieldElement<T> fieldInstance;
 }

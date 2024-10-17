@@ -1,5 +1,6 @@
+import 'package:d2_remote/modules/datarun/form/shared/rule/action.dart';
+import 'package:d2_remote/modules/datarun/form/shared/rule/rule_parse_extension.dart';
 import 'package:logger/web.dart';
-import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/rule/evaluation_engine.dart';
 
 final loggerEvaluation = Logger(
@@ -11,15 +12,19 @@ final loggerEvaluation = Logger(
     level: Level.debug);
 
 abstract class ActionBehaviour {
-  ActionBehaviour(this.expression);
+  ActionBehaviour(this.ruleAction);
 
-  final String expression;
+  final RuleAction ruleAction;
 
-  bool actionIsInEffect(Map<String, dynamic> context) {
-    final result = evaluationEngine.evaluateExpression(expression, context);
+  List<String> get dependencies => ruleAction.dependencies;
+
+  bool isInEffect(Map<String, dynamic> evalContext) {
+    final result =
+        evaluationEngine.evaluateExpression(ruleAction.expression, evalContext);
     return result;
   }
 
-  void applyAction(FormElementInstance<dynamic> element,
-      {required Map<String, dynamic> evalContext});
+//
+// void applyAction(FormElementInstance<dynamic> element,
+//     {required Map<String, dynamic> evalContext});
 }

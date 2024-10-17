@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:mass_pro/data_run/form_state/element_providers.dart';
-import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
+import 'package:mass_pro/data_run/screens/form_module/model/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/element_widgets/element_section_instance.widget.dart';
 import 'package:mass_pro/data_run/screens/form/reactive_field/improved_expansion_tile.widget.dart';
 import 'package:mass_pro/data_run/screens/form/hooks/register_dependencies.dart';
@@ -18,7 +18,7 @@ class ElementSectionRepeatItemSection extends HookWidget {
     required this.index,
   });
 
-  final RepeatItemInstance repeatedItemElement;
+  final FormRepeatItemElement repeatedItemElement;
   final Function(int index)? onDeleteItem;
   final int index;
 

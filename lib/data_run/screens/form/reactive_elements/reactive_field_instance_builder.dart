@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mass_pro/commons/logging/logging.dart';
-import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
+import 'package:mass_pro/data_run/screens/form_module/form_element_model/form_element.dart';
 
-class ReactiveFieldInstanceBuilder<E extends FormElementInstance<dynamic>>
+class ReactiveFormElementBuilder<E extends FormElementInstance<T>, T>
     extends StatefulHookConsumerWidget {
-  const ReactiveFieldInstanceBuilder(
+  const ReactiveFormElementBuilder(
       {super.key,
       required this.formElement,
       required this.builder,
@@ -19,11 +19,12 @@ class ReactiveFieldInstanceBuilder<E extends FormElementInstance<dynamic>>
   final void Function(BuildContext context, E elementState)? initState;
 
   @override
-  _ReactiveFormElementWidgetState<E> createState() => _ReactiveFormElementWidgetState<E>();
+  _ReactiveFormElementWidgetState<E, T> createState() =>
+      _ReactiveFormElementWidgetState<E, T>();
 }
 
-class _ReactiveFormElementWidgetState<E extends FormElementInstance<dynamic>>
-    extends ConsumerState<ReactiveFieldInstanceBuilder<E>> {
+class _ReactiveFormElementWidgetState<E extends FormElementInstance<T>, T>
+    extends ConsumerState<ReactiveFormElementBuilder<E, T>> {
   late E _formElement;
 
   @override
@@ -31,7 +32,7 @@ class _ReactiveFormElementWidgetState<E extends FormElementInstance<dynamic>>
     super.initState();
     logDebug('ReactiveFormElementBuilder initState: ${_formElement.name}');
 
-    _formElement = widget.formElement;
+    // _formElement = FormElementInstance.create
     widget.initState?.call(context, _formElement);
 
     if (_formElement.hidden) {
@@ -44,7 +45,7 @@ class _ReactiveFormElementWidgetState<E extends FormElementInstance<dynamic>>
   }
 
   @override
-  void didUpdateWidget(covariant ReactiveFieldInstanceBuilder<E> oldWidget) {
+  void didUpdateWidget(covariant ReactiveFormElementBuilder<E, T> oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     if (widget.formElement.elementState != oldWidget.formElement.elementState) {

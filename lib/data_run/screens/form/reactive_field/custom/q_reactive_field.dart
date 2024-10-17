@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule/rule_parse_extension.dart';
 import 'package:mass_pro/commons/logging/logging.dart';
-import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
+import 'package:mass_pro/data_run/screens/form_module/model/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/rule/actions/action_behaviours.dart';
 import 'package:mass_pro/data_run/screens/form/rule/evaluation_engine.dart';
 import 'package:mass_pro/data_run/screens/form/rule/rule_evaluator.dart';
@@ -32,7 +32,7 @@ class QReactiveFormField<ModelDataType, ViewDataType>
                   visible: field.fieldElement.visible, child: builder(field));
             });
 
-  final FieldInstance<ModelDataType> element;
+  final FormFieldElement<ModelDataType> element;
   final QReactiveFormFieldBuilder<ModelDataType, ViewDataType> builder;
 
   @override
@@ -43,7 +43,7 @@ class QReactiveFormField<ModelDataType, ViewDataType>
 // State for base reactive form Field
 class QReactiveFormFieldState<ModelDataType, ViewDataType>
     extends ReactiveFormFieldState<ModelDataType, ViewDataType> {
-  late final FieldInstance<ModelDataType> fieldElement;
+  late final FormFieldElement<ModelDataType> fieldElement;
   late final List<StreamSubscription<ControlStatus>> _dependenciesSubscription;
   late final Map<String, FormElementInstance<dynamic>> resolvedDependencies;
 
@@ -89,7 +89,7 @@ class QReactiveFormFieldState<ModelDataType, ViewDataType>
   }
 
   Map<String, FormElementInstance<dynamic>> _resolveDependencies(
-      FieldInstance<ModelDataType> element) {
+      FormFieldElement<ModelDataType> element) {
     logDebug(
         'resolving: ${element.name}\'s dependencies: [${element.dependenciesNames}]');
     final Map<String, FormElementInstance<dynamic>> resolved = {};

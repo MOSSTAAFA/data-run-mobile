@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mass_pro/data_run/screens/form/element/factories/form_element_control_factory.dart';
 import 'package:mass_pro/data_run/screens/form/element_widgets/element_section_repeat_item_section.widget.dart';
 import 'package:mass_pro/data_run/screens/form/element/factories/form_element_factory.dart';
-import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
+import 'package:mass_pro/data_run/screens/form_module/model/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/reactive_field/improved_expansion_tile.widget.dart';
 import 'package:mass_pro/data_run/screens/form/inherited_widgets/element_repeat_inherited.widget.dart';
 import 'package:mass_pro/generated/l10n.dart';
@@ -36,7 +36,7 @@ class ElementSectionRepeatInstanceWidget extends HookConsumerWidget {
               children: [
                 ...repeatSectionElement.elements.asMap().entries.map((entry) {
                   final index = entry.key;
-                  final repeatItemInstance = entry.value as RepeatItemInstance;
+                  final repeatItemInstance = entry.value as FormRepeatItemElement;
                   return ElementSectionRepeatItemSection(
                     repeatedItemElement: repeatItemInstance,
                     onDeleteItem: (index) {
@@ -56,7 +56,7 @@ class ElementSectionRepeatInstanceWidget extends HookConsumerWidget {
         onPressed: repeatSectionElement.form.enabled
             ? () {
                 repeatSectionElement.elementControl.add(
-                    FromElementControlFactory.createSectionFormGroup(
+                    FormElementControlFactory.createSectionFormGroup(
                         repeatSectionElement.template));
                 repeatSectionElement.add(FromElementFactory.createRepeatItem(
                     repeatSectionElement.form, repeatSectionElement.template));

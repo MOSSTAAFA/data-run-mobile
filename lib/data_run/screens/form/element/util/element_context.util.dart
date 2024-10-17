@@ -1,4 +1,4 @@
-import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
+import 'package:mass_pro/data_run/screens/form_module/model/form_element.dart';
 
 class FieldValueObject<T> {
   FieldValueObject({required this.id, required this.path, required this.value});

@@ -1,8 +1,8 @@
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/datarun/form/shared/attribute_type.dart';
-import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/form_element_template.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
-import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
+import 'package:mass_pro/data_run/screens/form_module/model/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/reactive_field/reactive_ou/ou_data_source.provider.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_metadata.dart';
 import 'package:mass_pro/data_run/screens/form_ui_elements/org_unit_picker/model/tree_node_data_source.dart';
@@ -32,7 +32,7 @@ Future<SubmissionCreationModel> submissionCreationModel(
 
   final TreeNodeDataSource dataSource = await ref
       .watch(ouPickerDataSourceProvider(formMetaData: formMetaData).future);
-  final FieldInstance<String> ouElement = FieldInstance(
+  final FormFieldElement<String> ouElement = FormFieldElement(
       form: form,
       template: FieldTemplate(
           mandatory: true,
@@ -58,5 +58,5 @@ class SubmissionCreationModel {
   final FormGroup form;
   final TreeNodeDataSource dataSource;
   final String team;
-  final FieldInstance<String> ouElement;
+  final FormFieldElement<String> ouElement;
 }

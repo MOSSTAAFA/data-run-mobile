@@ -15,6 +15,7 @@ class StockDistribution {
 
   final String? fieldName;
   final MUnitSection? malariaUnit;
+
   /// also could be looked at as a the repeated Section that
   final List<RepeatedStockItem> stockItems;
 }
@@ -32,10 +33,12 @@ class MUnitSection {
 }
 
 /// each item could be looked at as a single repeatedSection Item model
+final gs = Validators.required;
+
 @RfGroup()
 class RepeatedStockItem {
   RepeatedStockItem({
-    @RfControl() this.itemType = '',
+    @RfControl(validators: [const RequiredValidator()]) this.itemType = '',
     @RfControl() required this.receivedQuantity,
     required this.oum,
   });

@@ -1,154 +1,141 @@
-import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/form_element_template.dart';
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:mass_pro/data_run/screens/form/element/members/form_attributes.dart';
-import 'package:mass_pro/data_run/screens/form/element/members/form_element_members.dart';
-import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
-import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
+import 'package:mass_pro/data_run/screens/form_module/model/form_element.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
 /// from template wit value, use [FormTemplateControlFactory]
 /// for adding new control with saved value
 
 /// Form Elements Factory form elements
-/// ([FieldInstance], [SectionInstance], [RepeatSectionInstance],
-/// and [RepeatItemInstance])
+/// ([FormFieldElement], [FormSectionElement], [FormRepeatElement],
+/// and [FormRepeatItemElement])
 extension FromElementFactory<T> on FormElementInstance<T?> {
-  static FormElementInstance<dynamic> createElementInstance(
-      FormGroup form, FieldTemplate template,
-      {dynamic savedValue,
-      Map<String, List<FormOption>> formOptionsMap = const {}}) {
+  static FormElementInstance<dynamic> createFormElement(
+      FormElementTemplate template,
+      {dynamic initialValue}) {
     if (template.type.isSection) {
-      return createSectionInstance(form, template,
-          savedValue: savedValue, formOptionsMap: formOptionsMap);
+      return createFormSectionElement(template, initialValue: initialValue);
     } else if (template.type.isRepeatSection) {
-      return createRepeatInstance(form, template,
-          savedValue: savedValue, formOptionsMap: formOptionsMap);
+      return createFormRepeatElement(template, initialValue: initialValue);
     } else {
-      return createFieldInstance(form, template,
-          savedValue: savedValue,
-          fieldOptions: formOptionsMap[template.listName] ?? []);
+      return createFormFieldElement(template, initialValue: initialValue);
     }
   }
 
-  static SectionInstance createSectionInstance(
-      FormGroup form, FieldTemplate template,
-      {dynamic savedValue,
-      Map<String, List<FormOption>> formOptionsMap = const {}}) {
+  static FormSectionElement createFormSectionElement(
+      FormElementTemplate template,
+      {dynamic initialValue}) {
+    template as SectionTemplate;
     final Map<String, FormElementInstance<dynamic>> elements = {};
     template.fields.sort((a, b) => (a.order).compareTo(b.order));
 
-    final section = SectionInstance(form: form, template: template);
+    final section = FormSectionElement(form: control, template: template);
 
     for (var childTemplate in template.fields) {
-      elements[childTemplate.name] = FromElementFactory.createElementInstance(
-          form, childTemplate,
-          savedValue: savedValue?[childTemplate.name],
-          formOptionsMap: formOptionsMap);
+      elements[childTemplate.name] = FromElementFactory.createFormElement(
+          control, childTemplate,
+          initialValue: initialValue?[childTemplate.name]);
     }
     section.addAll(elements);
 
     return section;
   }
 
-  static RepeatItemInstance createRepeatItem(
-      FormGroup form, FieldTemplate template,
-      {Map<String, Object?>? savedValue,
-      Map<String, List<FormOption>> formOptionsMap = const {}}) {
+  static FormRepeatItemElement createRepeatItem(FormElementTemplate template,
+      {Map<String, Object?>? initialValue}) {
+    template as SectionTemplate;
+
     final Map<String, FormElementInstance<dynamic>> elements = {};
 
     template.fields.sort((a, b) => (a.order).compareTo(b.order));
-    final repeatedSection = RepeatItemInstance(template: template, form: form);
+    final repeatedSection =
+        FormRepeatItemElement(template: template, form: control);
     for (var childTemplate in template.fields) {
-      elements[childTemplate.name] = FromElementFactory.createElementInstance(
-          form, childTemplate,
-          savedValue: savedValue?[childTemplate.name],
+      elements[childTemplate.name] = FromElementFactory.createFormElement(
+          control, childTemplate,
+          initialValue: initialValue?[childTemplate.name],
           formOptionsMap: formOptionsMap);
     }
     repeatedSection.addAll(elements);
     return repeatedSection;
   }
 
-  static RepeatInstance createRepeatInstance(
-      FormGroup form, FieldTemplate template,
-      {List<dynamic>? savedValue,
-      Map<String, List<FormOption>> formOptionsMap = const {}}) {
-    final repeatInstance = RepeatInstance(template: template, form: form);
+  static RepeatInstance createFormRepeatElement(FormElementTemplate template,
+      {List<dynamic>? initialValue}) {
+    final repeatInstance = RepeatInstance(template: template, form: control);
 
-    repeatInstance.addAll(savedValue
-            ?.map<RepeatItemInstance>((value) => createRepeatItem(
-                form, template,
-                savedValue: value, formOptionsMap: formOptionsMap))
+    repeatInstance.addAll(initialValue
+            ?.map<FormRepeatItemElement>((value) => createRepeatItem(
+                control, template,
+                initialValue: value, formOptionsMap: formOptionsMap))
             .toList() ??
         []);
 
     return repeatInstance;
   }
 
-  static FieldInstance<dynamic> createFieldInstance(
-      FormGroup form, FieldTemplate templateElement,
-      {dynamic savedValue,
-      List<FormOption> fieldOptions = const [],
-      FormAttributes? formAttributes}) {
+  static FormFieldElement<dynamic> createFormFieldElement(
+      FormElementTemplate templateElement,
+      {dynamic initialValue}) {
+    templateElement as FieldTemplate;
+
     switch (templateElement.type) {
       case ValueType.SelectOne:
         templateElement.options.addAll(fieldOptions);
-
-        return FieldInstance<String>(
-          form: form,
-          template: templateElement
-        );
+        return FormFieldElement<String>(
+            elementControl: control as FormControl<String>,
+            template: templateElement);
       case ValueType.SelectMulti:
         templateElement.options.addAll(fieldOptions);
-        return FieldInstance<List<String>>(
-          form: form,
-          template: templateElement
-        );
+        return FormFieldElement<List<String>>(
+            elementControl: control as FormControl<List<String>>,
+            template: templateElement);
       case ValueType.Attribute:
-        return FieldInstance<String>(
-            form: form,
-            hidden: true,
+        return FormFieldElement<String>(
+            elementControl: control as FormControl<String>,
             template: templateElement);
       case ValueType.Text:
       case ValueType.LongText:
       case ValueType.Letter:
       case ValueType.FullName:
-        return FieldInstance<String>(
-            form: form,
+        return FormFieldElement<String>(
+            elementControl: control as FormControl<String>,
             template: templateElement);
       case ValueType.Date:
       case ValueType.Time:
       case ValueType.DateTime:
-        return FieldInstance<String>(
-            form: form,
+        return FormFieldElement<String>(
+            elementControl: control as FormControl<String>,
             template: templateElement);
 
       case ValueType.OrganisationUnit:
-        return FieldInstance<String>(
-            form: form,
+        return FormFieldElement<String>(
+            elementControl: control as FormControl<String>,
             template: templateElement);
 
       case ValueType.Integer:
       case ValueType.IntegerPositive:
       case ValueType.IntegerNegative:
       case ValueType.IntegerZeroOrPositive:
-        return FieldInstance<int>(
-            form: form,
+        return FormFieldElement<int>(
+            elementControl: control as FormControl<int>,
             template: templateElement);
 
       case ValueType.Number:
       case ValueType.UnitInterval:
       case ValueType.Percentage:
       case ValueType.Age:
-        return FieldInstance<double>(
-          form: form,
+        return FormFieldElement<double>(
+          elementControl: control as FormControl<double>,
           template: templateElement,
         );
       case ValueType.Boolean:
       case ValueType.TrueOnly:
       case ValueType.YesNo:
-        return FieldInstance<bool>(
-          form: form,
+        return FormFieldElement<bool>(
+          elementControl: control as FormControl<bool>,
           template: templateElement,
         );
       default:

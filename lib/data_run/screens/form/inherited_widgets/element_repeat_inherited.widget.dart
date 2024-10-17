@@ -1,4 +1,4 @@
-import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
+import 'package:mass_pro/data_run/screens/form_module/model/form_element.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
 class ElementRepeatInheritedWidget extends InheritedWidget {

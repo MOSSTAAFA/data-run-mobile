@@ -1,10 +1,10 @@
-import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/form_element_template.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:mass_pro/generated/l10n.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
 class FieldValidators {
-  static List<Validator<dynamic>> getValidators(ElementAttributesMixin element) {
+  static List<Validator<dynamic>> getValidators(FieldTemplate element) {
     Set<Validator<dynamic>> validators = Set();
 
     if (element.mandatory) validators.add(Validators.required);
@@ -25,21 +25,28 @@ class FieldValidators {
     return validators.toList();
   }
 
-  Map<String, String Function(Object error)> validationMessages(BuildContext context) => {
-    'required': (error) => S.of(context).thisFieldIsRequired,
-    'email': (error) => S.of(context).pleaseEnterAValidEmailAddress,
-    'number': (error) => S.of(context).enterAValidNumber,
-    'min': (error) => S.of(context).valueMustBeGreaterThanOrEqualToError(error),
-    'max': (error) => S.of(context).valueMustBeLessThanOrEqualToError(error),
-    'maxLength': (error) => S.of(context).maximumAllowedLengthIsError(error),
-  };
+  Map<String, String Function(Object error)> validationMessages(
+          BuildContext context) =>
+      {
+        'required': (error) => S.of(context).thisFieldIsRequired,
+        'email': (error) => S.of(context).pleaseEnterAValidEmailAddress,
+        'number': (error) => S.of(context).enterAValidNumber,
+        'min': (error) =>
+            S.of(context).valueMustBeGreaterThanOrEqualToError(error),
+        'max': (error) =>
+            S.of(context).valueMustBeLessThanOrEqualToError(error),
+        'maxLength': (error) =>
+            S.of(context).maximumAllowedLengthIsError(error),
+      };
 
   static Map<String, String Function(Object error)> getValidationMessages(
-      ElementAttributesMixin element) {
+      FieldTemplate element) {
     final Map<String, String Function(Object error)> messages = {};
 
-    if (element.mandatory) messages['required'] = (error) => 'This field is mandatory.';
-    if (element.type == ValueType.Email) messages['email'] = (error) => 'Invalid email format.';
+    if (element.mandatory)
+      messages['required'] = (error) => 'This field is mandatory.';
+    if (element.type == ValueType.Email)
+      messages['email'] = (error) => 'Invalid email format.';
     if (element.type == ValueType.Age) {
       messages['number'] = (error) => 'Age must be a valid number.';
       messages['min'] = (error) => 'Age cannot be negative.';
@@ -67,11 +74,14 @@ class FieldValidators {
   }
 }
 
-Map<String, String Function(Object error)> validationMessages(BuildContext context) => {
-  'required': (error) => S.of(context).thisFieldIsRequired,
-  'email': (error) => S.of(context).pleaseEnterAValidEmailAddress,
-  'number': (error) => S.of(context).enterAValidNumber,
-  'min': (error) => S.of(context).valueMustBeGreaterThanOrEqualToError(error),
-  'max': (error) => S.of(context).valueMustBeLessThanOrEqualToError(error),
-  'maxLength': (error) => S.of(context).maximumAllowedLengthIsError(error),
-};
+Map<String, String Function(Object error)> validationMessages(
+        BuildContext context) =>
+    {
+      'required': (error) => S.of(context).thisFieldIsRequired,
+      'email': (error) => S.of(context).pleaseEnterAValidEmailAddress,
+      'number': (error) => S.of(context).enterAValidNumber,
+      'min': (error) =>
+          S.of(context).valueMustBeGreaterThanOrEqualToError(error),
+      'max': (error) => S.of(context).valueMustBeLessThanOrEqualToError(error),
+      'maxLength': (error) => S.of(context).maximumAllowedLengthIsError(error),
+    };

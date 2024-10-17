@@ -1,15 +1,14 @@
-part of 'form_element.dart';
+part of 'form_element_control_abstract.dart';
 
 /// A section
-class RepeatItemInstance extends SectionInstance {
-  RepeatItemInstance({
-    required super.template,
-    required super.form,
-    super.elements,
-    super.expanded,
+class FormRepeatItemControl extends FormSectionControl {
+  FormRepeatItemControl({
+    required super.elementControl,
+    super.path,
+    required super.value,
   });
 
-  int get sectionIndex => (parentSection as RepeatInstance)
+  int get sectionIndex => (parentSection as FormRepeatElement)
       .sectionIndexWhere((section) => section == this);
 
   @override
@@ -20,7 +19,7 @@ class RepeatItemInstance extends SectionInstance {
       throw StateError('RepeatItemInstance\'s Parent should not be null');
     }
 
-    if (!(parentSection is RepeatInstance)) {
+    if (!(parentSection is FormRepeatElement)) {
       throw StateError(
           'A RepeatItemInstance\'s Parent can only be a RepeatInstance, parent: ${parentSection.runtimeType}');
     }

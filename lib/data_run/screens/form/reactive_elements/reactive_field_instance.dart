@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
+import 'package:mass_pro/data_run/screens/form_module/model/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/reactive_elements/form_element_inherited_streamer.dart';
 
 /// will be constructed in the ReactiveFieldInstanceBuilder and it will pass
@@ -17,9 +17,9 @@ class ReactiveFieldInstance<T> extends StatelessWidget {
 
   final Widget child;
 
-  final FieldInstance<T> fieldInstance;
+  final FormFieldElement<T> fieldInstance;
 
-  static FieldInstance<T>? of<T>(
+  static FormFieldElement<T>? of<T>(
     BuildContext context, {
     bool listen = true,
   }) {

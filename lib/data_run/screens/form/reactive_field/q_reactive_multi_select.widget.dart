@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
-import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
+import 'package:mass_pro/data_run/screens/form_module/model/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/element/validation/form_element_validator.dart';
 import 'package:mass_pro/data_run/screens/form/element/providers/form_instance.provider.dart';
 import 'package:mass_pro/data_run/screens/form/reactive_field/reactive_drop_down/src/q_reactive_dropdown_search_multiselection.dart';
@@ -14,7 +14,7 @@ class QReactiveMultiSelect extends HookConsumerWidget {
     required this.element,
   });
 
-  final FieldInstance<List<String>> element;
+  final FormFieldElement<List<String>> element;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

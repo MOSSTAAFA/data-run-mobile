@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mass_pro/commons/custom_widgets/async_value.widget.dart';
-import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
+import 'package:mass_pro/data_run/screens/form_module/model/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/hooks/register_dependencies.dart';
 import 'package:mass_pro/data_run/screens/form/reactive_field/reactive_ou/ou_data_source.provider.dart';
 import 'package:mass_pro/data_run/screens/form/reactive_field/reactive_ou/reactive_o_u_picker.dart';
@@ -16,7 +16,7 @@ class QReactiveOrgUnitPickerField extends HookConsumerWidget {
     required this.element,
   });
 
-  final FieldInstance<dynamic> element;
+  final FormFieldElement<dynamic> element;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

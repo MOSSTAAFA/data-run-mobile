@@ -1,5 +1,5 @@
 /// Exception thrown when a connecting with the server throws an error
-class DException implements Exception {
+class DException<T> implements Exception {
   /// Creates a new `FormatException` with an optional error [message].
   ///
   /// Optionally also supply the actual [source] with the incorrect format,
@@ -14,7 +14,7 @@ class DException implements Exception {
   /// If it is a string, parts of it may be included in the [toString] message.
   ///
   /// The source is `null` if omitted or unknown.
-  final Object? source;
+  final T? source;
 
   /// Returns a description of the format exception.
   ///

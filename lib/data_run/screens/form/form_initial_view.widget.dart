@@ -1,10 +1,10 @@
 import 'package:d2_remote/modules/datarun/form/shared/attribute_type.dart';
-import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/form_element_template.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mass_pro/commons/custom_widgets/async_value.widget.dart';
-import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
+import 'package:mass_pro/data_run/screens/form_module/model/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/reactive_field/reactive_ou/ou_data_source.provider.dart';
 import 'package:mass_pro/data_run/screens/form/reactive_field/reactive_ou/reactive_o_u_picker.dart';
 import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
@@ -25,7 +25,7 @@ class FormInitialView extends HookConsumerWidget {
             formInstanceProvider(formMetaData: FormMetadataWidget.of(context)))
         .requireValue;
 
-    final FieldInstance<String> ouElement = FieldInstance(
+    final FormFieldElement<String> ouElement = FormFieldElement(
         form: formInstance.form,
         template: FieldTemplate(
             mandatory: true,

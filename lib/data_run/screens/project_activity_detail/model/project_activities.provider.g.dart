@@ -34,9 +34,23 @@ class _SystemHash {
 const userAssignedTeamsProvider = UserAssignedTeamsFamily();
 
 /// See also [userAssignedTeams].
-class UserAssignedTeamsFamily extends Family<AsyncValue<List<DTeam>>> {
+class UserAssignedTeamsFamily extends Family {
   /// See also [userAssignedTeams].
   const UserAssignedTeamsFamily();
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'userAssignedTeamsProvider';
 
   /// See also [userAssignedTeams].
   UserAssignedTeamsProvider call({
@@ -49,6 +63,7 @@ class UserAssignedTeamsFamily extends Family<AsyncValue<List<DTeam>>> {
     );
   }
 
+  @visibleForOverriding
   @override
   UserAssignedTeamsProvider getProviderOverride(
     covariant UserAssignedTeamsProvider provider,
@@ -59,19 +74,27 @@ class UserAssignedTeamsFamily extends Family<AsyncValue<List<DTeam>>> {
     );
   }
 
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
+  /// Enables overriding the behavior of this provider, no matter the parameters.
+  Override overrideWith(
+      FutureOr<List<DTeam>> Function(UserAssignedTeamsRef ref) create) {
+    return _$UserAssignedTeamsFamilyOverride(this, create);
+  }
+}
+
+class _$UserAssignedTeamsFamilyOverride implements FamilyOverride {
+  _$UserAssignedTeamsFamilyOverride(this.overriddenFamily, this.create);
+
+  final FutureOr<List<DTeam>> Function(UserAssignedTeamsRef ref) create;
 
   @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+  final UserAssignedTeamsFamily overriddenFamily;
 
   @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'userAssignedTeamsProvider';
+  UserAssignedTeamsProvider getProviderOverride(
+    covariant UserAssignedTeamsProvider provider,
+  ) {
+    return provider._copyWith(create);
+  }
 }
 
 /// See also [userAssignedTeams].
@@ -100,7 +123,7 @@ class UserAssignedTeamsProvider extends AutoDisposeFutureProvider<List<DTeam>> {
         );
 
   UserAssignedTeamsProvider._internal(
-    super._createNotifier, {
+    super.create, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
@@ -115,7 +138,7 @@ class UserAssignedTeamsProvider extends AutoDisposeFutureProvider<List<DTeam>> {
 
   @override
   Override overrideWith(
-    FutureOr<List<DTeam>> Function(UserAssignedTeamsRef provider) create,
+    FutureOr<List<DTeam>> Function(UserAssignedTeamsRef ref) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -133,8 +156,34 @@ class UserAssignedTeamsProvider extends AutoDisposeFutureProvider<List<DTeam>> {
   }
 
   @override
+  ({
+    ActiveStatus activeStatus,
+    String? activity,
+  }) get argument {
+    return (
+      activeStatus: activeStatus,
+      activity: activity,
+    );
+  }
+
+  @override
   AutoDisposeFutureProviderElement<List<DTeam>> createElement() {
     return _UserAssignedTeamsProviderElement(this);
+  }
+
+  UserAssignedTeamsProvider _copyWith(
+    FutureOr<List<DTeam>> Function(UserAssignedTeamsRef ref) create,
+  ) {
+    return UserAssignedTeamsProvider._internal(
+      (ref) => create(ref as UserAssignedTeamsRef),
+      name: name,
+      dependencies: dependencies,
+      allTransitiveDependencies: allTransitiveDependencies,
+      debugGetCreateSourceHash: debugGetCreateSourceHash,
+      from: from,
+      activeStatus: activeStatus,
+      activity: activity,
+    );
   }
 
   @override
@@ -182,9 +231,23 @@ String _$userAssignedActivitiesHash() =>
 const userAssignedActivitiesProvider = UserAssignedActivitiesFamily();
 
 /// See also [userAssignedActivities].
-class UserAssignedActivitiesFamily extends Family<AsyncValue<List<DActivity>>> {
+class UserAssignedActivitiesFamily extends Family {
   /// See also [userAssignedActivities].
   const UserAssignedActivitiesFamily();
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'userAssignedActivitiesProvider';
 
   /// See also [userAssignedActivities].
   UserAssignedActivitiesProvider call({
@@ -197,6 +260,7 @@ class UserAssignedActivitiesFamily extends Family<AsyncValue<List<DActivity>>> {
     );
   }
 
+  @visibleForOverriding
   @override
   UserAssignedActivitiesProvider getProviderOverride(
     covariant UserAssignedActivitiesProvider provider,
@@ -207,19 +271,29 @@ class UserAssignedActivitiesFamily extends Family<AsyncValue<List<DActivity>>> {
     );
   }
 
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
+  /// Enables overriding the behavior of this provider, no matter the parameters.
+  Override overrideWith(
+      FutureOr<List<DActivity>> Function(UserAssignedActivitiesRef ref)
+          create) {
+    return _$UserAssignedActivitiesFamilyOverride(this, create);
+  }
+}
+
+class _$UserAssignedActivitiesFamilyOverride implements FamilyOverride {
+  _$UserAssignedActivitiesFamilyOverride(this.overriddenFamily, this.create);
+
+  final FutureOr<List<DActivity>> Function(UserAssignedActivitiesRef ref)
+      create;
 
   @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+  final UserAssignedActivitiesFamily overriddenFamily;
 
   @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'userAssignedActivitiesProvider';
+  UserAssignedActivitiesProvider getProviderOverride(
+    covariant UserAssignedActivitiesProvider provider,
+  ) {
+    return provider._copyWith(create);
+  }
 }
 
 /// See also [userAssignedActivities].
@@ -249,7 +323,7 @@ class UserAssignedActivitiesProvider
         );
 
   UserAssignedActivitiesProvider._internal(
-    super._createNotifier, {
+    super.create, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
@@ -264,8 +338,7 @@ class UserAssignedActivitiesProvider
 
   @override
   Override overrideWith(
-    FutureOr<List<DActivity>> Function(UserAssignedActivitiesRef provider)
-        create,
+    FutureOr<List<DActivity>> Function(UserAssignedActivitiesRef ref) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -283,8 +356,34 @@ class UserAssignedActivitiesProvider
   }
 
   @override
+  ({
+    ActiveStatus activeStatus,
+    String? project,
+  }) get argument {
+    return (
+      activeStatus: activeStatus,
+      project: project,
+    );
+  }
+
+  @override
   AutoDisposeFutureProviderElement<List<DActivity>> createElement() {
     return _UserAssignedActivitiesProviderElement(this);
+  }
+
+  UserAssignedActivitiesProvider _copyWith(
+    FutureOr<List<DActivity>> Function(UserAssignedActivitiesRef ref) create,
+  ) {
+    return UserAssignedActivitiesProvider._internal(
+      (ref) => create(ref as UserAssignedActivitiesRef),
+      name: name,
+      dependencies: dependencies,
+      allTransitiveDependencies: allTransitiveDependencies,
+      debugGetCreateSourceHash: debugGetCreateSourceHash,
+      from: from,
+      activeStatus: activeStatus,
+      project: project,
+    );
   }
 
   @override
@@ -333,10 +432,23 @@ String _$projectActiveActivitiesHash() =>
 const projectActiveActivitiesProvider = ProjectActiveActivitiesFamily();
 
 /// See also [projectActiveActivities].
-class ProjectActiveActivitiesFamily
-    extends Family<AsyncValue<List<DActivity>>> {
+class ProjectActiveActivitiesFamily extends Family {
   /// See also [projectActiveActivities].
   const ProjectActiveActivitiesFamily();
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'projectActiveActivitiesProvider';
 
   /// See also [projectActiveActivities].
   ProjectActiveActivitiesProvider call(
@@ -347,6 +459,7 @@ class ProjectActiveActivitiesFamily
     );
   }
 
+  @visibleForOverriding
   @override
   ProjectActiveActivitiesProvider getProviderOverride(
     covariant ProjectActiveActivitiesProvider provider,
@@ -356,19 +469,29 @@ class ProjectActiveActivitiesFamily
     );
   }
 
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
+  /// Enables overriding the behavior of this provider, no matter the parameters.
+  Override overrideWith(
+      FutureOr<List<DActivity>> Function(ProjectActiveActivitiesRef ref)
+          create) {
+    return _$ProjectActiveActivitiesFamilyOverride(this, create);
+  }
+}
+
+class _$ProjectActiveActivitiesFamilyOverride implements FamilyOverride {
+  _$ProjectActiveActivitiesFamilyOverride(this.overriddenFamily, this.create);
+
+  final FutureOr<List<DActivity>> Function(ProjectActiveActivitiesRef ref)
+      create;
 
   @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+  final ProjectActiveActivitiesFamily overriddenFamily;
 
   @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'projectActiveActivitiesProvider';
+  ProjectActiveActivitiesProvider getProviderOverride(
+    covariant ProjectActiveActivitiesProvider provider,
+  ) {
+    return provider._copyWith(create);
+  }
 }
 
 /// See also [projectActiveActivities].
@@ -395,7 +518,7 @@ class ProjectActiveActivitiesProvider
         );
 
   ProjectActiveActivitiesProvider._internal(
-    super._createNotifier, {
+    super.create, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
@@ -408,8 +531,7 @@ class ProjectActiveActivitiesProvider
 
   @override
   Override overrideWith(
-    FutureOr<List<DActivity>> Function(ProjectActiveActivitiesRef provider)
-        create,
+    FutureOr<List<DActivity>> Function(ProjectActiveActivitiesRef ref) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -426,8 +548,27 @@ class ProjectActiveActivitiesProvider
   }
 
   @override
+  (String,) get argument {
+    return (project,);
+  }
+
+  @override
   AutoDisposeFutureProviderElement<List<DActivity>> createElement() {
     return _ProjectActiveActivitiesProviderElement(this);
+  }
+
+  ProjectActiveActivitiesProvider _copyWith(
+    FutureOr<List<DActivity>> Function(ProjectActiveActivitiesRef ref) create,
+  ) {
+    return ProjectActiveActivitiesProvider._internal(
+      (ref) => create(ref as ProjectActiveActivitiesRef),
+      name: name,
+      dependencies: dependencies,
+      allTransitiveDependencies: allTransitiveDependencies,
+      debugGetCreateSourceHash: debugGetCreateSourceHash,
+      from: from,
+      project: project,
+    );
   }
 
   @override
@@ -466,9 +607,23 @@ String _$activityFormsHash() => r'173db7a1c145d9506f7b18b64c5bf6bb84d3ff5d';
 const activityFormsProvider = ActivityFormsFamily();
 
 /// See also [activityForms].
-class ActivityFormsFamily extends Family<AsyncValue<List<FormTemplate>>> {
+class ActivityFormsFamily extends Family {
   /// See also [activityForms].
   const ActivityFormsFamily();
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'activityFormsProvider';
 
   /// See also [activityForms].
   ActivityFormsProvider call(
@@ -479,6 +634,7 @@ class ActivityFormsFamily extends Family<AsyncValue<List<FormTemplate>>> {
     );
   }
 
+  @visibleForOverriding
   @override
   ActivityFormsProvider getProviderOverride(
     covariant ActivityFormsProvider provider,
@@ -488,19 +644,27 @@ class ActivityFormsFamily extends Family<AsyncValue<List<FormTemplate>>> {
     );
   }
 
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
+  /// Enables overriding the behavior of this provider, no matter the parameters.
+  Override overrideWith(
+      FutureOr<List<FormTemplate>> Function(ActivityFormsRef ref) create) {
+    return _$ActivityFormsFamilyOverride(this, create);
+  }
+}
+
+class _$ActivityFormsFamilyOverride implements FamilyOverride {
+  _$ActivityFormsFamilyOverride(this.overriddenFamily, this.create);
+
+  final FutureOr<List<FormTemplate>> Function(ActivityFormsRef ref) create;
 
   @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+  final ActivityFormsFamily overriddenFamily;
 
   @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'activityFormsProvider';
+  ActivityFormsProvider getProviderOverride(
+    covariant ActivityFormsProvider provider,
+  ) {
+    return provider._copyWith(create);
+  }
 }
 
 /// See also [activityForms].
@@ -527,7 +691,7 @@ class ActivityFormsProvider
         );
 
   ActivityFormsProvider._internal(
-    super._createNotifier, {
+    super.create, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
@@ -540,7 +704,7 @@ class ActivityFormsProvider
 
   @override
   Override overrideWith(
-    FutureOr<List<FormTemplate>> Function(ActivityFormsRef provider) create,
+    FutureOr<List<FormTemplate>> Function(ActivityFormsRef ref) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -557,8 +721,27 @@ class ActivityFormsProvider
   }
 
   @override
+  (String?,) get argument {
+    return (activity,);
+  }
+
+  @override
   AutoDisposeFutureProviderElement<List<FormTemplate>> createElement() {
     return _ActivityFormsProviderElement(this);
+  }
+
+  ActivityFormsProvider _copyWith(
+    FutureOr<List<FormTemplate>> Function(ActivityFormsRef ref) create,
+  ) {
+    return ActivityFormsProvider._internal(
+      (ref) => create(ref as ActivityFormsRef),
+      name: name,
+      dependencies: dependencies,
+      allTransitiveDependencies: allTransitiveDependencies,
+      debugGetCreateSourceHash: debugGetCreateSourceHash,
+      from: from,
+      activity: activity,
+    );
   }
 
   @override
@@ -596,9 +779,23 @@ String _$activityTeamHash() => r'a68776d666a27a837c2159ad4db76ceb97b54ccf';
 const activityTeamProvider = ActivityTeamFamily();
 
 /// See also [activityTeam].
-class ActivityTeamFamily extends Family<AsyncValue<DTeam?>> {
+class ActivityTeamFamily extends Family {
   /// See also [activityTeam].
   const ActivityTeamFamily();
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'activityTeamProvider';
 
   /// See also [activityTeam].
   ActivityTeamProvider call(
@@ -609,6 +806,7 @@ class ActivityTeamFamily extends Family<AsyncValue<DTeam?>> {
     );
   }
 
+  @visibleForOverriding
   @override
   ActivityTeamProvider getProviderOverride(
     covariant ActivityTeamProvider provider,
@@ -618,19 +816,26 @@ class ActivityTeamFamily extends Family<AsyncValue<DTeam?>> {
     );
   }
 
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
+  /// Enables overriding the behavior of this provider, no matter the parameters.
+  Override overrideWith(FutureOr<DTeam?> Function(ActivityTeamRef ref) create) {
+    return _$ActivityTeamFamilyOverride(this, create);
+  }
+}
+
+class _$ActivityTeamFamilyOverride implements FamilyOverride {
+  _$ActivityTeamFamilyOverride(this.overriddenFamily, this.create);
+
+  final FutureOr<DTeam?> Function(ActivityTeamRef ref) create;
 
   @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+  final ActivityTeamFamily overriddenFamily;
 
   @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'activityTeamProvider';
+  ActivityTeamProvider getProviderOverride(
+    covariant ActivityTeamProvider provider,
+  ) {
+    return provider._copyWith(create);
+  }
 }
 
 /// See also [activityTeam].
@@ -656,7 +861,7 @@ class ActivityTeamProvider extends AutoDisposeFutureProvider<DTeam?> {
         );
 
   ActivityTeamProvider._internal(
-    super._createNotifier, {
+    super.create, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
@@ -669,7 +874,7 @@ class ActivityTeamProvider extends AutoDisposeFutureProvider<DTeam?> {
 
   @override
   Override overrideWith(
-    FutureOr<DTeam?> Function(ActivityTeamRef provider) create,
+    FutureOr<DTeam?> Function(ActivityTeamRef ref) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -686,8 +891,27 @@ class ActivityTeamProvider extends AutoDisposeFutureProvider<DTeam?> {
   }
 
   @override
+  (String?,) get argument {
+    return (activity,);
+  }
+
+  @override
   AutoDisposeFutureProviderElement<DTeam?> createElement() {
     return _ActivityTeamProviderElement(this);
+  }
+
+  ActivityTeamProvider _copyWith(
+    FutureOr<DTeam?> Function(ActivityTeamRef ref) create,
+  ) {
+    return ActivityTeamProvider._internal(
+      (ref) => create(ref as ActivityTeamRef),
+      name: name,
+      dependencies: dependencies,
+      allTransitiveDependencies: allTransitiveDependencies,
+      debugGetCreateSourceHash: debugGetCreateSourceHash,
+      from: from,
+      activity: activity,
+    );
   }
 
   @override
@@ -717,4 +941,4 @@ class _ActivityTeamProviderElement
   String? get activity => (origin as ActivityTeamProvider).activity;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package

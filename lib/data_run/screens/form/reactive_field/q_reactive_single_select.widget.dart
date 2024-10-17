@@ -1,7 +1,7 @@
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
+import 'package:mass_pro/data_run/screens/form_module/model/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/element/validation/form_element_validator.dart';
 import 'package:mass_pro/data_run/screens/form/reactive_field/reactive_drop_down/src/q_reactive_dropdown_search.dart';
 import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
@@ -14,7 +14,7 @@ class QReactiveSingleSelect extends HookConsumerWidget {
     required this.element,
   });
 
-  final FieldInstance<String> element;
+  final FormFieldElement<String> element;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -45,7 +45,7 @@ class QReactiveSingleSelect extends HookConsumerWidget {
   }
 
   getNormalDropdown(List<FormOption> options, BuildContext context,
-      FieldInstance<String> element) {
+      FormFieldElement<String> element) {
     return ReactiveDropdownField<String?>(
       formControlName: element.name,
       validationMessages: validationMessages(context),

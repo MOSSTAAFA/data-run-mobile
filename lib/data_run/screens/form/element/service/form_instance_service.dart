@@ -10,7 +10,7 @@ import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:mass_pro/data_run/screens/form/element/service/device_info_service.dart';
 import 'package:mass_pro/data_run/screens/form/element/factories/form_element_control_factory.dart';
 import 'package:mass_pro/data_run/screens/form/element/factories/form_element_factory.dart';
-import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
+import 'package:mass_pro/data_run/screens/form_module/model/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_metadata.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 import 'package:uuid/uuid.dart';
@@ -124,7 +124,7 @@ class FormInstanceService {
     final savedValue = await loadFormData();
 
     for (var element in template.fields) {
-      controls[element.name] = FromElementControlFactory.createTemplateControl(
+      controls[element.name] = FormElementControlFactory.createTemplateControl(
           element,
           savedValue: savedValue?[element.name]);
     }
@@ -138,10 +138,10 @@ class FormInstanceService {
 
     final savedValue = await loadFormData();
     for (var element in template.fields) {
-      elements[element.name] = FromElementFactory.createElementInstance(
+      elements[element.name] = FromElementFactory.createFormElement(
           form, element,
           formOptionsMap: formOptionsMapCache,
-          savedValue: savedValue?[element.name]);
+          initialValue: savedValue?[element.name]);
     }
     return elements;
   }

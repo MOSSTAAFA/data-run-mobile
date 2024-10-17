@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:d2_remote/core/datarun/utilities/date_utils.dart';
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/datarun/form/entities/form_definition.entity.dart';
-import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/form_element_template.dart';
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule/rule.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
@@ -81,7 +81,7 @@ class FormConfiguration {
         this.fieldRules =
             IMap.fromIterable<String, IList<Rule>?, FieldTemplate>(fields ?? [],
                 keyMapper: (FieldTemplate field) => field.name,
-                valueMapper: (FieldTemplate field) => field.rules.lock),
+                valueMapper: (FieldTemplate field) => field.rules),
         this.orgUnitTreeUids = orgUnits?.lock ?? IList();
 
   final String form;
