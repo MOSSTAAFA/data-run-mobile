@@ -5,15 +5,15 @@ import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 class QSwitchField extends HookWidget {
   const QSwitchField({super.key, required this.element});
 
-  final FieldInstance<dynamic> element;
+  final FieldInstance<bool> element;
 
   @override
   Widget build(BuildContext context) {
     final elementConfig = useState(element.properties);
 
     return ReactiveSwitchListTile(
-      formControlName: element.name,
-      // formControl: element.elementControl as FormControl<bool>,
+      // formControlName: element.name,
+      formControl: element.elementControl,
       title: Text('${elementConfig.value.label}'),
     );
   }

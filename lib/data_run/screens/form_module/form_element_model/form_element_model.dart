@@ -1,4 +1,5 @@
 import 'package:mass_pro/data_run/screens/form/element/exceptions/form_element_exception.dart';
+import 'package:mass_pro/data_run/screens/form_module/form_element_model/element_state_model/form_element_state.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
 part 'field_element_model.dart';
@@ -12,14 +13,16 @@ part 'repeat_element_model.dart';
 part 'repeat_item_element_model.dart';
 
 sealed class FormElementModel<T> {
-  FormElementModel({
-    required this.name,
-    String? path,
-    bool hidden = false,
-    bool mandatory = false,
-  })  : _hidden = hidden,
+  FormElementModel(
+      {required this.name,
+      String? path,
+      bool hidden = false,
+      bool mandatory = false,
+      Map<String, FormElementState>? formElementsState})
+      : _hidden = hidden,
         _mandatory = mandatory,
-        _path = path;
+        _path = path,
+        _formElementsState = formElementsState ?? {};
 
   FormElementModel<Object>? _parentSection;
 
@@ -28,6 +31,12 @@ sealed class FormElementModel<T> {
   bool _mandatory;
   final String name;
   String? _path;
+
+  // <path, elementState>
+  final Map<String, FormElementState> _formElementsState;
+
+  Map<String, FormElementState> get formElementsState =>
+      Map.unmodifiable(_formElementsState);
 
   String? get path => _path;
 

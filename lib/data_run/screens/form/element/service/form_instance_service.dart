@@ -7,8 +7,8 @@ import 'package:d2_remote/modules/datarun/form/entities/data_form_submission.ent
 import 'package:d2_remote/modules/datarun/form/entities/form_definition.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/attribute_type.dart';
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
+import 'package:mass_pro/data_run/screens/form/element/form_value_map.dart';
 import 'package:mass_pro/data_run/screens/form/element/service/device_info_service.dart';
-import 'package:mass_pro/data_run/screens/form/element/dependency/dependency_resolver.dart';
 import 'package:mass_pro/data_run/screens/form/element/factories/form_element_control_factory.dart';
 import 'package:mass_pro/data_run/screens/form/element/factories/form_element_factory.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
@@ -30,12 +30,10 @@ class FormInstanceService {
       {required FormTemplateV template,
       AndroidDeviceInfoService? deviceInfoService,
       required this.formMetadata,
-      required DependencyResolver dependencyResolver,
       required this.orgUnit})
       : _template = template,
         _uuid = Uuid().v4(),
-        _deviceInfoService = deviceInfoService,
-        _dependencyResolver = dependencyResolver {
+        _deviceInfoService = deviceInfoService {
     _formOptionsMapCache.addAll(Map.fromIterable(
         template.options..sort((a, b) => (a.order).compareTo(b.order)),
         key: (option) => option.listName,
@@ -50,7 +48,6 @@ class FormInstanceService {
   final AndroidDeviceInfoService? _deviceInfoService;
   final FormTemplateV _template;
   final Map<String, List<FormOption>> _formOptionsMapCache = {};
-  final DependencyResolver _dependencyResolver;
 
   FormTemplateV get template => _template;
 
@@ -137,21 +134,18 @@ class FormInstanceService {
   }
 
   Future<Map<String, FormElementInstance<dynamic>>> formDataElements(
-      FormGroup form) async {
+      FormGroup form, FormValueMap formValueMap) async {
     final Map<String, FormElementInstance<dynamic>> elements = {};
-    // final form = FormGroup(await _formDataControls());
-    // final form = await _form();
 
     final savedValue = await loadFormData();
     for (var element in template.fields) {
+      // String fullPath = '${element.name}';
       elements[element.name] = FromElementFactory.createElementInstance(
           form, element,
-          formOptionsMap: formOptionsMapCache,
-          savedValue: savedValue?[element.name]);
+          savedValue: savedValue?[element.name],
+          formValueMap: formValueMap);
     }
 
-    // await loadFormData(elements);
-    // _dependencyResolver.resolvePendingDependencies();
     return elements;
   }
 
@@ -168,58 +162,4 @@ class FormInstanceService {
 
     return savedData;
   }
-
-// /// Update the form data with new values (for patching or rehydration)
-// Future<void> loadFormData(
-//     Map<String, FormElementInstance<dynamic>> elements) async {
-//   late final Map<String, dynamic>? savedData;
-//   if (formMetadata.submission != null) {
-//     final DataFormSubmission? submission = await D2Remote
-//         .formModule.formSubmission
-//         .byId(formMetadata.submission!)
-//         .getOne();
-//     savedData = submission?.formData;
-//   }
-//   if (savedData != null) {
-//     for (var element in elements.values) {
-//       _updateElementValue(element, savedData[element.name]);
-//     }
-//   }
-// }
-
-// /// Helper to update the element value based on savedData
-// void _updateElementValue(
-//     FormElementInstance<dynamic> element, dynamic savedValue) {
-//   if (element is FieldInstance) {
-//     element.updateValue(savedValue);
-//     // element.updateFieldValue(FromElementFactory.createFormField(
-//     //   element.form,
-//     //   element.template,
-//     //   savedValue: savedValue,
-//     //   formOptionsMap: formOptionsMapCache,
-//     // ));
-//   } else if (element is SectionInstance) {
-//     element.updateValue(savedValue);
-//     // element.updateSectionValue(FromElementFactory.createSectionInstance(
-//     //   element.form,
-//     //   element.template,
-//     //   savedValue: savedValue,
-//     //   formOptionsMap: formOptionsMapCache,
-//     // ));
-//   } else if (element is RepeatInstance) {
-//     // final ee =
-//     //     updatedRepeatedSectionSections(element, savedValue: savedValue ?? []);
-//     element.updateValue(savedValue);
-//   }
-// }
-
-// List<SectionInstance> updatedRepeatedSectionSections(
-//     FormElementInstance<dynamic> element,
-//     {List<dynamic> savedValue = const []}) {
-//   return savedValue
-//       .map((savedValue) => FromElementFactory.createSectionInstance(
-//           element.form, element.template,
-//           savedValue: savedValue, formOptionsMap: formOptionsMapCache))
-//       .toList();
-// }
 }

@@ -10,7 +10,7 @@ import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
 class QOrgUnitPickerField extends HookConsumerWidget {
   const QOrgUnitPickerField({super.key, required this.element});
 
-  final FieldInstance<dynamic> element;
+  final FieldInstance<String> element;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,14 +19,13 @@ class QOrgUnitPickerField extends HookConsumerWidget {
       return SizedBox.shrink();
     }
 
-    final dataSourceAsyncValue = ref.watch(ouPickerDataSourceProvider(
-        formMetaData: FormMetadataWidget.of(context)));
+    final dataSourceAsyncValue = ref.watch(ouPickerDataSourceProvider);
 
     return AsyncValueWidget(
       value: dataSourceAsyncValue,
       data: (dataSource) => ReactiveOuPicker(
-        // formControl: element.elementControl,
-        formControlName: element.name,
+        formControl: element.elementControl,
+        // formControlName: element.name,
         validationMessages: element.validationMessages,
         dataSource: dataSource,
       ),

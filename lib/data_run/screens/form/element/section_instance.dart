@@ -3,10 +3,11 @@ part of 'form_element.dart';
 /// A section
 class SectionInstance extends SectionElement<Map<String, Object?>> {
   SectionInstance({
-    // super.parentSection,
     required super.template,
     required super.form,
-    super.expanded,
+    required super.path,
+    required super.formValueMap,
+
     // Map<String, FormElementInstance<dynamic>> elements = const {},
   }) /*: assert(!elements.keys.any((name) => name.contains('.')),
             'element name should not contain dot(.)') */
@@ -31,7 +32,7 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
 
   /// Appends all [elements] to the group.
   void addAll(Map<String, FormElementInstance<dynamic>> elements) {
-        _elements.addAll(elements);
+    _elements.addAll(elements);
     elements.forEach((name, element) {
       element.parentSection = this;
     });
@@ -78,7 +79,7 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
     } else if (contains(name)) {
       return _elements[name]!;
     }
-    throw FormElementNotFoundException(elementName: name);
+    throw FormElementNotFoundException(null);
   }
 
   @override
@@ -86,21 +87,11 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
       findElementInCollection(path.split('.'));
 
   @override
-  bool anyElements(
-      bool Function(FormElementInstance<dynamic> element) condition) {
-    return _elements.values
-        .any((element) => element.enabled && condition(element));
-  }
-
-  @override
   void forEachChild(
       void Function(FormElementInstance<dynamic> element) callback) {
     _elements.forEach((name, element) => callback(element));
   }
 
-  //</editor-fold>
-
-  //<editor-fold desc="Update Value">
   @override
   void updateValue(Map<String, Object?>? value,
       {bool updateParent = true, bool emitEvent = true}) {
@@ -116,37 +107,20 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
   }
 
   @override
-  void patchValue(Map<String, Object?>? value,
-      {bool updateParent = true, bool emitEvent = true}) {
-    value?.forEach((name, value) {
-      if (_elements.containsKey(name)) {
-        _elements[name]!.patchValue(
-          value,
-          updateParent: false,
-          emitEvent: emitEvent,
-        );
-      }
-    });
-  }
-
-//</editor-fold>
-
-  //<editor-fold desc="Util-methods">
-  @override
-  bool allElementsDisabled() {
+  bool allElementsHidden() {
     if (_elements.isEmpty) {
       return false;
     }
-    return _elements.values.every((element) => element.disabled);
+    return _elements.values.every((element) => element.hidden);
   }
 
   @override
   void dispose() {
-    forEachChild((element) {
-      element.parentSection = null;
-      element.dispose();
-    });
-    elementControl.closeCollectionEvents();
+    // forEachChild((element) {
+    //   element.parentSection = null;
+    //   element.dispose();
+    // });
+    // elementControl.closeCollectionEvents();
     super.dispose();
   }
 
@@ -158,6 +132,7 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
     _elements.forEach((_, element) {
       element.markAsHidden(updateParent: true);
     });
+    super.markAsHidden();
   }
 
   @override
@@ -165,6 +140,7 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
     _elements.forEach((_, element) {
       element.markAsVisible();
     });
+    super.markAsVisible();
   }
 // void updateSectionValue(
 //   Map<String, Object?>? value, {

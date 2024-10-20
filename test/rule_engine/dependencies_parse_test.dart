@@ -1,5 +1,5 @@
 import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
-import 'package:d2_remote/modules/datarun/form/shared/rule_parse_extension.dart';
+import 'package:d2_remote/modules/datarun/form/shared/rule/rule_parse_extension.dart';
 
 
 import 'form.sample.dart';

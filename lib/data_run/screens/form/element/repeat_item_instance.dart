@@ -5,7 +5,9 @@ class RepeatItemInstance extends SectionInstance {
   RepeatItemInstance({
     required super.template,
     required super.form,
-    super.expanded,
+    required super.path,
+    required super.formValueMap,
+
   });
 
   int get sectionIndex => (parentSection as RepeatInstance)
@@ -14,17 +16,20 @@ class RepeatItemInstance extends SectionInstance {
   @override
   String get name => '$sectionIndex';
 
-  String get pathRecursive {
+  set parentSection(FormElementInstance<Object>? parent) {
+    if (parent is! RepeatInstance?) {
+      throw StateError(
+          'A RepeatItemInstance\'s Parent can only be a RepeatInstance, parent: ${parent.runtimeType}');
+    }
+
+    _parentSection = parent;
+  }
+
+  String pathBuilder(String? pathItem) {
     if (parentSection == null) {
       throw StateError('RepeatItemInstance\'s Parent should not be null');
     }
 
-    if (!(parentSection is RepeatInstance)) {
-      throw StateError(
-          'A RepeatItemInstance\'s Parent can only be a RepeatInstance, parent: ${parentSection.runtimeType}');
-    }
-
-    String? parentPath = '${parentSection!.pathRecursive}';
-    return '${parentPath}.$sectionIndex';
+    return [parentSection!.elementPath, pathItem].whereType<String>().join('.');
   }
 }

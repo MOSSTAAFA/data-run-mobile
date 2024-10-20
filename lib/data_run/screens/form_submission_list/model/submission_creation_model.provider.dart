@@ -28,7 +28,7 @@ Future<SubmissionCreationModel> submissionCreationModel(
       await ref.watch(activityTeamProvider(formMetaData.activity).future);
 
   final TreeNodeDataSource dataSource = await ref
-      .watch(ouPickerDataSourceProvider(formMetaData: formMetaData).future);
+      .watch(ouPickerDataSourceProvider.future);
 
   return SubmissionCreationModel(
     dataSource: dataSource,

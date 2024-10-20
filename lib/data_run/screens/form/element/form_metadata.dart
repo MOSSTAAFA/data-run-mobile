@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:mass_pro/data_run/screens/form_module/form_template/form_element_template.dart';
 
 class FormMetadata with EquatableMixin {
   const FormMetadata({

@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/element_widgets/section.widget.dart';
 import 'package:mass_pro/data_run/screens/form/field_widgets/improved_expansion_tile.widget.dart';
+import 'package:mass_pro/data_run/screens/form/hooks/register_dependencies.dart';
 import 'package:mass_pro/data_run/screens/form/inherited_widgets/section_inherited.widget.dart';
 import 'package:mass_pro/generated/l10n.dart';
 
@@ -20,46 +21,55 @@ class RepeatItem extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final expanded = useState(element.expanded);
-    return ImprovedExpansionTile(
-      leading: Icon(Icons.table_rows),
-      maintainState: true,
-      enabled: element.form.enabled,
-      initiallyExpanded: false,
-      onExpansionChanged: (ex) {
-        expanded.value = ex;
-      },
-      titleWidget: Tooltip(
-        message: '${index + 1}. ${element.properties.label}',
-        child: Row(
-          children: [
-            Expanded(
-              child: Text(
-                '${index + 1}. ${element.properties.label}',
-                overflow: TextOverflow.fade,
-                maxLines: 1,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue,
+    // final expanded = useState(element.expanded);
+    useRegisterDependencies(element);
+
+    return Builder(builder: (context) {
+      if (element.hidden) {
+        return SizedBox.shrink();
+      }
+
+      return ImprovedExpansionTile(
+        leading: Icon(Icons.table_rows),
+        maintainState: true,
+        enabled: element.form.enabled,
+        initiallyExpanded: false,
+        // onExpansionChanged: (ex) {
+        //   expanded.value = ex;
+        // },
+        titleWidget: Tooltip(
+          message: '${index + 1}. ${element.properties.label}',
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  '${index + 1}. ${element.properties.label}',
+                  overflow: TextOverflow.fade,
+                  maxLines: 1,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue,
+                  ),
                 ),
               ),
-            ),
-            const Spacer(),
-            IconButton(
-              icon: const Icon(Icons.remove_circle_outline, color: Colors.red),
-              onPressed: () {
-                _confirmDelete(context, index);
-              },
-            ),
-          ],
+              const Spacer(),
+              IconButton(
+                icon:
+                    const Icon(Icons.remove_circle_outline, color: Colors.red),
+                onPressed: () {
+                  _confirmDelete(context, index);
+                },
+              ),
+            ],
+          ),
         ),
-      ),
-      child: SectionInheritedWidget(
-        section: element,
-        child: SectionWidget(element: element),
-      ),
-    );
+        child: SectionInheritedWidget(
+          section: element,
+          child: SectionWidget(element: element),
+        ),
+      );
+    });
   }
 
   Future<void> _confirmDelete(BuildContext context, int index) async {

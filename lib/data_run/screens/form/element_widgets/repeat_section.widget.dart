@@ -1,14 +1,10 @@
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
-import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mass_pro/data_run/screens/form/element/factories/form_element_control_factory.dart';
 import 'package:mass_pro/data_run/screens/form/element_widgets/repeat_item.widget.dart';
-import 'package:mass_pro/data_run/screens/form/element_widgets/section.widget.dart';
-import 'package:mass_pro/data_run/screens/form/field_widgets/improved_expansion_tile.widget.dart';
 import 'package:mass_pro/data_run/screens/form/element/factories/form_element_factory.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:mass_pro/generated/l10n.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 import 'package:scrollable/exports.dart';
@@ -18,12 +14,10 @@ class RepeatSectionWidget extends HookConsumerWidget {
     super.key,
     required this.element,
     this.onAdd,
-    this.onRemove,
-    required this.formOptionsMap,
+    this.onRemove
   });
 
   final RepeatInstance element;
-  final Map<String, List<FormOption>> formOptionsMap;
 
   final Function(int index)? onAdd;
   final Function(int index)? onRemove;
@@ -80,9 +74,9 @@ class RepeatSectionWidget extends HookConsumerWidget {
   void onAddItem() {
     element.elementControl.add(
         FromElementControlFactory.createSectionFormGroup(element.template));
-    element.add(
-        FromElementFactory.createRepeatItem(element.form, element.template));
+    element.add(FromElementFactory.createRepeatItem(
+        element.form, element.template,
+        formValueMap: element.formValueMap));
     element.elementControl.markAsDirty();
-    onAdd?.call(element.elements.lastIndex);
   }
 }

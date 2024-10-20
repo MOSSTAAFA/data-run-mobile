@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mass_pro/commons/custom_widgets/async_value.widget.dart';
+import 'package:mass_pro/data_run/screens/form/element/providers/form_instance.provider.dart';
 import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
 import 'package:mass_pro/data_run/screens/form/form_tab_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_metadata.dart';
@@ -91,14 +92,17 @@ class ActivityExpandedCard extends HookConsumerWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => FormMetadataWidget(
-              formMetadata: FormMetadata(
-                  formLabel: getItemLocalString(template.label,
-                      defaultString: template.name),
-                  form: template.uid!,
-                  activity: activity.uid!,
-                  version: template.version),
-              child: const SubmissionListScreen())),
+          builder: (context) => ProviderScope(
+                overrides: [
+                  formMetadataProvider.overrideWithValue(FormMetadata(
+                      formLabel: getItemLocalString(template.label,
+                          defaultString: template.name),
+                      form: template.uid!,
+                      activity: activity.uid!,
+                      version: template.version))
+                ],
+                child: const SubmissionListScreen(),
+              )),
     );
     // Get.to();
   }
@@ -115,13 +119,15 @@ class ActivityExpandedCard extends HookConsumerWidget {
     final String? result = await showDialog<String?>(
         context: context,
         builder: (BuildContext context) {
-          return FormMetadataWidget(
-            formMetadata: FormMetadata(
-                formLabel: getItemLocalString(template.label,
-                    defaultString: template.name),
-                activity: template.activity,
-                form: template.uid!,
-                version: template.version),
+          return ProviderScope(
+            overrides: [
+              formMetadataProvider.overrideWithValue(FormMetadata(
+                  formLabel: getItemLocalString(template.label,
+                      defaultString: template.name),
+                  activity: template.activity,
+                  form: template.uid!,
+                  version: template.version))
+            ],
             child: const SubmissionCreationDialog(),
           );
         });
@@ -137,14 +143,16 @@ class ActivityExpandedCard extends HookConsumerWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => FormMetadataWidget(
-                formMetadata: FormMetadata(
-                    form: template.uid!,
-                    formLabel: getItemLocalString(template.label,
-                        defaultString: template.name),
-                    submission: submissionCreated,
-                    activity: activity.uid!,
-                    version: template.version),
+          builder: (context) => ProviderScope(
+                overrides: [
+                  formMetadataProvider.overrideWithValue(FormMetadata(
+                      form: template.uid!,
+                      formLabel: getItemLocalString(template.label,
+                          defaultString: template.name),
+                      submission: submissionCreated,
+                      activity: activity.uid!,
+                      version: template.version))
+                ],
                 child: const FormSubmissionScreen(
                   currentPageIndex: 1,
                 ),

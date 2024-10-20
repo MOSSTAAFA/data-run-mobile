@@ -42,14 +42,6 @@ class SectionElementModel extends CollectionElementModel<Map<String, Object?>> {
     super.markAsVisible();
   }
 
-  /// Appends all [elements] to the group.
-  void addAll(Map<String, FormElementModel<dynamic>> elements) {
-    _elements.addAll(elements);
-    elements.forEach((name, element) {
-      element.parentSection = this;
-    });
-  }
-
   @override
   FormElementModel<dynamic> element(String name) {
     final namePath = name.split('.');
@@ -136,8 +128,16 @@ class SectionElementModel extends CollectionElementModel<Map<String, Object?>> {
   @override
   Iterable<FormElementModel<dynamic>> get elementsList => elements.values;
 
+  /// Appends all [elements] to the group.
+  void addAll(Map<String, FormElementModel<dynamic>> elements) {
+    _elements.addAll(elements);
+    elements.forEach((name, element) {
+      element.parentSection = this;
+    });
+  }
+
   @override
   void addElement(FormElementModel<dynamic> element, String path) {
-    // TODO: implement addElement
+    addAll({path: element});
   }
 }

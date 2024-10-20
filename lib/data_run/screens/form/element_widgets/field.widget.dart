@@ -12,12 +12,8 @@ class FieldWidget extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final elementConfig = useState(element.properties);
-    final requiredDependencies = element.requiredDependencies;
+    // final requiredDependencies = element.requiredDependencies;
     useRegisterDependencies(element);
-
-    if (elementConfig.value.hidden) {
-      return SizedBox.shrink();
-    }
 
     return Card(
       shadowColor: Theme.of(context).colorScheme.shadow,
@@ -25,7 +21,13 @@ class FieldWidget extends HookWidget {
       elevation: 1,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: FieldFactory.fromType(element: element),
+        child: Builder(builder: (context) {
+          if (element.properties.hidden) {
+            return SizedBox.shrink();
+          } else {
+            return FieldFactory.fromType(element: element);
+          }
+        }),
       ),
     );
   }

@@ -11,28 +11,23 @@ extension FromElementControlFactory<T> on FormElementInstance<T?> {
       FieldTemplate fieldTemplate,
       {savedValue}) {
     if (fieldTemplate.type.isSection) {
-      return createSectionFormGroup(fieldTemplate,
-          savedValue: savedValue);
+      return createSectionFormGroup(fieldTemplate, savedValue: savedValue);
     } else if (fieldTemplate.type.isRepeatSection) {
-      return createRepeatFormArray(fieldTemplate,
-          savedValue: savedValue);
+      return createRepeatFormArray(fieldTemplate, savedValue: savedValue);
     } else {
-      return createFieldFormControl(fieldTemplate,
-          savedValue: savedValue);
+      return createFieldFormControl(fieldTemplate, savedValue: savedValue);
     }
   }
 
-  static FormGroup createSectionFormGroup<T>(
-      FieldTemplate fieldTemplate,
+  static FormGroup createSectionFormGroup<T>(FieldTemplate fieldTemplate,
       {dynamic savedValue}) {
     final Map<String, AbstractControl<dynamic>> controls = {};
     fieldTemplate.fields.sort((a, b) => (a.order).compareTo(b.order));
     // final s = savedValue?[fieldTemplate.name];
 
     for (var childTemplate in fieldTemplate.fields) {
-
-      controls[childTemplate.name] =
-          createTemplateControl(childTemplate, savedValue: savedValue?[childTemplate.name]);
+      controls[childTemplate.name] = createTemplateControl(childTemplate,
+          savedValue: savedValue?[childTemplate.name]);
     }
     return FormGroup(controls);
   }
@@ -40,7 +35,6 @@ extension FromElementControlFactory<T> on FormElementInstance<T?> {
   static FormArray<Map<String, Object?>> createRepeatFormArray(
       FieldTemplate fieldTemplate,
       {dynamic savedValue}) {
-
     final formArray = FormArray<Map<String, Object?>>((savedValue ?? [])
         .map<FormGroup>(
             (e) => createSectionFormGroup(fieldTemplate, savedValue: e))

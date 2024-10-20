@@ -26,9 +26,9 @@ class FormSubmissionScreen extends StatefulHookConsumerWidget {
 class FormSubmissionScreenState extends ConsumerState<FormSubmissionScreen> {
   @override
   Widget build(BuildContext context) {
+    final formMetadata = ref.watch(formMetadataProvider);
     final AsyncValue<bool> submissionEditStatus = ref.watch(
-        submissionEditStatusProvider(
-            submission: FormMetadataWidget.of(context).submission!));
+        submissionEditStatusProvider(submission: formMetadata.submission!));
 
     return switch (submissionEditStatus) {
       AsyncValue(:final Object error?, :final stackTrace) =>
@@ -59,10 +59,10 @@ class _SubmissionTabScreenState extends ConsumerState<FormTabScreen> {
   final _entryFormKey = GlobalKey<ReactiveFormBuilderState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  FormMetadata metadata(BuildContext context) => FormMetadataWidget.of(context);
+  FormMetadata metadata(BuildContext context) => ref.read(formMetadataProvider);
 
   FormGroup formGroup(BuildContext context) => ref
-      .read(formInstanceProvider(formMetaData: metadata(context)))
+      .read(formInstanceProvider)
       .requireValue
       .form;
 
@@ -76,7 +76,7 @@ class _SubmissionTabScreenState extends ConsumerState<FormTabScreen> {
 
     final formInstance = ref
         .watch(
-            formInstanceProvider(formMetaData: FormMetadataWidget.of(context)))
+            formInstanceProvider)
         .requireValue;
 
     final _buildBody = <Widget>[
@@ -167,7 +167,7 @@ class _SubmissionTabScreenState extends ConsumerState<FormTabScreen> {
   Future<void> _onSaveForm() async {
     ref
         .read(
-            formInstanceProvider(formMetaData: FormMetadataWidget.of(context)))
+            formInstanceProvider)
         .requireValue
         .saveFormData();
   }
@@ -205,7 +205,7 @@ class _SubmissionTabScreenState extends ConsumerState<FormTabScreen> {
 
   Future<void> _markEntityAsFinal(BuildContext context) async {
     return ref
-        .read(formInstanceProvider(formMetaData: metadata(context)))
+        .read(formInstanceProvider)
         .requireValue
         .markSubmissionAsFinal();
   }
@@ -219,7 +219,7 @@ class _EagerInitialization extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final formInstance = ref.watch(
-        formInstanceProvider(formMetaData: FormMetadataWidget.of(context)));
+        formInstanceProvider);
     if (formInstance.isLoading) {
       return const Center(child: CircularProgressIndicator());
     } else if (formInstance.hasError) {

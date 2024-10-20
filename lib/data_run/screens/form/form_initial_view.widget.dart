@@ -14,12 +14,11 @@ class FormInitialView extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dataSourceAsyncValue = ref.watch(ouPickerDataSourceProvider(
-        formMetaData: FormMetadataWidget.of(context)));
+    final dataSourceAsyncValue = ref.watch(ouPickerDataSourceProvider);
 
     final formInstance = ref
         .watch(
-            formInstanceProvider(formMetaData: FormMetadataWidget.of(context)))
+            formInstanceProvider)
         .requireValue;
 
     return Card(

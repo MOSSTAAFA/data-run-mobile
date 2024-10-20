@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
 import 'package:mass_pro/data_run/screens/form/element_widgets/form_widget_factory.dart';
 import 'package:mass_pro/data_run/screens/form/element/providers/form_instance.provider.dart';
+import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
 class FormInstanceEntryView extends HookConsumerWidget {
   const FormInstanceEntryView({
@@ -19,14 +20,17 @@ class FormInstanceEntryView extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final formInstance = ref
         .watch(
-            formInstanceProvider(formMetaData: FormMetadataWidget.of(context)))
+            formInstanceProvider)
         .requireValue;
-    return SingleChildScrollView(
-      controller: scrollController,
-      child: Column(
-        children: formInstance.elements.values
-            .map((element) => FormElementWidgetFactory.createWidget(element))
-            .toList(),
+    return ReactiveForm(
+      formGroup: formInstance.form,
+      child: SingleChildScrollView(
+        controller: scrollController,
+        child: Column(
+          children: formInstance.elements.values
+              .map((element) => FormElementWidgetFactory.createWidget(element))
+              .toList(),
+        ),
       ),
     );
   }

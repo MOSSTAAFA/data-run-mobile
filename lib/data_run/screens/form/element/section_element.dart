@@ -5,25 +5,10 @@ part of 'form_element.dart';
 sealed class SectionElement<T> extends FormElementInstance<T> {
   SectionElement({
     required super.template,
-    bool expanded = true,
-    // super.value,
-    // super.parentSection,
     required super.form,
-  }) : _expanded = expanded;
-
-  bool _expanded;
-
-  bool get expanded => _expanded;
-
-  void set expanded(bool expanded) => _expanded = expanded;
-
-  void toggleExpansion() {
-    if (expanded) {
-      expanded = false;
-    } else {
-      expanded = true;
-    }
-  }
+    required super.path,
+    required super.formValueMap,
+  });
 
   FormElementInstance<dynamic> element(String name);
 

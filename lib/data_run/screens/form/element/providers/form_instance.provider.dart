@@ -2,71 +2,26 @@ import 'dart:io';
 
 import 'package:d2_remote/d2_remote.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:mass_pro/data_run/screens/form/element/form_value_map.dart';
 import 'package:mass_pro/data_run/screens/form/element/service/device_info_service.dart';
-import 'package:mass_pro/data_run/screens/form/element/dependency/dependency_resolver.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_instance.dart';
 import 'package:mass_pro/data_run/screens/form/element/service/form_instance_service.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_metadata.dart';
+import 'package:mass_pro/data_run/screens/form_module/form_template/form_element_template.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'form_instance.provider.g.dart';
 
-// @riverpod
-// Future<FormGroup> formGroup(FormGroupRef ref,
-//     {required FormMetadata formMetadata, String? orgUnit}) async {
-//   //<editor-fold desc="Data Methods">
-//   final template = await ref.watch(formTemplateProvider(formMetadata).future);
-//
-//   final Map<String, List<FormOption>> formOptionsMap = Map.fromIterable(
-//       template.options..sort((a, b) => (a.order).compareTo(b.order)),
-//       key: (option) => option.listName,
-//       value: (option) =>
-//           template.options
-//               .where((o) => o.listName == option.listName)
-//               .toList());
-//   final Map<String, AbstractControl<dynamic>> controls = {};
-//   final Map<String, AbstractControl<dynamic>> attributeControls = {};
-//   Map.fromIterable(
-//       template.options..sort((a, b) => (a.order).compareTo(b.order)),
-//       key: (option) => option.listName,
-//       value: (option) =>
-//           template.options
-//               .where((o) => o.listName == option.listName)
-//               .toList());
-//
-//   for (var element in template.fields) {
-//     if (!element.type.isSelectType && element.mainField) {
-//       attributeControls[element.name] =
-//           FormTemplateControlFactory.createFormControl(element,
-//               fieldOptions: formOptionsMap[element.name] ?? []);
-//     }
-//
-//     if (element.listName != null) {
-//       element.options.clear();
-//       element.options.addAll(formOptionsMap[element.listName]!.toList());
-//     }
-//     controls[element.name] = FormTemplateControlFactory.createControl(element,
-//         formOptionsMap: formOptionsMap);
-//   }
-//
-//
-//   final attrGroup = {
-//     'form': FormControl<String>(value: formMetadata.form),
-//     'orgUnit': FormControl<String>(
-//       value: orgUnit, /*formMetaData.orgUnit ??
-//             (template.orgUnits.length == 1 ? template.orgUnits.first : null)*/),
-//     'team': FormControl<String>(value: formMetadata.team),
-//     'activity': FormControl<String>(value: formMetadata.activity),
-//     'version': FormControl<int>(value: formMetadata.version)
-//   };
-//
-//   return FormGroup({
-//     initialGroupName: FormGroup(attrGroup),
-//     formDataGroupName: FormGroup(controls)
-//   });
-//   //</editor-fold>
-// }
+@riverpod
+FormFlatTemplate formFlatTemplate(FormFlatTemplateRef ref) {
+  throw UnimplementedError();
+}
+
+@riverpod
+FormMetadata formMetadata(FormMetadataRef ref) {
+  throw UnimplementedError();
+}
 
 @riverpod
 Future<bool> submissionEditStatus(SubmissionEditStatusRef ref,
@@ -85,49 +40,46 @@ Future<AndroidDeviceInfoService> deviceInfoService(
 
 @riverpod
 Future<FormInstanceService> formInstanceService(FormInstanceServiceRef ref,
-    {required FormMetadata formMetaData, String? orgUnit}) async {
+    {String? orgUnit}) async {
+  final formMetadata = ref.watch(formMetadataProvider);
   final formTemplate = await D2Remote.formModule.formTemplateV
-      .byVersion(formMetaData.version)
-      .byFormTemplate(formMetaData.form)
+      .byVersion(formMetadata.version)
+      .byFormTemplate(formMetadata.form)
       .getOne();
   final deviceInfoPlugin = DeviceInfoPlugin();
   final deviceInfo =
       Platform.isAndroid ? await deviceInfoPlugin.androidInfo : null;
   final deviceService = AndroidDeviceInfoService(deviceInfo: deviceInfo);
-  final dependencyResolver = ref.watch(dependencyResolverProvider);
 
   return FormInstanceService(
     template: formTemplate!,
-    formMetadata: formMetaData,
+    formMetadata: formMetadata,
     deviceInfoService: deviceService,
-    dependencyResolver: dependencyResolver,
     orgUnit: orgUnit,
   );
 }
 
 @riverpod
-Future<FormInstance> formInstance(FormInstanceRef ref,
-    {required FormMetadata formMetaData}) async {
-  //<editor-fold desc="Data Methods">
-
+Future<FormInstance> formInstance(FormInstanceRef ref) async {
+  final formMetadata = ref.watch(formMetadataProvider);
   final submission = await D2Remote.formModule.formSubmission
-      .byId(formMetaData.submission!)
+      .byId(formMetadata.submission!)
       .getOne();
 
   final enabled = await D2Remote.formModule.formSubmission
-      .byId(formMetaData.submission!)
+      .byId(formMetadata.submission!)
       .canEdit();
 
-  final service = await ref.watch(formInstanceServiceProvider(
-          formMetaData: formMetaData, orgUnit: submission.orgUnit)
-      .future);
+  final service = await ref
+      .watch(formInstanceServiceProvider(orgUnit: submission.orgUnit).future);
 
   final form = FormGroup(await service.formDataControls());
-
+  final FormValueMap formValueMap = FormValueMap();
+  final elements = await service.formDataElements(form, formValueMap);
   return FormInstance(ref,
       enabled: enabled,
       formInstanceService: service,
-      elements: await service.formDataElements(form),
+      elements: elements,
+      formValueMap: formValueMap,
       form: form);
-  //</editor-fold>
 }

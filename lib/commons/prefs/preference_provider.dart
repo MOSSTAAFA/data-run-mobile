@@ -1,6 +1,5 @@
 import 'package:d2_remote/core/datarun/utilities/date_utils.dart';
 import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
-import 'package:dartx/dartx_io.dart';
 import 'package:mass_pro/commons/prefs/preference.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -107,14 +106,14 @@ class PreferenceProvider {
     return getString(LAST_DATA_SYNC)?.let((String lastDataSyncString) =>
         DateUtils.dateTimeFormat().parse(lastDataSyncString));
   }
-
-  DateTime? lastSync() {
-    assert(_sharedPreferences != null, 'PreferenceProvider is not initialized');
-    final List<DateTime> dateSync = <DateTime>[];
-    lastMetadataSync()?.let((DateTime it) => dateSync.add(it));
-    lastDataSync()?.let((DateTime it) => dateSync.add(it));
-    return dateSync.min();
-  }
+  //
+  // DateTime? lastSync() {
+  //   assert(_sharedPreferences != null, 'PreferenceProvider is not initialized');
+  //   final List<DateTime> dateSync = <DateTime>[];
+  //   lastMetadataSync()?.let((DateTime it) => dateSync.add(it));
+  //   lastDataSync()?.let((DateTime it) => dateSync.add(it));
+  //   return dateSync.min();
+  // }
 
   T getObjectFromJson<T>(String key, Type typeToken, [T? defaultValue]) {
     assert(_sharedPreferences != null, 'PreferenceProvider is not initialized');

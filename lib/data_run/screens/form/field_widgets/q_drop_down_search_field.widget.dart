@@ -10,12 +10,12 @@ import 'package:reactive_dropdown_search/reactive_dropdown_search.dart';
 class QDropDownSearchField extends HookConsumerWidget {
   const QDropDownSearchField({super.key, required this.element});
 
-  final FieldInstance<dynamic> element;
+  final FieldInstance<List<String>> element;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final formOptionsMap =
-        ref.watch(formInstanceProvider(formMetaData: FormMetadataWidget.of(context))).requireValue.formOptionsMap;
+        ref.watch(formInstanceProvider).requireValue.formOptionsMap;
     final fieldOptions = formOptionsMap[element.listName]
       ?..sort((a, b) => (a.order).compareTo(b.order));
     //
@@ -26,9 +26,9 @@ class QDropDownSearchField extends HookConsumerWidget {
     // final formControl = section.elementControl;
     // final forfmControl = formControl;
 
-    return ReactiveDropdownSearchMultiSelection<String, String>(
-      // formControl: element.elementControl as FormControl<List<String>>,
-      formControlName: element.name,
+    return ReactiveDropdownSearchMultiSelection(
+      formControl: element.elementControl,
+      // formControlName: element.name,
       validationMessages: validationMessages(context),
       dropdownDecoratorProps: DropDownDecoratorProps(
         dropdownSearchDecoration: InputDecoration(

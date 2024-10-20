@@ -12,21 +12,21 @@ import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 class QDropDownField extends HookConsumerWidget {
   const QDropDownField({super.key, required this.element});
 
-  final FieldInstance<String?> element;
+  final FieldInstance<String> element;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final elementConfig = useState(element.properties);
-    final requiredDependencies = element.requiredDependencies;
-    final elementName = element.name;
-    final elementType = element.type;
-    if (requiredDependencies.length > 0) {
-      final depElement = element
-          .findElementInParentSection(element.requiredDependencies.first);
-    }
+    // // final elementConfig = useState(element.properties);
+    // final requiredDependencies = element.requiredDependencies;
+    // final elementName = element.name;
+    // final elementType = element.type;
+    // if (requiredDependencies.length > 0) {
+    //   final depElement = element
+    //       .findElementInParentSection(element.requiredDependencies.first);
+    // }
     final formOptionsMap = ref
         .watch(
-            formInstanceProvider(formMetaData: FormMetadataWidget.of(context)))
+            formInstanceProvider)
         .requireValue
         .formOptionsMap;
 
@@ -38,7 +38,7 @@ class QDropDownField extends HookConsumerWidget {
 
   getAutoComplete(List<FormOption> options, BuildContext context) {
     return ReactiveDropdownSearch<String, String>(
-      formControlName: element.name,
+      formControl: element.elementControl,
       validationMessages: validationMessages(context),
       dropdownDecoratorProps: DropDownDecoratorProps(
         dropdownSearchDecoration: InputDecoration(

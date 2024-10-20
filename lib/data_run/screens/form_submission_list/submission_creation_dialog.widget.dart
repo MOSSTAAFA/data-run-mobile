@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/commons/custom_widgets/async_value.widget.dart';
+import 'package:mass_pro/data_run/screens/form/element/providers/form_instance.provider.dart';
 import 'package:mass_pro/data_run/screens/form/field_widgets/reactive_o_u_picker.dart';
 import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
 import 'package:mass_pro/data_run/screens/form/element/validation/form_element_validator.dart';
@@ -26,15 +27,15 @@ class SubmissionCreationDialogState
 
   Future<String?> _createEntity(
       BuildContext context, SubmissionCreationModel model) async {
+    final formMetadata = ref.watch(formMetadataProvider);
     final submissionInitialRepository = ref.read(
-        formSubmissionListProvider(form: FormMetadataWidget.of(context).form)
+        formSubmissionListProvider(form: formMetadata.form)
             .notifier);
-
     final submission = await submissionInitialRepository.createSubmission(
-      activityUid: FormMetadataWidget.of(context).activity,
+      activityUid: ref.watch(formMetadataProvider).activity,
       orgUnit: model.form.control('_${AttributeType.orgUnit.name}').value,
       teamUid: model.team,
-      version: FormMetadataWidget.of(context).version,
+      version:  ref.watch(formMetadataProvider).version,
     );
     return submission.uid;
   }
@@ -72,7 +73,7 @@ class SubmissionCreationDialogState
   @override
   Widget build(BuildContext context) {
     final templateAsyncValue = ref.watch(submissionCreationModelProvider(
-        formMetaData: FormMetadataWidget.of(context)));
+        formMetaData:  ref.watch(formMetadataProvider)));
     return AsyncValueWidget(
       value: templateAsyncValue,
       data: (SubmissionCreationModel model) => AlertDialog(
@@ -82,7 +83,7 @@ class SubmissionCreationDialogState
           children: [
             Text('${S.of(context).openNewForm}:',
                 style: Theme.of(context).textTheme.titleMedium),
-            Text(FormMetadataWidget.of(context).formLabel,
+            Text( ref.watch(formMetadataProvider).formLabel,
                 style: Theme.of(context).textTheme.titleLarge)
           ],
         ),

@@ -4,49 +4,67 @@ import 'package:d2_remote/modules/datarun/form/shared/attribute_type.dart';
 import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
+import 'package:mass_pro/commons/logging/logging.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
+import 'package:mass_pro/data_run/screens/form/element/form_value_map.dart';
 import 'package:mass_pro/data_run/screens/form/element/providers/form_instance.provider.dart';
 import 'package:mass_pro/data_run/screens/form/element/service/form_instance_service.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_metadata.dart';
+import 'package:mass_pro/data_run/screens/form_module/form_template/form_element_template.dart';
 import 'package:mass_pro/data_run/screens/form_submission_list/model/submission_list.provider.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
 class FormInstance {
-  FormInstance(
-    this.ref, {
-    required FormInstanceService formInstanceService,
-    required this.form,
-    Map<String, FormElementInstance<dynamic>> elements = const {},
-    required this.enabled,
-  }) : _formInstanceService = formInstanceService {
+  FormInstance(FormInstanceRef ref,
+      {required FormInstanceService formInstanceService,
+      required this.form,
+      Map<String, FormElementInstance<dynamic>> elements = const {},
+      required this.enabled,
+      required FormValueMap formValueMap})
+      : _ref = ref,
+        _formSection = SectionInstance(
+            template: FieldTemplate(
+                mandatory: false,
+                mainField: false,
+                type: ValueType.Unknown,
+                name: '',
+                path: null),
+            form: form,
+            path: null,
+            formValueMap: formValueMap)
+          ..addAll(elements),
+        _formInstanceService = formInstanceService,
+        _formContainerTemplate =
+            FormFlatTemplate.fromTemplate(formInstanceService.template),
+        formValueMap = formValueMap {
     _elements.addAll(elements);
     if (!enabled) {
       form.markAsDisabled();
     }
   }
 
-  /// the root reactive form group
-  final FormInstanceRef ref;
+  FormValueMap formValueMap;
   final FormGroup form;
-  final FormInstanceService _formInstanceService;
-
   final bool enabled;
 
-  /// hierarchical model, or the instance of the form template
-  /// that will store the values, and values will be saved or loaded to it
+  final FormInstanceRef _ref;
+  final FormInstanceService _formInstanceService;
+  final FormFlatTemplate _formContainerTemplate;
   final Map<String, FormElementInstance<dynamic>> _elements = {};
+  final SectionInstance _formSection;
 
-  SectionInstance get formSection => SectionInstance(
-      template: FieldTemplate(
-          mandatory: false,
-          mainField: false,
-          type: ValueType.Unknown,
-          name: ''),
-      form: form)
-    ..addAll(elements);
+  FormFlatTemplate get formContainerTemplate => _formContainerTemplate;
 
-  /// the form Template, dynamically describes the form
-  /// elements and their configurations
+  Map<String, FormElementInstance<dynamic>> get elements =>
+      Map.unmodifiable(_elements);
+
+  SectionInstance get formSection => _formSection;
+
+  FormSubmissionList get formSubmissionList => _ref
+      .read(formSubmissionListProvider(form: template.formTemplate).notifier);
+
+  List<String> get selectableOrgUnits => template.orgUnits;
+
   FormTemplateV get template => _formInstanceService.template;
 
   FormMetadata get metadata => _formInstanceService.formMetadata;
@@ -55,17 +73,6 @@ class FormInstance {
 
   Map<String, List<FormOption>> get formOptionsMap =>
       _formInstanceService.formOptionsMapCache;
-
-  Map<String, FormElementInstance<dynamic>> get elements =>
-      Map.unmodifiable(_elements);
-
-  // Map<String, FormElementInstance<dynamic>> get attributeElements =>
-  //     Map.unmodifiable(_attributeElements);
-
-  FormSubmissionList get formSubmissionList => ref
-      .read(formSubmissionListProvider(form: template.formTemplate).notifier);
-
-  List<String> get selectableOrgUnits => template.orgUnits;
 
   void submit({
     required void Function(Map<String, dynamic> model) onValid,
@@ -117,5 +124,26 @@ class FormInstance {
     });
 
     return valuesMap;
+  }
+
+  Map<String, dynamic> toHierarchical(
+      List<FormElementTemplate> templates, FormValueMap valueMap) {
+    Map<String, dynamic> hierarchicalData = {};
+    for (var template in templates) {
+      String path = template.path!;
+      // section or repeat
+      if (template.type.isSectionType) {
+        // Recursively call to construct sub-structure
+        hierarchicalData[template.name] = toHierarchical(
+            _formContainerTemplate.getDescendants(path), valueMap);
+        // } else if (template.type.isRepeatSection) {
+        //   hierarchicalData[template.name] =
+        //       toHierarchical(formTemplate.getDescendants(path), valueMap);
+      } else {
+        // Direct assignment from flat map
+        hierarchicalData[template.name] = valueMap.getValue(path);
+      }
+    }
+    return hierarchicalData;
   }
 }

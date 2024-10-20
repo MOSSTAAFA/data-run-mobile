@@ -1,14 +1,16 @@
 import 'package:d2_remote/modules/datarun/form/shared/attribute_type.dart';
 import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
-import 'package:d2_remote/modules/datarun/form/shared/rule.dart';
-import 'package:d2_remote/modules/datarun/form/shared/rule_parse_extension.dart';
+import 'package:d2_remote/modules/datarun/form/shared/rule/action.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:mass_pro/commons/logging/logging.dart';
+import 'package:mass_pro/data_run/screens/form/element/extension/rule.extension.dart';
 import 'package:mass_pro/data_run/screens/form/element/factories/form_element_control_factory.dart';
 import 'package:mass_pro/data_run/screens/form/element/exceptions/form_element_exception.dart';
 import 'package:mass_pro/data_run/screens/form/element/factories/form_element_factory.dart';
+import 'package:mass_pro/data_run/screens/form/element/form_value_map.dart';
 import 'package:mass_pro/data_run/screens/form/element/members/form_element_members.dart';
 import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
@@ -27,12 +29,12 @@ part 'extension/element.extension.dart';
 
 part 'extension/element_dependency.extension.dart';
 
-part 'extension/element_rule.extension.dart';
-
-sealed class FormElementInstance<T> {
+sealed class FormElementInstance<T> with EquatableMixin {
   FormElementInstance(
       {required this.form,
       required this.template,
+        required this.path,
+        required this.formValueMap,
       ElementProperties? properties})
       : _properties = properties ??
             ElementProperties(
@@ -41,23 +43,35 @@ sealed class FormElementInstance<T> {
                 label: getItemLocalString(template.label,
                     defaultString: template.name));
 
+
+  @override
+  List<Object> get props => [properties];
+
   /// serialized from the field json configuration
   final FieldTemplate template;
 
   final FormGroup form;
 
-  String get name => template.name;
-
-  //<editor-fold desc="Rules eval and dependencies management">
-  final List<FormElementInstance<dynamic>> _dependents = [];
-  final List<FormElementInstance<dynamic>> _dependencies = [];
-
-  // final List<String> _requiredDependencies = [];
-  final List<String> _unresolvedDependencies = [];
-
   bool _isEvaluating = false;
 
-  //</editor-fold>
+  String? path;
+
+  final Map<String, FormElementInstance<dynamic>> _dependents = {};
+  final Map<String, FormElementInstance<dynamic>> _dependencies = {};
+
+  Iterable<RuleAction> get elementRuleActions => template.ruleActions();
+
+  List<RuleAction> get inEffectRuleActions => elementRuleActions
+      .where((ruleAction) => ruleAction.shouldApply(evalContext))
+      .toList();
+
+  Map<String, FormElementInstance<dynamic>> get dependents =>
+      Map.unmodifiable(_dependents);
+
+  Map<String, FormElementInstance<dynamic>> get dependencies =>
+      Map.unmodifiable(_dependencies);
+
+  String get name => template.name;
 
   ValueType get type => template.type;
 
@@ -66,25 +80,18 @@ sealed class FormElementInstance<T> {
   FormElementInstance<Object>? get parentSection => _parentSection;
 
   set parentSection(FormElementInstance<Object>? parent) {
-    if (this is RepeatItemInstance && !(parent is RepeatInstance?)) {
-      throw StateError(
-          'A RepeatItemInstance\'s Parent can only be a RepeatInstance, parent: ${parent.runtimeType}');
-    }
-
     _parentSection = parent;
   }
 
   ElementProperties _properties;
+
+  final FormValueMap formValueMap;
 
   ElementProperties get properties => _properties;
 
   bool get hidden => properties.hidden;
 
   bool get visible => !hidden;
-
-  bool get disabled => elementControl?.disabled ?? true;
-
-  bool get enabled => elementControl?.enabled ?? true;
 
   bool get mandatory => properties.mandatory;
 
@@ -97,39 +104,23 @@ sealed class FormElementInstance<T> {
 
   void get focus => elementControl?.focus();
 
-  String get pathRecursive {
-    return parentSection != null
-        ? '${parentSection!.pathRecursive}.${name}'
-        : name;
-  }
-
-  String pathBuilder(String? pathItem) => [
-    parentSection?.pathRecursive,
-    pathItem
-  ].whereType<String>().join('.');
+  String pathBuilder(String? pathItem) =>
+      [parentSection?.elementPath, pathItem].whereType<String>().join('.');
 
   bool get controlExist {
     try {
-      form.control(pathRecursive);
+      form.control(elementPath);
       return true;
     } catch (e) {
       return false;
     }
   }
 
+
   void updateValue(T? value, {bool updateParent = true, bool emitEvent = true});
-
-  void patchValue(T? value, {bool updateParent = true, bool emitEvent = true});
-
-  @protected
-  bool allElementsDisabled() => disabled;
 
   @protected
   bool allElementsHidden() => hidden;
-
-  @protected
-  bool anyElements(
-      bool Function(FormElementInstance<dynamic> element) condition);
 
   @protected
   void forEachChild(
@@ -152,63 +143,17 @@ sealed class FormElementInstance<T> {
   }
 
   void dispose() {
-    elementControl?.dispose();
+    // elementControl?.dispose();
+    // _dependencies.values.forEach((FormElementInstance<dynamic> d) {
+    //
+    // });
   }
-
-// void _updateValue() {
-//   _value = reduceValue();
-// }
-
-// void _updateAncestors(bool updateParent) {
-//   if (updateParent) {
-//     parentSection?.updateValueAndValidity(updateParent: updateParent);
-//   }
-// }
-
-// void updateValueAndValidity(
-//     {bool updateParent = true, bool emitEvent = true}) {
-//   notifyDependents();
-//   _setInitialStatus();
-//   _updateValue();
-//
-//   _updateAncestors(updateParent);
-// }
-
-// void _setInitialStatus() {
-//   _properties = _properties.copyWith(
-//       disabled: allElementsDisabled(), hidden: allElementsHidden());
-// }
-
-// void reset({
-//   T? value,
-//   bool? disabled,
-//   bool? hidden,
-//   bool updateParent = true,
-//   bool emitEvent = true,
-// }) {
-//   updateValue(value, updateParent: updateParent, emitEvent: emitEvent);
-//   if (disabled != null) {
-//     disabled
-//         ? markAsDisabled(updateParent: true)
-//         : markAsEnabled(updateParent: true);
-//   }
-//   if (hidden != null) {
-//     hidden
-//         ? markAsHidden(updateParent: true)
-//         : markAsVisible(updateParent: true);
-//   }
-// }
 
   void markAsHidden({bool updateParent = true, bool emitEvent = true}) {
     if (hidden) {
       return;
     }
     _properties = _properties.copyWith(hidden: true);
-    if(!_properties.disabled) {
-      elementControl?.markAsDisabled();
-    }
-    notifyDependents();
-    // _updateAncestors(updateParent);
   }
 
   void markAsVisible({bool updateParent = true, bool emitEvent = true}) {
@@ -216,10 +161,27 @@ sealed class FormElementInstance<T> {
       return;
     }
     _properties = _properties.copyWith(hidden: false);
-    if(!_properties.disabled) {
-      elementControl?.markAsEnabled();
+  }
+
+  void markAsMandatory({bool updateParent = true, bool emitEvent = true}) {
+    if (mandatory) {
+      return;
     }
-    notifyDependents();
-    // _updateAncestors(updateParent);
+    _properties = _properties.copyWith(mandatory: true);
+  }
+
+  void markAsUnMandatory({bool updateParent = true, bool emitEvent = true}) {
+    if (!mandatory) {
+      return;
+    }
+    _properties = _properties.copyWith(mandatory: false);
+  }
+
+  void toggleVisibility() {
+    if (visible) {
+      markAsHidden();
+    } else {
+      markAsVisible();
+    }
   }
 }

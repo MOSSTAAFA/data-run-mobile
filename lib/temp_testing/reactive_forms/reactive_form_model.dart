@@ -1,74 +1,117 @@
-// // Widget that uses ReactiveFormField with UserValueAccessor
-// import 'package:flutter/material.dart';
-// import 'package:reactive_forms/reactive_forms.dart';
-//
-// class UserFormField extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return ReactiveForm(
-//       formGroup: FormGroup({
-//         'user': FormControl<User>(value: User('John Doe', 30)),
-//       }),
-//       child: Column(
-//         children: [
-//           ReactiveFormField<User, Map<String, dynamic>>(
-//             formControlName: 'user',
-//             valueAccessor: UserValueAccessor(),
-//             builder: (ReactiveFormFieldState<User, Map<String, dynamic>> field) {
-//               return Column(
-//                 children: [
-//                   TextFormField(
-//                     initialValue: field.value?['name'],
-//                     decoration: InputDecoration(labelText: 'Name'),
-//                     onChanged: (value) {
-//                       final updatedValue = field.control.value;
-//                       field.didChange({
-//                         'name': value,
-//                         'age': updatedValue?['age'],
-//                       });
-//                     },
-//                   ),
-//                   TextFormField(
-//                     initialValue: field.value?['age'].toString(),
-//                     decoration: InputDecoration(labelText: 'Age'),
-//                     keyboardType: TextInputType.number,
-//                     onChanged: (value) {
-//                       final updatedValue = field.control.value;
-//                       field.didChange({
-//                         'name': updatedValue?['name'],
-//                         'age': int.tryParse(value) ?? 0,
-//                       });
-//                     },
-//                   ),
-//                 ],
-//               );
-//             },
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-//
-// // Model class
-// class User {
-//   final String name;
-//   final int age;
-//
-//   User(this.name, this.age);
-// }
-//
-// // Custom ControlValueAccessor for User
-// class UserValueAccessor extends ControlValueAccessor<User, Map<String, dynamic>> {
-//   @override
-//   Map<String, dynamic>? modelToViewValue(User? modelValue) {
-//     if (modelValue == null) return null;
-//     return {'name': modelValue.name, 'age': modelValue.age};
-//   }
-//
-//   @override
-//   User? viewToModelValue(Map<String, dynamic>? viewValue) {
-//     if (viewValue == null) return null;
-//     return User(viewValue['name'] as String, viewValue['age'] as int);
-//   }
-// }
+abstract class FormElement {
+  String name;
+  String type;
+  String path;
+  List<FormElement>? fields;
+
+  FormElement(this.name, this.type, this.path, [this.fields]);
+
+  factory FormElement.fromJson(Map<String, dynamic> json) {
+    List<FormElement>? fields;
+    if (json['fields'] != null) {
+      fields = (json['fields'] as List).map((fieldJson) => FormElement.fromJson(fieldJson)).toList();
+    }
+    return FormElementFactory.create(json['type'], json['name'], json['path'], fields);
+  }
+}
+
+class TextElement extends FormElement {
+  TextElement(String name, String path) : super(name, 'Text', path);
+}
+
+class SectionElement extends FormElement {
+  SectionElement(String name, String path, List<FormElement> fields)
+      : super(name, 'Section', path, fields);
+}
+
+class RepeatSectionElement extends FormElement {
+  RepeatSectionElement(String name, String path, List<FormElement> fields)
+      : super(name, 'RepeatSection', path, fields);
+}
+
+class FormElementFactory {
+  static FormElement create(String type, String name, String path, List<FormElement>? fields) {
+    switch (type) {
+      case 'Text':
+        return TextElement(name, path);
+      case 'Section':
+        return SectionElement(name, path, fields!);
+      case 'RepeatSection':
+        return RepeatSectionElement(name, path, fields!);
+      default:
+        throw Exception('Unsupported form element type: $type');
+    }
+  }
+}
+
+Map<String, dynamic> initializeFormState(List<FormElement> template, Map<String, dynamic>? initialData) {
+  Map<String, dynamic> formState = {};
+
+  void initializeField(FormElement element, Map<String, dynamic> state, dynamic data) {
+    if (element is SectionElement) {
+      state[element.name] = <String, dynamic>{};
+      for (var field in element.fields!) {
+        initializeField(field, state[element.name], data?[field.name]);
+      }
+    } else if (element is RepeatSectionElement) {
+      state[element.name] = [];
+      if (data != null) {
+        for (var item in data) {
+          var repeatedState = <String, dynamic>{};
+          for (var field in element.fields!) {
+            initializeField(field, repeatedState, item[field.name]);
+          }
+          state[element.name].add(repeatedState);
+        }
+      } else {
+        state[element.name].add(initializeFormState(element.fields!, {}));
+      }
+    } else {
+      state[element.name] = data ?? null;
+    }
+  }
+
+  for (var element in template) {
+    initializeField(element, formState, initialData?[element.name]);
+  }
+
+  return formState;
+}
+
+void main() {
+
+// Example usage
+  var templateJson = [
+    {'name': 'orgUnit', 'type': 'Text', 'path': 'orgUnit'},
+    {'name': 'transactionInfo', 'type': 'Section', 'path': 'transactionInfo', 'fields': [
+      {'name': 'transaction', 'type': 'Text', 'path': 'transactionInfo.transaction'},
+      {'name': 'supplier', 'type': 'Text', 'path': 'transactionInfo.supplier'},
+    ]},
+    {'name': 'stockInfo', 'type': 'Section', 'path': 'stockInfo', 'fields': [
+      {'name': 'stockDetails', 'type': 'RepeatSection', 'path': 'stockInfo.stockDetails', 'fields': [
+        {'name': 'stockItemType', 'type': 'Text', 'path': 'stockInfo.stockDetails.stockItemType'},
+        {'name': 'stockQuantity', 'type': 'Text', 'path': 'stockInfo.stockDetails.stockQuantity'},
+      ]}
+    ]}
+  ];
+
+  List<FormElement> template = templateJson.map((json) => FormElement.fromJson(json)).toList();
+
+  Map<String, dynamic> initialData = {
+    'orgUnit': 'Example OrgUnit',
+    'transactionInfo': {
+      'transaction': 'supply',
+      'supplier': 'Example Supplier',
+    },
+    'stockInfo': {
+      'stockDetails': [
+        {'stockItemType': 'Type 1', 'stockQuantity': '10'},
+        {'stockItemType': 'Type 2', 'stockQuantity': '20'},
+      ]
+    }
+  };
+
+  var formState = initializeFormState(template, initialData);
+  print(formState);
+
+}

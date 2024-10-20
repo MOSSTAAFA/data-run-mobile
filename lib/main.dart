@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/commons/prefs/preference_provider.dart';
+import 'package:mass_pro/di/injection.dart';
 import 'package:mass_pro/generated/l10n.dart';
 import 'package:mass_pro/main/usescases/splash/splash_screen.widget.dart';
 import 'package:mass_pro/main_constants/main_constants.dart';
@@ -18,6 +19,7 @@ import 'package:mass_pro/main.reflectable.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  configureDependencies();
   initializeReflectable();
 
   await PreferenceProvider.initialize();
@@ -50,16 +52,16 @@ Future<void> main() async {
     },
     appRunner: () => */
   runApp(ProviderScope(
-    observers: <ProviderObserver>[
-      ProviderLogger(
-        providersNameToLog: const IListConst(<String>[
-          'formConfigurationProvider',
-          'treeNodeDataSourceProvider',
-          'formFieldsRepositoryProvider',
-          'formFieldsStateNotifierProvider'
-        ]),
-      )
-    ],
+    // observers: <ProviderObserver>[
+    //   ProviderLogger(
+    //     providersNameToLog: const IListConst(<String>[
+    //       'formConfigurationProvider',
+    //       'treeNodeDataSourceProvider',
+    //       'formFieldsRepositoryProvider',
+    //       'formFieldsStateNotifierProvider'
+    //     ]),
+    //   )
+    // ],
     child: const App(),
   )) /*,
   )*/

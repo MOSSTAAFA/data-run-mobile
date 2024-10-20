@@ -4,21 +4,10 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
   RepeatInstance({
     required super.template,
     required super.form,
-    // super.parentSection,
-    super.expanded = false,
+    required super.path,
+    required super.formValueMap,
     /*List<FormElementInstance<Map<String, Object?>?>> elements = const []*/
-  }) {
-    // this._elements.addAll(elements);
-    // addAll(elements);
-
-    // if (properties.disabled) {
-    //   markAsDisabled();
-    // }
-    //
-    // if (properties.hidden) {
-    //   markAsHidden();
-    // }
-  }
+  });
 
   final List<FormElementInstance<Map<String, Object?>?>> _elements = [];
 
@@ -26,13 +15,9 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
   List<FormElementInstance<Map<String, Object?>?>> get elements =>
       List.unmodifiable(_elements);
 
-  //<editor-fold desc="Value">
   @override
   List<Map<String, Object?>?> get rawValue => elementControl.rawValue;
 
-  //</editor-fold>
-
-  //<editor-fold desc="Add-Insert">
   /// Insert a new [element] at the end of the RepeatSection.
   void add(RepeatItemInstance element,
       {bool updateParent = true, bool emitEvent = true}) {
@@ -48,15 +33,6 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
     }
   }
 
-  //
-  // /// build this repeated section and all its elements
-  // void buildElement(List<Map<String, Object?>?>? value,
-  //     {bool updateParent = true, bool emitEvent = true}) {
-  //   value?.asMap().forEach((int k, Map<String, Object?>? v) {
-  //     addItem(value: v);
-  //   });
-  // }
-  //
   // void addItem({Map<String, Object?>? value}) {
   //   // // init new Section FormGroup control
   //   // final control = FromTemplateControlFactory.createSectionTemplateFormGroup(
@@ -163,31 +139,18 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
     removeAt(index, emitEvent: emitEvent, updateParent: updateParent);
   }
 
-  FormElementInstance<Map<String, Object?>?> removeAt(
+  void removeAt(
     int index, {
     bool emitEvent = true,
     bool updateParent = true,
   }) {
-    // if (elements.length > index) {
-    final removedElement = _elements.removeAt(index);
-    removedElement.parentSection = null;
-    elementControl.removeAt(index,
-        updateParent: updateParent, emitEvent: emitEvent);
-    return removedElement;
-    // } else {
-    //
-    // }
-
-    // updateValueAndValidity(
-    //   emitEvent: emitEvent,
-    //   updateParent: updateParent,
-    // );
-
-    // if (emitEvent) {
-    //   emitsCollectionChanged(_controls);
-    // }
-
-    // return removedElement;
+    if (elements.length > index) {
+      final removedElement = _elements.removeAt(index);
+      removedElement.parentSection = null;
+      elementControl.removeAt(index,
+          updateParent: updateParent, emitEvent: emitEvent);
+      // return removedElement;
+    }
   }
 
   /// Removes all children elements from the repeatSection.
@@ -309,111 +272,19 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
     } else {
       final index = int.tryParse(name);
       if (index == null) {
-        throw FormRepeatElementInvalidIndexException(name);
+        throw FormRepeatElementInvalidIndexException(index: name);
       } else if (index < _elements.length) {
         return _elements[index];
       }
     }
 
-    throw FormElementNotFoundException(elementName: name);
+    throw FormRepeatElementInvalidIndexException(index: name);
   }
 
   @override
   FormElementInstance<dynamic>? findElement(String path) =>
       findElementInCollection(path.split('.'));
 
-  @override
-  bool anyElements(
-      bool Function(FormElementInstance<dynamic> element) condition) {
-    return _elements.any((element) => element.enabled && condition(element));
-  }
-
-  //</editor-fold>
-
-  //<editor-fold desc="Update Value">
-
-  // @override
-  // void updateValue(List<Map<String, Object?>?>? value,
-  //     {bool updateParent = true, bool emitEvent = true}) {
-  //   for (var i = 0; i < _elements.length; i++) {
-  //     if (value == null || i < value.length) {
-  //       _elements[i].updateValue(
-  //         value?.elementAt(i),
-  //         updateParent: false,
-  //         emitEvent: emitEvent,
-  //       );
-  //     }
-  //   }
-  //
-  //   if (value != null && value.length > _elements.length) {
-  //     final newElements = value
-  //         .toList()
-  //         .asMap()
-  //         .entries
-  //         .where((MapEntry<int, Map<String, Object?>?> entry) =>
-  //             entry.key >= _elements.length)
-  //         .map((MapEntry<int, Map<String, Object?>?> entry) =>
-  //             FromElementFactory.createSectionInstance(form, template,
-  //                 savedValue: entry.value))
-  //         .toList();
-  //
-  //     addAll(
-  //       newElements,
-  //       updateParent: updateParent,
-  //     );
-  //   } else {
-  //     updateValueAndValidity(
-  //       updateParent: updateParent,
-  //     );
-  //   }
-  // }
-  //
-  // void repeatSectionValuePatch(
-  //     List<Map<String, Object?>?>? value, {
-  //       bool updateParent = true,
-  //       bool emitEvent = true,
-  //     }) {
-  //   final keys = value?.asMap().keys;
-  //
-  //   final toPatch = <SectionInstance>[];
-  //
-  //   (value ?? []).asMap().forEach(
-  //         (k, v) {
-  //       if (keys.contains(k)) {
-  //         toPatch.add(v);
-  //       }
-  //     },
-  //   );
-  //
-  //   elementControl.patchValue(
-  //       toPatch
-  //           .map((e) =>
-  //       FromElementControlFactory.createSectionControl(e).rawValue)
-  //           .toList(),
-  //       updateParent: updateParent,
-  //       emitEvent: emitEvent);
-  // }
-  //
-  @override
-  void patchValue(
-    List<Map<String, Object?>?>? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    for (var i = 0; i < _elements.length; i++) {
-      if (value == null || i < value.length) {
-        _elements[i].updateValue(
-          value?.elementAt(i),
-          updateParent: false,
-          emitEvent: emitEvent,
-        );
-      }
-    }
-
-    // updateValueAndValidity(updateParent: updateParent);
-  }
-
-  // updateRepeatSectionValue
   @override
   void updateValue(
     List<Map<String, Object?>?>? value, {
@@ -460,75 +331,27 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
                 savedValue: e),
             updateParent: updateParent,
             emitEvent: emitEvent);
-        add(FromElementFactory.createRepeatItem(form, template, savedValue: e));
+        add(FromElementFactory.createRepeatItem(form, template,
+            savedValue: e, formValueMap: formValueMap));
       });
     }
   }
 
-  // void updateRepeatSectionValue(
-  //   List<SectionInstance> value, {
-  //   bool updateParent = true,
-  //   bool emitEvent = true,
-  // }) {
-  //   final List<SectionInstance> localValue = (value);
-  //   if (localValue.isEmpty) {
-  //     repeatSectionClear(updateParent: updateParent, emitEvent: emitEvent);
-  //     return;
-  //   }
-  //
-  //   final toUpdate = <SectionInstance>[];
-  //   final toAdd = <SectionInstance>[];
-  //
-  //   localValue.asMap().forEach((int k, SectionInstance v) {
-  //     final List<Map<String, Object?>?> controlValues =
-  //         elementControl.controls.map((e) => e.value).toList();
-  //
-  //     if (repeatSectionItems.asMap().containsKey(k) &&
-  //         controlValues.asMap().containsKey(k)) {
-  //       toUpdate.add(v);
-  //     } else {
-  //       toAdd.add(v);
-  //     }
-  //   });
-  //
-  //   if (toUpdate.isNotEmpty) {
-  //     elementControl.updateValue(
-  //         toUpdate
-  //             .map((SectionInstance e) =>
-  //                 FromElementControlFactory.createSectionControl(e).rawValue)
-  //             .toList(),
-  //         updateParent: updateParent,
-  //         emitEvent: emitEvent);
-  //     updateValue(toUpdate.map((e) => e.rawValue).toList(),
-  //         updateParent: updateParent, emitEvent: emitEvent);
-  //   }
-  //
-  //   if (toAdd.isNotEmpty) {
-  //     toAdd.forEach((e) {
-  //       elementControl.add(FromElementControlFactory.createSectionControl(e),
-  //           updateParent: updateParent, emitEvent: emitEvent);
-  //       add(e);
-  //     });
-  //   }
-  // }
-  //</editor-fold>
-
-  //<editor-fold desc="Util-methods">
   @override
   void forEachChild(
           void Function(FormElementInstance<dynamic> element) callback) =>
       _elements.forEach(callback);
 
   @override
-  bool allElementsDisabled() => elementControl.allControlsDisabled();
+  bool allElementsHidden() => elementControl.allControlsDisabled();
 
   @override
   void dispose() {
-    forEachChild((element) {
-      element.parentSection = null;
-      element.dispose();
-    });
-    elementControl.closeCollectionEvents();
+    // forEachChild((element) {
+    //   element.parentSection = null;
+    //   element.dispose();
+    // });
+    // elementControl.closeCollectionEvents();
     super.dispose();
   }
 
@@ -549,12 +372,6 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
   //       .values
   //       .toList();
   // }
-
-  // ExtendedControl<List<Map<String, Object?>?>, List<SectionInstance>>
-  //     get repeatSectionExtendedControl =>
-  //         ExtendedControl<List<Map<String, Object?>?>, List<SectionInstance>>(
-  //             form.control(elementPath) as FormArray<Map<String, Object?>>,
-  //             () => repeatSectionItems);
 
   // void addElement(FieldTemplate element, value) {
   //   elementControl.addAll({

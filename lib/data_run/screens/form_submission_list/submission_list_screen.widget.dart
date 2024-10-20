@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mass_pro/commons/custom_widgets/async_value.widget.dart';
 import 'package:mass_pro/core/common/state.dart';
+import 'package:mass_pro/data_run/screens/form/element/providers/form_instance.provider.dart';
 import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
 import 'package:mass_pro/data_run/screens/form/form_tab_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/form_submission_list/model/submission_list.provider.dart';
@@ -23,7 +24,7 @@ class SubmissionListState extends ConsumerState<SubmissionListScreen> {
   SyncStatus? _selectedStatus;
 
   Future<void> _showSyncDialog(List<String> entityUids) async {
-    final form = FormMetadataWidget.of(context).form;
+    final form =  ref.watch(formMetadataProvider).form;
     await showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -43,7 +44,7 @@ class SubmissionListState extends ConsumerState<SubmissionListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final formMetadata = FormMetadataWidget.of(context);
+    final formMetadata =  ref.watch(formMetadataProvider);
     return Scaffold(
         key: ValueKey(formMetadata.form),
         appBar: AppBar(
@@ -92,7 +93,7 @@ class SubmissionListState extends ConsumerState<SubmissionListScreen> {
   }
 
   Widget _buildFilterBar() {
-    final formMetadata = FormMetadataWidget.of(context);
+    final formMetadata =  ref.watch(formMetadataProvider);
 
     final statusCountModelValue =
         ref.watch(submissionStatusModelProvider(form: formMetadata.form));
@@ -142,14 +143,12 @@ class SubmissionListState extends ConsumerState<SubmissionListScreen> {
       return;
     }
 
-    final formMetadata = FormMetadataWidget.of(context);
+    final formMetadata =  ref.watch(formMetadataProvider);
+
     final String? result = await showDialog<String?>(
         context: context,
         builder: (BuildContext context) {
-          return FormMetadataWidget(
-            formMetadata: formMetadata,
-            child: const SubmissionCreationDialog(),
-          );
+          return const SubmissionCreationDialog();
         });
     if (result != null) {
       _goToDataEntryForm(result, formMetadata.version);
@@ -159,14 +158,7 @@ class SubmissionListState extends ConsumerState<SubmissionListScreen> {
   }
 
   void _goToDataEntryForm(String submission, int version) async {
-    // final Bundle eventBundle = Get.arguments as Bundle;
-    // Bundle bundle = eventBundle.putString(SYNCABLE_UID, uid);
-    // bundle = bundle.putInt(FORM_VERSION, version);
-    //
-    // await Get.to(const FormSubmissionScreen(currentPageIndex: 1),
-    //     arguments: bundle);
-    // await Get.to(DataSubmissionScreen(), arguments: bundle);
-    final metas = FormMetadataWidget.of(context).copyWith(
+    final metas =  ref.watch(formMetadataProvider).copyWith(
       submission: submission,
       version: version,
     );
@@ -174,8 +166,8 @@ class SubmissionListState extends ConsumerState<SubmissionListScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => FormMetadataWidget(
-                formMetadata: metas,
+          builder: (context) => ProviderScope(
+                overrides: [formMetadataProvider.overrideWithValue(metas)],
                 child: FormSubmissionScreen(
                   currentPageIndex: 1,
                 ),

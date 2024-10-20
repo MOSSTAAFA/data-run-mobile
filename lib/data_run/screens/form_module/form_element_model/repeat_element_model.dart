@@ -4,7 +4,7 @@ class RepeatElementModel
     extends CollectionElementModel<List<Map<String, Object?>?>> {
   RepeatElementModel(
       {required super.name,
-        super.path,
+      super.path,
       super.hidden,
       super.mandatory,
       List<RepeatItemElementModel> elements = const []}) {
@@ -232,6 +232,10 @@ class RepeatElementModel
 
   @override
   void addElement(FormElementModel<dynamic> element, String path) {
-    // TODO: implement addElement
+    if (element is! RepeatItemElementModel) {
+      throw FormElementException(
+          'Trying to add a FormElement that is not RepeatItemElementModel, but: ${element.runtimeType}');
+    }
+    add(element);
   }
 }
