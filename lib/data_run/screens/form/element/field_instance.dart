@@ -3,28 +3,30 @@ part of 'form_element.dart';
 class FieldInstance<T> extends FormElementInstance<T>
     with ElementAttributesMixin {
   FieldInstance({
-    T? value,
-    super.properties,
+    required FieldElementState<T> elementProperties,
     required super.form,
     required super.template,
-    required super.path,
-    required super.formValueMap,
+    this.choiceFilter,
     Map<String, ValidationMessageFunction> validationMessages = const {},
-  }) {
-    if (value != null) {
-      formValueMap.setValue(path!, value);
-    }
+  }) : super(elementState: elementProperties) {
     this.validationMessages.addAll(validationMessages);
   }
 
   final List<FormOption> options = [];
+
+  final ChoiceFilter? choiceFilter;
+
+  FieldElementState<T> get elementState =>
+      _elementState as FieldElementState<T>;
+
   final Map<String, ValidationMessageFunction> validationMessages = {};
 
   String? get listName => template.listName;
 
-  String? get choiceFilter => template.choiceFilter;
-
   dynamic get defaultValue => template.defaultValue;
+
+  @override
+  T? reduceValue() => elementState.value;
 
   @override
   FormControl<T>? get elementControl =>
@@ -35,7 +37,7 @@ class FieldInstance<T> extends FormElementInstance<T>
   @override
   void updateValue(T? value,
       {bool updateParent = true, bool emitEvent = true}) {
-    formValueMap.setValue(elementPath, value);
+    updateStatus(elementState.copyWith(value: value));
     elementControl?.updateValue(
       value,
       updateParent: updateParent,
@@ -50,4 +52,38 @@ class FieldInstance<T> extends FormElementInstance<T>
   void forEachChild(
           void Function(FormElementInstance<dynamic> element) callback) =>
       <FormElementInstance<dynamic>>[];
+
+  @override
+  void reset({T? value}) {
+    updateStatus(elementState.copyWith(value: value));
+    elementControl!.reset(value: template.defaultValue);
+  }
+
+  @override
+  void evaluate([String? changedDependency]) {
+    super.evaluate();
+    final visibleOptions =
+        choiceFilter?.evaluate(evalContext) ?? template.options;
+    logInfo(info: 'all field options: ${template.options.map((o) => o.name)}');
+    logInfo(info: 'only visibleOptions: ${visibleOptions.map((o) => o.name)}');
+  }
 }
+//
+// class FieldWithOptionsInstance<T> extends FieldInstance<T> {
+//   FieldWithOptionsInstance({
+//     required FieldElementWithOptionsState<T> elementProperties,
+//     required super.form,
+//     super.validationMessages,
+//     required super.template,
+//     super.choiceFilter,
+//   }) : super(elementProperties: elementProperties);
+//
+//   @override
+//   void evaluate([String? changedDependency]) {
+//     super.evaluate();
+//     final visibleOptions =
+//         choiceFilter?.evaluate(evalContext) ?? template.options;
+//     logInfo(info: 'all field options: ${template.options.map((o) => o.name)}');
+//     logInfo(info: 'only visibleOptions: ${visibleOptions.map((o) => o.name)}');
+//   }
+// }

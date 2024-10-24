@@ -1,4 +1,4 @@
-// import 'package:d2_remote/modules/datarun/form/entities/form_definition.entity.dart';
+// import 'package:d2_remote/modules/datarun/form/entities/form_version.entity.dart';
 // import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
 // import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 // import 'package:flutter/foundation.dart';
@@ -25,7 +25,7 @@
 //       nameTemplate = FieldTemplate(
 //         name: 'name',
 //         type: ValueType.Text,
-//         // properties: ElementProperties(disabled: false),
+//         // properties: FormElementState(disabled: false),
 //         defaultValue: '',
 //         mandatory: false,
 //         mainField: false,
@@ -34,7 +34,7 @@
 //       ageTemplate = FieldTemplate(
 //         name: 'age',
 //         type: ValueType.Integer,
-//         // properties: ElementProperties(disabled: false),
+//         // properties: FormElementState(disabled: false),
 //         defaultValue: 18,
 //         mandatory: false,
 //         mainField: false,
@@ -43,7 +43,7 @@
 //       emailTemplate = FieldTemplate(
 //         name: 'email',
 //         type: ValueType.Text,
-//         // properties: ElementProperties(disabled: false),
+//         // properties: FormElementState(disabled: false),
 //         defaultValue: '',
 //         mandatory: false,
 //         mainField: false,
@@ -52,7 +52,7 @@
 //       phoneTemplate = FieldTemplate(
 //         name: 'phone',
 //         type: ValueType.Text,
-//         // properties: ElementProperties(disabled: false),
+//         // properties: FormElementState(disabled: false),
 //         defaultValue: '',
 //         mandatory: false,
 //         mainField: false,
@@ -61,7 +61,7 @@
 //       personalInfoTemplate = FieldTemplate(
 //         name: 'personalInfo',
 //         type: ValueType.Section,
-//         // properties: ElementProperties(disabled: false),
+//         // properties: FormElementState(disabled: false),
 //         mandatory: false,
 //         mainField: false,
 //         path: '',
@@ -73,7 +73,7 @@
 //       addressTemplate = FieldTemplate(
 //         name: 'address',
 //         type: ValueType.Text,
-//         // properties: ElementProperties(disabled: false),
+//         // properties: FormElementState(disabled: false),
 //         defaultValue: '',
 //         mandatory: false,
 //         mainField: false,
@@ -82,7 +82,7 @@
 //       cityTemplate = FieldTemplate(
 //         name: 'city',
 //         type: ValueType.Text,
-//         // properties: ElementProperties(disabled: false),
+//         // properties: FormElementState(disabled: false),
 //         defaultValue: '',
 //         mandatory: false,
 //         mainField: false,
@@ -92,7 +92,7 @@
 //       addressSectionTemplate = FieldTemplate(
 //         name: 'addressSection',
 //         type: ValueType.RepeatableSection,
-//         // properties: ElementProperties(disabled: false),
+//         // properties: FormElementState(disabled: false),
 //         mandatory: false,
 //         mainField: false,
 //         path: '',
@@ -151,12 +151,12 @@
 //         SectionInstance(
 //           name: 'addressSection',
 //           type: ValueType.Section,
-//           properties: ElementProperties(disabled: false),
+//           properties: FormElementState(disabled: false),
 //           elements: {
 //             'address': FieldInstance(
 //               name: 'address',
 //               type: ValueType.Text,
-//               properties: ElementProperties(disabled: false),
+//               properties: FormElementState(disabled: false),
 //               value: '123 Street',
 //               form: formInstance.form,
 //               template: addressTemplate,
@@ -164,7 +164,7 @@
 //             'city': FieldInstance(
 //               name: 'city',
 //               type: ValueType.Text,
-//               properties: ElementProperties(disabled: false),
+//               properties: FormElementState(disabled: false),
 //               value: 'New York',
 //               form: formInstance.form,
 //               template: cityTemplate,
@@ -178,12 +178,12 @@
 //       repeatSection.add(SectionInstance(
 //         name: 'addressSection',
 //         type: ValueType.Section,
-//         properties: ElementProperties(disabled: false),
+//         properties: FormElementState(disabled: false),
 //         elements: {
 //           'address': FieldInstance(
 //             name: 'address',
 //             type: ValueType.Text,
-//             properties: ElementProperties(disabled: false),
+//             properties: FormElementState(disabled: false),
 //             value: '456 Avenue',
 //             form: formInstance.form,
 //             template: addressTemplate,
@@ -191,7 +191,7 @@
 //           'city': FieldInstance(
 //             name: 'city',
 //             type: ValueType.Text,
-//             properties: ElementProperties(disabled: false),
+//             properties: FormElementState(disabled: false),
 //             value: 'Los Angeles',
 //             form: formInstance.form,
 //             template: cityTemplate,
@@ -229,12 +229,12 @@
 //       repeatSection.add(SectionInstance(
 //         name: 'addressSection',
 //         type: ValueType.Section,
-//         properties: ElementProperties(disabled: false),
+//         properties: FormElementState(disabled: false),
 //         elements: {
 //           'address': FieldInstance(
 //             name: 'address',
 //             type: ValueType.Text,
-//             properties: ElementProperties(disabled: false),
+//             properties: FormElementState(disabled: false),
 //             value: '789 Boulevard',
 //             form: formInstance.form,
 //             template: addressTemplate,
@@ -242,7 +242,7 @@
 //           'city': FieldInstance(
 //             name: 'city',
 //             type: ValueType.Text,
-//             properties: ElementProperties(disabled: false),
+//             properties: FormElementState(disabled: false),
 //             value: 'Chicago',
 //             form: formInstance.form,
 //             template: cityTemplate,

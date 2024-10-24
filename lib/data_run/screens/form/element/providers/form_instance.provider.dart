@@ -1,12 +1,18 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:d2_remote/d2_remote.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:mass_pro/data_run/form/form_element/form_elements_factories.provider.dart';
+import 'package:mass_pro/data_run/form/form_element/parsing/form_instance_builder.dart';
+import 'package:mass_pro/data_run/form/form_element/parsing/form_instance_control_builder.dart';
+import 'package:mass_pro/data_run/form/form_template/template_providers.dart';
+import 'package:mass_pro/data_run/form/shared/form_configuration.dart';
+import 'package:mass_pro/data_run/screens/form/element/form_metadata.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_value_map.dart';
 import 'package:mass_pro/data_run/screens/form/element/service/device_info_service.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_instance.dart';
 import 'package:mass_pro/data_run/screens/form/element/service/form_instance_service.dart';
-import 'package:mass_pro/data_run/screens/form/element/form_metadata.dart';
 import 'package:mass_pro/data_run/screens/form_module/form_template/form_element_template.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -14,72 +20,68 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'form_instance.provider.g.dart';
 
 @riverpod
-FormFlatTemplate formFlatTemplate(FormFlatTemplateRef ref) {
-  throw UnimplementedError();
-}
-
-@riverpod
-FormMetadata formMetadata(FormMetadataRef ref) {
-  throw UnimplementedError();
-}
-
-@riverpod
-Future<bool> submissionEditStatus(SubmissionEditStatusRef ref,
-    {required String submission}) async {
-  return D2Remote.formModule.formSubmission.byId(submission).canEdit();
-}
-
-@riverpod
-Future<AndroidDeviceInfoService> deviceInfoService(
-    DeviceInfoServiceRef ref) async {
-  final deviceInfoPlugin = DeviceInfoPlugin();
-  final deviceInfo =
-      Platform.isAndroid ? await deviceInfoPlugin.androidInfo : null;
-  return AndroidDeviceInfoService(deviceInfo: deviceInfo);
-}
-
-@riverpod
-Future<FormInstanceService> formInstanceService(FormInstanceServiceRef ref,
-    {String? orgUnit}) async {
-  final formMetadata = ref.watch(formMetadataProvider);
-  final formTemplate = await D2Remote.formModule.formTemplateV
-      .byVersion(formMetadata.version)
-      .byFormTemplate(formMetadata.form)
-      .getOne();
+Future<AndroidDeviceInfoService> userDeviceInfoService(
+    UserDeviceInfoServiceRef ref) async {
   final deviceInfoPlugin = DeviceInfoPlugin();
   final deviceInfo =
       Platform.isAndroid ? await deviceInfoPlugin.androidInfo : null;
   final deviceService = AndroidDeviceInfoService(deviceInfo: deviceInfo);
-
-  return FormInstanceService(
-    template: formTemplate!,
-    formMetadata: formMetadata,
-    deviceInfoService: deviceService,
-    orgUnit: orgUnit,
-  );
+  return deviceService;
 }
 
 @riverpod
-Future<FormInstance> formInstance(FormInstanceRef ref) async {
-  final formMetadata = ref.watch(formMetadataProvider);
-  final submission = await D2Remote.formModule.formSubmission
-      .byId(formMetadata.submission!)
-      .getOne();
+Future<FormFlatTemplate> formFlatTemplate(FormFlatTemplateRef ref,
+    {required FormMetadata formMetadata}) async {
+  final formVersion = await ref.watch(formVersionAsyncProvider(
+          form: formMetadata.form, version: formMetadata.version)
+      .future);
 
+  return FormFlatTemplate.fromTemplate(formVersion);
+}
+
+@riverpod
+Future<FormInstanceService> formInstanceService(FormInstanceServiceRef ref,
+    {required FormMetadata formMetadata}) async {
+  final userDeviceService =
+      await ref.watch(userDeviceInfoServiceProvider.future);
+
+  return FormInstanceService(
+      formMetadata: formMetadata, deviceInfoService: userDeviceService);
+}
+
+@riverpod
+Future<FormInstance> formInstance(FormInstanceRef ref,
+    {required FormMetadata formMetadata}) async {
   final enabled = await D2Remote.formModule.formSubmission
       .byId(formMetadata.submission!)
       .canEdit();
 
-  final service = await ref
-      .watch(formInstanceServiceProvider(orgUnit: submission.orgUnit).future);
+  final initialFormValue = await ref.watch(
+      formInitialDataProvider(submission: formMetadata.submission!).future);
 
-  final form = FormGroup(await service.formDataControls());
+  final service = await ref
+      .watch(formInstanceServiceProvider(formMetadata: formMetadata).future);
+
+  final formControlBuilder = await ref.watch(
+      formInstanceControlBuilderProvider(formMetadata: formMetadata).future);
+
+  final formElementBuilder = await ref
+      .watch(formInstanceBuilderProvider(formMetadata: formMetadata).future);
+
+  final form =
+      FormGroup(await formControlBuilder.formDataControls(initialFormValue));
   final FormValueMap formValueMap = FormValueMap();
-  final elements = await service.formDataElements(form, formValueMap);
+  final elements = await formElementBuilder.buildFormElements(form,
+      initialFormValue: initialFormValue);
+  final formConfiguration = await ref.watch(formConfigurationProvider(
+          form: formMetadata.form, version: formMetadata.version)
+      .future);
   return FormInstance(ref,
       enabled: enabled,
       formInstanceService: service,
       elements: elements,
+      formConfiguration: formConfiguration,
+      formMetadata: formMetadata,
       formValueMap: formValueMap,
       form: form);
 }

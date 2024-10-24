@@ -600,7 +600,7 @@ class _ProjectActiveActivitiesProviderElement
   String get project => (origin as ProjectActiveActivitiesProvider).project;
 }
 
-String _$activityFormsHash() => r'173db7a1c145d9506f7b18b64c5bf6bb84d3ff5d';
+String _$activityFormsHash() => r'72edd48ec56f50ab202b36108e28f98f2a075710';
 
 /// See also [activityForms].
 @ProviderFor(activityForms)
@@ -772,7 +772,7 @@ class _ActivityFormsProviderElement
   String? get activity => (origin as ActivityFormsProvider).activity;
 }
 
-String _$activityTeamHash() => r'a68776d666a27a837c2159ad4db76ceb97b54ccf';
+String _$activityTeamHash() => r'5de5ab908ed48532f64dce72edbebe1bcb195370';
 
 /// See also [activityTeam].
 @ProviderFor(activityTeam)
@@ -798,11 +798,11 @@ class ActivityTeamFamily extends Family {
   String? get name => r'activityTeamProvider';
 
   /// See also [activityTeam].
-  ActivityTeamProvider call(
-    String? activity,
-  ) {
+  ActivityTeamProvider call({
+    required String activity,
+  }) {
     return ActivityTeamProvider(
-      activity,
+      activity: activity,
     );
   }
 
@@ -812,7 +812,7 @@ class ActivityTeamFamily extends Family {
     covariant ActivityTeamProvider provider,
   ) {
     return call(
-      provider.activity,
+      activity: provider.activity,
     );
   }
 
@@ -841,12 +841,12 @@ class _$ActivityTeamFamilyOverride implements FamilyOverride {
 /// See also [activityTeam].
 class ActivityTeamProvider extends AutoDisposeFutureProvider<DTeam?> {
   /// See also [activityTeam].
-  ActivityTeamProvider(
-    String? activity,
-  ) : this._internal(
+  ActivityTeamProvider({
+    required String activity,
+  }) : this._internal(
           (ref) => activityTeam(
             ref as ActivityTeamRef,
-            activity,
+            activity: activity,
           ),
           from: activityTeamProvider,
           name: r'activityTeamProvider',
@@ -870,7 +870,7 @@ class ActivityTeamProvider extends AutoDisposeFutureProvider<DTeam?> {
     required this.activity,
   }) : super.internal();
 
-  final String? activity;
+  final String activity;
 
   @override
   Override overrideWith(
@@ -891,8 +891,10 @@ class ActivityTeamProvider extends AutoDisposeFutureProvider<DTeam?> {
   }
 
   @override
-  (String?,) get argument {
-    return (activity,);
+  ({
+    String activity,
+  }) get argument {
+    return (activity: activity,);
   }
 
   @override
@@ -930,7 +932,7 @@ class ActivityTeamProvider extends AutoDisposeFutureProvider<DTeam?> {
 
 mixin ActivityTeamRef on AutoDisposeFutureProviderRef<DTeam?> {
   /// The parameter `activity` of this provider.
-  String? get activity;
+  String get activity;
 }
 
 class _ActivityTeamProviderElement
@@ -938,7 +940,7 @@ class _ActivityTeamProviderElement
   _ActivityTeamProviderElement(super.provider);
 
   @override
-  String? get activity => (origin as ActivityTeamProvider).activity;
+  String get activity => (origin as ActivityTeamProvider).activity;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package

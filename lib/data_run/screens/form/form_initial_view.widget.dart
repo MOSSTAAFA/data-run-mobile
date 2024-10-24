@@ -2,11 +2,12 @@ import 'package:d2_remote/modules/datarun/form/shared/attribute_type.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mass_pro/commons/custom_widgets/async_value.widget.dart';
+import 'package:mass_pro/data_run/screens/form/element/form_instance.dart';
 import 'package:mass_pro/data_run/screens/form/field_widgets/ou_picker_data_source.provider.dart';
 import 'package:mass_pro/data_run/screens/form/field_widgets/reactive_o_u_picker.dart';
-import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
 import 'package:mass_pro/data_run/screens/form/element/validation/form_element_validator.dart';
 import 'package:mass_pro/data_run/screens/form/element/providers/form_instance.provider.dart';
+import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 class FormInitialView extends HookConsumerWidget {
@@ -14,11 +15,12 @@ class FormInitialView extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dataSourceAsyncValue = ref.watch(ouPickerDataSourceProvider);
+    final dataSourceAsyncValue = ref.watch(ouPickerDataSourceProvider(
+        formMetadata: FormMetadataWidget.of(context)));
 
     final formInstance = ref
         .watch(
-            formInstanceProvider)
+            formInstanceProvider(formMetadata: FormMetadataWidget.of(context)))
         .requireValue;
 
     return Card(
@@ -28,11 +30,11 @@ class FormInitialView extends HookConsumerWidget {
         child: Center(
           child: AsyncValueWidget(
             value: dataSourceAsyncValue,
-            data: (dataSource) => ReactiveOuPicker<String?>(
+            valueBuilder: (dataSource) => ReactiveOuPicker<String?>(
               dataSource: dataSource,
               validationMessages: validationMessages(context),
               formControl:
-                  formInstance.form.control('_${AttributeType.orgUnit.name}')
+                  formInstance.form.control('_${orgUnitControlName}')
                       as FormControl<String>,
             ),
           ),

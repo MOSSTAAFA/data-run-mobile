@@ -1,4 +1,5 @@
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+
+import 'package:mass_pro/commons/extensions/list_extensions.dart';
 import 'package:mass_pro/data_run/screens/form_module/form_template/form_element_template.dart';
 
 class ParsingHelper {
@@ -21,7 +22,7 @@ class ParsingHelper {
   /// }
   ///
   static Map<String, dynamic> flattenFormInstance(
-      Map<String, dynamic> formInstance, List<FormElementTemplate> template) {
+      Map<String, dynamic> formInstance/*, List<FormElementTemplate> template*/) {
     Map<String, dynamic> result = {};
     void traverse(Map<String, dynamic> data, String currentPath) {
       data.forEach((key, value) {
@@ -72,6 +73,52 @@ class ParsingHelper {
       setNestedValue(result, keys, value);
     });
     return result;
+  }
+
+
+// Recursive helper function for flattening formData to paths using the template
+  static Map<String, dynamic> flattenFormDataUsingTemplate(
+      Map<String, dynamic> formData, FormFlatTemplate formElementTemplate) {
+    Map<String, dynamic> result = {};
+    _flattenFormDataUsingTemplateRecursive(
+        formData, '', result, formElementTemplate.fields, formElementTemplate);
+    return result;
+  }
+
+// Recursive helper function for flattening formData to paths using the template
+  static void _flattenFormDataUsingTemplateRecursive(
+      Map<String, dynamic> data,
+      String path,
+      Map<String, dynamic> result,
+      List<FormElementTemplate> template,
+      FormFlatTemplate formElementTemplate) {
+    for (MapEntry<String, dynamic> entry in data.entries) {
+      String newPath = path.isEmpty ? entry.key : '$path.${entry.key}';
+      final entryTemplate =
+      template.firstOrNullWhere((template) => template.name == entry.key);
+      if (entryTemplate != null) {
+        if (entryTemplate.type.isSection) {
+          _flattenFormDataUsingTemplateRecursive(entry.value, newPath, result,
+              formElementTemplate.getDescendants(newPath), formElementTemplate);
+        } else if (entryTemplate.type.isRepeatSection) {
+          List<Map<String, dynamic>> listResult = [];
+          for (int i = 0; i < entry.value.length; i++) {
+            Map<String, dynamic> itemResult = {};
+            _flattenFormDataUsingTemplateRecursive(entry.value[i], '$newPath.$i', itemResult,
+                formElementTemplate.getDescendants(newPath), formElementTemplate);
+            listResult.add(itemResult);
+          }
+          result[newPath] = listResult;
+        } else {
+          result[newPath] = entry.value;
+        }
+      } else if (entry.value is Map<String, dynamic>) {
+        _flattenFormDataUsingTemplateRecursive(
+            entry.value, newPath, result, template, formElementTemplate);
+      } else {
+        result[newPath] = entry.value;
+      }
+    }
   }
 }
 
@@ -124,12 +171,12 @@ void main() {
     }
   };
 
-  // final Map<String, dynamic> flatInstance =
-  //     ParsingHelper.flattenFormInstance(formInstance, template);
-  // print('formInstance: $flatInstance');
-  // final Map<String, dynamic> nestedInstance =
-  //     ParsingHelper.nestFormInstance(flatInstance);
-  // print('nestedInstance: $nestedInstance');
-  // print('formInstance: $formInstance');
-  // assert(formInstance == nestedInstance); // Check that types are consistent
+  final Map<String, dynamic> flatInstance =
+      ParsingHelper.flattenFormInstance(formInstance/*, template*/);
+  print('formInstance: $flatInstance');
+  final Map<String, dynamic> nestedInstance =
+      ParsingHelper.nestFormInstance(flatInstance);
+  print('nestedInstance: $nestedInstance');
+  print('formInstance: $formInstance');
+  assert(formInstance == nestedInstance); // Check that types are consistent
 }

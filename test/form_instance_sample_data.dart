@@ -6,8 +6,8 @@
 // import 'package:d2_remote/d2_remote.dart';
 // import 'package:d2_remote/modules/auth/user/entities/d_user.entity.dart';
 // import 'package:d2_remote/modules/auth/user/queries/d_user.query.dart';
-// import 'package:d2_remote/modules/datarun/form/queries/dynamic_form.query.dart';
-// import 'package:d2_remote/modules/datarun/form/queries/form_definition.query.dart';
+// import 'package:d2_remote/modules/datarun/form/queries/form_template.query.dart';
+// import 'package:d2_remote/modules/datarun/form/queries/form_version.query.dart';
 // import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 // import 'form_instance_sample_data.reflectable.dart';
 //

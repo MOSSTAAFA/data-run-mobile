@@ -1,13 +1,12 @@
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
+import 'package:mass_pro/commons/extensions/list_extensions.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/element/validation/form_element_validator.dart';
-import 'package:mass_pro/data_run/screens/form/element/providers/form_instance.provider.dart';
+import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_template_inherit_widget.dart';
 import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
 import 'package:reactive_dropdown_search/reactive_dropdown_search.dart';
-import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
 class QDropDownField extends HookConsumerWidget {
   const QDropDownField({super.key, required this.element});
@@ -16,23 +15,11 @@ class QDropDownField extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // // final elementConfig = useState(element.properties);
-    // final requiredDependencies = element.requiredDependencies;
-    // final elementName = element.name;
-    // final elementType = element.type;
-    // if (requiredDependencies.length > 0) {
-    //   final depElement = element
-    //       .findElementInParentSection(element.requiredDependencies.first);
-    // }
-    final formOptionsMap = ref
-        .watch(
-            formInstanceProvider)
-        .requireValue
-        .formOptionsMap;
+    final formFlatTemplate = FormFlatTemplateInheritWidget.of(context);
 
-    final fieldOptions = formOptionsMap[element.listName]
-      ?..sort((a, b) => (a.order).compareTo(b.order));
-    // return getNormalDropdown(fieldOptions ?? []);
+    final fieldOptions = formFlatTemplate
+        .optionLists[element.listName];
+
     return getAutoComplete(fieldOptions ?? [], context);
   }
 
@@ -42,7 +29,7 @@ class QDropDownField extends HookConsumerWidget {
       validationMessages: validationMessages(context),
       dropdownDecoratorProps: DropDownDecoratorProps(
         dropdownSearchDecoration: InputDecoration(
-          labelText: element.properties.label,
+          labelText: element.label,
           contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
           border: OutlineInputBorder(),
         ),
@@ -56,24 +43,6 @@ class QDropDownField extends HookConsumerWidget {
               .toList() ??
           [],
       showClearButton: true,
-    );
-  }
-
-  getNormalDropdown(List<FormOption> options, BuildContext context) {
-    return ReactiveDropdownField<String?>(
-      formControlName: element.name,
-      validationMessages: validationMessages(context),
-      decoration: InputDecoration(labelText: element.properties.label),
-      items: options
-          .map((option) => DropdownMenuItem<String>(
-              value: option.name,
-              child: Text(
-                getItemLocalString(option.label, defaultString: option.name),
-                overflow: TextOverflow.fade,
-                maxLines: 2,
-              )))
-          .toSet()
-          .toList(),
     );
   }
 }

@@ -1,24 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/commons/custom_widgets/async_value.widget.dart';
-import 'package:mass_pro/data_run/screens/form_submission_list/model/submission_list.provider.dart';
+import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
+import 'package:mass_pro/data_run/screens/project_activity_detail/form_tiles/form_submissions_status.provider.dart';
 
 class SubmissionsChips extends ConsumerWidget {
-  const SubmissionsChips({
-    super.key,
-    required this.form,
-  });
-
-  final String form;
+  const SubmissionsChips({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final formMetadata = FormMetadataWidget.of(context);
     final submissionStatusAsyncValue =
-        ref.watch(submissionStatusModelProvider(form: form));
+        ref.watch(formSubmissionsStatusProvider(formMetadata.form));
 
     return AsyncValueWidget(
       value: submissionStatusAsyncValue,
-      data: (entityCountByStatus) => Wrap(
+      valueBuilder: (entityCountByStatus) => Wrap(
         spacing: 8.0,
         runSpacing: 4.0,
         children: <Widget>[

@@ -13,15 +13,10 @@ class FromElementModelFactory {
   static Map<String, FormElementModel<dynamic>> formElementsModels(
       List<FieldTemplate> templates, Map<String, dynamic>? savedValue) {
     final Map<String, FormElementModel<dynamic>> elements = {};
-    // final form = FormGroup(await _formDataControls());
-    // final form = await _form();
-
     for (var template in templates) {
       elements[template.name] =
           createElementModel(template, savedValue: savedValue?[template.name]);
     }
-    //
-    // _dependencyResolver.resolvePendingDependencies();
     return elements;
   }
 

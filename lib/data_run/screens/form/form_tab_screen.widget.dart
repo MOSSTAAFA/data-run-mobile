@@ -1,12 +1,18 @@
+import 'package:d2_remote/modules/datarun/form/entities/form_version.entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mass_pro/commons/custom_widgets/async_value.widget.dart';
+import 'package:mass_pro/data_run/form/form_submission/submission_list.provider.dart';
+import 'package:mass_pro/data_run/form/form_template/template_providers.dart';
 import 'package:mass_pro/data_run/screens/form/form_entry_view.widget.dart';
 import 'package:mass_pro/data_run/screens/form/form_initial_view.widget.dart';
-import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
 import 'package:mass_pro/data_run/screens/form/hooks/scroll_controller_for_animation.dart';
 import 'package:mass_pro/data_run/screens/form/element/providers/form_instance.provider.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_metadata.dart';
+import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
+import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_template_inherit_widget.dart';
+import 'package:mass_pro/data_run/screens/form_module/form_template/form_element_template.dart';
 import 'package:mass_pro/data_run/screens/form_ui_elements/bottom_sheet/bottom_sheet.provider.dart';
 import 'package:mass_pro/data_run/screens/form_ui_elements/bottom_sheet/bottom_sheet.widget.dart';
 import 'package:mass_pro/data_run/screens/form_ui_elements/bottom_sheet/q_bottom_sheet_dialog_ui_model.dart';
@@ -26,21 +32,30 @@ class FormSubmissionScreen extends StatefulHookConsumerWidget {
 class FormSubmissionScreenState extends ConsumerState<FormSubmissionScreen> {
   @override
   Widget build(BuildContext context) {
-    final formMetadata = ref.watch(formMetadataProvider);
+    final formMetadata = FormMetadataWidget.of(context);
+
     final AsyncValue<bool> submissionEditStatus = ref.watch(
         submissionEditStatusProvider(submission: formMetadata.submission!));
 
-    return switch (submissionEditStatus) {
-      AsyncValue(:final Object error?, :final stackTrace) =>
-        getErrorWidget(error, stackTrace),
-      AsyncValue(valueOrNull: final canEdit?) => _EagerInitialization(
-          child: FormTabScreen(
-            enabled: canEdit,
-            currentPageIndex: widget.currentPageIndex,
-          ),
-        ),
-      _ => const SizedBox.shrink(),
-    };
+    return AsyncValueWidget(
+        value: submissionEditStatus,
+        valueBuilder: (canEdit) {
+          final formFlatTemplateAsync =
+              ref.watch(formFlatTemplateProvider(formMetadata: formMetadata));
+
+          return _EagerInitialization(
+            child: AsyncValueWidget(
+                value: formFlatTemplateAsync,
+                valueBuilder: (formFlatTemplate) =>
+                    FormFlatTemplateInheritWidget(
+                      formContainerTemplate: formFlatTemplate,
+                      child: FormTabScreen(
+                        enabled: canEdit,
+                        currentPageIndex: widget.currentPageIndex,
+                      ),
+                    )),
+          );
+        });
   }
 }
 
@@ -59,10 +74,12 @@ class _SubmissionTabScreenState extends ConsumerState<FormTabScreen> {
   final _entryFormKey = GlobalKey<ReactiveFormBuilderState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  FormMetadata metadata(BuildContext context) => ref.read(formMetadataProvider);
+  FormMetadata metadata(BuildContext context) => FormMetadataWidget.of(context);
+
+  FormMetadata get formMetadata => FormMetadataWidget.of(context);
 
   FormGroup formGroup(BuildContext context) => ref
-      .read(formInstanceProvider)
+      .read(formInstanceProvider(formMetadata: formMetadata))
       .requireValue
       .form;
 
@@ -75,8 +92,7 @@ class _SubmissionTabScreenState extends ConsumerState<FormTabScreen> {
         useScrollControllerForAnimation(hideFabAnimController);
 
     final formInstance = ref
-        .watch(
-            formInstanceProvider)
+        .watch(formInstanceProvider(formMetadata: formMetadata))
         .requireValue;
 
     final _buildBody = <Widget>[
@@ -166,8 +182,7 @@ class _SubmissionTabScreenState extends ConsumerState<FormTabScreen> {
   /// Save the form
   Future<void> _onSaveForm() async {
     ref
-        .read(
-            formInstanceProvider)
+        .read(formInstanceProvider(formMetadata: formMetadata))
         .requireValue
         .saveFormData();
   }
@@ -205,7 +220,7 @@ class _SubmissionTabScreenState extends ConsumerState<FormTabScreen> {
 
   Future<void> _markEntityAsFinal(BuildContext context) async {
     return ref
-        .read(formInstanceProvider)
+        .read(formInstanceProvider(formMetadata: formMetadata))
         .requireValue
         .markSubmissionAsFinal();
   }
@@ -219,7 +234,7 @@ class _EagerInitialization extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final formInstance = ref.watch(
-        formInstanceProvider);
+        formInstanceProvider(formMetadata: FormMetadataWidget.of(context)));
     if (formInstance.isLoading) {
       return const Center(child: CircularProgressIndicator());
     } else if (formInstance.hasError) {

@@ -6,7 +6,7 @@ extension TemplateRuleDependencies on FormElementTemplate {
   IList<String> get dependencies {
     List<String> dependencySet = [];
     for (final rule in rules) {
-      final ruleDependencies = rule.dependencies;
+      final ruleDependencies = rule.ruleAction.dependencies;
       dependencySet.addAll(ruleDependencies);
     }
     return dependencySet.toSet().toIList();

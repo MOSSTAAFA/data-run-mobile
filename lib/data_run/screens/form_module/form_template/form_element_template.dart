@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:d2_remote/modules/datarun/form/entities/form_definition.entity.dart';
+import 'package:d2_remote/modules/datarun/form/entities/form_version.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/attribute_type.dart';
 import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
@@ -16,7 +16,7 @@ import 'package:mass_pro/data_run/screens/form_module/form_template/path_walking
 
 @immutable
 class FormFlatTemplate with PathWalkingService {
-  factory FormFlatTemplate.fromTemplate(FormTemplateV template) {
+  factory FormFlatTemplate.fromTemplate(FormVersion template) {
     return FormFlatTemplate(
         formTemplate: template,
         fields: FlatTemplateFactory.flatTemplateWithPath(template.fields));
@@ -25,10 +25,19 @@ class FormFlatTemplate with PathWalkingService {
   FormFlatTemplate({
     required this.formTemplate,
     List<FormElementTemplate> fields = const [],
-  });
+  }) : this._optionLists = Map.fromIterable(
+            (formTemplate.options)
+              ..sort((p1, p2) => p1.order.compareTo(p2.order)),
+            key: (option) => option.listName,
+            value: (option) => formTemplate.options
+                .where((o) => o.listName == option.listName)
+                .toList());
 
-  final FormTemplateV formTemplate;
+  final FormVersion formTemplate;
   final List<FormElementTemplate> _flatFields = [];
+
+  /// {listName: List<option>}
+  final Map<String, List<FormOption>> _optionLists;
 
   String get name => formTemplate.name!;
 
@@ -42,9 +51,10 @@ class FormFlatTemplate with PathWalkingService {
 
   List<FormElementTemplate> get fields => List.unmodifiable(_flatFields);
 
-  List<FormOption> get options => List.unmodifiable(formTemplate.options);
+  Map<String, List<FormOption>> get optionLists =>
+      Map.unmodifiable(_optionLists);
 
-  List<DOptionSet> get optionSets => List.unmodifiable(formTemplate.optionSets);
+  // List<DOptionSet> get optionSets => List.unmodifiable(formTemplate.optionSets);
 
   Map<String, String> get label => Map.unmodifiable(formTemplate.label);
 

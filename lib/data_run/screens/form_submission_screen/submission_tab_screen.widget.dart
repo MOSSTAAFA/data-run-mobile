@@ -10,7 +10,7 @@
 // import 'package:mass_pro/data_run/screens/form_ui_elements/bottom_sheet/q_bottom_sheet_dialog_ui_model.dart';
 // import 'package:mass_pro/data_run/screens/form_ui_elements/fields/q_field_widget_factory.dart';
 // import 'package:mass_pro/data_run/screens/form_ui_elements/get_error_widget.dart';
-// import 'package:mass_pro/data_run/screens/form_submission_list/model/submission_list.provider.dart';
+// import 'package:mass_pro/data_run/screens/form/element/service/form_submission_repository.dart';
 // import 'package:mass_pro/data_run/screens/form_submission_screen/model/submission.provider.dart';
 // import 'package:mass_pro/data_run/screens/form_submission_screen/submission_entry_view.widget.dart';
 // import 'package:mass_pro/data_run/screens/form_submission_screen/submission_initial_view.widget.dart';
@@ -243,7 +243,7 @@
 //
 //   Future<void> _markEntityAsFinal() async {
 //     return ref
-//         .read(formSubmissionListProvider(form: form).notifier)
+//         .read(formSubmissionsProvider(form: form).notifier)
 //         .markSubmissionAsFinal(submissionId);
 //   }
 // }

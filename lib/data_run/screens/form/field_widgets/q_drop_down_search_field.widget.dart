@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/element/validation/form_element_validator.dart';
-import 'package:mass_pro/data_run/screens/form/element/providers/form_instance.provider.dart';
+import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_template_inherit_widget.dart';
 import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
 import 'package:reactive_dropdown_search/reactive_dropdown_search.dart';
 
@@ -14,25 +13,16 @@ class QDropDownSearchField extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final formOptionsMap =
-        ref.watch(formInstanceProvider).requireValue.formOptionsMap;
-    final fieldOptions = formOptionsMap[element.listName]
-      ?..sort((a, b) => (a.order).compareTo(b.order));
-    //
-    // final section = SectionInheritedWidget.of(context);
-    // final pathR = section.pathRecursive;
-    // final pathBu = section.pathBuilder(element.name);
-    // final pathBu2 = section.elementPath;
-    // final formControl = section.elementControl;
-    // final forfmControl = formControl;
+    final formFlatTemplate = FormFlatTemplateInheritWidget.of(context);
+
+    final fieldOptions = formFlatTemplate.optionLists[element.listName];
 
     return ReactiveDropdownSearchMultiSelection(
       formControl: element.elementControl,
-      // formControlName: element.name,
       validationMessages: validationMessages(context),
       dropdownDecoratorProps: DropDownDecoratorProps(
         dropdownSearchDecoration: InputDecoration(
-          labelText: element.properties.label,
+          labelText: element.label,
           contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
           border: OutlineInputBorder(),
         ),

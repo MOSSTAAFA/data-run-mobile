@@ -60,7 +60,7 @@
 //           repeatSection.add(SectionInstance(
 //             name: 'New Section',
 //             type: ValueType.Section,
-//             properties: ElementProperties(disabled: false),
+//             properties: FormElementState(disabled: false),
 //           ));
 //         },
 //         child: Text('Add Section'),

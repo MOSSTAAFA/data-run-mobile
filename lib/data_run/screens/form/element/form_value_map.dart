@@ -1,5 +1,4 @@
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:mass_pro/data_run/screens/form_module/form_template/form_element_template.dart';
+import 'package:mass_pro/data_run/form/form_element/form_element_state.dart';
 
 class FormValueMap {
   FormValueMap({Map<String, dynamic> values = const {}}) {

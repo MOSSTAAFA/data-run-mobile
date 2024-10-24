@@ -1,5 +1,5 @@
 import 'package:d2_remote/d2_remote.dart';
-import 'package:d2_remote/modules/datarun/form/entities/dynamic_form.entity.dart';
+import 'package:d2_remote/modules/datarun/form/entities/form_template.entity.dart';
 import 'package:d2_remote/modules/datarun_shared/utilities/active_status.dart';
 import 'package:d2_remote/modules/metadatarun/activity/entities/d_activity.entity.dart';
 import 'package:d2_remote/modules/metadatarun/teams/entities/d_team.entity.dart';
@@ -58,6 +58,7 @@ Future<List<DActivity>> projectActiveActivities(
 Future<List<FormTemplate>> activityForms(
     ActivityFormsRef ref, String? activity) async {
   final List<FormTemplate> activeForms = await D2Remote.formModule.formTemplate
+      .withFormVersions()
       .where(attribute: 'activity', value: activity)
       .get();
 
@@ -65,7 +66,7 @@ Future<List<FormTemplate>> activityForms(
 }
 
 @riverpod
-Future<DTeam?> activityTeam(ActivityTeamRef ref, String? activity) async {
+Future<DTeam?> activityTeam(ActivityTeamRef ref, {required String activity}) async {
   return D2Remote.teamModuleD.team
       .where(attribute: 'activity', value: activity)
       .getOne();

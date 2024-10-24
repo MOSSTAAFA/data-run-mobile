@@ -3,12 +3,8 @@ part of 'form_element.dart';
 /// SectionElement is a Form Element representing the
 /// father of either a [SectionInstance] element or a [RepeatSection] element
 sealed class SectionElement<T> extends FormElementInstance<T> {
-  SectionElement({
-    required super.template,
-    required super.form,
-    required super.path,
-    required super.formValueMap,
-  });
+  SectionElement({required super.template, required super.form})
+      : super(elementState: FormElementState(mandatory: template.mandatory));
 
   FormElementInstance<dynamic> element(String name);
 

@@ -18,26 +18,22 @@ void useRegisterDependencies<E extends FormElementInstance<dynamic>>(E element,
 
   /// bind dependencies
   useEffect(() {
+    if (element is FieldInstance) {
+      element.elementControl!.valueChanges.listen((value) => element
+          .updateStatus(element.elementState.copyWith(value: value)));
+    }
+
     // bind to the
     for (final elementDependency in resolvedDependency.values) {
       // add a dependency entry in the the element's dependencies map
       element.addDependency(elementDependency);
       // add/bind action behaviour to the element
       // evaluate element's initial status
-      element.onDependencyChanged(
-          elementDependency.name, elementDependency.value);
+      element.evaluate(elementDependency.name);
     }
 
     return () => element.dispose();
   }, [element.elementPath]);
-
-  // /// notify dependencies
-  // useEffect(() {
-  //   elementPropertiesNotifier.addListener((){
-  //     element.notifyDependents();
-  //     return elementPropertiesNotifier.dispose();
-  //   });
-  // }, [element.properties]);
 }
 
 Map<String, FormElementInstance<dynamic>> _resolveFormElementDependencies(

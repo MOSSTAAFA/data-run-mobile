@@ -14,7 +14,7 @@
 //         name: 'name',
 //         type: ValueType.Text,
 //         value: 'John Doe',
-//         properties: ElementProperties(),
+//         properties: FormElementState(),
 //       );
 //
 //       final dropdownField = FieldInstance(
@@ -26,7 +26,7 @@
 //           OptionConfig(label: 'Canada', name: 'Canada', listName: 'listName'),
 //           OptionConfig(label: 'UK', name: 'UK', listName: 'listName'),
 //         ],
-//         properties: ElementProperties(),
+//         properties: FormElementState(),
 //       );
 //
 //       final section = SectionInstance(
@@ -37,16 +37,16 @@
 //             name: 'street',
 //             type: ValueType.Text,
 //             value: '123 Elm St',
-//             properties: ElementProperties(),
+//             properties: FormElementState(),
 //           ),
 //           FieldInstance(
 //             name: 'city',
 //             type: ValueType.Text,
 //             value: 'New York',
-//             properties: ElementProperties(),
+//             properties: FormElementState(),
 //           ),
 //         ],
-//         properties: ElementProperties(),
+//         properties: FormElementState(),
 //       );
 //
 //       // Repeated section with two instances
@@ -62,16 +62,16 @@
 //                 name: 'street',
 //                 type: ValueType.Text,
 //                 value: 'street 0',
-//                 properties: ElementProperties(),
+//                 properties: FormElementState(),
 //               ),
 //               FieldInstance(
 //                 name: 'city',
 //                 type: ValueType.Text,
 //                 value: 'city 0',
-//                 properties: ElementProperties(),
+//                 properties: FormElementState(),
 //               ),
 //             ],
-//             properties: ElementProperties(),
+//             properties: FormElementState(),
 //           ),
 //           1: RepeatSection(
 //             name: 'relation',
@@ -81,16 +81,16 @@
 //                 name: 'street',
 //                 type: ValueType.Text,
 //                 value: 'street 1',
-//                 properties: ElementProperties(),
+//                 properties: FormElementState(),
 //               ),
 //               FieldInstance(
 //                 name: 'city',
 //                 type: ValueType.Text,
 //                 value: 'city 1',
-//                 properties: ElementProperties(),
+//                 properties: FormElementState(),
 //               ),
 //             ],
-//             properties: ElementProperties(),
+//             properties: FormElementState(),
 //           ),
 //           2: RepeatSection(
 //             name: 'firstName',
@@ -100,16 +100,16 @@
 //                 name: 'street',
 //                 type: ValueType.Text,
 //                 value: 'street 2',
-//                 properties: ElementProperties(),
+//                 properties: FormElementState(),
 //               ),
 //               FieldInstance(
 //                 name: 'city',
 //                 type: ValueType.Text,
 //                 value: 'city 2',
-//                 properties: ElementProperties(),
+//                 properties: FormElementState(),
 //               ),
 //             ],
-//             properties: ElementProperties(),
+//             properties: FormElementState(),
 //           ),
 //           3: RepeatSection(
 //             name: 'relation',
@@ -119,19 +119,19 @@
 //                 name: 'street',
 //                 type: ValueType.Text,
 //                 value: 'street 3',
-//                 properties: ElementProperties(),
+//                 properties: FormElementState(),
 //               ),
 //               FieldInstance(
 //                 name: 'city',
 //                 type: ValueType.Text,
 //                 value: 'city 3',
-//                 properties: ElementProperties(),
+//                 properties: FormElementState(),
 //               ),
 //             ],
-//             properties: ElementProperties(),
+//             properties: FormElementState(),
 //           ),
 //         },
-//         properties: ElementProperties(),
+//         properties: FormElementState(),
 //       );
 //
 //       // Form with fields, section, and repeated section
@@ -156,13 +156,13 @@
 //           name: 'firstName',
 //           type: ValueType.text,
 //           value: 'Jill',
-//           properties: ElementProperties(),
+//           properties: FormElementState(),
 //         ),
 //         FieldInstance(
 //           name: 'relation',
 //           type: ValueType.text,
 //           value: 'Daughter',
-//           properties: ElementProperties(),
+//           properties: FormElementState(),
 //         ),
 //       ]);
 //

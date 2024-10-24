@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:mass_pro/commons/logging/logging.dart';
-import 'package:mass_pro/data_run/form/form.dart';
+import 'package:mass_pro/data_run/form/shared/form_configuration.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 class RuleEngine {

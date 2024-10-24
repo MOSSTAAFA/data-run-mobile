@@ -14,13 +14,13 @@ class FormMetadataWidget extends InheritedWidget {
     final FormMetadataWidget? inheritedWidget =
         context.dependOnInheritedWidgetOfExactType<FormMetadataWidget>();
     if (inheritedWidget == null) {
-      throw 'No FormElementInheritedWidget found in context.';
+      throw 'No FormMetadataWidget found in context.';
     }
     return inheritedWidget.formMetadata;
   }
 
   @override
   bool updateShouldNotify(covariant FormMetadataWidget oldWidget) {
-    return formMetadata != oldWidget.formMetadata;
+    return oldWidget.formMetadata != formMetadata;
   }
 }

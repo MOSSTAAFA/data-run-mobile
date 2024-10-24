@@ -5,21 +5,10 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
   SectionInstance({
     required super.template,
     required super.form,
-    required super.path,
-    required super.formValueMap,
-
-    // Map<String, FormElementInstance<dynamic>> elements = const {},
-  }) /*: assert(!elements.keys.any((name) => name.contains('.')),
-            'element name should not contain dot(.)') */
-  {
-    // addAll(elements);
-
-    // if (properties.disabled) {
-    //   markAsDisabled();
-    // }
-    // if (properties.hidden) {
-    //   markAsHidden();
-    // }
+    Map<String, FormElementInstance<dynamic>> elements = const {},
+  }) : assert(!elements.keys.any((name) => name.contains('.')),
+            'element name should not contain dot(.)') {
+    addAll(elements);
   }
 
   final Map<String, FormElementInstance<dynamic>> _elements = {};
@@ -28,7 +17,8 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
       Map.unmodifiable(_elements);
 
   @override
-  FormGroup get elementControl => form.control(elementPath) as FormGroup;
+  FormGroup get elementControl =>
+      name.isEmpty ? form : (form.control(elementPath) as FormGroup);
 
   /// Appends all [elements] to the group.
   void addAll(Map<String, FormElementInstance<dynamic>> elements) {
@@ -38,31 +28,6 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
     });
   }
 
-  // /// build this section and all its elements
-  // void buildElement(
-  //   Map<String, dynamic>? value, {
-  //   bool updateParent = true,
-  //   bool emitEvent = true,
-  // }) {
-  //
-  //   final controls = elements.map((name, element) => MapEntry(
-  //       name,
-  //       FromElementControlFactory.createTemplateControl(element.template,
-  //           savedValue: element.value)));
-  //   elementControl.addAll(controls);
-  //
-  //
-  //   for (var childTemplate in template.fields) {
-  //     final elementCreated = FromElementFactory.createElement(form, template,
-  //         savedValue: value?[childTemplate.name]);
-  //
-  //     addAll({elementCreated.name: elementCreated});
-  //   }
-  // }
-
-  //</editor-fold>
-
-  //<editor-fold desc="Lookup">
   @override
   bool contains(String name) {
     return _elements.containsKey(name);
@@ -115,17 +80,26 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
   }
 
   @override
-  void dispose() {
-    // forEachChild((element) {
-    //   element.parentSection = null;
-    //   element.dispose();
-    // });
-    // elementControl.closeCollectionEvents();
-    super.dispose();
-  }
+  Map<String, Object?> get rawValue =>
+      _elements.map<String, Object?>((key, element) {
+        if (element is SectionElement<dynamic>) {
+          return MapEntry(key, element.rawValue);
+        }
+
+        return MapEntry(key, element.value);
+      });
 
   @override
-  Map<String, Object?> get rawValue => elementControl.rawValue;
+  Map<String, Object?>? reduceValue() {
+    final map = <String, Object?>{};
+    _elements.forEach((key, element) {
+      if (element.visible || hidden) {
+        map[key] = element.value;
+      }
+    });
+
+    return map;
+  }
 
   @override
   void markAsHidden({bool updateParent = true, bool emitEvent = true}) {
@@ -141,6 +115,22 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
       element.markAsVisible();
     });
     super.markAsVisible();
+  }
+
+  @override
+  void reset({Map<String, Object?>? value}) {
+    updateValue(value);
+    elementControl.reset(value: value);
+  }
+
+  @override
+  void dispose() {
+    // forEachChild((element) {
+    //   element.parentSection = null;
+    //   element.dispose();
+    // });
+    // elementControl.closeCollectionEvents();
+    super.dispose();
   }
 // void updateSectionValue(
 //   Map<String, Object?>? value, {

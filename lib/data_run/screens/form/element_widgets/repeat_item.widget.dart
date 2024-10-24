@@ -38,12 +38,12 @@ class RepeatItem extends HookWidget {
         //   expanded.value = ex;
         // },
         titleWidget: Tooltip(
-          message: '${index + 1}. ${element.properties.label}',
+          message: '${index + 1}. ${element.label}',
           child: Row(
             children: [
               Expanded(
                 child: Text(
-                  '${index + 1}. ${element.properties.label}',
+                  '${index + 1}. ${element.label}',
                   overflow: TextOverflow.fade,
                   maxLines: 1,
                   style: TextStyle(

@@ -1,27 +1,38 @@
 import 'package:d2_remote/modules/datarun/form/entities/data_form_submission.entity.dart';
-import 'package:d2_remote/modules/datarun/form/entities/form_definition.entity.dart';
-import 'package:d2_remote/modules/datarun/form/shared/attribute_type.dart';
 import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
-import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
-import 'package:mass_pro/commons/logging/logging.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mass_pro/data_run/form/form_element/parsing/form_instance_builder.dart';
+import 'package:mass_pro/data_run/form/form_element/parsing/form_instance_control_builder.dart';
+import 'package:mass_pro/data_run/form/form_submission/submission_list.provider.dart';
+import 'package:mass_pro/data_run/form/shared/form_configuration.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_value_map.dart';
 import 'package:mass_pro/data_run/screens/form/element/providers/form_instance.provider.dart';
 import 'package:mass_pro/data_run/screens/form/element/service/form_instance_service.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_metadata.dart';
-import 'package:mass_pro/data_run/screens/form_module/form_template/form_element_template.dart';
-import 'package:mass_pro/data_run/screens/form_submission_list/model/submission_list.provider.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
+
+const orgUnitControlName = 'orgUnit';
+const formAttributesGroupName = 'attributes';
+const formDataGroupName = 'formData';
+
+const formControlName = 'formData';
+const activityControlName = 'formData';
+const teamControlName = 'formData';
+const versionControlName = 'formData';
 
 class FormInstance {
   FormInstance(FormInstanceRef ref,
       {required FormInstanceService formInstanceService,
       required this.form,
+      required this.formMetadata,
+      required this.formConfiguration,
       Map<String, FormElementInstance<dynamic>> elements = const {},
       required this.enabled,
       required FormValueMap formValueMap})
       : _ref = ref,
+        formValueMap = formValueMap,
         _formSection = SectionInstance(
             template: FieldTemplate(
                 mandatory: false,
@@ -29,14 +40,12 @@ class FormInstance {
                 type: ValueType.Unknown,
                 name: '',
                 path: null),
-            form: form,
-            path: null,
-            formValueMap: formValueMap)
-          ..addAll(elements),
-        _formInstanceService = formInstanceService,
-        _formContainerTemplate =
-            FormFlatTemplate.fromTemplate(formInstanceService.template),
-        formValueMap = formValueMap {
+            form: form)
+          ..addAll(elements) {
+    form.addAll({
+      '_${orgUnitControlName}':
+          FormControl<String>(value: null, validators: [Validators.required])
+    });
     _elements.addAll(elements);
     if (!enabled) {
       form.markAsDisabled();
@@ -44,35 +53,28 @@ class FormInstance {
   }
 
   FormValueMap formValueMap;
+
+  // final Map<String, dynamic> _values = {};
   final FormGroup form;
   final bool enabled;
 
   final FormInstanceRef _ref;
-  final FormInstanceService _formInstanceService;
-  final FormFlatTemplate _formContainerTemplate;
   final Map<String, FormElementInstance<dynamic>> _elements = {};
   final SectionInstance _formSection;
 
-  FormFlatTemplate get formContainerTemplate => _formContainerTemplate;
+  final FormConfiguration formConfiguration;
 
   Map<String, FormElementInstance<dynamic>> get elements =>
       Map.unmodifiable(_elements);
 
   SectionInstance get formSection => _formSection;
 
-  FormSubmissionList get formSubmissionList => _ref
-      .read(formSubmissionListProvider(form: template.formTemplate).notifier);
+  FormSubmissions get formSubmissionList =>
+      _ref.read(formSubmissionsProvider(formMetadata.form).notifier);
 
-  List<String> get selectableOrgUnits => template.orgUnits;
+  final FormMetadata formMetadata;
 
-  FormTemplateV get template => _formInstanceService.template;
-
-  FormMetadata get metadata => _formInstanceService.formMetadata;
-
-  String? get submissionUid => metadata.submission;
-
-  Map<String, List<FormOption>> get formOptionsMap =>
-      _formInstanceService.formOptionsMapCache;
+  String? get submissionUid => formMetadata.submission;
 
   void submit({
     required void Function(Map<String, dynamic> model) onValid,
@@ -91,13 +93,13 @@ class FormInstance {
 
   Future<DataFormSubmission> saveFormData() async {
     final formValue = form.value;
+    final formValue3 = _formSection.value;
     DataFormSubmission? formSubmission;
     formSubmission = await formSubmissionList.getSubmission(submissionUid!);
-    formSubmission!.orgUnit =
-        form.control('_${AttributeType.orgUnit.name}').value;
+    formSubmission!.orgUnit = form.control('_${orgUnitControlName}').value;
     formSubmission.formData.clear();
     formSubmission.formData.addAll(formValue);
-    return formSubmissionList.saveSubmission(formSubmission);
+    return formSubmissionList.updateSubmission(formSubmission);
   }
 
   Map<String, dynamic> get rawValue {
@@ -126,24 +128,45 @@ class FormInstance {
     return valuesMap;
   }
 
-  Map<String, dynamic> toHierarchical(
-      List<FormElementTemplate> templates, FormValueMap valueMap) {
-    Map<String, dynamic> hierarchicalData = {};
-    for (var template in templates) {
-      String path = template.path!;
-      // section or repeat
-      if (template.type.isSectionType) {
-        // Recursively call to construct sub-structure
-        hierarchicalData[template.name] = toHierarchical(
-            _formContainerTemplate.getDescendants(path), valueMap);
-        // } else if (template.type.isRepeatSection) {
-        //   hierarchicalData[template.name] =
-        //       toHierarchical(formTemplate.getDescendants(path), valueMap);
-      } else {
-        // Direct assignment from flat map
-        hierarchicalData[template.name] = valueMap.getValue(path);
-      }
-    }
-    return hierarchicalData;
+  RepeatItemInstance onAddRepeatedItem(RepeatInstance parent) {
+    final instanceBuilder = _ref
+        .read(formInstanceBuilderProvider(formMetadata: formMetadata))
+        .requireValue;
+    final instanceControllerBuilder = _ref
+        .read(formInstanceControlBuilderProvider(formMetadata: formMetadata))
+        .requireValue;
+    final itemInstanceController =
+        instanceControllerBuilder.createSectionFormGroup(parent.template);
+    final itemInstance = instanceBuilder.buildRepeatItem(form, parent.template);
+    parent.elementControl.add(itemInstanceController);
+    parent.add(itemInstance);
+    return itemInstance;
   }
+
+  void onRemoveRepeatedItem(int index, RepeatInstance parent) {
+    parent.removeAt(index);
+    parent.elementControl.removeAt(index);
+  }
+
+//
+// Map<String, dynamic> toHierarchical(
+//     List<FormElementTemplate> templates, FormValueMap valueMap) {
+//   Map<String, dynamic> hierarchicalData = {};
+//   for (var template in templates) {
+//     String path = template.path!;
+//     // section or repeat
+//     if (template.type.isSectionType) {
+//       // Recursively call to construct sub-structure
+//       hierarchicalData[template.name] = toHierarchical(
+//           _formContainerTemplate.getDescendants(path), valueMap);
+//       // } else if (template.type.isRepeatSection) {
+//       //   hierarchicalData[template.name] =
+//       //       toHierarchical(formTemplate.getDescendants(path), valueMap);
+//     } else {
+//       // Direct assignment from flat map
+//       hierarchicalData[template.name] = valueMap.getValue(path);
+//     }
+//   }
+//   return hierarchicalData;
+// }
 }

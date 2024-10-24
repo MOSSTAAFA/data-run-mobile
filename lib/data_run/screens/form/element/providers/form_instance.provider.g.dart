@@ -6,37 +6,25 @@ part of 'form_instance.provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$formFlatTemplateHash() => r'8247cffecae6cbfeeaf04b5c9c5c8b2fb40812c4';
+String _$userDeviceInfoServiceHash() =>
+    r'4c4514d10d6f67ae6341ded57c5fcd4eaeafcd65';
 
-/// See also [formFlatTemplate].
-@ProviderFor(formFlatTemplate)
-final formFlatTemplateProvider = AutoDisposeProvider<FormFlatTemplate>.internal(
-  formFlatTemplate,
-  name: r'formFlatTemplateProvider',
+/// See also [userDeviceInfoService].
+@ProviderFor(userDeviceInfoService)
+final userDeviceInfoServiceProvider =
+    AutoDisposeFutureProvider<AndroidDeviceInfoService>.internal(
+  userDeviceInfoService,
+  name: r'userDeviceInfoServiceProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$formFlatTemplateHash,
+      : _$userDeviceInfoServiceHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef FormFlatTemplateRef = AutoDisposeProviderRef<FormFlatTemplate>;
-String _$formMetadataHash() => r'ffa5eea8c019a446a1f3808e54d8e520f91aeadc';
-
-/// See also [formMetadata].
-@ProviderFor(formMetadata)
-final formMetadataProvider = AutoDisposeProvider<FormMetadata>.internal(
-  formMetadata,
-  name: r'formMetadataProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$formMetadataHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef FormMetadataRef = AutoDisposeProviderRef<FormMetadata>;
-String _$submissionEditStatusHash() =>
-    r'211ed24c9eda1ce399fe5570db5949736a9b42a2';
+typedef UserDeviceInfoServiceRef
+    = AutoDisposeFutureProviderRef<AndroidDeviceInfoService>;
+String _$formFlatTemplateHash() => r'2932127cb1ded14519b75ed39c9f436d003aed53';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -59,14 +47,14 @@ class _SystemHash {
   }
 }
 
-/// See also [submissionEditStatus].
-@ProviderFor(submissionEditStatus)
-const submissionEditStatusProvider = SubmissionEditStatusFamily();
+/// See also [formFlatTemplate].
+@ProviderFor(formFlatTemplate)
+const formFlatTemplateProvider = FormFlatTemplateFamily();
 
-/// See also [submissionEditStatus].
-class SubmissionEditStatusFamily extends Family {
-  /// See also [submissionEditStatus].
-  const SubmissionEditStatusFamily();
+/// See also [formFlatTemplate].
+class FormFlatTemplateFamily extends Family {
+  /// See also [formFlatTemplate].
+  const FormFlatTemplateFamily();
 
   static const Iterable<ProviderOrFamily>? _dependencies = null;
 
@@ -80,176 +68,161 @@ class SubmissionEditStatusFamily extends Family {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'submissionEditStatusProvider';
+  String? get name => r'formFlatTemplateProvider';
 
-  /// See also [submissionEditStatus].
-  SubmissionEditStatusProvider call({
-    required String submission,
+  /// See also [formFlatTemplate].
+  FormFlatTemplateProvider call({
+    required FormMetadata formMetadata,
   }) {
-    return SubmissionEditStatusProvider(
-      submission: submission,
+    return FormFlatTemplateProvider(
+      formMetadata: formMetadata,
     );
   }
 
   @visibleForOverriding
   @override
-  SubmissionEditStatusProvider getProviderOverride(
-    covariant SubmissionEditStatusProvider provider,
+  FormFlatTemplateProvider getProviderOverride(
+    covariant FormFlatTemplateProvider provider,
   ) {
     return call(
-      submission: provider.submission,
+      formMetadata: provider.formMetadata,
     );
   }
 
   /// Enables overriding the behavior of this provider, no matter the parameters.
   Override overrideWith(
-      FutureOr<bool> Function(SubmissionEditStatusRef ref) create) {
-    return _$SubmissionEditStatusFamilyOverride(this, create);
+      FutureOr<FormFlatTemplate> Function(FormFlatTemplateRef ref) create) {
+    return _$FormFlatTemplateFamilyOverride(this, create);
   }
 }
 
-class _$SubmissionEditStatusFamilyOverride implements FamilyOverride {
-  _$SubmissionEditStatusFamilyOverride(this.overriddenFamily, this.create);
+class _$FormFlatTemplateFamilyOverride implements FamilyOverride {
+  _$FormFlatTemplateFamilyOverride(this.overriddenFamily, this.create);
 
-  final FutureOr<bool> Function(SubmissionEditStatusRef ref) create;
-
-  @override
-  final SubmissionEditStatusFamily overriddenFamily;
+  final FutureOr<FormFlatTemplate> Function(FormFlatTemplateRef ref) create;
 
   @override
-  SubmissionEditStatusProvider getProviderOverride(
-    covariant SubmissionEditStatusProvider provider,
+  final FormFlatTemplateFamily overriddenFamily;
+
+  @override
+  FormFlatTemplateProvider getProviderOverride(
+    covariant FormFlatTemplateProvider provider,
   ) {
     return provider._copyWith(create);
   }
 }
 
-/// See also [submissionEditStatus].
-class SubmissionEditStatusProvider extends AutoDisposeFutureProvider<bool> {
-  /// See also [submissionEditStatus].
-  SubmissionEditStatusProvider({
-    required String submission,
+/// See also [formFlatTemplate].
+class FormFlatTemplateProvider
+    extends AutoDisposeFutureProvider<FormFlatTemplate> {
+  /// See also [formFlatTemplate].
+  FormFlatTemplateProvider({
+    required FormMetadata formMetadata,
   }) : this._internal(
-          (ref) => submissionEditStatus(
-            ref as SubmissionEditStatusRef,
-            submission: submission,
+          (ref) => formFlatTemplate(
+            ref as FormFlatTemplateRef,
+            formMetadata: formMetadata,
           ),
-          from: submissionEditStatusProvider,
-          name: r'submissionEditStatusProvider',
+          from: formFlatTemplateProvider,
+          name: r'formFlatTemplateProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$submissionEditStatusHash,
-          dependencies: SubmissionEditStatusFamily._dependencies,
+                  : _$formFlatTemplateHash,
+          dependencies: FormFlatTemplateFamily._dependencies,
           allTransitiveDependencies:
-              SubmissionEditStatusFamily._allTransitiveDependencies,
-          submission: submission,
+              FormFlatTemplateFamily._allTransitiveDependencies,
+          formMetadata: formMetadata,
         );
 
-  SubmissionEditStatusProvider._internal(
+  FormFlatTemplateProvider._internal(
     super.create, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.submission,
+    required this.formMetadata,
   }) : super.internal();
 
-  final String submission;
+  final FormMetadata formMetadata;
 
   @override
   Override overrideWith(
-    FutureOr<bool> Function(SubmissionEditStatusRef ref) create,
+    FutureOr<FormFlatTemplate> Function(FormFlatTemplateRef ref) create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: SubmissionEditStatusProvider._internal(
-        (ref) => create(ref as SubmissionEditStatusRef),
+      override: FormFlatTemplateProvider._internal(
+        (ref) => create(ref as FormFlatTemplateRef),
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        submission: submission,
+        formMetadata: formMetadata,
       ),
     );
   }
 
   @override
   ({
-    String submission,
+    FormMetadata formMetadata,
   }) get argument {
-    return (submission: submission,);
+    return (formMetadata: formMetadata,);
   }
 
   @override
-  AutoDisposeFutureProviderElement<bool> createElement() {
-    return _SubmissionEditStatusProviderElement(this);
+  AutoDisposeFutureProviderElement<FormFlatTemplate> createElement() {
+    return _FormFlatTemplateProviderElement(this);
   }
 
-  SubmissionEditStatusProvider _copyWith(
-    FutureOr<bool> Function(SubmissionEditStatusRef ref) create,
+  FormFlatTemplateProvider _copyWith(
+    FutureOr<FormFlatTemplate> Function(FormFlatTemplateRef ref) create,
   ) {
-    return SubmissionEditStatusProvider._internal(
-      (ref) => create(ref as SubmissionEditStatusRef),
+    return FormFlatTemplateProvider._internal(
+      (ref) => create(ref as FormFlatTemplateRef),
       name: name,
       dependencies: dependencies,
       allTransitiveDependencies: allTransitiveDependencies,
       debugGetCreateSourceHash: debugGetCreateSourceHash,
       from: from,
-      submission: submission,
+      formMetadata: formMetadata,
     );
   }
 
   @override
   bool operator ==(Object other) {
-    return other is SubmissionEditStatusProvider &&
-        other.submission == submission;
+    return other is FormFlatTemplateProvider &&
+        other.formMetadata == formMetadata;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, submission.hashCode);
+    hash = _SystemHash.combine(hash, formMetadata.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
-mixin SubmissionEditStatusRef on AutoDisposeFutureProviderRef<bool> {
-  /// The parameter `submission` of this provider.
-  String get submission;
+mixin FormFlatTemplateRef on AutoDisposeFutureProviderRef<FormFlatTemplate> {
+  /// The parameter `formMetadata` of this provider.
+  FormMetadata get formMetadata;
 }
 
-class _SubmissionEditStatusProviderElement
-    extends AutoDisposeFutureProviderElement<bool>
-    with SubmissionEditStatusRef {
-  _SubmissionEditStatusProviderElement(super.provider);
+class _FormFlatTemplateProviderElement
+    extends AutoDisposeFutureProviderElement<FormFlatTemplate>
+    with FormFlatTemplateRef {
+  _FormFlatTemplateProviderElement(super.provider);
 
   @override
-  String get submission => (origin as SubmissionEditStatusProvider).submission;
+  FormMetadata get formMetadata =>
+      (origin as FormFlatTemplateProvider).formMetadata;
 }
 
-String _$deviceInfoServiceHash() => r'1d77fcc69a9ffefcc2d342a2e0dfdd413ffc02af';
-
-/// See also [deviceInfoService].
-@ProviderFor(deviceInfoService)
-final deviceInfoServiceProvider =
-    AutoDisposeFutureProvider<AndroidDeviceInfoService>.internal(
-  deviceInfoService,
-  name: r'deviceInfoServiceProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$deviceInfoServiceHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef DeviceInfoServiceRef
-    = AutoDisposeFutureProviderRef<AndroidDeviceInfoService>;
 String _$formInstanceServiceHash() =>
-    r'9867f89c506be88c73b96dd5abcae329d9ffc4b3';
+    r'4909c7f6419b997f1293d09630931245dad1f794';
 
 /// See also [formInstanceService].
 @ProviderFor(formInstanceService)
@@ -276,10 +249,10 @@ class FormInstanceServiceFamily extends Family {
 
   /// See also [formInstanceService].
   FormInstanceServiceProvider call({
-    String? orgUnit,
+    required FormMetadata formMetadata,
   }) {
     return FormInstanceServiceProvider(
-      orgUnit: orgUnit,
+      formMetadata: formMetadata,
     );
   }
 
@@ -289,7 +262,7 @@ class FormInstanceServiceFamily extends Family {
     covariant FormInstanceServiceProvider provider,
   ) {
     return call(
-      orgUnit: provider.orgUnit,
+      formMetadata: provider.formMetadata,
     );
   }
 
@@ -323,11 +296,11 @@ class FormInstanceServiceProvider
     extends AutoDisposeFutureProvider<FormInstanceService> {
   /// See also [formInstanceService].
   FormInstanceServiceProvider({
-    String? orgUnit,
+    required FormMetadata formMetadata,
   }) : this._internal(
           (ref) => formInstanceService(
             ref as FormInstanceServiceRef,
-            orgUnit: orgUnit,
+            formMetadata: formMetadata,
           ),
           from: formInstanceServiceProvider,
           name: r'formInstanceServiceProvider',
@@ -338,7 +311,7 @@ class FormInstanceServiceProvider
           dependencies: FormInstanceServiceFamily._dependencies,
           allTransitiveDependencies:
               FormInstanceServiceFamily._allTransitiveDependencies,
-          orgUnit: orgUnit,
+          formMetadata: formMetadata,
         );
 
   FormInstanceServiceProvider._internal(
@@ -348,10 +321,10 @@ class FormInstanceServiceProvider
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.orgUnit,
+    required this.formMetadata,
   }) : super.internal();
 
-  final String? orgUnit;
+  final FormMetadata formMetadata;
 
   @override
   Override overrideWith(
@@ -366,16 +339,16 @@ class FormInstanceServiceProvider
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        orgUnit: orgUnit,
+        formMetadata: formMetadata,
       ),
     );
   }
 
   @override
   ({
-    String? orgUnit,
+    FormMetadata formMetadata,
   }) get argument {
-    return (orgUnit: orgUnit,);
+    return (formMetadata: formMetadata,);
   }
 
   @override
@@ -393,19 +366,20 @@ class FormInstanceServiceProvider
       allTransitiveDependencies: allTransitiveDependencies,
       debugGetCreateSourceHash: debugGetCreateSourceHash,
       from: from,
-      orgUnit: orgUnit,
+      formMetadata: formMetadata,
     );
   }
 
   @override
   bool operator ==(Object other) {
-    return other is FormInstanceServiceProvider && other.orgUnit == orgUnit;
+    return other is FormInstanceServiceProvider &&
+        other.formMetadata == formMetadata;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, orgUnit.hashCode);
+    hash = _SystemHash.combine(hash, formMetadata.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -413,8 +387,8 @@ class FormInstanceServiceProvider
 
 mixin FormInstanceServiceRef
     on AutoDisposeFutureProviderRef<FormInstanceService> {
-  /// The parameter `orgUnit` of this provider.
-  String? get orgUnit;
+  /// The parameter `formMetadata` of this provider.
+  FormMetadata get formMetadata;
 }
 
 class _FormInstanceServiceProviderElement
@@ -423,22 +397,182 @@ class _FormInstanceServiceProviderElement
   _FormInstanceServiceProviderElement(super.provider);
 
   @override
-  String? get orgUnit => (origin as FormInstanceServiceProvider).orgUnit;
+  FormMetadata get formMetadata =>
+      (origin as FormInstanceServiceProvider).formMetadata;
 }
 
-String _$formInstanceHash() => r'5a865912751506e572a968cb9691b2fafa26a1b8';
+String _$formInstanceHash() => r'd5253fd29f8c061c49e012288f392df73a1c18b2';
 
 /// See also [formInstance].
 @ProviderFor(formInstance)
-final formInstanceProvider = AutoDisposeFutureProvider<FormInstance>.internal(
-  formInstance,
-  name: r'formInstanceProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$formInstanceHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+const formInstanceProvider = FormInstanceFamily();
 
-typedef FormInstanceRef = AutoDisposeFutureProviderRef<FormInstance>;
+/// See also [formInstance].
+class FormInstanceFamily extends Family {
+  /// See also [formInstance].
+  const FormInstanceFamily();
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'formInstanceProvider';
+
+  /// See also [formInstance].
+  FormInstanceProvider call({
+    required FormMetadata formMetadata,
+  }) {
+    return FormInstanceProvider(
+      formMetadata: formMetadata,
+    );
+  }
+
+  @visibleForOverriding
+  @override
+  FormInstanceProvider getProviderOverride(
+    covariant FormInstanceProvider provider,
+  ) {
+    return call(
+      formMetadata: provider.formMetadata,
+    );
+  }
+
+  /// Enables overriding the behavior of this provider, no matter the parameters.
+  Override overrideWith(
+      FutureOr<FormInstance> Function(FormInstanceRef ref) create) {
+    return _$FormInstanceFamilyOverride(this, create);
+  }
+}
+
+class _$FormInstanceFamilyOverride implements FamilyOverride {
+  _$FormInstanceFamilyOverride(this.overriddenFamily, this.create);
+
+  final FutureOr<FormInstance> Function(FormInstanceRef ref) create;
+
+  @override
+  final FormInstanceFamily overriddenFamily;
+
+  @override
+  FormInstanceProvider getProviderOverride(
+    covariant FormInstanceProvider provider,
+  ) {
+    return provider._copyWith(create);
+  }
+}
+
+/// See also [formInstance].
+class FormInstanceProvider extends AutoDisposeFutureProvider<FormInstance> {
+  /// See also [formInstance].
+  FormInstanceProvider({
+    required FormMetadata formMetadata,
+  }) : this._internal(
+          (ref) => formInstance(
+            ref as FormInstanceRef,
+            formMetadata: formMetadata,
+          ),
+          from: formInstanceProvider,
+          name: r'formInstanceProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$formInstanceHash,
+          dependencies: FormInstanceFamily._dependencies,
+          allTransitiveDependencies:
+              FormInstanceFamily._allTransitiveDependencies,
+          formMetadata: formMetadata,
+        );
+
+  FormInstanceProvider._internal(
+    super.create, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.formMetadata,
+  }) : super.internal();
+
+  final FormMetadata formMetadata;
+
+  @override
+  Override overrideWith(
+    FutureOr<FormInstance> Function(FormInstanceRef ref) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: FormInstanceProvider._internal(
+        (ref) => create(ref as FormInstanceRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        formMetadata: formMetadata,
+      ),
+    );
+  }
+
+  @override
+  ({
+    FormMetadata formMetadata,
+  }) get argument {
+    return (formMetadata: formMetadata,);
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<FormInstance> createElement() {
+    return _FormInstanceProviderElement(this);
+  }
+
+  FormInstanceProvider _copyWith(
+    FutureOr<FormInstance> Function(FormInstanceRef ref) create,
+  ) {
+    return FormInstanceProvider._internal(
+      (ref) => create(ref as FormInstanceRef),
+      name: name,
+      dependencies: dependencies,
+      allTransitiveDependencies: allTransitiveDependencies,
+      debugGetCreateSourceHash: debugGetCreateSourceHash,
+      from: from,
+      formMetadata: formMetadata,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is FormInstanceProvider && other.formMetadata == formMetadata;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, formMetadata.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin FormInstanceRef on AutoDisposeFutureProviderRef<FormInstance> {
+  /// The parameter `formMetadata` of this provider.
+  FormMetadata get formMetadata;
+}
+
+class _FormInstanceProviderElement
+    extends AutoDisposeFutureProviderElement<FormInstance>
+    with FormInstanceRef {
+  _FormInstanceProviderElement(super.provider);
+
+  @override
+  FormMetadata get formMetadata =>
+      (origin as FormInstanceProvider).formMetadata;
+}
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package

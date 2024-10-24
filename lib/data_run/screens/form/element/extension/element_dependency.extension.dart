@@ -3,54 +3,58 @@ part of '../form_element.dart';
 extension ElementDependencyHandler<T> on FormElementInstance<T> {
   Map<String, dynamic> get evalContext {
     return {
-      for (final dependency in _dependencies.values)
+      for (final dependency in _dependencies)
         dependency.name: dependency.visible ? dependency.value : null
     };
   }
 
-  void _addDependent(FormElementInstance<dynamic> dependent) {
-    _dependents[dependent.name] = dependent;
+  FormElementState updateStatus(FormElementState newValue) {
+    if (newValue != _elementState) {
+      _elementState = newValue;
+      propertiesChangedSubject?.add(newValue);
+      notifySubscribers();
+    }
+    return _elementState;
   }
 
   void addDependency(FormElementInstance<dynamic> dependency) {
-    _dependencies[dependency.name] = dependency;
+    _dependencies.add(dependency);
     dependency._addDependent(this);
   }
 
-  void notifyDependents() {
-    logInfo(info: '$name changed, notifying: $dependencies');
-    for (final dependent in _dependents.values) {
-      dependent.onDependencyChanged(name, value);
-    }
+  void removeDependent(FormElementInstance<dynamic> dependent) {
+    _dependents.remove(dependent);
   }
 
-  // @mustCallSuper
-  void reEvaluateStatus() {
-    if (_isEvaluating) {
-      return;
-    }
+  void removeDependency(FormElementInstance<dynamic> dependency) {
+    _dependencies.remove(dependency);
+  }
 
-    _isEvaluating = true;
+  void _addDependent(FormElementInstance<dynamic> dependent) {
+    _dependents.add(dependent);
+  }
 
-    try {
-      elementRuleActions.map((ruleAction) => ruleAction.shouldApply(evalContext)
-          ? ruleAction.apply(this)
-          : ruleAction.reset(this));
-    } finally {
-      _isEvaluating = false;
-    }
+  // void addDependency(FormElementInstance<dynamic> dependency) {
+  //   addDependency(dependency);
+  //   dependency.addDependent(this);
+  // }
+
+  List<String> get resolvedDependentsNames =>
+      _dependents.map((dependent) => dependent.name).toList();
+
+  void notifySubscribers() {
+    logInfo(info: '$name changed, notifying: ${resolvedDependentsNames}');
+    _dependents.forEach((s) => s.evaluate(name));
   }
 
   /// didUpdateElement(covariant FormElement<E> oldElement)
   /// void didChange(ViewDataType value)
   /// void didChangeDependencies()
-  void onDependencyChanged(String changedDependency, value) {
-    logInfo(
-        info:
-            '$name, $changedDependency Changed to: $value, Evaluating State...');
-    reEvaluateStatus();
-    notifyDependents();
-  }
+// void onDependencyChanged(String changedDependency, value) {
+//
+//   reEvaluateStatus();
+//   notifyDependents();
+// }
 
   /// the element use name to find the dependency in closest parent
   /// and register itself and add them to their dependencies

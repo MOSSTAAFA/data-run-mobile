@@ -7,7 +7,7 @@ part of 'submission_creation_model.provider.dart';
 // **************************************************************************
 
 String _$submissionCreationModelHash() =>
-    r'0ef4ed62a8d845c1ab3f2d7e15351e7c3dabbb79';
+    r'47f308896dada49ece27cf8a423d42135f4c3e18';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -55,10 +55,10 @@ class SubmissionCreationModelFamily extends Family {
 
   /// See also [submissionCreationModel].
   SubmissionCreationModelProvider call({
-    required FormMetadata formMetaData,
+    required FormMetadata formMetadata,
   }) {
     return SubmissionCreationModelProvider(
-      formMetaData: formMetaData,
+      formMetadata: formMetadata,
     );
   }
 
@@ -68,7 +68,7 @@ class SubmissionCreationModelFamily extends Family {
     covariant SubmissionCreationModelProvider provider,
   ) {
     return call(
-      formMetaData: provider.formMetaData,
+      formMetadata: provider.formMetadata,
     );
   }
 
@@ -102,11 +102,11 @@ class SubmissionCreationModelProvider
     extends AutoDisposeFutureProvider<SubmissionCreationModel> {
   /// See also [submissionCreationModel].
   SubmissionCreationModelProvider({
-    required FormMetadata formMetaData,
+    required FormMetadata formMetadata,
   }) : this._internal(
           (ref) => submissionCreationModel(
             ref as SubmissionCreationModelRef,
-            formMetaData: formMetaData,
+            formMetadata: formMetadata,
           ),
           from: submissionCreationModelProvider,
           name: r'submissionCreationModelProvider',
@@ -117,7 +117,7 @@ class SubmissionCreationModelProvider
           dependencies: SubmissionCreationModelFamily._dependencies,
           allTransitiveDependencies:
               SubmissionCreationModelFamily._allTransitiveDependencies,
-          formMetaData: formMetaData,
+          formMetadata: formMetadata,
         );
 
   SubmissionCreationModelProvider._internal(
@@ -127,10 +127,10 @@ class SubmissionCreationModelProvider
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.formMetaData,
+    required this.formMetadata,
   }) : super.internal();
 
-  final FormMetadata formMetaData;
+  final FormMetadata formMetadata;
 
   @override
   Override overrideWith(
@@ -146,16 +146,16 @@ class SubmissionCreationModelProvider
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        formMetaData: formMetaData,
+        formMetadata: formMetadata,
       ),
     );
   }
 
   @override
   ({
-    FormMetadata formMetaData,
+    FormMetadata formMetadata,
   }) get argument {
-    return (formMetaData: formMetaData,);
+    return (formMetadata: formMetadata,);
   }
 
   @override
@@ -174,20 +174,20 @@ class SubmissionCreationModelProvider
       allTransitiveDependencies: allTransitiveDependencies,
       debugGetCreateSourceHash: debugGetCreateSourceHash,
       from: from,
-      formMetaData: formMetaData,
+      formMetadata: formMetadata,
     );
   }
 
   @override
   bool operator ==(Object other) {
     return other is SubmissionCreationModelProvider &&
-        other.formMetaData == formMetaData;
+        other.formMetadata == formMetadata;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, formMetaData.hashCode);
+    hash = _SystemHash.combine(hash, formMetadata.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -195,8 +195,8 @@ class SubmissionCreationModelProvider
 
 mixin SubmissionCreationModelRef
     on AutoDisposeFutureProviderRef<SubmissionCreationModel> {
-  /// The parameter `formMetaData` of this provider.
-  FormMetadata get formMetaData;
+  /// The parameter `formMetadata` of this provider.
+  FormMetadata get formMetadata;
 }
 
 class _SubmissionCreationModelProviderElement
@@ -205,8 +205,8 @@ class _SubmissionCreationModelProviderElement
   _SubmissionCreationModelProviderElement(super.provider);
 
   @override
-  FormMetadata get formMetaData =>
-      (origin as SubmissionCreationModelProvider).formMetaData;
+  FormMetadata get formMetadata =>
+      (origin as SubmissionCreationModelProvider).formMetadata;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package

@@ -1,4 +1,4 @@
-// import 'package:d2_remote/modules/datarun/form/entities/form_definition.entity.dart';
+// import 'package:d2_remote/modules/datarun/form/entities/form_version.entity.dart';
 // import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
 // import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 // import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
@@ -155,7 +155,7 @@
 //             name: templateElement.name,
 //             type: templateElement.type,
 //             template: templateElement,
-//             properties: ElementProperties(),
+//             properties: FormElementState(),
 //             defaultValue: templateElement.defaultValue,
 //             value: savedValue ?? templateElement.defaultValue,
 //             listName: templateElement.listName);
@@ -257,7 +257,7 @@
 //             form: form,
 //             name: templateElement.name,
 //             type: templateElement.type,
-//             properties: ElementProperties(),
+//             properties: FormElementState(),
 //             defaultValue: templateElement.defaultValue,
 //             listName: templateElement.listName,
 //             template: templateElement,
@@ -354,8 +354,8 @@
 //     return formOptionsMap[templateElement.listName] ?? [];
 //   }
 //
-//   ElementProperties elementProperties(FieldTemplate templateElement) {
-//     return ElementProperties(
+//   FormElementState elementProperties(FieldTemplate templateElement) {
+//     return FormElementState(
 //         mandatory: templateElement.mandatory,
 //         label: getItemLocalString(templateElement.label,
 //             defaultString: templateElement.name));

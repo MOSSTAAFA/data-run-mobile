@@ -19,7 +19,7 @@ class QTextTypeField<T> extends HookConsumerWidget {
       validationMessages: validationMessages(context),
       decoration: InputDecoration(
         enabled: element.elementControl!.enabled,
-        labelText: element.properties.label,
+        labelText: element.label,
       ),
     );
   }

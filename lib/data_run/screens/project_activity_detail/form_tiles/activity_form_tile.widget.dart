@@ -1,23 +1,21 @@
-import 'package:d2_remote/modules/datarun/form/entities/dynamic_form.entity.dart';
 import 'package:flutter/material.dart';
+import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
 import 'package:mass_pro/data_run/screens/project_activity_detail/form_tiles/submissions_chips.widget.dart';
-import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
 import 'package:mass_pro/generated/l10n.dart';
 
 class ActivityFormTile extends StatelessWidget {
   const ActivityFormTile({
     super.key,
-    required this.template,
     required this.onTap,
     required this.onAddNew,
   });
 
-  final FormTemplate template;
   final void Function()? onTap;
   final void Function()? onAddNew;
 
   @override
   Widget build(BuildContext context) {
+    final formMetadata = FormMetadataWidget.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       child: Card(
@@ -39,20 +37,17 @@ class ActivityFormTile extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text(
-                          getItemLocalString(template.label,
-                              defaultString: template.name),
+                          formMetadata.formLabel,
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          '${S.of(context).version}: ${template.version}',
+                          '${S.of(context).version}: ${formMetadata.version}',
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ],
                     ),
                     const SizedBox(height: 8),
-                    SubmissionsChips(
-                      form: template.uid!,
-                    ),
+                    const SubmissionsChips(),
                     const SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,

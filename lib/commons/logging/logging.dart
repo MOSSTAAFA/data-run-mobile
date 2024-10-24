@@ -26,3 +26,10 @@ void logInfo(
         Type? runtimeType}) =>
     // ignore: unnecessary_this
     printFunction('Info: ${runtimeType ?? ''}', '', info);
+
+void logDebug(
+    {String info = '',
+      Function printFunction = MpUtils.printFunction,
+      Type? runtimeType}) =>
+    // ignore: unnecessary_this
+printFunction('Debug: ${runtimeType ?? ''}', '', info);

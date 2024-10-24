@@ -33,7 +33,7 @@ class _ProjectActivitiesScreenState
 
     return AsyncValueWidget(
       value: value,
-      data: (List<DActivity> activities) => ScrollablePositionedList.builder(
+      valueBuilder: (List<DActivity> activities) => ScrollablePositionedList.builder(
         shrinkWrap: true,
         itemCount: activities.length,
         itemBuilder: (BuildContext context, int index) => ActivityExpandedCard(
