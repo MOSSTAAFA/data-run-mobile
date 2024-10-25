@@ -19,9 +19,6 @@
         <option name="gradleJvm" value="1.8" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/../../../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/path_provider_android-2.2.8/android" />
-            <option value="$PROJECT_DIR$/../../../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/shared_preferences_android-2.2.4/android" />
-            <option value="$PROJECT_DIR$/../../../../../../JavaEE_development/Pub/Cache/hosted/pub.dev/sqflite-2.3.3+1/android" />
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/../../../../../../android-tools/flutter/packages/flutter_tools/gradle" />

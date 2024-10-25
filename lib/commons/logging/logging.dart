@@ -24,11 +24,14 @@ void defaultLogWriterCallback(String message,
 }
 
 void logError(
-        {String info = '',
-        Function logFunction = MpUtils.printFunction,
-        Type? runtimeType}) =>
-    logFunction(
-        message: 'Error: ${runtimeType ?? ''} $info', level: LogLevel.debug);
+    {String info = '',
+    Function logFunction = MpUtils.printFunction,
+    Type? runtimeType}) {
+  logFunction(
+      message: 'Error: ${runtimeType ?? ''} $info',
+      isError: true,
+      level: LogLevel.error);
+}
 
 void logDebug(
     {String info = '',
@@ -42,8 +45,9 @@ void logDebug(
 }
 
 void logInfo(
-        {String info = '',
-        Function printFunction = MpUtils.printFunction,
-        Type? runtimeType}) =>
-    printFunction(
-        message: 'Error: ${runtimeType ?? ''} $info', level: LogLevel.error);
+    {String info = '',
+    Function printFunction = MpUtils.printFunction,
+    Type? runtimeType}) {
+  printFunction(
+      message: 'Info: ${runtimeType ?? ''} $info', level: LogLevel.info);
+}

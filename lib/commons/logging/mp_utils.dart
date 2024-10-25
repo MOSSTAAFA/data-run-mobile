@@ -2,23 +2,39 @@
 import 'package:mass_pro/commons/logging/logging.dart';
 import 'package:mass_pro/commons/logging/mp_main.dart';
 
+// typedef PrintFunctionCallback = void Function(
+//     String prefix,
+//     dynamic value,
+//     String info, {
+//     bool? isError,
+//     });
 typedef PrintFunctionCallback = void Function(
-    String prefix,
-    dynamic value,
-    String info, {
-    bool? isError,
-    });
+    String message, // Updated to message
+        {String info,
+    bool isError,
+    required LogLevel level});
 
 class MpUtils {
   MpUtils._();
 
   static void printFunction(
-      String prefix,
-      dynamic value,
-      String info, {
+      {required String message,
+        String info = '',
         bool isError = false,
-        required LogLevel level
-      }) {
-    Mp.log('$prefix $value $info'.trim(), isError: isError, level: level);
+        required LogLevel level}) {
+    Mp.log('$message $info'.trim(), isError: isError, level: level);
   }
 }
+//
+// class MpUtils {
+//   MpUtils._();
+//
+//   static void printFunction(
+//       message,
+//       String info, {
+//         bool isError = false,
+//         required LogLevel level
+//       }) {
+//     Mp.log('$info'.trim(), isError: isError, level: level);
+//   }
+// }
