@@ -4,7 +4,7 @@ import 'package:mass_pro/data_run/screens/home_screen/home_deck/home_item.model.
 import 'package:mass_pro/data_run/screens/home_screen/home_deck/home_items.widget.dart';
 import 'package:mass_pro/data_run/screens/project_activity_detail/project_activities_screen.widget.dart';
 import 'package:mass_pro/data_run/screens/view/view_base.dart';
-
+import 'package:mass_pro/utils/navigator_key.dart';
 
 class HomeDeck extends ConsumerStatefulWidget {
   const HomeDeck({super.key});
@@ -43,9 +43,8 @@ class _HomeDeckState extends ConsumerState<HomeDeck> with ViewBase {
     // logInfo(info: '$EXTRA_PROJECT_UID, ${homeDeckItem.uid}');
     // // navigatorKey.currentState!
     //     .pushNamed(ProjectDetailScreenWidget.route, arguments: bundle);
-
     Navigator.push(
-      context,
+      navigatorKey.currentContext!,
       MaterialPageRoute(
           builder: (context) => ProjectActivitiesScreenWidget(
                 project: homeDeckItem.uid,

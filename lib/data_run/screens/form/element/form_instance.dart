@@ -29,10 +29,8 @@ class FormInstance {
       required this.formMetadata,
       required this.formConfiguration,
       Map<String, FormElementInstance<dynamic>> elements = const {},
-      required this.enabled,
-      required FormValueMap formValueMap})
+      required this.enabled})
       : _ref = ref,
-        formValueMap = formValueMap,
         _formSection = SectionInstance(
             template: FieldTemplate(
                 mandatory: false,
@@ -52,9 +50,6 @@ class FormInstance {
     }
   }
 
-  FormValueMap formValueMap;
-
-  // final Map<String, dynamic> _values = {};
   final FormGroup form;
   final bool enabled;
 

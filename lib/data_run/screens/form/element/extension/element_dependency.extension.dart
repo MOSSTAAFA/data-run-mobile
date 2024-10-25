@@ -8,11 +8,16 @@ extension ElementDependencyHandler<T> on FormElementInstance<T> {
     };
   }
 
-  FormElementState updateStatus(FormElementState newValue) {
+  FormElementState updateStatus(FormElementState newValue,
+      {bool notify = true}) {
     if (newValue != _elementState) {
       _elementState = newValue;
       propertiesChangedSubject?.add(newValue);
-      notifySubscribers();
+      if (notify) {
+        notifySubscribers();
+      }
+    } else {
+      logDebug(info: '$name, same value, not Notifying subscribers');
     }
     return _elementState;
   }
@@ -43,7 +48,7 @@ extension ElementDependencyHandler<T> on FormElementInstance<T> {
       _dependents.map((dependent) => dependent.name).toList();
 
   void notifySubscribers() {
-    logInfo(info: '$name changed, notifying: ${resolvedDependentsNames}');
+    logDebug(info: '$name, notifying: ${resolvedDependentsNames}');
     _dependents.forEach((s) => s.evaluate(name));
   }
 

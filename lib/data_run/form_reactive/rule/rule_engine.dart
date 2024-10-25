@@ -16,7 +16,7 @@ class RuleEngine {
   void applyRules(FormGroup formGroup) {
     formGroup.valueChanges.listen((formValues) {
       _rules.forEach((controlName, rule) {
-        logInfo(info: '### applyRules, RuleEngine: ${formGroup.value}');
+        logDebug(info: '### applyRules, RuleEngine: ${formGroup.value}');
         // final control = formGroup.control(controlName);
         rule(formGroup); // Apply rule to the control
       });

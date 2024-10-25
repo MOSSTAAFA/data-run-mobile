@@ -131,7 +131,7 @@ class _OrgUnitPickerDialogState
     final isSelectable = _isSelectable(id);
     if (isSelectable) _vibrate();
     setState(() {
-      logInfo(info: 'is Selectable: ${_isSelectable(id)}');
+      logDebug(info: 'is Selectable: ${_isSelectable(id)}');
       if (isSelectable) {
         _selectedNode = id;
         widget.onChange?.call(id);

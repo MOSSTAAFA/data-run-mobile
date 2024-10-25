@@ -27,32 +27,32 @@ extension ApplyAction on RuleAction {
     switch (action) {
       case ActionType.Visibility:
         if (element.hidden) {
-          logInfo(
+          logDebug(
               info:
-                  '${element.name}, reset action effect to: ${ActionType.Show}');
+                  '${element.name}, applying action: ${ActionType.Show}');
           element.markAsVisible();
           // element.elementControl!.markAsEnabled();
         } else {
-          logInfo(
+          logDebug(
               info:
-                  '${element.name}, reset action effect to: ${ActionType.Hide}');
+                  '${element.name}, applying action: ${ActionType.Hide}');
           element.markAsHidden();
           // element.elementControl!.reset(disabled: true);
         }
         break;
       // return this.copyWith(isInEffect: true);
       case ActionType.Show:
-        logInfo(
+        logDebug(
             info:
-                '${element.name}, reset action effect to: ${ActionType.Show}');
+                '${element.name}, applying action: ${ActionType.Show}');
         element.markAsVisible();
         // element.elementControl!.markAsEnabled();
         break;
       // return this.copyWith(isInEffect: true);
       case ActionType.Hide:
-        logInfo(
+        logDebug(
             info:
-                '${element.name}, reset action effect to: ${ActionType.Hide}');
+                '${element.name}, applying action: ${ActionType.Hide}');
         element.markAsHidden();
         // element.elementControl!.reset(disabled: true);
         break;
@@ -98,26 +98,26 @@ extension ApplyAction on RuleAction {
           element.markAsVisible();
           // element.elementControl!.markAsEnabled();
         } else {
-          logInfo(
+          logDebug(
               info:
-                  '${element.name}, reset action effect to: ${ActionType.Hide}');
+                  '${element.name}, resetting action to: ${ActionType.Hide}');
           element.markAsHidden();
           // element.elementControl!.reset(disabled: true);
         }
         break;
       // return this.copyWith(isInEffect: false);
       case ActionType.Show:
-        logInfo(
+        logDebug(
             info:
-                '${element.name}, reset action effect to: ${ActionType.Hide}');
+                '${element.name}, resetting action to: ${ActionType.Hide}');
         element.markAsHidden();
         // element.elementControl!.reset(disabled: true);
         break;
       // return this.copyWith(isInEffect: false);
       case ActionType.Hide:
-        logInfo(
+        logDebug(
             info:
-                '${element.name}, reset action effect to: ${ActionType.Show}');
+                '${element.name}, resetting action to: ${ActionType.Show}');
         element.markAsVisible();
         // element.elementControl!.markAsEnabled();
         break;

@@ -181,6 +181,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("مضيف غير معروف"),
         "loginErrorUnsuccessfulResponse":
             MessageLookupByLibrary.simpleMessage("استجابة غير ناجحة من الخادم"),
+        "logout": MessageLookupByLibrary.simpleMessage("Logout"),
         "markAsFinalData": MessageLookupByLibrary.simpleMessage(
             "تعيين هذه البيانات كنهائية وجاهزة للإرسال."),
         "maximumAllowedLengthIsError": m1,
@@ -217,6 +218,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("البحث عن مكان..."),
         "selected": MessageLookupByLibrary.simpleMessage("عناصر محددة"),
         "send": MessageLookupByLibrary.simpleMessage("إرسال"),
+        "settings": MessageLookupByLibrary.simpleMessage("Settings"),
         "showPassword": MessageLookupByLibrary.simpleMessage("أظهر كلمة السر"),
         "submissionDataEntry": MessageLookupByLibrary.simpleMessage("بيانات"),
         "submissionInitialData":

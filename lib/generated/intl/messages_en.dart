@@ -186,6 +186,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Unknown host"),
         "loginErrorUnsuccessfulResponse": MessageLookupByLibrary.simpleMessage(
             "Unsuccessful response from server"),
+        "logout": MessageLookupByLibrary.simpleMessage("Logout"),
         "markAsFinalData": MessageLookupByLibrary.simpleMessage(
             "Make the form Final before exiting."),
         "maximumAllowedLengthIsError": m1,
@@ -221,6 +222,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Search Org Units..."),
         "selected": MessageLookupByLibrary.simpleMessage("selected"),
         "send": MessageLookupByLibrary.simpleMessage("Send"),
+        "settings": MessageLookupByLibrary.simpleMessage("Settings"),
         "showPassword": MessageLookupByLibrary.simpleMessage("Show Password"),
         "submissionDataEntry": MessageLookupByLibrary.simpleMessage("Data"),
         "submissionInitialData": MessageLookupByLibrary.simpleMessage("Main"),

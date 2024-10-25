@@ -1,5 +1,3 @@
-// ignore_for_file: always_specify_types
-
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -34,8 +32,6 @@ class LoginScreen extends ConsumerStatefulWidget {
   final bool skipSync;
   final int accountsCount;
   final bool isDeletion;
-
-  // final OpenIdSession.LogOutReason? logOutReason;
 
   @override
   ConsumerState<LoginScreen> createState() => _LoginScreenState();
@@ -313,7 +309,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
       //     .read(appStateNotifierProvider.notifier)
       //     .gotToNextScreen(const SyncScreen());
       Navigator.pushReplacement(
-          context,
+          navigatorKey.currentContext!,
           MaterialPageRoute(builder: (context) => const SyncScreen()));
     } else {
       Navigator.pushAndRemoveUntil(

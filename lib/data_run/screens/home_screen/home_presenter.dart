@@ -87,21 +87,9 @@ class HomePresenter {
     }
   }
 
-  Future<void> onSyncAllClick() async {
-    view.showGranularSync();
-  }
-
   void blockSession() {
     workManagerController.cancelAllWork();
     view.back();
-  }
-
-  void showFilter() {
-    // view.showHideFilter();
-  }
-
-  void onMenuClick() {
-    view.openDrawer(/* 'Gravity.START' */ 0);
   }
 
   // String _username(DUser user) {

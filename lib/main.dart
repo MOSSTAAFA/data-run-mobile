@@ -5,19 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/commons/prefs/preference_provider.dart';
-import 'package:mass_pro/di/injection.dart';
 import 'package:mass_pro/generated/l10n.dart';
 import 'package:mass_pro/main/usescases/splash/splash_screen.widget.dart';
 import 'package:mass_pro/main_constants/main_constants.dart';
 import 'package:mass_pro/utils/app_appearance.dart';
 import 'package:mass_pro/utils/navigator_key.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
 
 import 'package:mass_pro/main.reflectable.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  configureDependencies();
   initializeReflectable();
 
   await PreferenceProvider.initialize();
@@ -37,33 +36,21 @@ Future<void> main() async {
     return stack;
   };
 
-  /*await SentryFlutter.init(
+  await SentryFlutter.init(
     (options) {
       options.dsn =
           'https://c39a75530f4b8694183508a689bbafb7@o4504831846645760.ingest.us.sentry.io/4507587127214080';
       // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
       // We recommend adjusting this value in production.
-      options.tracesSampleRate = 1.0;
+      // options.tracesSampleRate = 1.0;
       // The sampling rate for profiling is relative to tracesSampleRate
       // Setting to 1.0 will profile 100% of sampled transactions:
-      options.profilesSampleRate = 1.0;
+      // options.profilesSampleRate = 1.0;
     },
-    appRunner: () => */
-  runApp(ProviderScope(
-    // observers: <ProviderObserver>[
-    //   ProviderLogger(
-    //     providersNameToLog: const IListConst(<String>[
-    //       'formConfigurationProvider',
-    //       'treeNodeDataSourceProvider',
-    //       'formFieldsRepositoryProvider',
-    //       'formFieldsStateNotifierProvider'
-    //     ]),
-    //   )
-    // ],
-    child: const App(),
-  )) /*,
-  )*/
-      ;
+    appRunner: () => runApp(ProviderScope(
+      child: const App(),
+    )),
+  );
 }
 
 class App extends ConsumerWidget {
@@ -103,7 +90,7 @@ class App extends ConsumerWidget {
         useMaterial3: ref.watch(appAppearanceNotifierProvider).useMaterial3,
         brightness: Brightness.dark,
       ),
-      localizationsDelegates: const <LocalizationsDelegate>[
+      localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
         // L.delegate,
         S.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -116,27 +103,6 @@ class App extends ConsumerWidget {
       ],
       locale: locale,
       home: SplashScreen(),
-      // initialRoute: SplashScreen.route,
-      // getPages: <GetPage>[
-      //   GetPage(
-      //     name: SplashScreen.route,
-      //     page: () {
-      //       ref.read(splashPresenterProvider).init();
-      //       return const SplashScreen();
-      //     },
-      //     transition: Transition.fade,
-      //   ),
-      //   GetPage(
-      //     name: HomeScreenWidget.route,
-      //     page: () => const HomeScreenWidget(),
-      //     transition: Transition.fade,
-      //   ),
-      //   GetPage(
-      //     name: ProjectActivitiesScreenWidget.route,
-      //     page: () => const ProjectActivitiesScreenWidget(),
-      //     transition: Transition.fade,
-      //   ),
-      // ],
     );
   }
 }

@@ -61,19 +61,33 @@ class FormInstanceBuilder {
       FormGroup rootFormControl, FieldTemplate template,
       {dynamic initialFormValue}) {
     final Map<String, FormElementInstance<dynamic>> elements = {};
-
     template.fields.sort((a, b) => (a.order).compareTo(b.order));
+
+    final section = SectionInstance(form: rootFormControl, template: template);
 
     for (var childTemplate in template.fields) {
       elements[childTemplate.name] = buildFormElement(
           rootFormControl, childTemplate,
           initialFormValue: initialFormValue?[childTemplate.name]);
     }
-
-    final section = SectionInstance(
-        form: rootFormControl, template: template, elements: elements);
+    section.addAll(elements);
 
     return section;
+
+    // final Map<String, FormElementInstance<dynamic>> elements = {};
+    //
+    // template.fields.sort((a, b) => (a.order).compareTo(b.order));
+    //
+    // for (var childTemplate in template.fields) {
+    //   elements[childTemplate.name] = buildFormElement(
+    //       rootFormControl, childTemplate,
+    //       initialFormValue: initialFormValue?[childTemplate.name]);
+    // }
+    //
+    // final section = SectionInstance(
+    //     form: rootFormControl, template: template, elements: elements);
+    //
+    // return section;
   }
 
   RepeatItemInstance buildRepeatItem(
@@ -82,30 +96,55 @@ class FormInstanceBuilder {
     final Map<String, FormElementInstance<dynamic>> elements = {};
 
     template.fields.sort((a, b) => (a.order).compareTo(b.order));
+    final repeatedSection =
+        RepeatItemInstance(template: template, form: rootFormControl);
     for (var childTemplate in template.fields) {
       elements[childTemplate.name] = buildFormElement(
           rootFormControl, childTemplate,
           initialFormValue: initialFormValue?[childTemplate.name]);
     }
-
-    final repeatedSection = RepeatItemInstance(
-        template: template, form: rootFormControl, elements: elements);
+    repeatedSection.addAll(elements);
     return repeatedSection;
+
+    // final Map<String, FormElementInstance<dynamic>> elements = {};
+    //
+    // template.fields.sort((a, b) => (a.order).compareTo(b.order));
+    // for (var childTemplate in template.fields) {
+    //   elements[childTemplate.name] = buildFormElement(
+    //       rootFormControl, childTemplate,
+    //       initialFormValue: initialFormValue?[childTemplate.name]);
+    // }
+    //
+    // final repeatedSection = RepeatItemInstance(
+    //     template: template, form: rootFormControl, elements: elements);
+    // return repeatedSection;
   }
 
   RepeatInstance buildRepeatInstance(
       FormGroup rootFormControl, FieldTemplate template,
       {List<dynamic>? initialFormValue}) {
-    final repeatInstance = RepeatInstance(
-        template: template,
-        form: rootFormControl,
-        elements: initialFormValue
-                ?.map((value) => buildRepeatItem(rootFormControl, template,
-                    initialFormValue: value))
-                .toList() ??
-            []);
+    final List<RepeatItemInstance> elements = initialFormValue
+            ?.map((value) => buildRepeatItem(rootFormControl, template,
+                initialFormValue: value))
+            .toList() ??
+        [];
 
-    return repeatInstance;
+    final repeatedSection =
+        RepeatInstance(template: template, form: rootFormControl);
+
+    repeatedSection.addAll(elements);
+    return repeatedSection;
+    //
+    // final repeatInstance = RepeatInstance(
+    //     template: template,
+    //     form: rootFormControl,
+    //     elements: initialFormValue
+    //             ?.map((value) => buildRepeatItem(rootFormControl, template,
+    //                 initialFormValue: value))
+    //             .toList() ??
+    //         []);
+    //
+    // return repeatInstance;
   }
 
   FieldInstance<dynamic> buildFieldInstance(
@@ -164,7 +203,7 @@ class FormInstanceBuilder {
                       formFlatTemplate.optionLists[templateElement.listName!] ??
                           [])
               : null,
-          elementProperties: FieldElementWithOptionsState<String>(
+          elementProperties: FieldElementState<String>(
               value: initialFormValue,
               mandatory: templateElement.mandatory,
               visibleOptions:
@@ -182,7 +221,7 @@ class FormInstanceBuilder {
                             .optionLists[templateElement.listName!] ??
                         [])
                 : null,
-            elementProperties: FieldElementWithOptionsState<List<String>>(
+            elementProperties: FieldElementState<List<String>>(
                 value: initialFormValue != null
                     ? (initialFormValue is List)
                         ? initialFormValue.cast<String>()

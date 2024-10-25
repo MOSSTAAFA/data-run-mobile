@@ -10,8 +10,8 @@ import 'package:mass_pro/main/usescases/sync/sync_screen_presenter.dart';
 import 'package:mass_pro/main/usescases/sync/sync_view.dart';
 import 'package:mass_pro/riverpod/use_on_init_hook.dart';
 import 'package:mass_pro/utils/mass_utils/utils.dart';
+import 'package:mass_pro/utils/navigator_key.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-
 
 class SyncScreen extends ConsumerStatefulWidget {
   const SyncScreen({super.key});
@@ -133,7 +133,7 @@ class _SyncScreenState extends ConsumerState<SyncScreen>
   @override
   void goToLogin() {
     Navigator.pushReplacement(
-      context,
+      navigatorKey.currentContext!,
       MaterialPageRoute(builder: (context) => const LoginScreen()),
     );
     // ref
@@ -144,7 +144,7 @@ class _SyncScreenState extends ConsumerState<SyncScreen>
   @override
   void goToMain() {
     Navigator.pushReplacement(
-      context,
+        navigatorKey.currentContext!,
       MaterialPageRoute(builder: (context) => const HomeScreenWidget()),
     );
     // Get.offNamed(HomeScreenWidget.route);

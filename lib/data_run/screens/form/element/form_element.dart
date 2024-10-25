@@ -30,15 +30,15 @@ part 'section_element.dart';
 
 part 'section_instance.dart';
 
-sealed class FormElementInstance<T> with EquatableMixin {
+sealed class FormElementInstance<T> /*with EquatableMixin*/ {
   FormElementInstance(
       {required this.form,
       required this.template,
       required FormElementState elementState})
       : _elementState = elementState;
 
-  @override
-  List<Object> get props => [_elementState, elementPath];
+  // @override
+  // List<Object> get props => [_elementState, elementPath, template];
 
   /// serialized from the field json configuration
   final FieldTemplate template;
@@ -86,7 +86,7 @@ sealed class FormElementInstance<T> with EquatableMixin {
 
   bool get mandatory => elementState.mandatory;
 
-  String get elementPath => pathBuilder(name);
+  String get elementPath => pathRecursive;
 
   T? get value => reduceValue();
 
@@ -97,12 +97,21 @@ sealed class FormElementInstance<T> with EquatableMixin {
 
   void get focus => elementControl?.focus();
 
-  String pathBuilder(String? pathItem) {
-    final parentPath = (parentSection?.elementPath).isNullOrEmpty
-        ? null
-        : parentSection?.elementPath;
-    return [parentPath, pathItem].whereType<String>().join('.');
+  String get pathRecursive {
+    return parentSection != null && parentSection!.name.isNotEmpty
+        ? '${parentSection!.pathRecursive}.${name}'
+        : name;
   }
+
+  // String pathBuilder(String? pathItem) =>
+  //     [parentSection?.pathRecursive, pathItem].whereType<String>().join('.');
+
+  // String pathBuilder(String? pathItem) {
+  //   final parentPath = (parentSection?.elementPath).isNullOrEmpty
+  //       ? null
+  //       : parentSection?.elementPath;
+  //   return [parentPath, pathItem].whereType<String>().join('.');
+  // }
 
   bool get controlExist {
     try {
@@ -139,19 +148,19 @@ sealed class FormElementInstance<T> with EquatableMixin {
   }
 
   void markAsHidden({bool updateParent = true, bool emitEvent = true}) {
-    logInfo(info: '${name}, mark as Hidden');
+    logDebug(info: '${name}, mark as Hidden');
     updateStatus(elementState.copyWith(hidden: true));
     elementControl!.reset(disabled: true);
   }
 
   void markAsVisible({bool updateParent = true, bool emitEvent = true}) {
-    logInfo(info: '${name}, mark as visible');
+    logDebug(info: '${name}, mark as visible');
     updateStatus(elementState.copyWith(hidden: false));
     elementControl!.markAsEnabled();
   }
 
   void markAsMandatory({bool updateParent = true, bool emitEvent = true}) {
-    logInfo(info: '${name}, markAsMandatory');
+    logDebug(info: '${name}, markAsMandatory');
     updateStatus(elementState.copyWith(mandatory: true));
 
     final elementValidators = [
@@ -202,10 +211,9 @@ sealed class FormElementInstance<T> with EquatableMixin {
 
   @mustCallSuper
   void evaluate([String? changedDependency]) {
-    template.dependencies;
-    logInfo(
+    logDebug(
         info:
-            '$name, $changedDependency Changed to: ${evalContext[changedDependency]}, Evaluating State...');
+            '$name, dependencyChanged ${changedDependency != null ? ': $changedDependency' : ''} Changed to: ${evalContext[changedDependency]}, _isEvaluating: $_isEvaluating, Evaluating State...');
     if (_isEvaluating) {
       return;
     }
@@ -214,7 +222,7 @@ sealed class FormElementInstance<T> with EquatableMixin {
 
     try {
       elementRuleActions.forEach((ruleAction) {
-        logInfo(
+        logDebug(
             info:
                 '$name\'s Evaluating: ${ruleAction.expression}, action: ${ruleAction.action}');
         ruleAction.evaluate(evalContext)
@@ -243,6 +251,7 @@ sealed class FormElementInstance<T> with EquatableMixin {
     logDebug(info: 'element: $name, disposeMethod');
     propertiesChangedSubject?.close();
     _dependencies.forEach((FormElementInstance<dynamic> d) {
+      logDebug(info: '$name, unsubscribing from: ${d.name}');
       d._dependents.remove(this);
     });
     _dependencies.clear();

@@ -19,8 +19,13 @@ void useRegisterDependencies<E extends FormElementInstance<dynamic>>(E element,
   /// bind dependencies
   useEffect(() {
     if (element is FieldInstance) {
-      element.elementControl!.valueChanges.listen((value) => element
-          .updateStatus(element.elementState.copyWith(value: value)));
+      element.elementControl!.valueChanges.listen((value) {
+        if (value == null) {
+          element.updateStatus(element.elementState.reset(value: value));
+        } else {
+          element.updateStatus(element.elementState.copyWith(value: value));
+        }
+      });
     }
 
     // bind to the
@@ -29,8 +34,10 @@ void useRegisterDependencies<E extends FormElementInstance<dynamic>>(E element,
       element.addDependency(elementDependency);
       // add/bind action behaviour to the element
       // evaluate element's initial status
-      element.evaluate(elementDependency.name);
+      // element.evaluate(elementDependency.name);
     }
+
+    element.evaluate();
 
     return () => element.dispose();
   }, [element.elementPath]);
@@ -43,7 +50,7 @@ Map<String, FormElementInstance<dynamic>> _resolveFormElementDependencies(
     ...element.template.filterDependencies
   ].toSet().toList();
   if (!element.type.isSectionType) {
-    logInfo(
+    logDebug(
         info:
             'resolving dependencies for: ${element.name} ${dependencies.length > 0 ? ', dependencies: ${dependencies}' : '... has no dependencies'}');
   }

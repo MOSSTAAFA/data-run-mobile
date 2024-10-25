@@ -20,10 +20,12 @@ class FormElementWidgetFactory {
 
     return switch (element) {
       /// [FieldWidget] is a leaf in the tr
-      FieldInstance() => FieldWidget(element: element),
+      FieldInstance() =>
+        FieldWidget(/*key: ValueKey(element.elementPath),*/ element: element),
 
       /// a [SectionWidget] with other widgets inside which also call this factory to build the tree recursively until it reaches the leaf which is a [FieldWidget]
-      SectionElement() => SectionElementWidget(element: element),
+      SectionElement() => SectionElementWidget(
+          /*key: ValueKey(element.elementPath),*/ element: element),
     };
   }
 }

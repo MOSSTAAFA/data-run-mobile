@@ -12,6 +12,7 @@ import 'package:mass_pro/data_run/screens/form_ui_elements/get_error_widget.dart
 import 'package:mass_pro/data_run/screens/form_submission_list/submission_sync_dialog.widget.dart';
 import 'package:mass_pro/data_run/screens/project_activity_detail/form_tiles/form_submissions_status.provider.dart';
 import 'package:mass_pro/generated/l10n.dart';
+import 'package:mass_pro/utils/navigator_key.dart';
 
 class SubmissionListScreen extends StatefulHookConsumerWidget {
   const SubmissionListScreen({super.key});
@@ -175,7 +176,7 @@ class SubmissionListState extends ConsumerState<SubmissionListScreen> {
     );
 
     Navigator.push(
-      context,
+        context,
       MaterialPageRoute(
           builder: (context) => FormMetadataWidget(
                 formMetadata: metas,

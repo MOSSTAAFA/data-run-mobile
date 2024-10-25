@@ -1,3 +1,4 @@
+import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
@@ -5,6 +6,7 @@ import 'package:mass_pro/data_run/screens/form/element/validation/form_element_v
 import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_template_inherit_widget.dart';
 import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
 import 'package:reactive_dropdown_search/reactive_dropdown_search.dart';
+import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
 class QDropDownSearchField extends HookConsumerWidget {
   const QDropDownSearchField({super.key, required this.element});
@@ -13,13 +15,11 @@ class QDropDownSearchField extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final formFlatTemplate = FormFlatTemplateInheritWidget.of(context);
-
-    final fieldOptions = formFlatTemplate.optionLists[element.listName];
-
     return ReactiveDropdownSearchMultiSelection(
       formControl: element.elementControl,
       validationMessages: validationMessages(context),
+      clearButtonProps: const ClearButtonProps(isVisible: true),
+      valueAccessor: NameToLabelValueAccessor(options: element.visibleOption),
       dropdownDecoratorProps: DropDownDecoratorProps(
         dropdownSearchDecoration: InputDecoration(
           labelText: element.label,
@@ -29,22 +29,40 @@ class QDropDownSearchField extends HookConsumerWidget {
       ),
       popupProps: PopupPropsMultiSelection.menu(
         showSelectedItems: true,
-        // disabledItemFn: (s) {
-        //   return s.startsWith('I');
-        // },
       ),
-      items: fieldOptions
-              ?.map((option) => getItemLocalString(option.label))
-              .toSet()
-              .toList() ??
-          [],
-      /*const [
-        "Brazil",
-        "Italia (Disabled)",
-        "Tunisia",
-        'Canada'
-      ],*/
+      items: element.visibleOption
+          .map((option) => getItemLocalString(option.label))
+          .toSet()
+          .toList(),
       showClearButton: true,
     );
+  }
+}
+
+class NameToLabelValueAccessor
+    extends DropDownSearchMultiSelectionValueAccessor<String, String> {
+  final List<String> items;
+  final List<FormOption> options;
+
+  NameToLabelValueAccessor({this.items = const [], this.options = const []});
+
+  @override
+  List<String>? modelToViewValue(List<String> items, List<String>? modelValue) {
+    return options
+        .where((option) => option.name == modelValue)
+        .map((option) =>
+            getItemLocalString(option.label, defaultString: option.name))
+        .toList();
+  }
+
+  @override
+  List<String>? viewToModelValue(List<String> items, List<String>? modelValue) {
+    return options
+        .where((option) =>
+            modelValue?.contains(
+                getItemLocalString(option.label, defaultString: option.name)) ==
+            true)
+        .map((option) => option.name)
+        .toList();
   }
 }

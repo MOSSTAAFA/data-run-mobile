@@ -24,6 +24,21 @@ class RepeatItemInstance extends SectionInstance {
     _parentSection = parent;
   }
 
+
+  String get pathRecursive {
+    if (parentSection == null) {
+      throw StateError('RepeatItemInstance\'s Parent should not be null');
+    }
+
+    if (!(parentSection is RepeatInstance)) {
+      throw StateError(
+          'A RepeatItemInstance\'s Parent can only be a RepeatInstance, parent: ${parentSection.runtimeType}');
+    }
+
+    String? parentPath = '${parentSection!.pathRecursive}';
+    return '${parentPath}.$sectionIndex';
+  }
+
   String pathBuilder(String? pathItem) {
     if (parentSection == null) {
       throw StateError('RepeatItemInstance\'s Parent should not be null');

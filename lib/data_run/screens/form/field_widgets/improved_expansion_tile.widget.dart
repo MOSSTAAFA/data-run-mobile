@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class ImprovedExpansionTile extends StatelessWidget {
   ImprovedExpansionTile({
+    super.key,
     this.title,
     this.titleWidget,
     required this.child,

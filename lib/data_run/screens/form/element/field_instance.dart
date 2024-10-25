@@ -12,8 +12,6 @@ class FieldInstance<T> extends FormElementInstance<T>
     this.validationMessages.addAll(validationMessages);
   }
 
-  final List<FormOption> options = [];
-
   final ChoiceFilter? choiceFilter;
 
   FieldElementState<T> get elementState =>
@@ -59,15 +57,32 @@ class FieldInstance<T> extends FormElementInstance<T>
     elementControl!.reset(value: template.defaultValue);
   }
 
+  List<FormOption> get visibleOption => elementState.visibleOptions;
+
   @override
   void evaluate([String? changedDependency]) {
     super.evaluate();
-    final visibleOptions =
-        choiceFilter?.evaluate(evalContext) ?? template.options;
-    logInfo(info: 'all field options: ${template.options.map((o) => o.name)}');
-    logInfo(info: 'only visibleOptions: ${visibleOptions.map((o) => o.name)}');
+    if (choiceFilter?.expression != null) {
+      final context = evalContext;
+      final visibleOptionsUpdate = choiceFilter!.evaluate(evalContext);
+      logDebug(
+          info:
+              'all field options: ${choiceFilter!.options.map((o) => o.name)}');
+      logDebug(
+          info:
+              'only visibleOptionsUpdate: ${visibleOptionsUpdate.map((o) => o.name)}');
+      final oldState = elementState.copyWith(); // clone
+      final newState = elementState.resetValueFromVisibleOptions(
+          visibleOptions: visibleOptionsUpdate);
+      logDebug(
+          info:
+              '$name, option changed: ${oldState.value != newState.value},  ${oldState.value} => ${newState.value}');
+      updateStatus(newState /* notify: oldState.value != newState.value*/);
+      elementControl?.updateValue(newState.value);
+    }
   }
 }
+
 //
 // class FieldWithOptionsInstance<T> extends FieldInstance<T> {
 //   FieldWithOptionsInstance({

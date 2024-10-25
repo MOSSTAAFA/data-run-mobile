@@ -70,7 +70,6 @@ Future<FormInstance> formInstance(FormInstanceRef ref,
 
   final form =
       FormGroup(await formControlBuilder.formDataControls(initialFormValue));
-  final FormValueMap formValueMap = FormValueMap();
   final elements = await formElementBuilder.buildFormElements(form,
       initialFormValue: initialFormValue);
   final formConfiguration = await ref.watch(formConfigurationProvider(
@@ -82,6 +81,5 @@ Future<FormInstance> formInstance(FormInstanceRef ref,
       elements: elements,
       formConfiguration: formConfiguration,
       formMetadata: formMetadata,
-      formValueMap: formValueMap,
       form: form);
 }
