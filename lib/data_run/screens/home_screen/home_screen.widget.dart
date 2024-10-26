@@ -8,6 +8,7 @@ import 'package:mass_pro/data_run/screens/view/view_base.dart';
 import 'package:mass_pro/generated/l10n.dart';
 import 'package:mass_pro/main/data/service/sync_status_controller.dart';
 import 'package:mass_pro/main/usescases/login/login_screen.widget.dart';
+import 'package:mass_pro/main/usescases/sync/sync_screen.widget.dart';
 import 'package:mass_pro/utils/navigator_key.dart';
 
 class HomeScreenWidget extends ConsumerStatefulWidget {
@@ -45,19 +46,7 @@ class _HomeScreenWidgetState extends ConsumerState<HomeScreenWidget>
             ),
             ListTile(
               leading: Icon(Icons.settings),
-              title: Text('Settings'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SettingsPage(),
-                    ));
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Logout'),
+              title: Text(S.of(context).settings),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -65,6 +54,25 @@ class _HomeScreenWidgetState extends ConsumerState<HomeScreenWidget>
                     MaterialPageRoute(
                       builder: (context) => const SettingsPage(),
                     ));
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.sync),
+              title: Text(S.of(context).fetchUpdates),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  navigatorKey.currentContext!,
+                  MaterialPageRoute(builder: (context) => const SyncScreen()),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text(S.of(context).logout),
+              onTap: () {
+                Navigator.pop(context);
+                presenter.logOut();
               },
             ),
           ],
