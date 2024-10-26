@@ -18,14 +18,14 @@ enum ColorSelectionMethod {
 
 enum ColorSeed {
   baseColor('M3 Baseline', Color(0xff6750a4)),
-  indigo('Indigo', Colors.indigo),
-  blue('Blue', Colors.blue),
-  teal('Teal', Colors.teal),
-  green('Green', Colors.green),
-  yellow('Yellow', Colors.yellow),
-  orange('Orange', Colors.orange),
-  deepOrange('Deep Orange', Colors.deepOrange),
-  pink('Pink', Colors.pink);
+  indigo('indigo', Colors.indigo),
+  blue('blue', Colors.blue),
+  teal('teal', Colors.teal),
+  green('green', Colors.green),
+  yellow('yellow', Colors.yellow),
+  orange('orange', Colors.orange),
+  deepOrange('deepOrange', Colors.deepOrange),
+  ;
 
   const ColorSeed(this.label, this.color);
   final String label;

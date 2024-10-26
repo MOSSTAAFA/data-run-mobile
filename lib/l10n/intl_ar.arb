@@ -151,6 +151,7 @@
   "enterAValidNumber": "يرجى إدخال رقم صالح.",
   "valueMustBeLessThanOrEqualToError": "يجب أن تكون القيمة أقل من أو تساوي ${error}.",
   "maximumAllowedLengthIsError": "الحد الأقصى للطول المسموح به هو ${error}.",
-  "logout": "Logout",
-  "settings": "Settings"
+  "logout": "تسجيل الخروج",
+  "settings": "إعدادات",
+  "fetchUpdates": "تحديث"
 }

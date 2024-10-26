@@ -1,8 +1,7 @@
 // ignore_for_file: strict_raw_type
 
 import 'package:d2_remote/core/datarun/utilities/date_utils.dart';
-
-import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
+import 'package:mass_pro/commons/logging/logging.dart';
 
 extension StringNullExtension on String? {
   DateTime? toDate() {
@@ -54,12 +53,6 @@ extension StringNullExtension on String? {
 
   String? format(List args, {String needleRegex = '%s'}) {
     final RegExp exp = RegExp(needleRegex);
-
-    // Iterable<RegExpMatch> matches = exp.allMatches(this?? '');
-    // assert(
-    //     l.length == matches.length,
-    //     'StringExtension.format: number of string '
-    //     'args not match number of %s in the string');
 
     int i = -1;
     return this?.replaceAllMapped(exp, (Match match) {

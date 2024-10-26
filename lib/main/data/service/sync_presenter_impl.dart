@@ -8,7 +8,7 @@ import 'package:d2_remote/modules/metadata/dataset/queries/data_set.query.dart';
 import 'package:d2_remote/modules/metadata/program/queries/program.query.dart';
 import 'package:dio/dio.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
+import 'package:mass_pro/commons/logging/logging.dart';
 import 'package:mass_pro/core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
 import 'package:mass_pro/core/d2_remote_extensions/tracker/queries/event_query_download_extension.dart';
 import 'package:mass_pro/core/d2_remote_extensions/tracker/queries/event_query_upload_extension.dart';
@@ -140,7 +140,7 @@ class SyncPresenterImpl implements SyncPresenter {
     // final d2ProgressManager = D2ProgressManager(totalCalls: 4);
     return ref.read(syncMetadataProvider).download(
       callback: (progress) {
-        logInfo(info: 'syncMetadata progress: ${progress?.message}');
+        logDebug(info: 'syncMetadata progress: ${progress?.message}');
         onProgressUpdate?.call((progress?.percentage ?? 0.0).ceil());
       },
     );

@@ -1,8 +1,8 @@
 import 'package:d2_remote/modules/auth/user/models/login-response.model.dart';
 import 'package:flutter/material.dart';
 import 'package:mass_pro/commons/constants.dart';
-import 'package:mass_pro/commons/extensions/dynamic_extensions.dart';
 import 'package:mass_pro/commons/extensions/string_extension.dart';
+import 'package:mass_pro/commons/logging/logging.dart';
 import 'package:mass_pro/commons/network/network_utils.dart';
 import 'package:mass_pro/commons/prefs/preference.dart';
 import 'package:mass_pro/commons/prefs/preference_provider.dart';
@@ -170,7 +170,7 @@ class LoginScreenPresenter {
 
   Future<void> handleResponse(
       LoginResponseStatus userResponse, String userName, String server) async {
-    logInfo(info: 'Login Response: $userResponse');
+    logDebug(info: 'Login Response: $userResponse');
     view.showLoginProgress(false);
     if (userResponse == LoginResponseStatus.ONLINE_LOGIN_SUCCESS ||
         userResponse == LoginResponseStatus.OFFLINE_LOGIN_SUCCESS) {

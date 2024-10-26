@@ -18,9 +18,6 @@ class SectionElementWidget extends HookConsumerWidget {
 
     final elementPropertiesSnapshot = useStream(element.propertiesChanged);
 
-    final path = element.elementPath;
-    final name = element.name;
-
     if (!elementPropertiesSnapshot.hasData) {
       return SizedBox.shrink();
     }

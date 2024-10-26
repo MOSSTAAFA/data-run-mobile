@@ -1333,6 +1333,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Fetch From Server`
+  String get fetchUpdates {
+    return Intl.message(
+      'Fetch From Server',
+      name: 'fetchUpdates',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

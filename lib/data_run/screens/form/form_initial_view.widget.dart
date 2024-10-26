@@ -23,19 +23,22 @@ class FormInitialView extends HookConsumerWidget {
             formInstanceProvider(formMetadata: FormMetadataWidget.of(context)))
         .requireValue;
 
-    return Card(
-      shadowColor: Colors.transparent,
-      margin: const EdgeInsets.all(8.0),
-      child: SizedBox.expand(
-        child: Center(
-          child: AsyncValueWidget(
-            value: dataSourceAsyncValue,
-            valueBuilder: (dataSource) => ReactiveOuPicker<String?>(
-              dataSource: dataSource,
-              validationMessages: validationMessages(context),
-              formControl:
-                  formInstance.form.control('_${orgUnitControlName}')
-                      as FormControl<String>,
+    return ReactiveForm(
+      formGroup: formInstance.form,
+      child: Card(
+        shadowColor: Colors.transparent,
+        margin: const EdgeInsets.all(8.0),
+        child: SizedBox.expand(
+          child: Center(
+            child: AsyncValueWidget(
+              value: dataSourceAsyncValue,
+              valueBuilder: (dataSource) => ReactiveOuPicker<String?>(
+                dataSource: dataSource,
+                validationMessages: validationMessages(context),
+                formControl:
+                    formInstance.form.control('_${orgUnitControlName}')
+                        as FormControl<String>,
+              ),
             ),
           ),
         ),

@@ -3,11 +3,8 @@ import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule/action.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule/choice_filter.dart';
-import 'package:d2_remote/modules/datarun/form/shared/rule/rule_parse_extension.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:mass_pro/commons/extensions/string_extension.dart';
 import 'package:mass_pro/commons/logging/logging.dart';
 import 'package:mass_pro/data_run/screens/form/element/exceptions/form_element_exception.dart';
 import 'package:mass_pro/data_run/screens/form/element/extension/rule.extension.dart';
@@ -244,6 +241,18 @@ sealed class FormElementInstance<T> /*with EquatableMixin*/ {
   void markAsEnabled({bool updateParent = true, bool emitEvent = true}) {
     elementControl?.markAsEnabled(
         updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  TFormElement? getFirstParentOfType<
+      TFormElement extends FormElementInstance<Object>>() {
+    var currentParent = parentSection;
+    while (currentParent != null) {
+      if (currentParent is TFormElement) {
+        return currentParent;
+      }
+      currentParent = currentParent.parentSection;
+    }
+    return null;
   }
 
   void dispose() {

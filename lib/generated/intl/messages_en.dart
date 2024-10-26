@@ -162,6 +162,8 @@ class MessageLookup extends MessageLookupByLibrary {
                 "No authenticated user offline"),
         "error_value_reservation_time": MessageLookupByLibrary.simpleMessage(
             "Values reservation took too long"),
+        "fetchUpdates":
+            MessageLookupByLibrary.simpleMessage("Fetch From Server"),
         "finalData": MessageLookupByLibrary.simpleMessage("Final Data"),
         "firstName": MessageLookupByLibrary.simpleMessage("First Name"),
         "form": m0,

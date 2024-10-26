@@ -192,5 +192,6 @@
   "valueMustBeLessThanOrEqualToError": "The value must be less than or equal to ${error}.",
   "maximumAllowedLengthIsError": "The maximum allowed length is ${error}.",
   "logout": "Logout",
-  "settings": "Settings"
+  "settings": "Settings",
+  "fetchUpdates": "Fetch From Server"
 }

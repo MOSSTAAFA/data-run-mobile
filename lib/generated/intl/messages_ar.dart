@@ -157,6 +157,7 @@ class MessageLookup extends MessageLookupByLibrary {
                 "لا يوجد مستخدم مصادق عليه حاليًا"),
         "error_value_reservation_time": MessageLookupByLibrary.simpleMessage(
             "استغرق حجز القيم وقتًا طويلاً"),
+        "fetchUpdates": MessageLookupByLibrary.simpleMessage("تحديث"),
         "finalData": MessageLookupByLibrary.simpleMessage("بيانات نهائية"),
         "firstName": MessageLookupByLibrary.simpleMessage("الاسم الأول"),
         "form": m0,
@@ -181,7 +182,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("مضيف غير معروف"),
         "loginErrorUnsuccessfulResponse":
             MessageLookupByLibrary.simpleMessage("استجابة غير ناجحة من الخادم"),
-        "logout": MessageLookupByLibrary.simpleMessage("Logout"),
+        "logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
         "markAsFinalData": MessageLookupByLibrary.simpleMessage(
             "تعيين هذه البيانات كنهائية وجاهزة للإرسال."),
         "maximumAllowedLengthIsError": m1,
@@ -218,7 +219,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("البحث عن مكان..."),
         "selected": MessageLookupByLibrary.simpleMessage("عناصر محددة"),
         "send": MessageLookupByLibrary.simpleMessage("إرسال"),
-        "settings": MessageLookupByLibrary.simpleMessage("Settings"),
+        "settings": MessageLookupByLibrary.simpleMessage("إعدادات"),
         "showPassword": MessageLookupByLibrary.simpleMessage("أظهر كلمة السر"),
         "submissionDataEntry": MessageLookupByLibrary.simpleMessage("بيانات"),
         "submissionInitialData":

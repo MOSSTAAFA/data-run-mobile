@@ -31,5 +31,8 @@ class FormMetadata with EquatableMixin {
   }
 
   @override
+  bool? get stringify => true;
+
+  @override
   List<Object?> get props => [form, formLabel, submission, activity, version];
 }
