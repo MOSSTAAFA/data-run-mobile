@@ -39,7 +39,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "addNew": MessageLookupByLibrary.simpleMessage("إضافة جديد"),
         "and": MessageLookupByLibrary.simpleMessage("و"),
         "appName": MessageLookupByLibrary.simpleMessage("ماس برو"),
+        "appearance": MessageLookupByLibrary.simpleMessage("المظهر"),
         "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
+        "changePassword":
+            MessageLookupByLibrary.simpleMessage("Change Password"),
         "clear": MessageLookupByLibrary.simpleMessage("تصفية"),
         "configurationReady":
             MessageLookupByLibrary.simpleMessage("اكتملت تهيئة التطبيق"),
@@ -165,6 +168,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "hidePassword": MessageLookupByLibrary.simpleMessage("اخفاء كلمة السر"),
         "home": MessageLookupByLibrary.simpleMessage("الرئيسة"),
         "itemRemoved": MessageLookupByLibrary.simpleMessage("تم الحذف"),
+        "language": MessageLookupByLibrary.simpleMessage("Language"),
         "lastName": MessageLookupByLibrary.simpleMessage("اللقب"),
         "level": MessageLookupByLibrary.simpleMessage("المستوى"),
         "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
@@ -212,11 +216,20 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("اختر اسم المكان"),
         "orgUnitInputLabel":
             MessageLookupByLibrary.simpleMessage("اختر اسم المكان"),
+        "organization":
+            MessageLookupByLibrary.simpleMessage("الوحدة التنظيمية"),
         "password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
         "pleaseEnterAValidEmailAddress": MessageLookupByLibrary.simpleMessage(
             "يرجى إدخال عنوان بريد إلكتروني صالح."),
         "searchOrgUnitsHelpText":
             MessageLookupByLibrary.simpleMessage("البحث عن مكان..."),
+        "selectAColorExtractionImage":
+            MessageLookupByLibrary.simpleMessage("حدد صورة لإستخلاص الألوان"),
+        "selectASeedColor":
+            MessageLookupByLibrary.simpleMessage("حدد لون الأساس"),
+        "selectColorTheme": MessageLookupByLibrary.simpleMessage("ثيم الألوان"),
+        "selectImageForColorExtraction":
+            MessageLookupByLibrary.simpleMessage("حدد صورة لاستخلاص ثيم منها"),
         "selected": MessageLookupByLibrary.simpleMessage("عناصر محددة"),
         "send": MessageLookupByLibrary.simpleMessage("إرسال"),
         "settings": MessageLookupByLibrary.simpleMessage("إعدادات"),
@@ -233,8 +246,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("مزامنة الإستمارات"),
         "thisFieldIsRequired":
             MessageLookupByLibrary.simpleMessage("هذا الحقل مطلوب."),
+        "toggleBrightness":
+            MessageLookupByLibrary.simpleMessage("تبديل الإضاءة"),
         "undo": MessageLookupByLibrary.simpleMessage("تراجع"),
         "user": MessageLookupByLibrary.simpleMessage("مستخدم"),
+        "userSettings":
+            MessageLookupByLibrary.simpleMessage("إعدادات المستخدم"),
         "username": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
         "valueMustBeLessThanOrEqualToError": m3,
         "version": MessageLookupByLibrary.simpleMessage("الإصدار"),

@@ -1343,6 +1343,116 @@ class S {
       args: [],
     );
   }
+
+  /// `Appearance`
+  String get appearance {
+    return Intl.message(
+      'Appearance',
+      name: 'appearance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `User Settings`
+  String get userSettings {
+    return Intl.message(
+      'User Settings',
+      name: 'userSettings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Toggle Brightness`
+  String get toggleBrightness {
+    return Intl.message(
+      'Toggle Brightness',
+      name: 'toggleBrightness',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Color Theme`
+  String get selectColorTheme {
+    return Intl.message(
+      'Select Color Theme',
+      name: 'selectColorTheme',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Image for Color Extraction`
+  String get selectImageForColorExtraction {
+    return Intl.message(
+      'Select Image for Color Extraction',
+      name: 'selectImageForColorExtraction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select a seed color`
+  String get selectASeedColor {
+    return Intl.message(
+      'Select a seed color',
+      name: 'selectASeedColor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select a color extraction image`
+  String get selectAColorExtractionImage {
+    return Intl.message(
+      'Select a color extraction image',
+      name: 'selectAColorExtractionImage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Organization`
+  String get organization {
+    return Intl.message(
+      'Organization',
+      name: 'organization',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Current username`
+  String get currentUsername {
+    return Intl.message(
+      'Current username',
+      name: 'currentUsername',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change Password`
+  String get changePassword {
+    return Intl.message(
+      'Change Password',
+      name: 'changePassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Language`
+  String get language {
+    return Intl.message(
+      'Language',
+      name: 'language',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

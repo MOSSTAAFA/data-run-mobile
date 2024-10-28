@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mass_pro/main/usescases/sync/sync_screen.widget.dart';
-import 'package:mass_pro/utils/navigator_key.dart';
+import 'package:mass_pro/generated/l10n.dart';
 
 class UserSettingsTab extends StatelessWidget {
   @override
@@ -8,8 +7,8 @@ class UserSettingsTab extends StatelessWidget {
     return ListView(
       children: [
         ListTile(
-          title: Text('Username'),
-          subtitle: Text('Current username'),
+          title: Text(S.of(context).username),
+          subtitle: Text(S.of(context).currentUsername),
           trailing: IconButton(
             icon: Icon(Icons.edit),
             onPressed: () {
@@ -18,7 +17,7 @@ class UserSettingsTab extends StatelessWidget {
           ),
         ),
         ListTile(
-          title: Text('Change Password'),
+          title: Text(S.of(context).changePassword),
           trailing: IconButton(
             icon: Icon(Icons.edit),
             onPressed: () {
@@ -27,24 +26,14 @@ class UserSettingsTab extends StatelessWidget {
           ),
         ),
         ListTile(
-          title: Text('Language'),
-          subtitle: Text('Current language'),
+          title: Text(S.of(context).language),
+          subtitle: Text('ar'),
           trailing: IconButton(
             icon: Icon(Icons.edit),
             onPressed: () {
               // Implement language change
             },
           ),
-        ),
-        ListTile(
-          title: Text('SyncConfiguration'),
-          subtitle: Text('Sync Configuration'),
-          trailing: IconButton(
-              onPressed: () => Navigator.push(
-                    navigatorKey.currentContext!,
-                    MaterialPageRoute(builder: (context) => const SyncScreen()),
-                  ),
-              icon: const Icon(Icons.sync)),
         ),
       ],
     );

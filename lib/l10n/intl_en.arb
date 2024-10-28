@@ -193,5 +193,16 @@
   "maximumAllowedLengthIsError": "The maximum allowed length is ${error}.",
   "logout": "Logout",
   "settings": "Settings",
-  "fetchUpdates": "Fetch From Server"
+  "fetchUpdates": "Fetch From Server",
+  "appearance": "Appearance",
+  "userSettings": "User Settings",
+  "toggleBrightness": "Toggle Brightness",
+  "selectColorTheme": "Select Color Theme",
+  "selectImageForColorExtraction": "Select Image for Color Extraction",
+  "selectASeedColor": "Select a seed color",
+  "selectAColorExtractionImage": "Select a color extraction image",
+  "organization": "Organization",
+  "currentUsername": "Current username",
+  "changePassword": "Change Password",
+  "language": "Language"
 }

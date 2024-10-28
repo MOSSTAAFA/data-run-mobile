@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mass_pro/data_run/screens/home_screen/drawer/appearance_settings_tab.dart';
 import 'package:mass_pro/data_run/screens/home_screen/drawer/user_settings_tab.dart';
+import 'package:mass_pro/generated/l10n.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage();
@@ -10,18 +11,18 @@ class SettingsPage extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Settings'),
+          title: Text(S.of(context).settings),
           bottom: TabBar(
             tabs: [
-              Tab(text: 'Appearance'),
-              Tab(text: 'User Settings'),
+              Tab(text: S.of(context).userSettings),
+              Tab(text: S.of(context).appearance),
             ],
           ),
         ),
         body: TabBarView(
           children: [
-            AppearanceSettingsTab(),
             UserSettingsTab(),
+            AppearanceSettingsTab(),
           ],
         ),
       ),

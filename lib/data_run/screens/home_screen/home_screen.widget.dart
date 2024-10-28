@@ -31,15 +31,15 @@ class _HomeScreenWidgetState extends ConsumerState<HomeScreenWidget>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: Text(S.of(context).home),
       ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
             UserAccountsDrawerHeader(
-              accountName: Text('Username'),
-              accountEmail: Text('Organization'),
+              accountName: Text(S.of(context).username),
+              accountEmail: Text(S.of(context).organization),
               currentAccountPicture: CircleAvatar(
                 child: Text('U'),
               ),

@@ -153,5 +153,15 @@
   "maximumAllowedLengthIsError": "الحد الأقصى للطول المسموح به هو ${error}.",
   "logout": "تسجيل الخروج",
   "settings": "إعدادات",
-  "fetchUpdates": "تحديث"
+  "fetchUpdates": "تحديث",
+  "appearance": "المظهر",
+  "userSettings": "إعدادات المستخدم",
+  "toggleBrightness": "تبديل الإضاءة",
+  "selectColorTheme": "ثيم الألوان",
+  "selectImageForColorExtraction": "حدد صورة لاستخلاص ثيم منها",
+  "selectASeedColor": "حدد لون الأساس",
+  "selectAColorExtractionImage": "حدد صورة لإستخلاص الألوان",
+  "organization": "الوحدة التنظيمية",
+  "changePassword": "Change Password",
+  "language": "Language"
 }

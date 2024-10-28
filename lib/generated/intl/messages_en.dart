@@ -43,7 +43,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "addNew": MessageLookupByLibrary.simpleMessage("Add New"),
         "and": MessageLookupByLibrary.simpleMessage("And"),
         "appName": MessageLookupByLibrary.simpleMessage("Datarun"),
+        "appearance": MessageLookupByLibrary.simpleMessage("Appearance"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "changePassword":
+            MessageLookupByLibrary.simpleMessage("Change Password"),
         "clear": MessageLookupByLibrary.simpleMessage("Clear"),
         "configurationReady":
             MessageLookupByLibrary.simpleMessage("Configuration Ready"),
@@ -52,6 +55,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Are you sure you want to sync the selected entities?"),
         "conformDeleteMsg": MessageLookupByLibrary.simpleMessage(
             "Are you sure you want to remove this section?"),
+        "currentUsername":
+            MessageLookupByLibrary.simpleMessage("Current username"),
         "dashboard": MessageLookupByLibrary.simpleMessage("Dashboard"),
         "discard": MessageLookupByLibrary.simpleMessage("Discard"),
         "enterAValidNumber": MessageLookupByLibrary.simpleMessage(
@@ -171,6 +176,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "hidePassword": MessageLookupByLibrary.simpleMessage("Hide Password"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
         "itemRemoved": MessageLookupByLibrary.simpleMessage("Item Removed"),
+        "language": MessageLookupByLibrary.simpleMessage("Language"),
         "lastName": MessageLookupByLibrary.simpleMessage("Last Name"),
         "level": MessageLookupByLibrary.simpleMessage("Level"),
         "login": MessageLookupByLibrary.simpleMessage("Login"),
@@ -217,11 +223,20 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Select Org Unit"),
         "orgUnitInputLabel":
             MessageLookupByLibrary.simpleMessage("Select Org Unit"),
+        "organization": MessageLookupByLibrary.simpleMessage("Organization"),
         "password": MessageLookupByLibrary.simpleMessage("password"),
         "pleaseEnterAValidEmailAddress": MessageLookupByLibrary.simpleMessage(
             "enter a valid email address."),
         "searchOrgUnitsHelpText":
             MessageLookupByLibrary.simpleMessage("Search Org Units..."),
+        "selectAColorExtractionImage": MessageLookupByLibrary.simpleMessage(
+            "Select a color extraction image"),
+        "selectASeedColor":
+            MessageLookupByLibrary.simpleMessage("Select a seed color"),
+        "selectColorTheme":
+            MessageLookupByLibrary.simpleMessage("Select Color Theme"),
+        "selectImageForColorExtraction": MessageLookupByLibrary.simpleMessage(
+            "Select Image for Color Extraction"),
         "selected": MessageLookupByLibrary.simpleMessage("selected"),
         "send": MessageLookupByLibrary.simpleMessage("Send"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
@@ -235,8 +250,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "syncingEvents": MessageLookupByLibrary.simpleMessage("Syncing Events"),
         "thisFieldIsRequired":
             MessageLookupByLibrary.simpleMessage("This field is required."),
+        "toggleBrightness":
+            MessageLookupByLibrary.simpleMessage("Toggle Brightness"),
         "undo": MessageLookupByLibrary.simpleMessage("Undo"),
         "user": MessageLookupByLibrary.simpleMessage("user"),
+        "userSettings": MessageLookupByLibrary.simpleMessage("User Settings"),
         "username": MessageLookupByLibrary.simpleMessage("Username"),
         "valueMustBeGreaterThanOrEqualToError": m5,
         "valueMustBeLessThanOrEqualToError": m3,
