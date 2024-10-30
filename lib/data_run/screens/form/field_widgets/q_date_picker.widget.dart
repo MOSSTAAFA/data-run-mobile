@@ -17,8 +17,10 @@ class QDatePickerField<T> extends StatelessWidget {
         labelText: element.label,
         suffixIcon: ReactiveDatePicker<String?>(
           formControl: element.elementControl as FormControl<String?>,
-          firstDate: DateTime.now().subtract(const Duration(days: 10)),
-          lastDate: DateTime.now().add(const Duration(days: 30)),
+          // firstDate: DateTime.now().subtract(const Duration(days: 10)),
+          firstDate: DateTime(2015,1,1),
+          // lastDate: DateTime.now().add(const Duration(days: 30)),
+          lastDate: DateTime(2040,1,1),
           builder: (context, picker, child) {
             return IconButton(
               onPressed: picker.showPicker,
