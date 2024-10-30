@@ -35,6 +35,19 @@ class UserSettingsTab extends StatelessWidget {
             },
           ),
         ),
+        ListTile(
+          title: Text(S.of(context).logout),
+          subtitle: Text(
+            S.of(context).logoutNote,
+            overflow: TextOverflow.fade,
+          ),
+          trailing: IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () {
+              // Implement language change
+            },
+          ),
+        ),
       ],
     );
   }
