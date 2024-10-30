@@ -1453,6 +1453,16 @@ class S {
       args: [],
     );
   }
+
+  /// `your data will not be deleted when you login back again`
+  String get logoutNote {
+    return Intl.message(
+      'your data will not be deleted when you login back again',
+      name: 'logoutNote',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

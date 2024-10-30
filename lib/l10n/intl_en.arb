@@ -204,5 +204,6 @@
   "organization": "Organization",
   "currentUsername": "Current username",
   "changePassword": "Change Password",
-  "language": "Language"
+  "language": "Language",
+  "logoutNote": "your data will not be deleted when you login back again"
 }

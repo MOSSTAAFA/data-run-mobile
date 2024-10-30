@@ -42,7 +42,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "appearance": MessageLookupByLibrary.simpleMessage("المظهر"),
         "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
         "changePassword":
-            MessageLookupByLibrary.simpleMessage("Change Password"),
+            MessageLookupByLibrary.simpleMessage("تغيير كلمة السر"),
         "clear": MessageLookupByLibrary.simpleMessage("تصفية"),
         "configurationReady":
             MessageLookupByLibrary.simpleMessage("اكتملت تهيئة التطبيق"),
@@ -168,7 +168,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "hidePassword": MessageLookupByLibrary.simpleMessage("اخفاء كلمة السر"),
         "home": MessageLookupByLibrary.simpleMessage("الرئيسة"),
         "itemRemoved": MessageLookupByLibrary.simpleMessage("تم الحذف"),
-        "language": MessageLookupByLibrary.simpleMessage("Language"),
+        "language": MessageLookupByLibrary.simpleMessage("اللغة"),
         "lastName": MessageLookupByLibrary.simpleMessage("اللقب"),
         "level": MessageLookupByLibrary.simpleMessage("المستوى"),
         "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
@@ -187,6 +187,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "loginErrorUnsuccessfulResponse":
             MessageLookupByLibrary.simpleMessage("استجابة غير ناجحة من الخادم"),
         "logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
+        "logoutNote":
+            MessageLookupByLibrary.simpleMessage("تسجيل خروج المستخدم الحالي"),
         "markAsFinalData": MessageLookupByLibrary.simpleMessage(
             "تعيين هذه البيانات كنهائية وجاهزة للإرسال."),
         "maximumAllowedLengthIsError": m1,

@@ -195,6 +195,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "loginErrorUnsuccessfulResponse": MessageLookupByLibrary.simpleMessage(
             "Unsuccessful response from server"),
         "logout": MessageLookupByLibrary.simpleMessage("Logout"),
+        "logoutNote": MessageLookupByLibrary.simpleMessage(
+            "your data will not be deleted when you login back again"),
         "markAsFinalData": MessageLookupByLibrary.simpleMessage(
             "Make the form Final before exiting."),
         "maximumAllowedLengthIsError": m1,
