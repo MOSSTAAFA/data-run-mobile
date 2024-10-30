@@ -59,6 +59,8 @@ dependencies:
   expression_language: ^1.0.1
   flutter_launcher_icons: ^0.9.3
   expressions: ^0.2.3
+  flutter_sticky_header: ^0.7.0
+  sliver_tools: ^0.2.12
 #  sentry_flutter: ^8.3.0
 
 dev_dependencies:

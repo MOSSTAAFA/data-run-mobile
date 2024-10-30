@@ -29,6 +29,7 @@ class SectionElementWidget extends HookConsumerWidget {
             return SizedBox.shrink();
           } else {
             return ImprovedExpansionTile(
+                maintainState: true,
                 leading: Icon(Icons.playlist_add_check_rounded),
                 title: '${element.label}',
                 enabled: element.elementControl.enabled == true,
@@ -44,6 +45,7 @@ class SectionElementWidget extends HookConsumerWidget {
             return SizedBox.shrink();
           } else {
             return ImprovedExpansionTile(
+              maintainState: true,
               leading: Icon(Icons.repeat),
               title: '${element.label}',
               enabled: element.elementControl.enabled == true,

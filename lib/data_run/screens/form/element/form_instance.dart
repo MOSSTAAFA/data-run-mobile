@@ -2,6 +2,7 @@ import 'package:d2_remote/modules/datarun/form/entities/data_form_submission.ent
 import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mass_pro/commons/logging/logging.dart';
 import 'package:mass_pro/data_run/form/form_element/parsing/form_instance_builder.dart';
 import 'package:mass_pro/data_run/form/form_element/parsing/form_instance_control_builder.dart';
 import 'package:mass_pro/data_run/form/form_submission/submission_list.provider.dart';
@@ -88,8 +89,10 @@ class FormInstance {
   }
 
   Future<DataFormSubmission> saveFormData() async {
-    final formValue = form.value;
-    final formValue3 = _formSection.value;
+    final Map<String, Object?> formValue = form.value;
+    final Map<String, Object?> formValue3 = _formSection.value!;
+    final Map<String, dynamic> value = formValue3 ?? {};
+    logDebug(info: '${value}');
     DataFormSubmission? formSubmission;
     formSubmission = await formSubmissionList.getSubmission(submissionUid!);
     formSubmission!.orgUnit = form.control('_${orgUnitControlName}').value;
