@@ -57,8 +57,12 @@ Future<FormInstance> formInstance(FormInstanceRef ref,
       .byId(formMetadata.submission!)
       .canEdit();
 
-  final initialFormValue = await ref.watch(
-      formInitialDataProvider(submission: formMetadata.submission!).future);
+  final submission = await D2Remote.formModule.formSubmission
+      .byId(formMetadata.submission!).getOne();
+
+  final Map<String, dynamic>? initialFormValue = submission.formData;
+  // await ref.watch(
+  //     formInitialDataProvider(submission: formMetadata.submission!).future);
 
   final service = await ref
       .watch(formInstanceServiceProvider(formMetadata: formMetadata).future);
@@ -78,6 +82,7 @@ Future<FormInstance> formInstance(FormInstanceRef ref,
       .future);
   return FormInstance(ref,
       enabled: enabled,
+      orgUnit: submission.orgUnit,
       formInstanceService: service,
       elements: elements,
       formConfiguration: formConfiguration,

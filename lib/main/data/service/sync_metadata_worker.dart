@@ -32,7 +32,8 @@ class SyncMetadataWorker extends Worker {
   @override
   Future<WorkInfo> doWork(
       {OnProgressUpdate? onProgressUpdate, Dio? dioTestClient}) async {
-    if (await D2Remote.isAuthenticated()) {
+    final isAuth = await D2Remote.isAuthenticated();
+    // if (await D2Remote.isAuthenticated()) {
       _triggerNotification(resourceManager.getString('appName'),
           resourceManager.getString('syncingConfiguration'), 0);
 
@@ -90,11 +91,11 @@ class SyncMetadataWorker extends Worker {
 
       return WorkInfo(
           state: WorkInfoState.SUCCEEDED, message: message.toString());
-    } else {
-      return WorkInfo(
-          state: WorkInfoState.FAILED,
-          message: resourceManager.getString('error_init_session'));
-    }
+    // } else {
+    //   return WorkInfo(
+    //       state: WorkInfoState.FAILED,
+    //       message: resourceManager.getString('error_init_session'));
+    // }
   }
 
   String _errorStackTrace(Exception? exception) {

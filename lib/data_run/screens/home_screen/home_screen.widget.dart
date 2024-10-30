@@ -67,14 +67,14 @@ class _HomeScreenWidgetState extends ConsumerState<HomeScreenWidget>
                 );
               },
             ),
-            ListTile(
-              leading: Icon(Icons.logout),
-              title: Text(S.of(context).logout),
-              onTap: () {
-                Navigator.pop(context);
-                presenter.logOut();
-              },
-            ),
+            // ListTile(
+            //   leading: Icon(Icons.logout),
+            //   title: Text(S.of(context).logout),
+            //   onTap: () {
+            //     Navigator.pop(context);
+            //     presenter.logOut();
+            //   },
+            // ),
           ],
         ),
       ),
@@ -83,11 +83,11 @@ class _HomeScreenWidgetState extends ConsumerState<HomeScreenWidget>
   }
 
   void logOut() {
-    Navigator.push(
-        navigatorKey.currentContext!,
-        MaterialPageRoute(
-          builder: (context) => const SettingsPage(),
-        ));
+    // Navigator.push(
+    //     navigatorKey.currentContext!,
+    //     MaterialPageRoute(
+    //       builder: (context) => const SettingsPage(),
+    //     ));
   }
 
   @override

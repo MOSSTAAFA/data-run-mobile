@@ -26,6 +26,7 @@ class FormInstance {
   FormInstance(FormInstanceRef ref,
       {required FormInstanceService formInstanceService,
       required this.form,
+        required String? orgUnit,
       required this.formMetadata,
       required this.formConfiguration,
       Map<String, FormElementInstance<dynamic>> elements = const {},
@@ -42,7 +43,7 @@ class FormInstance {
           ..addAll(elements) {
     form.addAll({
       '_${orgUnitControlName}':
-          FormControl<String>(value: null, validators: [Validators.required])
+          FormControl<String>(value: orgUnit, validators: [Validators.required])
     });
     _elements.addAll(elements);
     if (!enabled) {
@@ -135,12 +136,14 @@ class FormInstance {
     final itemInstance = instanceBuilder.buildRepeatItem(form, parent.template);
     parent.elementControl.add(itemInstanceController);
     parent.add(itemInstance);
+    parent.elementControl.markAsDirty();
     return itemInstance;
   }
 
   void onRemoveRepeatedItem(int index, RepeatInstance parent) {
     parent.removeAt(index);
     parent.elementControl.removeAt(index);
+    parent.elementControl.markAsDirty();
   }
 
 //

@@ -26,7 +26,9 @@ Future<FormInstanceControlBuilder> formInstanceControlBuilder(
   final formInstanceService = await ref
       .watch(formInstanceServiceProvider(formMetadata: formMetadata).future);
 
-  return FormInstanceControlBuilder(formFlatTemplate: formFlatTemplate, formInstanceService: formInstanceService);
+  return FormInstanceControlBuilder(
+      formFlatTemplate: formFlatTemplate,
+      formInstanceService: formInstanceService);
 }
 
 class FormInstanceControlBuilder {
@@ -126,14 +128,15 @@ class FormInstanceControlBuilder {
       case ValueType.IntegerNegative:
       case ValueType.IntegerZeroOrPositive:
         return FormControl<int>(
-          value: savedValue ?? fieldTemplate.defaultValue,
+          value: savedValue ?? int.tryParse(fieldTemplate.defaultValue ?? ''),
           validators: FieldValidators.getValidators(fieldTemplate),
         );
       case ValueType.Number:
       case ValueType.Age:
       case ValueType.Percentage:
         return FormControl<double>(
-          value: savedValue ?? fieldTemplate.defaultValue,
+          value:
+              savedValue ?? double.tryParse(fieldTemplate.defaultValue ?? ''),
           validators: FieldValidators.getValidators(fieldTemplate),
         );
       case ValueType.SelectOne:

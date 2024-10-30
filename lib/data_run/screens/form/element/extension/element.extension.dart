@@ -40,7 +40,7 @@ extension FormFieldModelExtensions<T> on FieldInstance<T> {
         return 255;
       case ValueType.LongText:
       case ValueType.Letter:
-        return 2000;
+        return 500;
       default:
         return null;
     }
@@ -50,7 +50,7 @@ extension FormFieldModelExtensions<T> on FieldInstance<T> {
     switch (type) {
       case ValueType.LongText:
       case ValueType.Letter:
-        return 8;
+        return 2;
       default:
         return 1;
     }

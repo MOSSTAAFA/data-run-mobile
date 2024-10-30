@@ -12,11 +12,13 @@ class QTextTypeField<T> extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ReactiveTextField<T>(
+      onTapOutside: element.elementControl!.hasFocus ? (event) => element.elementControl!.unfocus() : null,
       formControl: element.elementControl,
       maxLength: element.maxLength,
       maxLines: element.maxLines,
       keyboardType: element.inputType,
       validationMessages: validationMessages(context),
+      // showErrors: ,
       decoration: InputDecoration(
         enabled: element.elementControl!.enabled,
         labelText: element.label,

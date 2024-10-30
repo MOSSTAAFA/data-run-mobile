@@ -63,7 +63,6 @@ class FieldInstance<T> extends FormElementInstance<T>
   void evaluate([String? changedDependency]) {
     super.evaluate();
     if (choiceFilter?.expression != null) {
-      final context = evalContext;
       final visibleOptionsUpdate = choiceFilter!.evaluate(evalContext);
       logDebug(
           info:

@@ -13,6 +13,7 @@ class OrgUnitPickerField extends StatefulWidget {
     this.errorInvalidText,
     this.fieldHintText,
     this.fieldLabelText,
+    this.decoration = const InputDecoration(),
     this.keyboardType,
     this.onChanged,
     this.focusNode,
@@ -33,6 +34,8 @@ class OrgUnitPickerField extends StatefulWidget {
   final String? fieldHintText;
 
   final String? fieldLabelText;
+
+  final InputDecoration decoration;
 
   final TextInputType? keyboardType;
 
@@ -184,7 +187,7 @@ class _OrgUnitPickerFieldState extends State<OrgUnitPickerField /*<T>*/> {
           .of(context)
           .textTheme
           .bodyMedium,
-      onTap: onShowPicker,
+      onTap: widget.enabled ? onShowPicker : null,
     );
   }
 }

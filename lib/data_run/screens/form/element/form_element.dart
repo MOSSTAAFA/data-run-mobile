@@ -61,7 +61,8 @@ sealed class FormElementInstance<T> /*with EquatableMixin*/ {
 
   String get name => template.name;
 
-  String get label => getItemLocalString(template.label, defaultString: name);
+  String get label =>
+      '${getItemLocalString(template.label, defaultString: name)}${mandatory ? ' *' : ''}';
 
   ValueType get type => template.type;
 
@@ -179,13 +180,14 @@ sealed class FormElementInstance<T> /*with EquatableMixin*/ {
   void setErrors(Map<String, dynamic> errors) {
     updateStatus(elementState.copyWith(errors: errors));
     elementControl?.setErrors(errors);
+    elementControl?.markAsTouched();
   }
 
   void removeError(String key) {
     updateStatus(elementState.copyWith(
         errors: Map.from(elementState.errors)
           ..removeWhere((errorKey, dynamic value) => errorKey == key)));
-    elementControl?.removeError(key);
+    // elementControl?.removeError(key);
   }
 
   void reset({T? value});
@@ -243,8 +245,8 @@ sealed class FormElementInstance<T> /*with EquatableMixin*/ {
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
-  TFormElement? getFirstParentOfType<
-      TFormElement extends FormElementInstance<Object>>() {
+  TFormElement?
+      getFirstParentOfType<TFormElement extends FormElementInstance<Object>>() {
     var currentParent = parentSection;
     while (currentParent != null) {
       if (currentParent is TFormElement) {

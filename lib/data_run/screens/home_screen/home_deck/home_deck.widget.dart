@@ -29,15 +29,6 @@ class _HomeDeckState extends ConsumerState<HomeDeck> with ViewBase {
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  void clearFilters() {
-    // TODO: implement clearFilters
-  }
-
   void navigateTo(HomeItemModel homeDeckItem) {
     // bundle = bundle.putString(EXTRA_PROJECT_UID, homeDeckItem.uid);
     // logInfo(info: '$EXTRA_PROJECT_UID, ${homeDeckItem.uid}');

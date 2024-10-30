@@ -8,6 +8,16 @@ extension ElementDependencyHandler<T> on FormElementInstance<T> {
     };
   }
 
+  calculationFriendlyValue(FormElementInstance<dynamic> dependency) {
+    if (!dependency.visible) {
+      return dependency.type.isNumeric ? 0 : null;
+    } else if (dependency.type.isNumeric && dependency.value == null) {
+      return 0;
+    } else {
+      return dependency.value;
+    }
+  }
+
   FormElementState updateStatus(FormElementState newValue,
       {bool notify = true}) {
     if (newValue != _elementState) {

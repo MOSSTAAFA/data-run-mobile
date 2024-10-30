@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mass_pro/commons/custom_widgets/async_value.widget.dart';
+import 'package:mass_pro/data_run/screens/form/element/providers/form_instance.provider.dart';
 import 'package:mass_pro/data_run/screens/form/field_widgets/ou_picker_data_source.provider.dart';
 import 'package:mass_pro/data_run/screens/form/field_widgets/reactive_o_u_picker.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
@@ -21,11 +22,18 @@ class QOrgUnitPickerField extends HookConsumerWidget {
     final dataSourceAsyncValue = ref.watch(ouPickerDataSourceProvider(
         formMetadata: FormMetadataWidget.of(context)));
 
+    final formInstance = ref
+        .watch(
+            formInstanceProvider(formMetadata: FormMetadataWidget.of(context)))
+        .requireValue;
+
     return AsyncValueWidget(
       value: dataSourceAsyncValue,
       valueBuilder: (dataSource) => ReactiveOuPicker(
+        enabled: formInstance.enabled,
         formControl: element.elementControl,
         validationMessages: element.validationMessages,
+        decoration: InputDecoration(labelText: element.label),
         dataSource: dataSource,
       ),
     );
