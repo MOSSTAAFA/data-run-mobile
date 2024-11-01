@@ -6,7 +6,7 @@ class ImprovedExpansionTile extends StatelessWidget {
     this.title,
     this.titleWidget,
     required this.child,
-    this.enabled = false,
+    this.enabled = true,
     this.initiallyExpanded = false,
     this.onExpansionChanged,
     this.maintainState = false,

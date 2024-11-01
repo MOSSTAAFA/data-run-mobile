@@ -5,26 +5,20 @@ import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/element/validation/form_element_validator.dart';
 import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
 import 'package:reactive_dropdown_search/reactive_dropdown_search.dart';
+import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
-class QDropDownField extends HookConsumerWidget {
-  const QDropDownField({super.key, required this.element});
+class QDropDownMultiSelectWithSearchField extends HookConsumerWidget {
+  const QDropDownMultiSelectWithSearchField({super.key, required this.element});
 
-  final FieldInstance<String> element;
+  final FieldInstance<List<String>> element;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final fieldOptions = formFlatTemplate
-    //     .optionLists[element.listName];
-
-    return getAutoComplete(element.visibleOption, context);
-  }
-
-  getAutoComplete(List<FormOption> options, BuildContext context) {
-    return ReactiveDropdownSearch<String, String>(
+    return ReactiveDropdownSearchMultiSelection(
       formControl: element.elementControl,
-      clearButtonProps: const ClearButtonProps(isVisible: true),
       validationMessages: validationMessages(context),
-      valueAccessor: NameToLabelValueAccessor(options),
+      clearButtonProps: const ClearButtonProps(isVisible: true),
+      valueAccessor: NameToLabelValueAccessor(options: element.visibleOption),
       dropdownDecoratorProps: DropDownDecoratorProps(
         dropdownSearchDecoration: InputDecoration(
           labelText: element.label,
@@ -32,10 +26,10 @@ class QDropDownField extends HookConsumerWidget {
           border: OutlineInputBorder(),
         ),
       ),
-      popupProps: PopupProps.menu(
+      popupProps: PopupPropsMultiSelection.menu(
         showSelectedItems: true,
       ),
-      items: options
+      items: element.visibleOption
           .map((option) => getItemLocalString(option.label))
           .toSet()
           .toList(),
@@ -45,27 +39,29 @@ class QDropDownField extends HookConsumerWidget {
 }
 
 class NameToLabelValueAccessor
-    extends DropDownSearchValueAccessor<String, String> {
+    extends DropDownSearchMultiSelectionValueAccessor<String, String> {
+  final List<String> items;
   final List<FormOption> options;
 
-  NameToLabelValueAccessor(this.options);
+  NameToLabelValueAccessor({this.items = const [], this.options = const []});
 
   @override
-  String? modelToViewValue(List<String> items, String? modelValue) {
+  List<String>? modelToViewValue(List<String> items, List<String>? modelValue) {
     return options
         .where((option) => option.name == modelValue)
         .map((option) =>
-        getItemLocalString(option.label, defaultString: option.name))
-        .firstOrNull;
+            getItemLocalString(option.label, defaultString: option.name))
+        .toList();
   }
 
   @override
-  String? viewToModelValue(List<String> items, String? viewValue) {
+  List<String>? viewToModelValue(List<String> items, List<String>? modelValue) {
     return options
         .where((option) =>
-    getItemLocalString(option.label, defaultString: option.name) ==
-        viewValue)
+            modelValue?.contains(
+                getItemLocalString(option.label, defaultString: option.name)) ==
+            true)
         .map((option) => option.name)
-        .firstOrNull;
+        .toList();
   }
 }

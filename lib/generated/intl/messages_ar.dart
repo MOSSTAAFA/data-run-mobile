@@ -171,8 +171,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "fetchUpdates": MessageLookupByLibrary.simpleMessage("تحديث"),
         "fieldsWithErrorInfo": MessageLookupByLibrary.simpleMessage(
             "قم بالرجوع ومراجعة الإخطاء أو (ليس الآن) للحفظ والمراجعة في وقت لاحق! لن يتسنى لك تعيين الاستمارة كنهائية وإرسالها إلا بعد تصحيح الأخطاء: "),
-        "finalData":
-            MessageLookupByLibrary.simpleMessage("حقول مكتملة من غير أخطاء"),
+        "finalData": MessageLookupByLibrary.simpleMessage("بيانات نهائية"),
         "firstName": MessageLookupByLibrary.simpleMessage("الاسم الأول"),
         "form": m0,
         "formContainsSomeErrors":
@@ -205,7 +204,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "makeFormFinalOrSaveBody": MessageLookupByLibrary.simpleMessage(
             "قم بتعيين الاستمار كنهائية حتى يتسنى لك إرسالها، أو اختر (ليس الآن) لحفظها كمسودة إلى وقت لاحق!"),
         "markAsFinalData": MessageLookupByLibrary.simpleMessage(
-            "تعيين هذه البيانات كنهائية وجاهزة للإرسال."),
+            "حقول مكتملة، هل تبريد تعيين هذه البيانات كنهائية وجاهزة للإرسال؟"),
         "maximumAllowedLengthIsError": m1,
         "middleName": MessageLookupByLibrary.simpleMessage("الاسم الأوسط"),
         "month": m2,

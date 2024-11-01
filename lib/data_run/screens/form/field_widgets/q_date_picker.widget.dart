@@ -14,6 +14,7 @@ class QDatePickerField<T> extends StatelessWidget {
       formControl: element.elementControl,
       readOnly: true,
       decoration: InputDecoration(
+        enabled: element.elementControl!.enabled,
         labelText: element.label,
         suffixIcon: ReactiveDatePicker<String?>(
           formControl: element.elementControl as FormControl<String?>,
@@ -23,7 +24,7 @@ class QDatePickerField<T> extends StatelessWidget {
           lastDate: DateTime(2040,1,1),
           builder: (context, picker, child) {
             return IconButton(
-              onPressed: picker.showPicker,
+              onPressed: element.elementControl!.enabled ? picker.showPicker : null,
               icon: const Icon(Icons.date_range),
             );
           },

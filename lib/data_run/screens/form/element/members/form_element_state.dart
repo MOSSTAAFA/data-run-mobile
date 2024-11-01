@@ -29,26 +29,6 @@ class FormElementState with EquatableMixin {
   @override
   List<Object?> get props => [hidden, mandatory, ...errors.values];
 }
-//
-// class SectionElementState extends FormElementState {
-//   const SectionElementState({
-//     super.hidden,
-//     super.mandatory,
-//     super.errors,
-//   });
-//
-//   SectionElementState copyWith({
-//     bool? hidden,
-//     bool? mandatory,
-//     Map<String, dynamic>? errors,
-//   }) {
-//     return SectionElementState(
-//       hidden: hidden ?? this.hidden,
-//       mandatory: mandatory ?? this.mandatory,
-//       errors: errors ?? this.errors,
-//     );
-//   }
-// }
 
 class FieldElementState<T> extends FormElementState {
   final T? value;
