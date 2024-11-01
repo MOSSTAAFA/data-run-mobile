@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mass_pro/commons/custom_widgets/async_value.widget.dart';
 import 'package:mass_pro/data_run/screens/form/element/providers/form_instance.provider.dart';
+import 'package:mass_pro/data_run/screens/form/element/validation/form_element_validator.dart';
 import 'package:mass_pro/data_run/screens/form/field_widgets/ou_picker_data_source.provider.dart';
 import 'package:mass_pro/data_run/screens/form/field_widgets/reactive_o_u_picker.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
@@ -32,7 +33,7 @@ class QOrgUnitPickerField extends HookConsumerWidget {
       valueBuilder: (dataSource) => ReactiveOuPicker(
         enabled: formInstance.enabled,
         formControl: element.elementControl,
-        validationMessages: element.validationMessages,
+        validationMessages: validationMessages(context),
         decoration: InputDecoration(labelText: element.label),
         dataSource: dataSource,
       ),

@@ -12,7 +12,6 @@ import 'package:mass_pro/data_run/screens/form_ui_elements/get_error_widget.dart
 import 'package:mass_pro/data_run/screens/form_submission_list/submission_sync_dialog.widget.dart';
 import 'package:mass_pro/data_run/screens/project_activity_detail/form_tiles/form_submissions_status.provider.dart';
 import 'package:mass_pro/generated/l10n.dart';
-import 'package:mass_pro/utils/navigator_key.dart';
 
 class SubmissionListScreen extends StatefulHookConsumerWidget {
   const SubmissionListScreen({super.key});
@@ -67,7 +66,7 @@ class SubmissionListState extends ConsumerState<SubmissionListScreen> {
 
                   return FormMetadataWidget(
                     formMetadata: FormMetadataWidget.of(context)
-                        .copyWith(submission: entity.uid!),
+                        .copyWith(submission: entity.uid),
                     child: Card(
                       shadowColor: Theme.of(context).colorScheme.shadow,
                       surfaceTintColor: Theme.of(context).colorScheme.primary,
@@ -163,20 +162,13 @@ class SubmissionListState extends ConsumerState<SubmissionListScreen> {
   }
 
   void _goToDataEntryForm(String submission, int version) async {
-    // final Bundle eventBundle = Get.arguments as Bundle;
-    // Bundle bundle = eventBundle.putString(SYNCABLE_UID, uid);
-    // bundle = bundle.putInt(FORM_VERSION, version);
-    //
-    // await Get.to(const FormSubmissionScreen(currentPageIndex: 1),
-    //     arguments: bundle);
-    // await Get.to(DataSubmissionScreen(), arguments: bundle);
     final metas = FormMetadataWidget.of(context).copyWith(
       submission: submission,
       version: version,
     );
 
     Navigator.push(
-        context,
+      context,
       MaterialPageRoute(
           builder: (context) => FormMetadataWidget(
                 formMetadata: metas,
@@ -191,14 +183,14 @@ class SubmissionListState extends ConsumerState<SubmissionListScreen> {
 Widget buildStatusIcon(SyncStatus? status) {
   switch (status) {
     case SyncStatus.SYNCED:
-      return const Icon(Icons.cloud_done, color: Colors.green);
+      return const Icon(Icons.cloud_done, color: Colors.green, size: 20);
     case SyncStatus.TO_POST:
-      return const Icon(Icons.cloud_upload, color: Colors.blue);
+      return const Icon(Icons.cloud_upload, color: Colors.blue, size: 20);
     case SyncStatus.TO_UPDATE:
-      return const Icon(Icons.update, color: Colors.orange);
+      return const Icon(Icons.update, color: Colors.orange, size: 20);
     case SyncStatus.ERROR:
-      return const Icon(Icons.error, color: Colors.red);
+      return const Icon(Icons.error, color: Colors.red, size: 20);
     default:
-      return const Icon(Icons.all_inclusive);
+      return const Icon(Icons.all_inclusive, size: 20);
   }
 }

@@ -1,4 +1,3 @@
-import 'package:mass_pro/data_run/form/form_element/form_element_state.dart';
 
 class FormValueMap {
   FormValueMap({Map<String, dynamic> values = const {}}) {

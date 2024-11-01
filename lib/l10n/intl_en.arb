@@ -205,5 +205,12 @@
   "currentUsername": "Current username",
   "changePassword": "Change Password",
   "language": "Language",
-  "logoutNote": "your data will not be deleted when you login back again"
+  "logoutNote": "your data will not be deleted when you login back again",
+  "formContainsSomeErrors": "Form contains some errors",
+  "dismiss": "Dismiss",
+  "fieldsWithErrorInfo": "Fields with Error",
+  "reviewFormData": "Review Form",
+  "checkFieldsLater": "Check Fields later",
+  "makeFormFinalOrSaveBody": "Make Form Final for Send to server, or save as draft!",
+  "deleteConfirmationMessage": "Are you sure you want to delete this item?"
 }

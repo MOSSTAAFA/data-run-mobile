@@ -25,15 +25,6 @@ class FieldValidators {
     return validators.toList();
   }
 
-  Map<String, String Function(Object error)> validationMessages(BuildContext context) => {
-    'required': (error) => S.of(context).thisFieldIsRequired,
-    'email': (error) => S.of(context).pleaseEnterAValidEmailAddress,
-    'number': (error) => S.of(context).enterAValidNumber,
-    'min': (error) => S.of(context).valueMustBeGreaterThanOrEqualToError(error),
-    'max': (error) => S.of(context).valueMustBeLessThanOrEqualToError(error),
-    'maxLength': (error) => S.of(context).maximumAllowedLengthIsError(error),
-  };
-
   static Map<String, String Function(Object error)> getValidationMessages(
       ElementAttributesMixin element) {
     final Map<String, String Function(Object error)> messages = {};
@@ -67,7 +58,8 @@ class FieldValidators {
   }
 }
 
-Map<String, String Function(Object error)> validationMessages(BuildContext context) => {
+
+Map<String, ValidationMessageFunction> validationMessages(BuildContext context) => {
   'required': (error) => S.of(context).thisFieldIsRequired,
   'email': (error) => S.of(context).pleaseEnterAValidEmailAddress,
   'number': (error) => S.of(context).enterAValidNumber,

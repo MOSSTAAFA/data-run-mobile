@@ -1,4 +1,3 @@
-import 'package:mass_pro/data_run/form/form_element/form_element_state.dart';
 import 'package:mass_pro/data_run/screens/form/element/exceptions/form_element_exception.dart';
 import 'package:mass_pro/data_run/screens/form/element/members/form_element_state.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';

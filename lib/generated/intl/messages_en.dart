@@ -28,13 +28,13 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m2(count) =>
       "${Intl.plural(count, zero: ' ', one: '1 Month', two: '2 Months', few: '${count} Years', other: '${count} Months')}";
 
-  static String m5(error) =>
+  static String m3(error) =>
       "The value must be greater than or equal to \$${error}.";
 
-  static String m3(error) =>
+  static String m4(error) =>
       "The value must be less than or equal to \$${error}.";
 
-  static String m4(count) =>
+  static String m5(count) =>
       "${Intl.plural(count, zero: ' ', one: '1 Year', two: '2 Years', few: '${count} Years', other: '${count} Years')}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -47,6 +47,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "changePassword":
             MessageLookupByLibrary.simpleMessage("Change Password"),
+        "checkFieldsLater":
+            MessageLookupByLibrary.simpleMessage("Check Fields later"),
         "clear": MessageLookupByLibrary.simpleMessage("Clear"),
         "configurationReady":
             MessageLookupByLibrary.simpleMessage("Configuration Ready"),
@@ -58,7 +60,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "currentUsername":
             MessageLookupByLibrary.simpleMessage("Current username"),
         "dashboard": MessageLookupByLibrary.simpleMessage("Dashboard"),
+        "deleteConfirmationMessage": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to delete this item?"),
         "discard": MessageLookupByLibrary.simpleMessage("Discard"),
+        "dismiss": MessageLookupByLibrary.simpleMessage("Dismiss"),
         "enterAValidNumber": MessageLookupByLibrary.simpleMessage(
             "Please enter a valid number."),
         "enterYourUsername":
@@ -169,9 +174,13 @@ class MessageLookup extends MessageLookupByLibrary {
             "Values reservation took too long"),
         "fetchUpdates":
             MessageLookupByLibrary.simpleMessage("Fetch From Server"),
+        "fieldsWithErrorInfo":
+            MessageLookupByLibrary.simpleMessage("Fields with Error"),
         "finalData": MessageLookupByLibrary.simpleMessage("Final Data"),
         "firstName": MessageLookupByLibrary.simpleMessage("First Name"),
         "form": m0,
+        "formContainsSomeErrors":
+            MessageLookupByLibrary.simpleMessage("Form contains some errors"),
         "fullName": MessageLookupByLibrary.simpleMessage("Full Name"),
         "hidePassword": MessageLookupByLibrary.simpleMessage("Hide Password"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
@@ -197,6 +206,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "logout": MessageLookupByLibrary.simpleMessage("Logout"),
         "logoutNote": MessageLookupByLibrary.simpleMessage(
             "your data will not be deleted when you login back again"),
+        "makeFormFinalOrSaveBody": MessageLookupByLibrary.simpleMessage(
+            "Make Form Final for Send to server, or save as draft!"),
         "markAsFinalData": MessageLookupByLibrary.simpleMessage(
             "Make the form Final before exiting."),
         "maximumAllowedLengthIsError": m1,
@@ -229,6 +240,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "password": MessageLookupByLibrary.simpleMessage("password"),
         "pleaseEnterAValidEmailAddress": MessageLookupByLibrary.simpleMessage(
             "enter a valid email address."),
+        "reviewFormData": MessageLookupByLibrary.simpleMessage("Review Form"),
         "searchOrgUnitsHelpText":
             MessageLookupByLibrary.simpleMessage("Search Org Units..."),
         "selectAColorExtractionImage": MessageLookupByLibrary.simpleMessage(
@@ -258,13 +270,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "user": MessageLookupByLibrary.simpleMessage("user"),
         "userSettings": MessageLookupByLibrary.simpleMessage("User Settings"),
         "username": MessageLookupByLibrary.simpleMessage("Username"),
-        "valueMustBeGreaterThanOrEqualToError": m5,
-        "valueMustBeLessThanOrEqualToError": m3,
+        "valueMustBeGreaterThanOrEqualToError": m3,
+        "valueMustBeLessThanOrEqualToError": m4,
         "version": MessageLookupByLibrary.simpleMessage("Version"),
         "viewAvailableForms": MessageLookupByLibrary.simpleMessage(
             "Expand to View Available Forms"),
         "viewList": MessageLookupByLibrary.simpleMessage("View List"),
-        "year": m4,
+        "year": m5,
         "years": MessageLookupByLibrary.simpleMessage("Years")
       };
 }

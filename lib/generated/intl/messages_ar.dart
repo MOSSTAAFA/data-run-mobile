@@ -28,9 +28,11 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m2(count) =>
       "${Intl.plural(count, zero: ' ', one: 'شهر', two: 'شهران', few: '${count} أشهر', other: '${count} شهر')}";
 
-  static String m3(error) => "يجب أن تكون القيمة أقل من أو تساوي \$${error}.";
+  static String m3(error) => "يجب أن تكون القيمة أكبر من أو تساوي \$${error}.";
 
-  static String m4(count) =>
+  static String m4(error) => "يجب أن تكون القيمة أقل من أو تساوي \$${error}.";
+
+  static String m5(count) =>
       "${Intl.plural(count, zero: '', one: 'سنة', two: 'سنتان', few: '${count} سنوات', other: '${count} سنة')}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -43,6 +45,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
         "changePassword":
             MessageLookupByLibrary.simpleMessage("تغيير كلمة السر"),
+        "checkFieldsLater": MessageLookupByLibrary.simpleMessage("ليس الآن"),
         "clear": MessageLookupByLibrary.simpleMessage("تصفية"),
         "configurationReady":
             MessageLookupByLibrary.simpleMessage("اكتملت تهيئة التطبيق"),
@@ -51,8 +54,13 @@ class MessageLookup extends MessageLookupByLibrary {
             "هل أنت متأكد أنك تريد مزامنة البيانات المحددة؟"),
         "conformDeleteMsg": MessageLookupByLibrary.simpleMessage(
             "هل أنت متأكد أنك تريد إزالة هذا القسم؟"),
+        "currentUsername":
+            MessageLookupByLibrary.simpleMessage("المستخدم الحالي"),
         "dashboard": MessageLookupByLibrary.simpleMessage("الرئيسية"),
+        "deleteConfirmationMessage": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to delete this item?"),
         "discard": MessageLookupByLibrary.simpleMessage("تجاهل"),
+        "dismiss": MessageLookupByLibrary.simpleMessage("حسنًا"),
         "enterAValidNumber":
             MessageLookupByLibrary.simpleMessage("يرجى إدخال رقم صالح."),
         "enterYourUsername":
@@ -161,9 +169,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "error_value_reservation_time": MessageLookupByLibrary.simpleMessage(
             "استغرق حجز القيم وقتًا طويلاً"),
         "fetchUpdates": MessageLookupByLibrary.simpleMessage("تحديث"),
-        "finalData": MessageLookupByLibrary.simpleMessage("بيانات نهائية"),
+        "fieldsWithErrorInfo": MessageLookupByLibrary.simpleMessage(
+            "قم بالرجوع ومراجعة الإخطاء أو (ليس الآن) للحفظ والمراجعة في وقت لاحق! لن يتسنى لك تعيين الاستمارة كنهائية وإرسالها إلا بعد تصحيح الأخطاء: "),
+        "finalData":
+            MessageLookupByLibrary.simpleMessage("حقول مكتملة من غير أخطاء"),
         "firstName": MessageLookupByLibrary.simpleMessage("الاسم الأول"),
         "form": m0,
+        "formContainsSomeErrors":
+            MessageLookupByLibrary.simpleMessage(" يوجد أخطاء في بعض الحقول"),
         "fullName": MessageLookupByLibrary.simpleMessage("الاسم الكامل"),
         "hidePassword": MessageLookupByLibrary.simpleMessage("اخفاء كلمة السر"),
         "home": MessageLookupByLibrary.simpleMessage("الرئيسة"),
@@ -189,6 +202,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
         "logoutNote":
             MessageLookupByLibrary.simpleMessage("تسجيل خروج المستخدم الحالي"),
+        "makeFormFinalOrSaveBody": MessageLookupByLibrary.simpleMessage(
+            "قم بتعيين الاستمار كنهائية حتى يتسنى لك إرسالها، أو اختر (ليس الآن) لحفظها كمسودة إلى وقت لاحق!"),
         "markAsFinalData": MessageLookupByLibrary.simpleMessage(
             "تعيين هذه البيانات كنهائية وجاهزة للإرسال."),
         "maximumAllowedLengthIsError": m1,
@@ -223,6 +238,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
         "pleaseEnterAValidEmailAddress": MessageLookupByLibrary.simpleMessage(
             "يرجى إدخال عنوان بريد إلكتروني صالح."),
+        "reviewFormData":
+            MessageLookupByLibrary.simpleMessage("مراجعة الأخطاء"),
         "searchOrgUnitsHelpText":
             MessageLookupByLibrary.simpleMessage("البحث عن مكان..."),
         "selectAColorExtractionImage":
@@ -255,12 +272,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "userSettings":
             MessageLookupByLibrary.simpleMessage("إعدادات المستخدم"),
         "username": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
-        "valueMustBeLessThanOrEqualToError": m3,
+        "valueMustBeGreaterThanOrEqualToError": m3,
+        "valueMustBeLessThanOrEqualToError": m4,
         "version": MessageLookupByLibrary.simpleMessage("الإصدار"),
         "viewAvailableForms": MessageLookupByLibrary.simpleMessage(
             "افتح لاستعرض الاستمارات المتاحة"),
         "viewList": MessageLookupByLibrary.simpleMessage("عرض القائمة"),
-        "year": m4,
+        "year": m5,
         "years": MessageLookupByLibrary.simpleMessage("سنوات")
       };
 }

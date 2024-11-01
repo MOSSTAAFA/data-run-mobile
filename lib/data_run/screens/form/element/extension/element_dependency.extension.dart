@@ -4,7 +4,7 @@ extension ElementDependencyHandler<T> on FormElementInstance<T> {
   Map<String, dynamic> get evalContext {
     return {
       for (final dependency in _dependencies)
-        dependency.name: dependency.visible ? dependency.value : null
+        dependency.name: calculationFriendlyValue(dependency)
     };
   }
 

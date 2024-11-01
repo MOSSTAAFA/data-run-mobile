@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:d2_remote/modules/datarun/form/entities/form_version.entity.dart';
-import 'package:d2_remote/modules/datarun/form/shared/attribute_type.dart';
 import 'package:mass_pro/data_run/form/form_template/template_providers.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_instance.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_metadata.dart';

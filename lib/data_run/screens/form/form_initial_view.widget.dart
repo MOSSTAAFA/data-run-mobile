@@ -1,4 +1,3 @@
-import 'package:d2_remote/modules/datarun/form/shared/attribute_type.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mass_pro/commons/custom_widgets/async_value.widget.dart';

@@ -8,7 +8,6 @@ import 'package:mass_pro/data_run/form/form_element/parsing/form_instance_contro
 import 'package:mass_pro/data_run/form/form_submission/submission_list.provider.dart';
 import 'package:mass_pro/data_run/form/shared/form_configuration.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
-import 'package:mass_pro/data_run/screens/form/element/form_value_map.dart';
 import 'package:mass_pro/data_run/screens/form/element/providers/form_instance.provider.dart';
 import 'package:mass_pro/data_run/screens/form/element/service/form_instance_service.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_metadata.dart';

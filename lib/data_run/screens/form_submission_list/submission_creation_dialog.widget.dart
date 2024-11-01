@@ -1,6 +1,4 @@
-import 'package:d2_remote/modules/datarun/form/shared/attribute_type.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/commons/custom_widgets/async_value.widget.dart';
 import 'package:mass_pro/data_run/form/form_submission/submission_list.provider.dart';

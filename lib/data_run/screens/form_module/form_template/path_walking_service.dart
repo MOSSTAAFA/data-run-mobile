@@ -40,6 +40,12 @@ mixin PathWalkingService<T extends FormElementTemplate> {
     return ancestors.reversed.toList();
   }
 
+  /// Get descendants of a specific path
+  T? getFirstByName(String name) {
+    final element =  fields.firstOrNullWhere((field) => field.path!.endsWith('$name'));
+    return element;
+  }
+
   /// Get element by path
   T? getElementByPath(String path) {
     return fields.firstOrNullWhere((element) => element.path == path);

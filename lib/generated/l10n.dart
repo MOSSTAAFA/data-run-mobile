@@ -1463,6 +1463,76 @@ class S {
       args: [],
     );
   }
+
+  /// `Form contains some errors`
+  String get formContainsSomeErrors {
+    return Intl.message(
+      'Form contains some errors',
+      name: 'formContainsSomeErrors',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dismiss`
+  String get dismiss {
+    return Intl.message(
+      'Dismiss',
+      name: 'dismiss',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fields with Error`
+  String get fieldsWithErrorInfo {
+    return Intl.message(
+      'Fields with Error',
+      name: 'fieldsWithErrorInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Review Form`
+  String get reviewFormData {
+    return Intl.message(
+      'Review Form',
+      name: 'reviewFormData',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check Fields later`
+  String get checkFieldsLater {
+    return Intl.message(
+      'Check Fields later',
+      name: 'checkFieldsLater',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Make Form Final for Send to server, or save as draft!`
+  String get makeFormFinalOrSaveBody {
+    return Intl.message(
+      'Make Form Final for Send to server, or save as draft!',
+      name: 'makeFormFinalOrSaveBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete this item?`
+  String get deleteConfirmationMessage {
+    return Intl.message(
+      'Are you sure you want to delete this item?',
+      name: 'deleteConfirmationMessage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
