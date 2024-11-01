@@ -27,15 +27,17 @@ part 'section_element.dart';
 
 part 'section_instance.dart';
 
-sealed class FormElementInstance<T> /*with EquatableMixin*/ {
+typedef ElementControl<T> = AbstractControl<T>? Function(String path);
+
+sealed class FormElementInstance<T> {
   FormElementInstance(
       {required this.form,
       required this.template,
+      this.formElementControl,
       required FormElementState elementState})
       : _elementState = elementState;
 
-  // @override
-  // List<Object> get props => [_elementState, elementPath, template];
+  final ElementControl<dynamic>? formElementControl;
 
   /// serialized from the field json configuration
   final FieldTemplate template;
@@ -100,16 +102,6 @@ sealed class FormElementInstance<T> /*with EquatableMixin*/ {
         ? '${parentSection!.pathRecursive}.${name}'
         : name;
   }
-
-  // String pathBuilder(String? pathItem) =>
-  //     [parentSection?.pathRecursive, pathItem].whereType<String>().join('.');
-
-  // String pathBuilder(String? pathItem) {
-  //   final parentPath = (parentSection?.elementPath).isNullOrEmpty
-  //       ? null
-  //       : parentSection?.elementPath;
-  //   return [parentPath, pathItem].whereType<String>().join('.');
-  // }
 
   bool get controlExist {
     try {

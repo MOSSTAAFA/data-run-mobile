@@ -14,8 +14,6 @@ class FieldInstance<T> extends FormElementInstance<T>
 
   final ChoiceFilter? choiceFilter;
 
-  List<FormOption> get visibleOption => elementState.visibleOptions;
-
   FieldElementState<T> get elementState =>
       _elementState as FieldElementState<T>;
 
@@ -58,6 +56,8 @@ class FieldInstance<T> extends FormElementInstance<T>
     updateStatus(elementState.copyWith(value: value));
     elementControl!.reset(value: template.defaultValue);
   }
+
+  List<FormOption> get visibleOption => elementState.visibleOptions;
 
   @override
   void evaluate([String? changedDependency]) {

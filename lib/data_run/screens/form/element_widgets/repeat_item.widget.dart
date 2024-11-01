@@ -21,7 +21,6 @@ class RepeatItem extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final expanded = useState(element.expanded);
     useRegisterDependencies(element);
 
     return Builder(builder: (context) {
@@ -34,9 +33,6 @@ class RepeatItem extends HookWidget {
         maintainState: true,
         enabled: element.form.enabled,
         initiallyExpanded: false,
-        // onExpansionChanged: (ex) {
-        //   expanded.value = ex;
-        // },
         titleWidget: Tooltip(
           message: '${index + 1}. ${element.label}',
           child: Row(
@@ -64,10 +60,7 @@ class RepeatItem extends HookWidget {
             ],
           ),
         ),
-        child: SectionInheritedWidget(
-          section: element,
-          child: SectionWidget(element: element),
-        ),
+        child: SectionWidget(element: element),
       );
     });
   }

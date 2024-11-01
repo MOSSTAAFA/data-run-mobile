@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:d2_remote/d2_remote.dart';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:mass_pro/data_run/form/form_element/parsing/form_instance_builder.dart';
-import 'package:mass_pro/data_run/form/form_element/parsing/form_instance_control_builder.dart';
+import 'package:mass_pro/data_run/form/form_element_factories/form_element_builder.dart';
+import 'package:mass_pro/data_run/form/form_element_factories/form_element_control_builder.dart';
 import 'package:mass_pro/data_run/form/form_template/template_providers.dart';
 import 'package:mass_pro/data_run/form/shared/form_configuration.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_metadata.dart';

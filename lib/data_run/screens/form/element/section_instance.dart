@@ -16,10 +16,6 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
   Map<String, FormElementInstance<dynamic>> get elements =>
       Map.unmodifiable(_elements);
 
-  // @override
-  // FormGroup get elementControl =>
-  //     name.isEmpty ? form : (form.control(elementPath) as FormGroup);
-
   @override
   FormGroup get elementControl => form.control(elementPath) as FormGroup;
 
@@ -135,56 +131,4 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
     // elementControl.closeCollectionEvents();
     super.dispose();
   }
-// void updateSectionValue(
-//   Map<String, Object?>? value, {
-//   bool updateParent = true,
-//   bool emitEvent = true,
-// }) {
-//   elementControl.updateValue(
-//     value,
-//     updateParent: updateParent,
-//     emitEvent: emitEvent,
-//   );
-// }
-
-//<editor-fold desc="Mark">
-// @override
-// void markAsDisabled({bool updateParent = true, bool emitEvent = true}) {
-//   _elements.forEach((_, element) {
-//     element.markAsDisabled(updateParent: true);
-//   });
-//   super.markAsDisabled(updateParent: updateParent, emitEvent: emitEvent);
-// }
-//
-// @override
-// void markAsEnabled({bool updateParent = true, bool emitEvent = true}) {
-//   _elements.forEach((_, element) {
-//     element.markAsEnabled(updateParent: true);
-//   });
-//   super.markAsEnabled(updateParent: updateParent, emitEvent: emitEvent);
-// }
-//
-
-//</editor-fold>
-// @override
-// Map<String, Object?> get rawValue =>
-//     _elements.map<String, Object?>((key, element) {
-//       if (element is SectionElement<dynamic>) {
-//         return MapEntry(key, element.rawValue);
-//       }
-//
-//       return MapEntry(key, element.value);
-//     });
-
-// @override
-// Map<String, Object?>? reduceValue() {
-//   final map = <String, Object?>{};
-//   _elements.forEach((key, element) {
-//     if (element.enabled || disabled) {
-//       map[key] = element.value;
-//     }
-//   });
-//
-//   return map;
-// }
 }

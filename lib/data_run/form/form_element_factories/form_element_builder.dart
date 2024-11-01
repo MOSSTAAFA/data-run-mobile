@@ -12,19 +12,19 @@ import 'package:mass_pro/data_run/screens/form_module/form_template/form_element
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'form_instance_builder.g.dart';
+part 'form_element_builder.g.dart';
 
 @riverpod
-Future<FormInstanceBuilder> formInstanceBuilder(FormInstanceBuilderRef ref,
+Future<FormElementBuilder> formInstanceBuilder(FormInstanceBuilderRef ref,
     {required FormMetadata formMetadata}) async {
   final formFlatTemplate = await ref
       .watch(formFlatTemplateProvider(formMetadata: formMetadata).future);
 
-  return FormInstanceBuilder(formFlatTemplate: formFlatTemplate);
+  return FormElementBuilder(formFlatTemplate: formFlatTemplate);
 }
 
-class FormInstanceBuilder {
-  FormInstanceBuilder({required this.formFlatTemplate});
+class FormElementBuilder {
+  FormElementBuilder({required this.formFlatTemplate});
 
   final FormFlatTemplate formFlatTemplate;
 

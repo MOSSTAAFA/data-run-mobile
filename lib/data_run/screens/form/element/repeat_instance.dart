@@ -57,48 +57,6 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
     element.parentSection = this;
   }
 
-  // ///
-  // void addRepeatSectionItem(SectionInstance value) {
-  //   add(value);
-  //   elementControl.add(FromElementControlFactory.createSectionControl(value));
-  // }
-
-  // void addRepeatSectionItemList(List<SectionInstance> value) {
-  //   value.map((e) => addRepeatSectionItem(e));
-  // }
-
-  // void insert(
-  //   int index,
-  //   SectionInstance element, {
-  //   bool updateParent = true,
-  //   bool emitEvent = true,
-  // }) {
-  //   _elements.insert(index, element);
-  //   element.parentSection = this;
-  //
-  //   updateValueAndValidity(
-  //     emitEvent: emitEvent,
-  //     updateParent: updateParent,
-  //   );
-  //
-  //   // if (emitEvent) {
-  //   //   emitsCollectionChanged(_controls);
-  //   // }
-  // }
-
-  //</editor-fold>
-
-  //<editor-fold desc="Remove, Clear">
-
-  /// new remove
-
-  // void removeAt(int i) {
-  //   if ((elementControl.value ?? []).length > i) {
-  //     elementControl.removeAt(i);
-  //     removeAt(i);
-  //   }
-  // }
-
   /// Removes and returns the child element at the given [index].
   void remove(
     RepeatItemInstance element, {
@@ -207,10 +165,6 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
   @override
   FormArray<Map<String, Object?>> get elementControl =>
       form.control(elementPath) as FormArray<Map<String, Object?>>;
-  //
-  // @override
-  // FormArray<Map<String, Object?>> get elementControl =>
-  //     form.control(elementPath) as FormArray<Map<String, Object?>>;
 
   @override
   void dispose() {

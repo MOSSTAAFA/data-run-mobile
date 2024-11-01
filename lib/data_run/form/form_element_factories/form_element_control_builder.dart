@@ -10,10 +10,10 @@ import 'package:mass_pro/data_run/screens/form_module/form_template/form_element
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'form_instance_control_builder.g.dart';
+part 'form_element_control_builder.g.dart';
 
 @riverpod
-Future<FormInstanceControlBuilder> formInstanceControlBuilder(
+Future<FormElementControlBuilder> formInstanceControlBuilder(
     FormInstanceControlBuilderRef ref,
     {required FormMetadata formMetadata}) async {
   final formFlatTemplate = await ref
@@ -21,13 +21,13 @@ Future<FormInstanceControlBuilder> formInstanceControlBuilder(
   final formInstanceService = await ref
       .watch(formInstanceServiceProvider(formMetadata: formMetadata).future);
 
-  return FormInstanceControlBuilder(
+  return FormElementControlBuilder(
       formFlatTemplate: formFlatTemplate,
       formInstanceService: formInstanceService);
 }
 
-class FormInstanceControlBuilder {
-  FormInstanceControlBuilder(
+class FormElementControlBuilder {
+  FormElementControlBuilder(
       {required this.formInstanceService, required this.formFlatTemplate});
 
   final FormFlatTemplate formFlatTemplate;
@@ -39,14 +39,14 @@ class FormInstanceControlBuilder {
         await formInstanceService.formAttributesControls(initialValue);
 
     for (var element in formFlatTemplate.formTemplate.fields) {
-      controls[element.name] = createTemplateControl(element,
+      controls[element.name] = createElementControl(element,
           savedValue: initialValue?[element.name]);
     }
 
     return controls;
   }
 
-  AbstractControl<dynamic> createTemplateControl(FieldTemplate fieldTemplate,
+  AbstractControl<dynamic> createElementControl(FieldTemplate fieldTemplate,
       {savedValue}) {
     if (fieldTemplate.type.isSection) {
       return createSectionFormGroup(fieldTemplate, savedValue: savedValue);
@@ -63,7 +63,7 @@ class FormInstanceControlBuilder {
     fieldTemplate.fields.sort((a, b) => (a.order).compareTo(b.order));
 
     for (var childTemplate in fieldTemplate.fields) {
-      controls[childTemplate.name] = createTemplateControl(childTemplate,
+      controls[childTemplate.name] = createElementControl(childTemplate,
           savedValue: savedValue?[childTemplate.name]);
     }
     return FormGroup(controls);

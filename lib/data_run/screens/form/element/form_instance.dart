@@ -3,8 +3,8 @@ import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/commons/logging/logging.dart';
-import 'package:mass_pro/data_run/form/form_element/parsing/form_instance_builder.dart';
-import 'package:mass_pro/data_run/form/form_element/parsing/form_instance_control_builder.dart';
+import 'package:mass_pro/data_run/form/form_element_factories/form_element_builder.dart';
+import 'package:mass_pro/data_run/form/form_element_factories/form_element_control_builder.dart';
 import 'package:mass_pro/data_run/form/form_submission/submission_list.provider.dart';
 import 'package:mass_pro/data_run/form/shared/form_configuration.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_element.dart';

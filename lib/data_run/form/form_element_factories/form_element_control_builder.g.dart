@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'form_instance_builder.dart';
+part of 'form_element_control_builder.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$formInstanceBuilderHash() =>
-    r'6d37d598590017069b83576dbd1ccdb513af8efe';
+String _$formInstanceControlBuilderHash() =>
+    r'd388fc84f4d7a476092c9df4e7c73dccd731e97c';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -30,14 +30,14 @@ class _SystemHash {
   }
 }
 
-/// See also [formInstanceBuilder].
-@ProviderFor(formInstanceBuilder)
-const formInstanceBuilderProvider = FormInstanceBuilderFamily();
+/// See also [formInstanceControlBuilder].
+@ProviderFor(formInstanceControlBuilder)
+const formInstanceControlBuilderProvider = FormInstanceControlBuilderFamily();
 
-/// See also [formInstanceBuilder].
-class FormInstanceBuilderFamily extends Family {
-  /// See also [formInstanceBuilder].
-  const FormInstanceBuilderFamily();
+/// See also [formInstanceControlBuilder].
+class FormInstanceControlBuilderFamily extends Family {
+  /// See also [formInstanceControlBuilder].
+  const FormInstanceControlBuilderFamily();
 
   static const Iterable<ProviderOrFamily>? _dependencies = null;
 
@@ -51,21 +51,21 @@ class FormInstanceBuilderFamily extends Family {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'formInstanceBuilderProvider';
+  String? get name => r'formInstanceControlBuilderProvider';
 
-  /// See also [formInstanceBuilder].
-  FormInstanceBuilderProvider call({
+  /// See also [formInstanceControlBuilder].
+  FormInstanceControlBuilderProvider call({
     required FormMetadata formMetadata,
   }) {
-    return FormInstanceBuilderProvider(
+    return FormInstanceControlBuilderProvider(
       formMetadata: formMetadata,
     );
   }
 
   @visibleForOverriding
   @override
-  FormInstanceBuilderProvider getProviderOverride(
-    covariant FormInstanceBuilderProvider provider,
+  FormInstanceControlBuilderProvider getProviderOverride(
+    covariant FormInstanceControlBuilderProvider provider,
   ) {
     return call(
       formMetadata: provider.formMetadata,
@@ -74,53 +74,55 @@ class FormInstanceBuilderFamily extends Family {
 
   /// Enables overriding the behavior of this provider, no matter the parameters.
   Override overrideWith(
-      FutureOr<FormInstanceBuilder> Function(FormInstanceBuilderRef ref)
+      FutureOr<FormInstanceControlBuilder> Function(
+              FormInstanceControlBuilderRef ref)
           create) {
-    return _$FormInstanceBuilderFamilyOverride(this, create);
+    return _$FormInstanceControlBuilderFamilyOverride(this, create);
   }
 }
 
-class _$FormInstanceBuilderFamilyOverride implements FamilyOverride {
-  _$FormInstanceBuilderFamilyOverride(this.overriddenFamily, this.create);
+class _$FormInstanceControlBuilderFamilyOverride implements FamilyOverride {
+  _$FormInstanceControlBuilderFamilyOverride(
+      this.overriddenFamily, this.create);
 
-  final FutureOr<FormInstanceBuilder> Function(FormInstanceBuilderRef ref)
-      create;
-
-  @override
-  final FormInstanceBuilderFamily overriddenFamily;
+  final FutureOr<FormInstanceControlBuilder> Function(
+      FormInstanceControlBuilderRef ref) create;
 
   @override
-  FormInstanceBuilderProvider getProviderOverride(
-    covariant FormInstanceBuilderProvider provider,
+  final FormInstanceControlBuilderFamily overriddenFamily;
+
+  @override
+  FormInstanceControlBuilderProvider getProviderOverride(
+    covariant FormInstanceControlBuilderProvider provider,
   ) {
     return provider._copyWith(create);
   }
 }
 
-/// See also [formInstanceBuilder].
-class FormInstanceBuilderProvider
-    extends AutoDisposeFutureProvider<FormInstanceBuilder> {
-  /// See also [formInstanceBuilder].
-  FormInstanceBuilderProvider({
+/// See also [formInstanceControlBuilder].
+class FormInstanceControlBuilderProvider
+    extends AutoDisposeFutureProvider<FormInstanceControlBuilder> {
+  /// See also [formInstanceControlBuilder].
+  FormInstanceControlBuilderProvider({
     required FormMetadata formMetadata,
   }) : this._internal(
-          (ref) => formInstanceBuilder(
-            ref as FormInstanceBuilderRef,
+          (ref) => formInstanceControlBuilder(
+            ref as FormInstanceControlBuilderRef,
             formMetadata: formMetadata,
           ),
-          from: formInstanceBuilderProvider,
-          name: r'formInstanceBuilderProvider',
+          from: formInstanceControlBuilderProvider,
+          name: r'formInstanceControlBuilderProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$formInstanceBuilderHash,
-          dependencies: FormInstanceBuilderFamily._dependencies,
+                  : _$formInstanceControlBuilderHash,
+          dependencies: FormInstanceControlBuilderFamily._dependencies,
           allTransitiveDependencies:
-              FormInstanceBuilderFamily._allTransitiveDependencies,
+              FormInstanceControlBuilderFamily._allTransitiveDependencies,
           formMetadata: formMetadata,
         );
 
-  FormInstanceBuilderProvider._internal(
+  FormInstanceControlBuilderProvider._internal(
     super.create, {
     required super.name,
     required super.dependencies,
@@ -134,12 +136,14 @@ class FormInstanceBuilderProvider
 
   @override
   Override overrideWith(
-    FutureOr<FormInstanceBuilder> Function(FormInstanceBuilderRef ref) create,
+    FutureOr<FormInstanceControlBuilder> Function(
+            FormInstanceControlBuilderRef ref)
+        create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: FormInstanceBuilderProvider._internal(
-        (ref) => create(ref as FormInstanceBuilderRef),
+      override: FormInstanceControlBuilderProvider._internal(
+        (ref) => create(ref as FormInstanceControlBuilderRef),
         from: from,
         name: null,
         dependencies: null,
@@ -158,15 +162,17 @@ class FormInstanceBuilderProvider
   }
 
   @override
-  AutoDisposeFutureProviderElement<FormInstanceBuilder> createElement() {
-    return _FormInstanceBuilderProviderElement(this);
+  AutoDisposeFutureProviderElement<FormInstanceControlBuilder> createElement() {
+    return _FormInstanceControlBuilderProviderElement(this);
   }
 
-  FormInstanceBuilderProvider _copyWith(
-    FutureOr<FormInstanceBuilder> Function(FormInstanceBuilderRef ref) create,
+  FormInstanceControlBuilderProvider _copyWith(
+    FutureOr<FormInstanceControlBuilder> Function(
+            FormInstanceControlBuilderRef ref)
+        create,
   ) {
-    return FormInstanceBuilderProvider._internal(
-      (ref) => create(ref as FormInstanceBuilderRef),
+    return FormInstanceControlBuilderProvider._internal(
+      (ref) => create(ref as FormInstanceControlBuilderRef),
       name: name,
       dependencies: dependencies,
       allTransitiveDependencies: allTransitiveDependencies,
@@ -178,7 +184,7 @@ class FormInstanceBuilderProvider
 
   @override
   bool operator ==(Object other) {
-    return other is FormInstanceBuilderProvider &&
+    return other is FormInstanceControlBuilderProvider &&
         other.formMetadata == formMetadata;
   }
 
@@ -191,20 +197,20 @@ class FormInstanceBuilderProvider
   }
 }
 
-mixin FormInstanceBuilderRef
-    on AutoDisposeFutureProviderRef<FormInstanceBuilder> {
+mixin FormInstanceControlBuilderRef
+    on AutoDisposeFutureProviderRef<FormInstanceControlBuilder> {
   /// The parameter `formMetadata` of this provider.
   FormMetadata get formMetadata;
 }
 
-class _FormInstanceBuilderProviderElement
-    extends AutoDisposeFutureProviderElement<FormInstanceBuilder>
-    with FormInstanceBuilderRef {
-  _FormInstanceBuilderProviderElement(super.provider);
+class _FormInstanceControlBuilderProviderElement
+    extends AutoDisposeFutureProviderElement<FormInstanceControlBuilder>
+    with FormInstanceControlBuilderRef {
+  _FormInstanceControlBuilderProviderElement(super.provider);
 
   @override
   FormMetadata get formMetadata =>
-      (origin as FormInstanceBuilderProvider).formMetadata;
+      (origin as FormInstanceControlBuilderProvider).formMetadata;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package
