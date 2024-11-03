@@ -7,21 +7,21 @@ import 'package:mass_pro/data_run/screens/view/view_base.dart';
 import 'package:mass_pro/riverpod/use_on_init_hook.dart';
 
 /// List Activities of certain project
-class ProjectActivitiesScreenWidget extends ConsumerStatefulWidget
+class ProjectActivitiesScreen extends ConsumerStatefulWidget
     with ViewBase {
-  const ProjectActivitiesScreenWidget({super.key, required this.project});
+  const ProjectActivitiesScreen({super.key, required this.project});
 
   static const String route = '/projects/detail';
 
   final String project;
 
   @override
-  ConsumerState<ProjectActivitiesScreenWidget> createState() =>
+  ConsumerState<ProjectActivitiesScreen> createState() =>
       _ProjectDetailScreenWidgetState();
 }
 
 class _ProjectDetailScreenWidgetState
-    extends ConsumerState<ProjectActivitiesScreenWidget> with ViewBase {
+    extends ConsumerState<ProjectActivitiesScreen> with ViewBase {
   late final String projectUid;
 
   @override

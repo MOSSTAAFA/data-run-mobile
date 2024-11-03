@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/ui_models/bottomsheet/bottom_sheet_content_model.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/ui_models/bottomsheet/dialog_button_style.dart';
+import 'package:mass_pro/data_run/screens/form_ui_elements/bottom_sheet/bottom_sheet_model/bottom_sheet_content_model.dart';
+import 'package:mass_pro/data_run/screens/form_ui_elements/bottom_sheet/bottom_sheet_model/dialog_button_style.dart';
 
 /// data class
 class FormCompletionDialog with EquatableMixin {

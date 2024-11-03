@@ -212,5 +212,9 @@
   "reviewFormData": "Review Form",
   "checkFieldsLater": "Check Fields later",
   "makeFormFinalOrSaveBody": "Make Form Final for Send to server, or save as draft!",
-  "deleteConfirmationMessage": "Are you sure you want to delete this item?"
+  "deleteConfirmationMessage": "Are you sure you want to delete this item?",
+  "formSummaryView": "Form Summary View",
+  "edit": "Edit",
+  "noInternetAccess": "No internet access",
+  "online": "online!"
 }

@@ -15,7 +15,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'form_element_builder.g.dart';
 
 @riverpod
-Future<FormElementBuilder> formInstanceBuilder(FormInstanceBuilderRef ref,
+Future<FormElementBuilder> formElementBuilder(FormElementBuilderRef ref,
     {required FormMetadata formMetadata}) async {
   final formFlatTemplate = await ref
       .watch(formFlatTemplateProvider(formMetadata: formMetadata).future);

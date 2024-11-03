@@ -13,8 +13,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'form_element_control_builder.g.dart';
 
 @riverpod
-Future<FormElementControlBuilder> formInstanceControlBuilder(
-    FormInstanceControlBuilderRef ref,
+Future<FormElementControlBuilder> formElementControlBuilder(
+    FormElementControlBuilderRef ref,
     {required FormMetadata formMetadata}) async {
   final formFlatTemplate = await ref
       .watch(formFlatTemplateProvider(formMetadata: formMetadata).future);

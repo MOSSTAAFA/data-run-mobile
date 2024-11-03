@@ -1533,6 +1533,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Form Summary View`
+  String get formSummaryView {
+    return Intl.message(
+      'Form Summary View',
+      name: 'formSummaryView',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit`
+  String get edit {
+    return Intl.message(
+      'Edit',
+      name: 'edit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No internet access`
+  String get noInternetAccess {
+    return Intl.message(
+      'No internet access',
+      name: 'noInternetAccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `online!`
+  String get online {
+    return Intl.message(
+      'online!',
+      name: 'online',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

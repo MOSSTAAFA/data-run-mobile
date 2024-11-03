@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mass_pro/main/usescases/login/login_screen.widget.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -30,6 +31,29 @@ Future<void> navigatePush(Widget page,
       context ?? navigatorKey.currentContext!,
       MaterialPageRoute(builder: (context) => page),
     );
+
+void logout(BuildContext context) {
+  // Clear user session or token here
+  Navigator.of(context).pushAndRemoveUntil(
+    MaterialPageRoute(builder: (context) => LoginScreen()),
+    (Route<dynamic> route) => false,
+  );
+}
+
+void pushUniqueScreen(BuildContext context, String routeName,
+    {dynamic arguments}) {
+  bool isRouteActive = false;
+  Navigator.popUntil(context, (route) {
+    if (route.settings.name == routeName) {
+      isRouteActive = true;
+    }
+    return true;
+  });
+
+  if (!isRouteActive) {
+    Navigator.pushNamed(context, routeName, arguments: arguments);
+  }
+}
 
 /// Color list
 const Color mediumPurple = Color.fromRGBO(79, 0, 241, 1.0);
