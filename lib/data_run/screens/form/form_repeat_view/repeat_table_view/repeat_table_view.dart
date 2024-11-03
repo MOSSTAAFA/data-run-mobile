@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
-import 'package:mass_pro/data_run/screens/form/form_view_summary/repeat_table_view/repeat_table_data_source.dart';
+import 'package:mass_pro/data_run/screens/form/form_repeat_view/repeat_table_view/repeat_table_data_source.dart';
 import 'package:mass_pro/data_run/screens/form_module/form_template/form_element_template.dart';
 import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
 
