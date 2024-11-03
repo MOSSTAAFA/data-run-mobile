@@ -1,8 +1,11 @@
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mass_pro/commons/logging/logging.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
+import 'package:mass_pro/data_run/screens/form/element/providers/form_instance.provider.dart';
 import 'package:mass_pro/data_run/screens/form/element/validation/form_element_validator.dart';
+import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
 import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
 import 'package:reactive_dropdown_search/reactive_dropdown_search.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
@@ -14,8 +17,13 @@ class QDropDownMultiSelectWithSearchField extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final formInstance = ref
+        .watch(
+            formInstanceProvider(formMetadata: FormMetadataWidget.of(context)))
+        .requireValue;
     return ReactiveDropdownSearchMultiSelection(
-      formControl: element.elementControl,
+      formControl: formInstance.form.control(element.pathRecursive)
+          as FormControl<List<String>>,
       validationMessages: validationMessages(context),
       clearButtonProps: const ClearButtonProps(isVisible: true),
       valueAccessor: NameToLabelValueAccessor(options: element.visibleOption),

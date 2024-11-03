@@ -10,10 +10,10 @@ import 'package:mass_pro/data_run/screens/form/element/providers/form_instance.p
 import 'package:mass_pro/data_run/screens/form/element/form_metadata.dart';
 import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
 import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_template_inherit_widget.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/ui_models/bottom_sheet.widget.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/ui_models/form_completion_dialog_config/completion_dialog_config.provider.dart';
+import 'package:mass_pro/data_run/screens/form_ui_elements/bottom_sheet/bottom_sheet.widget.dart';
+import 'package:mass_pro/data_run/screens/form_ui_elements/bottom_sheet/form_completion_dialog_config/completion_dialog_config.provider.dart';
+import 'package:mass_pro/data_run/screens/form_ui_elements/bottom_sheet/form_completion_dialog_config/form_completion_dialog.dart';
 import 'package:mass_pro/data_run/screens/form_ui_elements/get_error_widget.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/ui_models/form_completion_dialog_config/form_completion_dialog.dart';
 import 'package:mass_pro/generated/l10n.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
@@ -68,7 +68,6 @@ class FormTabScreen extends StatefulHookConsumerWidget {
 }
 
 class _SubmissionTabScreenState extends ConsumerState<FormTabScreen> {
-  final _entryFormKey = GlobalKey<ReactiveFormBuilderState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   FormMetadata metadata(BuildContext context) => FormMetadataWidget.of(context);

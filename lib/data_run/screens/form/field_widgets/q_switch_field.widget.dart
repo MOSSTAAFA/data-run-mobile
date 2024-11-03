@@ -1,31 +1,33 @@
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mass_pro/commons/logging/logging.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
+import 'package:mass_pro/data_run/screens/form/element/providers/form_instance.provider.dart';
+import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
-class QSwitchField extends HookWidget {
+class QSwitchField extends ConsumerWidget {
   const QSwitchField({super.key, required this.element});
 
   final FieldInstance<bool> element;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final formInstance = ref
+        .watch(
+            formInstanceProvider(formMetadata: FormMetadataWidget.of(context)))
+        .requireValue;
+
     return Row(
       children: [
         Expanded(child: Text('${element.label}')),
-        // ReactiveRadioListTile(
-        //
-        //   formControl: element.elementControl, value: null,
-        // ),
         ReactiveCheckbox(
           tristate: true,
-          formControl: element.elementControl,
+          formControl: formInstance.form.control(element.pathRecursive)
+              as FormControl<bool>,
         )
       ],
     );
-    // return ReactiveSwitchListTile(
-    //   formControl: element.elementControl,
-    //   title: Text('${element.label}'),
-    // );
   }
 }

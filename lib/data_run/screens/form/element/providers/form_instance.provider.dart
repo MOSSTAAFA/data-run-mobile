@@ -65,10 +65,10 @@ Future<FormInstance> formInstance(FormInstanceRef ref,
       .watch(formInstanceServiceProvider(formMetadata: formMetadata).future);
 
   final formControlBuilder = await ref.watch(
-      formInstanceControlBuilderProvider(formMetadata: formMetadata).future);
+      formElementControlBuilderProvider(formMetadata: formMetadata).future);
 
   final formElementBuilder = await ref
-      .watch(formInstanceBuilderProvider(formMetadata: formMetadata).future);
+      .watch(formElementBuilderProvider(formMetadata: formMetadata).future);
 
   final form =
       FormGroup(await formControlBuilder.formDataControls(initialFormValue));

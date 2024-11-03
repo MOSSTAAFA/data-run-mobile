@@ -4,7 +4,7 @@ import 'package:mass_pro/data_run/screens/form/element_widgets/section_element.w
 import 'package:mass_pro/data_run/screens/form/field_widgets/reactive_choice_single_select_chip.widget.dart';
 import 'package:mass_pro/data_run/screens/form/field_widgets/q_date_picker.widget.dart';
 import 'package:mass_pro/data_run/screens/form/field_widgets/q_drop_down_multi_select_field.widget.dart';
-import 'package:mass_pro/data_run/screens/form/field_widgets/q_ou_picker.dart';
+import 'package:mass_pro/data_run/screens/form/field_widgets/reactive_ou_picker_field.dart';
 import 'package:mass_pro/data_run/screens/form/field_widgets/q_switch_field.widget.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/element_widgets/field.widget.dart';
@@ -23,11 +23,11 @@ class FormElementWidgetFactory {
     return switch (element) {
       /// [FieldWidget] is a leaf in the tr
       FieldInstance() =>
-        FieldWidget(/*key: ValueKey(element.elementPath),*/ element: element),
+        FieldWidget(key: ValueKey(element.elementPath), element: element),
 
       /// a [SectionWidget] with other widgets inside which also call this factory to build the tree recursively until it reaches the leaf which is a [FieldWidget]
       SectionElement() => SectionElementWidget(
-          /*key: ValueKey(element.elementPath),*/
+          key: ValueKey(element.elementPath),
           element: element),
     };
   }

@@ -17,8 +17,13 @@ class RepeatSectionWidget extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final double scrollableHeight = 500.0;
     final formMetadata = FormMetadataWidget.of(context);
+    final formInstance = ref
+        .watch(
+        formInstanceProvider(formMetadata: formMetadata))
+        .requireValue;
     return ReactiveFormArray(
-      formArray: element.elementControl,
+      // formArray: element.elementControl,
+      formArray: formInstance.form.control(element.pathRecursive) as FormArray,
       builder:
           (BuildContext context, FormArray<dynamic> formArray, Widget? child) {
         return SizedBox(

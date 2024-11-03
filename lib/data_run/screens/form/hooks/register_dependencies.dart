@@ -11,22 +11,20 @@ void useRegisterDependencies<E extends FormElementInstance<dynamic>>(E element,
   final resolvedDependency = useMemoized(() {
     return _resolveFormElementDependencies(element);
   }, [
-    element.template.dependencies,
-    element.template.filterDependencies,
     element.elementPath
   ]);
 
   /// bind dependencies
   useEffect(() {
-    if (element is FieldInstance) {
-      element.elementControl!.valueChanges.listen((value) {
-        if (value == null) {
-          element.updateStatus(element.elementState.reset(value: value));
-        } else {
-          element.updateStatus(element.elementState.copyWith(value: value));
-        }
-      });
-    }
+    // if (element is FieldInstance) {
+      // element.elementControl!.valueChanges.listen((value) {
+      //   if (value == null) {
+      //     element.updateStatus(element.elementState.reset(value: value));
+      //   } else {
+      //     element.updateStatus(element.elementState.copyWith(value: value));
+      //   }
+      // });
+    // }
 
     // bind to the
     for (final elementDependency in resolvedDependency.values) {

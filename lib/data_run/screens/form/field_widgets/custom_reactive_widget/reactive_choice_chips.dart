@@ -268,6 +268,7 @@ class ReactiveChoiceChips<T> extends ReactiveFormField<T, T> {
     this.textDirection,
     this.verticalDirection = VerticalDirection.down,
     this.visualDensity,
+    ReactiveFormFieldCallback<T>? onChanged,
   }) : super(builder: (field) {
           final state = field;
           final effectiveDecoration = decoration
@@ -295,6 +296,7 @@ class ReactiveChoiceChips<T> extends ReactiveFormField<T, T> {
                         ? (selected) {
                             final choice = selected ? option.value : null;
                             state.didChange(choice);
+                            onChanged?.call(field.control);
                           }
                         : null,
                     avatar: option.avatar,

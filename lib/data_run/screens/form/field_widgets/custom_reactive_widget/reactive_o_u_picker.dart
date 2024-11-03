@@ -17,6 +17,7 @@ class ReactiveOuPicker<T> extends ReactiveFormField<T, String> {
     bool enabled = true,
     String? formControlName,
     FormControl<T>? formControl,
+    ReactiveFormFieldCallback<T>? onChanged,
     required TreeNodeDataSource dataSource,
   }) : super(
           formControl: formControl,
@@ -26,7 +27,10 @@ class ReactiveOuPicker<T> extends ReactiveFormField<T, String> {
               enabled: enabled,
               initialValueUid: field.value,
               fieldLabelText: decoration.labelText,
-              onChanged: field.didChange,
+              onChanged: (value) {
+                field.didChange(value);
+                onChanged?.call(field.control);
+              },
               validator: (value) => validationMessages?.keys.first,
               // errorInvalidText: validationMessages?.keys.first,
               onSubmitted: field.didChange,

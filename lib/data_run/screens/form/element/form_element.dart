@@ -95,8 +95,6 @@ sealed class FormElementInstance<T> {
   AbstractControl<dynamic>? get elementControl =>
       controlExist ? form.control(elementPath) : null;
 
-  void get focus => elementControl?.focus();
-
   String get pathRecursive {
     return parentSection != null && parentSection!.name.isNotEmpty
         ? '${parentSection!.pathRecursive}.${name}'
@@ -179,7 +177,7 @@ sealed class FormElementInstance<T> {
     updateStatus(elementState.copyWith(
         errors: Map.from(elementState.errors)
           ..removeWhere((errorKey, dynamic value) => errorKey == key)));
-    // elementControl?.removeError(key);
+    elementControl?.removeError(key);
   }
 
   void reset({T? value});

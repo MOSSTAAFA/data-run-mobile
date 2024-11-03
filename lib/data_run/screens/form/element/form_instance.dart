@@ -89,9 +89,6 @@ class FormInstance {
 
   Future<DataFormSubmission> saveFormData() async {
     final Map<String, Object?> formValue = form.value;
-    final Map<String, Object?> formValue3 = _formSection.value!;
-    final Map<String, dynamic> value = formValue3 ?? {};
-    logDebug(info: '${value}');
     DataFormSubmission? formSubmission;
     formSubmission = await formSubmissionList.getSubmission(submissionUid!);
     formSubmission!.orgUnit = form.control('_${orgUnitControlName}').value;
@@ -128,10 +125,10 @@ class FormInstance {
 
   RepeatItemInstance onAddRepeatedItem(RepeatInstance parent) {
     final instanceBuilder = _ref
-        .read(formInstanceBuilderProvider(formMetadata: formMetadata))
+        .read(formElementBuilderProvider(formMetadata: formMetadata))
         .requireValue;
     final instanceControllerBuilder = _ref
-        .read(formInstanceControlBuilderProvider(formMetadata: formMetadata))
+        .read(formElementControlBuilderProvider(formMetadata: formMetadata))
         .requireValue;
     final itemInstanceController =
         instanceControllerBuilder.createSectionFormGroup(parent.template);

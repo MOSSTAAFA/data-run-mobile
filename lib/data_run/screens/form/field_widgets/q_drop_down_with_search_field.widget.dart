@@ -1,10 +1,14 @@
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mass_pro/commons/logging/logging.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
+import 'package:mass_pro/data_run/screens/form/element/providers/form_instance.provider.dart';
 import 'package:mass_pro/data_run/screens/form/element/validation/form_element_validator.dart';
+import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
 import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
 import 'package:reactive_dropdown_search/reactive_dropdown_search.dart';
+import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
 class QDropDownWithSearchField extends HookConsumerWidget {
   const QDropDownWithSearchField({super.key, required this.element});
@@ -13,15 +17,18 @@ class QDropDownWithSearchField extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final fieldOptions = formFlatTemplate
-    //     .optionLists[element.listName];
-
-    return getAutoComplete(element.visibleOption, context);
+    return getAutoComplete(element.visibleOption, context, ref);
   }
 
-  getAutoComplete(List<FormOption> options, BuildContext context) {
+  getAutoComplete(
+      List<FormOption> options, BuildContext context, WidgetRef ref) {
+    final formInstance = ref
+        .watch(
+            formInstanceProvider(formMetadata: FormMetadataWidget.of(context)))
+        .requireValue;
     return ReactiveDropdownSearch<String, String>(
-      formControl: element.elementControl,
+      formControl: formInstance.form.control(element.pathRecursive)
+          as FormControl<String>,
       clearButtonProps: const ClearButtonProps(isVisible: true),
       validationMessages: validationMessages(context),
       valueAccessor: NameToLabelValueAccessor(options),
@@ -55,7 +62,7 @@ class NameToLabelValueAccessor
     return options
         .where((option) => option.name == modelValue)
         .map((option) =>
-        getItemLocalString(option.label, defaultString: option.name))
+            getItemLocalString(option.label, defaultString: option.name))
         .firstOrNull;
   }
 
@@ -63,8 +70,8 @@ class NameToLabelValueAccessor
   String? viewToModelValue(List<String> items, String? viewValue) {
     return options
         .where((option) =>
-    getItemLocalString(option.label, defaultString: option.name) ==
-        viewValue)
+            getItemLocalString(option.label, defaultString: option.name) ==
+            viewValue)
         .map((option) => option.name)
         .firstOrNull;
   }
