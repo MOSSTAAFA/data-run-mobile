@@ -64,6 +64,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Are you sure you want to delete this item?"),
         "discard": MessageLookupByLibrary.simpleMessage("Discard"),
         "dismiss": MessageLookupByLibrary.simpleMessage("Dismiss"),
+        "edit": MessageLookupByLibrary.simpleMessage("Edit"),
         "enterAValidNumber": MessageLookupByLibrary.simpleMessage(
             "Please enter a valid number."),
         "enterYourUsername":
@@ -181,6 +182,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "form": m0,
         "formContainsSomeErrors":
             MessageLookupByLibrary.simpleMessage("Form contains some errors"),
+        "formSummaryView":
+            MessageLookupByLibrary.simpleMessage("Form Summary View"),
         "fullName": MessageLookupByLibrary.simpleMessage("Full Name"),
         "hidePassword": MessageLookupByLibrary.simpleMessage("Hide Password"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
@@ -217,6 +220,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "nmcpYemen": MessageLookupByLibrary.simpleMessage("NMCP Yemen"),
         "noFormsAvailable":
             MessageLookupByLibrary.simpleMessage("No forms available"),
+        "noInternetAccess":
+            MessageLookupByLibrary.simpleMessage("No internet access"),
         "notMappedError":
             MessageLookupByLibrary.simpleMessage("Not mapped error"),
         "notNow": MessageLookupByLibrary.simpleMessage("Not Now"),
@@ -226,6 +231,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "objectAccessDenied":
             MessageLookupByLibrary.simpleMessage("objectAccessDenied"),
         "ok": MessageLookupByLibrary.simpleMessage("OK"),
+        "online": MessageLookupByLibrary.simpleMessage("online!"),
         "online_search_parsing_error":
             MessageLookupByLibrary.simpleMessage("Search grid parse error"),
         "open": MessageLookupByLibrary.simpleMessage("Open"),

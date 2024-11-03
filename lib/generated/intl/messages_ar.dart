@@ -61,6 +61,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Are you sure you want to delete this item?"),
         "discard": MessageLookupByLibrary.simpleMessage("تجاهل"),
         "dismiss": MessageLookupByLibrary.simpleMessage("حسنًا"),
+        "edit": MessageLookupByLibrary.simpleMessage("تعديل"),
         "enterAValidNumber":
             MessageLookupByLibrary.simpleMessage("يرجى إدخال رقم صالح."),
         "enterYourUsername":
@@ -176,6 +177,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "form": m0,
         "formContainsSomeErrors":
             MessageLookupByLibrary.simpleMessage(" يوجد أخطاء في بعض الحقول"),
+        "formSummaryView":
+            MessageLookupByLibrary.simpleMessage("عرض خلاصة الاستمارة"),
         "fullName": MessageLookupByLibrary.simpleMessage("الاسم الكامل"),
         "hidePassword": MessageLookupByLibrary.simpleMessage("اخفاء كلمة السر"),
         "home": MessageLookupByLibrary.simpleMessage("الرئيسة"),
@@ -213,6 +216,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "البرنامج الوطني لمكافحة الملاريا"),
         "noFormsAvailable": MessageLookupByLibrary.simpleMessage(
             "لا تتوفر استمارات لهذا النشاط"),
+        "noInternetAccess": MessageLookupByLibrary.simpleMessage("غير متصل"),
         "notMappedError": MessageLookupByLibrary.simpleMessage("خطأ غير معتمد"),
         "notNow": MessageLookupByLibrary.simpleMessage("ليس الآن"),
         "notifications": MessageLookupByLibrary.simpleMessage("تنبيهات"),
@@ -221,6 +225,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "objectAccessDenied":
             MessageLookupByLibrary.simpleMessage("الوصول مرفوض لهذا الكائن"),
         "ok": MessageLookupByLibrary.simpleMessage("موافق"),
+        "online": MessageLookupByLibrary.simpleMessage("متصل"),
         "online_search_parsing_error":
             MessageLookupByLibrary.simpleMessage("خطأ في تحليل بحث الشبكة"),
         "open": MessageLookupByLibrary.simpleMessage("فتح"),
