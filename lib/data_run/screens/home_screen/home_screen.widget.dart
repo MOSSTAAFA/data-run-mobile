@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mass_pro/core/user/auth_service.dart';
 import 'package:mass_pro/data_run/screens/home_screen/drawer/settings_page.dart';
 import 'package:mass_pro/data_run/screens/home_screen/home_deck/home_deck.widget.dart';
 import 'package:mass_pro/data_run/screens/home_screen/home_presenter.dart';
@@ -7,13 +8,16 @@ import 'package:mass_pro/data_run/screens/home_screen/home_screen_view.dart';
 import 'package:mass_pro/data_run/screens/view/view_base.dart';
 import 'package:mass_pro/generated/l10n.dart';
 import 'package:mass_pro/main/data/service/sync_status_controller.dart';
+import 'package:mass_pro/main/usescases/auth/internet_aware_screen.dart';
 import 'package:mass_pro/main/usescases/login/login_screen.widget.dart';
 import 'package:mass_pro/main/usescases/sync/sync_screen.widget.dart';
 import 'package:mass_pro/utils/navigator_key.dart';
 
-class HomeScreenWidget extends ConsumerStatefulWidget {
-  const HomeScreenWidget(
+class HomeScreen extends ConsumerStatefulWidget {
+  const HomeScreen(
       {super.key, this.launchDataSync = false, this.forceToNotSynced = false});
+
+  static String routeName = '/home';
 
   final bool forceToNotSynced;
 
@@ -23,14 +27,19 @@ class HomeScreenWidget extends ConsumerStatefulWidget {
   _HomeScreenWidgetState createState() => _HomeScreenWidgetState();
 }
 
-class _HomeScreenWidgetState extends ConsumerState<HomeScreenWidget>
+class _HomeScreenWidgetState extends ConsumerState<HomeScreen>
     with HomeScreenView, ViewBase {
   late final HomePresenter presenter;
 
   @override
   Widget build(BuildContext context) {
+    final userService = UserService.instance;
+    final user = userService.user!;
+    final userInfo = user.firstName ?? user.username;
+
     return Scaffold(
       appBar: AppBar(
+        actions: const [InternetAwareChip()],
         title: Text(S.of(context).home),
       ),
       drawer: Drawer(
@@ -38,10 +47,10 @@ class _HomeScreenWidgetState extends ConsumerState<HomeScreenWidget>
           padding: EdgeInsets.zero,
           children: <Widget>[
             UserAccountsDrawerHeader(
-              accountName: Text(S.of(context).username),
+              accountName: Text(userInfo),
               accountEmail: Text(S.of(context).organization),
               currentAccountPicture: CircleAvatar(
-                child: Text('U'),
+                child: Text(userInfo.substring(0, 1)),
               ),
             ),
             ListTile(
@@ -67,14 +76,14 @@ class _HomeScreenWidgetState extends ConsumerState<HomeScreenWidget>
                 );
               },
             ),
-            // ListTile(
-            //   leading: Icon(Icons.logout),
-            //   title: Text(S.of(context).logout),
-            //   onTap: () {
-            //     Navigator.pop(context);
-            //     presenter.logOut();
-            //   },
-            // ),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text(S.of(context).logout),
+              onTap: () {
+                Navigator.pop(context);
+                presenter.logOut();
+              },
+            ),
           ],
         ),
       ),

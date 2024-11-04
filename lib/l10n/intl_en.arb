@@ -216,5 +216,6 @@
   "formSummaryView": "Form Summary View",
   "edit": "Edit",
   "noInternetAccess": "No internet access",
-  "online": "online!"
+  "online": "online!",
+  "empty": "Empty"
 }

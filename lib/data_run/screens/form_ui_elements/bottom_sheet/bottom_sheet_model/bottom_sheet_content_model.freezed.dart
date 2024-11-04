@@ -212,50 +212,10 @@ abstract class _DialogContentModel implements DialogContentModel {
 
 /// @nodoc
 mixin _$BottomSheetBodyModel {
-  String get message => throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String message) messageBody,
-    required TResult Function(
-            String message, Map<String, List<FieldWithIssue>> fieldsWithIssues)
-        errorsBody,
-  }) =>
+  String? get message => throw _privateConstructorUsedError;
+  Map<String, List<FieldWithIssue<dynamic>>> get fieldsWithIssues =>
       throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String message)? messageBody,
-    TResult? Function(
-            String message, Map<String, List<FieldWithIssue>> fieldsWithIssues)?
-        errorsBody,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message)? messageBody,
-    TResult Function(
-            String message, Map<String, List<FieldWithIssue>> fieldsWithIssues)?
-        errorsBody,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(MessageBody value) messageBody,
-    required TResult Function(ErrorsBody value) errorsBody,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(MessageBody value)? messageBody,
-    TResult? Function(ErrorsBody value)? errorsBody,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(MessageBody value)? messageBody,
-    TResult Function(ErrorsBody value)? errorsBody,
-    required TResult orElse(),
-  }) =>
+  Map<String, List<FieldWithIssue<dynamic>>> get allFields =>
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -269,7 +229,10 @@ abstract class $BottomSheetBodyModelCopyWith<$Res> {
           $Res Function(BottomSheetBodyModel) then) =
       _$BottomSheetBodyModelCopyWithImpl<$Res, BottomSheetBodyModel>;
   @useResult
-  $Res call({String message});
+  $Res call(
+      {String? message,
+      Map<String, List<FieldWithIssue<dynamic>>> fieldsWithIssues,
+      Map<String, List<FieldWithIssue<dynamic>>> allFields});
 }
 
 /// @nodoc
@@ -286,358 +249,191 @@ class _$BottomSheetBodyModelCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? message = null,
+    Object? message = freezed,
+    Object? fieldsWithIssues = null,
+    Object? allFields = null,
   }) {
     return _then(_value.copyWith(
-      message: null == message
+      message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
+      fieldsWithIssues: null == fieldsWithIssues
+          ? _value.fieldsWithIssues
+          : fieldsWithIssues // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<FieldWithIssue<dynamic>>>,
+      allFields: null == allFields
+          ? _value.allFields
+          : allFields // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<FieldWithIssue<dynamic>>>,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$MessageBodyImplCopyWith<$Res>
+abstract class _$$BottomSheetBodyModelImplCopyWith<$Res>
     implements $BottomSheetBodyModelCopyWith<$Res> {
-  factory _$$MessageBodyImplCopyWith(
-          _$MessageBodyImpl value, $Res Function(_$MessageBodyImpl) then) =
-      __$$MessageBodyImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String message});
-}
-
-/// @nodoc
-class __$$MessageBodyImplCopyWithImpl<$Res>
-    extends _$BottomSheetBodyModelCopyWithImpl<$Res, _$MessageBodyImpl>
-    implements _$$MessageBodyImplCopyWith<$Res> {
-  __$$MessageBodyImplCopyWithImpl(
-      _$MessageBodyImpl _value, $Res Function(_$MessageBodyImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? message = null,
-  }) {
-    return _then(_$MessageBodyImpl(
-      message: null == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$MessageBodyImpl implements MessageBody {
-  _$MessageBodyImpl({required this.message});
-
-  @override
-  final String message;
-
-  @override
-  String toString() {
-    return 'BottomSheetBodyModel.messageBody(message: $message)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$MessageBodyImpl &&
-            (identical(other.message, message) || other.message == message));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, message);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$MessageBodyImplCopyWith<_$MessageBodyImpl> get copyWith =>
-      __$$MessageBodyImplCopyWithImpl<_$MessageBodyImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String message) messageBody,
-    required TResult Function(
-            String message, Map<String, List<FieldWithIssue>> fieldsWithIssues)
-        errorsBody,
-  }) {
-    return messageBody(message);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String message)? messageBody,
-    TResult? Function(
-            String message, Map<String, List<FieldWithIssue>> fieldsWithIssues)?
-        errorsBody,
-  }) {
-    return messageBody?.call(message);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message)? messageBody,
-    TResult Function(
-            String message, Map<String, List<FieldWithIssue>> fieldsWithIssues)?
-        errorsBody,
-    required TResult orElse(),
-  }) {
-    if (messageBody != null) {
-      return messageBody(message);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(MessageBody value) messageBody,
-    required TResult Function(ErrorsBody value) errorsBody,
-  }) {
-    return messageBody(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(MessageBody value)? messageBody,
-    TResult? Function(ErrorsBody value)? errorsBody,
-  }) {
-    return messageBody?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(MessageBody value)? messageBody,
-    TResult Function(ErrorsBody value)? errorsBody,
-    required TResult orElse(),
-  }) {
-    if (messageBody != null) {
-      return messageBody(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class MessageBody implements BottomSheetBodyModel {
-  factory MessageBody({required final String message}) = _$MessageBodyImpl;
-
-  @override
-  String get message;
-  @override
-  @JsonKey(ignore: true)
-  _$$MessageBodyImplCopyWith<_$MessageBodyImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$ErrorsBodyImplCopyWith<$Res>
-    implements $BottomSheetBodyModelCopyWith<$Res> {
-  factory _$$ErrorsBodyImplCopyWith(
-          _$ErrorsBodyImpl value, $Res Function(_$ErrorsBodyImpl) then) =
-      __$$ErrorsBodyImplCopyWithImpl<$Res>;
+  factory _$$BottomSheetBodyModelImplCopyWith(_$BottomSheetBodyModelImpl value,
+          $Res Function(_$BottomSheetBodyModelImpl) then) =
+      __$$BottomSheetBodyModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
-      {String message, Map<String, List<FieldWithIssue>> fieldsWithIssues});
+      {String? message,
+      Map<String, List<FieldWithIssue<dynamic>>> fieldsWithIssues,
+      Map<String, List<FieldWithIssue<dynamic>>> allFields});
 }
 
 /// @nodoc
-class __$$ErrorsBodyImplCopyWithImpl<$Res>
-    extends _$BottomSheetBodyModelCopyWithImpl<$Res, _$ErrorsBodyImpl>
-    implements _$$ErrorsBodyImplCopyWith<$Res> {
-  __$$ErrorsBodyImplCopyWithImpl(
-      _$ErrorsBodyImpl _value, $Res Function(_$ErrorsBodyImpl) _then)
+class __$$BottomSheetBodyModelImplCopyWithImpl<$Res>
+    extends _$BottomSheetBodyModelCopyWithImpl<$Res, _$BottomSheetBodyModelImpl>
+    implements _$$BottomSheetBodyModelImplCopyWith<$Res> {
+  __$$BottomSheetBodyModelImplCopyWithImpl(_$BottomSheetBodyModelImpl _value,
+      $Res Function(_$BottomSheetBodyModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? message = null,
+    Object? message = freezed,
     Object? fieldsWithIssues = null,
+    Object? allFields = null,
   }) {
-    return _then(_$ErrorsBodyImpl(
-      message: null == message
+    return _then(_$BottomSheetBodyModelImpl(
+      message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       fieldsWithIssues: null == fieldsWithIssues
           ? _value._fieldsWithIssues
           : fieldsWithIssues // ignore: cast_nullable_to_non_nullable
-              as Map<String, List<FieldWithIssue>>,
+              as Map<String, List<FieldWithIssue<dynamic>>>,
+      allFields: null == allFields
+          ? _value._allFields
+          : allFields // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<FieldWithIssue<dynamic>>>,
     ));
   }
 }
 
 /// @nodoc
 
-class _$ErrorsBodyImpl implements ErrorsBody {
-  _$ErrorsBodyImpl(
-      {required this.message,
-      required final Map<String, List<FieldWithIssue>> fieldsWithIssues})
-      : _fieldsWithIssues = fieldsWithIssues;
+class _$BottomSheetBodyModelImpl extends _BottomSheetBodyModel {
+  const _$BottomSheetBodyModelImpl(
+      {this.message,
+      required final Map<String, List<FieldWithIssue<dynamic>>>
+          fieldsWithIssues,
+      required final Map<String, List<FieldWithIssue<dynamic>>> allFields})
+      : _fieldsWithIssues = fieldsWithIssues,
+        _allFields = allFields,
+        super._();
 
   @override
-  final String message;
-  final Map<String, List<FieldWithIssue>> _fieldsWithIssues;
+  final String? message;
+  final Map<String, List<FieldWithIssue<dynamic>>> _fieldsWithIssues;
   @override
-  Map<String, List<FieldWithIssue>> get fieldsWithIssues {
+  Map<String, List<FieldWithIssue<dynamic>>> get fieldsWithIssues {
     if (_fieldsWithIssues is EqualUnmodifiableMapView) return _fieldsWithIssues;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_fieldsWithIssues);
   }
 
+  final Map<String, List<FieldWithIssue<dynamic>>> _allFields;
+  @override
+  Map<String, List<FieldWithIssue<dynamic>>> get allFields {
+    if (_allFields is EqualUnmodifiableMapView) return _allFields;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_allFields);
+  }
+
   @override
   String toString() {
-    return 'BottomSheetBodyModel.errorsBody(message: $message, fieldsWithIssues: $fieldsWithIssues)';
+    return 'BottomSheetBodyModel(message: $message, fieldsWithIssues: $fieldsWithIssues, allFields: $allFields)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ErrorsBodyImpl &&
+            other is _$BottomSheetBodyModelImpl &&
             (identical(other.message, message) || other.message == message) &&
             const DeepCollectionEquality()
-                .equals(other._fieldsWithIssues, _fieldsWithIssues));
+                .equals(other._fieldsWithIssues, _fieldsWithIssues) &&
+            const DeepCollectionEquality()
+                .equals(other._allFields, _allFields));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, message,
-      const DeepCollectionEquality().hash(_fieldsWithIssues));
+  int get hashCode => Object.hash(
+      runtimeType,
+      message,
+      const DeepCollectionEquality().hash(_fieldsWithIssues),
+      const DeepCollectionEquality().hash(_allFields));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ErrorsBodyImplCopyWith<_$ErrorsBodyImpl> get copyWith =>
-      __$$ErrorsBodyImplCopyWithImpl<_$ErrorsBodyImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String message) messageBody,
-    required TResult Function(
-            String message, Map<String, List<FieldWithIssue>> fieldsWithIssues)
-        errorsBody,
-  }) {
-    return errorsBody(message, fieldsWithIssues);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String message)? messageBody,
-    TResult? Function(
-            String message, Map<String, List<FieldWithIssue>> fieldsWithIssues)?
-        errorsBody,
-  }) {
-    return errorsBody?.call(message, fieldsWithIssues);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message)? messageBody,
-    TResult Function(
-            String message, Map<String, List<FieldWithIssue>> fieldsWithIssues)?
-        errorsBody,
-    required TResult orElse(),
-  }) {
-    if (errorsBody != null) {
-      return errorsBody(message, fieldsWithIssues);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(MessageBody value) messageBody,
-    required TResult Function(ErrorsBody value) errorsBody,
-  }) {
-    return errorsBody(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(MessageBody value)? messageBody,
-    TResult? Function(ErrorsBody value)? errorsBody,
-  }) {
-    return errorsBody?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(MessageBody value)? messageBody,
-    TResult Function(ErrorsBody value)? errorsBody,
-    required TResult orElse(),
-  }) {
-    if (errorsBody != null) {
-      return errorsBody(this);
-    }
-    return orElse();
-  }
+  _$$BottomSheetBodyModelImplCopyWith<_$BottomSheetBodyModelImpl>
+      get copyWith =>
+          __$$BottomSheetBodyModelImplCopyWithImpl<_$BottomSheetBodyModelImpl>(
+              this, _$identity);
 }
 
-abstract class ErrorsBody implements BottomSheetBodyModel {
-  factory ErrorsBody(
-          {required final String message,
-          required final Map<String, List<FieldWithIssue>> fieldsWithIssues}) =
-      _$ErrorsBodyImpl;
+abstract class _BottomSheetBodyModel extends BottomSheetBodyModel {
+  const factory _BottomSheetBodyModel(
+      {final String? message,
+      required final Map<String, List<FieldWithIssue<dynamic>>>
+          fieldsWithIssues,
+      required final Map<String, List<FieldWithIssue<dynamic>>>
+          allFields}) = _$BottomSheetBodyModelImpl;
+  const _BottomSheetBodyModel._() : super._();
 
   @override
-  String get message;
-  Map<String, List<FieldWithIssue>> get fieldsWithIssues;
+  String? get message;
+  @override
+  Map<String, List<FieldWithIssue<dynamic>>> get fieldsWithIssues;
+  @override
+  Map<String, List<FieldWithIssue<dynamic>>> get allFields;
   @override
   @JsonKey(ignore: true)
-  _$$ErrorsBodyImplCopyWith<_$ErrorsBodyImpl> get copyWith =>
+  _$$BottomSheetBodyModelImplCopyWith<_$BottomSheetBodyModelImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$FieldWithIssue<T> {
+  String? get parentPath => throw _privateConstructorUsedError;
+  String? get parentLabel => throw _privateConstructorUsedError;
+  ParentType? get parentType => throw _privateConstructorUsedError;
+  String get fieldName => throw _privateConstructorUsedError;
+  String get fieldLabel => throw _privateConstructorUsedError;
+  T? get value => throw _privateConstructorUsedError;
+  String? get message => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $FieldWithIssueCopyWith<T, FieldWithIssue<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-mixin _$FieldWithIssue {
-  String? get parent => throw _privateConstructorUsedError;
-  String get fieldPath =>
-      throw _privateConstructorUsedError; // path to the leaf field with an error
-  String get fieldName =>
-      throw _privateConstructorUsedError; // name of the leaf field
-  IssueType get issueType => throw _privateConstructorUsedError;
-  String get message => throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $FieldWithIssueCopyWith<FieldWithIssue> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $FieldWithIssueCopyWith<$Res> {
+abstract class $FieldWithIssueCopyWith<T, $Res> {
   factory $FieldWithIssueCopyWith(
-          FieldWithIssue value, $Res Function(FieldWithIssue) then) =
-      _$FieldWithIssueCopyWithImpl<$Res, FieldWithIssue>;
+          FieldWithIssue<T> value, $Res Function(FieldWithIssue<T>) then) =
+      _$FieldWithIssueCopyWithImpl<T, $Res, FieldWithIssue<T>>;
   @useResult
   $Res call(
-      {String? parent,
-      String fieldPath,
+      {String? parentPath,
+      String? parentLabel,
+      ParentType? parentType,
       String fieldName,
-      IssueType issueType,
-      String message});
+      String fieldLabel,
+      T? value,
+      String? message});
 }
 
 /// @nodoc
-class _$FieldWithIssueCopyWithImpl<$Res, $Val extends FieldWithIssue>
-    implements $FieldWithIssueCopyWith<$Res> {
+class _$FieldWithIssueCopyWithImpl<T, $Res, $Val extends FieldWithIssue<T>>
+    implements $FieldWithIssueCopyWith<T, $Res> {
   _$FieldWithIssueCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -648,172 +444,215 @@ class _$FieldWithIssueCopyWithImpl<$Res, $Val extends FieldWithIssue>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? parent = freezed,
-    Object? fieldPath = null,
+    Object? parentPath = freezed,
+    Object? parentLabel = freezed,
+    Object? parentType = freezed,
     Object? fieldName = null,
-    Object? issueType = null,
-    Object? message = null,
+    Object? fieldLabel = null,
+    Object? value = freezed,
+    Object? message = freezed,
   }) {
     return _then(_value.copyWith(
-      parent: freezed == parent
-          ? _value.parent
-          : parent // ignore: cast_nullable_to_non_nullable
+      parentPath: freezed == parentPath
+          ? _value.parentPath
+          : parentPath // ignore: cast_nullable_to_non_nullable
               as String?,
-      fieldPath: null == fieldPath
-          ? _value.fieldPath
-          : fieldPath // ignore: cast_nullable_to_non_nullable
-              as String,
+      parentLabel: freezed == parentLabel
+          ? _value.parentLabel
+          : parentLabel // ignore: cast_nullable_to_non_nullable
+              as String?,
+      parentType: freezed == parentType
+          ? _value.parentType
+          : parentType // ignore: cast_nullable_to_non_nullable
+              as ParentType?,
       fieldName: null == fieldName
           ? _value.fieldName
           : fieldName // ignore: cast_nullable_to_non_nullable
               as String,
-      issueType: null == issueType
-          ? _value.issueType
-          : issueType // ignore: cast_nullable_to_non_nullable
-              as IssueType,
-      message: null == message
+      fieldLabel: null == fieldLabel
+          ? _value.fieldLabel
+          : fieldLabel // ignore: cast_nullable_to_non_nullable
+              as String,
+      value: freezed == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as T?,
+      message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$FieldWithIssueImplCopyWith<$Res>
-    implements $FieldWithIssueCopyWith<$Res> {
-  factory _$$FieldWithIssueImplCopyWith(_$FieldWithIssueImpl value,
-          $Res Function(_$FieldWithIssueImpl) then) =
-      __$$FieldWithIssueImplCopyWithImpl<$Res>;
+abstract class _$$FieldWithIssueImplCopyWith<T, $Res>
+    implements $FieldWithIssueCopyWith<T, $Res> {
+  factory _$$FieldWithIssueImplCopyWith(_$FieldWithIssueImpl<T> value,
+          $Res Function(_$FieldWithIssueImpl<T>) then) =
+      __$$FieldWithIssueImplCopyWithImpl<T, $Res>;
   @override
   @useResult
   $Res call(
-      {String? parent,
-      String fieldPath,
+      {String? parentPath,
+      String? parentLabel,
+      ParentType? parentType,
       String fieldName,
-      IssueType issueType,
-      String message});
+      String fieldLabel,
+      T? value,
+      String? message});
 }
 
 /// @nodoc
-class __$$FieldWithIssueImplCopyWithImpl<$Res>
-    extends _$FieldWithIssueCopyWithImpl<$Res, _$FieldWithIssueImpl>
-    implements _$$FieldWithIssueImplCopyWith<$Res> {
-  __$$FieldWithIssueImplCopyWithImpl(
-      _$FieldWithIssueImpl _value, $Res Function(_$FieldWithIssueImpl) _then)
+class __$$FieldWithIssueImplCopyWithImpl<T, $Res>
+    extends _$FieldWithIssueCopyWithImpl<T, $Res, _$FieldWithIssueImpl<T>>
+    implements _$$FieldWithIssueImplCopyWith<T, $Res> {
+  __$$FieldWithIssueImplCopyWithImpl(_$FieldWithIssueImpl<T> _value,
+      $Res Function(_$FieldWithIssueImpl<T>) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? parent = freezed,
-    Object? fieldPath = null,
+    Object? parentPath = freezed,
+    Object? parentLabel = freezed,
+    Object? parentType = freezed,
     Object? fieldName = null,
-    Object? issueType = null,
-    Object? message = null,
+    Object? fieldLabel = null,
+    Object? value = freezed,
+    Object? message = freezed,
   }) {
-    return _then(_$FieldWithIssueImpl(
-      parent: freezed == parent
-          ? _value.parent
-          : parent // ignore: cast_nullable_to_non_nullable
+    return _then(_$FieldWithIssueImpl<T>(
+      parentPath: freezed == parentPath
+          ? _value.parentPath
+          : parentPath // ignore: cast_nullable_to_non_nullable
               as String?,
-      fieldPath: null == fieldPath
-          ? _value.fieldPath
-          : fieldPath // ignore: cast_nullable_to_non_nullable
-              as String,
+      parentLabel: freezed == parentLabel
+          ? _value.parentLabel
+          : parentLabel // ignore: cast_nullable_to_non_nullable
+              as String?,
+      parentType: freezed == parentType
+          ? _value.parentType
+          : parentType // ignore: cast_nullable_to_non_nullable
+              as ParentType?,
       fieldName: null == fieldName
           ? _value.fieldName
           : fieldName // ignore: cast_nullable_to_non_nullable
               as String,
-      issueType: null == issueType
-          ? _value.issueType
-          : issueType // ignore: cast_nullable_to_non_nullable
-              as IssueType,
-      message: null == message
+      fieldLabel: null == fieldLabel
+          ? _value.fieldLabel
+          : fieldLabel // ignore: cast_nullable_to_non_nullable
+              as String,
+      value: freezed == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as T?,
+      message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
 
 /// @nodoc
 
-class _$FieldWithIssueImpl implements _FieldWithIssue {
+class _$FieldWithIssueImpl<T> extends _FieldWithIssue<T> {
   const _$FieldWithIssueImpl(
-      {this.parent,
-      required this.fieldPath,
+      {this.parentPath,
+      this.parentLabel,
+      this.parentType,
       required this.fieldName,
-      this.issueType = IssueType.Error,
-      this.message = 'Error'});
+      required this.fieldLabel,
+      this.value,
+      this.message})
+      : super._();
 
   @override
-  final String? parent;
+  final String? parentPath;
   @override
-  final String fieldPath;
-// path to the leaf field with an error
+  final String? parentLabel;
+  @override
+  final ParentType? parentType;
   @override
   final String fieldName;
-// name of the leaf field
   @override
-  @JsonKey()
-  final IssueType issueType;
+  final String fieldLabel;
   @override
-  @JsonKey()
-  final String message;
+  final T? value;
+  @override
+  final String? message;
 
   @override
   String toString() {
-    return 'FieldWithIssue(parent: $parent, fieldPath: $fieldPath, fieldName: $fieldName, issueType: $issueType, message: $message)';
+    return 'FieldWithIssue<$T>(parentPath: $parentPath, parentLabel: $parentLabel, parentType: $parentType, fieldName: $fieldName, fieldLabel: $fieldLabel, value: $value, message: $message)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$FieldWithIssueImpl &&
-            (identical(other.parent, parent) || other.parent == parent) &&
-            (identical(other.fieldPath, fieldPath) ||
-                other.fieldPath == fieldPath) &&
+            other is _$FieldWithIssueImpl<T> &&
+            (identical(other.parentPath, parentPath) ||
+                other.parentPath == parentPath) &&
+            (identical(other.parentLabel, parentLabel) ||
+                other.parentLabel == parentLabel) &&
+            (identical(other.parentType, parentType) ||
+                other.parentType == parentType) &&
             (identical(other.fieldName, fieldName) ||
                 other.fieldName == fieldName) &&
-            (identical(other.issueType, issueType) ||
-                other.issueType == issueType) &&
+            (identical(other.fieldLabel, fieldLabel) ||
+                other.fieldLabel == fieldLabel) &&
+            const DeepCollectionEquality().equals(other.value, value) &&
             (identical(other.message, message) || other.message == message));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, parent, fieldPath, fieldName, issueType, message);
+      runtimeType,
+      parentPath,
+      parentLabel,
+      parentType,
+      fieldName,
+      fieldLabel,
+      const DeepCollectionEquality().hash(value),
+      message);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$FieldWithIssueImplCopyWith<_$FieldWithIssueImpl> get copyWith =>
-      __$$FieldWithIssueImplCopyWithImpl<_$FieldWithIssueImpl>(
+  _$$FieldWithIssueImplCopyWith<T, _$FieldWithIssueImpl<T>> get copyWith =>
+      __$$FieldWithIssueImplCopyWithImpl<T, _$FieldWithIssueImpl<T>>(
           this, _$identity);
 }
 
-abstract class _FieldWithIssue implements FieldWithIssue {
+abstract class _FieldWithIssue<T> extends FieldWithIssue<T> {
   const factory _FieldWithIssue(
-      {final String? parent,
-      required final String fieldPath,
+      {final String? parentPath,
+      final String? parentLabel,
+      final ParentType? parentType,
       required final String fieldName,
-      final IssueType issueType,
-      final String message}) = _$FieldWithIssueImpl;
+      required final String fieldLabel,
+      final T? value,
+      final String? message}) = _$FieldWithIssueImpl<T>;
+  const _FieldWithIssue._() : super._();
 
   @override
-  String? get parent;
+  String? get parentPath;
   @override
-  String get fieldPath;
-  @override // path to the leaf field with an error
+  String? get parentLabel;
+  @override
+  ParentType? get parentType;
+  @override
   String get fieldName;
-  @override // name of the leaf field
-  IssueType get issueType;
   @override
-  String get message;
+  String get fieldLabel;
+  @override
+  T? get value;
+  @override
+  String? get message;
   @override
   @JsonKey(ignore: true)
-  _$$FieldWithIssueImplCopyWith<_$FieldWithIssueImpl> get copyWith =>
+  _$$FieldWithIssueImplCopyWith<T, _$FieldWithIssueImpl<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }

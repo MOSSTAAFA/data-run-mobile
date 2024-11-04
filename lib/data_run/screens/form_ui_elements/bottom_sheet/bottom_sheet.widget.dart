@@ -1,97 +1,95 @@
 import 'package:flutter/material.dart';
+import 'package:mass_pro/data_run/screens/form_ui_elements/bottom_sheet/all_fields_body.dart';
+import 'package:mass_pro/data_run/screens/form_ui_elements/bottom_sheet/fields_with_issues_body.dart';
 import 'package:mass_pro/data_run/screens/form_ui_elements/bottom_sheet/form_completion_dialog_config/form_completion_dialog.dart';
+import 'package:mass_pro/generated/l10n.dart';
 
-class QBottomSheetDialog extends StatelessWidget {
-  const QBottomSheetDialog({
+class QBottomSheet extends StatelessWidget {
+  const QBottomSheet({
     super.key,
     required this.completionDialogModel,
     this.onButtonClicked,
-    this.onItemWithErrorClicked,
+    this.onItemClicked,
   });
 
   final FormCompletionDialog completionDialogModel;
   final Function(FormBottomDialogActionType? action)? onButtonClicked;
-  final Function(String? path)? onItemWithErrorClicked;
+  final Function(String? path)? onItemClicked;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          // Icon and Title
-          Icon(completionDialogModel.bottomSheetContentModel.icon, size: 30),
-          const SizedBox(height: 10),
-          Text(
-            completionDialogModel.bottomSheetContentModel.title,
-            style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-          ),
-          const Divider(),
-          const SizedBox(height: 10),
-          Text(
-            completionDialogModel.bottomSheetContentModel.subtitle,
-            style: const TextStyle(fontSize: 12.0),
-          ),
-          const SizedBox(height: 10),
-          // Scrollable Error Body with max height
-          Flexible(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children:
-                      completionDialogModel.bottomSheetContentModel.body.when(
-                    messageBody: (messageBody) => [
-                      Text(
-                        messageBody,
-                        style: const TextStyle(fontSize: 16.0),
-                      )
-                    ],
-                    errorsBody: (message, fieldsWithIssues) {
-                      return fieldsWithIssues.entries.toList().reversed.map((sectionEntry) {
-                        final sectionName = sectionEntry.key;
-                        final fieldErrors = sectionEntry.value.reversed;
+    final fieldsWithIssues =
+        completionDialogModel.bottomSheetContentModel.body.fieldsWithIssues;
+    final allFields =
+        completionDialogModel.bottomSheetContentModel.body.allFields;
+    final message = completionDialogModel.bottomSheetContentModel.body.message;
+    return DefaultTabController(
+      length: 2,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Icon(completionDialogModel.bottomSheetContentModel.icon, size: 30),
+            const SizedBox(height: 10),
+            Text(
+              completionDialogModel.bottomSheetContentModel.title,
+              style:
+                  const TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+            ),
+            // const Divider(),
+            // const SizedBox(height: 10),
+            // Text(
+            //   completionDialogModel.bottomSheetContentModel.subtitle,
+            //   style: const TextStyle(fontSize: 12.0),
+            // ),
 
-                        return ExpansionTile(
-                          initiallyExpanded: true,
-                          title: Text(
-                            sectionName,
-                            style: const TextStyle(
-                                color: Colors.red, fontWeight: FontWeight.bold),
+            const SizedBox(height: 10),
+            // TabBarView to switch between tabs
+            Expanded(
+              child: TabBarView(
+                children: [
+                  fieldsWithIssues.isNotEmpty
+                      ? FieldsWithIssuesBody(
+                          totalFields: allFields.length,
+                          fieldsWithIssues: fieldsWithIssues,
+                          onItemClicked: onItemClicked,
+                        )
+                      : Center(
+                          child: Text(
+                            S.of(context).markAsFinalData,
+                            style: const TextStyle(fontSize: 16.0),
                           ),
-                          children: fieldErrors.map((fieldEntry) {
-                            return GestureDetector(
-                              onTap: () => onItemWithErrorClicked
-                                  ?.call(fieldEntry.fieldPath),
-                              child: ListTile(
-                                dense: true,
-                                leading:
-                                    const Icon(Icons.error, color: Colors.red),
-                                title: Text(
-                                    '${fieldEntry.fieldName}: ${fieldEntry.message}'),
-                              ),
-                            );
-                          }).toList(),
-                        );
-                      }).toList();
-                    },
+                        ),
+                  // "Issues Only" Tab Content
+
+                  // "Full Summary" Tab Content
+                  AllFieldsBody(
+                    fieldsWithIssues: allFields,
+                    onItemClicked: onItemClicked,
                   ),
-                ),
+                ],
               ),
             ),
-          ),
-          const SizedBox(height: 20),
-          // Buttons with spacing
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              _buildButton(context, completionDialogModel.secondaryButton),
-              _buildButton(context, completionDialogModel.mainButton),
-            ],
-          ),
-          const SizedBox(height: 10),
-        ],
+            const SizedBox(height: 10),
+            // Add Tabs
+            TabBar(
+              tabs: [
+                Tab(icon: Icon(Icons.error_outline), text: 'Issues'),
+                Tab(icon: Icon(Icons.list_alt), text: 'Summary'),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                _buildButton(context, completionDialogModel.secondaryButton),
+                _buildButton(context, completionDialogModel.mainButton),
+              ],
+            ),
+            const SizedBox(height: 10),
+          ],
+        ),
       ),
     );
   }

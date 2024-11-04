@@ -62,6 +62,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "discard": MessageLookupByLibrary.simpleMessage("تجاهل"),
         "dismiss": MessageLookupByLibrary.simpleMessage("حسنًا"),
         "edit": MessageLookupByLibrary.simpleMessage("تعديل"),
+        "empty": MessageLookupByLibrary.simpleMessage("Empty"),
         "enterAValidNumber":
             MessageLookupByLibrary.simpleMessage("يرجى إدخال رقم صالح."),
         "enterYourUsername":

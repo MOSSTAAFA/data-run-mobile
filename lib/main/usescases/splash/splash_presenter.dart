@@ -95,7 +95,7 @@ class SplashPresenter {
     if (isUserLogged && initialSyncDone && !sessionLocked) {
       Navigator.pushReplacement(
         navigatorKey.currentContext!,
-        MaterialPageRoute(builder: (context) => const HomeScreenWidget()),
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
       );
       // Get.offNamed(HomeScreenWidget.route);
     } else if (isUserLogged && !initialSyncDone) {

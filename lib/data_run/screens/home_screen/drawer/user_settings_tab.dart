@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:mass_pro/core/user/auth_service.dart';
 import 'package:mass_pro/generated/l10n.dart';
 
 class UserSettingsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final userInfo = UserService.instance.user?.firstName ??
+        UserService.instance.user?.username;
     return ListView(
       children: [
         ListTile(
           title: Text(S.of(context).username),
-          subtitle: Text(S.of(context).currentUsername),
+          subtitle: Text(userInfo!),
           trailing: IconButton(
             icon: Icon(Icons.edit),
             onPressed: () {

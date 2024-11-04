@@ -65,6 +65,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "discard": MessageLookupByLibrary.simpleMessage("Discard"),
         "dismiss": MessageLookupByLibrary.simpleMessage("Dismiss"),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
+        "empty": MessageLookupByLibrary.simpleMessage("Empty"),
         "enterAValidNumber": MessageLookupByLibrary.simpleMessage(
             "Please enter a valid number."),
         "enterYourUsername":

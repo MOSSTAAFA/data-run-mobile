@@ -85,7 +85,7 @@ class LoginScreenPresenter {
           //     .gotToNextScreenPopAll(HomeScreenWidget());
           Navigator.pushAndRemoveUntil(
               navigatorKey.currentContext!,
-              MaterialPageRoute(builder: (context) => const HomeScreenWidget()),
+              MaterialPageRoute(builder: (context) => const HomeScreen()),
               (r) => r.isFirst);
         } else if (isSessionLocked) {
           view.showUnlockButton();

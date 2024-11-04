@@ -177,5 +177,6 @@
   "formSummaryView": "عرض خلاصة الاستمارة",
   "edit": "تعديل",
   "noInternetAccess": "غير متصل",
-  "online": "متصل"
+  "online": "متصل",
+  "empty": "Empty"
 }

@@ -16,7 +16,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 class SyncScreen extends ConsumerStatefulWidget {
   const SyncScreen({super.key});
 
-  static const String route = '/sync-screen';
+  static const String routeName = '/syncScreen';
 
   @override
   ConsumerState<SyncScreen> createState() => _SyncScreenState();
@@ -132,10 +132,11 @@ class _SyncScreenState extends ConsumerState<SyncScreen>
 
   @override
   void goToLogin() {
-    Navigator.pushReplacement(
-      navigatorKey.currentContext!,
-      MaterialPageRoute(builder: (context) => const LoginScreen()),
-    );
+    // Navigator.pushReplacement(
+    //   navigatorKey.currentContext!,
+    //   MaterialPageRoute(builder: (context) => const LoginScreen()),
+    // );
+    pushUniqueScreen(context, LoginScreen.routeName);
     // ref
     //     .read(appStateNotifierProvider.notifier)
     //     .gotToNextScreenPopAll(const LoginScreen());
@@ -143,11 +144,12 @@ class _SyncScreenState extends ConsumerState<SyncScreen>
 
   @override
   void goToMain() {
-    Navigator.pushReplacement(
-        navigatorKey.currentContext!,
-      MaterialPageRoute(builder: (context) => const HomeScreenWidget()),
-    );
-    // Get.offNamed(HomeScreenWidget.route);
+    pushUniqueScreen(context, HomeScreen.routeName);
+
+    // Navigator.pushReplacement(
+    //   navigatorKey.currentContext!,
+    //   MaterialPageRoute(builder: (context) => const HomeScreen()),
+    // );
   }
 
   @override

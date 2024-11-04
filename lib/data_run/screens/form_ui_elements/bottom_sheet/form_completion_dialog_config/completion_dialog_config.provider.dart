@@ -4,7 +4,7 @@ import 'package:mass_pro/data_run/screens/form_ui_elements/bottom_sheet/form_com
 import 'package:mass_pro/data_run/screens/form_ui_elements/bottom_sheet/form_completion_dialog_config/form_completion_dialog.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'completion_dialog_config.provider.provider.g.dart';
+part 'completion_dialog_config.provider.g.dart';
 
 @riverpod
 FormCompletionDialog formCompletionBottomSheet(FormCompletionBottomSheetRef ref,
@@ -16,43 +16,3 @@ FormCompletionDialog formCompletionBottomSheet(FormCompletionBottomSheetRef ref,
 
   return configurator(formInstance.formSection);
 }
-
-// class QBottomSheetProvider {
-//   QBottomSheetDialogUiModel formFinishBottomSheet() {
-//     return QBottomSheetDialogUiModel(
-//       title: S.current.finalData,
-//       subtitle: S.current.markAsFinalData,
-//       iconResource: Icons.info,
-//       mainButton: QDialogButtonStyle.completeButton(),
-//       secondaryButton:
-//           QDialogButtonStyle.neutralButton(textResource: S.current.notNow),
-//     );
-//   }
-//
-//   QBottomSheetDialogUiModel syncBottomSheet(SyncStatus status) {
-//     return QBottomSheetDialogUiModel(
-//       title: 'Send to Server',
-//       subtitle: 'After Sending, Item will no longer be editable.',
-//       iconResource: Icons.info,
-//       mainButton: QDialogButtonStyle.mainButton(
-//         textResource: S.current.send,
-//         backgroundColor: Colors.blueAccent,
-//         colorResource: Colors.white,
-//         iconResource: Icons.sync,
-//       ),
-//       secondaryButton:
-//           QDialogButtonStyle.neutralButton(textResource: S.current.notNow),
-//     );
-//   }
-//
-//   QBottomSheetDialogUiModel formWithErrorBottomSheet() {
-//     return QBottomSheetDialogUiModel(
-//       title: S.current.finalData,
-//       subtitle: S.current.markAsFinalData,
-//       iconResource: Icons.info,
-//       mainButton: QDialogButtonStyle.completeButton(),
-//       secondaryButton:
-//           QDialogButtonStyle.neutralButton(textResource: S.current.notNow),
-//     );
-//   }
-// }

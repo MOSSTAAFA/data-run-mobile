@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:mass_pro/commons/logging/logging.dart';
 import 'package:mass_pro/commons/prefs/preference.dart';
 import 'package:mass_pro/commons/prefs/preference_provider.dart';
+import 'package:mass_pro/core/user/auth_service.dart';
 import 'package:mass_pro/data_run/screens/home_screen/home_repository.dart';
 import 'package:mass_pro/data_run/screens/home_screen/home_repository_impl.dart';
 import 'package:mass_pro/data_run/screens/home_screen/home_screen_view.dart';
@@ -17,8 +18,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'home_presenter.g.dart';
 
 @Riverpod(keepAlive: true)
-HomePresenter homePresenter(
-    HomePresenterRef ref, HomeScreenView view) {
+HomePresenter homePresenter(HomePresenterRef ref, HomeScreenView view) {
   return HomePresenter(
       view,
       ref.read(homeRepositoryProvider),
@@ -59,17 +59,13 @@ class HomePresenter {
     }
   }
 
-  Future<bool> logOut() {
-    return Future.wait([
-      workManagerController.cancelAllWork(),
-      // FilterManager.getInstance().clearAllFilters(),
-      preferencesProvider.setValue(SESSION_LOCKED, false),
-      preferencesProvider.setValue(PIN, null)
-    ])
-        .then((value) => repository.logOut())
-        .then((value) async =>
-            view.goToLogin(await repository.accountsCount(), isDeletion: false))
-        .then((_) => true);
+  Future<bool> logOut() async {
+    await workManagerController.cancelAllWork();
+    await preferencesProvider.setValue(PIN, null);
+    await UserService.instance.logOut();
+    view.goToLogin(await 0, isDeletion: false);
+    // repository.logOut();
+    return true;
   }
 
   Future<dynamic> onDeleteAccount() async {

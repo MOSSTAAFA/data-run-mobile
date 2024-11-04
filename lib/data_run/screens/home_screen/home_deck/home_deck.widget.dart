@@ -37,7 +37,7 @@ class _HomeDeckState extends ConsumerState<HomeDeck> with ViewBase {
     Navigator.push(
       navigatorKey.currentContext!,
       MaterialPageRoute(
-          builder: (context) => ProjectActivitiesScreenWidget(
+          builder: (context) => ProjectActivitiesScreen(
                 project: homeDeckItem.uid,
               )),
     );

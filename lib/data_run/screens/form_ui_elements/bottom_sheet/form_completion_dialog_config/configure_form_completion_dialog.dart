@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:mass_pro/commons/logging/logging.dart';
 import 'package:mass_pro/data_run/form/form_element/form_element_iterators/form_element_iterator.dart';
 import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
 import 'package:mass_pro/data_run/screens/form/element/validation/form_element_validator.dart';
@@ -63,29 +64,99 @@ class ConfigureFormCompletionDialog {
   }
 
   BottomSheetBodyModel _getBody(SectionInstance rootSection) {
-    return rootSection.form.hasErrors
-        ? BottomSheetBodyModel.errorsBody(
-            message: S.of(navigatorKey.currentContext!).fieldsWithErrorInfo,
-            fieldsWithIssues: _getFieldsWithIssues(rootSection))
-        : BottomSheetBodyModel.messageBody(
-            message: S.of(navigatorKey.currentContext!).makeFormFinalOrSaveBody);
+    final allElements =
+        getFormElementIterator<FieldInstance<dynamic>>(rootSection);
+    final formHasErrors = rootSection.form.hasErrors;
+    return BottomSheetBodyModel(
+      message: formHasErrors
+          ? S.of(navigatorKey.currentContext!).fieldsWithErrorInfo
+          : S.of(navigatorKey.currentContext!).markAsFinalData,
+      fieldsWithIssues:
+          formHasErrors ? _getFieldsWithIssues(allElements) : const {},
+      allFields: _mapToFieldsWithIssues(allElements),
+    );
   }
 
-  Map<String, List<FieldWithIssue>> _getFieldsWithIssues(
-      SectionInstance rootSection) {
-    final List<FieldInstance<dynamic>> fieldsWithErrors =
-        getFormElementIterator<FieldInstance<dynamic>>(rootSection)
-            .where((field) => field.elementControl!.hasErrors)
-            .toList();
-    fieldsWithErrors.reversed;
-    final fieldsIssues = fieldsWithErrors.map((element) => FieldWithIssue(
-        parent: element.parentSection?.label,
-        fieldPath: element.pathRecursive,
-        fieldName: element.label,
-        message: _getErrorMessage(element)));
+  Map<String, dynamic> _groupFieldsByStructure(SectionInstance rootSection) {
+    final fields = getFormElementIterator<FieldInstance<dynamic>>(rootSection);
 
-    return fieldsIssues
-        .groupListsBy((element) => element.parent ?? 'UnGroupedIssue');
+    final Map<String, dynamic> fieldsGrouped = {
+      'sections': {}, // Non-repeated sections only need labels
+      'repeatedGroups': [] // For repeated groups, holding fields by index
+    };
+
+    fields.forEach((element) {
+      final parentPath = element.parentSection?.pathRecursive;
+      final fieldData = FieldWithIssue(
+          parentPath: element.pathRecursive,
+          fieldName: element.name,
+          fieldLabel: element.label,
+          parentLabel: element.parentSection?.label,
+          value: element.value,
+          message: element.elementControl!.hasErrors
+              ? _getErrorMessage(element)
+              : null);
+
+      // Check if the element is within a repeated section
+      if (element.type.isRepeatSection) {
+        // Extract the index from the element's path for grouping by `index`
+        final match = RegExp(r'\.(\d+)\.').firstMatch(element.pathRecursive);
+        final index = match != null ? int.parse(match.group(1)!) : -1;
+
+        if (index >= 0) {
+          // Ensure repeatedGroups has an entry for this index
+          while (fieldsGrouped['repeatedGroups'].length <= index) {
+            fieldsGrouped['repeatedGroups'].add({'index': index, 'fields': []});
+          }
+          fieldsGrouped['repeatedGroups'][index]['fields'].add(fieldData);
+        }
+      } else {
+        // Group non-repeated sections by parent path
+        fieldsGrouped['sections'][parentPath] ??= [];
+        fieldsGrouped['sections'][parentPath].add(fieldData);
+      }
+    });
+
+    logDebug(info: 'Fields grouped by structure: $fieldsGrouped');
+    return fieldsGrouped;
+  }
+
+  Map<String, List<FieldWithIssue<dynamic>>> _getFieldsWithIssues(
+      Iterable<FieldInstance<dynamic>> allElements) {
+    final fields =
+        allElements.where((field) => field.elementControl!.hasErrors).toList();
+
+    final fieldsMergedWithIssues = fields
+        .map((element) => FieldWithIssue(
+            parentPath: element.parentSection?.pathRecursive,
+            parentType: ParentType.fromValueType(element.parentSection?.type),
+            parentLabel: element.parentSection?.label,
+            fieldName: element.name,
+            fieldLabel: element.label,
+            value: element.value,
+            message: _getErrorMessage(element)))
+        .groupListsBy((element) => element.parentPath ?? 'rootParent');
+
+    return fieldsMergedWithIssues;
+  }
+
+  Map<String, List<FieldWithIssue<dynamic>>> _mapToFieldsWithIssues(
+      Iterable<FieldInstance<dynamic>> allElements) {
+    final fieldsMergedWithIssues = allElements
+        .where((element) => element.visible)
+        .map((element) => FieldWithIssue(
+            parentPath: element.parentSection?.pathRecursive,
+            parentType: ParentType.fromValueType(element.parentSection?.type),
+            parentLabel: element.parentSection?.label,
+            fieldName: element.name,
+            fieldLabel: element.label,
+            value: element.value,
+            message: element.elementControl!.hasErrors
+                ? _getErrorMessage(element)
+                : null))
+        .groupListsBy((element) => element.parentPath ?? 'rootParent');
+
+    return fieldsMergedWithIssues;
   }
 
   String _getErrorMessage(FieldInstance<dynamic> field) {

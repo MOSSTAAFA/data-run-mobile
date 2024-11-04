@@ -12,6 +12,25 @@
 //
 // part 'repeat_item_node.dart';
 //
+// abstract class Element<T> {
+//   String get name;
+//   T? get value;
+// }
+//
+// abstract class ContainerElement<T> implements Element {
+//   List<Element> get elements;
+// }
+//
+// abstract class Element<T> {
+//   String get name;
+//
+//   String get pathRecursive;
+//
+//   Element<Object>? get parentSection;
+//
+//   T? get value;
+// }
+//
 // sealed class FormElement<T> with EquatableMixin implements Element {
 //   FormElement({required this.name});
 //

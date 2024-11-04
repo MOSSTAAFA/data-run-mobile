@@ -11,6 +11,7 @@ import 'package:mass_pro/data_run/screens/form/element/form_metadata.dart';
 import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
 import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_template_inherit_widget.dart';
 import 'package:mass_pro/data_run/screens/form_ui_elements/bottom_sheet/bottom_sheet.widget.dart';
+import 'package:mass_pro/data_run/screens/form_ui_elements/bottom_sheet/bottom_sheet_issues.widget.dart';
 import 'package:mass_pro/data_run/screens/form_ui_elements/bottom_sheet/form_completion_dialog_config/completion_dialog_config.provider.dart';
 import 'package:mass_pro/data_run/screens/form_ui_elements/bottom_sheet/form_completion_dialog_config/form_completion_dialog.dart';
 import 'package:mass_pro/data_run/screens/form_ui_elements/get_error_widget.dart';
@@ -190,7 +191,7 @@ class _SubmissionTabScreenState extends ConsumerState<FormTabScreen> {
       isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {
-        return QBottomSheetDialog(
+        return QBottomSheet(
           completionDialogModel: bottomSheetUiModel,
           onButtonClicked: (action) =>
               _onCompletionDialogButtonClicked(form, action),

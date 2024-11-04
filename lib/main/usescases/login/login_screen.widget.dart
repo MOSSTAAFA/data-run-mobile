@@ -26,7 +26,7 @@ class LoginScreen extends ConsumerStatefulWidget {
       this.accountsCount = -1,
       this.isDeletion = false});
 
-  static const String route = '/login-screen';
+  static const String routeName = '/login-screen';
 
   final bool skipSync;
   final int accountsCount;
@@ -313,7 +313,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
     } else {
       Navigator.pushAndRemoveUntil(
           navigatorKey.currentContext!,
-          MaterialPageRoute(builder: (context) => const HomeScreenWidget()),
+          MaterialPageRoute(builder: (context) => const HomeScreen()),
               (r) => r.isFirst);
       // ref
       //     .read(appStateNotifierProvider.notifier)

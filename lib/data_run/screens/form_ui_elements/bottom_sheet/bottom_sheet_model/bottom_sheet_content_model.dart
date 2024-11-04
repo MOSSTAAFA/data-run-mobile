@@ -1,3 +1,4 @@
+import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -15,31 +16,50 @@ class DialogContentModel with _$DialogContentModel {
 
 @freezed
 abstract class BottomSheetBodyModel with _$BottomSheetBodyModel {
-  factory BottomSheetBodyModel.messageBody({required String message}) =
-  MessageBody;
+  const BottomSheetBodyModel._();
 
-  factory BottomSheetBodyModel.errorsBody({
-    required String message,
-    required Map<String, List<FieldWithIssue>> fieldsWithIssues,
-  }) = ErrorsBody;
+  const factory BottomSheetBodyModel({
+    String? message,
+    required Map<String, List<FieldWithIssue<dynamic>>> fieldsWithIssues,
+    required Map<String, List<FieldWithIssue<dynamic>>> allFields,
+  }) = _BottomSheetBodyModel;
 }
 
+enum ParentType {
+  Field,
+  Section,
+  RepeatingSection;
+
+  static ParentType? fromValueType(ValueType? valueType) {
+    switch (valueType) {
+      case ValueType.Section:
+        return ParentType.Section;
+      case ValueType.RepeatableSection:
+        return ParentType.RepeatingSection;
+      case null:
+        return null;
+      default:
+        return ParentType.Field;
+    }
+  }
+}
 
 @freezed
-class FieldWithIssue with _$FieldWithIssue {
-  const factory FieldWithIssue({
-    String? parent,
-    required String fieldPath, // path to the leaf field with an error
-    required String fieldName, // name of the leaf field
-    @Default(IssueType.Error) IssueType issueType,
-    @Default('Error') String message,
-  }) = _FieldWithIssue;
-}
+class FieldWithIssue<T> with _$FieldWithIssue<T> {
+  const FieldWithIssue._();
 
-enum IssueType {
-  Error,
-  Mandatory,
-  Warning,
-  ErrorOnComplete,
-  WarningOnComplete,
+  String get fieldPath =>
+      parentPath != null ? parentPath! + '.' + fieldName : fieldName;
+
+  bool get isParentRepeated => parentType == ParentType.RepeatingSection;
+
+  const factory FieldWithIssue({
+    String? parentPath,
+    String? parentLabel,
+    ParentType? parentType,
+    required String fieldName,
+    required String fieldLabel,
+    T? value,
+    String? message,
+  }) = _FieldWithIssue<T>;
 }

@@ -5,8 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mass_pro/commons/prefs/preference_provider.dart';
+import 'package:mass_pro/core/network/connectivy_service.dart';
+import 'package:mass_pro/core/user/auth_service.dart';
+import 'package:mass_pro/data_run/screens/home_screen/home_screen.widget.dart';
 import 'package:mass_pro/generated/l10n.dart';
+import 'package:mass_pro/main/usescases/login/login_screen.widget.dart';
 import 'package:mass_pro/main/usescases/splash/splash_screen.widget.dart';
+import 'package:mass_pro/main/usescases/sync/sync_screen.widget.dart';
 import 'package:mass_pro/main_constants/main_constants.dart';
 import 'package:mass_pro/utils/app_appearance.dart';
 import 'package:mass_pro/utils/navigator_key.dart';
@@ -20,10 +25,9 @@ Future<void> main() async {
 
   await PreferenceProvider.initialize();
 
-  await D2Remote.initialize(
-      /*
-      databaseFactory: kIsWeb ? databaseFactoryFfiWeb : null*/
-      );
+  await D2Remote.initialize();
+  await ConnectivityService.instance.initialize();
+  await UserService.instance.checkAuthStatus();
 
   FlutterError.demangleStackTrace = (StackTrace stack) {
     if (stack is stack_trace.Trace) {
@@ -60,15 +64,40 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const locale = Locale('en', 'en_us');
-    // const Locale locale = Locale('ar', '');
+    // const locale = Locale('en', 'en_us');
+    const Locale locale = Locale('ar', '');
+    // final userService = UserService.instance;
 
     return MaterialApp(
       navigatorKey: navigatorKey,
       title: 'Datarun',
       debugShowCheckedModeBanner: false,
       themeMode: ref.watch(appAppearanceNotifierProvider).themeMode,
-      theme: ThemeData(
+      theme: getTheme(ref),
+      darkTheme: getDarkTheme(ref),
+      localizationsDelegates: localizationsDelegates,
+      supportedLocales: supportedLocales,
+      locale: locale,
+      home: const SplashScreen(), //const AuthCheck(),
+      onGenerateRoute: (settings) {
+        // Handle named routes with arguments
+        if (settings.name == SyncScreen.routeName) {
+          // final syncArgument = settings.arguments as String;
+          return MaterialPageRoute(
+            builder: (context) => SyncScreen(/*syncArgument: syncArgument*/),
+          );
+        }
+        return null;
+      },
+      routes: {
+        // '/': (context) => AuthCheck(),
+        HomeScreen.routeName: (context) => HomeScreen(),
+        LoginScreen.routeName: (context) => LoginScreen(),
+      },
+    );
+  }
+
+  ThemeData getTheme(WidgetRef ref) => ThemeData(
         colorSchemeSeed:
             ref.watch(appAppearanceNotifierProvider).colorSelectionMethod ==
                     ColorSelectionMethod.colorSeed
@@ -81,8 +110,9 @@ class App extends ConsumerWidget {
                 : null,
         useMaterial3: ref.watch(appAppearanceNotifierProvider).useMaterial3,
         brightness: Brightness.light,
-      ),
-      darkTheme: ThemeData(
+      );
+
+  ThemeData getDarkTheme(WidgetRef ref) => ThemeData(
         colorSchemeSeed: ref
                     .watch(appAppearanceNotifierProvider)
                     .colorSelectionMethod ==
@@ -91,20 +121,18 @@ class App extends ConsumerWidget {
             : ref.watch(appAppearanceNotifierProvider).imageColorScheme.primary,
         useMaterial3: ref.watch(appAppearanceNotifierProvider).useMaterial3,
         brightness: Brightness.dark,
-      ),
-      localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
-        // L.delegate,
-        S.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      supportedLocales: const <Locale>[
-        Locale('ar', ''),
-        Locale('en', 'en_us'),
-      ],
-      locale: locale,
-      home: SplashScreen(),
-    );
-  }
+      );
+
+  final supportedLocales = const <Locale>[
+    Locale('ar', ''),
+    Locale('en', 'en_us'),
+  ];
+
+  final localizationsDelegates = const <LocalizationsDelegate<dynamic>>[
+    // L.delegate,
+    S.delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+  ];
 }

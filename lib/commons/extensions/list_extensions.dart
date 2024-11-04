@@ -5,6 +5,10 @@ extension IterableMinBy<E> on Iterable<E> {
   /// Returns the first element yielding the smallest value of the given
   /// [selector] or `null` if there are no elements.
   E? minBy(Comparable Function(E element) selector) => _minMaxBy(-1, selector);
+
+  /// Returns the first element yielding the smallest value of the given
+  /// [selector] or `null` if there are no elements.
+  E? maxBy(Comparable Function(E element) selector) => _minMaxBy(-1, selector);
 }
 
 extension IterableMinWith<E> on Iterable<E> {
