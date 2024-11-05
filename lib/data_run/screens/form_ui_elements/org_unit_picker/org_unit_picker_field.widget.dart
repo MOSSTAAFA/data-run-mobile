@@ -1,28 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/org_unit_picker/model/tree_node.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/org_unit_picker/model/tree_node_data_source.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/org_unit_picker/org_unit_picker_dialog.widget.dart';
-import 'package:mass_pro/generated/l10n.dart';
+import 'package:datarun/data_run/screens/form_ui_elements/org_unit_picker/model/tree_node.dart';
+import 'package:datarun/data_run/screens/form_ui_elements/org_unit_picker/model/tree_node_data_source.dart';
+import 'package:datarun/data_run/screens/form_ui_elements/org_unit_picker/org_unit_picker_dialog.widget.dart';
+import 'package:datarun/generated/l10n.dart';
 
 class OrgUnitPickerField extends StatefulWidget {
-  const OrgUnitPickerField({Key? key,
-    required this.dataSource,
-    this.initialValueUid,
-    this.onSubmitted,
-    this.autofocus = false,
-    this.errorInvalidText,
-    this.fieldHintText,
-    this.fieldLabelText,
-    this.decoration = const InputDecoration(),
-    this.keyboardType,
-    this.onChanged,
-    this.focusNode,
-    this.validator,
-    this.enabled = true,
-    this.onSaved})
+  const OrgUnitPickerField(
+      {Key? key,
+      required this.dataSource,
+      this.initialValueUid,
+      this.onSubmitted,
+      this.autofocus = false,
+      this.showClearButton = false,
+      this.errorInvalidText,
+      this.fieldHintText,
+      this.fieldLabelText,
+      this.decoration = const InputDecoration(),
+      this.keyboardType,
+      this.onChanged,
+      this.focusNode,
+      this.validator,
+      this.enabled = true,
+      this.onSaved})
       : super(key: key);
 
   final String? initialValueUid;
+  final bool showClearButton;
 
   final ValueChanged<String?>? onSubmitted;
 
@@ -51,7 +54,7 @@ class OrgUnitPickerField extends StatefulWidget {
   _OrgUnitPickerFieldState createState() => _OrgUnitPickerFieldState();
 }
 
-class _OrgUnitPickerFieldState extends State<OrgUnitPickerField /*<T>*/> {
+class _OrgUnitPickerFieldState extends State<OrgUnitPickerField/*<T>*/ > {
   late final TextEditingController _controller;
   String? _selectedNode;
 
@@ -64,12 +67,8 @@ class _OrgUnitPickerFieldState extends State<OrgUnitPickerField /*<T>*/> {
     super.initState();
 
     if (widget.initialValueUid == null &&
-        widget.dataSource
-            .getSelectableNodesUids()
-            .length == 1) {
-      _selectedNode = widget.dataSource
-          .getSelectableNodesUids()
-          .first;
+        widget.dataSource.getSelectableNodesUids().length == 1) {
+      _selectedNode = widget.dataSource.getSelectableNodesUids().first;
     } else {
       _selectedNode = widget.initialValueUid;
     }
@@ -94,7 +93,7 @@ class _OrgUnitPickerFieldState extends State<OrgUnitPickerField /*<T>*/> {
           _selectedNode = widget.initialValueUid;
           final node = _getNode(_selectedNode);
           _controller.text =
-          _selectedNode == null ? '' : (node?.displayName ?? node?.name)!;
+              _selectedNode == null ? '' : (node?.displayName ?? node?.name)!;
         });
         widget.onChanged?.call(_selectedNode);
         widget.onSubmitted?.call(_selectedNode);
@@ -131,12 +130,8 @@ class _OrgUnitPickerFieldState extends State<OrgUnitPickerField /*<T>*/> {
       builder: (BuildContext context) {
         return Dialog(
           child: OrgUnitPickerDialog(
-            cancelText: S
-                .of(context)
-                .cancel,
-            confirmText: S
-                .of(context)
-                .confirm,
+            cancelText: S.of(context).cancel,
+            confirmText: S.of(context).confirm,
             dataSource: widget.dataSource,
             initialNode: currentValue,
           ),
@@ -164,29 +159,22 @@ class _OrgUnitPickerFieldState extends State<OrgUnitPickerField /*<T>*/> {
       validator: widget.validator,
       decoration: InputDecoration(
         isDense: true,
-        suffixIcon: _selectedNode != null
+        suffixIcon: _selectedNode != null && widget.showClearButton
             ? IconButton(
-            padding: EdgeInsets.zero,
-            onPressed: _clearValue,
-            icon: Icon(Icons.close))
+                padding: EdgeInsets.zero,
+                onPressed: _clearValue,
+                icon: Icon(Icons.close))
             : null,
         prefixIcon: Icon(Icons.account_tree),
-        errorText:widget.errorInvalidText,
-        hintText: widget.fieldHintText ?? S
-            .of(context)
-            .orgUnitHelpText,
-        labelText: widget.fieldLabelText ?? S
-            .of(context)
-            .orgUnitInputLabel,
+        errorText: widget.errorInvalidText,
+        hintText: widget.fieldHintText ?? S.of(context).orgUnitHelpText,
+        labelText: widget.fieldLabelText ?? S.of(context).orgUnitInputLabel,
       ).applyDefaults(
         inputTheme.copyWith(border: effectiveInputBorder),
       ),
       controller: _controller,
       focusNode: widget.focusNode,
-      style: Theme
-          .of(context)
-          .textTheme
-          .bodyMedium,
+      style: Theme.of(context).textTheme.bodyMedium,
       onTap: widget.enabled ? onShowPicker : null,
     );
   }

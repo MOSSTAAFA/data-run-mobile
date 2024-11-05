@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/org_unit_picker/model/tree_node_data_source.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/org_unit_picker/org_unit_picker_field.widget.dart';
+import 'package:datarun/data_run/screens/form_ui_elements/org_unit_picker/model/tree_node_data_source.dart';
+import 'package:datarun/data_run/screens/form_ui_elements/org_unit_picker/org_unit_picker_field.widget.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
 class ReactiveOuPicker<T> extends ReactiveFormField<T, String> {
@@ -14,6 +14,7 @@ class ReactiveOuPicker<T> extends ReactiveFormField<T, String> {
     TextInputType? keyboardType,
     bool obscureText = false,
     bool canRequestFocus = true,
+    bool showClearButton = false,
     bool enabled = true,
     String? formControlName,
     FormControl<T>? formControl,
