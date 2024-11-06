@@ -3,7 +3,12 @@ part of 'form_element.dart';
 /// A section
 class RepeatItemInstance extends SectionInstance {
   RepeatItemInstance(
-      {required super.template, required super.form, super.elements});
+      {required super.template,
+      required super.form,
+      super.elements,
+      this.selected = false});
+
+  bool selected;
 
   int get sectionIndex => (parentSection as RepeatInstance)
       .sectionIndexWhere((section) => section == this);

@@ -2,15 +2,15 @@ import 'package:d2_remote/modules/datarun/form/entities/data_form_submission.ent
 import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/commons/logging/logging.dart';
-import 'package:mass_pro/data_run/form/form_element_factories/form_element_builder.dart';
-import 'package:mass_pro/data_run/form/form_element_factories/form_element_control_builder.dart';
-import 'package:mass_pro/data_run/form/form_submission/submission_list.provider.dart';
-import 'package:mass_pro/data_run/form/shared/form_configuration.dart';
-import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
-import 'package:mass_pro/data_run/screens/form/element/providers/form_instance.provider.dart';
-import 'package:mass_pro/data_run/screens/form/element/service/form_instance_service.dart';
-import 'package:mass_pro/data_run/screens/form/element/form_metadata.dart';
+import 'package:datarun/commons/logging/logging.dart';
+import 'package:datarun/data_run/form/form_element_factories/form_element_builder.dart';
+import 'package:datarun/data_run/form/form_element_factories/form_element_control_builder.dart';
+import 'package:datarun/data_run/form/form_submission/submission_list.provider.dart';
+import 'package:datarun/data_run/form/shared/form_configuration.dart';
+import 'package:datarun/data_run/screens/form/element/form_element.dart';
+import 'package:datarun/data_run/screens/form/element/providers/form_instance.provider.dart';
+import 'package:datarun/data_run/screens/form/element/service/form_instance_service.dart';
+import 'package:datarun/data_run/screens/form/element/form_metadata.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
 const orgUnitControlName = 'orgUnit';
@@ -130,10 +130,11 @@ class FormInstance {
     final instanceControllerBuilder = _ref
         .read(formElementControlBuilderProvider(formMetadata: formMetadata))
         .requireValue;
-    final itemInstanceController =
+
+    final itemFormGroup =
         instanceControllerBuilder.createSectionFormGroup(parent.template);
     final itemInstance = instanceBuilder.buildRepeatItem(form, parent.template);
-    parent.elementControl.add(itemInstanceController);
+    parent.elementControl.add(itemFormGroup);
     parent.add(itemInstance);
     parent.elementControl.markAsDirty();
     return itemInstance;

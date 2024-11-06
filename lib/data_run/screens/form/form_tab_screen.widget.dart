@@ -1,21 +1,22 @@
+import 'package:datarun/data_run/screens/form/form_entry_view.widget.dart';
+import 'package:datarun/data_run/screens/form/form_with_sliver/form_entry_view_silver.widget.dart';
+import 'package:datarun/data_run/utils/get_item_local_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mass_pro/commons/custom_widgets/async_value.widget.dart';
-import 'package:mass_pro/data_run/form/form_submission/submission_list.provider.dart';
-import 'package:mass_pro/data_run/screens/form/form_entry_view.widget.dart';
-import 'package:mass_pro/data_run/screens/form/form_initial_view.widget.dart';
-import 'package:mass_pro/data_run/screens/form/hooks/scroll_controller_for_animation.dart';
-import 'package:mass_pro/data_run/screens/form/element/providers/form_instance.provider.dart';
-import 'package:mass_pro/data_run/screens/form/element/form_metadata.dart';
-import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
-import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_template_inherit_widget.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/bottom_sheet/bottom_sheet.widget.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/bottom_sheet/bottom_sheet_issues.widget.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/bottom_sheet/form_completion_dialog_config/completion_dialog_config.provider.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/bottom_sheet/form_completion_dialog_config/form_completion_dialog.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/get_error_widget.dart';
-import 'package:mass_pro/generated/l10n.dart';
+import 'package:datarun/commons/custom_widgets/async_value.widget.dart';
+import 'package:datarun/data_run/form/form_submission/submission_list.provider.dart';
+import 'package:datarun/data_run/screens/form/form_initial_view.widget.dart';
+import 'package:datarun/data_run/screens/form/hooks/scroll_controller_for_animation.dart';
+import 'package:datarun/data_run/screens/form/element/providers/form_instance.provider.dart';
+import 'package:datarun/data_run/screens/form/element/form_metadata.dart';
+import 'package:datarun/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
+import 'package:datarun/data_run/screens/form/inherited_widgets/form_template_inherit_widget.dart';
+import 'package:datarun/data_run/screens/form_ui_elements/bottom_sheet/bottom_sheet.widget.dart';
+import 'package:datarun/data_run/screens/form_ui_elements/bottom_sheet/form_completion_dialog_config/completion_dialog_config.provider.dart';
+import 'package:datarun/data_run/screens/form_ui_elements/bottom_sheet/form_completion_dialog_config/form_completion_dialog.dart';
+import 'package:datarun/data_run/screens/form_ui_elements/get_error_widget.dart';
+import 'package:datarun/generated/l10n.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 class FormSubmissionScreen extends StatefulHookConsumerWidget {
@@ -94,7 +95,8 @@ class _SubmissionTabScreenState extends ConsumerState<FormTabScreen> {
 
     final _buildBody = <Widget>[
       const FormInitialView(),
-      FormInstanceEntryView(scrollController: scrollController),
+      // FormInstanceEntryView(scrollController: scrollController),
+      FormInstanceEntryViewSliver(scrollController: scrollController),
     ];
 
     return PopScope(
@@ -107,7 +109,11 @@ class _SubmissionTabScreenState extends ConsumerState<FormTabScreen> {
       },
       child: Scaffold(
         key: _scaffoldKey,
-        appBar: AppBar(title: Text('NMCP')),
+        appBar: AppBar(
+            title: Text(getItemLocalString(
+                FormFlatTemplateInheritWidget.of(context).label,
+                defaultString:
+                    FormFlatTemplateInheritWidget.of(context).name))),
         bottomNavigationBar: NavigationBar(
           onDestinationSelected: (int index) => currentPageIndex.value = index,
           indicatorColor: Colors.amber,
@@ -137,15 +143,14 @@ class _SubmissionTabScreenState extends ConsumerState<FormTabScreen> {
           child: ScaleTransition(
             scale: hideFabAnimController,
             child: FloatingActionButton(
+              tooltip: S.of(context).saveAndCheck,
               child: getFloatIcon(),
-              // label: const Text('Useless Floating Action Button'),
               onPressed: () {
                 if (widget.enabled) {
                   _saveAndShowBottomSheet(formGroup(context));
                 } else {
                   Navigator.pop(context);
                 }
-                // Navigator.pop(context);
               },
             ),
           ),
@@ -213,68 +218,6 @@ class _SubmissionTabScreenState extends ConsumerState<FormTabScreen> {
       case null:
         return;
     }
-    // if (form.valid) {
-    //   await _markEntityAsFinal(context);
-    //   if (context.mounted) Navigator.pop(context);
-    // } else {
-    //   final formErrors = form.errors;
-    //
-    //   // Show errors in a dismissible bottom sheet
-    //   await Future.delayed(const Duration(milliseconds: 100));
-    //
-    //   if (context.mounted) {
-    //     await showModalBottomSheet(
-    //       context: context,
-    //       isScrollControlled: true,
-    //       builder: (BuildContext context) {
-    //         return SingleChildScrollView(
-    //           child: Padding(
-    //             padding: const EdgeInsets.all(16.0),
-    //             child: Column(
-    //               mainAxisSize: MainAxisSize.min,
-    //               children: [
-    //                 Text(
-    //                   S.of(context).formContainsSomeErrors,
-    //                   style:
-    //                       TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-    //                 ),
-    //                 const SizedBox(height: 8),
-    //                 ...formErrors.entries.map((sectionEntry) {
-    //                   final sectionName = sectionEntry.key;
-    //                   final fieldErrors =
-    //                       sectionEntry.value as Map<String, dynamic>;
-    //
-    //                   return ExpansionTile(
-    //                     title: Text(
-    //                       sectionName,
-    //                       style: TextStyle(
-    //                           color: Colors.red, fontWeight: FontWeight.bold),
-    //                     ),
-    //                     children: fieldErrors.entries.map((fieldEntry) {
-    //                       final fieldName = fieldEntry.key;
-    //                       final errorDescription =
-    //                           fieldEntry.value ?? "Unknown error";
-    //
-    //                       return ListTile(
-    //                         leading: Icon(Icons.error, color: Colors.red),
-    //                         title: Text('$fieldName: $errorDescription'),
-    //                       );
-    //                     }).toList(),
-    //                   );
-    //                 }).toList(),
-    //                 const SizedBox(height: 16),
-    //                 ElevatedButton(
-    //                   onPressed: () => Navigator.pop(context),
-    //                   child: Text(S.of(context).dismiss),
-    //                 ),
-    //               ],
-    //             ),
-    //           ),
-    //         );
-    //       },
-    //     );
-    //   }
-    // }
   }
 
   Future<void> _markEntityAsFinal(BuildContext context) async {
