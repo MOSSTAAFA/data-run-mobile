@@ -85,6 +85,16 @@ sealed class FormElementTemplate
   final IMap<String, String> label;
   final IList<Rule> rules;
 
+  String? get parentPath {
+    final pathSegments = path?.split('.') ?? [];
+    if (pathSegments.length > 1) {
+      final parentPath =
+      pathSegments.sublist(0, pathSegments.length - 1).join('.');
+      return parentPath;
+    }
+    return null;
+  }
+
   /// <name, path>
   final IList<String> ruleDependencies;
 
