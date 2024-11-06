@@ -7,7 +7,7 @@ import 'package:d2_remote/shared/utilities/merge_mode.util.dart';
 import 'package:d2_remote/shared/utilities/save_option.util.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 
-import 'package:mass_pro/commons/extensions/dynamic_value_extensions.dart';
+import 'package:datarun/commons/extensions/dynamic_value_extensions.dart';
 
 /// BlockingSetCheckTrackedEntityAttributeValueExtension
 // TODOBaseQueryWithValue extends BaseQuery on which these extension are put

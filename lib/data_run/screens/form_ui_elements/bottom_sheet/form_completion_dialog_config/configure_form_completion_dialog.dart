@@ -1,14 +1,14 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:mass_pro/commons/logging/logging.dart';
-import 'package:mass_pro/data_run/form/form_element/form_element_iterators/form_element_iterator.dart';
-import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
-import 'package:mass_pro/data_run/screens/form/element/validation/form_element_validator.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/bottom_sheet/bottom_sheet_model/bottom_sheet_content_model.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/bottom_sheet/bottom_sheet_model/dialog_button_style.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/bottom_sheet/form_completion_dialog_config/form_completion_dialog.dart';
-import 'package:mass_pro/generated/l10n.dart';
-import 'package:mass_pro/utils/navigator_key.dart';
+import 'package:datarun/commons/logging/logging.dart';
+import 'package:datarun/data_run/form/form_element/form_element_iterators/form_element_iterator.dart';
+import 'package:datarun/data_run/screens/form/element/form_element.dart';
+import 'package:datarun/data_run/screens/form/element/validation/form_element_validator.dart';
+import 'package:datarun/data_run/screens/form_ui_elements/bottom_sheet/bottom_sheet_model/bottom_sheet_content_model.dart';
+import 'package:datarun/data_run/screens/form_ui_elements/bottom_sheet/bottom_sheet_model/dialog_button_style.dart';
+import 'package:datarun/data_run/screens/form_ui_elements/bottom_sheet/form_completion_dialog_config/form_completion_dialog.dart';
+import 'package:datarun/generated/l10n.dart';
+import 'package:datarun/utils/navigator_key.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
 class ConfigureFormCompletionDialog {

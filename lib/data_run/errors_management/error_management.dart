@@ -1,5 +1,5 @@
-import 'package:mass_pro/data_run/errors_management/d_error_handler_service.dart';
-import 'package:mass_pro/data_run/errors_management/d_error_localization.dart';
+import 'package:datarun/data_run/errors_management/d_error_handler_service.dart';
+import 'package:datarun/data_run/errors_management/d_error_localization.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 export 'd_error_handler_service.dart';

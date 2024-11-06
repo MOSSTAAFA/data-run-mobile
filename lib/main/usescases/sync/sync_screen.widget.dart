@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/data_run/screens/home_screen/home_screen.widget.dart';
-import 'package:mass_pro/data_run/screens/view/view_base.dart';
-import 'package:mass_pro/generated/l10n.dart';
-import 'package:mass_pro/main/data/service/work_manager/nmc_worker/work_info.dart';
-import 'package:mass_pro/main/data/service/work_manager/work_manager_controller_impl.dart';
-import 'package:mass_pro/main/usescases/login/login_screen.widget.dart';
-import 'package:mass_pro/main/usescases/sync/sync_screen_presenter.dart';
-import 'package:mass_pro/main/usescases/sync/sync_view.dart';
-import 'package:mass_pro/riverpod/use_on_init_hook.dart';
-import 'package:mass_pro/utils/mass_utils/utils.dart';
-import 'package:mass_pro/utils/navigator_key.dart';
+import 'package:datarun/data_run/screens/home_screen/home_screen.widget.dart';
+import 'package:datarun/data_run/screens/view/view_base.dart';
+import 'package:datarun/generated/l10n.dart';
+import 'package:datarun/main/data/service/work_manager/nmc_worker/work_info.dart';
+import 'package:datarun/main/data/service/work_manager/work_manager_controller_impl.dart';
+import 'package:datarun/main/usescases/login/login_screen.widget.dart';
+import 'package:datarun/main/usescases/sync/sync_screen_presenter.dart';
+import 'package:datarun/main/usescases/sync/sync_view.dart';
+import 'package:datarun/riverpod/use_on_init_hook.dart';
+import 'package:datarun/utils/mass_utils/utils.dart';
+import 'package:datarun/utils/navigator_key.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class SyncScreen extends ConsumerStatefulWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
-import 'package:mass_pro/data_run/screens/project_activity_detail/form_tiles/submissions_chips.widget.dart';
-import 'package:mass_pro/generated/l10n.dart';
+import 'package:datarun/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
+import 'package:datarun/data_run/screens/project_activity_detail/form_tiles/submissions_chips.widget.dart';
+import 'package:datarun/generated/l10n.dart';
 
 class ActivityFormTile extends StatelessWidget {
   const ActivityFormTile({

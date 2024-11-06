@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mass_pro/commons/prefs/preference_provider.dart';
+import 'package:datarun/commons/prefs/preference_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'shared.dart' show IndentGuideType, LineStyle, enumByName;

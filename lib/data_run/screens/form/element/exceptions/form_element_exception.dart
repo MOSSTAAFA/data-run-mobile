@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mass_pro/data_run/errors_management/errors/d_exception.dart';
-import 'package:mass_pro/data_run/screens/form_module/form_element_model/form_element_model.dart';
+import 'package:datarun/data_run/errors_management/errors/d_exception.dart';
+import 'package:datarun/data_run/screens/form_module/form_element_model/form_element_model.dart';
 
 class CircularDependencyException extends FormElementException {
   CircularDependencyException(

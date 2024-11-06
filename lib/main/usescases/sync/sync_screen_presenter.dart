@@ -1,10 +1,10 @@
-import 'package:mass_pro/commons/prefs/preference.dart';
-import 'package:mass_pro/commons/prefs/preference_provider.dart';
-import 'package:mass_pro/main/data/server/user_manager.dart';
-import 'package:mass_pro/main/data/server/user_manager_impl.dart';
-import 'package:mass_pro/main/data/service/work_manager/work_manager_controller.dart';
-import 'package:mass_pro/main/data/service/work_manager/work_manager_controller_impl.dart';
-import 'package:mass_pro/main/usescases/sync/sync_view.dart';
+import 'package:datarun/commons/prefs/preference.dart';
+import 'package:datarun/commons/prefs/preference_provider.dart';
+import 'package:datarun/main/data/server/user_manager.dart';
+import 'package:datarun/main/data/server/user_manager_impl.dart';
+import 'package:datarun/main/data/service/work_manager/work_manager_controller.dart';
+import 'package:datarun/main/data/service/work_manager/work_manager_controller_impl.dart';
+import 'package:datarun/main/usescases/sync/sync_view.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'sync_screen_presenter.g.dart';

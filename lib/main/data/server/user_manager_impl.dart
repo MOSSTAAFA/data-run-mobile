@@ -4,12 +4,12 @@ import 'package:d2_remote/modules/auth/user/models/login-response.model.dart';
 import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:mass_pro/main/usescases/login/login_screen.widget.dart';
+import 'package:datarun/main/usescases/login/login_screen.widget.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:mass_pro/core/user/internal/log_in_exceptions.dart';
-import 'package:mass_pro/main/data/server/user_manager.dart';
+import 'package:datarun/core/user/internal/log_in_exceptions.dart';
+import 'package:datarun/main/data/server/user_manager.dart';
 
 import '../../../utils/navigator_key.dart';
 

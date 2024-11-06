@@ -1,6 +1,6 @@
 import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
-import 'package:mass_pro/generated/l10n.dart';
+import 'package:datarun/generated/l10n.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
 class FieldValidators {

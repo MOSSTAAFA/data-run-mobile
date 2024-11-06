@@ -2,9 +2,9 @@ import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/metadatarun/project/entities/d_project.entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/data_run/screens/project_activity_detail/project_activities_cards.widget.dart';
-import 'package:mass_pro/data_run/screens/view/view_base.dart';
-import 'package:mass_pro/riverpod/use_on_init_hook.dart';
+import 'package:datarun/data_run/screens/project_activity_detail/project_activities_cards.widget.dart';
+import 'package:datarun/data_run/screens/view/view_base.dart';
+import 'package:datarun/riverpod/use_on_init_hook.dart';
 
 /// List Activities of certain project
 class ProjectActivitiesScreen extends ConsumerStatefulWidget

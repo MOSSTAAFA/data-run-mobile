@@ -1,5 +1,5 @@
 import 'package:expressions/expressions.dart';
-import 'package:mass_pro/commons/logging/logging.dart';
+import 'package:datarun/commons/logging/logging.dart';
 
 const evaluationEngine = const EvaluationEngine();
 
@@ -18,13 +18,5 @@ class EvaluationEngine {
       logError(info: 'Error evaluating expression: $e');
       return false;
     }
-  }
-}
-
-class EvaluationContext {
-  final Map<String, dynamic> values = {};
-
-  void updateValue(String fieldName, dynamic newValue) {
-    values[fieldName] = newValue;
   }
 }

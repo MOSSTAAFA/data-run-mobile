@@ -3,14 +3,11 @@
 import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import 'package:d2_remote/modules/metadatarun/project/entities/d_project.entity.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:flutter/material.dart';
-import 'package:mass_pro/commons/resources/resource_manager.dart';
-import 'package:mass_pro/commons/ui/metadata_icon_data.dart';
-import 'package:mass_pro/core/common/state.dart';
-import 'package:mass_pro/data_run/screens/home_screen/home_deck/home_item.model.dart';
-import 'package:mass_pro/data_run/utils/activities_access_repository.dart';
-import 'package:mass_pro/main/data/service/sync_status_controller.dart';
-import 'package:mass_pro/main/data/service/sync_status_data.dart';
+import 'package:datarun/core/common/state.dart';
+import 'package:datarun/data_run/screens/home_screen/home_deck/home_item.model.dart';
+import 'package:datarun/data_run/utils/activities_access_repository.dart';
+import 'package:datarun/main/data/service/sync_status_controller.dart';
+import 'package:datarun/main/data/service/sync_status_data.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'home_items_models_notifier.g.dart';
@@ -37,16 +34,6 @@ class HomeItemsModelsNotifier extends _$HomeItemsModelsNotifier {
       final HomeItemModel programModel = HomeItemModel(
           uid: project.uid!,
           title: project.name!,
-          metadataIconData: MetadataIconData(
-              programColor: ref
-                  .read(resourceManagerProvider)
-                  .getColorOrDefaultFrom(null),
-              iconResource: ref
-                  .read(resourceManagerProvider)
-                  .getObjectStyleDrawableResource(
-                      null,
-                      Icons.question_mark)),
-
           type: project.name,
           dirty: project.dirty,
           state: state,

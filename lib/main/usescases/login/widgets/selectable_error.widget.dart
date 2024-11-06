@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mass_pro/utils/mass_utils/utils.dart';
+import 'package:datarun/utils/mass_utils/utils.dart';
 
 class SelectableError extends StatelessWidget {
   const SelectableError({super.key, this.errorMessage = ''});

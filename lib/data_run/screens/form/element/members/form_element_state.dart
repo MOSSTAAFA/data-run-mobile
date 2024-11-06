@@ -1,7 +1,7 @@
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:equatable/equatable.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:mass_pro/commons/extensions/list_extensions.dart';
+import 'package:datarun/commons/extensions/list_extensions.dart';
 
 class FormElementState with EquatableMixin {
   final bool hidden;

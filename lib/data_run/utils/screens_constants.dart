@@ -1,2 +1,0 @@
-const String EXTRA_PROJECT_UID = 'PROJECT_UID';
-const String EXTRA_ACTIVITY_UID = 'ACTIVITY_UID';

@@ -2,15 +2,14 @@ import 'dart:async';
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/auth/user/entities/d_user.entity.dart';
 import 'package:d2_remote/modules/auth/user/models/login-response.model.dart';
+import 'package:datarun/data_run/errors_management/errors/d_exception.dart';
 import 'package:flutter/material.dart';
-import 'package:mass_pro/commons/extensions/standard_extensions.dart';
-import 'package:mass_pro/commons/logging/logging.dart';
-import 'package:mass_pro/core/network/connectivy_service.dart';
-import 'package:mass_pro/core/user/authenticated_user.model.dart';
-import 'package:mass_pro/core/user/internal/log_in_exceptions.dart';
-import 'package:mass_pro/data_run/errors_management/error_management.dart';
-import 'package:mass_pro/data_run/screens/home_screen/home_screen.widget.dart';
-import 'package:mass_pro/utils/navigator_key.dart';
+import 'package:datarun/commons/logging/logging.dart';
+import 'package:datarun/core/network/connectivy_service.dart';
+import 'package:datarun/core/user/authenticated_user.model.dart';
+import 'package:datarun/core/user/internal/log_in_exceptions.dart';
+import 'package:datarun/data_run/screens/home_screen/home_screen.widget.dart';
+import 'package:datarun/utils/navigator_key.dart';
 
 class UserService {
   static final UserService _instance = UserService._internal();

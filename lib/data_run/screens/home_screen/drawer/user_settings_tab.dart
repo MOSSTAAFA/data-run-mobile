@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mass_pro/core/user/auth_service.dart';
-import 'package:mass_pro/generated/l10n.dart';
+import 'package:datarun/core/user/auth_service.dart';
+import 'package:datarun/generated/l10n.dart';
 
 class UserSettingsTab extends StatelessWidget {
   @override

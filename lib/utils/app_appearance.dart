@@ -1,6 +1,6 @@
+import 'package:datarun/main_constants/main_constants.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:mass_pro/main_constants/main_constants.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_appearance.g.dart';

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/commons/prefs/preference.dart';
-import 'package:mass_pro/commons/prefs/preference_provider.dart';
-import 'package:mass_pro/core/user/auth_service.dart';
-import 'package:mass_pro/data_run/screens/home_screen/home_screen.widget.dart';
-import 'package:mass_pro/main/usescases/login/login_screen.widget.dart';
-import 'package:mass_pro/main/usescases/sync/sync_screen.widget.dart';
-import 'package:mass_pro/utils/navigator_key.dart';
+import 'package:datarun/commons/prefs/preference.dart';
+import 'package:datarun/commons/prefs/preference_provider.dart';
+import 'package:datarun/core/user/auth_service.dart';
+import 'package:datarun/data_run/screens/home_screen/home_screen.widget.dart';
+import 'package:datarun/main/usescases/login/login_screen.widget.dart';
+import 'package:datarun/main/usescases/sync/sync_screen.widget.dart';
+import 'package:datarun/utils/navigator_key.dart';
 
 class AuthCheck extends ConsumerWidget {
   const AuthCheck();

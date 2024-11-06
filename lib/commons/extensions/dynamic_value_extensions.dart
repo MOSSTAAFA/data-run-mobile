@@ -3,7 +3,7 @@ import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/file_resource/entities/file_resource.entity.dart';
 import 'package:d2_remote/modules/metadata/option_set/entities/option.entity.dart';
 import 'package:d2_remote/modules/metadata/organisation_unit/entities/organisation_unit.entity.dart';
-import 'package:mass_pro/commons/extensions/string_extension.dart';
+import 'package:datarun/commons/extensions/string_extension.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 
 extension CheckValueDynamicExtension on dynamic {

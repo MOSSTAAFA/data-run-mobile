@@ -1,6 +1,7 @@
 import 'package:d2_remote/d2_remote.dart';
-import 'package:mass_pro/commons/extensions/string_extension.dart';
-import 'package:mass_pro/data_run/errors_management/error_management.dart';
+import 'package:datarun/commons/extensions/string_extension.dart';
+import 'package:datarun/data_run/errors_management/errors/d_error.dart';
+import 'package:datarun/data_run/errors_management/errors/d_error_code.dart';
 
 // class LogInExceptions {
 void throwExceptionIfUsernameNull(String? username) {

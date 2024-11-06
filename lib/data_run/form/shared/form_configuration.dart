@@ -6,8 +6,8 @@ import 'package:d2_remote/modules/datarun/form/entities/form_version.entity.dart
 import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:mass_pro/data_run/form/form_template/template_providers.dart';
-import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
+import 'package:datarun/data_run/form/form_template/template_providers.dart';
+import 'package:datarun/data_run/utils/get_item_local_string.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'form_configuration.g.dart';

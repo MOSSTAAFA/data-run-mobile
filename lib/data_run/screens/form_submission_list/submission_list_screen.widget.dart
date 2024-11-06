@@ -1,17 +1,17 @@
 import 'package:d2_remote/modules/datarun/form/entities/data_form_submission.entity.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mass_pro/commons/custom_widgets/async_value.widget.dart';
-import 'package:mass_pro/core/common/state.dart';
-import 'package:mass_pro/data_run/form/form_submission/submission_list.provider.dart';
-import 'package:mass_pro/data_run/screens/form/form_tab_screen.widget.dart';
-import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
-import 'package:mass_pro/data_run/screens/form_submission_list/submission_info.widget.dart';
-import 'package:mass_pro/data_run/screens/form_submission_list/submission_creation_dialog.widget.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/get_error_widget.dart';
-import 'package:mass_pro/data_run/screens/form_submission_list/submission_sync_dialog.widget.dart';
-import 'package:mass_pro/data_run/screens/project_activity_detail/form_tiles/form_submissions_status.provider.dart';
-import 'package:mass_pro/generated/l10n.dart';
+import 'package:datarun/commons/custom_widgets/async_value.widget.dart';
+import 'package:datarun/core/common/state.dart';
+import 'package:datarun/data_run/form/form_submission/submission_list.provider.dart';
+import 'package:datarun/data_run/screens/form/form_tab_screen.widget.dart';
+import 'package:datarun/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
+import 'package:datarun/data_run/screens/form_submission_list/submission_info.widget.dart';
+import 'package:datarun/data_run/screens/form_submission_list/submission_creation_dialog.widget.dart';
+import 'package:datarun/data_run/screens/form_ui_elements/get_error_widget.dart';
+import 'package:datarun/data_run/screens/form_submission_list/submission_sync_dialog.widget.dart';
+import 'package:datarun/data_run/screens/project_activity_detail/form_tiles/form_submissions_status.provider.dart';
+import 'package:datarun/generated/l10n.dart';
 
 class SubmissionListScreen extends StatefulHookConsumerWidget {
   const SubmissionListScreen({super.key});

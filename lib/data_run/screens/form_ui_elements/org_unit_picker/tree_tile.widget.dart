@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fancy_tree_view/flutter_fancy_tree_view.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/org_unit_picker/model/tree_node.dart';
+import 'package:datarun/data_run/screens/form_ui_elements/org_unit_picker/model/tree_node.dart';
 
 class TreeTile extends StatefulWidget {
   const TreeTile({

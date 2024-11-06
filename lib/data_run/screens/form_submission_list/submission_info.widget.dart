@@ -1,13 +1,13 @@
 import 'package:d2_remote/modules/datarun/form/entities/data_form_submission.entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/data_run/form/form_submission/submission_list.provider.dart';
-import 'package:mass_pro/data_run/form/form_submission/submission_summary.model.dart';
-import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/get_error_widget.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/q_sync_icon_button.widget.dart';
-import 'package:mass_pro/data_run/screens/form_submission_list/submission_list_screen.widget.dart';
-import 'package:mass_pro/generated/l10n.dart';
+import 'package:datarun/data_run/form/form_submission/submission_list.provider.dart';
+import 'package:datarun/data_run/form/form_submission/submission_summary.model.dart';
+import 'package:datarun/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
+import 'package:datarun/data_run/screens/form_ui_elements/get_error_widget.dart';
+import 'package:datarun/data_run/screens/form_ui_elements/q_sync_icon_button.widget.dart';
+import 'package:datarun/data_run/screens/form_submission_list/submission_list_screen.widget.dart';
+import 'package:datarun/generated/l10n.dart';
 
 class SubmissionInfo extends ConsumerStatefulWidget {
   const SubmissionInfo({

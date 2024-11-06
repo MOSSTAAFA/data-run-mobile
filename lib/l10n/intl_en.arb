@@ -217,5 +217,6 @@
   "edit": "Edit",
   "noInternetAccess": "No internet access",
   "online": "online!",
-  "empty": "Empty"
+  "empty": "Empty",
+  "saveAndCheck": "Save and Check"
 }

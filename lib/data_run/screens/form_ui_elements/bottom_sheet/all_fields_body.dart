@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/bottom_sheet/bottom_sheet_model/bottom_sheet_content_model.dart';
-import 'package:mass_pro/generated/l10n.dart';
+import 'package:datarun/data_run/screens/form_ui_elements/bottom_sheet/bottom_sheet_model/bottom_sheet_content_model.dart';
+import 'package:datarun/generated/l10n.dart';
 
 class AllFieldsBody extends StatelessWidget {
   const AllFieldsBody(

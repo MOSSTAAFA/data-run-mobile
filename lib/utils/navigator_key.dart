@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mass_pro/main/usescases/login/login_screen.widget.dart';
+import 'package:datarun/main/usescases/login/login_screen.widget.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 

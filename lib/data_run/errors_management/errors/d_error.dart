@@ -1,5 +1,5 @@
-import 'package:mass_pro/data_run/errors_management/errors/d_error_code.dart';
-import 'package:mass_pro/data_run/errors_management/errors/d_exception.dart';
+import 'package:datarun/data_run/errors_management/errors/d_error_code.dart';
+import 'package:datarun/data_run/errors_management/errors/d_exception.dart';
 
 class DError implements DException {
   const DError(

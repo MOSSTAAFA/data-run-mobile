@@ -1,6 +1,6 @@
 import 'package:d2_remote/modules/datarun/form/entities/data_form_submission.entity.dart';
-import 'package:mass_pro/core/common/state.dart';
-import 'package:mass_pro/data_run/form_reactive/form/form.dart';
+import 'package:datarun/core/common/state.dart';
+import 'package:datarun/data_run/form_reactive/form/form.dart';
 
 typedef SubmissionFilterPredicate = bool Function(DataFormSubmission);
 

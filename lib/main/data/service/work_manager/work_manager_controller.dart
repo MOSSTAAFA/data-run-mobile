@@ -1,4 +1,4 @@
-import 'package:mass_pro/main/data/service/work_manager/worker_item.dart';
+import 'package:datarun/main/data/service/work_manager/worker_item.dart';
 
 abstract class WorkManagerController {
   Future<void> syncDataForWorkerItem(WorkerItem workerItem);

@@ -1,9 +1,9 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'package:mass_pro/commons/prefs/preference_provider.dart';
-import 'package:mass_pro/main/data/server/user_manager.dart';
-import 'package:mass_pro/main/data/server/user_manager_impl.dart';
-import 'package:mass_pro/main/usescases/sync/sync_screen_presenter.dart';
+import 'package:datarun/commons/prefs/preference_provider.dart';
+import 'package:datarun/main/data/server/user_manager.dart';
+import 'package:datarun/main/data/server/user_manager_impl.dart';
+import 'package:datarun/main/usescases/sync/sync_screen_presenter.dart';
 
 part 'sync_is_performed_interactor.g.dart';
 

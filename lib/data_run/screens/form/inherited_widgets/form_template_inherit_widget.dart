@@ -1,4 +1,4 @@
-import 'package:mass_pro/data_run/screens/form_module/form_template/form_element_template.dart';
+import 'package:datarun/data_run/screens/form_module/form_template/form_element_template.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
 class FormFlatTemplateInheritWidget extends InheritedWidget {
@@ -21,6 +21,6 @@ class FormFlatTemplateInheritWidget extends InheritedWidget {
 
   @override
   bool updateShouldNotify(covariant FormFlatTemplateInheritWidget oldWidget) {
-    return false;
+    return oldWidget.formContainerTemplate != formContainerTemplate;
   }
 }

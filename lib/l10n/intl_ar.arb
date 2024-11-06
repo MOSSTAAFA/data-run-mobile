@@ -178,5 +178,6 @@
   "edit": "تعديل",
   "noInternetAccess": "غير متصل",
   "online": "متصل",
-  "empty": "Empty"
+  "empty": "فارغ",
+  "saveAndCheck": "حفظ وتحقق"
 }

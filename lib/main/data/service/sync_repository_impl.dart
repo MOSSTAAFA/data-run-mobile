@@ -3,8 +3,8 @@ import 'package:d2_remote/modules/data/tracker/entities/event.entity.dart';
 import 'package:d2_remote/modules/data/tracker/entities/tracked-entity.entity.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
-import 'package:mass_pro/core/common/state.dart';
-import 'package:mass_pro/main/data/service/sync_repository.dart';
+import 'package:datarun/core/common/state.dart';
+import 'package:datarun/main/data/service/sync_repository.dart';
 
 class SyncRepositoryImpl implements SyncRepository {
   @override

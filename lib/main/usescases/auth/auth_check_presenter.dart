@@ -1,12 +1,12 @@
 // import 'package:d2_remote/d2_remote.dart';
 // import 'package:flutter/material.dart';
-// import 'package:mass_pro/commons/prefs/preference.dart';
-// import 'package:mass_pro/commons/prefs/preference_provider.dart';
-// import 'package:mass_pro/data_run/screens/home_screen/home_screen.widget.dart';
-// import 'package:mass_pro/main/data/server/user_manager.dart';
-// import 'package:mass_pro/main/data/server/user_manager_impl.dart';
-// import 'package:mass_pro/main/usescases/login/login_screen.widget.dart';
-// import 'package:mass_pro/main/usescases/sync/sync_screen.widget.dart';
+// import 'package:datarun/commons/prefs/preference.dart';
+// import 'package:datarun/commons/prefs/preference_provider.dart';
+// import 'package:datarun/data_run/screens/home_screen/home_screen.widget.dart';
+// import 'package:datarun/main/data/server/user_manager.dart';
+// import 'package:datarun/main/data/server/user_manager_impl.dart';
+// import 'package:datarun/main/usescases/login/login_screen.widget.dart';
+// import 'package:datarun/main/usescases/sync/sync_screen.widget.dart';
 // import 'package:riverpod_annotation/riverpod_annotation.dart';
 //
 // import '../../../utils/navigator_key.dart';

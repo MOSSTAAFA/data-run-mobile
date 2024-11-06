@@ -4,20 +4,20 @@ import 'package:d2_remote/d2_remote.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/commons/prefs/preference_provider.dart';
-import 'package:mass_pro/core/network/connectivy_service.dart';
-import 'package:mass_pro/core/user/auth_service.dart';
-import 'package:mass_pro/data_run/screens/home_screen/home_screen.widget.dart';
-import 'package:mass_pro/generated/l10n.dart';
-import 'package:mass_pro/main/usescases/login/login_screen.widget.dart';
-import 'package:mass_pro/main/usescases/splash/splash_screen.widget.dart';
-import 'package:mass_pro/main/usescases/sync/sync_screen.widget.dart';
-import 'package:mass_pro/main_constants/main_constants.dart';
-import 'package:mass_pro/utils/app_appearance.dart';
-import 'package:mass_pro/utils/navigator_key.dart';
+import 'package:datarun/commons/prefs/preference_provider.dart';
+import 'package:datarun/core/network/connectivy_service.dart';
+import 'package:datarun/core/user/auth_service.dart';
+import 'package:datarun/data_run/screens/home_screen/home_screen.widget.dart';
+import 'package:datarun/generated/l10n.dart';
+import 'package:datarun/main/usescases/login/login_screen.widget.dart';
+import 'package:datarun/main/usescases/splash/splash_screen.widget.dart';
+import 'package:datarun/main/usescases/sync/sync_screen.widget.dart';
+import 'package:datarun/main_constants/main_constants.dart';
+import 'package:datarun/utils/app_appearance.dart';
+import 'package:datarun/utils/navigator_key.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
 
-import 'package:mass_pro/main.reflectable.dart';
+import 'package:datarun/main.reflectable.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +25,9 @@ Future<void> main() async {
 
   await PreferenceProvider.initialize();
 
+  /// sdk all system enetieis Repositories, save, load, and provide access to them
   await D2Remote.initialize();
+  
   await ConnectivityService.instance.initialize();
   await UserService.instance.checkAuthStatus();
 

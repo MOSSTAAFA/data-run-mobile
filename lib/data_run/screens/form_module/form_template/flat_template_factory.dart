@@ -1,7 +1,7 @@
 import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule/rule_parse_extension.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:mass_pro/data_run/screens/form_module/form_template/form_element_template.dart';
+import 'package:datarun/data_run/screens/form_module/form_template/form_element_template.dart';
 
 class FlatTemplateFactory {
   static List<FormElementTemplate> flatTemplateWithPath(

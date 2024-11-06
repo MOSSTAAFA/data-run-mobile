@@ -3,8 +3,8 @@ import 'package:d2_remote/modules/data/tracker/entities/event_data_value.entity.
 import 'package:d2_remote/modules/data/tracker/entities/tracked_entity_attribute_value.entity.dart';
 import 'package:d2_remote/modules/metadata/data_element/entities/data_element.entity.dart';
 import 'package:d2_remote/modules/metadata/program/entities/tracked_entity_attribute.entity.dart';
-import 'package:mass_pro/commons/extensions/dynamic_value_extensions.dart';
-import 'package:mass_pro/commons/extensions/string_extension.dart';
+import 'package:datarun/commons/extensions/dynamic_value_extensions.dart';
+import 'package:datarun/commons/extensions/string_extension.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 
 /// UserFriendlyTrackedEntityAttributeValueExtension

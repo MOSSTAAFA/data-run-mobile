@@ -1,5 +1,5 @@
 import 'package:intl/intl.dart';
-import 'package:mass_pro/commons/logging/logging.dart';
+import 'package:datarun/commons/logging/logging.dart';
 
 extension DateFormatExtension on DateFormat {
   DateTime? parseOrNull(String value) {

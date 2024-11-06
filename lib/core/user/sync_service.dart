@@ -1,5 +1,5 @@
-// import 'package:mass_pro/commons/constants.dart';
-// import 'package:mass_pro/core/network/connectivy_service.dart';
+// import 'package:datarun/commons/constants.dart';
+// import 'package:datarun/core/network/connectivy_service.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 //
 // class SyncService {

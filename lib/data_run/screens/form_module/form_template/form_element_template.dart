@@ -10,8 +10,8 @@ import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:mass_pro/data_run/screens/form_module/form_template/flat_template_factory.dart';
-import 'package:mass_pro/data_run/screens/form_module/form_template/path_walking_service.dart';
+import 'package:datarun/data_run/screens/form_module/form_template/flat_template_factory.dart';
+import 'package:datarun/data_run/screens/form_module/form_template/path_walking_service.dart';
 
 @immutable
 class FormFlatTemplate with PathWalkingService {
@@ -30,7 +30,9 @@ class FormFlatTemplate with PathWalkingService {
             key: (option) => option.listName,
             value: (option) => formTemplate.options
                 .where((o) => o.listName == option.listName)
-                .toList());
+                .toList()) {
+    _flatFields.addAll(fields);
+  }
 
   final FormVersion formTemplate;
   final List<FormElementTemplate> _flatFields = [];

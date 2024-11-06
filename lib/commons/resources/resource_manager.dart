@@ -1,9 +1,9 @@
 import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
+import 'package:datarun/data_run/errors_management/error_management.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:mass_pro/data_run/errors_management/error_management.dart';
-import 'package:mass_pro/utils/mass_utils/colors.dart';
-import 'package:mass_pro/utils/navigator_key.dart';
+import 'package:datarun/utils/mass_utils/colors.dart';
+import 'package:datarun/utils/navigator_key.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'resource_manager.g.dart';

@@ -62,7 +62,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "discard": MessageLookupByLibrary.simpleMessage("تجاهل"),
         "dismiss": MessageLookupByLibrary.simpleMessage("حسنًا"),
         "edit": MessageLookupByLibrary.simpleMessage("تعديل"),
-        "empty": MessageLookupByLibrary.simpleMessage("Empty"),
+        "empty": MessageLookupByLibrary.simpleMessage("فارغ"),
         "enterAValidNumber":
             MessageLookupByLibrary.simpleMessage("يرجى إدخال رقم صالح."),
         "enterYourUsername":
@@ -245,6 +245,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "يرجى إدخال عنوان بريد إلكتروني صالح."),
         "reviewFormData":
             MessageLookupByLibrary.simpleMessage("مراجعة الأخطاء"),
+        "saveAndCheck": MessageLookupByLibrary.simpleMessage("حفظ وتحقق"),
         "searchOrgUnitsHelpText":
             MessageLookupByLibrary.simpleMessage("البحث عن مكان..."),
         "selectAColorExtractionImage":

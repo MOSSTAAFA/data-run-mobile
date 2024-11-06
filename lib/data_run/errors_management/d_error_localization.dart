@@ -1,5 +1,7 @@
-import 'package:mass_pro/data_run/errors_management/error_management.dart';
-import 'package:mass_pro/generated/l10n.dart';
+import 'package:datarun/data_run/errors_management/errors/d_error.dart';
+import 'package:datarun/data_run/errors_management/errors/d_error_code.dart';
+import 'package:datarun/data_run/errors_management/errors/d_exception.dart';
+import 'package:datarun/generated/l10n.dart';
 
 class DErrorLocalization {
   const DErrorLocalization();

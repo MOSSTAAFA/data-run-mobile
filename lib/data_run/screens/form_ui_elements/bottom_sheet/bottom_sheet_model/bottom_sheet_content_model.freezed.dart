@@ -21,7 +21,9 @@ mixin _$DialogContentModel {
   IconData get icon => throw _privateConstructorUsedError;
   BottomSheetBodyModel get body => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DialogContentModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DialogContentModelCopyWith<DialogContentModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -51,6 +53,8 @@ class _$DialogContentModelCopyWithImpl<$Res, $Val extends DialogContentModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DialogContentModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -79,6 +83,8 @@ class _$DialogContentModelCopyWithImpl<$Res, $Val extends DialogContentModel>
     ) as $Val);
   }
 
+  /// Create a copy of DialogContentModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $BottomSheetBodyModelCopyWith<$Res> get body {
@@ -114,6 +120,8 @@ class __$$DialogContentModelImplCopyWithImpl<$Res>
       $Res Function(_$DialogContentModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DialogContentModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -181,7 +189,9 @@ class _$DialogContentModelImpl implements _DialogContentModel {
   @override
   int get hashCode => Object.hash(runtimeType, title, subtitle, icon, body);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DialogContentModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DialogContentModelImplCopyWith<_$DialogContentModelImpl> get copyWith =>
@@ -204,8 +214,11 @@ abstract class _DialogContentModel implements DialogContentModel {
   IconData get icon;
   @override
   BottomSheetBodyModel get body;
+
+  /// Create a copy of DialogContentModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DialogContentModelImplCopyWith<_$DialogContentModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -218,7 +231,9 @@ mixin _$BottomSheetBodyModel {
   Map<String, List<FieldWithIssue<dynamic>>> get allFields =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BottomSheetBodyModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $BottomSheetBodyModelCopyWith<BottomSheetBodyModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -246,6 +261,8 @@ class _$BottomSheetBodyModelCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of BottomSheetBodyModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -292,6 +309,8 @@ class __$$BottomSheetBodyModelImplCopyWithImpl<$Res>
       $Res Function(_$BottomSheetBodyModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of BottomSheetBodyModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -370,7 +389,9 @@ class _$BottomSheetBodyModelImpl extends _BottomSheetBodyModel {
       const DeepCollectionEquality().hash(_fieldsWithIssues),
       const DeepCollectionEquality().hash(_allFields));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BottomSheetBodyModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BottomSheetBodyModelImplCopyWith<_$BottomSheetBodyModelImpl>
@@ -394,8 +415,11 @@ abstract class _BottomSheetBodyModel extends BottomSheetBodyModel {
   Map<String, List<FieldWithIssue<dynamic>>> get fieldsWithIssues;
   @override
   Map<String, List<FieldWithIssue<dynamic>>> get allFields;
+
+  /// Create a copy of BottomSheetBodyModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BottomSheetBodyModelImplCopyWith<_$BottomSheetBodyModelImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -410,7 +434,9 @@ mixin _$FieldWithIssue<T> {
   T? get value => throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FieldWithIssue
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $FieldWithIssueCopyWith<T, FieldWithIssue<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -441,6 +467,8 @@ class _$FieldWithIssueCopyWithImpl<T, $Res, $Val extends FieldWithIssue<T>>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of FieldWithIssue
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -511,6 +539,8 @@ class __$$FieldWithIssueImplCopyWithImpl<T, $Res>
       $Res Function(_$FieldWithIssueImpl<T>) _then)
       : super(_value, _then);
 
+  /// Create a copy of FieldWithIssue
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -618,7 +648,9 @@ class _$FieldWithIssueImpl<T> extends _FieldWithIssue<T> {
       const DeepCollectionEquality().hash(value),
       message);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FieldWithIssue
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FieldWithIssueImplCopyWith<T, _$FieldWithIssueImpl<T>> get copyWith =>
@@ -651,8 +683,11 @@ abstract class _FieldWithIssue<T> extends FieldWithIssue<T> {
   T? get value;
   @override
   String? get message;
+
+  /// Create a copy of FieldWithIssue
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FieldWithIssueImplCopyWith<T, _$FieldWithIssueImpl<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }

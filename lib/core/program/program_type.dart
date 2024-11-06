@@ -1,4 +1,4 @@
-import 'package:mass_pro/commons/logging/logging.dart';
+import 'package:datarun/commons/logging/logging.dart';
 
 enum ProgramType { WITH_REGISTRATION, WITHOUT_REGISTRATION }
 

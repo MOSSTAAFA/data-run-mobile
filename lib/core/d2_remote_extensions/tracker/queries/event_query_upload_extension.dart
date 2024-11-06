@@ -14,8 +14,8 @@ import 'package:d2_remote/modules/metadata/program/entities/program_stage.entity
 import 'package:d2_remote/modules/metadata/program/queries/program_stage.query.dart';
 import 'package:d2_remote/shared/utilities/http_client.util.dart';
 import 'package:dio/dio.dart';
-import 'package:mass_pro/core/tracker/tracker_d2_progress.dart';
-import 'package:mass_pro/core/tracker/tracker_d2_progress_manager.dart';
+import 'package:datarun/core/tracker/tracker_d2_progress.dart';
+import 'package:datarun/core/tracker/tracker_d2_progress_manager.dart';
 import 'package:queue/queue.dart';
 
 extension EventQueryUploadExtension on EventQuery {

@@ -2,8 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'package:mass_pro/commons/extensions/string_extension.dart';
-import 'package:mass_pro/commons/helpers/collections.dart';
+import 'package:datarun/commons/extensions/string_extension.dart';
+import 'package:datarun/commons/helpers/collections.dart';
 
 part 'login_view_model.g.dart';
 

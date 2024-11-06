@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/data_run/screens/home_screen/home_deck/home_item.model.dart';
-import 'package:mass_pro/data_run/screens/home_screen/home_deck/home_items_models_notifier.dart';
+import 'package:datarun/data_run/screens/home_screen/home_deck/home_item.model.dart';
+import 'package:datarun/data_run/screens/home_screen/home_deck/home_items_models_notifier.dart';
 
 class HomeItem extends ConsumerStatefulWidget {
   const HomeItem({
@@ -32,7 +32,7 @@ class _HomeItemState extends ConsumerState<HomeItem> {
       // color: item?.metadataIconData?.programColor,
       child: ListTile(
         onTap: () => widget.onItemClick?.call(item),
-        leading: item.metadataIconData?.iconResource ??
+        leading:
             const Icon(Icons.event_note_sharp),
         title: Row(children: [
           Expanded(

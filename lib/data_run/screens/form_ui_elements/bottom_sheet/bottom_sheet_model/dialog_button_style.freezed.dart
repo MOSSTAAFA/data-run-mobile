@@ -71,7 +71,9 @@ mixin _$DialogButtonStyle {
   }) =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DialogButtonStyle
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DialogButtonStyleCopyWith<DialogButtonStyle> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -96,6 +98,8 @@ class _$DialogButtonStyleCopyWithImpl<$Res, $Val extends DialogButtonStyle>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DialogButtonStyle
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -145,6 +149,8 @@ class __$$MainButtonImplCopyWithImpl<$Res>
       _$MainButtonImpl _value, $Res Function(_$MainButtonImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DialogButtonStyle
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -216,7 +222,9 @@ class _$MainButtonImpl implements MainButton {
   int get hashCode =>
       Object.hash(runtimeType, text, iconData, color, backgroundColor);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DialogButtonStyle
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MainButtonImplCopyWith<_$MainButtonImpl> get copyWith =>
@@ -312,8 +320,11 @@ abstract class MainButton implements DialogButtonStyle {
   Color get color;
   @override
   Color get backgroundColor;
+
+  /// Create a copy of DialogButtonStyle
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MainButtonImplCopyWith<_$MainButtonImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -338,6 +349,8 @@ class __$$SecondaryButtonImplCopyWithImpl<$Res>
       _$SecondaryButtonImpl _value, $Res Function(_$SecondaryButtonImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DialogButtonStyle
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -409,7 +422,9 @@ class _$SecondaryButtonImpl implements SecondaryButton {
   int get hashCode =>
       Object.hash(runtimeType, text, color, iconData, backgroundColor);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DialogButtonStyle
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SecondaryButtonImplCopyWith<_$SecondaryButtonImpl> get copyWith =>
@@ -506,8 +521,11 @@ abstract class SecondaryButton implements DialogButtonStyle {
   IconData? get iconData;
   @override
   Color get backgroundColor;
+
+  /// Create a copy of DialogButtonStyle
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SecondaryButtonImplCopyWith<_$SecondaryButtonImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

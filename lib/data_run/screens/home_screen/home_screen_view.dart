@@ -1,4 +1,4 @@
-import 'package:mass_pro/data_run/screens/view/view_base.dart';
+import 'package:datarun/data_run/screens/view/view_base.dart';
 
 mixin HomeScreenView implements ViewBase {
 

@@ -1583,6 +1583,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Save and Check`
+  String get saveAndCheck {
+    return Intl.message(
+      'Save and Check',
+      name: 'saveAndCheck',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

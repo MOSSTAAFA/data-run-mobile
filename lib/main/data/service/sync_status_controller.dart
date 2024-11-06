@@ -1,8 +1,8 @@
 import 'package:d2_remote/modules/datarun_shared/sync/call/d2_progress_status.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:mass_pro/main/data/service/sync_status_data.dart';
-import 'package:mass_pro/utils/mass_utils/utils.dart';
+import 'package:datarun/main/data/service/sync_status_data.dart';
+import 'package:datarun/utils/mass_utils/utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'sync_status_controller.g.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/bottom_sheet/all_fields_body.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/bottom_sheet/fields_with_issues_body.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/bottom_sheet/form_completion_dialog_config/form_completion_dialog.dart';
-import 'package:mass_pro/generated/l10n.dart';
+import 'package:datarun/data_run/screens/form_ui_elements/bottom_sheet/all_fields_body.dart';
+import 'package:datarun/data_run/screens/form_ui_elements/bottom_sheet/fields_with_issues_body.dart';
+import 'package:datarun/data_run/screens/form_ui_elements/bottom_sheet/form_completion_dialog_config/form_completion_dialog.dart';
+import 'package:datarun/generated/l10n.dart';
 
 class QBottomSheet extends StatelessWidget {
   const QBottomSheet({
@@ -37,12 +37,6 @@ class QBottomSheet extends StatelessWidget {
               style:
                   const TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
             ),
-            // const Divider(),
-            // const SizedBox(height: 10),
-            // Text(
-            //   completionDialogModel.bottomSheetContentModel.subtitle,
-            //   style: const TextStyle(fontSize: 12.0),
-            // ),
 
             const SizedBox(height: 10),
             // TabBarView to switch between tabs

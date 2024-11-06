@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import 'package:mass_pro/commons/logging/logging.dart';
+import 'package:datarun/commons/logging/logging.dart';
 
 abstract class MpInterface {
   bool isLogEnable = kDebugMode;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mass_pro/core/network/connectivy_service.dart';
-import 'package:mass_pro/generated/l10n.dart';
+import 'package:datarun/core/network/connectivy_service.dart';
+import 'package:datarun/generated/l10n.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class InternetAwareChip extends StatefulWidget {

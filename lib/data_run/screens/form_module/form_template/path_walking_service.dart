@@ -1,5 +1,5 @@
-import 'package:mass_pro/commons/extensions/list_extensions.dart';
-import 'package:mass_pro/data_run/screens/form_module/form_template/form_element_template.dart';
+import 'package:datarun/commons/extensions/list_extensions.dart';
+import 'package:datarun/data_run/screens/form_module/form_template/form_element_template.dart';
 
 mixin TreeElement {
   String? get path;
@@ -85,17 +85,22 @@ mixin PathWalkingService<T extends FormElementTemplate> {
         .toList();
   }
 
-  /// Get children of a specific path
+  /// Get descendants of a specific path
   List<T> getChildrenOfType<E extends T>(String path) {
-    final normalizedPath =
-    path.endsWith('.') ? path.substring(0, path.length - 1) : path;
-
-    return fields
-        .where((field) =>
-    field.path!.startsWith('$normalizedPath.') &&
-        field.path!.split('.').length == path.split('.').length + 1).whereType<E>()
-        .toList();
+    return fields.where((field) => field.path!.startsWith('$path.')).whereType<E>().toList();
   }
+
+  // /// Get children of a specific path
+  // List<T> getChildrenOfType<E extends T>(String path) {
+  //   final normalizedPath =
+  //   path.endsWith('.') ? path.substring(0, path.length - 1) : path;
+  //
+  //   return fields
+  //       .where((field) =>
+  //   field.path!.startsWith('$normalizedPath.') &&
+  //       field.path!.split('.').length == path.split('.').length + 1).whereType<E>()
+  //       .toList();
+  // }
 
   T? getScopedDependencyByName(String name, String currentPath) {
     final pathSegments = currentPath.split('.');

@@ -1,6 +1,6 @@
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/auth/user/entities/d_user.entity.dart';
-import 'package:mass_pro/data_run/screens/home_screen/home_repository.dart';
+import 'package:datarun/data_run/screens/home_screen/home_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'home_repository_impl.g.dart';

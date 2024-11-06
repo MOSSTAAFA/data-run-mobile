@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/core/user/auth_service.dart';
-import 'package:mass_pro/data_run/screens/home_screen/drawer/settings_page.dart';
-import 'package:mass_pro/data_run/screens/home_screen/home_deck/home_deck.widget.dart';
-import 'package:mass_pro/data_run/screens/home_screen/home_presenter.dart';
-import 'package:mass_pro/data_run/screens/home_screen/home_screen_view.dart';
-import 'package:mass_pro/data_run/screens/view/view_base.dart';
-import 'package:mass_pro/generated/l10n.dart';
-import 'package:mass_pro/main/data/service/sync_status_controller.dart';
-import 'package:mass_pro/main/usescases/auth/internet_aware_screen.dart';
-import 'package:mass_pro/main/usescases/login/login_screen.widget.dart';
-import 'package:mass_pro/main/usescases/sync/sync_screen.widget.dart';
-import 'package:mass_pro/utils/navigator_key.dart';
+import 'package:datarun/core/user/auth_service.dart';
+import 'package:datarun/data_run/screens/home_screen/drawer/settings_page.dart';
+import 'package:datarun/data_run/screens/home_screen/home_deck/home_deck.widget.dart';
+import 'package:datarun/data_run/screens/home_screen/home_presenter.dart';
+import 'package:datarun/data_run/screens/home_screen/home_screen_view.dart';
+import 'package:datarun/data_run/screens/view/view_base.dart';
+import 'package:datarun/generated/l10n.dart';
+import 'package:datarun/main/data/service/sync_status_controller.dart';
+import 'package:datarun/main/usescases/auth/internet_aware_screen.dart';
+import 'package:datarun/main/usescases/login/login_screen.widget.dart';
+import 'package:datarun/main/usescases/sync/sync_screen.widget.dart';
+import 'package:datarun/utils/navigator_key.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen(
@@ -34,8 +34,8 @@ class _HomeScreenWidgetState extends ConsumerState<HomeScreen>
   @override
   Widget build(BuildContext context) {
     final userService = UserService.instance;
-    final user = userService.user!;
-    final userInfo = user.firstName ?? user.username;
+    final user = userService.user;
+    final userInfo = user?.firstName ?? user?.username ?? '';
 
     return Scaffold(
       appBar: AppBar(

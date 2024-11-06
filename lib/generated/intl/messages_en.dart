@@ -248,6 +248,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "pleaseEnterAValidEmailAddress": MessageLookupByLibrary.simpleMessage(
             "enter a valid email address."),
         "reviewFormData": MessageLookupByLibrary.simpleMessage("Review Form"),
+        "saveAndCheck": MessageLookupByLibrary.simpleMessage("Save and Check"),
         "searchOrgUnitsHelpText":
             MessageLookupByLibrary.simpleMessage("Search Org Units..."),
         "selectAColorExtractionImage": MessageLookupByLibrary.simpleMessage(
