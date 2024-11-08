@@ -1,4 +1,3 @@
-import 'package:datarun/data_run/screens/form/form_entry_view.widget.dart';
 import 'package:datarun/data_run/screens/form/form_with_sliver/form_entry_view_silver.widget.dart';
 import 'package:datarun/data_run/utils/get_item_local_string.dart';
 import 'package:flutter/material.dart';
@@ -196,7 +195,7 @@ class _SubmissionTabScreenState extends ConsumerState<FormTabScreen> {
       isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {
-        return QBottomSheet(
+        return QBottomSheetDialog(
           completionDialogModel: bottomSheetUiModel,
           onButtonClicked: (action) =>
               _onCompletionDialogButtonClicked(form, action),

@@ -2,7 +2,6 @@ import 'package:d2_remote/modules/datarun/form/entities/data_form_submission.ent
 import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:datarun/commons/logging/logging.dart';
 import 'package:datarun/data_run/form/form_element_factories/form_element_builder.dart';
 import 'package:datarun/data_run/form/form_element_factories/form_element_control_builder.dart';
 import 'package:datarun/data_run/form/form_submission/submission_list.provider.dart';

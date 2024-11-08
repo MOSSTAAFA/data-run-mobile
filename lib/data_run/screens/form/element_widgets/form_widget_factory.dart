@@ -1,7 +1,6 @@
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:datarun/data_run/screens/form/form_with_sliver/section_element_sliver.widget.dart';
 import 'package:flutter/material.dart';
-import 'package:datarun/data_run/screens/form/element_widgets/section_element.widget.dart';
 import 'package:datarun/data_run/screens/form/field_widgets/reactive_choice_single_select_chip.widget.dart';
 import 'package:datarun/data_run/screens/form/field_widgets/q_date_picker.widget.dart';
 import 'package:datarun/data_run/screens/form/field_widgets/q_drop_down_multi_select_field.widget.dart';
@@ -55,7 +54,7 @@ class FieldFactory {
       case ValueType.Date:
       case ValueType.Time:
       case ValueType.DateTime:
-        return QDatePickerField(element: element);
+        return QDatePickerField(element: element as FieldInstance<String>);
       case ValueType.Boolean:
       case ValueType.YesNo:
         return ReactiveYesNoChoiceChips(

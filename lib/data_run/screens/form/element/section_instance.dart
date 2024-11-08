@@ -27,6 +27,21 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
     });
   }
 
+  // @override
+  // Map<String, Object> get errors {
+  //   final allErrors = Map<String, Object>.of(super.errors);
+  //   elements.forEach((name, element) {
+  //     if (element.enabled && element.hasErrors) {
+  //       allErrors.update(
+  //         name,
+  //             (_) => element.errors,
+  //         ifAbsent: () => element.errors,
+  //       );
+  //     }
+  //   });
+  //
+  //   return allErrors;
+  // }
   @override
   bool contains(String name) {
     return _elements.containsKey(name);

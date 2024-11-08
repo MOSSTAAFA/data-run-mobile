@@ -31,11 +31,8 @@ sealed class FormElementInstance<T> {
   FormElementInstance(
       {required this.form,
       required this.template,
-      this.formElementControl,
       required FormElementState elementState})
       : _elementState = elementState;
-
-  final ElementControl<dynamic>? formElementControl;
 
   /// serialized from the field json configuration
   final FieldTemplate template;
@@ -82,7 +79,7 @@ sealed class FormElementInstance<T> {
 
   bool get visible => !hidden;
 
-  bool get mandatory => elementState.mandatory;
+  bool get mandatory => elementState.mandatory && visible;
 
   String get elementPath => pathRecursive;
 
@@ -119,19 +116,6 @@ sealed class FormElementInstance<T> {
 
   @protected
   FormElementInstance<dynamic>? findElement(String path);
-
-  Map<String, dynamic> flattenElements(
-      Map<String, dynamic> formMap, String prefix) {
-    final flatMap = <String, dynamic>{};
-    formMap.forEach((key, value) {
-      if (value is Map<String, dynamic>) {
-        flatMap.addAll(flattenElements(value, '$prefix.$key'));
-      } else {
-        flatMap['$key'] = value;
-      }
-    });
-    return flatMap;
-  }
 
   void markAsHidden({bool updateParent = true, bool emitEvent = true}) {
     logDebug(info: '${name}, mark as Hidden');
@@ -249,12 +233,12 @@ sealed class FormElementInstance<T> {
   void dispose() {
     // elementControl?.dispose();
     logDebug(info: 'element: $name, disposeMethod');
-    if(_dependencies.isNotEmpty)
-    propertiesChangedSubject?.close();
-    _dependencies.forEach((FormElementInstance<dynamic> d) {
-      logDebug(info: '$name, unsubscribing from: ${d.name}');
-      d._dependents.remove(this);
-    });
+    if (_dependencies.isNotEmpty)
+      // propertiesChangedSubject?.close();
+      _dependencies.forEach((FormElementInstance<dynamic> d) {
+        logDebug(info: '$name, unsubscribing from: ${d.name}');
+        d._dependents.remove(this);
+      });
     _dependencies.clear();
   }
 }

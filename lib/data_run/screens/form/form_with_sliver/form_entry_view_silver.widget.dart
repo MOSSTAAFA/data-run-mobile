@@ -29,12 +29,15 @@ class FormInstanceEntryViewSliver extends HookConsumerWidget {
           return SliverStickyHeader(
             header: Container(
               height: 40.0,
-              color: Theme.of(context).primaryColor,
+              color: element.elementControl!.hasErrors
+                  ? Colors.deepOrange
+                  : Theme.of(context).primaryColor,
               padding: EdgeInsets.symmetric(horizontal: 16.0),
               alignment: Alignment.centerRight,
               child: Text(
                 element.label,
-                style: const TextStyle(color: Colors.white),
+                style: TextStyle(
+                    color: Colors.white),
               ),
             ),
             sliver: SliverList(

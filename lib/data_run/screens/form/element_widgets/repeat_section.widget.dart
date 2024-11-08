@@ -6,7 +6,6 @@ import 'package:datarun/data_run/screens/form/element/form_element.dart';
 import 'package:datarun/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
 import 'package:datarun/generated/l10n.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
-import 'package:scrollable/exports.dart';
 
 class RepeatSectionWidget extends HookConsumerWidget {
   const RepeatSectionWidget({super.key, required this.element});
