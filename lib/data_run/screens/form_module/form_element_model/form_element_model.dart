@@ -1,5 +1,5 @@
+import 'package:d2_remote/modules/datarun/form/shared/rule/choice_filter.dart';
 import 'package:datarun/data_run/screens/form/element/exceptions/form_element_exception.dart';
-import 'package:datarun/data_run/screens/form/element/members/form_element_state.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
 part 'field_element_model.dart';
@@ -12,78 +12,191 @@ part 'repeat_element_model.dart';
 
 part 'repeat_item_element_model.dart';
 
+enum ElementStatus {
+  /// The element has passed all validation checks.
+  valid,
+
+  /// The element has failed at least one validation check.
+  invalid,
+
+  /// This element is exempt from validation checks.
+  hidden,
+}
+
 sealed class FormElementModel<T> {
-  FormElementModel(
-      {required this.name,
-      String? path,
-      bool hidden = false,
-      bool mandatory = false,
-      Map<String, FormElementState>? formElementsState})
-      : _hidden = hidden,
-        _mandatory = mandatory,
-        _path = path,
-        _formElementsState = formElementsState ?? {};
+  FormElementModel({
+    required this.templatePath,
+    T? value,
+    bool valid = true,
+    bool hidden = false,
+    bool dirty = false,
+  })  : _value = value,
+        _status = hidden ? ElementStatus.hidden : ElementStatus.valid,
+        _dirty = dirty;
 
-  FormElementModel<Object>? _parentSection;
+  String get name => templatePath.split('.').last;
 
-  T? get value => reduceValue();
-  bool _hidden;
-  bool _mandatory;
-  final String name;
-  String? _path;
+  final String templatePath;
+  CollectionElementModel<Object>? _parent;
 
-  // <path, elementState>
-  final Map<String, FormElementState> _formElementsState;
+  T? _value;
 
-  Map<String, FormElementState> get formElementsState =>
-      Map.unmodifiable(_formElementsState);
+  ElementStatus _status;
 
-  String? get path => _path;
+  bool _dirty;
 
-  FormElementModel<Object>? get parentSection => _parentSection;
+  final Map<String, dynamic> _errors = {};
+  final List<String> _dependencies = [];
 
-  bool get mandatory => _mandatory;
+  CollectionElementModel<Object>? get parent => _parent;
 
-  bool get hidden => _hidden;
+  T? get value => _value;
+
+  ElementStatus get status => _status;
+
+  bool get hidden => status == ElementStatus.hidden;
 
   bool get visible => !hidden;
 
-  set parentSection(FormElementModel<Object>? parent) {
-    if (this is RepeatItemElementModel && !(parent is RepeatElementModel?)) {
-      throw StateError(
-          'A RepeatItemInstance\'s Parent can only be a RepeatInstance, parent: ${parent.runtimeType}');
-    }
+  bool get valid => status == ElementStatus.valid;
 
-    _parentSection = parent;
+  bool get invalid => status == ElementStatus.invalid;
+
+  bool get dirty => _dirty;
+
+  Map<String, Object> get errors => Map.unmodifiable(_errors);
+
+  bool get hasErrors => errors.isNotEmpty;
+
+  List<String> get dependencies => List.unmodifiable(_dependencies);
+
+  void _updateValue() {
+    _value = reduceValue();
   }
 
-  String get elementPath => pathBuilder(name);
+  // set dependencies during initialization
+  void setDependencies(List<String> dependents) {
+    _dependencies.clear();
+    _dependencies.addAll(dependents);
+  }
+
+  set parent(CollectionElementModel<Object>? parent) {
+    _parent = parent;
+  }
+
+  String get elementPath => pathRecursive;
+
+  String get pathRecursive {
+    return parent != null && parent!.name.isNotEmpty
+        ? '${parent!.pathRecursive}.${name}'
+        : name;
+  }
+
+  void updateValueAndValidity({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    _updateValue();
+    if (visible) {
+      _status = _calculateStatus();
+    }
+
+    // if (emitEvent) {
+    //   _valueChanges.add(value);
+    //   _statusChanges.add(_status);
+    // }
+
+    _updateAncestors(updateParent);
+  }
+
+  ElementStatus _calculateStatus() {
+    if (allElementsHidden()) {
+      return ElementStatus.hidden;
+    } else if (errors.isNotEmpty) {
+      return ElementStatus.invalid;
+    } else if (anyElementsHaveStatus(ElementStatus.invalid)) {
+      return ElementStatus.invalid;
+    }
+
+    return ElementStatus.valid;
+  }
+
+  void _updateAncestors(bool updateParent) {
+    if (updateParent) {
+      parent?.updateValueAndValidity(updateParent: updateParent);
+    }
+  }
 
   String pathBuilder(String? pathItem) => [
-        parentSection != null ? parentSection!.elementPath : null,
+        parent != null ? parent!.elementPath : null,
         pathItem
       ].whereType<String>().join('.');
 
-  @protected
-  bool allElementsHidden() => _hidden;
+  void _updateElementsErrors() {
+    _status = _calculateStatus();
+    // _statusChanges.add(_status);
 
-  T? reduceValue();
-
-  void updateValue(T? value);
-
-  void markAsHidden() {
-    if (_hidden) {
-      return;
-    }
-    _hidden = true;
+    parent?._updateElementsErrors();
   }
 
-  void markAsVisible() {
+  void setErrors(Map<String, dynamic> errors, {bool markAsDirty = true}) {
+    _errors.clear();
+    _errors.addAll(errors);
+
+    _updateElementsErrors();
+
+    if (markAsDirty) {
+      this.markAsDirty(emitEvent: false);
+    }
+  }
+
+  void removeError(String key, {bool markAsDirty = false}) {
+    _errors.removeWhere((errorKey, dynamic value) => errorKey == key);
+    _updateElementsErrors();
+
+    if (markAsDirty) {
+      this.markAsDirty(emitEvent: false);
+    }
+  }
+
+  void updateValue(T? value, {bool updateParent = true, bool emitEvent = true});
+
+  void markAsDirty({bool updateParent = true, bool emitEvent = true}) {
+    _dirty = true;
+    if (updateParent) {
+      parent?.markAsDirty(updateParent: updateParent);
+    }
+  }
+
+  void markAsHidden({bool updateParent = true, bool emitEvent = true}) {
+    if (hidden) {
+      return;
+    }
+
+    _errors.clear();
+    _status = ElementStatus.hidden;
+    // if (emitEvent) {
+    //   _statusChanges.add(_status);
+    // }
+    _updateAncestors(updateParent);
+  }
+
+  void markAsVisible({bool updateParent = true, bool emitEvent = true}) {
     if (visible) {
       return;
     }
-    _hidden = false;
+    _status = ElementStatus.valid;
+    updateValueAndValidity(updateParent: true, emitEvent: emitEvent);
+    _updateAncestors(updateParent);
   }
+
+  @protected
+  bool allElementsHidden() => hidden;
+
+  @protected
+  bool anyElementsHaveStatus(ElementStatus status) => false;
+
+  bool anyElements(bool Function(FormElementModel<dynamic>) condition);
 
   @protected
   void forEachChild(void Function(FormElementModel<dynamic> element) callback);
@@ -91,20 +204,7 @@ sealed class FormElementModel<T> {
   @protected
   FormElementModel<dynamic>? findElement(String path);
 
-  Map<String, dynamic> flattenElements(
-      Map<String, dynamic> formMap, String prefix) {
-    final flatMap = <String, dynamic>{};
-    formMap.forEach((key, value) {
-      if (value is Map<String, dynamic>) {
-        flatMap.addAll(flattenElements(value, '$prefix.$key'));
-      } else {
-        flatMap['$key'] = value;
-      }
-    });
-    return flatMap;
-  }
+  T? reduceValue();
 
-  static AbstractControl<T> formElements<T>(FormElementModel<T>? element) {
-    throw UnimplementedError();
-  }
+  FormElementModel<dynamic> clone();
 }

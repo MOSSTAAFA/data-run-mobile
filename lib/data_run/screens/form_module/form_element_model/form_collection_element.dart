@@ -4,7 +4,9 @@ part of 'form_element_model.dart';
 /// father of either a [SectionElementModel] element or a [RepeatSection] element
 sealed class CollectionElementModel<T> extends FormElementModel<T> {
   CollectionElementModel(
-      {required super.name, super.path, super.hidden, super.mandatory});
+      {
+      super.hidden,
+      required super.templatePath});
 
   Iterable<FormElementModel<dynamic>> get elementsList;
 
@@ -14,8 +16,6 @@ sealed class CollectionElementModel<T> extends FormElementModel<T> {
   ///
   /// Returns true if collection contains the element, otherwise returns false.
   bool contains(String name);
-
-  void addElement(FormElementModel<dynamic> element, String path);
 
   T get rawValue;
 

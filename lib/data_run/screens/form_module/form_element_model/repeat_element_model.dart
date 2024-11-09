@@ -3,16 +3,10 @@ part of 'form_element_model.dart';
 class RepeatElementModel
     extends CollectionElementModel<List<Map<String, Object?>?>> {
   RepeatElementModel(
-      {required super.name,
-      super.path,
-      super.hidden,
-      super.mandatory,
-      List<RepeatItemElementModel> elements = const []}) {
-    this._elements.addAll(elements);
+      {super.hidden,
+      List<RepeatItemElementModel> elements = const [],
+      required super.templatePath}) {
     addAll(elements);
-    if (hidden) {
-      markAsHidden();
-    }
   }
 
   final List<RepeatItemElementModel> _elements = [];
@@ -51,7 +45,7 @@ class RepeatElementModel
   }
 
   @override
-  void markAsHidden() {
+  void markAsHidden({bool updateParent = true, bool emitEvent = true}) {
     for (final element in _elements) {
       element.markAsHidden();
     }
@@ -59,7 +53,7 @@ class RepeatElementModel
   }
 
   @override
-  void markAsVisible() {
+  void markAsVisible({bool updateParent = true, bool emitEvent = true}) {
     forEachChild((element) {
       element.markAsVisible();
     });
@@ -73,12 +67,12 @@ class RepeatElementModel
     bool emitEvent = true,
   }) {
     _elements.insert(index, element);
-    element.parentSection = this;
-    //
-    // updateValueAndValidity(
-    //   emitEvent: emitEvent,
-    //   updateParent: updateParent,
-    // );
+    element.parent = this;
+
+    updateValueAndValidity(
+      emitEvent: emitEvent,
+      updateParent: updateParent,
+    );
   }
 
   /// Insert a new [element] at the end of the RepeatSection.
@@ -90,17 +84,19 @@ class RepeatElementModel
 
   /// Appends all [elements] to the end of the RepeatSection.
   void addAll(
-    List<RepeatItemElementModel> elements,
-  ) {
+    List<RepeatItemElementModel> elements, {
+    bool emitEvent = true,
+    bool updateParent = true,
+  }) {
     _elements.addAll(elements);
     for (final element in elements) {
-      element.parentSection = this;
+      element.parent = this;
     }
-    //
-    // updateValueAndValidity(
-    //   updateParent: updateParent,
-    //   emitEvent: emitEvent,
-    // );
+
+    updateValueAndValidity(
+      updateParent: updateParent,
+      emitEvent: emitEvent,
+    );
     // emitsCollectionChanged(_controls);
   }
 
@@ -123,11 +119,11 @@ class RepeatElementModel
     bool updateParent = true,
   }) {
     final removedElement = _elements.removeAt(index);
-    removedElement.parentSection = null;
-    // updateValueAndValidity(
-    //   emitEvent: emitEvent,
-    //   updateParent: updateParent,
-    // );
+    removedElement.parent = null;
+    updateValueAndValidity(
+      emitEvent: emitEvent,
+      updateParent: updateParent,
+    );
 
     // if (emitEvent) {
     //   emitsCollectionChanged(_controls);
@@ -138,12 +134,12 @@ class RepeatElementModel
 
   /// Removes all children elements from the repeatSection.
   void clear({bool emitEvent = true, bool updateParent = true}) {
-    forEachChild((element) => element.parentSection = null);
+    forEachChild((element) => element.parent = null);
     _elements.clear();
-    // updateValueAndValidity(
-    //   emitEvent: emitEvent,
-    //   updateParent: updateParent,
-    // );
+    updateValueAndValidity(
+      emitEvent: emitEvent,
+      updateParent: updateParent,
+    );
 
     // if (emitEvent) {
     //   emitsCollectionChanged(_controls);
@@ -199,43 +195,86 @@ class RepeatElementModel
       _elements.forEach(callback);
 
   @override
-  void updateValue(
-    List<Map<String, Object?>?>? value,
-  ) {
-    // for (var i = 0; i < _elements.length; i++) {
-    //   if (value == null || i < value.length) {
-    //     _elements[i].updateValue(
-    //       value?.elementAt(i),
-    //     );
-    //   }
-    // }
-    //
-    // if (value != null && value.length > _elements.length) {
-    //   final newElements = value
-    //       .toList()
-    //       .asMap()
-    //       .entries
-    //       .where((MapEntry<int, Map<String, Object?>?> entry) =>
-    //           entry.key >= _elements.length)
-    //       .map((MapEntry<int, Map<String, Object?>?> entry) => itemBuilder())
-    //       .toList();
-    //
-    //   addAll(
-    //     newElements,
-    //   );
-    // } else {
-    //   updateValueAndValidity(
-    //     updateParent: updateParent,
-    //   );
-    // }
+  void updateValue(List<Map<String, Object?>?>? value,
+      {bool updateParent = true, bool emitEvent = true}) {
+    for (var i = 0; i < _elements.length; i++) {
+      if (value == null || i < value.length) {
+        _elements[i].updateValue(
+          value?.elementAt(i),
+        );
+      }
+    }
+
+    if (value != null && value.length > _elements.length) {
+      final newElements = value
+          .toList()
+          .asMap()
+          .entries
+          .where((MapEntry<int, Map<String, Object?>?> entry) =>
+              entry.key >= _elements.length)
+          .map((MapEntry<int, Map<String, Object?>?> entry) {
+        final result = _elements.first.clone();
+        result.updateValue(entry.value);
+        return result;
+      }).toList();
+
+      addAll(
+        newElements,
+      );
+    } else {
+      updateValueAndValidity(
+        updateParent: updateParent,
+      );
+    }
+  }
+
+  /// Gets all errors of the array.
+  ///
+  /// Contains all the errors of the array and the child errors.
+  @override
+  Map<String, Object> get errors {
+    final allErrors = Map.of(super.errors);
+    _elements.asMap().entries.forEach((entry) {
+      final element = entry.value;
+      final name = entry.key.toString();
+      if (element.visible && element.hasErrors) {
+        allErrors.update(
+          name,
+          (_) => element.errors,
+          ifAbsent: () => element.errors,
+        );
+      }
+    });
+
+    return allErrors;
   }
 
   @override
-  void addElement(FormElementModel<dynamic> element, String path) {
-    if (element is! RepeatItemElementModel) {
-      throw FormElementException(
-          'Trying to add a FormElement that is not RepeatItemElementModel, but: ${element.runtimeType}');
+  bool anyElementsHaveStatus(ElementStatus status) {
+    return _elements.any((control) => control.status == status);
+  }
+
+  @override
+  bool anyElements(bool Function(FormElementModel<dynamic> p1) condition) {
+    return _elements.any((control) => control.visible && condition(control));
+  }
+
+  @override
+  RepeatElementModel clone() {
+    final result = RepeatElementModel(
+        hidden: hidden,
+        // value: value,
+        // dirty: dirty,
+        // valid: valid,
+        templatePath: templatePath,
+        elements: _elements.map((element) => element.clone()).toList());
+    result.setDependencies(List.from(dependencies));
+
+    if (dirty && !hidden) {
+      result.markAsDirty();
     }
-    add(element);
+
+    result.parent = parent;
+    return result;
   }
 }
