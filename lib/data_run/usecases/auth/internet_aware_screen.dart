@@ -19,9 +19,9 @@ class _InternetAwareChipState extends State<InternetAwareChip> {
       setState(() {
         _isOnline = isOnline;
       });
-      if (!isOnline) {
-        _showNoInternetDialog();
-      }
+      // if (!isOnline) {
+      //   _showNoInternetDialog();
+      // }
     });
   }
 

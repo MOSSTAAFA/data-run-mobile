@@ -1,3 +1,0 @@
-class DErrorHandlerService {
-  const DErrorHandlerService();
-}
