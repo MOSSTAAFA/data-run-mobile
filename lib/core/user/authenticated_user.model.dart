@@ -1,4 +1,3 @@
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
 class AuthenticatedUser {
   final String id;
@@ -11,20 +10,24 @@ class AuthenticatedUser {
 
   final String baseUrl;
 
-  final IList<String> authorities;
+  //
+  // final IList<String> authorities;
 
   final bool isLoggedIn;
 
   final String langKey;
 
-  final bool activated;
+  // final bool activated;
   final String? firstName;
   final String? surname;
   final String? phoneNumber;
   final String? email;
   final String? imageUrl;
 
-  final bool clearUserData;
+  final String? token;
+  final DateTime? expirationDate;
+
+  // final bool clearUserData;
 
 //<editor-fold desc="Data Methods">
   AuthenticatedUser({
@@ -33,18 +36,21 @@ class AuthenticatedUser {
     required this.username,
     required this.baseUrl,
     this.dirty = false,
-    Iterable<String>? authorities,
+    // Iterable<String>? authorities,
     this.isLoggedIn = false,
     this.langKey = 'ar',
-    this.activated = false,
-    this.clearUserData = false,
+    // this.activated = false,
+    // this.clearUserData = false,
     this.firstName,
     this.surname,
     this.phoneNumber,
     this.email,
     this.imageUrl,
-  }) : this.authorities = (IList.orNull(authorities) ?? IList([]))
-            .withConfig(IList.defaultConfig.copyWith(cacheHashCode: false));
+    this.token,
+    this.expirationDate,
+  }) /*: this.authorities = (IList.orNull(authorities) ?? IList([]))
+            .withConfig(IList.defaultConfig.copyWith(cacheHashCode: false))*/
+  ;
 
   @override
   bool operator ==(Object other) =>
@@ -56,16 +62,18 @@ class AuthenticatedUser {
           dirty == other.dirty &&
           username == other.username &&
           baseUrl == other.baseUrl &&
-          authorities == other.authorities &&
+          // authorities == other.authorities &&
           isLoggedIn == other.isLoggedIn &&
           langKey == other.langKey &&
-          activated == other.activated &&
+          // activated == other.activated &&
           firstName == other.firstName &&
           surname == other.surname &&
           phoneNumber == other.phoneNumber &&
-          clearUserData == other.clearUserData &&
+          // clearUserData == other.clearUserData &&
           email == other.email &&
-          imageUrl == other.imageUrl);
+          imageUrl == other.imageUrl &&
+          token == other.token &&
+          expirationDate == other.expirationDate);
 
   @override
   int get hashCode =>
@@ -74,16 +82,18 @@ class AuthenticatedUser {
       dirty.hashCode ^
       username.hashCode ^
       baseUrl.hashCode ^
-      authorities.hashCode ^
+      // authorities.hashCode ^
       isLoggedIn.hashCode ^
       langKey.hashCode ^
-      activated.hashCode ^
+      // activated.hashCode ^
       firstName.hashCode ^
       surname.hashCode ^
       phoneNumber.hashCode ^
-      clearUserData.hashCode ^
+      // clearUserData.hashCode ^
       email.hashCode ^
-      imageUrl.hashCode;
+      imageUrl.hashCode ^
+      token.hashCode ^
+      expirationDate.hashCode;
 
   @override
   String toString() {
@@ -93,16 +103,18 @@ class AuthenticatedUser {
         ' dirty: $dirty,' +
         ' username: $username,' +
         ' baseUrl: $baseUrl,' +
-        ' authorities: $authorities,' +
+        // ' authorities: $authorities,' +
         ' isLoggedIn: $isLoggedIn,' +
         ' langKey: $langKey,' +
-        ' activated: $activated,' +
+        // ' activated: $activated,' +
         ' firstName: $firstName,' +
         ' surname: $surname,' +
         ' phoneNumber: $phoneNumber,' +
-        ' clearUserData: $clearUserData,' +
+        // ' clearUserData: $clearUserData,' +
         ' email: $email,' +
         ' imageUrl: $imageUrl,' +
+        ' token: $token,' +
+        ' expirationDate: $expirationDate,' +
         '}';
   }
 
@@ -112,16 +124,18 @@ class AuthenticatedUser {
     bool? dirty,
     String? username,
     String? baseUrl,
-    Iterable<String>? authorities,
+    // Iterable<String>? authorities,
     bool? isLoggedIn,
     String? langKey,
-    bool? activated,
+    // bool? activated,
     String? firstName,
     String? surname,
     String? phoneNumber,
     bool? clearUserData,
     String? email,
     String? imageUrl,
+    String? token,
+    DateTime? expirationDate,
   }) {
     return AuthenticatedUser(
       id: id ?? this.id,
@@ -129,18 +143,20 @@ class AuthenticatedUser {
       dirty: dirty ?? this.dirty,
       username: username ?? this.username,
       baseUrl: baseUrl ?? this.baseUrl,
-      authorities: IList.orNull(authorities)?.withConfig(
-              IList.defaultConfig.copyWith(cacheHashCode: false)) ??
-          this.authorities,
+      // authorities: IList.orNull(authorities)?.withConfig(
+      //         IList.defaultConfig.copyWith(cacheHashCode: false)) ??
+      //     this.authorities,
       isLoggedIn: isLoggedIn ?? this.isLoggedIn,
       langKey: langKey ?? this.langKey,
-      activated: activated ?? this.activated,
+      // activated: activated ?? this.activated,
       firstName: firstName ?? this.firstName,
       surname: surname ?? this.surname,
       phoneNumber: phoneNumber ?? this.phoneNumber,
-      clearUserData: clearUserData ?? this.clearUserData,
+      // clearUserData: clearUserData ?? this.clearUserData,
       email: email ?? this.email,
       imageUrl: imageUrl ?? this.imageUrl,
+      token: token ?? this.token,
+      expirationDate: expirationDate ?? this.expirationDate, //
     );
   }
 
@@ -151,16 +167,18 @@ class AuthenticatedUser {
       'dirty': this.dirty,
       'username': this.username,
       'baseUrl': this.baseUrl,
-      'authorities': this.authorities.unlock,
+      // 'authorities': this.authorities.unlock,
       'isLoggedIn': this.isLoggedIn,
       'langKey': this.langKey,
-      'activated': this.activated,
+      // 'activated': this.activated,
       'firstName': this.firstName,
       'surname': this.surname,
       'phoneNumber': this.phoneNumber,
-      'clearUserData': this.clearUserData,
+      // 'clearUserData': this.clearUserData,
       'email': this.email,
       'imageUrl': this.imageUrl,
+      'token': this.token,
+      'expirationDate': this.expirationDate?.toUtc().millisecondsSinceEpoch,
     };
   }
 
@@ -171,17 +189,19 @@ class AuthenticatedUser {
       dirty: map['dirty'] as bool,
       username: map['username'] as String,
       baseUrl: map['baseUrl'] as String,
-      authorities:
-          (map['authorities'] as List).map((authority) => authority.authority),
+      // authorities:
+      //     (map['authorities'] as List).map((authority) => authority.authority),
       isLoggedIn: map['isLoggedIn'] as bool,
       langKey: map['langKey'] as String,
-      activated: map['activated'] as bool,
+      // activated: map['activated'] as bool,
       firstName: map['firstName'] as String?,
       surname: map['surname'] as String?,
       phoneNumber: map['phoneNumber'] as String?,
-      clearUserData: (map['clearUserData'] as bool?) ?? false,
+      // clearUserData: (map['clearUserData'] as bool?) ?? false,
       email: map['email'] as String,
       imageUrl: map['imageUrl'] as String?,
+      token: map['token'] as String?,
+      // expirationDate: (map['expirationDate'] as int)?.millisecondsSinceEpoch.map()
     );
   }
 

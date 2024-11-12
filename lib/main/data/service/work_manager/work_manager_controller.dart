@@ -1,14 +1,14 @@
 import 'package:datarun/main/data/service/work_manager/worker_item.dart';
 
 abstract class WorkManagerController {
-  Future<void> syncDataForWorkerItem(WorkerItem workerItem);
+  // Future<void> syncDataForWorkerItem(WorkerItem workerItem);
 
   Future<void> syncDataForWorkers(
       String metadataWorkerTag, String dataWorkerTag, String workName);
 
   Future<void> syncMetaDataForWorker(String metadataWorkerTag, String workName);
 
-  Future<void> syncDataForWorker(String metadataWorkerTag, String workName);
+  Future<void> syncDataForWorker();
 
   void beginUniqueWork(WorkerItem workerItem);
 

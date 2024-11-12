@@ -8,12 +8,10 @@ import 'package:d2_remote/modules/metadata/dataset/queries/data_set.query.dart';
 import 'package:d2_remote/modules/metadata/program/queries/program.query.dart';
 import 'package:dio/dio.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:datarun/commons/logging/logging.dart';
 import 'package:datarun/core/d2_remote_extensions/tracker/queries/base_query_extension.dart';
 import 'package:datarun/core/d2_remote_extensions/tracker/queries/event_query_download_extension.dart';
 import 'package:datarun/core/d2_remote_extensions/tracker/queries/event_query_upload_extension.dart';
 import 'package:datarun/core/d2_remote_extensions/tracker/queries/tei_upload_extension.dart';
-import 'package:datarun/core/sync/sync_metadata.dart';
 import 'package:datarun/core/tracker/tracker_d2_progress.dart';
 import 'package:datarun/main/data/service/sync_metadata_worker.dart';
 import 'package:datarun/main/data/service/sync_presenter.dart';
@@ -136,14 +134,14 @@ class SyncPresenterImpl implements SyncPresenter {
   // throws Exception;
   @override
   Future<void> syncMetadata(
-      {OnProgressUpdate? onProgressUpdate, Dio? dioTestClient}) {
+      {OnProgressUpdate? onProgressUpdate, Dio? dioTestClient}) async {
     // final d2ProgressManager = D2ProgressManager(totalCalls: 4);
-    return ref.read(syncMetadataProvider).download(
-      callback: (progress) {
-        logDebug(info: 'syncMetadata progress: ${progress?.message}');
-        onProgressUpdate?.call((progress?.percentage ?? 0.0).ceil());
-      },
-    );
+    // return ref.read(syncMetadataProvider).download(
+    //   callback: (progress) {
+    //     logDebug(info: 'syncMetadata progress: ${progress?.message}');
+    //     onProgressUpdate?.call((progress?.percentage ?? 0.0).ceil());
+    //   },
+    // );
   }
 
   @override

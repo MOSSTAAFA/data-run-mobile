@@ -1,7 +1,5 @@
 part of 'form_element.dart';
 
-// typedef ElementBuilder<T> = Widget Function(T value);
-
 class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
   RepeatInstance({
     required super.template,
@@ -15,9 +13,10 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
   List<RepeatItemInstance> get elements => List.unmodifiable(_elements);
 
   @override
-  List<Map<String, Object?>?> get rawValue => _elements.map<Map<String, Object?>?>((element) {
-     return element.rawValue;
-  }).toList();
+  List<Map<String, Object?>?> get rawValue =>
+      _elements.map<Map<String, Object?>?>((element) {
+        return element.rawValue;
+      }).toList();
 
   /// Insert a new [element] at the end of the RepeatSection.
   void add(RepeatItemInstance element,
@@ -32,6 +31,10 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
     for (final element in elements) {
       element.parentSection = this;
     }
+    updateValueAndValidity(
+      emitEvent: emitEvent,
+      updateParent: updateParent,
+    );
   }
 
   @override
@@ -55,6 +58,10 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
 
     _elements.insert(index, element);
     element.parentSection = this;
+    updateValueAndValidity(
+      emitEvent: emitEvent,
+      updateParent: updateParent,
+    );
   }
 
   /// Removes and returns the child element at the given [index].
@@ -70,7 +77,7 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
     removeAt(index, emitEvent: emitEvent, updateParent: updateParent);
   }
 
-  void removeAt(
+  RepeatItemInstance? removeAt(
     int index, {
     bool emitEvent = true,
     bool updateParent = true,
@@ -78,7 +85,13 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
     if (elements.length > index) {
       final removedElement = _elements.removeAt(index);
       removedElement.parentSection = null;
+      updateValueAndValidity(
+        emitEvent: emitEvent,
+        updateParent: updateParent,
+      );
+      return removedElement;
     }
+    return null;
   }
 
   /// Removes all children elements from the repeatSection.
@@ -87,6 +100,10 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
     _elements.clear();
 
     elementControl.clear(updateParent: updateParent, emitEvent: emitEvent);
+    updateValueAndValidity(
+      emitEvent: emitEvent,
+      updateParent: updateParent,
+    );
   }
 
   void reset({List<Map<String, Object?>?>? value}) {

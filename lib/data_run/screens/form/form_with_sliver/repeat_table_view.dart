@@ -3,7 +3,6 @@ import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:datarun/data_run/form/form_element/form_element_iterators/form_element_iterator.dart';
 import 'package:datarun/generated/l10n.dart';
 import 'package:d2_remote/core/datarun/utilities/date_utils.dart' as sdk;
-import 'package:datarun/utils/navigator_key.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:datarun/data_run/screens/form/element/form_element.dart';
@@ -124,7 +123,7 @@ class RepeatTableDataSource extends DataTableSource {
     final value = field.value ?? '-';
     if (field.elementControl?.hasErrors == true) {
       return Text(
-        '$value! ${S.of(navigatorKey.currentContext!).fieldContainErrors}',
+        '$value! ${S.current.fieldContainErrors}',
         style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
       );
     }
@@ -141,7 +140,7 @@ class RepeatTableDataSource extends DataTableSource {
       case ValueType.SelectOne:
         if (field.elementControl?.hasErrors == true) {
           return Text(
-            S.of(navigatorKey.currentContext!).fieldContainErrors,
+            S.current.fieldContainErrors,
             style: const TextStyle(color: Colors.red),
           );
         }

@@ -7,7 +7,7 @@ import 'package:d2_remote/shared/utilities/save_option.util.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:datarun/commons/logging/logging.dart';
 import 'package:datarun/core/common/state.dart';
-import 'package:datarun/data_run/errors_management/errors/d_error.dart';
+import 'package:d2_remote/core/datarun/exception/d_error.dart';
 import 'package:datarun/data_run/form/form_submission/submission_list_util.dart';
 import 'package:datarun/data_run/form/form_submission/form_submission_repository.dart';
 import 'package:datarun/data_run/form/form_submission/submission_summary.model.dart';

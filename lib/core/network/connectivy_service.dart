@@ -34,6 +34,16 @@ class ConnectivityService {
     return _checkInternetConnection();
   }
 
+  Future<bool> isNetworkAvailable() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return false;
+    }
+
+    return connectivityResult == ConnectivityResult.wifi ||
+        connectivityResult == ConnectivityResult.mobile;
+  }
+
   Future<bool> _checkInternetConnection() async {
     try {
       logDebug(info: 'checkInternetConnection: ping https://google.com ...', runtimeType: this.runtimeType);

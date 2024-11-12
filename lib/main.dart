@@ -1,35 +1,39 @@
 import 'dart:async';
 
 import 'package:d2_remote/d2_remote.dart';
+import 'package:d2_remote/modules/datarun_shared/utilities/authenticated_user.dart';
+import 'package:datarun/data_run/usecases/auth/auth_service.dart';
+import 'package:datarun/data_run/usecases/auth/user_session_manager.dart';
+import 'package:datarun/data_run/usecases/login/auth_wrapper.dart';
+import 'package:datarun/utils/user_preferences/preference.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:datarun/commons/prefs/preference_provider.dart';
 import 'package:datarun/core/network/connectivy_service.dart';
-import 'package:datarun/core/user/auth_service.dart';
-import 'package:datarun/data_run/screens/home_screen/home_screen.widget.dart';
 import 'package:datarun/generated/l10n.dart';
-import 'package:datarun/main/usescases/login/login_screen.widget.dart';
-import 'package:datarun/main/usescases/splash/splash_screen.widget.dart';
-import 'package:datarun/main/usescases/sync/sync_screen.widget.dart';
 import 'package:datarun/main_constants/main_constants.dart';
 import 'package:datarun/utils/app_appearance.dart';
 import 'package:datarun/utils/navigator_key.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
 
 import 'package:datarun/main.reflectable.dart';
+
+AuthenticationResult? authenticationResult;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   initializeReflectable();
 
   await PreferenceProvider.initialize();
+  final sharedPreferences = await SharedPreferences.getInstance();
 
-  /// sdk all system enetieis Repositories, save, load, and provide access to them
-  await D2Remote.initialize();
-  
+  // // SDK initialization and repository setup
+  // await D2Remote.initialize();
+
   await ConnectivityService.instance.initialize();
-  await UserService.instance.checkAuthStatus();
 
   FlutterError.demangleStackTrace = (StackTrace stack) {
     if (stack is stack_trace.Trace) {
@@ -41,34 +45,51 @@ Future<void> main() async {
     return stack;
   };
 
-  // await SentryFlutter.init(
-  //   (options) {
-  //     options.dsn =
-  //         'https://c39a75530f4b8694183508a689bbafb7@o4504831846645760.ingest.us.sentry.io/4507587127214080';
-  //     // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
-  //     // We recommend adjusting this value in production.
-  //     // options.tracesSampleRate = 1.0;
-  //     // The sampling rate for profiling is relative to tracesSampleRate
-  //     // Setting to 1.0 will profile 100% of sampled transactions:
-  //     // options.profilesSampleRate = 1.0;
-  //   },
-  //   appRunner: () => runApp(ProviderScope(
-  //     child: const App(),
-  //   )),
-  // );
+  // // Global error handling
+  // FlutterError.onError = (FlutterErrorDetails details) {
+  //   // Report Flutter framework errors
+  //   DExceptionReporter().report(
+  //     DException(details.exceptionAsString(), cause: details.exception),
+  //   );
+  //
+  //   // Optionally show user feedback or display a fallback UI if needed
+  //   FlutterError.presentError(details);
+  // };
+  final userSessionManager = UserSessionManager(sharedPreferences);
+
+  final authService = AuthService(userSessionManager);
+
+  // does the user have active session in preference (local check)
+  final bool hasExistingSession =  userSessionManager.isAuthenticated;
+
+  // is has active session initialize, otherwise it will be initialized
+  // by user login in.
+  if(hasExistingSession) {
+    await D2Remote.initialize();
+  }
+
   runApp(ProviderScope(
-    child: const App(),
+    overrides: [
+      sharedPreferencesProvider.overrideWithValue(sharedPreferences),
+      authServiceProvider.overrideWithValue(authService),
+      userSessionManagerProvider.overrideWithValue(userSessionManager),
+    ],
+    child: App(
+      isAuthenticated: hasExistingSession,
+    ),
   ));
 }
 
 class App extends ConsumerWidget {
-  const App({super.key});
+  const App({super.key, required this.isAuthenticated});
+
+  final bool isAuthenticated;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // const locale = Locale('en', 'en_us');
-    const Locale locale = Locale('ar', '');
-    // final userService = UserService.instance;
+    final language = ref.watch(preferenceNotifierProvider(Preference.language));
+
+    Locale locale = Locale(language, language == 'en' ? 'en_US' : '');
 
     return MaterialApp(
       navigatorKey: navigatorKey,
@@ -80,22 +101,9 @@ class App extends ConsumerWidget {
       localizationsDelegates: localizationsDelegates,
       supportedLocales: supportedLocales,
       locale: locale,
-      home: const SplashScreen(), //const AuthCheck(),
-      onGenerateRoute: (settings) {
-        // Handle named routes with arguments
-        if (settings.name == SyncScreen.routeName) {
-          // final syncArgument = settings.arguments as String;
-          return MaterialPageRoute(
-            builder: (context) => SyncScreen(/*syncArgument: syncArgument*/),
-          );
-        }
-        return null;
-      },
-      routes: {
-        // '/': (context) => AuthCheck(),
-        HomeScreen.routeName: (context) => HomeScreen(),
-        LoginScreen.routeName: (context) => LoginScreen(),
-      },
+      home: AuthWrapper(isAuthenticated: isAuthenticated),
+      // home: const SplashScreen(),
+      //const AuthCheck(),
     );
   }
 

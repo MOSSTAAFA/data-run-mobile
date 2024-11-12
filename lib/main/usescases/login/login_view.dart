@@ -1,4 +1,5 @@
 
+import 'package:d2_remote/core/datarun/exception/d_exception.dart';
 import 'package:datarun/data_run/screens/view/view_base.dart';
 
 mixin LoginView implements ViewBase {
@@ -28,7 +29,7 @@ mixin LoginView implements ViewBase {
 
   void navigateToQRActivity();
 
-  void renderError(Exception throwable);
+  void renderError(DException throwable);
 
   // FingerPrintAuth
 

@@ -32,13 +32,13 @@ Future<void> navigatePush(Widget page,
       MaterialPageRoute(builder: (context) => page),
     );
 
-void logout(BuildContext context) {
-  // Clear user session or token here
-  Navigator.of(context).pushAndRemoveUntil(
-    MaterialPageRoute(builder: (context) => LoginScreen()),
-    (Route<dynamic> route) => false,
-  );
-}
+// void logout(BuildContext context) {
+//   // Clear user session or token here
+//   Navigator.of(context).pushAndRemoveUntil(
+//     MaterialPageRoute(builder: (context) => LoginScreen()),
+//     (Route<dynamic> route) => false,
+//   );
+// }
 
 void pushUniqueScreen(BuildContext context, String routeName,
     {dynamic arguments}) {

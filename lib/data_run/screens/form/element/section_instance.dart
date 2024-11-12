@@ -17,7 +17,12 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
       Map.unmodifiable(_elements);
 
   @override
-  FormGroup get elementControl => form.control(elementPath) as FormGroup;
+  FormGroup get elementControl {
+    if (name.isEmpty) {
+      return form;
+    }
+    return form.control(elementPath) as FormGroup;
+  }
 
   /// Appends all [elements] to the group.
   void addAll(Map<String, FormElementInstance<dynamic>> elements) {

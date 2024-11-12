@@ -28,10 +28,11 @@ class FieldWidget extends HookConsumerWidget {
 
     useEffect(() {
       final subscription = control.valueChanges.listen((value) {
+        // element.updateValue(value);
         if (value == null) {
-          element.updateStatus(element.elementState.reset(value: value));
+          element.updateValue(value);
         } else {
-          element.updateStatus(element.elementState.copyWith(value: value));
+          element.updateValue(value);
         }
       });
 

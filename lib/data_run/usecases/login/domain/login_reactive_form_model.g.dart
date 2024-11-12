@@ -7,7 +7,7 @@ part of 'login_reactive_form_model.dart';
 // **************************************************************************
 
 String _$loginReactiveFormModelHash() =>
-    r'38b9a55e5332b973c9c8e930c4e4d28f74ddb1ae';
+    r'354a0dccd9409880f40730f7d927ce6e713a0024';
 
 /// See also [loginReactiveFormModel].
 @ProviderFor(loginReactiveFormModel)

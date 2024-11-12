@@ -1,10 +1,14 @@
+import 'package:d2_remote/core/datarun/exception/exception.dart';
 import 'package:d2_remote/d2_remote.dart';
-import 'package:d2_remote/modules/auth/user/entities/d_user.entity.dart';
-import 'package:d2_remote/core/datarun/utilities/date_utils.dart' as sdk;
+import 'package:d2_remote/modules/datarun_shared/utilities/authenticated_user.dart';
+import 'package:datarun/commons/constants.dart';
+import 'package:datarun/commons/exceptions/d_exception_reporter.dart';
 
 import 'package:datarun/commons/logging/logging.dart';
-import 'package:datarun/data_run/usecases/network_manager/network_manager.dart';
+import 'package:datarun/core/network/connectivy_service.dart';
+import 'package:datarun/data_run/usecases/login/login_page.dart';
 import 'package:datarun/data_run/usecases/auth/user_session_manager.dart';
+import 'package:datarun/utils/navigator_key.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -17,102 +21,124 @@ AuthService authService(AuthServiceRef ref) {
 
 class AuthService {
   final UserSessionManager _sessionManager;
-  final NetworkManager _networkManager;
 
-  AuthService(this._sessionManager, this._networkManager);
+  AuthService(this._sessionManager);
 
-  Future<bool> _isFirstTime() async {
-    final databaseName = await D2Remote.getDatabaseName(
-        sharedPreferenceInstance: Future.sync(() => _sessionManager.prefs));
+  Future<bool> isAuthenticatedOnline() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    final networkAvailable =
+        await ConnectivityService.instance.isNetworkAvailable();
+    final isOnline = await ConnectivityService.instance.isOnline;
 
-    return databaseName == null;
+    if (!networkAvailable || !isOnline) {
+      return await _attemptNetworkAuthentication();
+    } else {
+      /// Allow offline access with valid session
+      return D2Remote.isAuthenticated();
+    }
   }
 
-  Future<bool> isAuthenticated() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    final isFirstTime = await _isFirstTime();
-    final networkAvailable = await _networkManager.isNetworkAvailable();
-    if(isFirstTime && !networkAvailable) {
-      logDebug(info: 'First time authenticate and network is not available');
-      return false;
-    }
+  /// used only when user is already logged in to just authenticate and
+  /// check with the server and renew session in case of password change
+  /// or not active session it will log the user out;
+  Future<bool> _attemptNetworkAuthentication() async {
+    try {
+      final sessionData = _sessionManager.sessionData;
 
-    if(networkAvailable) {
-      logDebug(info: 'First time authenticate and network is not available');
-      return false;
-    }
-
-    final currentAuthenticatedUser =
-        await _sessionManager.getCurrentSessionData();
-    logDebug(
-        info:
-            'Check if already authenticate: , ${currentAuthenticatedUser?.username}, ${currentAuthenticatedUser?.baseUrl}');
-    if (currentAuthenticatedUser != null &&
-        currentAuthenticatedUser.isLoggedIn) {
-      if (await _networkManager.isNetworkAvailable()) {
+      // this method should only be called after
+      // user session was available.
+      // for no reason if no active session found in cached preference,
+      // log the user out
+      if (sessionData == null) {
         logDebug(
             info:
-                'attemptNetworkAuthentication and update user session data: , ${currentAuthenticatedUser.username}, ${currentAuthenticatedUser?.baseUrl}');
-        return await _attemptNetworkAuthentication(currentAuthenticatedUser);
-      } else {
-        /// Allow offline access with valid session
-        return D2Remote.isAuthenticated();
-        ;
-      }
-    }
-    return false;
-  }
+                'No Active Session, user should not be logged in, logging-user-out');
+        await logout();
 
-  Future<bool> _attemptNetworkAuthentication(DUser sessionData) async {
-    try {
-      final result = await _networkManager.authenticate(
-        sessionData.username!,
-        sessionData.password!,
-        sessionData.baseUrl,
-      );
+        throw AccountException(
+            'No Active Session Data, user should not be logged in',
+            errorCode: DErrorCode.noAuthenticatedUser);
+      }
+
+      final result = await D2Remote.authenticate(
+          username: sessionData.username!,
+          password: sessionData.password!,
+          url: sessionData.serverUrl!);
 
       if (result.success) {
-        await _sessionManager.saveSessionData(result.sessionUser!);
-        return true;
+        await _sessionManager.saveUserCredentials(
+            serverUrl: result.sessionUser!.baseUrl,
+            username: result.sessionUser!.username!,
+            pass: result.sessionUser!.password!);
       }
-    } catch (e) {
-      await logout();
-      return false;
+      return true;
+    } on AuthenticationException catch (e) {
+      // in case of password change, rethrow the
+      // error, but first log the user out.
+      if (e.errorCode == DErrorCode.authInvalidCredentials) {
+        await logout();
+        rethrow;
+      }
+
+      // other exception such as slow line timeout, or server not responding
+      // user will stay logged in until another check
+      return true;
     }
-    return false;
   }
 
-  Future<bool> login(String username, String password,
+  Future<AuthenticationResult> login(String username, String password,
       [String? serverUrl]) async {
     WidgetsFlutterBinding.ensureInitialized();
-    if (await _networkManager.isNetworkAvailable()) {
-      final result =
-          await _networkManager.authenticate(username, password, serverUrl);
-      if (result.success) {
-        result.sessionUser!.lastModifiedDate =
-            sdk.DateUtils.databaseDateFormat().format(DateTime.now().toUtc());
-        await _sessionManager.saveSessionData(result.sessionUser!);
-        return true;
-      }
-    } else {
-      // logDebug(info: 'Network is not available, fallback to offline authentication');
-      // if (await _sessionManager.hasLocalDatabase(username, serverUrl)) {
-      //
-      //   // Perform local authentication here
-      //   // For now, we'll just create a session without network authentication
-      //   final sessionData = SessionData(username: username, password: password);
-      //   await _sessionManager.saveSessionData(sessionData, serverUrl);
-      //   return true;
-      // }
+    AuthenticationResult result = AuthenticationResult(
+      success: false,
+      sessionUser: null,
+    );
+    try {
+      await throwIfFirstTimeAndNoActiveNetwork();
+      final authResult = await D2Remote.authenticate(
+          username: username,
+          password: password,
+          url: serverUrl ?? kApiBaseUrl);
 
-      logDebug(info: 'network is required for first-time login, cannot login');
+      if (authResult.success) {
+        await _sessionManager.saveUserCredentials(
+            serverUrl: authResult.sessionUser!.baseUrl,
+            username: authResult.sessionUser!.username!,
+            pass: authResult.sessionUser!.password!);
+
+        // return successful result
+        return result.copyWith(
+            success: true, sessionUser: authResult.sessionUser);
+      }
+      // return unsuccessful result
+      // won't reach this case , authenticate would through
+      // an exception in most cases including invalid credentials.
+    } catch (e) {
+
+      DExceptionReporter.instance.report(e);
+      rethrow;
     }
-    return false;
+    return result;
   }
 
   Future<void> logout() async {
     await D2Remote.logOut();
-    await _sessionManager.clearCurrentSessionData();
-    // Additional logout logic (e.g., informing the server)
+    await _sessionManager.clearAllPreferences();
+    Navigator.pushAndRemoveUntil(
+        navigatorKey.currentContext!,
+        MaterialPageRoute(builder: (context) => LoginPage()),
+        (Route<dynamic> route) => false);
+  }
+
+  Future<void> throwIfFirstTimeAndNoActiveNetwork() async {
+    final networkAvailable =
+        await ConnectivityService.instance.isNetworkAvailable();
+    if (_sessionManager.isFirstSession && !networkAvailable) {
+      logDebug(info: 'First time login user needs an active network');
+      throw DError(
+          errorCode: DErrorCode.noAuthenticatedUser,
+          errorComponent: DErrorComponent.SDK,
+          message: 'First time login user needs an active network');
+    }
   }
 }

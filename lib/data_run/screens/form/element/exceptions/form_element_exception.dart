@@ -1,23 +1,21 @@
+import 'package:d2_remote/core/datarun/exception/exception.dart';
 import 'package:flutter/material.dart';
-import 'package:datarun/data_run/errors_management/errors/d_exception.dart';
 import 'package:datarun/data_run/screens/form_module/form_element_model/form_element_model.dart';
 
 class CircularDependencyException extends FormElementException {
-  CircularDependencyException(
-      String message, FormElementModel<dynamic>? source)
+  CircularDependencyException(String message, FormElementModel<dynamic>? source)
       : super(
             'CircularDependencyException: element ${(source?.name) ?? ''} has circular dependency.');
 }
 
 class FormElementException extends DException {
-  FormElementException(
-      [super.message = 'FormElementException: element error.', super.source]);
+  FormElementException(String? message, {super.cause})
+      : super(message ?? 'FormElementException: element error.');
 }
 
 class FormElementNotFoundException extends FormElementException {
   FormElementNotFoundException(FormElementModel<dynamic>? source)
-      : super(
-            'FormElementNotFoundException: element ${(source?.name) ?? ''} not found.');
+      : super('FormElementNotFoundException', cause: source);
 }
 
 class FormRepeatElementInvalidIndexException extends FormElementException {
@@ -25,7 +23,7 @@ class FormRepeatElementInvalidIndexException extends FormElementException {
       {FormElementModel<dynamic>? source, required this.index})
       : super(
             'FormRepeatElementInvalidIndexException: Index \'$index\' is not a valid index for FormRepeatElement',
-            source);
+            cause: source);
 
   /// The invalid index that was the cause of this exception.
   final String index;
@@ -39,7 +37,7 @@ class FormElementParentNotFoundException extends DException {
   FormElementParentNotFoundException(this.widget)
       : super(
             'FormElementParentNotFoundException: couldn\'t find a parent widget. An instance of ${widget.runtimeType.toString()} widget must be under a FormElement Widget in the widgets tree.',
-            widget);
+            cause: widget);
 
   /// The widget that throws this exception.
   Widget widget;
@@ -53,7 +51,7 @@ class FormSectionParentNotFoundException extends DException {
   FormSectionParentNotFoundException(this.widget)
       : super(
             'FormSectionParentNotFoundException: couldn\'t find a parent widget. An instance of ${widget.runtimeType.toString()} widget must be under a SectionElement Widget in the widgets tree.',
-            widget);
+            cause: widget);
 
   /// The widget that throws this exception.
   Widget widget;
@@ -67,7 +65,7 @@ class FormRepeatedParentNotFoundException extends DException {
   FormRepeatedParentNotFoundException(this.widget)
       : super(
             'FormRepeatedParentNotFoundException: couldn\'t find a parent widget. An instance of ${widget.runtimeType.toString()} widget must be under a Repeat Element type Widget in the widgets tree.',
-            widget);
+            cause: widget);
 
   /// The widget that throws this exception.
   Widget widget;

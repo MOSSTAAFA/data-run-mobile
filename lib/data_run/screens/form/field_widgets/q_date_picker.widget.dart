@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:datarun/commons/logging/logging.dart';
 import 'package:datarun/data_run/screens/form/element/form_element.dart';
 import 'package:datarun/data_run/screens/form/element/providers/form_instance.provider.dart';
 import 'package:datarun/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
@@ -10,7 +9,7 @@ import 'package:d2_remote/core/datarun/utilities/date_utils.dart' as sdk;
 class QDatePickerField<T> extends ConsumerWidget {
   const QDatePickerField({super.key, required this.element});
 
-  final FieldInstance<T> element;
+  final FieldInstance<String> element;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,11 +18,12 @@ class QDatePickerField<T> extends ConsumerWidget {
             formInstanceProvider(formMetadata: FormMetadataWidget.of(context)))
         .requireValue;
     formInstance.form.control(element.pathRecursive) as FormControl<T>;
-    return ReactiveTextField<T>(
+    return ReactiveTextField<String>(
       // formControl: element.elementControl,
-      formControl:
-          formInstance.form.control(element.pathRecursive) as FormControl<T>,
+      formControl: formInstance.form.control(element.pathRecursive)
+          as FormControl<String>,
       readOnly: true,
+      valueAccessor: QDateTimeValueAccessor(),
       decoration: InputDecoration(
         enabled: element.elementControl!.enabled,
         labelText: element.label,
@@ -44,7 +44,7 @@ class QDatePickerField<T> extends ConsumerWidget {
   }
 }
 
-class QDateTimeValueAccessor extends ControlValueAccessor<String, String> {
+class QDateTimeValueAccessor<T> extends ControlValueAccessor<String, String> {
   /// Returns the value that must be supplied to the [control].
   ///
   /// Converts value from UI data type to [control] data type.

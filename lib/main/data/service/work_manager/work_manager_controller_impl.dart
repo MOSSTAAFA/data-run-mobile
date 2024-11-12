@@ -1,3 +1,4 @@
+import 'package:d2_remote/modules/datarun_shared/sync/call/d2_progress.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:datarun/main/data/service/sync_data_worker.dart';
@@ -48,8 +49,8 @@ class WorkManagerControllerImpl implements WorkManagerController {
 
   final WorkManagerControllerRef ref;
 
-  @override
-  Future<void> syncDataForWorkerItem(WorkerItem workerItem) async {}
+  // @override
+  // Future<void> syncDataForWorkerItem(WorkerItem workerItem) async {}
 
   @override
   Future<void> syncDataForWorkers(
@@ -59,8 +60,6 @@ class WorkManagerControllerImpl implements WorkManagerController {
   Future<void> syncMetaDataForWorker(
       String metadataWorkerTag, String workName) async {
     final SyncMetadataWorker worker = ref.read(syncMetadataWorkerProvider);
-    // TODO(NMC): Implement android_alarm_manager_plus
-    // https://stackoverflow.com/questions/51706265/how-to-schedule-background-tasks-in-flutter#:~:text=14-,SOLUTION,-1%3A%20android_alarm_manager_plus
 
     /// Set Running
     ref
@@ -78,22 +77,11 @@ class WorkManagerControllerImpl implements WorkManagerController {
     ref
         .read(syncProgressProvider.notifier)
         .updateFinalResult(finalResult.state, finalResult.message);
-
-    // WorkManager()
-    //     workerOneBuilder
-    //         .addTag(metadataWorkerTag)
-    //         .setConstraints(
-    //             Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
-    //         )
-
-    //     workManager
-    //         .beginUniqueWork(workName, ExistingWorkPolicy.KEEP, workerOneBuilder.build())
-    //         .enqueue()
   }
 
   @override
   Future<void> syncDataForWorker(
-      String metadataWorkerTag, String workName) async {
+     /* String metadataWorkerTag, String workName*/) async {
     final SyncDataWorker worker = ref.read(syncDataWorkerProvider);
     // TODO(NMC): Implement android_alarm_manager_plus
     // https://stackoverflow.com/questions/51706265/how-to-schedule-background-tasks-in-flutter#:~:text=14-,SOLUTION,-1%3A%20android_alarm_manager_plus
@@ -105,10 +93,6 @@ class WorkManagerControllerImpl implements WorkManagerController {
 
   @override
   void enqueuePeriodicWork(WorkerItem workerItem) {}
-
-  // LiveData<List<WorkInfo>> getWorkInfosForUniqueWorkLiveData(String workerName){}
-  // LiveData<List<WorkInfo>> getWorkInfosByTagLiveData(String tag){}
-  // LiveData<List<WorkInfo>> getWorkInfosForTags(vararg tags){}
 
   @override
   Future<void> cancelAllWork() async {}

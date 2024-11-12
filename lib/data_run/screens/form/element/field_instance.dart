@@ -35,12 +35,17 @@ class FieldInstance<T> extends FormElementInstance<T>
   @override
   void updateValue(T? value,
       {bool updateParent = true, bool emitEvent = true}) {
-    updateStatus(elementState.copyWith(value: value));
-    elementControl?.updateValue(
-      value,
+    updateStatus(elementState.reset(value: value));
+    elementControl?.reset(
+      value: value,
       updateParent: updateParent,
       emitEvent: emitEvent,
     );
+    updateValueAndValidity(
+      updateParent: updateParent,
+      emitEvent: emitEvent,
+    );
+    elementControl?.markAsDirty();
   }
 
   @override
@@ -53,7 +58,7 @@ class FieldInstance<T> extends FormElementInstance<T>
 
   @override
   void reset({T? value}) {
-    updateStatus(elementState.copyWith(value: value));
+    updateStatus(elementState.reset(value: value));
     elementControl!.reset(value: template.defaultValue);
   }
 

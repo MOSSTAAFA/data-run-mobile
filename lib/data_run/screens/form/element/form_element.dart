@@ -119,15 +119,21 @@ sealed class FormElementInstance<T> {
 
   void markAsHidden({bool updateParent = true, bool emitEvent = true}) {
     logDebug(info: '${name}, mark as Hidden');
-    updateStatus(elementState.copyWith(hidden: true));
-    // elementControl!.reset(disabled: true);
-    elementControl!.markAsDisabled();
+    updateStatus(elementState.copyWith(hidden: true, errors: {}));
+    elementControl!.reset(disabled: true);
+    elementControl!.updateValueAndValidity(
+        updateParent: updateParent, emitEvent: emitEvent);
+    updateValueAndValidity(updateParent: true, emitEvent: emitEvent);
+    _updateAncestors(updateParent);
+    // elementControl!.markAsDisabled();
   }
 
   void markAsVisible({bool updateParent = true, bool emitEvent = true}) {
     logDebug(info: '${name}, mark as visible');
     updateStatus(elementState.copyWith(hidden: false));
     elementControl!.markAsEnabled();
+    updateValueAndValidity(updateParent: true, emitEvent: emitEvent);
+    _updateAncestors(updateParent);
   }
 
   void markAsMandatory({bool updateParent = true, bool emitEvent = true}) {
@@ -151,15 +157,10 @@ sealed class FormElementInstance<T> {
   }
 
   void setErrors(Map<String, dynamic> errors) {
-    updateStatus(elementState.copyWith(errors: errors));
     elementControl?.setErrors(errors);
-    elementControl?.markAsTouched();
   }
 
   void removeError(String key) {
-    updateStatus(elementState.copyWith(
-        errors: Map.from(elementState.errors)
-          ..removeWhere((errorKey, dynamic value) => errorKey == key)));
     elementControl?.removeError(key);
   }
 
@@ -208,16 +209,6 @@ sealed class FormElementInstance<T> {
     }
   }
 
-  void markAsDisabled({bool updateParent = true, bool emitEvent = true}) {
-    elementControl?.markAsDisabled(
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void markAsEnabled({bool updateParent = true, bool emitEvent = true}) {
-    elementControl?.markAsEnabled(
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
   TFormElement?
       getFirstParentOfType<TFormElement extends FormElementInstance<Object>>() {
     var currentParent = parentSection;
@@ -228,6 +219,38 @@ sealed class FormElementInstance<T> {
       currentParent = currentParent.parentSection;
     }
     return null;
+  }
+
+  void _updateAncestors(bool updateParent) {
+    if (updateParent) {
+      _parentSection?.updateValueAndValidity(updateParent: updateParent);
+    }
+  }
+
+  FormElementState _calculateStatus() {
+    if (allElementsHidden()) {
+      elementControl?.markAsDisabled();
+      return _elementState.copyWith(hidden: true, errors: {});
+    } else if (elementControl?.hasErrors == true) {
+      return _elementState.copyWith(errors: elementControl!.errors);
+    }
+
+    return _elementState.copyWith(hidden: false, errors: {});
+  }
+
+  void updateValueAndValidity({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (visible) {
+      _elementState = _calculateStatus();
+    }
+
+    if (emitEvent) {
+      updateStatus(_elementState);
+    }
+
+    _updateAncestors(updateParent);
   }
 
   void dispose() {

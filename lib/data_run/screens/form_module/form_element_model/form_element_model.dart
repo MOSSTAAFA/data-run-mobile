@@ -92,23 +92,6 @@ sealed class FormElementModel<T> {
         : name;
   }
 
-  void updateValueAndValidity({
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    _updateValue();
-    if (visible) {
-      _status = _calculateStatus();
-    }
-
-    // if (emitEvent) {
-    //   _valueChanges.add(value);
-    //   _statusChanges.add(_status);
-    // }
-
-    _updateAncestors(updateParent);
-  }
-
   ElementStatus _calculateStatus() {
     if (allElementsHidden()) {
       return ElementStatus.hidden;
@@ -121,43 +104,10 @@ sealed class FormElementModel<T> {
     return ElementStatus.valid;
   }
 
-  void _updateAncestors(bool updateParent) {
-    if (updateParent) {
-      parent?.updateValueAndValidity(updateParent: updateParent);
-    }
-  }
-
   String pathBuilder(String? pathItem) => [
         parent != null ? parent!.elementPath : null,
         pathItem
       ].whereType<String>().join('.');
-
-  void _updateElementsErrors() {
-    _status = _calculateStatus();
-    // _statusChanges.add(_status);
-
-    parent?._updateElementsErrors();
-  }
-
-  void setErrors(Map<String, dynamic> errors, {bool markAsDirty = true}) {
-    _errors.clear();
-    _errors.addAll(errors);
-
-    _updateElementsErrors();
-
-    if (markAsDirty) {
-      this.markAsDirty(emitEvent: false);
-    }
-  }
-
-  void removeError(String key, {bool markAsDirty = false}) {
-    _errors.removeWhere((errorKey, dynamic value) => errorKey == key);
-    _updateElementsErrors();
-
-    if (markAsDirty) {
-      this.markAsDirty(emitEvent: false);
-    }
-  }
 
   void updateValue(T? value, {bool updateParent = true, bool emitEvent = true});
 
@@ -188,6 +138,56 @@ sealed class FormElementModel<T> {
     _status = ElementStatus.valid;
     updateValueAndValidity(updateParent: true, emitEvent: emitEvent);
     _updateAncestors(updateParent);
+  }
+
+  void updateValueAndValidity({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    _updateValue();
+    if (visible) {
+      _status = _calculateStatus();
+    }
+
+    // if (emitEvent) {
+    //   _valueChanges.add(value);
+    //   _statusChanges.add(_status);
+    // }
+
+    _updateAncestors(updateParent);
+  }
+
+  void _updateAncestors(bool updateParent) {
+    if (updateParent) {
+      parent?.updateValueAndValidity(updateParent: updateParent);
+    }
+  }
+
+  void _updateElementsErrors() {
+    _status = _calculateStatus();
+    // _statusChanges.add(_status);
+
+    parent?._updateElementsErrors();
+  }
+
+  void setErrors(Map<String, dynamic> errors, {bool markAsDirty = true}) {
+    _errors.clear();
+    _errors.addAll(errors);
+
+    _updateElementsErrors();
+
+    if (markAsDirty) {
+      this.markAsDirty(emitEvent: false);
+    }
+  }
+
+  void removeError(String key, {bool markAsDirty = false}) {
+    _errors.removeWhere((errorKey, dynamic value) => errorKey == key);
+    _updateElementsErrors();
+
+    if (markAsDirty) {
+      this.markAsDirty(emitEvent: false);
+    }
   }
 
   @protected

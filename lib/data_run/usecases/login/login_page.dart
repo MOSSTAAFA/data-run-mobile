@@ -6,74 +6,116 @@ import 'package:datarun/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:reactive_forms/reactive_forms.dart';
-import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+
+// Define a provider to manage the obscureText state for password visibility
+final passwordVisibilityProvider = StateProvider<bool>((ref) => true);
 
 class LoginPage extends HookConsumerWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final loginState = ref.watch(loginStateProvider);
-    // final loginNotifier = ref.read(loginStateProvider.notifier);
-
     final loginFormModel = ref.watch(loginReactiveFormModelProvider);
+    final isPasswordObscured = ref.watch(passwordVisibilityProvider);
 
-    // Create the form controls using reactive_forms
-
-    final RoundedLoadingButtonController submitButtonController =
-        useMemoized(() => loginFormModel.buttonController);
     return ReactiveForm(
       formGroup: loginFormModel.form,
       child: SafeArea(
         child: Scaffold(
-          body: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const LoginHeader(),
-                  SizedBox(height: 16),
-                  Text(S.of(context).login,
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headlineMedium),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  // Server URL input
-                  ReactiveTextField<String>(
-                    formControl: loginFormModel.serverUrlControl,
-                    decoration: InputDecoration(labelText: 'Server URL'),
-                  ),
-                  // Username input
-                  ReactiveTextField<String>(
-                    formControl: loginFormModel.usernameControl,
-                    decoration: InputDecoration(labelText: 'Username'),
-                  ),
-                  // Password input
-                  ReactiveTextField<String>(
-                    formControl: loginFormModel.passwordControl,
-                    obscureText: true,
-                    decoration: InputDecoration(labelText: 'Password'),
-                  ),
-                  SizedBox(height: 20),
-                  // Login Button
-                  LoginSubmitButton(
-                    controller: submitButtonController,
-                    onPressed: () async {
-                      submitButtonController.start();
-                      final success = await loginFormModel.login();
-
-                      if (success) {
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(builder: (context) => HomeScreen()),
-                        );
-                      } else {
-                        submitButtonController.reset();
-                      }
-                    },
-                  )
+          body: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Theme.of(context).primaryColor,
+                  Theme.of(context).colorScheme.secondary,
                 ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
+            child: Center(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(24.0),
+                child: Card(
+                  elevation: 8,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const LoginHeader(),
+                        SizedBox(height: 24),
+                        Text(
+                          S.of(context).login,
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                            color: Theme.of(context).primaryColorDark,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 24),
+                        ReactiveTextField<String>(
+                          onTapOutside: loginFormModel.serverUrlControl.hasFocus
+                              ? (event) => loginFormModel.serverUrlControl.unfocus()
+                              : null,
+                          formControl: loginFormModel.serverUrlControl,
+                          decoration: InputDecoration(
+                            labelText: S.of(context).serverUrl,
+                            prefixIcon: Icon(Icons.link, color: Theme.of(context).primaryColor),
+                          ),
+                        ),
+                        SizedBox(height: 16),
+                        ReactiveTextField<String>(
+                          onTapOutside: loginFormModel.usernameControl.hasFocus
+                              ? (event) => loginFormModel.usernameControl.unfocus()
+                              : null,
+                          formControl: loginFormModel.usernameControl,
+                          decoration: InputDecoration(
+                            labelText: S.of(context).username,
+                            prefixIcon: Icon(Icons.person, color: Theme.of(context).primaryColor),
+                          ),
+                        ),
+                        SizedBox(height: 16),
+                        // Password input with visibility toggle
+                        ReactiveTextField<String>(
+                          formControl: loginFormModel.passwordControl,
+                          obscureText: isPasswordObscured,
+                          decoration: InputDecoration(
+                            labelText: S.of(context).password,
+                            prefixIcon: Icon(Icons.lock, color: Theme.of(context).primaryColor),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                isPasswordObscured ? Icons.visibility_off : Icons.visibility,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              onPressed: () {
+                                ref.read(passwordVisibilityProvider.notifier).state =
+                                !isPasswordObscured;
+                              },
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 24),
+                        SizedBox(
+                          width: double.infinity,
+                          child: LoginSubmitButton(
+                            onPressed: () async {
+                              final success = await loginFormModel.login();
+                              if (success) {
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                                );
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ),
           ),

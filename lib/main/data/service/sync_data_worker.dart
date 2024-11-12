@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:d2_remote/core/datarun/utilities/date_utils.dart';
+import 'package:d2_remote/modules/datarun_shared/sync/call/d2_progress.dart';
+import 'package:datarun/core/network/connectivy_service.dart';
 import 'package:dio/dio.dart';
 import 'package:datarun/commons/constants.dart';
 import 'package:datarun/commons/logging/logging.dart';
-import 'package:datarun/commons/network/network_utils.dart';
 import 'package:datarun/commons/prefs/preference_provider.dart';
 import 'package:datarun/commons/resources/resource_manager.dart';
 import 'package:datarun/main/data/service/sync_metadata_worker.dart';
@@ -47,46 +48,46 @@ class SyncDataWorker extends Worker {
     try {
       await presenter.syncAndDownloadEvents(dioTestClient: dioTestClient);
     } catch (e) {
-      if (!ref.read(networkUtilsProvider).isOnline()) {
+      if (!ConnectivityService.instance.isOnline) {
         presenter.setNetworkUnavailable();
       }
       logError(info: 'Timber.e($e)');
       isEventOk = false;
     }
 
-    try {
-      await presenter.syncAndDownloadTeis();
-    } catch (e) {
-      if (!ref.read(networkUtilsProvider).isOnline()) {
-        presenter.setNetworkUnavailable();
-      }
-      logError(info: 'Timber.e($e)');
-      isTeiOk = false;
-    }
+    // try {
+    //   await presenter.syncAndDownloadTeis();
+    // } catch (e) {
+    //   if (!ref.read(networkUtilsProvider).isOnline()) {
+    //     presenter.setNetworkUnavailable();
+    //   }
+    //   logError(info: 'Timber.e($e)');
+    //   isTeiOk = false;
+    // }
+    //
+    // onProgressUpdate?.call(75);
+    // _triggerNotification(resourceManager.getString('appName'),
+    //     resourceManager.getString('syncing_data_sets'), 75);
 
-    onProgressUpdate?.call(75);
-    _triggerNotification(resourceManager.getString('appName'),
-        resourceManager.getString('syncing_data_sets'), 75);
-
-    try {
-      await presenter.syncAndDownloadDataValues();
-    } catch (e) {
-      if (!ref.read(networkUtilsProvider).isOnline()) {
-        presenter.setNetworkUnavailable();
-      }
-      logError(info: 'Timber.e($e)');
-      isDataValue = false;
-    }
+    // try {
+    //   await presenter.syncAndDownloadDataValues();
+    // } catch (e) {
+    //   if (!ref.read(networkUtilsProvider).isOnline()) {
+    //     presenter.setNetworkUnavailable();
+    //   }
+    //   logError(info: 'Timber.e($e)');
+    //   isDataValue = false;
+    // }
 
     onProgressUpdate?.call(90);
     _triggerNotification(resourceManager.getString('appName'),
         resourceManager.getString('syncing_resources'), 90);
 
-    try {
-      await presenter.downloadResources();
-    } catch (e) {
-      logError(info: 'Timber.e($e)');
-    }
+    // try {
+    //   await presenter.downloadResources();
+    // } catch (e) {
+    //   logError(info: 'Timber.e($e)');
+    // }
 
     onProgressUpdate?.call(100);
     _triggerNotification(resourceManager.getString('appName'),

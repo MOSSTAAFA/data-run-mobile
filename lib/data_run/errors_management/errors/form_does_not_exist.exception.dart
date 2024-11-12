@@ -1,6 +1,5 @@
-import 'package:datarun/data_run/errors_management/errors/d_exception.dart';
+import 'package:d2_remote/core/datarun/exception/exception.dart';
 
 class FormDoesNotExistException extends DException {
-  FormDoesNotExistException(
-      [super.message = 'FormDoesNotExistException', super.source]);
+  FormDoesNotExistException({super.cause}) : super('FormDoesNotExistException');
 }

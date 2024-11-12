@@ -1,7 +1,6 @@
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:datarun/commons/logging/logging.dart';
 import 'package:datarun/data_run/screens/form/element/form_element.dart';
 import 'package:datarun/data_run/screens/form/element/providers/form_instance.provider.dart';
 import 'package:datarun/data_run/screens/form/element/validation/form_element_validator.dart';

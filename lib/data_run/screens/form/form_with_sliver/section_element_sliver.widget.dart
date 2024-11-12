@@ -8,7 +8,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:datarun/data_run/screens/form/hooks/register_dependencies.dart';
 import 'package:datarun/data_run/screens/form/element/form_element.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:reactive_forms/reactive_forms.dart';
 
 class SectionElementSliver extends HookConsumerWidget {
   const SectionElementSliver({super.key, required this.element});
@@ -34,14 +33,10 @@ class SectionElementSliver extends HookConsumerWidget {
           if (elementPropertiesSnapshot.data!.hidden) {
             return const SizedBox.shrink();
           } else {
-            return ReactiveForm(
-              formGroup:
-                  formInstance.form.control(element.pathRecursive) as FormGroup,
-              child: Column(
-                children: element.elements.values.map((childElement) {
-                  return FormElementWidgetFactory.createWidget(childElement);
-                }).toList(),
-              ),
+            return Column(
+              children: element.elements.values.map((childElement) {
+                return FormElementWidgetFactory.createWidget(childElement);
+              }).toList(),
             );
           }
         }),
@@ -49,23 +44,17 @@ class SectionElementSliver extends HookConsumerWidget {
           if (elementPropertiesSnapshot.data!.hidden) {
             return const SizedBox.shrink();
           } else {
-            return ReactiveFormArray(
-              formArray:
-                  formInstance.form.control(element.pathRecursive) as FormArray,
-              builder: (BuildContext context, FormArray<dynamic> formArray,
-                      Widget? child) =>
-                  RepeatInstanceDataTable(
-                key: ValueKey('${element.elementPath}_RepeatSectionWidget'),
-                repeatInstance: element,
-                onAdd: () {
-                  return onAdd(context, ref,
-                      formInstance.onAddRepeatedItem(element), true);
-                },
-                onDelete: (index) =>
-                    formInstance.onRemoveRepeatedItem(index, element),
-                onEdit: (index) =>
-                    onAdd(context, ref, element.elements[index], false),
-              ),
+            return RepeatInstanceDataTable(
+              key: ValueKey('${element.elementPath}_RepeatSectionWidget'),
+              repeatInstance: element,
+              onAdd: () {
+                return onAdd(context, ref,
+                    formInstance.onAddRepeatedItem(element), true);
+              },
+              onDelete: (index) =>
+                  formInstance.onRemoveRepeatedItem(index, element),
+              onEdit: (index) =>
+                  onAdd(context, ref, element.elements[index], false),
             );
           }
         }),

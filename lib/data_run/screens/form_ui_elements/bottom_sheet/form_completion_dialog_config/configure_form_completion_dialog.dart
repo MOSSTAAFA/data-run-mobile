@@ -1,6 +1,4 @@
 import 'package:collection/collection.dart';
-import 'package:flutter/material.dart';
-import 'package:datarun/commons/logging/logging.dart';
 import 'package:datarun/data_run/form/form_element/form_element_iterators/form_element_iterator.dart';
 import 'package:datarun/data_run/screens/form/element/form_element.dart';
 import 'package:datarun/data_run/screens/form/element/validation/form_element_validator.dart';
@@ -9,6 +7,7 @@ import 'package:datarun/data_run/screens/form_ui_elements/bottom_sheet/bottom_sh
 import 'package:datarun/data_run/screens/form_ui_elements/bottom_sheet/form_completion_dialog_config/form_completion_dialog.dart';
 import 'package:datarun/generated/l10n.dart';
 import 'package:datarun/utils/navigator_key.dart';
+import 'package:flutter/material.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
 class ConfigureFormCompletionDialog {
@@ -21,11 +20,11 @@ class ConfigureFormCompletionDialog {
 
     final DialogContentModel bottomSheetDialogUiModel = DialogContentModel(
         title: rootSection.form.hasErrors
-            ? S.of(navigatorKey.currentContext!).formContainsSomeErrors
-            : S.of(navigatorKey.currentContext!).finalData,
+            ? S.current.formContainsSomeErrors
+            : S.current.finalData,
         subtitle: rootSection.form.hasErrors
-            ? S.of(navigatorKey.currentContext!).fieldsWithErrorInfo
-            : S.of(navigatorKey.currentContext!).markAsFinalData,
+            ? S.current.fieldsWithErrorInfo
+            : S.current.markAsFinalData,
         icon: rootSection.form.hasErrors ? Icons.error : Icons.info,
         body: _getBody(rootSection));
 
@@ -39,7 +38,7 @@ class ConfigureFormCompletionDialog {
     if (rootSection.form.hasErrors) {
       return FormCompletionButton(
           buttonStyle: DialogButtonStyle.mainButton(
-              text: S.of(navigatorKey.currentContext!).reviewFormData),
+              text: S.current.reviewFormData),
           action: FormBottomDialogActionType.CheckFields);
     } else {
       return FormCompletionButton(
@@ -52,111 +51,69 @@ class ConfigureFormCompletionDialog {
     if (rootSection.form.hasErrors) {
       return FormCompletionButton(
           buttonStyle: DialogButtonStyle.secondaryButton(
-              text: S.of(navigatorKey.currentContext!).checkFieldsLater),
+              text: S.current.checkFieldsLater),
           action: FormBottomDialogActionType.NotNow);
       ;
     } else {
       return FormCompletionButton(
           buttonStyle: DialogButtonStyle.secondaryButton(
-              text: S.of(navigatorKey.currentContext!).notNow),
+              text: S.current.notNow),
           action: FormBottomDialogActionType.NotNow);
     }
   }
 
   BottomSheetBodyModel _getBody(SectionInstance rootSection) {
-    final allElements =
-        getFormElementIterator<FieldInstance<dynamic>>(rootSection);
-    final formHasErrors = rootSection.form.hasErrors;
-    return BottomSheetBodyModel(
-      message: formHasErrors
-          ? S.of(navigatorKey.currentContext!).fieldsWithErrorInfo
-          : S.of(navigatorKey.currentContext!).markAsFinalData,
-      fieldsWithIssues:
-          formHasErrors ? _getFieldsWithIssues(allElements) : const {},
-      allFields: _mapToFieldsWithIssues(allElements),
-    );
+    bool controlHasErrors = rootSection.form.hasErrors;
+    bool elementHasErrors = rootSection.elementState.errors.isNotEmpty;
+    final controlErrors = rootSection.form.errors;
+    final elementErrors =rootSection.elementState.errors;
+    return elementHasErrors
+        ? BottomSheetBodyModel.errorsBody(
+            message: S.current.fieldsWithErrorInfo,
+            fieldsWithIssues: _getFieldsWithIssues(rootSection))
+        : BottomSheetBodyModel.messageBody(
+            message: S.current.makeFormFinalOrSaveBody);
   }
 
-  Map<String, dynamic> _groupFieldsByStructure(SectionInstance rootSection) {
-    final fields = getFormElementIterator<FieldInstance<dynamic>>(rootSection);
+  Map<String, dynamic> flattenErrorMap(Map<String, dynamic> errorMap, {String prefix = ''}) {
+    Map<String, dynamic> flatMap = {};
 
-    final Map<String, dynamic> fieldsGrouped = {
-      'sections': {}, // Non-repeated sections only need labels
-      'repeatedGroups': [] // For repeated groups, holding fields by index
-    };
+    errorMap.forEach((key, value) {
+      String newKey = prefix.isEmpty ? key : '$prefix.$key';
 
-    fields.forEach((element) {
-      final parentPath = element.parentSection?.pathRecursive;
-      final fieldData = FieldWithIssue(
-          parentPath: element.pathRecursive,
-          fieldName: element.name,
-          fieldLabel: element.label,
-          parentLabel: element.parentSection?.label,
-          value: element.value,
-          message: element.elementControl!.hasErrors
-              ? _getErrorMessage(element)
-              : null);
-
-      // Check if the element is within a repeated section
-      if (element.type.isRepeatSection) {
-        // Extract the index from the element's path for grouping by `index`
-        final match = RegExp(r'\.(\d+)\.').firstMatch(element.pathRecursive);
-        final index = match != null ? int.parse(match.group(1)!) : -1;
-
-        if (index >= 0) {
-          // Ensure repeatedGroups has an entry for this index
-          while (fieldsGrouped['repeatedGroups'].length <= index) {
-            fieldsGrouped['repeatedGroups'].add({'index': index, 'fields': []});
-          }
-          fieldsGrouped['repeatedGroups'][index]['fields'].add(fieldData);
+      if (value is Map<String, dynamic>) {
+        // If the value is a map, recursively flatten it
+        flatMap.addAll(flattenErrorMap(value, prefix: newKey));
+      } else if (value is List) {
+        // If the value is a list, iterate through each item and flatten
+        for (int i = 0; i < value.length; i++) {
+          flatMap.addAll(flattenErrorMap({i.toString(): value[i]}, prefix: '$newKey.$i'));
         }
       } else {
-        // Group non-repeated sections by parent path
-        fieldsGrouped['sections'][parentPath] ??= [];
-        fieldsGrouped['sections'][parentPath].add(fieldData);
+        // Otherwise, it's a leaf node (error value), add it to the flatMap
+        flatMap[newKey] = value;
       }
     });
 
-    logDebug(info: 'Fields grouped by structure: $fieldsGrouped');
-    return fieldsGrouped;
+    return flatMap;
   }
 
-  Map<String, List<FieldWithIssue<dynamic>>> _getFieldsWithIssues(
-      Iterable<FieldInstance<dynamic>> allElements) {
-    final fields =
-        allElements.where((field) => field.elementControl!.hasErrors).toList();
+  Map<String, List<FieldWithIssue>> _getFieldsWithIssues(
+      SectionInstance rootSection) {
+    // logDebug(info: 'formErrorsMap: $formErrors');
+    // logDebug(info: 'formErrorsMapFlatt: $formErrorsFlatt');
+    final Iterable<FieldInstance<dynamic>> fieldsWithErrors =
+        getFormElementIterator<FieldInstance<dynamic>>(rootSection)
+            .where((field) => field.elementControl!.hasErrors);
+    final fieldsIssues = fieldsWithErrors.map((element) => FieldWithIssue(
+        parent: element.parentSection?.label,
+        fieldPath: element.pathRecursive,
+        fieldName: element.label,
+        message: _getErrorMessage(element)));
 
-    final fieldsMergedWithIssues = fields
-        .map((element) => FieldWithIssue(
-            parentPath: element.parentSection?.pathRecursive,
-            parentType: ParentType.fromValueType(element.parentSection?.type),
-            parentLabel: element.parentSection?.label,
-            fieldName: element.name,
-            fieldLabel: element.label,
-            value: element.value,
-            message: _getErrorMessage(element)))
-        .groupListsBy((element) => element.parentPath ?? 'rootParent');
-
-    return fieldsMergedWithIssues;
-  }
-
-  Map<String, List<FieldWithIssue<dynamic>>> _mapToFieldsWithIssues(
-      Iterable<FieldInstance<dynamic>> allElements) {
-    final fieldsMergedWithIssues = allElements
-        .where((element) => element.visible)
-        .map((element) => FieldWithIssue(
-            parentPath: element.parentSection?.pathRecursive,
-            parentType: ParentType.fromValueType(element.parentSection?.type),
-            parentLabel: element.parentSection?.label,
-            fieldName: element.name,
-            fieldLabel: element.label,
-            value: element.value,
-            message: element.elementControl!.hasErrors
-                ? _getErrorMessage(element)
-                : null))
-        .groupListsBy((element) => element.parentPath ?? 'rootParent');
-
-    return fieldsMergedWithIssues;
+    final fieldsErrors = fieldsIssues
+        .groupListsBy((element) => element.parent ?? 'UnGroupedIssue');
+    return fieldsErrors;
   }
 
   String _getErrorMessage(FieldInstance<dynamic> field) {
@@ -171,4 +128,28 @@ class ConfigureFormCompletionDialog {
   ValidationMessageFunction? _findValidationMessage(String errorKey) {
     return validationMessages(navigatorKey.currentContext!)[errorKey];
   }
+}
+
+// path format to jsonPath
+String formatPath(Map<String, dynamic> current, String currentPath) {
+  String formattedPath = currentPath;
+
+  if (current is Map<String, dynamic>) {
+    current.forEach((key, value) {
+      String newPath = formattedPath.isEmpty ? key : '$formattedPath.$key';
+      if (value is Map || value is List) {
+        formattedPath = formatPath(value, newPath); // Recursive call for nested structures
+      } else {
+        // Final field value
+        print(newPath); // Print or store the formatted path
+      }
+    });
+  } else if (current is List) {
+    for (int i = 0; i < current.length; i++) {
+      String newPath = '$formattedPath[$i]';
+      formatPath(current[i], newPath); // Recursively handle the array
+    }
+  }
+
+  return formattedPath;
 }

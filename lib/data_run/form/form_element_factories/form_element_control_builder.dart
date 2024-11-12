@@ -40,82 +40,82 @@ class FormElementControlBuilder {
 
     for (var element in formFlatTemplate.formTemplate.fields) {
       controls[element.name] = createElementControl(element,
-          savedValue: initialValue?[element.name]);
+          initialValue: initialValue?[element.name]);
     }
 
     return controls;
   }
 
   AbstractControl<dynamic> createElementControl(FieldTemplate fieldTemplate,
-      {savedValue}) {
+      {initialValue}) {
     if (fieldTemplate.type.isSection) {
-      return createSectionFormGroup(fieldTemplate, savedValue: savedValue);
+      return createSectionFormGroup(fieldTemplate, initialValue: initialValue);
     } else if (fieldTemplate.type.isRepeatSection) {
-      return createRepeatFormArray(fieldTemplate, savedValue: savedValue);
+      return createRepeatFormArray(fieldTemplate, initialValue: initialValue);
     } else {
-      return createFieldFormControl(fieldTemplate, savedValue: savedValue);
+      return createFieldFormControl(fieldTemplate, initialValue: initialValue);
     }
   }
 
   FormGroup createSectionFormGroup<T>(FieldTemplate fieldTemplate,
-      {dynamic savedValue}) {
+      {dynamic initialValue}) {
     final Map<String, AbstractControl<dynamic>> controls = {};
     fieldTemplate.fields.sort((a, b) => (a.order).compareTo(b.order));
 
     for (var childTemplate in fieldTemplate.fields) {
       controls[childTemplate.name] = createElementControl(childTemplate,
-          savedValue: savedValue?[childTemplate.name]);
+          initialValue: initialValue?[childTemplate.name]);
     }
     return FormGroup(controls);
   }
 
   FormArray<Map<String, Object?>> createRepeatFormArray(
       FieldTemplate fieldTemplate,
-      {dynamic savedValue}) {
-    final formArray = FormArray<Map<String, Object?>>((savedValue ?? [])
+      {dynamic initialValue}) {
+    final formArray = FormArray<Map<String, Object?>>((initialValue ?? [])
         .map<FormGroup>(
-            (e) => createSectionFormGroup(fieldTemplate, savedValue: e))
+            (e) => createSectionFormGroup(fieldTemplate, initialValue: e))
         .toList());
 
     return formArray;
   }
 
   AbstractControl<dynamic> createFieldFormControl(FieldTemplate fieldTemplate,
-      {savedValue}) {
+      {initialValue}) {
     switch (fieldTemplate.type) {
       case ValueType.Text:
       case ValueType.OrganisationUnit:
         return FormControl<String>(
-          value: savedValue ?? fieldTemplate.defaultValue,
+          value: initialValue ?? fieldTemplate.defaultValue,
           validators: FieldValidators.getValidators(fieldTemplate),
         );
       case ValueType.LongText:
       case ValueType.Letter:
         return FormControl<String>(
-          value: savedValue ?? fieldTemplate.defaultValue,
+          value: initialValue ?? fieldTemplate.defaultValue,
           validators: FieldValidators.getValidators(fieldTemplate),
         );
       case ValueType.FullName:
         return FormControl<String>(
-          value: savedValue ?? fieldTemplate.defaultValue,
+          value: initialValue ?? fieldTemplate.defaultValue,
           validators: FieldValidators.getValidators(fieldTemplate),
         );
       case ValueType.Email:
         return FormControl<String>(
-          value: savedValue ?? fieldTemplate.defaultValue,
+          value: initialValue ?? fieldTemplate.defaultValue,
           validators: FieldValidators.getValidators(fieldTemplate),
         );
       case ValueType.Boolean:
       case ValueType.TrueOnly:
       case ValueType.YesNo:
         return FormControl<bool>(
-          value: savedValue ?? fieldTemplate.defaultValue,
+          value: initialValue ?? fieldTemplate.defaultValue,
           validators: FieldValidators.getValidators(fieldTemplate),
         );
       case ValueType.Date:
       case ValueType.DateTime:
         return FormControl<String>(
-          value: savedValue ?? fieldTemplate.defaultValue,
+          value: initialValue ?? fieldTemplate.defaultValue,
           validators: FieldValidators.getValidators(fieldTemplate),
         );
       case ValueType.Integer:
@@ -123,7 +123,7 @@ class FormElementControlBuilder {
       case ValueType.IntegerNegative:
       case ValueType.IntegerZeroOrPositive:
         return FormControl<int>(
-          value: savedValue ?? int.tryParse(fieldTemplate.defaultValue ?? ''),
+          value: initialValue ?? int.tryParse(fieldTemplate.defaultValue ?? ''),
           validators: FieldValidators.getValidators(fieldTemplate),
         );
       case ValueType.Number:
@@ -131,16 +131,16 @@ class FormElementControlBuilder {
       case ValueType.Percentage:
         return FormControl<double>(
           value:
-              savedValue ?? double.tryParse(fieldTemplate.defaultValue ?? ''),
+              initialValue ?? double.tryParse(fieldTemplate.defaultValue ?? ''),
           validators: FieldValidators.getValidators(fieldTemplate),
         );
       case ValueType.SelectOne:
         return FormControl<String>(
-          value: savedValue ?? fieldTemplate.defaultValue,
+          value: initialValue ?? fieldTemplate.defaultValue,
           validators: FieldValidators.getValidators(fieldTemplate),
         );
       case ValueType.SelectMulti:
-        return FormControl<List<String>>(value: savedValue ?? []);
+        return FormControl<List<String>>(value: initialValue ?? []);
       default:
         throw UnsupportedError(
             'Template: ${fieldTemplate.name}, unsupported element type: ${fieldTemplate.type}');

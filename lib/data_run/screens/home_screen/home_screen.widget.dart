@@ -1,23 +1,23 @@
+import 'package:d2_remote/modules/auth/user/entities/d_user.entity.dart';
+import 'package:datarun/commons/custom_widgets/async_value.widget.dart';
+import 'package:datarun/data_run/screens/home_screen/home_deck/home_items_models_notifier.dart';
+import 'package:datarun/data_run/screens/sync_screen/sync_screen.widget.dart';
+import 'package:datarun/data_run/usecases/auth/auth_service.dart';
+import 'package:datarun/data_run/usecases/auth/internet_aware_screen.dart';
+import 'package:datarun/data_run/usecases/auth/user_session_manager.dart';
+import 'package:datarun/data_run/usecases/sync_manager/sync_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:datarun/core/user/auth_service.dart';
 import 'package:datarun/data_run/screens/home_screen/drawer/settings_page.dart';
 import 'package:datarun/data_run/screens/home_screen/home_deck/home_deck.widget.dart';
-import 'package:datarun/data_run/screens/home_screen/home_presenter.dart';
-import 'package:datarun/data_run/screens/home_screen/home_screen_view.dart';
-import 'package:datarun/data_run/screens/view/view_base.dart';
 import 'package:datarun/generated/l10n.dart';
-import 'package:datarun/main/data/service/sync_status_controller.dart';
-import 'package:datarun/main/usescases/auth/internet_aware_screen.dart';
-import 'package:datarun/main/usescases/login/login_screen.widget.dart';
-import 'package:datarun/main/usescases/sync/sync_screen.widget.dart';
 import 'package:datarun/utils/navigator_key.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen(
       {super.key, this.launchDataSync = false, this.forceToNotSynced = false});
 
-  static String routeName = '/home';
+  static String routeName = '/';
 
   final bool forceToNotSynced;
 
@@ -27,117 +27,88 @@ class HomeScreen extends ConsumerStatefulWidget {
   _HomeScreenWidgetState createState() => _HomeScreenWidgetState();
 }
 
-class _HomeScreenWidgetState extends ConsumerState<HomeScreen>
-    with HomeScreenView, ViewBase {
-  late final HomePresenter presenter;
-
+class _HomeScreenWidgetState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    final userService = UserService.instance;
-    final user = userService.user;
-    final userInfo = user?.firstName ?? user?.username ?? '';
-
-    return Scaffold(
-      appBar: AppBar(
-        actions: const [InternetAwareChip()],
-        title: Text(S.of(context).home),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            UserAccountsDrawerHeader(
-              accountName: Text(userInfo),
-              accountEmail: Text(S.of(context).organization),
-              currentAccountPicture: CircleAvatar(
-                child: Text(userInfo.substring(0, 1)),
-              ),
+    final userSessionManager = ref.watch(userSessionManagerProvider);
+    final userInfoAsync = ref.watch(userInfoProvider);
+    return AsyncValueWidget(
+      value: userInfoAsync,
+      valueBuilder: (userInfo) {
+        return Scaffold(
+          appBar: AppBar(
+            actions: const [InternetAwareChip()],
+            title: Text(S.of(context).home),
+          ),
+          drawer: Drawer(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                UserAccountsDrawerHeader(
+                  accountName: Text(userInfo?.firstName ?? 'no Info'),
+                  accountEmail: Text(S.of(context).organization),
+                  currentAccountPicture: CircleAvatar(
+                    child: Text(userInfo?.username?.substring(0, 1) ?? ''),
+                  ),
+                ),
+                Text('${S.of(context).version}: 1.0.1'),
+                Text('database: ${userSessionManager.databaseName}'),
+                ListTile(
+                  leading: Icon(Icons.settings),
+                  title: Text(S.of(context).settings),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                        navigatorKey.currentContext!,
+                        MaterialPageRoute(
+                          builder: (context) => const SettingsPage(),
+                        ));
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.sync),
+                  title: Text(S.of(context).fetchUpdates),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      navigatorKey.currentContext!,
+                      MaterialPageRoute(
+                          builder: (context) => const SyncScreen()),
+                    );
+                  },
+                ),
+              ],
             ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text(S.of(context).settings),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                    navigatorKey.currentContext!,
-                    MaterialPageRoute(
-                      builder: (context) => const SettingsPage(),
-                    ));
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.sync),
-              title: Text(S.of(context).fetchUpdates),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  navigatorKey.currentContext!,
-                  MaterialPageRoute(builder: (context) => const SyncScreen()),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.logout),
-              title: Text(S.of(context).logout),
-              onTap: () {
-                Navigator.pop(context);
-                presenter.logOut();
-              },
-            ),
-          ],
-        ),
-      ),
-      body: const HomeDeck(), // Main content
+          ),
+          body: const HomeDeck(), // Main content
+        );
+      },
     );
-  }
-
-  void logOut() {
-    // Navigator.push(
-    //     navigatorKey.currentContext!,
-    //     MaterialPageRoute(
-    //       builder: (context) => const SettingsPage(),
-    //     ));
   }
 
   @override
   void initState() {
-    presenter = ref.read(homePresenterProvider(this));
-
-    ref.listenManual<bool?>(
-        syncStatusControllerInstanceProvider.select((syncStatusController) =>
-            syncStatusController.syncStatusData.running), (previous, next) {
-      if (next ?? false) {
-      } else {
-        presenter.onDataSuccess();
-      }
-    });
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkAndSync();
+    });
+  }
+
+  Future<void> _checkAndSync() async {
+    final syncService = ref.read(syncServiceProvider.notifier);
+    if ((await syncService.needsSync()) || widget.launchDataSync) {
+      Navigator.push(
+        navigatorKey.currentContext!,
+        MaterialPageRoute(builder: (context) => const SyncScreen()),
+      );
+    }
   }
 
   @override
   void didChangeDependencies() {
-    presenter.wasSyncAlreadyDone().then((alreadyDone) {
-      if (!alreadyDone) {
-        presenter.launchInitialDataSync();
-      }
-    });
     super.didChangeDependencies();
-  }
-
-  @override
-  void goToLogin(int accountsCount, {bool isDeletion = false}) {
-    Navigator.pushAndRemoveUntil(
-        navigatorKey.currentContext!,
-        MaterialPageRoute(
-            builder: (context) => LoginScreen(
-                  accountsCount: accountsCount,
-                  isDeletion: isDeletion,
-                )),
-        (r) => r.isFirst);
-  }
-
-  @override
-  bool hasToNotSync() {
-    return widget.forceToNotSynced;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.refresh(homeItemsModelsNotifierProvider);
+    });
   }
 }

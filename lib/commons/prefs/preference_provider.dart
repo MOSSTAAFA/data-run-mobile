@@ -19,9 +19,6 @@ class PreferenceProvider {
 
   // final SharedPreferences _sharedPreferences;
 
-  static const String LAST_META_SYNC = 'last_meta_sync';
-  static const String LAST_DATA_SYNC = 'last_data_sync';
-
   // call this method from iniState() function of mainApp().
   static Future<SharedPreferences> initialize() async =>
       _sharedPreferences = await SharedPreferences.getInstance();
@@ -95,17 +92,17 @@ class PreferenceProvider {
     return _sharedPreferences!.clear();
   }
 
-  DateTime? lastMetadataSync() {
-    assert(_sharedPreferences != null, 'PreferenceProvider is not initialized');
-    return getString(LAST_META_SYNC)?.let((String lastMetadataSyncString) =>
-        DateUtils.dateTimeFormat().parse(lastMetadataSyncString));
-  }
-
-  DateTime? lastDataSync() {
-    assert(_sharedPreferences != null, 'PreferenceProvider is not initialized');
-    return getString(LAST_DATA_SYNC)?.let((String lastDataSyncString) =>
-        DateUtils.dateTimeFormat().parse(lastDataSyncString));
-  }
+  // DateTime? lastMetadataSync() {
+  //   assert(_sharedPreferences != null, 'PreferenceProvider is not initialized');
+  //   return getString(LAST_META_SYNC)?.let((String lastMetadataSyncString) =>
+  //       DateUtils.dateTimeFormat().parse(lastMetadataSyncString));
+  // }
+  //
+  // DateTime? lastDataSync() {
+  //   assert(_sharedPreferences != null, 'PreferenceProvider is not initialized');
+  //   return getString(LAST_DATA_SYNC)?.let((String lastDataSyncString) =>
+  //       DateUtils.dateTimeFormat().parse(lastDataSyncString));
+  // }
   //
   // DateTime? lastSync() {
   //   assert(_sharedPreferences != null, 'PreferenceProvider is not initialized');
@@ -126,30 +123,30 @@ class PreferenceProvider {
     // TODO: implement saveAsJson
   }
 
-  Future<bool> saveUserCredentials(
-      String serverUrl, String userName, String pass) async {
-    assert(_sharedPreferences != null, 'PreferenceProvider is not initialized');
-    // TODO(NMC):  encrypted
-    await _sharedPreferences!.setBool(SECURE_CREDENTIALS, true);
-    await _sharedPreferences!.setString(SECURE_SERVER_URL, serverUrl);
-    await _sharedPreferences!.setString(SECURE_USER_NAME, userName);
-    if (pass.isNotEmpty) {
-      await _sharedPreferences!.setString(SECURE_PASS, pass);
-    }
-    return Future<bool>.value(true);
-  }
+  // Future<bool> saveUserCredentials(
+  //     String serverUrl, String userName, String pass) async {
+  //   assert(_sharedPreferences != null, 'PreferenceProvider is not initialized');
+  //   // TODO(NMC):  encrypted
+  //   await _sharedPreferences!.setBool(SECURE_CREDENTIALS, true);
+  //   await _sharedPreferences!.setString(SECURE_SERVER_URL, serverUrl);
+  //   await _sharedPreferences!.setString(SECURE_USER_NAME, userName);
+  //   if (pass.isNotEmpty) {
+  //     await _sharedPreferences!.setString(SECURE_PASS, pass);
+  //   }
+  //   return Future<bool>.value(true);
+  // }
 
-  bool areCredentialsSet() {
-    assert(_sharedPreferences != null, 'PreferenceProvider is not initialized');
-    return _sharedPreferences!.getBool(SECURE_CREDENTIALS) ?? false;
-  }
-
-  bool areSameCredentials(String? serverUrl, String? userName, String? pass) {
-    assert(_sharedPreferences != null, 'PreferenceProvider is not initialized');
-    return getString(SECURE_SERVER_URL, '') == serverUrl &&
-        getString(SECURE_USER_NAME, '') == userName &&
-        getString(SECURE_PASS, '') == pass;
-  }
+  // bool areCredentialsSet() {
+  //   assert(_sharedPreferences != null, 'PreferenceProvider is not initialized');
+  //   return _sharedPreferences!.getBool(SECURE_CREDENTIALS) ?? false;
+  // }
+  //
+  // bool areSameCredentials(String? serverUrl, String? userName, String? pass) {
+  //   assert(_sharedPreferences != null, 'PreferenceProvider is not initialized');
+  //   return getString(SECURE_SERVER_URL, '') == serverUrl &&
+  //       getString(SECURE_USER_NAME, '') == userName &&
+  //       getString(SECURE_PASS, '') == pass;
+  // }
 
   String saveJiraCredentials(String jiraAuth) {
     assert(_sharedPreferences != null, 'PreferenceProvider is not initialized');

@@ -1,5 +1,5 @@
 import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
-import 'package:datarun/data_run/errors_management/error_management.dart';
+import 'package:datarun/data_run/errors_management/d_error_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:datarun/utils/mass_utils/colors.dart';
@@ -70,7 +70,7 @@ class ResourceManager {
   }
 
   String parseD2Error(Exception throwable) {
-    return ref.read(dErrorLocalizationProvider).getErrorMessage(throwable);
+    return ErrorMessage.getMessage(throwable);
   }
 
   String defaultEventLabel() => getString('events');

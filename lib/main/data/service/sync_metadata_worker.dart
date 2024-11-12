@@ -1,14 +1,16 @@
 import 'dart:async';
 
+import 'package:d2_remote/core/datarun/exception/d_error.dart';
+import 'package:d2_remote/core/datarun/exception/exception.dart';
 import 'package:d2_remote/core/datarun/utilities/date_utils.dart';
 import 'package:d2_remote/d2_remote.dart';
+import 'package:d2_remote/modules/datarun_shared/sync/call/d2_progress.dart';
 import 'package:dio/dio.dart';
 import 'package:datarun/commons/constants.dart';
 import 'package:datarun/commons/logging/logging.dart';
 import 'package:datarun/commons/network/network_utils.dart';
 import 'package:datarun/commons/prefs/preference_provider.dart';
 import 'package:datarun/commons/resources/resource_manager.dart';
-import 'package:datarun/data_run/errors_management/error_management.dart';
 import 'package:datarun/main/data/service/sync_presenter.dart';
 import 'package:datarun/main/data/service/work_manager/nmc_worker/work_info.dart';
 import 'package:datarun/main/data/service/work_manager/nmc_worker/worker.dart';
@@ -32,69 +34,68 @@ class SyncMetadataWorker extends Worker {
   Future<WorkInfo> doWork(
       {OnProgressUpdate? onProgressUpdate, Dio? dioTestClient}) async {
     final isAuth = await D2Remote.isAuthenticated();
-    // if (await D2Remote.isAuthenticated()) {
-      _triggerNotification(resourceManager.getString('appName'),
-          resourceManager.getString('syncingConfiguration'), 0);
+    if (await D2Remote.isAuthenticated()) {
+    _triggerNotification(resourceManager.getString('appName'),
+        resourceManager.getString('syncingConfiguration'), 0);
 
-      bool isMetaOk = true;
-      bool noNetwork = false;
-      final StringBuffer message = StringBuffer();
+    bool isMetaOk = true;
+    bool noNetwork = false;
+    final StringBuffer message = StringBuffer();
 
-      final int init = DateTime.now().microsecond;
-      try {
-        await presenter.syncMetadata(
-          onProgressUpdate: (progress) {
-            onProgressUpdate?.call(progress);
-            _triggerNotification(resourceManager.getString('appName'),
-                resourceManager.getString('syncingConfiguration'), progress);
-          },
-        );
-      } catch (e) {
-        logError(info: 'Timber.e($e)');
-        isMetaOk = false;
-        if (!ref.read(networkUtilsProvider).isOnline()) {
-          noNetwork = true;
-        }
-        if (e is DException) {
-          if (e is DError) {
-            final DError error = e;
-            message.write(_composeErrorMessageInfo(error));
-          } else if (e.source != null && e.source is DError) {
-            final DError error = e.source! as DError;
-            message.write(_composeErrorMessageInfo(error));
-          }
-        } else {
-          message.write(e.toString().split('\n\t')[0]);
-        }
-      } finally {
-        presenter.logTimeToFinish(
-            DateTime.now().microsecond - init, METADATA_TIME);
+    final int init = DateTime.now().microsecond;
+    try {
+      await presenter.syncMetadata(
+        onProgressUpdate: (progress) {
+          onProgressUpdate?.call(progress);
+          _triggerNotification(resourceManager.getString('appName'),
+              resourceManager.getString('syncingConfiguration'), progress);
+        },
+      );
+    } catch (e) {
+      logError(info: 'Timber.e($e)');
+      isMetaOk = false;
+      if (!ref.read(networkUtilsProvider).isOnline()) {
+        noNetwork = true;
       }
-
-      final String lastDataSyncDate =
-          DateUtils.dateTimeFormat().format(DateTime.now());
-
-      prefs.setValue(LAST_META_SYNC, lastDataSyncDate);
-      prefs.setValue(LAST_META_SYNC_STATUS, isMetaOk);
-      prefs.setValue(LAST_META_SYNC_NO_NETWORK, noNetwork);
-
-      _cancelNotification();
-
-      if (!isMetaOk) {
-        return WorkInfo(
-            state: WorkInfoState.FAILED, message: message.toString());
+      if (e is DException) {
+        if (e is DError) {
+          final DError error = e;
+          message.write(_composeErrorMessageInfo(error));
+        } else if (e.cause != null && e.cause is DError) {
+          final DError error = e.cause! as DError;
+          message.write(_composeErrorMessageInfo(error));
+        }
+      } else {
+        message.write(e.toString().split('\n\t')[0]);
       }
-      // return Result.failure(_createOutputData(false, message.toString()));
+    } finally {
+      presenter.logTimeToFinish(
+          DateTime.now().microsecond - init, METADATA_TIME);
+    }
 
-      presenter.startPeriodicMetaWork();
+    final String lastDataSyncDate =
+        DateUtils.dateTimeFormat().format(DateTime.now());
 
+    prefs.setValue(LAST_META_SYNC, lastDataSyncDate);
+    prefs.setValue(LAST_META_SYNC_STATUS, isMetaOk);
+    prefs.setValue(LAST_META_SYNC_NO_NETWORK, noNetwork);
+
+    _cancelNotification();
+
+    if (!isMetaOk) {
+      return WorkInfo(state: WorkInfoState.FAILED, message: message.toString());
+    }
+    // return Result.failure(_createOutputData(false, message.toString()));
+
+    presenter.startPeriodicMetaWork();
+
+    return WorkInfo(
+        state: WorkInfoState.SUCCEEDED, message: message.toString());
+    } else {
       return WorkInfo(
-          state: WorkInfoState.SUCCEEDED, message: message.toString());
-    // } else {
-    //   return WorkInfo(
-    //       state: WorkInfoState.FAILED,
-    //       message: resourceManager.getString('error_init_session'));
-    // }
+          state: WorkInfoState.FAILED,
+          message: resourceManager.getString('error_init_session'));
+    }
   }
 
   String _errorStackTrace(Exception? exception) {
@@ -113,13 +114,13 @@ class SyncMetadataWorker extends Worker {
       ..write(resourceManager.parseD2Error(error))
       ..write('\n\n')
       ..write('Exception: ')
-      ..write((error.originalException.toString()).split('\n\t')[0])
+      ..write((error.cause.toString()).split('\n\t')[0])
       ..write('\n\n');
 
-    if (error.created != null) {
+    if (error.time != null) {
       builder
         ..write('Created: ')
-        ..write(error.created.toString())
+        ..write(error.time.toString())
         ..write('\n\n');
     }
 

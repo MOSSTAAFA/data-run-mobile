@@ -6,6 +6,7 @@ class TrackerD2Progress extends D2Progress {
   TrackerD2Progress(
       {super.message,
       super.serverMessage,
+      super.progressState = WorkInfoState.RUNNING,
       super.isComplete,
       super.totalCalls,
       super.percentage,
@@ -29,14 +30,16 @@ class TrackerD2Progress extends D2Progress {
   @override
   TrackerD2Progress copyWith(
       {String? message,
+        WorkInfoState? progressState,
       String? serverMessage,
       bool? isComplete,
       int? totalCalls,
-      num? percentage,
+      int? percentage,
       IList<String>? doneCalls,
       IMap<String, D2ProgressStatus>? programs}) {
     return TrackerD2Progress(
         message: message ?? this.message,
+        progressState: progressState ?? this.progressState,
         serverMessage: serverMessage ?? this.serverMessage,
         isComplete: isComplete ?? this.isComplete,
         totalCalls: totalCalls ?? this.totalCalls,

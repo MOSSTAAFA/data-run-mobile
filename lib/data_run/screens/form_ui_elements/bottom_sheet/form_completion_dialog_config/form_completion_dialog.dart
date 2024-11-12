@@ -1,6 +1,6 @@
-import 'package:equatable/equatable.dart';
 import 'package:datarun/data_run/screens/form_ui_elements/bottom_sheet/bottom_sheet_model/bottom_sheet_content_model.dart';
 import 'package:datarun/data_run/screens/form_ui_elements/bottom_sheet/bottom_sheet_model/dialog_button_style.dart';
+import 'package:equatable/equatable.dart';
 
 /// data class
 class FormCompletionDialog with EquatableMixin {

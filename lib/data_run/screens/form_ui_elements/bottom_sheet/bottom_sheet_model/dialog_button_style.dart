@@ -1,8 +1,6 @@
+import 'package:datarun/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:datarun/generated/l10n.dart';
-import 'package:datarun/utils/navigator_key.dart';
-
 part 'dialog_button_style.freezed.dart';
 
 @freezed
@@ -23,7 +21,7 @@ abstract class DialogButtonStyle with _$DialogButtonStyle {
 
   // Custom concrete buttons
   factory DialogButtonStyle.finalizeButton() => MainButton(
-        text: S.of(navigatorKey.currentContext!).finalData,
+        text: S.current.finalData,
         iconData: Icons.check,
         color: Colors.white,
         backgroundColor: Colors.green,

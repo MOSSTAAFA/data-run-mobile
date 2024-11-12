@@ -191,6 +191,7 @@ class FormElementBuilder {
           elementProperties: FieldElementState<String>(
               value: initialFormValue,
               mandatory: templateElement.mandatory,
+
               visibleOptions:
                   formFlatTemplate.optionLists[templateElement.listName!] ??
                       []),

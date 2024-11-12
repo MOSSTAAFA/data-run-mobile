@@ -100,17 +100,6 @@ class SectionElementModel extends CollectionElementModel<Map<String, Object?>> {
     return map;
   }
 
-  Map<String, Object?>? reduceValueFlat() {
-    final map = <String, Object?>{};
-    _elements.forEach((key, element) {
-      if (element.visible || hidden) {
-        map[key] = element.value;
-      }
-    });
-
-    return map;
-  }
-
   @override
   bool anyElementsHaveStatus(ElementStatus status) {
     return _elements.values.any((control) => control.status == status);
