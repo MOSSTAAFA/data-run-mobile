@@ -48,13 +48,19 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "about": MessageLookupByLibrary.simpleMessage("About"),
         "accept": MessageLookupByLibrary.simpleMessage("Accept"),
         "accountDisabled": MessageLookupByLibrary.simpleMessage(
             "This account is disabled. contact Administrator for details."),
+        "accountInformation":
+            MessageLookupByLibrary.simpleMessage("Account Information"),
         "addNew": MessageLookupByLibrary.simpleMessage("Add New"),
         "and": MessageLookupByLibrary.simpleMessage("And"),
         "apiError": m0,
+        "appInformation":
+            MessageLookupByLibrary.simpleMessage("App Information"),
         "appName": MessageLookupByLibrary.simpleMessage("Datarun"),
+        "appVersion": MessageLookupByLibrary.simpleMessage("App Version"),
         "appearance": MessageLookupByLibrary.simpleMessage("Appearance"),
         "authInvalidCredentials": MessageLookupByLibrary.simpleMessage(
             "Invalid login credentials provided."),
@@ -75,6 +81,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Are you sure you want to remove this section?"),
         "currentUsername":
             MessageLookupByLibrary.simpleMessage("Current username"),
+        "daily": MessageLookupByLibrary.simpleMessage("Daily"),
         "dashboard": MessageLookupByLibrary.simpleMessage("Dashboard"),
         "databaseConnectionFailed": MessageLookupByLibrary.simpleMessage(
             "Failed to connect to the database."),
@@ -84,10 +91,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "delete": MessageLookupByLibrary.simpleMessage("Delete"),
         "deleteConfirmationMessage": MessageLookupByLibrary.simpleMessage(
             "Are you sure you want to delete this item?"),
+        "developer": MessageLookupByLibrary.simpleMessage("MOH, NMCP Yemen"),
+        "developerInfoText": MessageLookupByLibrary.simpleMessage(
+            "Hamza Assada. email: 7amza.it@gmail.com"),
+        "developerInformation":
+            MessageLookupByLibrary.simpleMessage("Developer Information"),
         "differentOfflineUser": MessageLookupByLibrary.simpleMessage(
             "Different authenticated user offline"),
         "discard": MessageLookupByLibrary.simpleMessage("Discard"),
         "dismiss": MessageLookupByLibrary.simpleMessage("Dismiss"),
+        "done": MessageLookupByLibrary.simpleMessage("Done"),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
         "empty": MessageLookupByLibrary.simpleMessage("Empty"),
         "enterAValidNumber": MessageLookupByLibrary.simpleMessage(
@@ -97,6 +110,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "error": MessageLookupByLibrary.simpleMessage("Error"),
         "errorOpeningNewForm":
             MessageLookupByLibrary.simpleMessage("Error Opening New Form"),
+        "everyFifteenDays":
+            MessageLookupByLibrary.simpleMessage("Every 15 days"),
+        "everyTwoDays": MessageLookupByLibrary.simpleMessage("Every two days"),
+        "failed": MessageLookupByLibrary.simpleMessage("Failed"),
         "fetchUpdates":
             MessageLookupByLibrary.simpleMessage("Fetch From Server"),
         "fieldContainErrors":
@@ -113,11 +130,18 @@ class MessageLookup extends MessageLookupByLibrary {
         "fullName": MessageLookupByLibrary.simpleMessage("Full Name"),
         "hidePassword": MessageLookupByLibrary.simpleMessage("Hide Password"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
+        "internetIsConnected":
+            MessageLookupByLibrary.simpleMessage("internet Is Connected"),
         "itemRemoved": MessageLookupByLibrary.simpleMessage("Item Removed"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
+        "lastConfigurationSyncTime":
+            MessageLookupByLibrary.simpleMessage("Sync Time"),
         "lastName": MessageLookupByLibrary.simpleMessage("Last Name"),
+        "lastSyncStatus":
+            MessageLookupByLibrary.simpleMessage("last sync status"),
         "level": MessageLookupByLibrary.simpleMessage("Level"),
         "login": MessageLookupByLibrary.simpleMessage("Login"),
+        "loginUsername": MessageLookupByLibrary.simpleMessage("Login Username"),
         "logout": MessageLookupByLibrary.simpleMessage("Logout"),
         "logoutNote": MessageLookupByLibrary.simpleMessage(
             "your data will not be deleted when you login back again"),
@@ -127,7 +151,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "Make the form Final before exiting."),
         "maximumAllowedLengthIsError": m3,
         "middleName": MessageLookupByLibrary.simpleMessage("Middle Name"),
+        "mobile": MessageLookupByLibrary.simpleMessage("Mobile"),
         "month": m4,
+        "monthly": MessageLookupByLibrary.simpleMessage("Monthly"),
         "months": MessageLookupByLibrary.simpleMessage("Months"),
         "networkConnectionFailed": MessageLookupByLibrary.simpleMessage(
             "Connection failed. Check your network."),
@@ -142,6 +168,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No forms available"),
         "noInternetAccess":
             MessageLookupByLibrary.simpleMessage("No internet access"),
+        "noSyncYet": MessageLookupByLibrary.simpleMessage("No sync yet"),
         "notNow": MessageLookupByLibrary.simpleMessage("Not Now"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "objectAccessClosed":
@@ -152,6 +179,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "online": MessageLookupByLibrary.simpleMessage("online!"),
         "open": MessageLookupByLibrary.simpleMessage("Open"),
         "openNewForm": MessageLookupByLibrary.simpleMessage("Open New Form"),
+        "openSettings": MessageLookupByLibrary.simpleMessage("Open settings"),
         "orgUnitDialogTitle": MessageLookupByLibrary.simpleMessage(
             "Search for and Select OrgUnit"),
         "orgUnitHelpText":
@@ -160,8 +188,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Select Org Unit"),
         "organization": MessageLookupByLibrary.simpleMessage("Organization"),
         "password": MessageLookupByLibrary.simpleMessage("password"),
+        "personInformation":
+            MessageLookupByLibrary.simpleMessage("Person Information"),
         "pleaseEnterAValidEmailAddress": MessageLookupByLibrary.simpleMessage(
             "enter a valid email address."),
+        "preferences": MessageLookupByLibrary.simpleMessage("Preferences"),
         "reviewFormData": MessageLookupByLibrary.simpleMessage("Review Form"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
         "saveAndCheck": MessageLookupByLibrary.simpleMessage("Save and Check"),
@@ -186,6 +217,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "submissionInitialData": MessageLookupByLibrary.simpleMessage("Main"),
         "syncError": m5,
         "syncFormData": MessageLookupByLibrary.simpleMessage("Sync Form Data"),
+        "syncInterval": MessageLookupByLibrary.simpleMessage("Sync Interval"),
+        "syncNow": MessageLookupByLibrary.simpleMessage("Sync Now"),
+        "syncSettings": MessageLookupByLibrary.simpleMessage("Sync Settings"),
         "syncingConfiguration":
             MessageLookupByLibrary.simpleMessage("Syncing Configuration"),
         "syncingData": MessageLookupByLibrary.simpleMessage("Syncing Data"),
@@ -207,6 +241,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "viewAvailableForms": MessageLookupByLibrary.simpleMessage(
             "Expand to View Available Forms"),
         "viewList": MessageLookupByLibrary.simpleMessage("View List"),
+        "weekly": MessageLookupByLibrary.simpleMessage("Weekly"),
         "year": m9,
         "years": MessageLookupByLibrary.simpleMessage("Years")
       };

@@ -47,13 +47,19 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "about": MessageLookupByLibrary.simpleMessage("عنا"),
         "accept": MessageLookupByLibrary.simpleMessage("قبول"),
         "accountDisabled": MessageLookupByLibrary.simpleMessage(
             "تم تعطيل هذا الحساب. يرجى الاتصال بالمسؤول للمساعدة."),
+        "accountInformation":
+            MessageLookupByLibrary.simpleMessage("معلومات الحساب"),
         "addNew": MessageLookupByLibrary.simpleMessage("إضافة جديد"),
         "and": MessageLookupByLibrary.simpleMessage("و"),
         "apiError": m0,
+        "appInformation":
+            MessageLookupByLibrary.simpleMessage("معلومات التطبيق"),
         "appName": MessageLookupByLibrary.simpleMessage("Datarun"),
+        "appVersion": MessageLookupByLibrary.simpleMessage("إصدار التطبيق"),
         "appearance": MessageLookupByLibrary.simpleMessage("المظهر"),
         "authInvalidCredentials": MessageLookupByLibrary.simpleMessage(
             "بيانات الدخول التي تم إدخالها غير صحيحة. يرجى التحقق والمحاولة مرة أخرى."),
@@ -73,6 +79,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "هل أنت متأكد أنك تريد إزالة هذا القسم؟"),
         "currentUsername":
             MessageLookupByLibrary.simpleMessage("المستخدم الحالي"),
+        "daily": MessageLookupByLibrary.simpleMessage("يومي"),
         "dashboard": MessageLookupByLibrary.simpleMessage("الرئيسية"),
         "databaseConnectionFailed": MessageLookupByLibrary.simpleMessage(
             "فشل في الاتصال بقاعدة البيانات. يرجى المحاولة مرة أخرى أو الاتصال بالدعم."),
@@ -82,10 +89,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "delete": MessageLookupByLibrary.simpleMessage("حذف"),
         "deleteConfirmationMessage": MessageLookupByLibrary.simpleMessage(
             "هل تريد بالتأكيد حذف هذا العنصر؟"),
+        "developer": MessageLookupByLibrary.simpleMessage(
+            "البرنامج الوطني لمكافحة الملاريا"),
+        "developerInfoText": MessageLookupByLibrary.simpleMessage(
+            "حمزة السادة. 7amza.it@gmail.com"),
+        "developerInformation":
+            MessageLookupByLibrary.simpleMessage("معلومات المطور"),
         "differentOfflineUser": MessageLookupByLibrary.simpleMessage(
             "جلسة عدم الاتصال الحالية موثقة لمستخدم مختلف."),
         "discard": MessageLookupByLibrary.simpleMessage("تجاهل"),
         "dismiss": MessageLookupByLibrary.simpleMessage("حسنًا"),
+        "done": MessageLookupByLibrary.simpleMessage("تم"),
         "edit": MessageLookupByLibrary.simpleMessage("تعديل"),
         "empty": MessageLookupByLibrary.simpleMessage("فارغ"),
         "enterAValidNumber":
@@ -95,6 +109,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "error": MessageLookupByLibrary.simpleMessage("خطأ"),
         "errorOpeningNewForm":
             MessageLookupByLibrary.simpleMessage("حدث خطأ أثناء فتح الإستمارة"),
+        "everyFifteenDays": MessageLookupByLibrary.simpleMessage("كل 15 يوم"),
+        "everyTwoDays": MessageLookupByLibrary.simpleMessage("كل يومين"),
+        "failed": MessageLookupByLibrary.simpleMessage("فشل"),
         "fetchUpdates": MessageLookupByLibrary.simpleMessage("تحديث"),
         "fieldContainErrors":
             MessageLookupByLibrary.simpleMessage("يحوي أخطاء"),
@@ -110,11 +127,18 @@ class MessageLookup extends MessageLookupByLibrary {
         "fullName": MessageLookupByLibrary.simpleMessage("الاسم الكامل"),
         "hidePassword": MessageLookupByLibrary.simpleMessage("اخفاء كلمة السر"),
         "home": MessageLookupByLibrary.simpleMessage("الرئيسة"),
+        "internetIsConnected":
+            MessageLookupByLibrary.simpleMessage("متصل بالإنترنت"),
         "itemRemoved": MessageLookupByLibrary.simpleMessage("تم الحذف"),
         "language": MessageLookupByLibrary.simpleMessage("اللغة"),
+        "lastConfigurationSyncTime":
+            MessageLookupByLibrary.simpleMessage("آخر تحديث"),
         "lastName": MessageLookupByLibrary.simpleMessage("اللقب"),
+        "lastSyncStatus": MessageLookupByLibrary.simpleMessage("حالة مزامنة"),
         "level": MessageLookupByLibrary.simpleMessage("المستوى"),
         "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
+        "loginUsername":
+            MessageLookupByLibrary.simpleMessage("حساب تسجيل الدخول"),
         "logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
         "logoutNote":
             MessageLookupByLibrary.simpleMessage("تسجيل خروج المستخدم الحالي"),
@@ -124,7 +148,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "حقول مكتملة، هل تبريد تعيين هذه البيانات كنهائية وجاهزة للإرسال؟"),
         "maximumAllowedLengthIsError": m3,
         "middleName": MessageLookupByLibrary.simpleMessage("الاسم الأوسط"),
+        "mobile": MessageLookupByLibrary.simpleMessage("رقم الموبايل"),
         "month": m4,
+        "monthly": MessageLookupByLibrary.simpleMessage("شهري"),
         "months": MessageLookupByLibrary.simpleMessage("أشهر"),
         "networkConnectionFailed": MessageLookupByLibrary.simpleMessage(
             "فشل في الاتصال بالشبكة. يرجى التحقق من الاتصال والمحاولة مرة أخرى."),
@@ -139,6 +165,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "noFormsAvailable": MessageLookupByLibrary.simpleMessage(
             "لا تتوفر استمارات لهذا النشاط"),
         "noInternetAccess": MessageLookupByLibrary.simpleMessage("غير متصل"),
+        "noSyncYet": MessageLookupByLibrary.simpleMessage("لم يحديث بعد"),
         "notNow": MessageLookupByLibrary.simpleMessage("ليس الآن"),
         "notifications": MessageLookupByLibrary.simpleMessage("تنبيهات"),
         "objectAccessClosed":
@@ -150,6 +177,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "open": MessageLookupByLibrary.simpleMessage("فتح"),
         "openNewForm":
             MessageLookupByLibrary.simpleMessage("فتح استمارة جديدة"),
+        "openSettings": MessageLookupByLibrary.simpleMessage("فتح الإعدادات"),
         "orgUnitDialogTitle":
             MessageLookupByLibrary.simpleMessage("ابحث عن المكان"),
         "orgUnitHelpText":
@@ -159,8 +187,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "organization":
             MessageLookupByLibrary.simpleMessage("الوحدة التنظيمية"),
         "password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
+        "personInformation":
+            MessageLookupByLibrary.simpleMessage("معلومات الشخص"),
         "pleaseEnterAValidEmailAddress": MessageLookupByLibrary.simpleMessage(
             "يرجى إدخال عنوان بريد إلكتروني صالح."),
+        "preferences": MessageLookupByLibrary.simpleMessage("التفضيلات"),
         "reviewFormData":
             MessageLookupByLibrary.simpleMessage("مراجعة الأخطاء"),
         "save": MessageLookupByLibrary.simpleMessage("حفظ"),
@@ -186,6 +217,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "syncError": m5,
         "syncFormData":
             MessageLookupByLibrary.simpleMessage("مزامنة بيانات الاستمارة"),
+        "syncInterval": MessageLookupByLibrary.simpleMessage("فترات المزامنة"),
+        "syncNow": MessageLookupByLibrary.simpleMessage("المزامنة الآن"),
+        "syncSettings":
+            MessageLookupByLibrary.simpleMessage("إعدادات المزامنة"),
         "syncingConfiguration":
             MessageLookupByLibrary.simpleMessage("إعدادات المزامنة"),
         "syncingData": MessageLookupByLibrary.simpleMessage("مزامنة بيانات"),
@@ -209,6 +244,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "viewAvailableForms": MessageLookupByLibrary.simpleMessage(
             "افتح لاستعرض الاستمارات المتاحة"),
         "viewList": MessageLookupByLibrary.simpleMessage("عرض القائمة"),
+        "weekly": MessageLookupByLibrary.simpleMessage("اسبوعي"),
         "year": m9,
         "years": MessageLookupByLibrary.simpleMessage("سنوات")
       };

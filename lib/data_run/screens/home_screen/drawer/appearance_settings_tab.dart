@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AppearanceSettingsTab extends ConsumerWidget {
+  const AppearanceSettingsTab({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ListView(
