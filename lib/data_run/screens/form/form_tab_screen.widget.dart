@@ -1,23 +1,21 @@
-import 'package:d2_remote/modules/datarun/form/entities/form_version.entity.dart';
+import 'package:datarun/data_run/screens/form/form_with_sliver/form_entry_view_silver.widget.dart';
+import 'package:datarun/core/utils/get_item_local_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mass_pro/commons/custom_widgets/async_value.widget.dart';
-import 'package:mass_pro/data_run/form/form_submission/submission_list.provider.dart';
-import 'package:mass_pro/data_run/form/form_template/template_providers.dart';
-import 'package:mass_pro/data_run/screens/form/form_entry_view.widget.dart';
-import 'package:mass_pro/data_run/screens/form/form_initial_view.widget.dart';
-import 'package:mass_pro/data_run/screens/form/hooks/scroll_controller_for_animation.dart';
-import 'package:mass_pro/data_run/screens/form/element/providers/form_instance.provider.dart';
-import 'package:mass_pro/data_run/screens/form/element/form_metadata.dart';
-import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
-import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_template_inherit_widget.dart';
-import 'package:mass_pro/data_run/screens/form_module/form_template/form_element_template.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/bottom_sheet/bottom_sheet.provider.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/bottom_sheet/bottom_sheet.widget.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/bottom_sheet/q_bottom_sheet_dialog_ui_model.dart';
-import 'package:mass_pro/data_run/screens/form_ui_elements/get_error_widget.dart';
-import 'package:mass_pro/generated/l10n.dart';
+import 'package:datarun/commons/custom_widgets/async_value.widget.dart';
+import 'package:datarun/data_run/form/form_submission/submission_list.provider.dart';
+import 'package:datarun/data_run/screens/form/form_initial_view.widget.dart';
+import 'package:datarun/data_run/screens/form/hooks/scroll_controller_for_animation.dart';
+import 'package:datarun/data_run/screens/form/element/providers/form_instance.provider.dart';
+import 'package:datarun/data_run/screens/form/element/form_metadata.dart';
+import 'package:datarun/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
+import 'package:datarun/data_run/screens/form/inherited_widgets/form_template_inherit_widget.dart';
+import 'package:datarun/data_run/screens/form_ui_elements/bottom_sheet/bottom_sheet.widget.dart';
+import 'package:datarun/data_run/screens/form_ui_elements/bottom_sheet/form_completion_dialog_config/completion_dialog_config.provider.dart';
+import 'package:datarun/data_run/screens/form_ui_elements/bottom_sheet/form_completion_dialog_config/form_completion_dialog.dart';
+import 'package:datarun/data_run/screens/form_ui_elements/get_error_widget.dart';
+import 'package:datarun/generated/l10n.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 class FormSubmissionScreen extends StatefulHookConsumerWidget {
@@ -71,7 +69,6 @@ class FormTabScreen extends StatefulHookConsumerWidget {
 }
 
 class _SubmissionTabScreenState extends ConsumerState<FormTabScreen> {
-  final _entryFormKey = GlobalKey<ReactiveFormBuilderState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   FormMetadata metadata(BuildContext context) => FormMetadataWidget.of(context);
@@ -97,7 +94,8 @@ class _SubmissionTabScreenState extends ConsumerState<FormTabScreen> {
 
     final _buildBody = <Widget>[
       const FormInitialView(),
-      FormInstanceEntryView(scrollController: scrollController),
+      // FormInstanceEntryView(scrollController: scrollController),
+      FormInstanceEntryViewSliver(scrollController: scrollController),
     ];
 
     return PopScope(
@@ -110,7 +108,11 @@ class _SubmissionTabScreenState extends ConsumerState<FormTabScreen> {
       },
       child: Scaffold(
         key: _scaffoldKey,
-        appBar: AppBar(title: Text('NMCP')),
+        appBar: AppBar(
+            title: Text(getItemLocalString(
+                FormFlatTemplateInheritWidget.of(context).label,
+                defaultString:
+                    FormFlatTemplateInheritWidget.of(context).name))),
         bottomNavigationBar: NavigationBar(
           onDestinationSelected: (int index) => currentPageIndex.value = index,
           indicatorColor: Colors.amber,
@@ -140,15 +142,14 @@ class _SubmissionTabScreenState extends ConsumerState<FormTabScreen> {
           child: ScaleTransition(
             scale: hideFabAnimController,
             child: FloatingActionButton(
+              tooltip: S.of(context).saveAndCheck,
               child: getFloatIcon(),
-              // label: const Text('Useless Floating Action Button'),
               onPressed: () {
                 if (widget.enabled) {
                   _saveAndShowBottomSheet(formGroup(context));
                 } else {
                   Navigator.pop(context);
                 }
-                // Navigator.pop(context);
               },
             ),
           ),
@@ -188,33 +189,33 @@ class _SubmissionTabScreenState extends ConsumerState<FormTabScreen> {
   }
 
   Future<void> _showBottomSheet(FormGroup form) async {
-    final QBottomSheetDialogUiModel bottomSheetUiModel =
-        ref.watch(bottomSheetProvider).formFinishBottomSheet();
+    final bottomSheetUiModel = ref.read(formCompletionBottomSheetProvider(
+        formMetadata: FormMetadataWidget.of(context)));
     await showModalBottomSheet(
+      isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {
         return QBottomSheetDialog(
-          uiModel: bottomSheetUiModel,
-          onMainClicked: () => _onFinalDataClicked(form),
-          onSecondaryClicked: () => Navigator.pop(context),
+          completionDialogModel: bottomSheetUiModel,
+          onButtonClicked: (action) =>
+              _onCompletionDialogButtonClicked(form, action),
         );
       },
     );
   }
 
-  Future<void> _onFinalDataClicked(FormGroup form) async {
-    if (form.valid) {
-      await _markEntityAsFinal(context);
-
-      if (context.mounted) {
+  Future<void> _onCompletionDialogButtonClicked(
+      FormGroup form, FormBottomDialogActionType? action) async {
+    switch (action) {
+      case FormBottomDialogActionType.NotNow:
         Navigator.pop(context);
-      }
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text(
-                'Form contains some errors: ${formGroup(context).errors}')),
-      );
+      case FormBottomDialogActionType.MarkAsFinal:
+        await _markEntityAsFinal(context);
+        if (context.mounted) Navigator.pop(context);
+        break;
+      case FormBottomDialogActionType.CheckFields:
+      case null:
+        return;
     }
   }
 

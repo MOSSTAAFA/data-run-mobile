@@ -1,27 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:datarun/data_run/screens/form/element/form_element.dart';
+import 'package:datarun/data_run/screens/form/element/providers/form_instance.provider.dart';
+import 'package:datarun/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 import 'package:d2_remote/core/datarun/utilities/date_utils.dart' as sdk;
 
-class QDatePickerField<T> extends StatelessWidget {
+class QDatePickerField<T> extends ConsumerWidget {
   const QDatePickerField({super.key, required this.element});
 
-  final FieldInstance<T> element;
+  final FieldInstance<String> element;
 
   @override
-  Widget build(BuildContext context) {
-    return ReactiveTextField<T>(
-      formControl: element.elementControl,
+  Widget build(BuildContext context, WidgetRef ref) {
+    final formInstance = ref
+        .watch(
+            formInstanceProvider(formMetadata: FormMetadataWidget.of(context)))
+        .requireValue;
+    formInstance.form.control(element.pathRecursive) as FormControl<T>;
+    return ReactiveTextField<String>(
+      // formControl: element.elementControl,
+      formControl: formInstance.form.control(element.pathRecursive)
+          as FormControl<String>,
       readOnly: true,
+      valueAccessor: QDateTimeValueAccessor(),
       decoration: InputDecoration(
+        enabled: element.elementControl!.enabled,
         labelText: element.label,
         suffixIcon: ReactiveDatePicker<String?>(
           formControl: element.elementControl as FormControl<String?>,
-          firstDate: DateTime.now().subtract(const Duration(days: 10)),
-          lastDate: DateTime.now().add(const Duration(days: 30)),
+          firstDate: DateTime(2015, 1, 1),
+          lastDate: DateTime(2040, 1, 1),
           builder: (context, picker, child) {
             return IconButton(
-              onPressed: picker.showPicker,
+              onPressed:
+                  element.elementControl!.enabled ? picker.showPicker : null,
               icon: const Icon(Icons.date_range),
             );
           },
@@ -31,7 +44,7 @@ class QDatePickerField<T> extends StatelessWidget {
   }
 }
 
-class QDateTimeValueAccessor extends ControlValueAccessor<String, String> {
+class QDateTimeValueAccessor<T> extends ControlValueAccessor<String, String> {
   /// Returns the value that must be supplied to the [control].
   ///
   /// Converts value from UI data type to [control] data type.

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
-import 'package:mass_pro/data_run/screens/form/element_widgets/section.widget.dart';
-import 'package:mass_pro/data_run/screens/form/field_widgets/improved_expansion_tile.widget.dart';
-import 'package:mass_pro/data_run/screens/form/hooks/register_dependencies.dart';
-import 'package:mass_pro/data_run/screens/form/inherited_widgets/section_inherited.widget.dart';
-import 'package:mass_pro/generated/l10n.dart';
+import 'package:datarun/data_run/screens/form/element/form_element.dart';
+import 'package:datarun/data_run/screens/form/element_widgets/section.widget.dart';
+import 'package:datarun/data_run/screens/form/field_widgets/improved_expansion_tile.widget.dart';
+import 'package:datarun/data_run/screens/form/hooks/register_dependencies.dart';
+import 'package:datarun/generated/l10n.dart';
 
 class RepeatItem extends HookWidget {
   const RepeatItem({
@@ -21,7 +20,6 @@ class RepeatItem extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final expanded = useState(element.expanded);
     useRegisterDependencies(element);
 
     return Builder(builder: (context) {
@@ -34,9 +32,6 @@ class RepeatItem extends HookWidget {
         maintainState: true,
         enabled: element.form.enabled,
         initiallyExpanded: false,
-        // onExpansionChanged: (ex) {
-        //   expanded.value = ex;
-        // },
         titleWidget: Tooltip(
           message: '${index + 1}. ${element.label}',
           child: Row(
@@ -64,10 +59,7 @@ class RepeatItem extends HookWidget {
             ],
           ),
         ),
-        child: SectionInheritedWidget(
-          section: element,
-          child: SectionWidget(element: element),
-        ),
+        child: SectionWidget(element: element),
       );
     });
   }

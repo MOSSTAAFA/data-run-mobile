@@ -1,9 +1,9 @@
 import 'package:d2_remote/modules/metadatarun/activity/entities/d_activity.entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/commons/custom_widgets/async_value.widget.dart';
-import 'package:mass_pro/data_run/screens/project_activity_detail/activity_expanded_card.widget.dart';
-import 'package:mass_pro/data_run/screens/project_activity_detail/model/project_activities.provider.dart';
+import 'package:datarun/commons/custom_widgets/async_value.widget.dart';
+import 'package:datarun/data_run/screens/project_activity_detail/activity_expanded_card.widget.dart';
+import 'package:datarun/data_run/screens/project_activity_detail/model/project_activities.provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class ProjectActivitiesCards extends ConsumerStatefulWidget {

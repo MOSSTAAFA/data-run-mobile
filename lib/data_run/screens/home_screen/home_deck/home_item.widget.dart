@@ -1,7 +1,7 @@
+import 'package:datarun/data_run/screens/home_screen/home_deck/home_item.model.dart';
+import 'package:datarun/data_run/screens/home_screen/home_deck/home_items_models_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/data_run/screens/home_screen/home_deck/home_item.model.dart';
-import 'package:mass_pro/data_run/screens/home_screen/home_deck/home_items_models_notifier.dart';
 
 class HomeItem extends ConsumerStatefulWidget {
   const HomeItem({
@@ -12,14 +12,11 @@ class HomeItem extends ConsumerStatefulWidget {
   });
 
   final void Function(HomeItemModel? homeDeckItemModel)? onItemClick;
-  final void Function(HomeItemModel? homeDeckItemModel)?
-      onGranularSyncClick;
-  final void Function(HomeItemModel? homeDeckItemModel)?
-      onDescriptionClick;
+  final void Function(HomeItemModel? homeDeckItemModel)? onGranularSyncClick;
+  final void Function(HomeItemModel? homeDeckItemModel)? onDescriptionClick;
 
   @override
-  ConsumerState<HomeItem> createState() =>
-      _HomeItemState();
+  ConsumerState<HomeItem> createState() => _HomeItemState();
 }
 
 class _HomeItemState extends ConsumerState<HomeItem> {
@@ -32,8 +29,7 @@ class _HomeItemState extends ConsumerState<HomeItem> {
       // color: item?.metadataIconData?.programColor,
       child: ListTile(
         onTap: () => widget.onItemClick?.call(item),
-        leading: item.metadataIconData?.iconResource ??
-            const Icon(Icons.event_note_sharp),
+        leading: const Icon(Icons.event_note_sharp),
         title: Row(children: [
           Expanded(
             child: Text(item.title),

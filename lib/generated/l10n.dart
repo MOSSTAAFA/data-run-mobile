@@ -50,593 +50,153 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Password cannot be null`
-  String get loginErrorNullPass {
+  /// `Request timed out. Please try again.`
+  String get networkTimeout {
     return Intl.message(
-      'Password cannot be null',
-      name: 'loginErrorNullPass',
+      'Request timed out. Please try again.',
+      name: 'networkTimeout',
       desc: '',
       args: [],
     );
   }
 
-  /// `Username cannot be null`
-  String get loginErrorNullUsername {
+  /// `Connection failed. Check your network.`
+  String get networkConnectionFailed {
     return Intl.message(
-      'Username cannot be null',
-      name: 'loginErrorNullUsername',
+      'Connection failed. Check your network.',
+      name: 'networkConnectionFailed',
       desc: '',
       args: [],
     );
   }
 
-  /// `Unsuccessful response from server`
-  String get loginErrorUnsuccessfulResponse {
+  /// `Invalid login credentials provided.`
+  String get authInvalidCredentials {
     return Intl.message(
-      'Unsuccessful response from server',
-      name: 'loginErrorUnsuccessfulResponse',
+      'Invalid login credentials provided.',
+      name: 'authInvalidCredentials',
       desc: '',
       args: [],
     );
   }
 
-  /// `Error processing response`
-  String get loginErrorErrorResponse {
+  /// `Your session has expired. Please log in again.`
+  String get authSessionExpired {
     return Intl.message(
-      'Error processing response',
-      name: 'loginErrorErrorResponse',
+      'Your session has expired. Please log in again.',
+      name: 'authSessionExpired',
       desc: '',
       args: [],
     );
   }
 
-  /// `No server instance found`
-  String get loginErrorNoDataRunInstance {
+  /// `Credentials do not match authenticated user. Cannot login offline.`
+  String get noAuthenticatedUser {
     return Intl.message(
-      'No server instance found',
-      name: 'loginErrorNoDataRunInstance',
+      'Credentials do not match authenticated user. Cannot login offline.',
+      name: 'noAuthenticatedUser',
       desc: '',
       args: [],
     );
   }
 
-  /// `Invalid credentials`
-  String get loginErrorBadCredentials {
+  /// `The user hasn't been previously authenticated. Cannot login offline.`
+  String get noAuthenticatedUserOffline {
     return Intl.message(
-      'Invalid credentials',
-      name: 'loginErrorBadCredentials',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Unknown host`
-  String get loginErrorUnknownHost {
-    return Intl.message(
-      'Unknown host',
-      name: 'loginErrorUnknownHost',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `An unexpected error occurred`
-  String get error_unexpected {
-    return Intl.message(
-      'An unexpected error occurred',
-      name: 'error_unexpected',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Too many organizational units`
-  String get error_too_manu_org_units {
-    return Intl.message(
-      'Too many organizational units',
-      name: 'error_too_manu_org_units',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Max TEI count reached`
-  String get error_max_tei_count_reached {
-    return Intl.message(
-      'Max TEI count reached',
-      name: 'error_max_tei_count_reached',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Too many requests`
-  String get error_many_requests {
-    return Intl.message(
-      'Too many requests',
-      name: 'error_many_requests',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `User already authenticated`
-  String get error_already_authenticated {
-    return Intl.message(
-      'User already authenticated',
-      name: 'error_already_authenticated',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Action already executed`
-  String get error_already_executed {
-    return Intl.message(
-      'Action already executed',
-      name: 'error_already_executed',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Invalid API query`
-  String get error_api_invalid_query {
-    return Intl.message(
-      'Invalid API query',
-      name: 'error_api_invalid_query',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `App name not set`
-  String get error_app_name_not_set {
-    return Intl.message(
-      'App name not set',
-      name: 'error_app_name_not_set',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `App version not set`
-  String get error_app_version_not_set {
-    return Intl.message(
-      'App version not set',
-      name: 'error_app_version_not_set',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Cannot access keystore`
-  String get error_access_keystore {
-    return Intl.message(
-      'Cannot access keystore',
-      name: 'error_access_keystore',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Cannot create existing object`
-  String get error_create_existing_error {
-    return Intl.message(
-      'Cannot create existing object',
-      name: 'error_create_existing_error',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Cannot delete non-existing object`
-  String get error_delete_non_existing_object {
-    return Intl.message(
-      'Cannot delete non-existing object',
-      name: 'error_delete_non_existing_object',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Cannot instantiate keystore`
-  String get error_instance_keystore {
-    return Intl.message(
-      'Cannot instantiate keystore',
-      name: 'error_instance_keystore',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Could not reserve value on server`
-  String get error_reserve_value_on_server {
-    return Intl.message(
-      'Could not reserve value on server',
-      name: 'error_reserve_value_on_server',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Please login to export`
-  String get error_export_login {
-    return Intl.message(
-      'Please login to export',
-      name: 'error_export_login',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Encrypted export not supported`
-  String get error_export_encrypted {
-    return Intl.message(
-      'Encrypted export not supported',
-      name: 'error_export_encrypted',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Import already exists`
-  String get error_import_exist {
-    return Intl.message(
-      'Import already exists',
-      name: 'error_import_exist',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Logout before import`
-  String get error_import_logout {
-    return Intl.message(
-      'Logout before import',
-      name: 'error_import_logout',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Import version higher than supported`
-  String get error_import_version {
-    return Intl.message(
-      'Import version higher than supported',
-      name: 'error_import_version',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `File not found`
-  String get error_file_not_found {
-    return Intl.message(
-      'File not found',
-      name: 'error_file_not_found',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Failed resizing image`
-  String get error_file_resize {
-    return Intl.message(
-      'Failed resizing image',
-      name: 'error_file_resize',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Impossible to generate coordinates`
-  String get error_generate_coordinate {
-    return Intl.message(
-      'Impossible to generate coordinates',
-      name: 'error_generate_coordinate',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Job report not available`
-  String get error_job {
-    return Intl.message(
-      'Job report not available',
-      name: 'error_job',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Running low on available values`
-  String get error_low_on_available_values {
-    return Intl.message(
-      'Running low on available values',
-      name: 'error_low_on_available_values',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `No authenticated user`
-  String get error_user_no_authenticated {
-    return Intl.message(
-      'No authenticated user',
-      name: 'error_user_no_authenticated',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `No authenticated user offline`
-  String get error_user_no_authenticated_offline {
-    return Intl.message(
-      'No authenticated user offline',
-      name: 'error_user_no_authenticated_offline',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Not enough values left to reserve on server`
-  String get error_no_values_left_on_server {
-    return Intl.message(
-      'Not enough values left to reserve on server',
-      name: 'error_no_values_left_on_server',
+      'The user hasn\'t been previously authenticated. Cannot login offline.',
+      name: 'noAuthenticatedUserOffline',
       desc: '',
       args: [],
     );
   }
 
   /// `Different authenticated user offline`
-  String get error_different_offline_user {
+  String get differentOfflineUser {
     return Intl.message(
       'Different authenticated user offline',
-      name: 'error_different_offline_user',
+      name: 'differentOfflineUser',
       desc: '',
       args: [],
     );
   }
 
-  /// `Invalid geometry value`
-  String get error_invalid_geometry {
+  /// `This account is disabled. contact Administrator for details.`
+  String get accountDisabled {
     return Intl.message(
-      'Invalid geometry value',
-      name: 'error_invalid_geometry',
+      'This account is disabled. contact Administrator for details.',
+      name: 'accountDisabled',
       desc: '',
       args: [],
     );
   }
 
-  /// `No reserved values`
-  String get error_no_reserved_values {
+  /// `Failed to connect to the database.`
+  String get databaseConnectionFailed {
     return Intl.message(
-      'No reserved values',
-      name: 'error_no_reserved_values',
+      'Failed to connect to the database.',
+      name: 'databaseConnectionFailed',
       desc: '',
       args: [],
     );
   }
 
-  /// `Object cannot be updated`
-  String get error_object_update {
+  /// `Error occurred while querying the database.`
+  String get databaseQueryFailed {
     return Intl.message(
-      'Object cannot be updated',
-      name: 'error_object_update',
+      'Error occurred while querying the database.',
+      name: 'databaseQueryFailed',
       desc: '',
       args: [],
     );
   }
 
-  /// `Object cannot be inserted`
-  String get error_object_insert {
+  /// `Database returned an Error ${error}.`
+  String databaseInternalError(Object error) {
     return Intl.message(
-      'Object cannot be inserted',
-      name: 'error_object_insert',
+      'Database returned an Error \$$error.',
+      name: 'databaseInternalError',
+      desc: '',
+      args: [error],
+    );
+  }
+
+  /// `Error While Trying to Sync data ${error}.`
+  String syncError(Object error) {
+    return Intl.message(
+      'Error While Trying to Sync data \$$error.',
+      name: 'syncError',
+      desc: '',
+      args: [error],
+    );
+  }
+
+  /// `Error: ${error}.`
+  String unknownError(Object error) {
+    return Intl.message(
+      'Error: \$$error.',
+      name: 'unknownError',
+      desc: '',
+      args: [error],
+    );
+  }
+
+  /// `Please correct the errors in the form.`
+  String get validationError {
+    return Intl.message(
+      'Please correct the errors in the form.',
+      name: 'validationError',
       desc: '',
       args: [],
     );
   }
 
-  /// `Ownership access denied`
-  String get error_ownership_access {
+  /// `An error occurred while interacting with the API ${error}.`
+  String apiError(Object error) {
     return Intl.message(
-      'Ownership access denied',
-      name: 'error_ownership_access',
+      'An error occurred while interacting with the API \$$error.',
+      name: 'apiError',
       desc: '',
-      args: [],
-    );
-  }
-
-  /// `Search grid parse error`
-  String get online_search_parsing_error {
-    return Intl.message(
-      'Search grid parse error',
-      name: 'online_search_parsing_error',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Server URL cannot be null`
-  String get error_null_url {
-    return Intl.message(
-      'Server URL cannot be null',
-      name: 'error_null_url',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Malformed server URL`
-  String get error_server_malformed {
-    return Intl.message(
-      'Malformed server URL',
-      name: 'error_server_malformed',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Settings app not supported`
-  String get error_settings_app_not_supported {
-    return Intl.message(
-      'Settings app not supported',
-      name: 'error_settings_app_not_supported',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Settings app not installed`
-  String get error_settings_app_not_intalled {
-    return Intl.message(
-      'Settings app not installed',
-      name: 'error_settings_app_not_intalled',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Socket timeout`
-  String get error_socket_timeout {
-    return Intl.message(
-      'Socket timeout',
-      name: 'error_socket_timeout',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Relationships cannot be updated`
-  String get error_relationship_updated {
-    return Intl.message(
-      'Relationships cannot be updated',
-      name: 'error_relationship_updated',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Too many periods`
-  String get error_too_many_periods {
-    return Intl.message(
-      'Too many periods',
-      name: 'error_too_many_periods',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `URL not found`
-  String get error_url_not_found {
-    return Intl.message(
-      'URL not found',
-      name: 'error_url_not_found',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `User account disabled`
-  String get error_account_disabled {
-    return Intl.message(
-      'User account disabled',
-      name: 'error_account_disabled',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `User account locked`
-  String get error_account_locked {
-    return Intl.message(
-      'User account locked',
-      name: 'error_account_locked',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Value cannot be set`
-  String get error_set_value {
-    return Intl.message(
-      'Value cannot be set',
-      name: 'error_set_value',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Values reservation took too long`
-  String get error_value_reservation_time {
-    return Intl.message(
-      'Values reservation took too long',
-      name: 'error_value_reservation_time',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `SSL error`
-  String get error_ssl {
-    return Intl.message(
-      'SSL error',
-      name: 'error_ssl',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `SMS not supported`
-  String get error_sms_not_supported {
-    return Intl.message(
-      'SMS not supported',
-      name: 'error_sms_not_supported',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Minimum search attributes required`
-  String get error_min_attributes {
-    return Intl.message(
-      'Minimum search attributes required',
-      name: 'error_min_attributes',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Org unit not in search scope`
-  String get error_org_unit_scope {
-    return Intl.message(
-      'Org unit not in search scope',
-      name: 'error_org_unit_scope',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Invalid characters`
-  String get error_invalid_characters {
-    return Intl.message(
-      'Invalid characters',
-      name: 'error_invalid_characters',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Not mapped error`
-  String get notMappedError {
-    return Intl.message(
-      'Not mapped error',
-      name: 'notMappedError',
-      desc: '',
-      args: [],
+      args: [error],
     );
   }
 
@@ -1449,6 +1009,196 @@ class S {
     return Intl.message(
       'Language',
       name: 'language',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `your data will not be deleted when you login back again`
+  String get logoutNote {
+    return Intl.message(
+      'your data will not be deleted when you login back again',
+      name: 'logoutNote',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Form contains some errors`
+  String get formContainsSomeErrors {
+    return Intl.message(
+      'Form contains some errors',
+      name: 'formContainsSomeErrors',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dismiss`
+  String get dismiss {
+    return Intl.message(
+      'Dismiss',
+      name: 'dismiss',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fields with Error`
+  String get fieldsWithErrorInfo {
+    return Intl.message(
+      'Fields with Error',
+      name: 'fieldsWithErrorInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Review Form`
+  String get reviewFormData {
+    return Intl.message(
+      'Review Form',
+      name: 'reviewFormData',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check Fields later`
+  String get checkFieldsLater {
+    return Intl.message(
+      'Check Fields later',
+      name: 'checkFieldsLater',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Make Form Final for Send to server, or save as draft!`
+  String get makeFormFinalOrSaveBody {
+    return Intl.message(
+      'Make Form Final for Send to server, or save as draft!',
+      name: 'makeFormFinalOrSaveBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete this item?`
+  String get deleteConfirmationMessage {
+    return Intl.message(
+      'Are you sure you want to delete this item?',
+      name: 'deleteConfirmationMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Form Summary View`
+  String get formSummaryView {
+    return Intl.message(
+      'Form Summary View',
+      name: 'formSummaryView',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit`
+  String get edit {
+    return Intl.message(
+      'Edit',
+      name: 'edit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No internet access`
+  String get noInternetAccess {
+    return Intl.message(
+      'No internet access',
+      name: 'noInternetAccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `online!`
+  String get online {
+    return Intl.message(
+      'online!',
+      name: 'online',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Empty`
+  String get empty {
+    return Intl.message(
+      'Empty',
+      name: 'empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save and Check`
+  String get saveAndCheck {
+    return Intl.message(
+      'Save and Check',
+      name: 'saveAndCheck',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save`
+  String get save {
+    return Intl.message(
+      'Save',
+      name: 'save',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete`
+  String get delete {
+    return Intl.message(
+      'Delete',
+      name: 'delete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `field Contain Errors`
+  String get fieldContainErrors {
+    return Intl.message(
+      'field Contain Errors',
+      name: 'fieldContainErrors',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Starting sync...`
+  String get startingSync {
+    return Intl.message(
+      'Starting sync...',
+      name: 'startingSync',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Server URL`
+  String get serverUrl {
+    return Intl.message(
+      'Server URL',
+      name: 'serverUrl',
       desc: '',
       args: [],
     );

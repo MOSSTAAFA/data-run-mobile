@@ -1,12 +1,10 @@
+import 'package:datarun/core/common/state.dart';
 import 'package:equatable/equatable.dart';
-import 'package:mass_pro/commons/ui/metadata_icon_data.dart';
-import 'package:mass_pro/core/common/state.dart';
 
 class HomeItemModel with EquatableMixin {
   HomeItemModel(
       {this.uid = '',
       this.title = '',
-      this.metadataIconData,
       this.type,
       // this.programType = '',
 
@@ -23,9 +21,6 @@ class HomeItemModel with EquatableMixin {
 
   final String uid;
   final String title;
-
-  // final MetadataIconData metadataIconData;
-  final MetadataIconData? metadataIconData;
 
   /// Count of sub items, here it's a count for activities inside
   /// an item
@@ -62,7 +57,6 @@ class HomeItemModel with EquatableMixin {
   HomeItemModel copyWith(
           {final String? uid,
           String? title,
-          MetadataIconData? metadataIconData,
           int? count,
           String? type,
           String? typeName,
@@ -80,7 +74,6 @@ class HomeItemModel with EquatableMixin {
       HomeItemModel(
           uid: uid ?? this.uid,
           title: title ?? this.title,
-          metadataIconData: metadataIconData ?? this.metadataIconData,
           count: count ?? this.count,
           type: type ?? this.type,
           // programType: programType ?? this.programType,
@@ -97,7 +90,6 @@ class HomeItemModel with EquatableMixin {
   List<Object?> get props => [
         uid,
         title,
-        metadataIconData,
         count,
         type,
         // programType,

@@ -1,48 +1,9 @@
-import 'package:mass_pro/commons/data_run/utils/view_actions.dart';
-import 'package:mass_pro/data_run/screens/view/view_abstract.dart';
+import 'package:datarun/data_run/screens/view/view_abstract.dart';
 
 /// any screen ActivityGlobalAbstract
 mixin ViewBase implements ViewAbstract {
   // final PinDialog pinDialog;
   void onCreate() {
-    // ServerComponent serverComponent = ((App) getApplicationContext()).getServerComponent();
-    // if (serverComponent != null) {
-    //     serverComponent.openIdSession().setSessionCallback(this, logOutReason -> {
-    //         startActivity(LoginActivity.class, LoginActivity.Companion.bundle(true, -1, false, logOutReason), true, true, null);
-    //         return Unit.INSTANCE;
-    //     });
-    //     if (serverComponent.userManager().isUserLoggedIn().blockingFirst() &&
-    //             !serverComponent.userManager().allowScreenShare()) {
-    //         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
-    //     }
-    // }
-
-    // if (!getResources().getBoolean(bool.is_tablet))
-    //     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
-
-    // SharedPreferences prefs = getSharedPreferences();
-    // if (this is MainActivity || this is LoginActivity || this is SplashActivity || this is AccountsActivity) {
-    //     if (serverComponent != null) {
-    //         serverComponent.themeManager().clearProgramTheme();
-    //     }
-    //     prefs.edit().remove(Constants.PROGRAM_THEME).apply();
-    // }
-
-    // if (!(this is SplashActivity) &&
-    //         !(this is LoginActivity) &&
-    //         !(this is AccountsActivity) &&
-    //         !(this is ScanActivity)
-    // ) {
-    //     if (serverComponent != null) {
-    //         setTheme(serverComponent.themeManager().getProgramTheme());
-    //     } else {
-    //         setTheme(style.AppTheme);
-    //     }
-    // }
-  }
-
-  List<ViewAction> getMoreOptions() {
-    return ViewAction.homeMoreActions();
   }
 
   @override

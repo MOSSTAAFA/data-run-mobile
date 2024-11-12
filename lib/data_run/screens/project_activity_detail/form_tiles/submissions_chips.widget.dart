@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/commons/custom_widgets/async_value.widget.dart';
-import 'package:mass_pro/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
-import 'package:mass_pro/data_run/screens/project_activity_detail/form_tiles/form_submissions_status.provider.dart';
+import 'package:datarun/commons/custom_widgets/async_value.widget.dart';
+import 'package:datarun/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
+import 'package:datarun/data_run/screens/project_activity_detail/form_tiles/form_submissions_status.provider.dart';
 
 class SubmissionsChips extends ConsumerWidget {
   const SubmissionsChips({super.key});

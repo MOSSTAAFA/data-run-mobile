@@ -4,15 +4,14 @@ import 'package:d2_remote/modules/datarun/form/entities/form_version.entity.dart
 import 'package:d2_remote/modules/datarun/form/shared/attribute_type.dart';
 import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
-import 'package:d2_remote/modules/datarun/form/shared/option_set.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/reference_field_info.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule/rule.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:mass_pro/data_run/screens/form_module/form_template/flat_template_factory.dart';
-import 'package:mass_pro/data_run/screens/form_module/form_template/path_walking_service.dart';
+import 'package:datarun/data_run/screens/form_module/form_template/flat_template_factory.dart';
+import 'package:datarun/data_run/screens/form_module/form_template/path_walking_service.dart';
 
 @immutable
 class FormFlatTemplate with PathWalkingService {
@@ -31,7 +30,9 @@ class FormFlatTemplate with PathWalkingService {
             key: (option) => option.listName,
             value: (option) => formTemplate.options
                 .where((o) => o.listName == option.listName)
-                .toList());
+                .toList()) {
+    _flatFields.addAll(fields);
+  }
 
   final FormVersion formTemplate;
   final List<FormElementTemplate> _flatFields = [];
@@ -83,6 +84,16 @@ sealed class FormElementTemplate
   final String? fieldValueRenderingType;
   final IMap<String, String> label;
   final IList<Rule> rules;
+
+  String? get parentPath {
+    final pathSegments = path?.split('.') ?? [];
+    if (pathSegments.length > 1) {
+      final parentPath =
+      pathSegments.sublist(0, pathSegments.length - 1).join('.');
+      return parentPath;
+    }
+    return null;
+  }
 
   /// <name, path>
   final IList<String> ruleDependencies;

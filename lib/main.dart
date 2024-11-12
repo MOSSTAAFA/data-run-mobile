@@ -1,29 +1,37 @@
 import 'dart:async';
 
 import 'package:d2_remote/d2_remote.dart';
+import 'package:d2_remote/modules/datarun_shared/utilities/authenticated_user.dart';
+import 'package:datarun/commons/prefs/preference_provider.dart';
+import 'package:datarun/core/auth/auth_service.dart';
+import 'package:datarun/core/auth/user_session_manager.dart';
+import 'package:datarun/core/network/connectivy_service.dart';
+import 'package:datarun/data_run/screens/login_screen/auth_wrapper.dart';
+import 'package:datarun/generated/l10n.dart';
+import 'package:datarun/main.reflectable.dart';
+import 'package:datarun/main_constants/main_constants.dart';
+import 'package:datarun/utils/app_appearance.dart';
+import 'package:datarun/utils/navigator_key.dart';
+import 'package:datarun/utils/user_preferences/preference.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/commons/prefs/preference_provider.dart';
-import 'package:mass_pro/generated/l10n.dart';
-import 'package:mass_pro/main/usescases/splash/splash_screen.widget.dart';
-import 'package:mass_pro/main_constants/main_constants.dart';
-import 'package:mass_pro/utils/app_appearance.dart';
-import 'package:mass_pro/utils/navigator_key.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
 
-import 'package:mass_pro/main.reflectable.dart';
+AuthenticationResult? authenticationResult;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   initializeReflectable();
 
   await PreferenceProvider.initialize();
+  final sharedPreferences = await SharedPreferences.getInstance();
 
-  await D2Remote.initialize(
-      /*
-      databaseFactory: kIsWeb ? databaseFactoryFfiWeb : null*/
-      );
+  // // SDK initialization and repository setup
+  // await D2Remote.initialize();
+
+  await ConnectivityService.instance.initialize();
 
   FlutterError.demangleStackTrace = (StackTrace stack) {
     if (stack is stack_trace.Trace) {
@@ -35,40 +43,57 @@ Future<void> main() async {
     return stack;
   };
 
-  // await SentryFlutter.init(
-  //   (options) {
-  //     options.dsn =
-  //         'https://c39a75530f4b8694183508a689bbafb7@o4504831846645760.ingest.us.sentry.io/4507587127214080';
-  //     // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
-  //     // We recommend adjusting this value in production.
-  //     // options.tracesSampleRate = 1.0;
-  //     // The sampling rate for profiling is relative to tracesSampleRate
-  //     // Setting to 1.0 will profile 100% of sampled transactions:
-  //     // options.profilesSampleRate = 1.0;
-  //   },
-  //   appRunner: () => runApp(ProviderScope(
-  //     child: const App(),
-  //   )),
-  // );
+  final userSessionManager = UserSessionManager(sharedPreferences);
+
+  final authService = AuthService(userSessionManager);
+
+  // does the user have active session in preference (local check)
+  final bool hasExistingSession = userSessionManager.isAuthenticated;
+
+  // is has active session initialize, otherwise it will be initialized
+  // by user login in.
+  if (hasExistingSession) {
+    await D2Remote.initialize();
+  }
+
   runApp(ProviderScope(
-    child: const App(),
+    overrides: [
+      sharedPreferencesProvider.overrideWithValue(sharedPreferences),
+      authServiceProvider.overrideWithValue(authService),
+      userSessionManagerProvider.overrideWithValue(userSessionManager),
+    ],
+    child: App(
+      isAuthenticated: hasExistingSession,
+    ),
   ));
 }
 
 class App extends ConsumerWidget {
-  const App({super.key});
+  const App({super.key, required this.isAuthenticated});
+
+  final bool isAuthenticated;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // const locale = Locale('en', 'en_us');
-    const Locale locale = Locale('ar', '');
+    final language = ref.watch(preferenceNotifierProvider(Preference.language));
+
+    Locale locale = Locale(language, language == 'en' ? 'en_US' : '');
 
     return MaterialApp(
       navigatorKey: navigatorKey,
       title: 'Datarun',
       debugShowCheckedModeBanner: false,
       themeMode: ref.watch(appAppearanceNotifierProvider).themeMode,
-      theme: ThemeData(
+      theme: getTheme(ref),
+      darkTheme: getDarkTheme(ref),
+      localizationsDelegates: localizationsDelegates,
+      supportedLocales: supportedLocales,
+      locale: locale,
+      home: AuthWrapper(isAuthenticated: isAuthenticated),
+    );
+  }
+
+  ThemeData getTheme(WidgetRef ref) => ThemeData(
         colorSchemeSeed:
             ref.watch(appAppearanceNotifierProvider).colorSelectionMethod ==
                     ColorSelectionMethod.colorSeed
@@ -81,8 +106,9 @@ class App extends ConsumerWidget {
                 : null,
         useMaterial3: ref.watch(appAppearanceNotifierProvider).useMaterial3,
         brightness: Brightness.light,
-      ),
-      darkTheme: ThemeData(
+      );
+
+  ThemeData getDarkTheme(WidgetRef ref) => ThemeData(
         colorSchemeSeed: ref
                     .watch(appAppearanceNotifierProvider)
                     .colorSelectionMethod ==
@@ -91,20 +117,18 @@ class App extends ConsumerWidget {
             : ref.watch(appAppearanceNotifierProvider).imageColorScheme.primary,
         useMaterial3: ref.watch(appAppearanceNotifierProvider).useMaterial3,
         brightness: Brightness.dark,
-      ),
-      localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
-        // L.delegate,
-        S.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      supportedLocales: const <Locale>[
-        Locale('ar', ''),
-        Locale('en', 'en_us'),
-      ],
-      locale: locale,
-      home: SplashScreen(),
-    );
-  }
+      );
+
+  final supportedLocales = const <Locale>[
+    Locale('ar', ''),
+    Locale('en', 'en_us'),
+  ];
+
+  final localizationsDelegates = const <LocalizationsDelegate<dynamic>>[
+    // L.delegate,
+    S.delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+  ];
 }

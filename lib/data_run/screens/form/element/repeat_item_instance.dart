@@ -5,9 +5,10 @@ class RepeatItemInstance extends SectionInstance {
   RepeatItemInstance(
       {required super.template,
       required super.form,
-      // required super.path,
-      // required super.formValueMap,
-      super.elements});
+      super.elements,
+      this.selected = false});
+
+  bool selected;
 
   int get sectionIndex => (parentSection as RepeatInstance)
       .sectionIndexWhere((section) => section == this);
@@ -23,7 +24,6 @@ class RepeatItemInstance extends SectionInstance {
 
     _parentSection = parent;
   }
-
 
   String get pathRecursive {
     if (parentSection == null) {

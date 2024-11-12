@@ -1,8 +1,7 @@
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:equatable/equatable.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:mass_pro/commons/extensions/list_extensions.dart';
-import 'package:mass_pro/data_run/utils/get_item_local_string.dart';
+import 'package:datarun/commons/extensions/list_extensions.dart';
 
 class FormElementState with EquatableMixin {
   final bool hidden;
@@ -30,26 +29,6 @@ class FormElementState with EquatableMixin {
   @override
   List<Object?> get props => [hidden, mandatory, ...errors.values];
 }
-//
-// class SectionElementState extends FormElementState {
-//   const SectionElementState({
-//     super.hidden,
-//     super.mandatory,
-//     super.errors,
-//   });
-//
-//   SectionElementState copyWith({
-//     bool? hidden,
-//     bool? mandatory,
-//     Map<String, dynamic>? errors,
-//   }) {
-//     return SectionElementState(
-//       hidden: hidden ?? this.hidden,
-//       mandatory: mandatory ?? this.mandatory,
-//       errors: errors ?? this.errors,
-//     );
-//   }
-// }
 
 class FieldElementState<T> extends FormElementState {
   final T? value;

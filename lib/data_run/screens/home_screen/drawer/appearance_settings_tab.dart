@@ -1,8 +1,8 @@
+import 'package:datarun/generated/l10n.dart';
+import 'package:datarun/main_constants/main_constants.dart';
+import 'package:datarun/utils/app_appearance.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mass_pro/generated/l10n.dart';
-import 'package:mass_pro/main_constants/main_constants.dart';
-import 'package:mass_pro/utils/app_appearance.dart';
 
 class AppearanceSettingsTab extends ConsumerWidget {
   @override
@@ -14,7 +14,8 @@ class AppearanceSettingsTab extends ConsumerWidget {
           trailing: Switch(
             value: Theme.of(context).brightness == Brightness.light,
             onChanged: (value) {
-              ref.read(appAppearanceNotifierProvider.notifier)
+              ref
+                  .read(appAppearanceNotifierProvider.notifier)
                   .handleBrightnessChange(value);
             },
           ),
@@ -25,7 +26,8 @@ class AppearanceSettingsTab extends ConsumerWidget {
             icon: Theme.of(context).useMaterial3
                 ? Icon(Icons.filter_2)
                 : Icon(Icons.filter_3),
-            onPressed: () => ref.read(appAppearanceNotifierProvider.notifier)
+            onPressed: () => ref
+                .read(appAppearanceNotifierProvider.notifier)
                 .handleMaterialVersionChange(),
           ),
         ),
@@ -60,7 +62,7 @@ class _ColorSeedButton extends ConsumerWidget {
           return PopupMenuItem(
             value: index,
             enabled: currentColor !=
-                ref.watch(appAppearanceNotifierProvider).colorSelected ||
+                    ref.watch(appAppearanceNotifierProvider).colorSelected ||
                 ref.watch(appAppearanceNotifierProvider).colorSelectionMethod !=
                     ColorSelectionMethod.colorSeed,
             child: Wrap(
@@ -69,13 +71,13 @@ class _ColorSeedButton extends ConsumerWidget {
                   padding: const EdgeInsets.only(left: 10),
                   child: Icon(
                     currentColor ==
-                        ref
-                            .watch(appAppearanceNotifierProvider)
-                            .colorSelected &&
-                        ref
-                            .watch(appAppearanceNotifierProvider)
-                            .colorSelectionMethod !=
-                            ColorSelectionMethod.image
+                                ref
+                                    .watch(appAppearanceNotifierProvider)
+                                    .colorSelected &&
+                            ref
+                                    .watch(appAppearanceNotifierProvider)
+                                    .colorSelectionMethod !=
+                                ColorSelectionMethod.image
                         ? Icons.color_lens
                         : Icons.color_lens_outlined,
                     color: currentColor.color,
@@ -91,7 +93,7 @@ class _ColorSeedButton extends ConsumerWidget {
         });
       },
       onSelected:
-      ref.read(appAppearanceNotifierProvider.notifier).handleColorSelect,
+          ref.read(appAppearanceNotifierProvider.notifier).handleColorSelect,
     );
   }
 }
@@ -114,7 +116,7 @@ class _ColorImageButton extends ConsumerWidget {
           return PopupMenuItem(
             value: index,
             enabled: currentImageProvider !=
-                ref.watch(appAppearanceNotifierProvider).imageSelected ||
+                    ref.watch(appAppearanceNotifierProvider).imageSelected ||
                 ref.watch(appAppearanceNotifierProvider).colorSelectionMethod !=
                     ColorSelectionMethod.image,
             child: Wrap(
@@ -145,7 +147,7 @@ class _ColorImageButton extends ConsumerWidget {
         });
       },
       onSelected:
-      ref.read(appAppearanceNotifierProvider.notifier).handleImageSelect,
+          ref.read(appAppearanceNotifierProvider.notifier).handleImageSelect,
     );
   }
 }

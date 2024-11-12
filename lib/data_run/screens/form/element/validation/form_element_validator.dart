@@ -1,6 +1,6 @@
 import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
-import 'package:mass_pro/generated/l10n.dart';
+import 'package:datarun/generated/l10n.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
 class FieldValidators {
@@ -24,15 +24,6 @@ class FieldValidators {
       validators.addAll([Validators.min(0), Validators.maxLength(100)]);
     return validators.toList();
   }
-
-  Map<String, String Function(Object error)> validationMessages(BuildContext context) => {
-    'required': (error) => S.of(context).thisFieldIsRequired,
-    'email': (error) => S.of(context).pleaseEnterAValidEmailAddress,
-    'number': (error) => S.of(context).enterAValidNumber,
-    'min': (error) => S.of(context).valueMustBeGreaterThanOrEqualToError(error),
-    'max': (error) => S.of(context).valueMustBeLessThanOrEqualToError(error),
-    'maxLength': (error) => S.of(context).maximumAllowedLengthIsError(error),
-  };
 
   static Map<String, String Function(Object error)> getValidationMessages(
       ElementAttributesMixin element) {
@@ -67,7 +58,8 @@ class FieldValidators {
   }
 }
 
-Map<String, String Function(Object error)> validationMessages(BuildContext context) => {
+
+Map<String, ValidationMessageFunction> validationMessages(BuildContext context) => {
   'required': (error) => S.of(context).thisFieldIsRequired,
   'email': (error) => S.of(context).pleaseEnterAValidEmailAddress,
   'number': (error) => S.of(context).enterAValidNumber,

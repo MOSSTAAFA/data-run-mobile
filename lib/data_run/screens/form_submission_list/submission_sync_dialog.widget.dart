@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mass_pro/generated/l10n.dart';
+import 'package:datarun/generated/l10n.dart';
 
 class SyncDialog extends ConsumerStatefulWidget {
   const SyncDialog({

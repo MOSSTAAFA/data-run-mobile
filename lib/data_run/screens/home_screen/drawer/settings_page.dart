@@ -1,10 +1,11 @@
+import 'package:datarun/data_run/screens/home_screen/drawer/appearance_settings_tab.dart';
+import 'package:datarun/data_run/screens/home_screen/drawer/user_settings_tab.dart';
+import 'package:datarun/generated/l10n.dart';
 import 'package:flutter/material.dart';
-import 'package:mass_pro/data_run/screens/home_screen/drawer/appearance_settings_tab.dart';
-import 'package:mass_pro/data_run/screens/home_screen/drawer/user_settings_tab.dart';
-import 'package:mass_pro/generated/l10n.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage();
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(

@@ -2,16 +2,21 @@ part of 'form_element_model.dart';
 
 class FieldElementModel<T> extends FormElementModel<T> {
   FieldElementModel({
-    T? value,
-    required super.name,
-    super.path,
+    required super.templatePath,
+    super.value,
     super.hidden,
-    super.mandatory,
-  }) {
-    if (value != null) this._value = value;
-  }
+    super.valid,
+    super.dirty,
+    bool mandatory = false,
+  }) : _mandatory = mandatory;
 
-  T? _value;
+  bool _mandatory;
+
+  bool get mandatory => _mandatory;
+
+  void toggleMandatory() {
+    _mandatory = !_mandatory;
+  }
 
   @override
   void updateValue(T? value,
@@ -25,10 +30,43 @@ class FieldElementModel<T> extends FormElementModel<T> {
   T? reduceValue() => _value;
 
   @override
+  bool anyElements(bool Function(FormElementModel<dynamic>) condition) => false;
+
+  @override
   FormElementModel<dynamic>? findElement(String path) => this;
 
   @override
   void forEachChild(
           void Function(FormElementModel<dynamic> element) callback) =>
       <FormElementModel<dynamic>>[];
+
+  @override
+  FieldElementModel<T> clone() {
+    final result =  FieldElementModel(
+        hidden: hidden,
+        value: value,
+        dirty: dirty,
+        valid: valid,
+        mandatory: mandatory,
+        templatePath: templatePath);
+    result.setDependencies(List.from(dependencies));
+    result.parent = parent;
+    return result;
+  }
+}
+
+class SelectFieldElementModel<T> extends FieldElementModel<T> {
+  SelectFieldElementModel(
+      {
+      required super.templatePath,
+      super.value,
+      super.hidden,
+      super.valid,
+      super.dirty,
+      super.mandatory,
+      this.choiceFilter,
+      this.listName});
+
+  final ChoiceFilter? choiceFilter;
+  final String? listName;
 }

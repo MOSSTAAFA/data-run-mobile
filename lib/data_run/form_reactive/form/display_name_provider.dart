@@ -1,5 +1,5 @@
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
-import 'package:mass_pro/data_run/form_reactive/form/org_unit_d_configuration.dart';
+import 'package:datarun/data_run/form_reactive/form/org_unit_d_configuration.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'display_name_provider.g.dart';

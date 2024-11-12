@@ -11,6 +11,7 @@ const String kApiBaseUrl = 'http://api.nmcpye.org';
 // const String kApiBaseUrl = 'http://10.0.2.2:8080'; // Vm network
 // const String kApiBaseUrl = 'http://192.168.8.110:8080'; // hNet
 // const String kApiBaseUrl = 'http://192.168.137.1:8080'; // mobile hotspot
+// const String kApiBaseUrl = 'http://172.20.96.1:8080'; // hNet
 
 
 const String kAppVersion = 'v1.0.0';
@@ -278,10 +279,4 @@ const String DATA_TIME = 'data_time';
 const String METADATA_TIME = 'metadata_time';
 
 // Sync Output
-const String METADATA_STATE = 'METADATA_STATE';
-const String METADATA_MESSAGE = 'METADATA_MESSAGE';
 
-//PREFERENCES
-const String SHARE_PREFS = 'org.dhis2';
-const String PREFS_URLS = 'pref_urls';
-const String PREFS_USERS = 'pref_users';

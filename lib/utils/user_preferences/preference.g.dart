@@ -54,13 +54,37 @@ abstract class _$PreferenceNotifier<T> extends BuildlessAutoDisposeNotifier<T> {
   );
 }
 
-/// See also [PreferenceNotifier].
+/// read
+///
+/// ref.watch(preferenceNotifierProvider(Preference.shouldShowWalkthrough));
+///
+/// write
+///
+/// ref.read(preferenceNotifierProvider(Preference.shouldShowWalkthrough).notifier).update(false);
+///
+/// Copied from [PreferenceNotifier].
 @ProviderFor(PreferenceNotifier)
 const preferenceNotifierProvider = PreferenceNotifierFamily();
 
-/// See also [PreferenceNotifier].
+/// read
+///
+/// ref.watch(preferenceNotifierProvider(Preference.shouldShowWalkthrough));
+///
+/// write
+///
+/// ref.read(preferenceNotifierProvider(Preference.shouldShowWalkthrough).notifier).update(false);
+///
+/// Copied from [PreferenceNotifier].
 class PreferenceNotifierFamily extends Family {
-  /// See also [PreferenceNotifier].
+  /// read
+  ///
+  /// ref.watch(preferenceNotifierProvider(Preference.shouldShowWalkthrough));
+  ///
+  /// write
+  ///
+  /// ref.read(preferenceNotifierProvider(Preference.shouldShowWalkthrough).notifier).update(false);
+  ///
+  /// Copied from [PreferenceNotifier].
   const PreferenceNotifierFamily();
 
   static const Iterable<ProviderOrFamily>? _dependencies = null;
@@ -77,7 +101,15 @@ class PreferenceNotifierFamily extends Family {
   @override
   String? get name => r'preferenceNotifierProvider';
 
-  /// See also [PreferenceNotifier].
+  /// read
+  ///
+  /// ref.watch(preferenceNotifierProvider(Preference.shouldShowWalkthrough));
+  ///
+  /// write
+  ///
+  /// ref.read(preferenceNotifierProvider(Preference.shouldShowWalkthrough).notifier).update(false);
+  ///
+  /// Copied from [PreferenceNotifier].
   PreferenceNotifierProvider<T> call<T>(
     Preference<T> pref,
   ) {
@@ -118,10 +150,26 @@ class _$PreferenceNotifierFamilyOverride implements FamilyOverride {
   }
 }
 
-/// See also [PreferenceNotifier].
+/// read
+///
+/// ref.watch(preferenceNotifierProvider(Preference.shouldShowWalkthrough));
+///
+/// write
+///
+/// ref.read(preferenceNotifierProvider(Preference.shouldShowWalkthrough).notifier).update(false);
+///
+/// Copied from [PreferenceNotifier].
 class PreferenceNotifierProvider<T>
     extends AutoDisposeNotifierProviderImpl<PreferenceNotifier<T>, T> {
-  /// See also [PreferenceNotifier].
+  /// read
+  ///
+  /// ref.watch(preferenceNotifierProvider(Preference.shouldShowWalkthrough));
+  ///
+  /// write
+  ///
+  /// ref.read(preferenceNotifierProvider(Preference.shouldShowWalkthrough).notifier).update(false);
+  ///
+  /// Copied from [PreferenceNotifier].
   PreferenceNotifierProvider(
     Preference<T> pref,
   ) : this._internal(

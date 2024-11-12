@@ -2,31 +2,27 @@ import 'dart:async';
 
 import 'package:d2_remote/modules/datarun/form/shared/rule/rule_parse_extension.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:mass_pro/commons/logging/logging.dart';
-import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
+import 'package:datarun/commons/logging/logging.dart';
+import 'package:datarun/data_run/screens/form/element/form_element.dart';
 
 void useRegisterDependencies<E extends FormElementInstance<dynamic>>(E element,
     [List<String> unresolvedDependencies = const []]) {
   /// resolve and cache a form element dependencies
   final resolvedDependency = useMemoized(() {
     return _resolveFormElementDependencies(element);
-  }, [
-    element.template.dependencies,
-    element.template.filterDependencies,
-    element.elementPath
-  ]);
+  }, [element.elementPath]);
 
   /// bind dependencies
   useEffect(() {
-    if (element is FieldInstance) {
-      element.elementControl!.valueChanges.listen((value) {
-        if (value == null) {
-          element.updateStatus(element.elementState.reset(value: value));
-        } else {
-          element.updateStatus(element.elementState.copyWith(value: value));
-        }
-      });
-    }
+    // if (element is FieldInstance) {
+    //   element.elementControl!.valueChanges.listen((value) {
+    //     if (value == null) {
+    //       element.updateStatus(element.elementState.reset(value: value));
+    //     } else {
+    //       element.updateStatus(element.elementState.copyWith(value: value));
+    //     }
+    //   });
+    // }
 
     // bind to the
     for (final elementDependency in resolvedDependency.values) {

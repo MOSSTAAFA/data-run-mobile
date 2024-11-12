@@ -20,33 +20,51 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static String m0(count) =>
-      "${Intl.plural(count, zero: 'no forms available', one: '1 form available', two: '2 forms available', other: '${count} forms available')}";
+  static String m0(error) =>
+      "An error occurred while interacting with the API \$${error}.";
 
-  static String m1(error) => "The maximum allowed length is \$${error}.";
+  static String m1(error) => "Database returned an Error \$${error}.";
 
   static String m2(count) =>
-      "${Intl.plural(count, zero: ' ', one: '1 Month', two: '2 Months', few: '${count} Years', other: '${count} Months')}";
+      "${Intl.plural(count, zero: 'no forms available', one: '1 form available', two: '2 forms available', other: '${count} forms available')}";
 
-  static String m5(error) =>
-      "The value must be greater than or equal to \$${error}.";
-
-  static String m3(error) =>
-      "The value must be less than or equal to \$${error}.";
+  static String m3(error) => "The maximum allowed length is \$${error}.";
 
   static String m4(count) =>
+      "${Intl.plural(count, zero: ' ', one: '1 Month', two: '2 Months', few: '${count} Years', other: '${count} Months')}";
+
+  static String m5(error) => "Error While Trying to Sync data \$${error}.";
+
+  static String m6(error) => "Error: \$${error}.";
+
+  static String m7(error) =>
+      "The value must be greater than or equal to \$${error}.";
+
+  static String m8(error) =>
+      "The value must be less than or equal to \$${error}.";
+
+  static String m9(count) =>
       "${Intl.plural(count, zero: ' ', one: '1 Year', two: '2 Years', few: '${count} Years', other: '${count} Years')}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "accept": MessageLookupByLibrary.simpleMessage("Accept"),
+        "accountDisabled": MessageLookupByLibrary.simpleMessage(
+            "This account is disabled. contact Administrator for details."),
         "addNew": MessageLookupByLibrary.simpleMessage("Add New"),
         "and": MessageLookupByLibrary.simpleMessage("And"),
+        "apiError": m0,
         "appName": MessageLookupByLibrary.simpleMessage("Datarun"),
         "appearance": MessageLookupByLibrary.simpleMessage("Appearance"),
+        "authInvalidCredentials": MessageLookupByLibrary.simpleMessage(
+            "Invalid login credentials provided."),
+        "authSessionExpired": MessageLookupByLibrary.simpleMessage(
+            "Your session has expired. Please log in again."),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "changePassword":
             MessageLookupByLibrary.simpleMessage("Change Password"),
+        "checkFieldsLater":
+            MessageLookupByLibrary.simpleMessage("Check Fields later"),
         "clear": MessageLookupByLibrary.simpleMessage("Clear"),
         "configurationReady":
             MessageLookupByLibrary.simpleMessage("Configuration Ready"),
@@ -58,7 +76,20 @@ class MessageLookup extends MessageLookupByLibrary {
         "currentUsername":
             MessageLookupByLibrary.simpleMessage("Current username"),
         "dashboard": MessageLookupByLibrary.simpleMessage("Dashboard"),
+        "databaseConnectionFailed": MessageLookupByLibrary.simpleMessage(
+            "Failed to connect to the database."),
+        "databaseInternalError": m1,
+        "databaseQueryFailed": MessageLookupByLibrary.simpleMessage(
+            "Error occurred while querying the database."),
+        "delete": MessageLookupByLibrary.simpleMessage("Delete"),
+        "deleteConfirmationMessage": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to delete this item?"),
+        "differentOfflineUser": MessageLookupByLibrary.simpleMessage(
+            "Different authenticated user offline"),
         "discard": MessageLookupByLibrary.simpleMessage("Discard"),
+        "dismiss": MessageLookupByLibrary.simpleMessage("Dismiss"),
+        "edit": MessageLookupByLibrary.simpleMessage("Edit"),
+        "empty": MessageLookupByLibrary.simpleMessage("Empty"),
         "enterAValidNumber": MessageLookupByLibrary.simpleMessage(
             "Please enter a valid number."),
         "enterYourUsername":
@@ -66,112 +97,19 @@ class MessageLookup extends MessageLookupByLibrary {
         "error": MessageLookupByLibrary.simpleMessage("Error"),
         "errorOpeningNewForm":
             MessageLookupByLibrary.simpleMessage("Error Opening New Form"),
-        "error_access_keystore":
-            MessageLookupByLibrary.simpleMessage("Cannot access keystore"),
-        "error_account_disabled":
-            MessageLookupByLibrary.simpleMessage("User account disabled"),
-        "error_account_locked":
-            MessageLookupByLibrary.simpleMessage("User account locked"),
-        "error_already_authenticated":
-            MessageLookupByLibrary.simpleMessage("User already authenticated"),
-        "error_already_executed":
-            MessageLookupByLibrary.simpleMessage("Action already executed"),
-        "error_api_invalid_query":
-            MessageLookupByLibrary.simpleMessage("Invalid API query"),
-        "error_app_name_not_set":
-            MessageLookupByLibrary.simpleMessage("App name not set"),
-        "error_app_version_not_set":
-            MessageLookupByLibrary.simpleMessage("App version not set"),
-        "error_create_existing_error": MessageLookupByLibrary.simpleMessage(
-            "Cannot create existing object"),
-        "error_delete_non_existing_object":
-            MessageLookupByLibrary.simpleMessage(
-                "Cannot delete non-existing object"),
-        "error_different_offline_user": MessageLookupByLibrary.simpleMessage(
-            "Different authenticated user offline"),
-        "error_export_encrypted": MessageLookupByLibrary.simpleMessage(
-            "Encrypted export not supported"),
-        "error_export_login":
-            MessageLookupByLibrary.simpleMessage("Please login to export"),
-        "error_file_not_found":
-            MessageLookupByLibrary.simpleMessage("File not found"),
-        "error_file_resize":
-            MessageLookupByLibrary.simpleMessage("Failed resizing image"),
-        "error_generate_coordinate": MessageLookupByLibrary.simpleMessage(
-            "Impossible to generate coordinates"),
-        "error_import_exist":
-            MessageLookupByLibrary.simpleMessage("Import already exists"),
-        "error_import_logout":
-            MessageLookupByLibrary.simpleMessage("Logout before import"),
-        "error_import_version": MessageLookupByLibrary.simpleMessage(
-            "Import version higher than supported"),
-        "error_instance_keystore":
-            MessageLookupByLibrary.simpleMessage("Cannot instantiate keystore"),
-        "error_invalid_characters":
-            MessageLookupByLibrary.simpleMessage("Invalid characters"),
-        "error_invalid_geometry":
-            MessageLookupByLibrary.simpleMessage("Invalid geometry value"),
-        "error_job":
-            MessageLookupByLibrary.simpleMessage("Job report not available"),
-        "error_low_on_available_values": MessageLookupByLibrary.simpleMessage(
-            "Running low on available values"),
-        "error_many_requests":
-            MessageLookupByLibrary.simpleMessage("Too many requests"),
-        "error_max_tei_count_reached":
-            MessageLookupByLibrary.simpleMessage("Max TEI count reached"),
-        "error_min_attributes": MessageLookupByLibrary.simpleMessage(
-            "Minimum search attributes required"),
-        "error_no_reserved_values":
-            MessageLookupByLibrary.simpleMessage("No reserved values"),
-        "error_no_values_left_on_server": MessageLookupByLibrary.simpleMessage(
-            "Not enough values left to reserve on server"),
-        "error_null_url":
-            MessageLookupByLibrary.simpleMessage("Server URL cannot be null"),
-        "error_object_insert":
-            MessageLookupByLibrary.simpleMessage("Object cannot be inserted"),
-        "error_object_update":
-            MessageLookupByLibrary.simpleMessage("Object cannot be updated"),
-        "error_org_unit_scope": MessageLookupByLibrary.simpleMessage(
-            "Org unit not in search scope"),
-        "error_ownership_access":
-            MessageLookupByLibrary.simpleMessage("Ownership access denied"),
-        "error_relationship_updated": MessageLookupByLibrary.simpleMessage(
-            "Relationships cannot be updated"),
-        "error_reserve_value_on_server": MessageLookupByLibrary.simpleMessage(
-            "Could not reserve value on server"),
-        "error_server_malformed":
-            MessageLookupByLibrary.simpleMessage("Malformed server URL"),
-        "error_set_value":
-            MessageLookupByLibrary.simpleMessage("Value cannot be set"),
-        "error_settings_app_not_intalled":
-            MessageLookupByLibrary.simpleMessage("Settings app not installed"),
-        "error_settings_app_not_supported":
-            MessageLookupByLibrary.simpleMessage("Settings app not supported"),
-        "error_sms_not_supported":
-            MessageLookupByLibrary.simpleMessage("SMS not supported"),
-        "error_socket_timeout":
-            MessageLookupByLibrary.simpleMessage("Socket timeout"),
-        "error_ssl": MessageLookupByLibrary.simpleMessage("SSL error"),
-        "error_too_manu_org_units": MessageLookupByLibrary.simpleMessage(
-            "Too many organizational units"),
-        "error_too_many_periods":
-            MessageLookupByLibrary.simpleMessage("Too many periods"),
-        "error_unexpected": MessageLookupByLibrary.simpleMessage(
-            "An unexpected error occurred"),
-        "error_url_not_found":
-            MessageLookupByLibrary.simpleMessage("URL not found"),
-        "error_user_no_authenticated":
-            MessageLookupByLibrary.simpleMessage("No authenticated user"),
-        "error_user_no_authenticated_offline":
-            MessageLookupByLibrary.simpleMessage(
-                "No authenticated user offline"),
-        "error_value_reservation_time": MessageLookupByLibrary.simpleMessage(
-            "Values reservation took too long"),
         "fetchUpdates":
             MessageLookupByLibrary.simpleMessage("Fetch From Server"),
+        "fieldContainErrors":
+            MessageLookupByLibrary.simpleMessage("field Contain Errors"),
+        "fieldsWithErrorInfo":
+            MessageLookupByLibrary.simpleMessage("Fields with Error"),
         "finalData": MessageLookupByLibrary.simpleMessage("Final Data"),
         "firstName": MessageLookupByLibrary.simpleMessage("First Name"),
-        "form": m0,
+        "form": m2,
+        "formContainsSomeErrors":
+            MessageLookupByLibrary.simpleMessage("Form contains some errors"),
+        "formSummaryView":
+            MessageLookupByLibrary.simpleMessage("Form Summary View"),
         "fullName": MessageLookupByLibrary.simpleMessage("Full Name"),
         "hidePassword": MessageLookupByLibrary.simpleMessage("Hide Password"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
@@ -180,32 +118,30 @@ class MessageLookup extends MessageLookupByLibrary {
         "lastName": MessageLookupByLibrary.simpleMessage("Last Name"),
         "level": MessageLookupByLibrary.simpleMessage("Level"),
         "login": MessageLookupByLibrary.simpleMessage("Login"),
-        "loginErrorBadCredentials":
-            MessageLookupByLibrary.simpleMessage("Invalid credentials"),
-        "loginErrorErrorResponse":
-            MessageLookupByLibrary.simpleMessage("Error processing response"),
-        "loginErrorNoDataRunInstance":
-            MessageLookupByLibrary.simpleMessage("No server instance found"),
-        "loginErrorNullPass":
-            MessageLookupByLibrary.simpleMessage("Password cannot be null"),
-        "loginErrorNullUsername":
-            MessageLookupByLibrary.simpleMessage("Username cannot be null"),
-        "loginErrorUnknownHost":
-            MessageLookupByLibrary.simpleMessage("Unknown host"),
-        "loginErrorUnsuccessfulResponse": MessageLookupByLibrary.simpleMessage(
-            "Unsuccessful response from server"),
         "logout": MessageLookupByLibrary.simpleMessage("Logout"),
+        "logoutNote": MessageLookupByLibrary.simpleMessage(
+            "your data will not be deleted when you login back again"),
+        "makeFormFinalOrSaveBody": MessageLookupByLibrary.simpleMessage(
+            "Make Form Final for Send to server, or save as draft!"),
         "markAsFinalData": MessageLookupByLibrary.simpleMessage(
             "Make the form Final before exiting."),
-        "maximumAllowedLengthIsError": m1,
+        "maximumAllowedLengthIsError": m3,
         "middleName": MessageLookupByLibrary.simpleMessage("Middle Name"),
-        "month": m2,
+        "month": m4,
         "months": MessageLookupByLibrary.simpleMessage("Months"),
+        "networkConnectionFailed": MessageLookupByLibrary.simpleMessage(
+            "Connection failed. Check your network."),
+        "networkTimeout": MessageLookupByLibrary.simpleMessage(
+            "Request timed out. Please try again."),
         "nmcpYemen": MessageLookupByLibrary.simpleMessage("NMCP Yemen"),
+        "noAuthenticatedUser": MessageLookupByLibrary.simpleMessage(
+            "Credentials do not match authenticated user. Cannot login offline."),
+        "noAuthenticatedUserOffline": MessageLookupByLibrary.simpleMessage(
+            "The user hasn\'t been previously authenticated. Cannot login offline."),
         "noFormsAvailable":
             MessageLookupByLibrary.simpleMessage("No forms available"),
-        "notMappedError":
-            MessageLookupByLibrary.simpleMessage("Not mapped error"),
+        "noInternetAccess":
+            MessageLookupByLibrary.simpleMessage("No internet access"),
         "notNow": MessageLookupByLibrary.simpleMessage("Not Now"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "objectAccessClosed":
@@ -213,8 +149,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "objectAccessDenied":
             MessageLookupByLibrary.simpleMessage("objectAccessDenied"),
         "ok": MessageLookupByLibrary.simpleMessage("OK"),
-        "online_search_parsing_error":
-            MessageLookupByLibrary.simpleMessage("Search grid parse error"),
+        "online": MessageLookupByLibrary.simpleMessage("online!"),
         "open": MessageLookupByLibrary.simpleMessage("Open"),
         "openNewForm": MessageLookupByLibrary.simpleMessage("Open New Form"),
         "orgUnitDialogTitle": MessageLookupByLibrary.simpleMessage(
@@ -227,6 +162,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "password": MessageLookupByLibrary.simpleMessage("password"),
         "pleaseEnterAValidEmailAddress": MessageLookupByLibrary.simpleMessage(
             "enter a valid email address."),
+        "reviewFormData": MessageLookupByLibrary.simpleMessage("Review Form"),
+        "save": MessageLookupByLibrary.simpleMessage("Save"),
+        "saveAndCheck": MessageLookupByLibrary.simpleMessage("Save and Check"),
         "searchOrgUnitsHelpText":
             MessageLookupByLibrary.simpleMessage("Search Org Units..."),
         "selectAColorExtractionImage": MessageLookupByLibrary.simpleMessage(
@@ -239,10 +177,14 @@ class MessageLookup extends MessageLookupByLibrary {
             "Select Image for Color Extraction"),
         "selected": MessageLookupByLibrary.simpleMessage("selected"),
         "send": MessageLookupByLibrary.simpleMessage("Send"),
+        "serverUrl": MessageLookupByLibrary.simpleMessage("Server URL"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
         "showPassword": MessageLookupByLibrary.simpleMessage("Show Password"),
+        "startingSync":
+            MessageLookupByLibrary.simpleMessage("Starting sync..."),
         "submissionDataEntry": MessageLookupByLibrary.simpleMessage("Data"),
         "submissionInitialData": MessageLookupByLibrary.simpleMessage("Main"),
+        "syncError": m5,
         "syncFormData": MessageLookupByLibrary.simpleMessage("Sync Form Data"),
         "syncingConfiguration":
             MessageLookupByLibrary.simpleMessage("Syncing Configuration"),
@@ -253,16 +195,19 @@ class MessageLookup extends MessageLookupByLibrary {
         "toggleBrightness":
             MessageLookupByLibrary.simpleMessage("Toggle Brightness"),
         "undo": MessageLookupByLibrary.simpleMessage("Undo"),
+        "unknownError": m6,
         "user": MessageLookupByLibrary.simpleMessage("user"),
         "userSettings": MessageLookupByLibrary.simpleMessage("User Settings"),
         "username": MessageLookupByLibrary.simpleMessage("Username"),
-        "valueMustBeGreaterThanOrEqualToError": m5,
-        "valueMustBeLessThanOrEqualToError": m3,
+        "validationError": MessageLookupByLibrary.simpleMessage(
+            "Please correct the errors in the form."),
+        "valueMustBeGreaterThanOrEqualToError": m7,
+        "valueMustBeLessThanOrEqualToError": m8,
         "version": MessageLookupByLibrary.simpleMessage("Version"),
         "viewAvailableForms": MessageLookupByLibrary.simpleMessage(
             "Expand to View Available Forms"),
         "viewList": MessageLookupByLibrary.simpleMessage("View List"),
-        "year": m4,
+        "year": m9,
         "years": MessageLookupByLibrary.simpleMessage("Years")
       };
 }

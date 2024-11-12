@@ -1,4 +1,4 @@
-name: mass_pro
+name: datarun
 description: A new Flutter project.
 
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
@@ -59,6 +59,12 @@ dependencies:
   expression_language: ^1.0.1
   flutter_launcher_icons: ^0.9.3
   expressions: ^0.2.3
+  flutter_sticky_header: ^0.7.0
+  sliver_tools: ^0.2.12
+  collection: ^1.18.0
+  connectivity_plus: ^2.1.0
+  json_path: ^0.3.1
+  logger: ^2.4.0
 #  sentry_flutter: ^8.3.0
 
 dev_dependencies:

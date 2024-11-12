@@ -21,8 +21,9 @@ final homeItemModelProvider = AutoDisposeProvider<HomeItemModel>.internal(
 );
 
 typedef HomeItemModelRef = AutoDisposeProviderRef<HomeItemModel>;
+
 String _$homeItemsModelsNotifierHash() =>
-    r'6c28cd636b2189cbd32cf13fe5b4d473bee6d90d';
+    r'ac61b0d5c9c41f725a65272b70b2d00e9ce80281';
 
 /// See also [HomeItemsModelsNotifier].
 @ProviderFor(HomeItemsModelsNotifier)

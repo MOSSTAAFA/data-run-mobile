@@ -4,7 +4,7 @@ extension ElementDependencyHandler<T> on FormElementInstance<T> {
   Map<String, dynamic> get evalContext {
     return {
       for (final dependency in _dependencies)
-        dependency.name: dependency.visible ? dependency.value : null
+        dependency.name: calculationFriendlyValue(dependency)
     };
   }
 
@@ -18,17 +18,16 @@ extension ElementDependencyHandler<T> on FormElementInstance<T> {
     }
   }
 
-  FormElementState updateStatus(FormElementState newValue,
-      {bool notify = true}) {
-    if (newValue != _elementState) {
-      _elementState = newValue;
-      propertiesChangedSubject?.add(newValue);
-      if (notify) {
-        notifySubscribers();
-      }
-    } else {
-      logDebug(info: '$name, same value, not Notifying subscribers');
-    }
+  FormElementState updateStatus(FormElementState newValue) {
+    // if (newValue != _elementState) {
+    _elementState = newValue;
+    propertiesChangedSubject?.add(newValue);
+    logDebug(info: '$name, changed, --> Notifying subscribers');
+    notifySubscribers();
+
+    // } else {
+    // logDebug(info: '$name, same, x not Notifying subscribers');
+    // }
     return _elementState;
   }
 

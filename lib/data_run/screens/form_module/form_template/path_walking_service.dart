@@ -1,5 +1,5 @@
-import 'package:mass_pro/commons/extensions/list_extensions.dart';
-import 'package:mass_pro/data_run/screens/form_module/form_template/form_element_template.dart';
+import 'package:datarun/commons/extensions/list_extensions.dart';
+import 'package:datarun/data_run/screens/form_module/form_template/form_element_template.dart';
 
 mixin TreeElement {
   String? get path;
@@ -40,6 +40,13 @@ mixin PathWalkingService<T extends FormElementTemplate> {
     return ancestors.reversed.toList();
   }
 
+  /// Get descendants of a specific path
+  T? getFirstByName(String name) {
+    final element =
+        fields.firstOrNullWhere((field) => field.path!.endsWith('$name'));
+    return element;
+  }
+
   /// Get element by path
   T? getElementByPath(String path) {
     return fields.firstOrNullWhere((element) => element.path == path);
@@ -78,22 +85,38 @@ mixin PathWalkingService<T extends FormElementTemplate> {
         .toList();
   }
 
+  /// Get descendants of a specific path
+  List<T> getChildrenOfType<E extends T>(String path) {
+    return fields.where((field) => field.path!.startsWith('$path.')).whereType<E>().toList();
+  }
+
+  // /// Get children of a specific path
+  // List<T> getChildrenOfType<E extends T>(String path) {
+  //   final normalizedPath =
+  //   path.endsWith('.') ? path.substring(0, path.length - 1) : path;
+  //
+  //   return fields
+  //       .where((field) =>
+  //   field.path!.startsWith('$normalizedPath.') &&
+  //       field.path!.split('.').length == path.split('.').length + 1).whereType<E>()
+  //       .toList();
+  // }
+
   T? getScopedDependencyByName(String name, String currentPath) {
-    // Split the current path into segments
     final pathSegments = currentPath.split('.');
 
-    // Traverse upwards in the path
+    // upwards in the path
     for (int i = pathSegments.length - 1; i >= 0; i--) {
       final currentPathSegment = pathSegments.sublist(0, i + 1).join('.');
 
-      // Check for element in the current scope
+      // in the current scope
       final element = getElementByPath(currentPathSegment + '.' + name);
       if (element != null) {
         return element;
       }
     }
 
-    // If not found, check the global scope and siblings
+    // If not found, check the global scope
     final rootElements =
         fields.where((element) => element.path!.split('.').length == 1);
 
@@ -104,17 +127,14 @@ mixin PathWalkingService<T extends FormElementTemplate> {
       }
     }
 
-    // If still not found, return null
     return null;
   }
 
   T? getScopedElement(T rootElement, String name) {
-    // Check if root element matches
     if (rootElement.name == name) {
       return rootElement;
     }
 
-    // Check if it is a section with children
     if (rootElement is SectionElementTemplate) {
       for (final child in getDescendants(rootElement.path!)) {
         final element = getScopedElement(child, name);
@@ -141,7 +161,7 @@ mixin PathWalkingService<T extends FormElementTemplate> {
   T? getScopedDependencyByName2(String name, String currentPath) {
     final pathSegments = currentPath.split('.');
 
-    // 1. Look for the element in the current hierarchy, moving up through ancestors
+    // Look for the element in the current hierarchy, moving up through ancestors
     for (int i = pathSegments.length - 1; i >= 0; i--) {
       final currentPathSegment = pathSegments.sublist(0, i + 1).join('.');
       final scopedElement = getElementByPath(currentPathSegment + '.' + name);
@@ -151,7 +171,7 @@ mixin PathWalkingService<T extends FormElementTemplate> {
       }
     }
 
-    // 2. Check for siblings (elements sharing the same parent path)
+    // Check for siblings (elements sharing the same parent path)
     final parentPath = pathSegments.length > 1
         ? pathSegments.sublist(0, pathSegments.length - 1).join('.')
         : ''; // Root level has no parent path
@@ -166,43 +186,8 @@ mixin PathWalkingService<T extends FormElementTemplate> {
       return siblingElement;
     }
 
-    // 3. Check global scope (elements at the root level)
+    // Check global scope (elements at the root level)
     return fields.firstOrNullWhere((element) =>
         element.name == name && element.path!.split('.').length == 1);
   }
-
-// /// Get children of a specific path
-// List<T> getChildren(String path) {
-//   return fields
-//       .where((field) =>
-//   field.path!.startsWith('$path.') &&
-//       field.path!.split('.').length == path.split('.').length + 1)
-//       .toList();
-// }
-
-// /// Get siblings of a specific path
-// List<T> getSiblings(String path) {
-//   final parentPath =
-//       path.split('.').sublist(0, path.split('.').length - 1).join('.');
-//   return fields
-//       .where((element) =>
-//           element.path!.startsWith(parentPath + '.') && element.path != path)
-//       .toList();
-// }
-
-// /// Get element by name (nearest in scope)
-// T? getScopedDependencyByName(String name, String currentPath) {
-//   final pathSegments = currentPath.split('.');
-//   for (int i = pathSegments.length - 1; i >= 0; i--) {
-//     final currentPathSegment = pathSegments.sublist(0, i + 1).join('.');
-//     final element = getElementByPath(currentPathSegment + '.' + name);
-//     if (element != null) {
-//       return element;
-//     }
-//   }
-//
-//   /// Check global scope (siblings of root level)
-//   return fields.firstOrNullWhere((element) =>
-//       element.name == name && element.path!.split('.').length == 1);
-// }
 }

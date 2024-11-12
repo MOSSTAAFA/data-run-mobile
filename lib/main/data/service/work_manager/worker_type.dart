@@ -1,1 +1,0 @@
-enum WorkerType { METADATA, DATA, RESERVED, GRANULAR }

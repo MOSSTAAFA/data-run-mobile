@@ -1,16 +1,11 @@
-// Dart imports:
 import 'dart:io';
 
-// Flutter imports:
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-// Project imports:
-import 'package:mass_pro/utils/mass_utils/utils.dart';
-// Package imports:
+import 'package:datarun/utils/mass_utils/utils.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import 'package:mass_pro/commons/constants.dart';
-import 'package:mass_pro/commons/utils/module_layout.dart';
+import 'package:datarun/commons/constants.dart';
 
 // TODOremove this function
 bool supportsInlineBrowser() => !isDesktopOS();
@@ -211,16 +206,6 @@ String getRateAppURL(BuildContext context) {
       return kWindowsUrl;
     default:
       return kCapterralUrl;
-  }
-}
-
-AppLayout calculateLayout(BuildContext context) {
-  final double size = MediaQuery.of(context).size.width;
-
-  if (size < kMobileLayoutWidth) {
-    return AppLayout.mobile;
-  } else {
-    return AppLayout.desktop;
   }
 }
 

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mass_pro/data_run/screens/form/element_widgets/repeat_section.widget.dart';
-import 'package:mass_pro/data_run/screens/form/element_widgets/section.widget.dart';
-import 'package:mass_pro/data_run/screens/form/hooks/register_dependencies.dart';
-import 'package:mass_pro/data_run/screens/form/field_widgets/improved_expansion_tile.widget.dart';
-import 'package:mass_pro/data_run/screens/form/element/form_element.dart';
+import 'package:datarun/data_run/screens/form/element_widgets/repeat_section.widget.dart';
+import 'package:datarun/data_run/screens/form/element_widgets/section.widget.dart';
+import 'package:datarun/data_run/screens/form/hooks/register_dependencies.dart';
+import 'package:datarun/data_run/screens/form/field_widgets/improved_expansion_tile.widget.dart';
+import 'package:datarun/data_run/screens/form/element/form_element.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 class SectionElementWidget extends HookConsumerWidget {
@@ -29,6 +29,7 @@ class SectionElementWidget extends HookConsumerWidget {
             return SizedBox.shrink();
           } else {
             return ImprovedExpansionTile(
+                maintainState: true,
                 leading: Icon(Icons.playlist_add_check_rounded),
                 title: '${element.label}',
                 enabled: element.elementControl.enabled == true,
@@ -44,6 +45,7 @@ class SectionElementWidget extends HookConsumerWidget {
             return SizedBox.shrink();
           } else {
             return ImprovedExpansionTile(
+              maintainState: true,
               leading: Icon(Icons.repeat),
               title: '${element.label}',
               enabled: element.elementControl.enabled == true,

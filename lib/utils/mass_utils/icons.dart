@@ -1,35 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import 'package:mass_pro/commons/constants.dart';
-import 'package:mass_pro/commons/data_run/utils/view_actions.dart';
-
-IconData getViewActionIcon(ViewAction? viewAction) {
-  switch (viewAction) {
-    case ViewAction.list_view:
-      return MdiIcons.viewList;
-    case ViewAction.map_view:
-      return Icons.map;
-    case ViewAction.tasks:
-      return Icons.task_outlined;
-    case ViewAction.sync:
-      return Icons.cloud_sync_outlined;
-    case ViewAction.details:
-      return Icons.details_outlined;
-    case ViewAction.analytics:
-      return Icons.analytics_outlined;
-    case ViewAction.notes:
-      return Icons.note_outlined;
-    case ViewAction.data_entry:
-      return Icons.dynamic_form_outlined;
-    case ViewAction.relationships:
-      return Icons.forward_5_outlined;
-    case ViewAction.programs:
-      return Icons.apps_outlined;
-    default:
-      return Icons.question_mark;
-  }
-}
+import 'package:datarun/commons/constants.dart';
 
 // IconData getEntityIcon(EntityType? entityType) {
 //   switch (entityType) {

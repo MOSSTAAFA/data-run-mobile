@@ -9,6 +9,32 @@ enum Preference<T> {
   material3('material_3', false),
   language('language', 'ar'),
   appColor('app_color', '');
+  // credentialsSet(SECURE_CREDENTIALS, false),
+  // serverUrl(SECURE_SERVER_URL, ''),
+  // username(SECURE_USER_NAME, '');
+
+  // override fun saveUserCredentials(serverUrl: String, userName: String, pass: String) {
+  // setValue(SECURE_CREDENTIALS, true)
+  // setValue(SECURE_SERVER_URL, serverUrl)
+  // setValue(SECURE_USER_NAME, userName)
+  // }
+  //
+  // override fun areCredentialsSet(): Boolean {
+  // return getBoolean(SECURE_CREDENTIALS, false)
+  // }
+  //
+  // override fun areSameCredentials(serverUrl: String, userName: String, pass: String): Boolean {
+  // return getString(SECURE_SERVER_URL, "") == serverUrl &&
+  // getString(SECURE_USER_NAME, "") == userName
+  // }
+  //
+  // override fun saveJiraCredentials(jiraAuth: String): String {
+  // return String.format("Basic %s", jiraAuth)
+  // }
+  //
+  // override fun clear() {
+  // sharedPreferences.edit().clear().apply()
+  // }
 
   const Preference(this.key, this.defaultValue);
 
@@ -20,6 +46,13 @@ enum Preference<T> {
 SharedPreferences sharedPreferences(SharedPreferencesRef ref) =>
     throw UnimplementedError();
 
+/// read
+///
+/// ref.watch(preferenceNotifierProvider(Preference.shouldShowWalkthrough));
+///
+/// write
+///
+/// ref.read(preferenceNotifierProvider(Preference.shouldShowWalkthrough).notifier).update(false);
 @riverpod
 class PreferenceNotifier<T> extends _$PreferenceNotifier<T> {
   @override

@@ -1,7 +1,7 @@
-import 'package:mass_pro/core/common/state.dart';
-import 'package:mass_pro/data_run/form/form_submission/submission_list.provider.dart';
-import 'package:mass_pro/data_run/form/form_submission/submission_list_util.dart';
-import 'package:mass_pro/data_run/screens/project_activity_detail/form_tiles/form_submissions_status.dart';
+import 'package:datarun/core/common/state.dart';
+import 'package:datarun/data_run/form/form_submission/submission_list.provider.dart';
+import 'package:datarun/data_run/form/form_submission/submission_list_util.dart';
+import 'package:datarun/data_run/screens/project_activity_detail/form_tiles/form_submissions_status.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'form_submissions_status.provider.g.dart';

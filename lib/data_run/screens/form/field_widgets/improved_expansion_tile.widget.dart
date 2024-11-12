@@ -6,7 +6,8 @@ class ImprovedExpansionTile extends StatelessWidget {
     this.title,
     this.titleWidget,
     required this.child,
-    this.enabled = false,
+    this.enabled = true,
+    this.children  = const <Widget>[],
     this.initiallyExpanded = false,
     this.onExpansionChanged,
     this.maintainState = false,
@@ -21,6 +22,7 @@ class ImprovedExpansionTile extends StatelessWidget {
   final bool initiallyExpanded;
   final bool maintainState;
   final Widget? leading;
+  final List<Widget> children;
 
   @override
   Widget build(BuildContext context) {

@@ -2,17 +2,12 @@ part of 'form_element_model.dart';
 
 class SectionElementModel extends CollectionElementModel<Map<String, Object?>> {
   SectionElementModel({
-    required super.name,
-    super.path,
+    required super.templatePath,
     super.hidden,
-    super.mandatory,
     Map<String, FormElementModel<dynamic>> elements = const {},
   }) : assert(!elements.keys.any((name) => name.contains('.')),
             'element name should not contain dot(.)') {
     addAll(elements);
-    if (hidden) {
-      markAsHidden();
-    }
   }
 
   /// by path
@@ -22,12 +17,28 @@ class SectionElementModel extends CollectionElementModel<Map<String, Object?>> {
       Map.unmodifiable(_elements);
 
   @override
+  Map<String, Object> get errors {
+    final allErrors = Map<String, Object>.of(super.errors);
+    _elements.forEach((name, element) {
+      if (element.visible && element.hasErrors) {
+        allErrors.update(
+          name,
+          (_) => element.errors,
+          ifAbsent: () => element.errors,
+        );
+      }
+    });
+
+    return allErrors;
+  }
+
+  @override
   bool contains(String name) {
     return _elements.containsKey(name);
   }
 
   @override
-  void markAsHidden() {
+  void markAsHidden({bool updateParent = true, bool emitEvent = true}) {
     _elements.forEach((_, element) {
       element.markAsHidden();
     });
@@ -35,7 +46,7 @@ class SectionElementModel extends CollectionElementModel<Map<String, Object?>> {
   }
 
   @override
-  void markAsVisible() {
+  void markAsVisible({bool updateParent = true, bool emitEvent = true}) {
     _elements.forEach((_, element) {
       element.markAsVisible();
     });
@@ -89,31 +100,9 @@ class SectionElementModel extends CollectionElementModel<Map<String, Object?>> {
     return map;
   }
 
-  Map<String, Object?>? reduceValueFlat() {
-    final map = <String, Object?>{};
-    _elements.forEach((key, element) {
-      if (element.visible || hidden) {
-        map[key] = element.value;
-      }
-    });
-
-    return map;
-  }
-
   @override
-  bool allElementsHidden() {
-    if (_elements.isEmpty) {
-      return false;
-    }
-    return _elements.values.every((element) => element.hidden);
-  }
-
-  void removeElement(String name) {
-    if (!_elements.containsKey(name)) {
-      throw FormElementNotFoundException(this);
-    }
-
-    _elements.removeWhere((key, value) => key == name);
+  bool anyElementsHaveStatus(ElementStatus status) {
+    return _elements.values.any((control) => control.status == status);
   }
 
   @override
@@ -132,12 +121,44 @@ class SectionElementModel extends CollectionElementModel<Map<String, Object?>> {
   void addAll(Map<String, FormElementModel<dynamic>> elements) {
     _elements.addAll(elements);
     elements.forEach((name, element) {
-      element.parentSection = this;
+      element.parent = this;
     });
   }
 
   @override
-  void addElement(FormElementModel<dynamic> element, String path) {
-    addAll({path: element});
+  bool allElementsHidden() {
+    if (_elements.isEmpty) {
+      return false;
+    }
+    return _elements.values.every((control) => control.hidden);
+  }
+
+  @override
+  bool anyElements(bool Function(FormElementModel<dynamic> p1) condition) {
+    return _elements.values
+        .any((control) => control.visible && condition(control));
+  }
+
+  @override
+  SectionElementModel clone() {
+    final result = SectionElementModel(
+        hidden: hidden,
+        // value: value,
+        // dirty: dirty,
+        // valid: valid,
+        templatePath: templatePath,
+        elements:
+            _elements.map((key, element) => MapEntry(key, element.clone())));
+    result.setDependencies(List.from(dependencies));
+    if (hidden) {
+      result.markAsHidden();
+    }
+
+    if (dirty && !hidden) {
+      result.markAsDirty();
+    }
+
+    result.parent = parent;
+    return result;
   }
 }
