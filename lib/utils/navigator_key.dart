@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:datarun/main/usescases/login/login_screen.widget.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 

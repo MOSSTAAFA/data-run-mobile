@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:datarun/data_run/screens/form/element/form_element.dart';
 import 'package:datarun/data_run/screens/form/inherited_widgets/form_template_inherit_widget.dart';
 import 'package:datarun/data_run/screens/form_module/form_template/form_element_template.dart';
-import 'package:datarun/data_run/utils/get_item_local_string.dart';
+import 'package:datarun/core/utils/get_item_local_string.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 

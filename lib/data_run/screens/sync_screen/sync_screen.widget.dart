@@ -1,12 +1,11 @@
 import 'package:d2_remote/modules/datarun_shared/sync/call/d2_progress.dart';
-import 'package:datarun/data_run/usecases/sync_manager/sync_service.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:datarun/core/sync_manager/nmc_worker/sync_progress.dart';
+import 'package:datarun/core/sync_manager/sync_service.dart';
 import 'package:datarun/data_run/screens/home_screen/home_screen.widget.dart';
 import 'package:datarun/generated/l10n.dart';
-import 'package:datarun/main/data/service/work_manager/work_manager_controller_impl.dart';
 import 'package:datarun/utils/mass_utils/utils.dart';
-import 'package:datarun/utils/navigator_key.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class SyncScreen extends ConsumerStatefulWidget {
@@ -81,32 +80,32 @@ class _SyncScreenState extends ConsumerState<SyncScreen> {
     final syncProgressNotifier = ref.read(syncProgressProvider.notifier);
 
     syncProgressNotifier.update((state) => state.copyWith(
-        state: WorkInfoState.RUNNING,
-        message: S.of(context).startingSync,
-        progress: 0,
-    ));
+          state: WorkInfoState.RUNNING,
+          message: S.of(context).startingSync,
+          progress: 0,
+        ));
 
     await syncService.performSync(
       onProgressUpdate: (progress) {
         syncProgressNotifier.update((state) => state.copyWith(
-          state: WorkInfoState.RUNNING,
-          message: S.of(context).startingSync,
-          progress: progress?.percentage ?? 0,
-        ));
+              state: WorkInfoState.RUNNING,
+              message: S.of(context).startingSync,
+              progress: progress?.percentage ?? 0,
+            ));
       },
       onFinish: (message) {
         syncProgressNotifier.update((state) => state.copyWith(
-            state: WorkInfoState.SUCCEEDED,
-            message: S.of(context).configurationReady,
-            progress: 100,
-        ));
+              state: WorkInfoState.SUCCEEDED,
+              message: S.of(context).configurationReady,
+              progress: 100,
+            ));
       },
       onFailure: (message) {
         syncProgressNotifier.update((state) => state.copyWith(
-            state: WorkInfoState.FAILED,
-            message: message,
-            progress: 0,
-        ));
+              state: WorkInfoState.FAILED,
+              message: message,
+              progress: 0,
+            ));
       },
     );
     goToMain();

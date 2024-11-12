@@ -1,14 +1,12 @@
-// ignore_for_file: avoid_dynamic_calls
-
 import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
 import 'package:d2_remote/modules/metadatarun/project/entities/d_project.entity.dart';
 import 'package:datarun/commons/logging/logging.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:datarun/core/common/state.dart';
+import 'package:datarun/core/sync_manager/nmc_worker/sync_status_controller.dart';
+import 'package:datarun/core/sync_manager/nmc_worker/sync_status_data.dart';
+import 'package:datarun/core/utils/activities_access_repository.dart';
 import 'package:datarun/data_run/screens/home_screen/home_deck/home_item.model.dart';
-import 'package:datarun/data_run/utils/activities_access_repository.dart';
-import 'package:datarun/main/data/service/sync_status_controller.dart';
-import 'package:datarun/main/data/service/sync_status_data.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'home_items_models_notifier.g.dart';
@@ -28,14 +26,16 @@ class HomeItemsModelsNotifier extends _$HomeItemsModelsNotifier {
         .select((value) => value.syncStatusData));
 
     ref.onCancel(() => logInfo(
-        info: 'onCancel HomeItemsModelsNotifier', runtimeType: HomeItemsModelsNotifier));
+        info: 'onCancel HomeItemsModelsNotifier',
+        runtimeType: HomeItemsModelsNotifier));
 
     ref.onDispose(() => logInfo(
-        info: 'onDispose HomeItemsModelsNotifier', runtimeType: HomeItemsModelsNotifier));
-
+        info: 'onDispose HomeItemsModelsNotifier',
+        runtimeType: HomeItemsModelsNotifier));
 
     ref.onDispose(() => logInfo(
-        info: 'onDispose HomeItemsModelsNotifier', runtimeType: HomeItemsModelsNotifier));
+        info: 'onDispose HomeItemsModelsNotifier',
+        runtimeType: HomeItemsModelsNotifier));
 
     final IList<DProject> projects =
         await ref.watch(activitiesAccessRepositoryProvider).getActiveProjects();

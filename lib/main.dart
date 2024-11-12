@@ -2,24 +2,22 @@ import 'dart:async';
 
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/datarun_shared/utilities/authenticated_user.dart';
-import 'package:datarun/data_run/usecases/auth/auth_service.dart';
-import 'package:datarun/data_run/usecases/auth/user_session_manager.dart';
-import 'package:datarun/data_run/usecases/login/auth_wrapper.dart';
-import 'package:datarun/utils/user_preferences/preference.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-
 import 'package:datarun/commons/prefs/preference_provider.dart';
+import 'package:datarun/core/auth/auth_service.dart';
+import 'package:datarun/core/auth/user_session_manager.dart';
 import 'package:datarun/core/network/connectivy_service.dart';
+import 'package:datarun/data_run/screens/login_screen/auth_wrapper.dart';
 import 'package:datarun/generated/l10n.dart';
+import 'package:datarun/main.reflectable.dart';
 import 'package:datarun/main_constants/main_constants.dart';
 import 'package:datarun/utils/app_appearance.dart';
 import 'package:datarun/utils/navigator_key.dart';
+import 'package:datarun/utils/user_preferences/preference.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
-
-import 'package:datarun/main.reflectable.dart';
 
 AuthenticationResult? authenticationResult;
 
@@ -45,26 +43,16 @@ Future<void> main() async {
     return stack;
   };
 
-  // // Global error handling
-  // FlutterError.onError = (FlutterErrorDetails details) {
-  //   // Report Flutter framework errors
-  //   DExceptionReporter().report(
-  //     DException(details.exceptionAsString(), cause: details.exception),
-  //   );
-  //
-  //   // Optionally show user feedback or display a fallback UI if needed
-  //   FlutterError.presentError(details);
-  // };
   final userSessionManager = UserSessionManager(sharedPreferences);
 
   final authService = AuthService(userSessionManager);
 
   // does the user have active session in preference (local check)
-  final bool hasExistingSession =  userSessionManager.isAuthenticated;
+  final bool hasExistingSession = userSessionManager.isAuthenticated;
 
   // is has active session initialize, otherwise it will be initialized
   // by user login in.
-  if(hasExistingSession) {
+  if (hasExistingSession) {
     await D2Remote.initialize();
   }
 
@@ -102,8 +90,6 @@ class App extends ConsumerWidget {
       supportedLocales: supportedLocales,
       locale: locale,
       home: AuthWrapper(isAuthenticated: isAuthenticated),
-      // home: const SplashScreen(),
-      //const AuthCheck(),
     );
   }
 

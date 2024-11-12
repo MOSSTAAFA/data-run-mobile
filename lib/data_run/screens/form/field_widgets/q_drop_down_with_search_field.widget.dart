@@ -5,7 +5,7 @@ import 'package:datarun/data_run/screens/form/element/form_element.dart';
 import 'package:datarun/data_run/screens/form/element/providers/form_instance.provider.dart';
 import 'package:datarun/data_run/screens/form/element/validation/form_element_validator.dart';
 import 'package:datarun/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
-import 'package:datarun/data_run/utils/get_item_local_string.dart';
+import 'package:datarun/core/utils/get_item_local_string.dart';
 import 'package:reactive_dropdown_search/reactive_dropdown_search.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 

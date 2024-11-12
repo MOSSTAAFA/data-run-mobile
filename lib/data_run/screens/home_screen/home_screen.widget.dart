@@ -1,17 +1,15 @@
-import 'package:d2_remote/modules/auth/user/entities/d_user.entity.dart';
 import 'package:datarun/commons/custom_widgets/async_value.widget.dart';
-import 'package:datarun/data_run/screens/home_screen/home_deck/home_items_models_notifier.dart';
-import 'package:datarun/data_run/screens/sync_screen/sync_screen.widget.dart';
-import 'package:datarun/data_run/usecases/auth/auth_service.dart';
-import 'package:datarun/data_run/usecases/auth/internet_aware_screen.dart';
-import 'package:datarun/data_run/usecases/auth/user_session_manager.dart';
-import 'package:datarun/data_run/usecases/sync_manager/sync_service.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:datarun/core/auth/internet_aware_screen.dart';
+import 'package:datarun/core/auth/user_session_manager.dart';
+import 'package:datarun/core/sync_manager/sync_service.dart';
 import 'package:datarun/data_run/screens/home_screen/drawer/settings_page.dart';
 import 'package:datarun/data_run/screens/home_screen/home_deck/home_deck.widget.dart';
+import 'package:datarun/data_run/screens/home_screen/home_deck/home_items_models_notifier.dart';
+import 'package:datarun/data_run/screens/sync_screen/sync_screen.widget.dart';
 import 'package:datarun/generated/l10n.dart';
 import 'package:datarun/utils/navigator_key.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen(

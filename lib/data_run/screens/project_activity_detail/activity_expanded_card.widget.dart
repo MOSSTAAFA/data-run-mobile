@@ -11,7 +11,7 @@ import 'package:datarun/data_run/screens/form_submission_list/submission_creatio
 import 'package:datarun/data_run/screens/form_submission_list/submission_list_screen.widget.dart';
 import 'package:datarun/data_run/screens/project_activity_detail/form_tiles/activity_form_tile.widget.dart';
 import 'package:datarun/data_run/screens/project_activity_detail/model/project_activities.provider.dart';
-import 'package:datarun/data_run/utils/get_item_local_string.dart';
+import 'package:datarun/core/utils/get_item_local_string.dart';
 import 'package:datarun/generated/l10n.dart';
 
 class ActivityExpandedCard extends HookConsumerWidget {

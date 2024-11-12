@@ -1,5 +1,5 @@
-import 'package:equatable/equatable.dart';
 import 'package:datarun/core/common/state.dart';
+import 'package:equatable/equatable.dart';
 
 class HomeItemModel with EquatableMixin {
   HomeItemModel(

@@ -7,7 +7,7 @@ import 'package:datarun/data_run/screens/form/element/validation/form_element_va
 import 'package:datarun/data_run/screens/form/field_widgets/custom_reactive_widget/reactive_chip_option.dart';
 import 'package:datarun/data_run/screens/form/field_widgets/custom_reactive_widget/reactive_choice_chips.dart';
 import 'package:datarun/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
-import 'package:datarun/data_run/utils/get_item_local_string.dart';
+import 'package:datarun/core/utils/get_item_local_string.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
 class QReactiveChoiceSingleSelectChips extends ConsumerWidget {

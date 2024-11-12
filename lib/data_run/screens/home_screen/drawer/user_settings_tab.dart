@@ -1,8 +1,8 @@
 import 'package:datarun/commons/custom_widgets/async_value.widget.dart';
-import 'package:datarun/data_run/usecases/auth/auth_service.dart';
-import 'package:datarun/data_run/usecases/auth/user_session_manager.dart';
-import 'package:flutter/material.dart';
+import 'package:datarun/core/auth/auth_service.dart';
+import 'package:datarun/core/auth/user_session_manager.dart';
 import 'package:datarun/generated/l10n.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class UserSettingsTab extends ConsumerWidget {

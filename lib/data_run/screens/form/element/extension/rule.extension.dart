@@ -3,7 +3,7 @@ import 'package:d2_remote/modules/datarun/form/shared/rule/action.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule/rule_action.dart';
 import 'package:datarun/commons/logging/logging.dart';
 import 'package:datarun/data_run/screens/form/element/form_element.dart';
-import 'package:datarun/data_run/utils/get_item_local_string.dart';
+import 'package:datarun/core/utils/get_item_local_string.dart';
 
 extension RuleHandler on FieldTemplate {
   Iterable<RuleAction> ruleActions() {

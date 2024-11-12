@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:datarun/data_run/screens/home_screen/home_deck/home_item.model.dart';
 import 'package:datarun/data_run/screens/home_screen/home_deck/home_items.widget.dart';
 import 'package:datarun/data_run/screens/project_activity_detail/project_activities_screen.widget.dart';
 import 'package:datarun/data_run/screens/view/view_base.dart';
 import 'package:datarun/utils/navigator_key.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomeDeck extends ConsumerStatefulWidget {
   const HomeDeck({super.key});

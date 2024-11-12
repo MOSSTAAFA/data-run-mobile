@@ -9,7 +9,7 @@ import 'package:datarun/commons/logging/logging.dart';
 import 'package:datarun/data_run/screens/form/element/exceptions/form_element_exception.dart';
 import 'package:datarun/data_run/screens/form/element/extension/rule.extension.dart';
 import 'package:datarun/data_run/screens/form/element/members/form_element_state.dart';
-import 'package:datarun/data_run/utils/get_item_local_string.dart';
+import 'package:datarun/core/utils/get_item_local_string.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 import 'package:rxdart/rxdart.dart';
 

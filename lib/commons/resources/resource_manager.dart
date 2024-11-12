@@ -1,5 +1,5 @@
 import 'package:d2_remote/modules/datarun/common/standard_extensions.dart';
-import 'package:datarun/data_run/errors_management/d_error_localization.dart';
+import 'package:datarun/commons/errors_management/d_error_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:datarun/utils/mass_utils/colors.dart';
