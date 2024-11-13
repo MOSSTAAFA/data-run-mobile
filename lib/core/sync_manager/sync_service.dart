@@ -2,6 +2,7 @@ import 'package:d2_remote/core/datarun/logging/logging.dart';
 import 'package:d2_remote/modules/datarun_shared/sync/call/d2_progress.dart';
 import 'package:d2_remote/modules/datarun_shared/sync/sync_metadata.dart';
 import 'package:datarun/generated/l10n.dart';
+import 'package:datarun/utils/user_preferences/preference.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -48,8 +49,8 @@ class SyncService extends _$SyncService {
     await prefs.setInt(SYNC_INTERVAL, interval.milliseconds);
   }
 
-  Future<SyncInterval> getSyncInterval() async {
-    final prefs = await SharedPreferences.getInstance();
+  SyncInterval getSyncInterval() {
+    final prefs = ref.watch(sharedPreferencesProvider);
     final intervalMs = prefs.getInt(SYNC_INTERVAL) ?? SyncInterval.daily.milliseconds;
     return SyncInterval.values.firstWhere((interval) => interval.milliseconds == intervalMs,
         orElse: () => SyncInterval.daily);

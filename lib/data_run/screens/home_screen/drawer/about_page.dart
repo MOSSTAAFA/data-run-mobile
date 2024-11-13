@@ -20,7 +20,7 @@ class AboutPage extends ConsumerWidget {
         Card(
           child: ListTile(
             leading:
-                Icon(Icons.info_outline, color: Theme.of(context).primaryColor),
+                Icon(Icons.info_outline, ),
             title: Text(S.of(context).appVersion),
             subtitle: Text('1.0.0'),
           ),
@@ -29,7 +29,7 @@ class AboutPage extends ConsumerWidget {
         Card(
           child: ListTile(
             leading:
-                Icon(MdiIcons.server, color: Theme.of(context).primaryColor),
+                Icon(MdiIcons.server, ),
             title: Text(S.of(context).serverUrl),
             subtitle: Text(sessionInfo.sessionData?.serverUrl ?? '-'),
           ),
@@ -41,14 +41,14 @@ class AboutPage extends ConsumerWidget {
         Card(
           child: ListTile(
             leading: Icon(Icons.developer_mode,
-                color: Theme.of(context).primaryColor),
+                ),
             title: Text(S.of(context).developer),
             subtitle: Text(S.of(context).developerInfoText),
           ),
         ),
         Card(
           child: ListTile(
-            leading: Icon(Icons.link, color: Theme.of(context).primaryColor),
+            leading: Icon(MdiIcons.github, ),
             title: Text('GitHub'),
             subtitle: Text('https://github.com/DataRun-ye'),
             onTap: () {

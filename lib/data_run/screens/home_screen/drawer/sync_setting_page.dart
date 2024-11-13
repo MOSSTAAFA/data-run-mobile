@@ -1,16 +1,21 @@
+import 'package:d2_remote/modules/datarun_shared/sync/call/d2_progress.dart';
 import 'package:datarun/core/auth/user_session_manager.dart';
+import 'package:datarun/core/sync_manager/nmc_worker/sync_progress.dart';
 import 'package:datarun/core/sync_manager/sync_service.dart';
+import 'package:datarun/data_run/screens/sync_screen/sync_screen.widget.dart';
 import 'package:datarun/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
-class SyncSettingTab extends ConsumerWidget {
+class SyncSettingTab extends HookConsumerWidget {
   const SyncSettingTab({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final syncService = ref.watch(syncServiceProvider.notifier);
-
+    final selectedInterval = useState(syncService.getSyncInterval());
     return ListView(
       padding: const EdgeInsets.all(16.0),
       children: [
@@ -19,25 +24,21 @@ class SyncSettingTab extends ConsumerWidget {
 
         Card(
           child: ListTile(
+            leading: Icon(MdiIcons.update, ),
             title: Text(S.of(context).syncInterval),
-            subtitle: FutureBuilder<SyncInterval>(
-              future: syncService.getSyncInterval(),
-              builder: (context, snapshot) {
-                final selectedInterval = snapshot.data ?? SyncInterval.daily;
-                return DropdownButton<SyncInterval>(
-                  value: selectedInterval,
-                  items: SyncInterval.values.map((interval) {
-                    return DropdownMenuItem(
-                      value: interval,
-                      child: Text(interval.localLabel),
-                    );
-                  }).toList(),
-                  onChanged: (newInterval) {
-                    if (newInterval != null) {
-                      syncService.setSyncInterval(newInterval);
-                    }
-                  },
+            subtitle: DropdownButton<SyncInterval>(
+              value: selectedInterval.value,
+              items: SyncInterval.values.map((interval) {
+                return DropdownMenuItem(
+                  value: interval,
+                  child: Text(interval.localLabel),
                 );
+              }).toList(),
+              onChanged: (newInterval) async {
+                if (newInterval != null) {
+                  await syncService.setSyncInterval(newInterval);
+                  selectedInterval.value = newInterval;
+                }
               },
             ),
           ),
@@ -47,7 +48,6 @@ class SyncSettingTab extends ConsumerWidget {
 
         Card(
           child: ListTile(
-            leading: Icon(Icons.sync, color: Theme.of(context).primaryColor),
             title: Text(S.of(context).lastConfigurationSyncTime),
             subtitle: Text(
                 ref.watch(userSessionManagerProvider).lastSyncTime.toString()),
@@ -63,7 +63,6 @@ class SyncSettingTab extends ConsumerWidget {
                 child: Text(S.of(context).syncNow)),
           ),
         ),
-
         // Sync Status Card
         Card(
           child: ListTile(

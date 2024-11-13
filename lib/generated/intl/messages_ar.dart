@@ -91,15 +91,15 @@ class MessageLookup extends MessageLookupByLibrary {
             "هل تريد بالتأكيد حذف هذا العنصر؟"),
         "developer": MessageLookupByLibrary.simpleMessage(
             "البرنامج الوطني لمكافحة الملاريا"),
-        "developerInfoText": MessageLookupByLibrary.simpleMessage(
-            "حمزة السادة. 7amza.it@gmail.com"),
+        "developerInfoText":
+            MessageLookupByLibrary.simpleMessage("info@nmcpye.org"),
         "developerInformation":
             MessageLookupByLibrary.simpleMessage("معلومات المطور"),
         "differentOfflineUser": MessageLookupByLibrary.simpleMessage(
             "جلسة عدم الاتصال الحالية موثقة لمستخدم مختلف."),
         "discard": MessageLookupByLibrary.simpleMessage("تجاهل"),
         "dismiss": MessageLookupByLibrary.simpleMessage("حسنًا"),
-        "done": MessageLookupByLibrary.simpleMessage("تم"),
+        "done": MessageLookupByLibrary.simpleMessage("نجاح"),
         "edit": MessageLookupByLibrary.simpleMessage("تعديل"),
         "empty": MessageLookupByLibrary.simpleMessage("فارغ"),
         "enterAValidNumber":
@@ -134,7 +134,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "lastConfigurationSyncTime":
             MessageLookupByLibrary.simpleMessage("آخر تحديث"),
         "lastName": MessageLookupByLibrary.simpleMessage("اللقب"),
-        "lastSyncStatus": MessageLookupByLibrary.simpleMessage("حالة مزامنة"),
+        "lastSyncStatus":
+            MessageLookupByLibrary.simpleMessage("حالة آخر تحديث"),
         "level": MessageLookupByLibrary.simpleMessage("المستوى"),
         "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
         "loginUsername":
@@ -165,7 +166,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "noFormsAvailable": MessageLookupByLibrary.simpleMessage(
             "لا تتوفر استمارات لهذا النشاط"),
         "noInternetAccess": MessageLookupByLibrary.simpleMessage("غير متصل"),
-        "noSyncYet": MessageLookupByLibrary.simpleMessage("لم يحديث بعد"),
+        "noSyncYet": MessageLookupByLibrary.simpleMessage("لم يحدث بعد"),
         "notNow": MessageLookupByLibrary.simpleMessage("ليس الآن"),
         "notifications": MessageLookupByLibrary.simpleMessage("تنبيهات"),
         "objectAccessClosed":
@@ -217,10 +218,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "syncError": m5,
         "syncFormData":
             MessageLookupByLibrary.simpleMessage("مزامنة بيانات الاستمارة"),
-        "syncInterval": MessageLookupByLibrary.simpleMessage("فترات المزامنة"),
-        "syncNow": MessageLookupByLibrary.simpleMessage("المزامنة الآن"),
+        "syncInterval":
+            MessageLookupByLibrary.simpleMessage("ظبط فترة التحديث التلقائي"),
+        "syncNow": MessageLookupByLibrary.simpleMessage("التحديث الآن"),
         "syncSettings":
-            MessageLookupByLibrary.simpleMessage("إعدادات المزامنة"),
+            MessageLookupByLibrary.simpleMessage("التحديث التلقائي"),
         "syncingConfiguration":
             MessageLookupByLibrary.simpleMessage("إعدادات المزامنة"),
         "syncingData": MessageLookupByLibrary.simpleMessage("مزامنة بيانات"),

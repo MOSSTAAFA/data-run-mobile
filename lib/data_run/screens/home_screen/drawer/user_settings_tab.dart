@@ -5,6 +5,7 @@ import 'package:datarun/generated/l10n.dart';
 import 'package:datarun/utils/user_preferences/preference.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class UserSettingsTab extends ConsumerWidget {
   const UserSettingsTab({super.key});
@@ -26,16 +27,18 @@ class UserSettingsTab extends ConsumerWidget {
           const SizedBox(height: 10),
           Card(
             child: ListTile(
-              leading: Icon(Icons.person_outline,
-                  color: Theme.of(context).primaryColor),
+              leading: Icon(
+                MdiIcons.accountArrowLeft,
+              ),
               title: Text(S.of(context).loginUsername),
               subtitle: Text(user!.username ?? '-'),
             ),
           ),
           Card(
             child: ListTile(
-              leading: Icon(Icons.info_outline,
-                  color: Theme.of(context).primaryColor),
+              leading: Icon(
+                MdiIcons.faceMan,
+              ),
               title: Text(S.of(context).personInformation),
               subtitle: Text(user.firstName ?? '-'),
               trailing: IconButton(
@@ -48,8 +51,9 @@ class UserSettingsTab extends ConsumerWidget {
           ),
           Card(
             child: ListTile(
-              leading: Icon(Icons.info_outline,
-                  color: Theme.of(context).primaryColor),
+              leading: Icon(
+                MdiIcons.phoneSettings,
+              ),
               title: Text(S.of(context).mobile),
               subtitle: Text(user.phoneNumber ?? '-'),
               trailing: IconButton(
@@ -62,8 +66,9 @@ class UserSettingsTab extends ConsumerWidget {
           ),
           Card(
             child: ListTile(
-              leading: Icon(Icons.lock_outline,
-                  color: Theme.of(context).primaryColor),
+              leading: Icon(
+                Icons.lock_outline,
+              ),
               title: Text(S.of(context).changePassword),
               trailing: IconButton(
                 icon: Icon(Icons.edit),
@@ -83,8 +88,9 @@ class UserSettingsTab extends ConsumerWidget {
           const SizedBox(height: 10),
           Card(
             child: ListTile(
-              leading:
-                  Icon(Icons.language, color: Theme.of(context).primaryColor),
+              leading: Icon(
+                Icons.language,
+              ),
               title: Text(S.of(context).language),
               subtitle: Text(
                   ref.watch(preferenceNotifierProvider(Preference.language))),
@@ -92,10 +98,14 @@ class UserSettingsTab extends ConsumerWidget {
                 value:
                     ref.watch(preferenceNotifierProvider(Preference.language)),
                 onChanged: (String? newValue) {
-                  ref
-                      .read(preferenceNotifierProvider(Preference.language)
-                          .notifier)
-                      .update(newValue ?? 'ar');
+                  if (newValue != null) {
+                    {
+                      ref
+                          .read(preferenceNotifierProvider(Preference.language)
+                              .notifier)
+                          .update(newValue);
+                    }
+                  }
                 },
                 items: <String>['ar', 'en']
                     .map<DropdownMenuItem<String>>((String value) {
@@ -113,7 +123,7 @@ class UserSettingsTab extends ConsumerWidget {
           Card(
             color: Theme.of(context).colorScheme.errorContainer,
             child: ListTile(
-              leading: Icon(Icons.logout,
+              leading: Icon(MdiIcons.logout,
                   color: Theme.of(context).colorScheme.onErrorContainer),
               title: Text(
                 S.of(context).logout,

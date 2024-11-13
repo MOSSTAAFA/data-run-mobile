@@ -1314,10 +1314,10 @@ class S {
     );
   }
 
-  /// `Hamza Assada. email: 7amza.it@gmail.com`
+  /// `info@nmcpye.org`
   String get developerInfoText {
     return Intl.message(
-      'Hamza Assada. email: 7amza.it@gmail.com',
+      'info@nmcpye.org',
       name: 'developerInfoText',
       desc: '',
       args: [],

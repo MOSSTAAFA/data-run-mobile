@@ -4,6 +4,7 @@ import 'package:datarun/data_run/screens/home_screen/drawer/sync_setting_page.da
 import 'package:datarun/data_run/screens/home_screen/drawer/user_settings_tab.dart';
 import 'package:datarun/generated/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage();
@@ -22,7 +23,7 @@ class SettingsPage extends StatelessWidget {
                 text: S.of(context).userSettings,
               ),
               Tab(
-                icon: Icon(Icons.sync),
+                icon: Icon(MdiIcons.update),
                 text: S.of(context).syncSettings,
               ),
               Tab(

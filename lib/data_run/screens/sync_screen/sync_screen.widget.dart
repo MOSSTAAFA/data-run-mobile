@@ -1,5 +1,6 @@
 import 'package:d2_remote/modules/datarun_shared/sync/call/d2_progress.dart';
 import 'package:datarun/core/sync_manager/nmc_worker/sync_progress.dart';
+import 'package:datarun/core/sync_manager/nmc_worker/work_info.dart';
 import 'package:datarun/core/sync_manager/sync_service.dart';
 import 'package:datarun/data_run/screens/home_screen/home_screen.widget.dart';
 import 'package:datarun/generated/l10n.dart';
@@ -28,38 +29,7 @@ class _SyncScreenState extends ConsumerState<SyncScreen> {
           child: Center(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
-              child: CircularPercentIndicator(
-                radius: 40.0,
-                lineWidth: 3.0,
-                animation: true,
-                animateFromLastPercent: true,
-                percent: syncProgressInfo.progress / 100,
-                center: syncProgressInfo.state == WorkInfoState.SUCCEEDED
-                    ? const Icon(
-                        Icons.check,
-                        color: Color(0xffffad30),
-                        size: 35,
-                      )
-                    : Text(
-                        '${syncProgressInfo.progress}%',
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14.0,
-                            color: Color(0xffb3cbf4)),
-                      ),
-                footer: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Text(
-                    syncProgressInfo.state != WorkInfoState.SUCCEEDED
-                        ? syncProgressInfo.message
-                        : S.of(context).configurationReady,
-                    style: const TextStyle(fontSize: 13.0, color: Colors.white),
-                  ),
-                ),
-                circularStrokeCap: CircularStrokeCap.round,
-                backgroundColor: Colors.transparent,
-                progressColor: Colors.blue[100],
-              ),
+              child: SyncProgressCircularIndicator(syncProgressInfo: syncProgressInfo),
             ),
           )),
     );
@@ -116,5 +86,50 @@ class _SyncScreenState extends ConsumerState<SyncScreen> {
         MaterialPageRoute<void>(
             builder: (BuildContext context) => const HomeScreen()),
         (route) => false);
+  }
+}
+
+class SyncProgressCircularIndicator extends StatelessWidget {
+  const SyncProgressCircularIndicator({
+    super.key,
+    required this.syncProgressInfo,
+  });
+
+  final WorkInfo syncProgressInfo;
+
+  @override
+  Widget build(BuildContext context) {
+    return CircularPercentIndicator(
+      radius: 40.0,
+      lineWidth: 3.0,
+      animation: true,
+      animateFromLastPercent: true,
+      percent: syncProgressInfo.progress / 100,
+      center: syncProgressInfo.state == WorkInfoState.SUCCEEDED
+          ? const Icon(
+              Icons.check,
+              color: Color(0xffffad30),
+              size: 35,
+            )
+          : Text(
+              '${syncProgressInfo.progress}%',
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14.0,
+                  color: Color(0xffb3cbf4)),
+            ),
+      footer: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Text(
+          syncProgressInfo.state != WorkInfoState.SUCCEEDED
+              ? syncProgressInfo.message
+              : S.of(context).configurationReady,
+          style: const TextStyle(fontSize: 13.0, color: Colors.white),
+        ),
+      ),
+      circularStrokeCap: CircularStrokeCap.round,
+      backgroundColor: Colors.transparent,
+      progressColor: Colors.blue[100],
+    );
   }
 }
