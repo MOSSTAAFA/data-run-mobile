@@ -3,6 +3,7 @@ part of 'form_element_model.dart';
 class SectionElementModel extends CollectionElementModel<Map<String, Object?>> {
   SectionElementModel({
     required super.templatePath,
+    required super.id,
     super.hidden,
     Map<String, FormElementModel<dynamic>> elements = const {},
   }) : assert(!elements.keys.any((name) => name.contains('.')),
@@ -141,7 +142,7 @@ class SectionElementModel extends CollectionElementModel<Map<String, Object?>> {
 
   @override
   SectionElementModel getInstance() =>
-      SectionElementModel(templatePath: templatePath);
+      SectionElementModel(templatePath: templatePath, id: id);
 
   @override
   SectionElementModel clone(CollectionElementModel<dynamic>? parent) {

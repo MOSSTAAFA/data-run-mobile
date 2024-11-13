@@ -3,10 +3,11 @@ part of 'form_element_model.dart';
 /// SectionElement is a Form Element representing the
 /// father of either a [SectionElementModel] element or a [RepeatSection] element
 sealed class CollectionElementModel<T> extends FormElementModel<T> {
-  CollectionElementModel(
-      {
-      super.hidden,
-      required super.templatePath});
+  CollectionElementModel({
+    required super.templatePath,
+    required super.id,
+    super.hidden,
+  });
 
   Iterable<FormElementModel<dynamic>> get elementsList;
 

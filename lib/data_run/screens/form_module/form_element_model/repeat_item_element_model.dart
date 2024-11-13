@@ -2,16 +2,17 @@ part of 'form_element_model.dart';
 
 /// A section
 class RepeatItemElementModel extends SectionElementModel {
-  RepeatItemElementModel(
-      {required String id,
-      super.hidden,
-      super.elements,
-      required super.templatePath})
-      : _id = id;
+  RepeatItemElementModel({
+    required super.templatePath,
+    required super.id,
+    super.hidden,
+    super.elements,
+    required String uid,
+  }) : _uid = uid;
 
-  final String _id;
+  final String _uid;
 
-  String get id => _id;
+  String get uid => _uid;
 
   int get sectionIndex => (parent as RepeatElementModel)
       .sectionIndexWhere((section) => section == this);
@@ -43,7 +44,7 @@ class RepeatItemElementModel extends SectionElementModel {
 
   @override
   RepeatItemElementModel getInstance() => RepeatItemElementModel(
-      templatePath: templatePath, id: CodeGenerator.generateCompositeUid());
+      templatePath: templatePath, uid: CodeGenerator.generateCompositeUid(), id: id);
 
   @override
   RepeatItemElementModel clone(CollectionElementModel<dynamic>? parent) {

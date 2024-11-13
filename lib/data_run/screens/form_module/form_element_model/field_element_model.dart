@@ -8,6 +8,7 @@ class FieldElementModel<T> extends FormElementModel<T> {
     super.valid,
     super.dirty,
     bool mandatory = false,
+    required super.id,
   }) : _mandatory = mandatory;
 
   bool _mandatory;
@@ -42,35 +43,36 @@ class FieldElementModel<T> extends FormElementModel<T> {
 
   @override
   FieldElementModel<T> clone(CollectionElementModel<dynamic>? parent) {
-    final result =  FieldElementModel(
+    final instance = getInstance();
+    instance.setDependencies(List.from(dependencies));
+    instance.parent = parent;
+    return instance;
+  }
+
+  @override
+  FieldElementModel<T> getInstance() => FieldElementModel(
+        templatePath: templatePath,
+        id: id,
         hidden: hidden,
         value: value,
         dirty: dirty,
         valid: valid,
         mandatory: mandatory,
-        templatePath: templatePath);
-    result.setDependencies(List.from(dependencies));
-    result.parent = parent;
-    return result;
-  }
-
-  @override
-  FieldElementModel<T> getInstance() =>
-     FieldElementModel(templatePath: templatePath);
-
+      );
 }
 
 class SelectFieldElementModel<T> extends FieldElementModel<T> {
-  SelectFieldElementModel(
-      {
-      required super.templatePath,
-      super.value,
-      super.hidden,
-      super.valid,
-      super.dirty,
-      super.mandatory,
-      this.choiceFilter,
-      this.listName});
+  SelectFieldElementModel({
+    required super.id,
+    required super.templatePath,
+    super.value,
+    super.hidden,
+    super.valid,
+    super.dirty,
+    super.mandatory,
+    this.choiceFilter,
+    this.listName,
+  });
 
   final ChoiceFilter? choiceFilter;
   final String? listName;

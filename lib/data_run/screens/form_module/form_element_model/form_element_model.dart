@@ -27,6 +27,7 @@ enum ElementStatus {
 sealed class FormElementModel<T> {
   FormElementModel({
     required this.templatePath,
+    required this.id,
     T? value,
     bool valid = true,
     bool hidden = false,
@@ -41,6 +42,8 @@ sealed class FormElementModel<T> {
   CollectionElementModel<dynamic>? _parent;
 
   T? _value;
+
+  String id;
 
   ElementStatus _status;
 

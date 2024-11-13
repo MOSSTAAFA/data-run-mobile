@@ -2,10 +2,12 @@ part of 'form_element_model.dart';
 
 class RepeatElementModel
     extends CollectionElementModel<List<Map<String, Object?>?>> {
-  RepeatElementModel(
-      {super.hidden,
-      List<RepeatItemElementModel> elements = const [],
-      required super.templatePath}) {
+  RepeatElementModel({
+    required super.templatePath,
+    required super.id,
+    super.hidden,
+    List<RepeatItemElementModel> elements = const [],
+  }) {
     addAll(elements);
   }
 
@@ -261,13 +263,14 @@ class RepeatElementModel
 
   @override
   RepeatElementModel getInstance() =>
-      RepeatElementModel(templatePath: templatePath);
+      RepeatElementModel(templatePath: templatePath, id: id);
 
   @override
   RepeatElementModel clone(CollectionElementModel<dynamic>? parent) {
     final instance = getInstance();
     instance.parent = parent;
-    final elements = _elements.map((element) => element.clone(instance)).toList();
+    final elements =
+        _elements.map((element) => element.clone(instance)).toList();
     instance.setDependencies(List.from(dependencies));
     instance.addAll(elements);
     return instance;
