@@ -1,3 +1,4 @@
+import 'package:d2_remote/core/datarun/utilities/date_utils.dart' as sdk;
 import 'package:datarun/commons/custom_widgets/async_value.widget.dart';
 import 'package:datarun/core/auth/internet_aware_screen.dart';
 import 'package:datarun/core/auth/user_session_manager.dart';
@@ -29,30 +30,28 @@ class _HomeScreenWidgetState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final userSessionManager = ref.watch(userSessionManagerProvider);
+    final lastSyncTime = userSessionManager.lastSyncTime;
     final userInfoAsync = ref.watch(userInfoProvider);
     return AsyncValueWidget(
       value: userInfoAsync,
       valueBuilder: (userInfo) {
         return Scaffold(
-          appBar: AppBar(
-            actions: const [InternetAwareChip()],
-            title: Text(S.of(context).home),
+          appBar: InternetAwareAppBar(
+            title: S.of(context).home,
           ),
           drawer: Drawer(
             child: ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[
                 UserAccountsDrawerHeader(
-                  accountName: Text(userInfo?.firstName ?? 'no Info'),
-                  accountEmail: Text(S.of(context).organization),
+                  accountName: Text(userInfo?.firstName ?? '-'),
+                  accountEmail: Text(userInfo?.username ?? '-'),
                   currentAccountPicture: CircleAvatar(
-                    child: Text(userInfo?.username?.substring(0, 1) ?? ''),
+                    child: Text(userInfo?.firstName?.substring(0, 1) ?? ''),
                   ),
                 ),
-                Text('${S.of(context).version}: 1.0.1'),
-                Text('database: ${userSessionManager.databaseName}'),
                 ListTile(
-                  leading: Icon(Icons.settings),
+                  leading: const Icon(Icons.settings),
                   title: Text(S.of(context).settings),
                   onTap: () {
                     Navigator.pop(context);
@@ -63,9 +62,15 @@ class _HomeScreenWidgetState extends ConsumerState<HomeScreen> {
                         ));
                   },
                 ),
+                Divider(),
                 ListTile(
-                  leading: Icon(Icons.sync),
+                  leading: const Icon(Icons.sync),
                   title: Text(S.of(context).fetchUpdates),
+                  subtitle: lastSyncTime != null
+                      ? Text(
+                      sdk.DateUtils.dateTimeFormat().format(lastSyncTime))
+                      : Text(S.of(context).noSyncYet),
+                  trailing: Icon(Icons.check_circle, color: userSessionManager.syncDone ? Colors.green : Colors.red),
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.push(

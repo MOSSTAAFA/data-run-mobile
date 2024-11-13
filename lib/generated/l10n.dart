@@ -1203,6 +1203,266 @@ class S {
       args: [],
     );
   }
+
+  /// `App Version`
+  String get appVersion {
+    return Intl.message(
+      'App Version',
+      name: 'appVersion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Person Information`
+  String get personInformation {
+    return Intl.message(
+      'Person Information',
+      name: 'personInformation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login Username`
+  String get loginUsername {
+    return Intl.message(
+      'Login Username',
+      name: 'loginUsername',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Done`
+  String get done {
+    return Intl.message(
+      'Done',
+      name: 'done',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed`
+  String get failed {
+    return Intl.message(
+      'Failed',
+      name: 'failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sync Time`
+  String get lastConfigurationSyncTime {
+    return Intl.message(
+      'Sync Time',
+      name: 'lastConfigurationSyncTime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `last sync status`
+  String get lastSyncStatus {
+    return Intl.message(
+      'last sync status',
+      name: 'lastSyncStatus',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `About`
+  String get about {
+    return Intl.message(
+      'About',
+      name: 'about',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `App Information`
+  String get appInformation {
+    return Intl.message(
+      'App Information',
+      name: 'appInformation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Developer Information`
+  String get developerInformation {
+    return Intl.message(
+      'Developer Information',
+      name: 'developerInformation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `MOH, NMCP Yemen`
+  String get developer {
+    return Intl.message(
+      'MOH, NMCP Yemen',
+      name: 'developer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `info@nmcpye.org`
+  String get developerInfoText {
+    return Intl.message(
+      'info@nmcpye.org',
+      name: 'developerInfoText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Preferences`
+  String get preferences {
+    return Intl.message(
+      'Preferences',
+      name: 'preferences',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Account Information`
+  String get accountInformation {
+    return Intl.message(
+      'Account Information',
+      name: 'accountInformation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mobile`
+  String get mobile {
+    return Intl.message(
+      'Mobile',
+      name: 'mobile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open settings`
+  String get openSettings {
+    return Intl.message(
+      'Open settings',
+      name: 'openSettings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `internet Is Connected`
+  String get internetIsConnected {
+    return Intl.message(
+      'internet Is Connected',
+      name: 'internetIsConnected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No sync yet`
+  String get noSyncYet {
+    return Intl.message(
+      'No sync yet',
+      name: 'noSyncYet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Daily`
+  String get daily {
+    return Intl.message(
+      'Daily',
+      name: 'daily',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Every two days`
+  String get everyTwoDays {
+    return Intl.message(
+      'Every two days',
+      name: 'everyTwoDays',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Weekly`
+  String get weekly {
+    return Intl.message(
+      'Weekly',
+      name: 'weekly',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Every 15 days`
+  String get everyFifteenDays {
+    return Intl.message(
+      'Every 15 days',
+      name: 'everyFifteenDays',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Monthly`
+  String get monthly {
+    return Intl.message(
+      'Monthly',
+      name: 'monthly',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sync Now`
+  String get syncNow {
+    return Intl.message(
+      'Sync Now',
+      name: 'syncNow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sync Interval`
+  String get syncInterval {
+    return Intl.message(
+      'Sync Interval',
+      name: 'syncInterval',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sync Settings`
+  String get syncSettings {
+    return Intl.message(
+      'Sync Settings',
+      name: 'syncSettings',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

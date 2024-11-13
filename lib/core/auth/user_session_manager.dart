@@ -85,6 +85,13 @@ class UserSessionManager {
     return sessionData;
   }
 
+  DateTime? get lastSyncTime => DateTime.fromMillisecondsSinceEpoch(
+      prefs.getInt(SyncService.LAST_SYNC_TIME) ?? 0);
+
+  int get syncInterval => prefs.getInt(SyncService.SYNC_INTERVAL) ?? 15;
+
+  bool get syncDone => prefs.getBool(SyncService.SYNC_DONE) ?? false;
+
   // Clear user data from SharedPreferences
   Future<void> clearSessionFromPreferences() async {
     prefs.remove(D2Remote.currentDatabaseNameKey);

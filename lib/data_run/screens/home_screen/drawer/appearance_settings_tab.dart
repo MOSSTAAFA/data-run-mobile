@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AppearanceSettingsTab extends ConsumerWidget {
+  const AppearanceSettingsTab({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ListView(
@@ -24,8 +25,8 @@ class AppearanceSettingsTab extends ConsumerWidget {
           title: Text('Material Version'),
           trailing: IconButton(
             icon: Theme.of(context).useMaterial3
-                ? Icon(Icons.filter_2)
-                : Icon(Icons.filter_3),
+                ? Icon(Icons.filter_2, )
+                : Icon(Icons.filter_3, ),
             onPressed: () => ref
                 .read(appAppearanceNotifierProvider.notifier)
                 .handleMaterialVersionChange(),
@@ -50,7 +51,7 @@ class _ColorSeedButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return PopupMenuButton(
-      icon: const Icon(
+      icon:  Icon(
         Icons.palette_outlined,
       ),
       tooltip: S.of(context).selectASeedColor,
@@ -104,8 +105,9 @@ class _ColorImageButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return PopupMenuButton(
-      icon: const Icon(
-        Icons.image_outlined,
+      icon:  Icon(
+        Icons.image_outlined
+          ,
       ),
       tooltip: S.of(context).selectAColorExtractionImage,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),

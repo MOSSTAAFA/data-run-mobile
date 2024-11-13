@@ -29,14 +29,14 @@ class _HomeItemState extends ConsumerState<HomeItem> {
       // color: item?.metadataIconData?.programColor,
       child: ListTile(
         onTap: () => widget.onItemClick?.call(item),
-        leading: const Icon(Icons.event_note_sharp),
+        leading: Icon(Icons.event_note_sharp),
         title: Row(children: [
           Expanded(
             child: Text(item.title),
           ),
           IconButton(
               onPressed: () => widget.onDescriptionClick?.call(item),
-              icon: const Icon(Icons.description))
+              icon: Icon(Icons.description))
         ]),
         // subtitle: Text('Trailing expansion arrow icon'),
         trailing: item.dirty
