@@ -41,7 +41,7 @@ class FieldElementModel<T> extends FormElementModel<T> {
       <FormElementModel<dynamic>>[];
 
   @override
-  FieldElementModel<T> clone() {
+  FieldElementModel<T> clone(CollectionElementModel<dynamic>? parent) {
     final result =  FieldElementModel(
         hidden: hidden,
         value: value,
@@ -53,6 +53,11 @@ class FieldElementModel<T> extends FormElementModel<T> {
     result.parent = parent;
     return result;
   }
+
+  @override
+  FieldElementModel<T> getInstance() =>
+     FieldElementModel(templatePath: templatePath);
+
 }
 
 class SelectFieldElementModel<T> extends FieldElementModel<T> {

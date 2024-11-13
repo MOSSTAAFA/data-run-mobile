@@ -1,5 +1,6 @@
 import 'package:d2_remote/modules/datarun/form/shared/rule/choice_filter.dart';
 import 'package:datarun/data_run/screens/form/element/exceptions/form_element_exception.dart';
+import 'package:datarun/data_run/screens/form_module/form/code_generator.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
 part 'field_element_model.dart';
@@ -37,7 +38,7 @@ sealed class FormElementModel<T> {
   String get name => templatePath.split('.').last;
 
   final String templatePath;
-  CollectionElementModel<Object>? _parent;
+  CollectionElementModel<dynamic>? _parent;
 
   T? _value;
 
@@ -48,7 +49,7 @@ sealed class FormElementModel<T> {
   final Map<String, dynamic> _errors = {};
   final List<String> _dependencies = [];
 
-  CollectionElementModel<Object>? get parent => _parent;
+  CollectionElementModel<dynamic>? get parent => _parent;
 
   T? get value => _value;
 
@@ -80,7 +81,7 @@ sealed class FormElementModel<T> {
     _dependencies.addAll(dependents);
   }
 
-  set parent(CollectionElementModel<Object>? parent) {
+  set parent(CollectionElementModel<dynamic>? parent) {
     _parent = parent;
   }
 
@@ -206,5 +207,7 @@ sealed class FormElementModel<T> {
 
   T? reduceValue();
 
-  FormElementModel<dynamic> clone();
+  FormElementModel<dynamic> getInstance();
+
+  FormElementModel<dynamic> clone(CollectionElementModel<dynamic>? parent);
 }

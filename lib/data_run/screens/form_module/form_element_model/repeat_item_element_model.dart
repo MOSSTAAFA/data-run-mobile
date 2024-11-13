@@ -3,10 +3,15 @@ part of 'form_element_model.dart';
 /// A section
 class RepeatItemElementModel extends SectionElementModel {
   RepeatItemElementModel(
-      {
+      {required String id,
       super.hidden,
       super.elements,
-      required super.templatePath});
+      required super.templatePath})
+      : _id = id;
+
+  final String _id;
+
+  String get id => _id;
 
   int get sectionIndex => (parent as RepeatElementModel)
       .sectionIndexWhere((section) => section == this);
@@ -14,7 +19,7 @@ class RepeatItemElementModel extends SectionElementModel {
   @override
   String get name => '$sectionIndex';
 
-  set parent(FormElementModel<Object>? parent) {
+  set parent(CollectionElementModel<dynamic>? parent) {
     if (parent is! RepeatElementModel) {
       throw StateError(
           'A RepeatItemInstance\'s Parent can only be a RepeatInstance, parent: ${parent.runtimeType}');
@@ -37,22 +42,17 @@ class RepeatItemElementModel extends SectionElementModel {
   }
 
   @override
-  RepeatItemElementModel clone() {
-    final result = RepeatItemElementModel(
-        hidden: hidden,
-        // value: value,
-        // dirty: dirty,
-        // valid: valid,
-        templatePath: templatePath,
-        elements:
-            _elements.map((key, element) => MapEntry(key, element.clone())));
-    result.setDependencies(List.from(dependencies));
+  RepeatItemElementModel getInstance() => RepeatItemElementModel(
+      templatePath: templatePath, id: CodeGenerator.generateCompositeUid());
 
-    if (dirty && !hidden) {
-      result.markAsDirty();
-    }
-
-    result.parent = parent;
-    return result;
+  @override
+  RepeatItemElementModel clone(CollectionElementModel<dynamic>? parent) {
+    final instance = getInstance();
+    instance.parent = parent;
+    final elements =
+        _elements.map((key, element) => MapEntry(key, element.clone(instance)));
+    instance.setDependencies(List.from(dependencies));
+    instance.addAll(elements);
+    return instance;
   }
 }
