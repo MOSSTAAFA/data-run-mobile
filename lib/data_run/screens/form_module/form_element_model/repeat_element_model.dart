@@ -4,7 +4,7 @@ class RepeatElementModel
     extends CollectionElementModel<List<Map<String, Object?>?>> {
   RepeatElementModel({
     required super.templatePath,
-    required super.id,
+    // required super.id,
     super.hidden,
     List<RepeatItemElementModel> elements = const [],
   }) {
@@ -18,6 +18,11 @@ class RepeatElementModel
 
   @override
   Iterable<FormElementModel<dynamic>> get elementsList => elements;
+
+  @override
+  void accept(FormElementVisitor visitor) {
+    visitor.visitRepeatSection(this);
+  }
 
   @override
   List<Map<String, Object?>?> get rawValue =>
@@ -162,7 +167,7 @@ class RepeatElementModel
     return false;
   }
 
-  int sectionIndexWhere(bool test(FormElementModel<dynamic> section),
+  int RepeatItemIndexWhere(bool test(RepeatItemElementModel item),
       [int start = 0]) {
     return elements.indexWhere(test);
   }
@@ -263,7 +268,7 @@ class RepeatElementModel
 
   @override
   RepeatElementModel getInstance() =>
-      RepeatElementModel(templatePath: templatePath, id: id);
+      RepeatElementModel(templatePath: templatePath);
 
   @override
   RepeatElementModel clone(CollectionElementModel<dynamic>? parent) {

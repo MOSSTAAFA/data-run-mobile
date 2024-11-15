@@ -1,24 +1,33 @@
 part of 'form_element_model.dart';
 
-/// A section
+/// A section but it has special processing for name and path, name as the
+/// index in the repeated list (it represent a row in a table)
 class RepeatItemElementModel extends SectionElementModel {
   RepeatItemElementModel({
     required super.templatePath,
-    required super.id,
+    // required super.id,
     super.hidden,
     super.elements,
     required String uid,
   }) : _uid = uid;
+
+  @override
+  List<Object?> get props => [...super.props, _uid];
 
   final String _uid;
 
   String get uid => _uid;
 
   int get sectionIndex => (parent as RepeatElementModel)
-      .sectionIndexWhere((section) => section == this);
+      .RepeatItemIndexWhere((section) => section.uid == this.uid);
 
   @override
   String get name => '$sectionIndex';
+
+  @override
+  void accept(FormElementVisitor visitor) {
+    visitor.visitRepeatItem(this);
+  }
 
   set parent(CollectionElementModel<dynamic>? parent) {
     if (parent is! RepeatElementModel) {
@@ -29,22 +38,18 @@ class RepeatItemElementModel extends SectionElementModel {
     _parent = parent;
   }
 
-  String pathBuilder(String? pathItem) {
-    if (parent == null) {
-      throw StateError('RepeatItemInstance\'s Parent should not be null');
-    }
-
-    if (!(parent is RepeatElementModel)) {
+  String? get path {
+    if (parent is! RepeatElementModel) {
       throw StateError(
-          'A RepeatItemInstance\'s Parent can only be a RepeatInstance, parent: ${parent.runtimeType}');
+          'RepeatItemInstance\'s Parent should not be null, and can only be a RepeatElementModel, parent: ${parent.runtimeType}');
     }
 
-    return [parent!.elementPath, pathItem].whereType<String>().join('.');
+    return pathBuilder(name);
   }
 
   @override
   RepeatItemElementModel getInstance() => RepeatItemElementModel(
-      templatePath: templatePath, uid: CodeGenerator.generateCompositeUid(), id: id);
+      templatePath: templatePath, uid: CodeGenerator.generateCompositeUid());
 
   @override
   RepeatItemElementModel clone(CollectionElementModel<dynamic>? parent) {

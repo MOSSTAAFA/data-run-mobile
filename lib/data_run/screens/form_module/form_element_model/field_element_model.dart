@@ -3,20 +3,19 @@ part of 'form_element_model.dart';
 class FieldElementModel<T> extends FormElementModel<T> {
   FieldElementModel({
     required super.templatePath,
-    super.value,
+    T? value,
     super.hidden,
     super.valid,
     super.dirty,
     bool mandatory = false,
-    required super.id,
-  }) : _mandatory = mandatory;
+    // required super.id,
+  })  : _value = value;
 
-  bool _mandatory;
+  T? _value;
 
-  bool get mandatory => _mandatory;
-
-  void toggleMandatory() {
-    _mandatory = !_mandatory;
+  @override
+  void accept(FormElementVisitor visitor) {
+    visitor.visitField(this);
   }
 
   @override
@@ -28,18 +27,18 @@ class FieldElementModel<T> extends FormElementModel<T> {
   }
 
   @override
-  T? reduceValue() => _value;
-
-  @override
   bool anyElements(bool Function(FormElementModel<dynamic>) condition) => false;
-
-  @override
-  FormElementModel<dynamic>? findElement(String path) => this;
 
   @override
   void forEachChild(
           void Function(FormElementModel<dynamic> element) callback) =>
       <FormElementModel<dynamic>>[];
+
+  @override
+  FormElementModel<dynamic>? findElement(String path) => this;
+
+  @override
+  T? reduceValue() => _value;
 
   @override
   FieldElementModel<T> clone(CollectionElementModel<dynamic>? parent) {
@@ -52,18 +51,17 @@ class FieldElementModel<T> extends FormElementModel<T> {
   @override
   FieldElementModel<T> getInstance() => FieldElementModel(
         templatePath: templatePath,
-        id: id,
+        // id: id,
         hidden: hidden,
         value: value,
         dirty: dirty,
         valid: valid,
-        mandatory: mandatory,
       );
 }
 
 class SelectFieldElementModel<T> extends FieldElementModel<T> {
   SelectFieldElementModel({
-    required super.id,
+    // required super.id,
     required super.templatePath,
     super.value,
     super.hidden,

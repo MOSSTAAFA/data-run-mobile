@@ -3,7 +3,7 @@ part of 'form_element_model.dart';
 class SectionElementModel extends CollectionElementModel<Map<String, Object?>> {
   SectionElementModel({
     required super.templatePath,
-    required super.id,
+    // required super.id,
     super.hidden,
     Map<String, FormElementModel<dynamic>> elements = const {},
   }) : assert(!elements.keys.any((name) => name.contains('.')),
@@ -16,6 +16,11 @@ class SectionElementModel extends CollectionElementModel<Map<String, Object?>> {
 
   Map<String, FormElementModel<dynamic>> get elements =>
       Map.unmodifiable(_elements);
+
+  @override
+  void accept(FormElementVisitor visitor) {
+    visitor.visitSection(this);
+  }
 
   @override
   Map<String, Object> get errors {
@@ -142,7 +147,7 @@ class SectionElementModel extends CollectionElementModel<Map<String, Object?>> {
 
   @override
   SectionElementModel getInstance() =>
-      SectionElementModel(templatePath: templatePath, id: id);
+      SectionElementModel(templatePath: templatePath);
 
   @override
   SectionElementModel clone(CollectionElementModel<dynamic>? parent) {

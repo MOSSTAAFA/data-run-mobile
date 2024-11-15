@@ -5,7 +5,7 @@ part of 'form_element_model.dart';
 sealed class CollectionElementModel<T> extends FormElementModel<T> {
   CollectionElementModel({
     required super.templatePath,
-    required super.id,
+    // required super.id,
     super.hidden,
   });
 

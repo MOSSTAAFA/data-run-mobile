@@ -1,6 +1,9 @@
 import 'package:d2_remote/modules/datarun/form/shared/rule/choice_filter.dart';
 import 'package:datarun/data_run/screens/form/element/exceptions/form_element_exception.dart';
 import 'package:datarun/data_run/screens/form_module/form/code_generator.dart';
+import 'package:datarun/data_run/screens/form_module/form/form_element_visitor.dart';
+import 'package:datarun/data_run/screens/form_module/form_element_model/form_element_observer.dart';
+import 'package:equatable/equatable.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
 part 'field_element_model.dart';
@@ -24,26 +27,38 @@ enum ElementStatus {
   hidden,
 }
 
-sealed class FormElementModel<T> {
+sealed class FormElementModel<T> extends FormElementObserver with EquatableMixin {
   FormElementModel({
     required this.templatePath,
-    required this.id,
+    // required String? id,
     T? value,
     bool valid = true,
     bool hidden = false,
     bool dirty = false,
-  })  : _value = value,
+  })  : /*_id = id,*/
         _status = hidden ? ElementStatus.hidden : ElementStatus.valid,
         _dirty = dirty;
 
-  String get name => templatePath.split('.').last;
 
-  final String templatePath;
+  @override
+  List<Object?> get props => [_status, value, path];
+
+  String? get name => templatePath?.split('.').last;
+
+  final String? templatePath;
   CollectionElementModel<dynamic>? _parent;
 
-  T? _value;
+  String? _id;
 
-  String id;
+  T? _cachedValue;
+
+  T? get value {
+    if (_dirty) {
+      _cachedValue = reduceValue();
+      _dirty = false;
+    }
+    return _cachedValue;
+  }
 
   ElementStatus _status;
 
@@ -52,9 +67,9 @@ sealed class FormElementModel<T> {
   final Map<String, dynamic> _errors = {};
   final List<String> _dependencies = [];
 
-  CollectionElementModel<dynamic>? get parent => _parent;
+  String? get id => _id;
 
-  T? get value => _value;
+  CollectionElementModel<dynamic>? get parent => _parent;
 
   ElementStatus get status => _status;
 
@@ -74,10 +89,7 @@ sealed class FormElementModel<T> {
 
   List<String> get dependencies => List.unmodifiable(_dependencies);
 
-  void _updateValue() {
-    _value = reduceValue();
-  }
-
+  void accept(FormElementVisitor visitor);
   // set dependencies during initialization
   void setDependencies(List<String> dependents) {
     _dependencies.clear();
@@ -88,13 +100,20 @@ sealed class FormElementModel<T> {
     _parent = parent;
   }
 
-  String get elementPath => pathRecursive;
+  // String? get elementPath => pathRecursive;
+  // String? get elementPath => pathBuilder(name);
 
-  String get pathRecursive {
-    return parent != null && parent!.name.isNotEmpty
-        ? '${parent!.pathRecursive}.${name}'
-        : name;
-  }
+  String? get path => pathBuilder(name);
+
+  // String? get pathRecursive {
+  //   // if nullable name works out change to simpler hir condition
+  //   return parent?.pathRecursive != null
+  //       ? '${parent!.pathRecursive}.${name}'
+  //       : name;
+  // }
+
+  String pathBuilder(String? pathItem) =>
+      [parent?.path, pathItem].whereType<String>().join('.');
 
   ElementStatus _calculateStatus() {
     if (allElementsHidden()) {
@@ -107,11 +126,6 @@ sealed class FormElementModel<T> {
 
     return ElementStatus.valid;
   }
-
-  String pathBuilder(String? pathItem) => [
-        parent != null ? parent!.elementPath : null,
-        pathItem
-      ].whereType<String>().join('.');
 
   void updateValue(T? value, {bool updateParent = true, bool emitEvent = true});
 
@@ -144,11 +158,14 @@ sealed class FormElementModel<T> {
     _updateAncestors(updateParent);
   }
 
+  // this without sections keeping their values only calculate statuses (errors)
+  // _updateElementsErrors methods do the job and updates the errors
+  // in ancestors. if sections won't keep values, remove;
   void updateValueAndValidity({
     bool updateParent = true,
     bool emitEvent = true,
   }) {
-    _updateValue();
+    // _updateValue();
     if (visible) {
       _status = _calculateStatus();
     }
@@ -205,6 +222,47 @@ sealed class FormElementModel<T> {
   @protected
   void forEachChild(void Function(FormElementModel<dynamic> element) callback);
 
+  /// Sometimes, we might need to consider only certain elements or sections based
+  /// on context, such as when gathering data for form submission (only values
+  /// of fields without sections) vs. dependency resolution (where sections
+  /// are relevant).
+  ///
+  /// **Example:**
+  ///
+  /// - When exporting data, use:
+  ///
+  /// ```dart
+  /// // to collect only field values.
+  /// traverse(filter: (element) => element is FieldElementModel)
+  /// ```
+  /// - When resolving dependencies, use:
+  ///
+  /// ```dart
+  /// // to include relevant scopes.
+  /// traverse(filter: (element) => element is SectionElementModel || element is RepeatElementModel)
+  /// ```
+  Iterable<E> traverse<E extends FormElementModel<dynamic>>(
+      {bool Function(FormElementModel<dynamic> element)? filter}) sync* {
+    if (filter == null || filter(this)) yield this as E;
+    if (this is CollectionElementModel) {
+      for (final child in (this as CollectionElementModel).elementsList) {
+        yield* child.traverse(filter: filter);
+      }
+    }
+  }
+
+  TFormElement?
+  getFirstParentOfType<TFormElement extends CollectionElementModel<dynamic>>() {
+    var currentParent = parent;
+    while (currentParent != null) {
+      if (currentParent is TFormElement) {
+        return currentParent;
+      }
+      currentParent = currentParent.parent;
+    }
+    return null;
+  }
+
   @protected
   FormElementModel<dynamic>? findElement(String path);
 
@@ -213,4 +271,8 @@ sealed class FormElementModel<T> {
   FormElementModel<dynamic> getInstance();
 
   FormElementModel<dynamic> clone(CollectionElementModel<dynamic>? parent);
+
+  void evaluate(FormElementModel<dynamic> dependencyChanged, value) {
+
+  }
 }
