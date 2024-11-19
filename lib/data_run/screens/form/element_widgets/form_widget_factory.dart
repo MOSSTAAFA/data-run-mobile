@@ -1,4 +1,6 @@
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
+import 'package:datarun/data_run/screens/form/form_with_sliver/repeat_section.widget.dart';
+import 'package:datarun/data_run/screens/form/form_with_sliver/section.widget.dart';
 import 'package:datarun/data_run/screens/form/form_with_sliver/section_element_sliver.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:datarun/data_run/screens/form/field_widgets/reactive_choice_single_select_chip.widget.dart';
@@ -16,21 +18,22 @@ import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 /// Factory that instantiate form input fields based on a dynamic element tree
 class FormElementWidgetFactory {
   static Widget createWidget(FormElementInstance<dynamic> element) {
-    // if (element.hidden) {
-    //   return SizedBox.shrink();
-    // }
-
     return switch (element) {
       /// [FieldWidget] is a leaf in the tr
       FieldInstance() =>
         FieldWidget(key: ValueKey(element.elementPath), element: element),
-
-      /// a [SectionWidget] with other widgets inside which also call this factory to build the tree recursively until it reaches the leaf which is a [FieldWidget]
-      SectionElement() => SectionElementSliver(
+    // /// a [SectionWidget] with other widgets inside which also call this factory to build the tree recursively until it reaches the leaf which is a [FieldWidget]
+    //   RepeatInstance() => RepeatSectionWidget(
+    //       key: ValueKey(element.elementPath), element: element),
+    // /// a [SectionWidget] with other widgets inside which also call this factory to build the tree recursively until it reaches the leaf which is a [FieldWidget]
+    //   SectionInstance() => SectionWidget(
+    //       key: ValueKey(element.elementPath), element: element),
+    /// a [SectionWidget] with other widgets inside which also call this factory to build the tree recursively until it reaches the leaf which is a [FieldWidget]
+      RepeatInstance() => SectionElementSliver(
           key: ValueKey(element.elementPath), element: element),
-      // SectionElement() => SectionElementWidget(
-      //     key: ValueKey(element.elementPath),
-      //     element: element),
+      /// a [SectionWidget] with other widgets inside which also call this factory to build the tree recursively until it reaches the leaf which is a [FieldWidget]
+      SectionInstance() => SectionElementSliver(
+          key: ValueKey(element.elementPath), element: element),
     };
   }
 }
