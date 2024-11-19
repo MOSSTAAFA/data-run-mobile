@@ -1,4 +1,4 @@
-import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule/rule_parse_extension.dart';
 
 
@@ -11,7 +11,7 @@ void main() {
   final Map<String, List<String>> dep = {};
   for (final sample in samples) {
     final FieldTemplate field = FieldTemplate.fromJson(sample);
-    dep[field.name] = field.dependencies;
+    dep[field.name!] = field.dependencies;
     templates.add(field);
   }
 

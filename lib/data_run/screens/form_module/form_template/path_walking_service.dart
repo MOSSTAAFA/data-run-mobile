@@ -4,7 +4,7 @@ import 'package:datarun/data_run/screens/form_module/form_template/form_element_
 mixin TreeElement {
   String? get path;
 
-  String get name;
+  String? get name;
 }
 
 mixin TreeSectionElement<T> on TreeElement {

@@ -53,7 +53,7 @@ class RepeatInstanceDataTable extends HookConsumerWidget {
             const DataColumn(label: Text('#')),
             ...tableColumns
                 .map((fieldTemplate) => DataColumn(
-                    label: Text(getItemLocalString(fieldTemplate.label.unlock,
+                    label: Text(getItemLocalString(fieldTemplate.label,
                         defaultString: fieldTemplate.name)),
                     numeric: fieldTemplate.type.isNumeric))
                 .toList(),

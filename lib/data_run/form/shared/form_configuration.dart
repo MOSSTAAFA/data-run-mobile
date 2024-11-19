@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:d2_remote/core/datarun/utilities/date_utils.dart';
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/datarun/form/entities/form_version.entity.dart';
-import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:datarun/core/utils/get_item_local_string.dart';
 import 'package:datarun/data_run/form/form_template/template_providers.dart';
@@ -45,7 +45,7 @@ class FormConfiguration {
       : this.allFields =
             IMap.fromIterable<String, FieldTemplate, FieldTemplate>(
                 fields ?? [],
-                keyMapper: (FieldTemplate field) => field.name,
+                keyMapper: (FieldTemplate field) => field.name!,
                 valueMapper: (FieldTemplate field) => field),
         this.optionLists =
             IMap.fromIterable<String, IList<FormOption>, FormOption>(

@@ -1,5 +1,4 @@
-import 'package:d2_remote/modules/datarun/form/shared/attribute_type.dart';
-import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule/action.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule/choice_filter.dart';
@@ -56,7 +55,7 @@ sealed class FormElementInstance<T> {
   Set<FormElementInstance<dynamic>> get dependencies =>
       Set.unmodifiable(_dependencies);
 
-  String get name => template.name;
+  String get name => template.name!;
 
   String get label =>
       '${getItemLocalString(template.label, defaultString: name)}${mandatory ? ' *' : ''}';
@@ -157,7 +156,9 @@ sealed class FormElementInstance<T> {
   }
 
   void setErrors(Map<String, dynamic> errors) {
-    elementControl?.setErrors(errors);
+    if (visible) {
+      elementControl?.setErrors(errors);
+    }
   }
 
   void removeError(String key) {
@@ -186,7 +187,7 @@ sealed class FormElementInstance<T> {
   void evaluate([String? changedDependency]) {
     logDebug(
         info:
-            '$name, dependencyChanged ${changedDependency != null ? ': $changedDependency' : ''} Changed to: ${evalContext[changedDependency]}, _isEvaluating: $_isEvaluating, Evaluating State...');
+            '$name, dependencyChanged ${changedDependency != null ?': $changedDependency' : ''} Changed to: ${evalContext[changedDependency]}, _isEvaluating: $_isEvaluating, Evaluating State...');
     if (_isEvaluating) {
       return;
     }

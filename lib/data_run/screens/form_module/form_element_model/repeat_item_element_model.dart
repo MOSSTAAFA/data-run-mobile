@@ -4,11 +4,9 @@ part of 'form_element_model.dart';
 /// index in the repeated list (it represent a row in a table)
 class RepeatItemElementModel extends SectionElementModel {
   RepeatItemElementModel({
-    required super.templatePath,
-    // required super.id,
-    super.hidden,
-    super.elements,
+    super.templatePath,
     required String uid,
+    super.elements,
   }) : _uid = uid;
 
   @override
@@ -18,11 +16,22 @@ class RepeatItemElementModel extends SectionElementModel {
 
   String get uid => _uid;
 
-  int get sectionIndex => (parent as RepeatElementModel)
-      .RepeatItemIndexWhere((section) => section.uid == this.uid);
+  String get index =>
+      '${parent.RepeatItemIndexWhere((section) => section.uid == this.uid)}';
 
   @override
-  String get name => '$sectionIndex';
+  String get templatePath => pathBuilder(name);
+
+  Map<String, String> get context => {
+        'uid': uid,
+        'index': index,
+        'parent': parent.path!,
+      };
+
+  RepeatElementModel get parent => _parent as RepeatElementModel;
+
+  @override
+  String get name => uid;
 
   @override
   void accept(FormElementVisitor visitor) {
@@ -36,15 +45,6 @@ class RepeatItemElementModel extends SectionElementModel {
     }
 
     _parent = parent;
-  }
-
-  String? get path {
-    if (parent is! RepeatElementModel) {
-      throw StateError(
-          'RepeatItemInstance\'s Parent should not be null, and can only be a RepeatElementModel, parent: ${parent.runtimeType}');
-    }
-
-    return pathBuilder(name);
   }
 
   @override
