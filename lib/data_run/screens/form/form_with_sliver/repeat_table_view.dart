@@ -1,6 +1,7 @@
 import 'package:d2_remote/core/utilities/list_extensions.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:datarun/data_run/form/form_element/form_element_iterators/form_element_iterator.dart';
+import 'package:datarun/data_run/screens/form/hooks/register_dependencies.dart';
 import 'package:datarun/generated/l10n.dart';
 import 'package:d2_remote/core/datarun/utilities/date_utils.dart' as sdk;
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
@@ -32,46 +33,66 @@ class RepeatInstanceDataTable extends HookConsumerWidget {
     final tableColumns = formTemplate
         .getChildrenOfType<FieldElementTemplate>(repeatInstance.pathRecursive);
 
+    //
+    useRegisterDependencies(repeatInstance);
+
+    final elementPropertiesSnapshot =
+        useStream(repeatInstance.propertiesChanged);
+
+    if (!elementPropertiesSnapshot.hasData) {
+      return const CircularProgressIndicator();
+    }
+
+    if (elementPropertiesSnapshot.data!.hidden) {
+      return const SizedBox.shrink();
+    }
+    //
+
     final ValueNotifier<int?> initialFirstRowIndex = useState(null);
 
-    return Stack(
-      children: [
-        PaginatedDataTable(
-          initialFirstRowIndex: initialFirstRowIndex.value,
-          showFirstLastButtons: true,
-          actions: [
-            ElevatedButton(
-              onPressed: () async {
-                initialFirstRowIndex.value = await onAdd?.call();
-              },
-              child: Icon(Icons.add),
-            ),
-          ],
-          header: Text('${repeatInstance.label}'),
-          rowsPerPage: 5,
-          columns: [
-            const DataColumn(label: Text('#')),
-            ...tableColumns
-                .map((fieldTemplate) => DataColumn(
-                    label: Text(getItemLocalString(fieldTemplate.label,
-                        defaultString: fieldTemplate.name)),
-                    numeric: fieldTemplate.type.isNumeric))
-                .toList(),
-            DataColumn(label: Text(S.of(context).edit)),
-            DataColumn(label: Text(S.of(context).delete)),
-          ],
-          source: RepeatTableDataSource(
-              repeatInstance: repeatInstance,
-              onEdit: (index) async {
-                await onEdit?.call(index);
-              },
-              onDelete: (index) async {
-                await onDelete?.call(index);
-                // formInstance.onRemoveRepeatedItem(index, repeatInstance);
-              }),
+    return PaginatedDataTable(
+      initialFirstRowIndex: initialFirstRowIndex.value,
+      showFirstLastButtons: true,
+      actions: [
+        ElevatedButton(
+          onPressed: () async {
+            initialFirstRowIndex.value = await onAdd?.call();
+          },
+          child: Icon(Icons.add),
         ),
       ],
+      header: Text('${repeatInstance.label}'),
+      rowsPerPage: 5,
+      columns: _buildColumns(tableColumns, context),
+      source: buildTableDataSource(),
     );
+  }
+
+  RepeatTableDataSource buildTableDataSource() {
+    return RepeatTableDataSource(
+        repeatInstance: repeatInstance,
+        onEdit: (index) async {
+          await onEdit?.call(index);
+        },
+        onDelete: (index) async {
+          await onDelete?.call(index);
+          // formInstance.onRemoveRepeatedItem(index, repeatInstance);
+        });
+  }
+
+  List<DataColumn> _buildColumns(
+      List<FormElementTemplate> tableColumns, BuildContext context) {
+    return [
+      const DataColumn(label: Text('#')),
+      ...tableColumns
+          .map((fieldTemplate) => DataColumn(
+              label: Text(getItemLocalString(fieldTemplate.label,
+                  defaultString: fieldTemplate.name)),
+              numeric: fieldTemplate.type.isNumeric))
+          .toList(),
+      DataColumn(label: Text(S.of(context).edit)),
+      DataColumn(label: Text(S.of(context).delete)),
+    ];
   }
 }
 
