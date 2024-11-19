@@ -100,7 +100,7 @@ class _SubmissionTabScreenState extends ConsumerState<FormTabScreen> {
 
     return PopScope(
       canPop: false,
-      onPopInvoked: (bool didPop) async {
+      onPopInvokedWithResult: (bool didPop, result) async {
         if (didPop) {
           return;
         }

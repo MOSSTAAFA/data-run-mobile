@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+1
+version: 1.0.2+2
 
 # analyzer:
 # strong-mode: true
@@ -66,6 +66,7 @@ dependencies:
   json_path: ^0.3.1
   logger: ^2.4.0
   flutter_treeview: ^1.0.7+1
+  easy_sticky_header: ^1.1.1
 #  sentry_flutter: ^8.3.0
 
 dev_dependencies:

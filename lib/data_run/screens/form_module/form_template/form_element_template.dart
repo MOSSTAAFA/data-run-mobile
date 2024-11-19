@@ -40,11 +40,12 @@ class FormFlatTemplate with PathWalkingService {
                 .where((o) => o.listName == option.listName)
                 .toList()),
         rootElementTemplate = SectionElementTemplate(children: fields) {
-    final fields = getFormElementTemplateIterator(rootElementTemplate)
-        .where((field) => field.path != null)
-        .toList()
-      ..sort((a, b) => (a.path!).compareTo(b.path!));
-    for (final field in fields) {
+    final itFields =
+        getFormElementTemplateIterator(rootElementTemplate)
+            .where((field) => field.path != null)
+            .toList()
+          ..sort((a, b) => (a.path!).compareTo(b.path!));
+    for (final field in itFields) {
       _flatFields[field.path!] = field;
     }
   }
@@ -104,6 +105,7 @@ sealed class FormElementTemplate with TreeElement, EquatableMixin {
   }
 
   ValueType get type;
+
   final String? name;
   final String? path;
   final String? pathTemplate;
@@ -234,6 +236,7 @@ class SectionElementTemplate extends FormElementTemplate {
   final String? itemTitle;
 
   final List<FormElementTemplate> _children = [];
+  List<FormElementTemplate> get children => List.unmodifiable(_children);
 
   void addAll(List<FormElementTemplate> children) {
     _children.clear();

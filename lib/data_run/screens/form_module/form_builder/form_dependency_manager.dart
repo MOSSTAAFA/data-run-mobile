@@ -1,6 +1,6 @@
 import 'package:datarun/data_run/screens/form_module/form_template/form_element_template.dart';
 import 'package:datarun/data_run/screens/form_module/form_template/template_extension.dart';
-import 'package:datarun/data_run/screens/form_module/tree_node/form_tree/dependencies_processing.dart';
+import 'package:datarun/data_run/form/processing_dependencies.dart';
 
 class FormDependencyManager {
   late Map<String, List<String>> _dependencyGraph;
