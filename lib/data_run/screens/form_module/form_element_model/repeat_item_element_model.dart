@@ -1,16 +1,13 @@
 part of 'form_element_model.dart';
 
-/// A section but it has special processing for name and path, name as the
-/// index in the repeated list (it represent a row in a table)
+/// A section
 class RepeatItemElementModel extends SectionElementModel {
-  RepeatItemElementModel({
-    super.templatePath,
-    required String uid,
-    super.elements,
-  }) : _uid = uid;
+  RepeatItemElementModel(
+      {super.hidden,
+        super.elements,
+        required String uid,
+        required super.templatePath}) : _uid = uid;
 
-  @override
-  List<Object?> get props => [...super.props, _uid];
 
   final String _uid;
 
@@ -20,23 +17,10 @@ class RepeatItemElementModel extends SectionElementModel {
       '${parent.RepeatItemIndexWhere((section) => section.uid == this.uid)}';
 
   @override
-  String get templatePath => pathBuilder(name);
+  String get name => '$uid';
 
-  Map<String, String> get context => {
-        'uid': uid,
-        'index': index,
-        'parent': parent.path!,
-      };
 
   RepeatElementModel get parent => _parent as RepeatElementModel;
-
-  @override
-  String get name => uid;
-
-  @override
-  void accept(FormElementVisitor visitor) {
-    visitor.visitRepeatItem(this);
-  }
 
   set parent(CollectionElementModel<dynamic>? parent) {
     if (parent is! RepeatElementModel) {
@@ -45,6 +29,10 @@ class RepeatItemElementModel extends SectionElementModel {
     }
 
     _parent = parent;
+  }
+
+  String pathBuilder(String? pathItem) {
+    return [parent.elementPath, pathItem].whereType<String>().join('.');
   }
 
   @override
@@ -56,8 +44,7 @@ class RepeatItemElementModel extends SectionElementModel {
     final instance = getInstance();
     instance.parent = parent;
     final elements =
-        _elements.map((key, element) => MapEntry(key, element.clone(instance)));
-    instance.setDependencies(List.from(dependencies));
+    _elements.map((key, element) => MapEntry(key, element.clone(instance)));
     instance.addAll(elements);
     return instance;
   }

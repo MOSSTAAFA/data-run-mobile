@@ -1,10 +1,9 @@
 import 'package:d2_remote/modules/datarun/form/shared/rule/choice_filter.dart';
+import 'package:datarun/commons/logging/logging.dart';
 import 'package:datarun/data_run/screens/form/element/exceptions/form_element_exception.dart';
 import 'package:datarun/data_run/screens/form_module/form/code_generator.dart';
-import 'package:datarun/data_run/screens/form_module/form/form_element_visitor.dart';
-import 'package:datarun/data_run/screens/form_module/tree_node/tree_node_mixin/tree_node_mixin.dart';
-import 'package:equatable/equatable.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
+import 'package:rxdart/rxdart.dart';
 
 part 'field_element_model.dart';
 
@@ -16,41 +15,190 @@ part 'repeat_element_model.dart';
 
 part 'repeat_item_element_model.dart';
 
-sealed class FormElementModel<T> extends AbstractTreeNode with EquatableMixin {
+// part 'element_dependency.extension.dart';
+
+enum ElementStatus {
+  /// The element has passed all validation checks.
+  valid,
+
+  /// The element has failed at least one validation check.
+  invalid,
+
+  /// This element is exempt from validation checks.
+  hidden,
+}
+
+sealed class FormElementModel<T> {
+  Stream<ElementStatus> get propertiesChanged => (_statusChanges ??=
+      BehaviorSubject<ElementStatus>.seeded(status)) as Stream<ElementStatus>;
+
+  @protected
+  BehaviorSubject<ElementStatus?>? _statusChanges;
+
   FormElementModel({
     this.templatePath,
-  });
-
-  @override
-  List<Object?> get props => [path];
+    T? value,
+    bool valid = true,
+    bool hidden = false,
+    bool dirty = false,
+  })  : _value = value,
+        _status = hidden ? ElementStatus.hidden : ElementStatus.valid,
+        _dirty = dirty;
 
   String? get name => templatePath?.split('.').last;
 
   final String? templatePath;
-
   CollectionElementModel<dynamic>? _parent;
 
-  final List<String> _dependencies = [];
+  T? _value;
+
+  ElementStatus _status;
+
+  bool _dirty;
+
+  final Map<String, dynamic> _errors = {};
 
   CollectionElementModel<dynamic>? get parent => _parent;
 
-  List<String> get dependencies => List.unmodifiable(_dependencies);
+  T? get value => reduceValue();
 
-  void accept(FormElementVisitor visitor);
+  ElementStatus get status => _status;
 
-  void setDependencies(List<String> dependents) {
-    _dependencies.clear();
-    _dependencies.addAll(dependents);
+  bool get hidden => status == ElementStatus.hidden;
+
+  bool get visible => !hidden;
+
+  bool get valid => status == ElementStatus.valid;
+
+  bool get invalid => status == ElementStatus.invalid;
+
+  bool get dirty => _dirty;
+
+  Map<String, Object> get errors => Map.unmodifiable(_errors);
+
+  bool get hasErrors => errors.isNotEmpty;
+
+  void _updateValue() {
+    _value = reduceValue();
   }
 
   set parent(CollectionElementModel<dynamic>? parent) {
     _parent = parent;
   }
 
-  String? get path => pathBuilder(name);
+  String? get elementPath => name == null ? null : pathBuilder(name);
 
   String pathBuilder(String? pathItem) =>
-      [parent?.path, pathItem].whereType<String>().join('.');
+      [parent?.elementPath, pathItem].whereType<String>().join('.');
+
+  ElementStatus _calculateStatus() {
+    if (allElementsHidden()) {
+      return ElementStatus.hidden;
+    } else if (errors.isNotEmpty) {
+      return ElementStatus.invalid;
+    } else if (anyElementsHaveStatus(ElementStatus.invalid)) {
+      return ElementStatus.invalid;
+    }
+
+    return ElementStatus.valid;
+  }
+
+  void updateValue(T? value, {bool updateParent = true, bool emitEvent = true});
+
+  void markAsDirty({bool updateParent = true, bool emitEvent = true}) {
+    _dirty = true;
+    if (updateParent) {
+      parent?.markAsDirty(updateParent: updateParent);
+    }
+  }
+
+  void markAsHidden({bool updateParent = true, bool emitEvent = true}) {
+    if (hidden) {
+      return;
+    }
+
+    _errors.clear();
+    _status = ElementStatus.hidden;
+    // if (emitEvent) {
+    //   _statusChanges.add(_status);
+    // }
+    _updateAncestors(updateParent);
+  }
+
+  void markAsVisible({bool updateParent = true, bool emitEvent = true}) {
+    if (visible) {
+      return;
+    }
+    _status = ElementStatus.valid;
+    updateValueAndValidity(updateParent: true, emitEvent: emitEvent);
+    _updateAncestors(updateParent);
+  }
+
+  void updateValueAndValidity({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    _updateValue();
+    if (visible) {
+      _status = _calculateStatus();
+    }
+
+    if (emitEvent) {
+      // _valueChanges.add(value);
+      _statusChanges?.add(_status);
+    }
+
+    _updateAncestors(updateParent);
+  }
+
+  void _updateAncestors(bool updateParent) {
+    if (updateParent) {
+      parent?.updateValueAndValidity(updateParent: updateParent);
+    }
+  }
+
+  void _updateElementsErrors() {
+    _status = _calculateStatus();
+    _statusChanges?.add(_status);
+
+    parent?._updateElementsErrors();
+  }
+
+  void setErrors(Map<String, dynamic> errors, {bool markAsDirty = true}) {
+    _errors.clear();
+    _errors.addAll(errors);
+
+    _updateElementsErrors();
+
+    if (markAsDirty) {
+      this.markAsDirty(emitEvent: false);
+    }
+  }
+
+  void removeError(String key, {bool markAsDirty = false}) {
+    _errors.removeWhere((errorKey, dynamic value) => errorKey == key);
+    _updateElementsErrors();
+
+    if (markAsDirty) {
+      this.markAsDirty(emitEvent: false);
+    }
+  }
+
+  @protected
+  bool allElementsHidden() => hidden;
+
+  @protected
+  bool anyElementsHaveStatus(ElementStatus status) => false;
+
+  bool anyElements(bool Function(FormElementModel<dynamic>) condition);
+
+  @protected
+  void forEachChild(void Function(FormElementModel<dynamic> element) callback);
+
+  @protected
+  FormElementModel<dynamic>? findElement(String path);
+
+  T? reduceValue();
 
   /// Sometimes, we might need to consider only certain elements or sections based
   /// on context, such as when gathering data for form submission (only values
@@ -99,8 +247,30 @@ sealed class FormElementModel<T> extends AbstractTreeNode with EquatableMixin {
     return null;
   }
 
-  @protected
-  FormElementModel<dynamic>? findElement(String path);
+  @mustCallSuper
+  void evaluate([String? changedDependency]) {
+    logDebug(info: '$name, dependencyChanged');
+    // if (_isEvaluating) {
+    //   return;
+    // }
+
+    // _isEvaluating = true;
+
+    // try {
+    //   elementRuleActions.forEach((ruleAction) {
+    //     logDebug(
+    //         info:
+    //             '$name\'s Evaluating: ${ruleAction.expression}, action: ${ruleAction.action}');
+    //     ruleAction.evaluate(evalContext)
+    //         ? ruleAction.apply(this)
+    //         : ruleAction.reset(this);
+    //   });
+    // } catch (e) {
+    //   logError(info: 'Error Evaluating: ');
+    // } finally {
+    //   _isEvaluating = false;
+    // }
+  }
 
   FormElementModel<dynamic> getInstance();
 

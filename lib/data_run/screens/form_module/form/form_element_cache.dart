@@ -2,20 +2,23 @@
 // import 'package:datarun/data_run/screens/form_module/form_template/form_element_template.dart';
 //
 // class FormElementCache {
-//   final Map<String, FormElementTemplate> _formElementMap = {};
+//   final Map<String, FormElementModel<dynamic>> _formElementMap = {};
+//   final FormFlatTemplate formFlatTemplate;
 //
-//   FormElementCache(
-//       {Map<String, FormElementModel<dynamic>> formElementMap = const {}}) {
+//   FormElementCache({
+//     Map<String, FormElementModel<dynamic>> formElementMap = const {},
+//     required this.formFlatTemplate,
+//   }) {
 //     _formElementMap.addAll(formElementMap);
 //   }
 //
 //   void addElement(FormElementModel<dynamic> element) {
-//     _formElementMap[element.path!] = element;
-//     // if (element is SectionElementModel) {
-//     //   for (var child in element.elements.values) {
-//     //     addElement(child);
-//     //   }
-//     // }
+//     _formElementMap[element.templatePath] = element;
+//     if (element is SectionElementModel) {
+//       for (var child in element.elements.values) {
+//         addElement(child);
+//       }
+//     }
 //
 //     if (element is CollectionElementModel) {
 //       for (var child in element.elementsList) {

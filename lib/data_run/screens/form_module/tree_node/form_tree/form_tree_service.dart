@@ -10,7 +10,7 @@ class FormTreeService {
     for (var element in root.formFlatFields.values) {
       graph[element.path!] = element.dependencies.toSet();
     }
-    final reverseDependencyGraph = buildReverseDependencyMap(graph);
+    final reverseDependencyGraph = buildTransitiveReverseDependencyMap(graph);
     return reverseDependencyGraph;
   }
 
