@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule/choice_filter.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule/rule_parse_extension.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
@@ -35,7 +35,7 @@ class FormElementBuilder {
     for (var template in formFlatTemplate.formTemplate.fields) {
       template.fields.sort((a, b) => (a.order).compareTo(b.order));
 
-      elements[template.name] = buildFormElement(form, template,
+      elements[template.name!] = buildFormElement(form, template,
           initialFormValue: initialFormValue?[template.name]);
     }
 
@@ -66,7 +66,7 @@ class FormElementBuilder {
     final section = SectionInstance(form: rootFormControl, template: template);
 
     for (var childTemplate in template.fields) {
-      elements[childTemplate.name] = buildFormElement(
+      elements[childTemplate.name!] = buildFormElement(
           rootFormControl, childTemplate,
           initialFormValue: initialFormValue?[childTemplate.name]);
     }
@@ -84,7 +84,7 @@ class FormElementBuilder {
     final repeatedSection =
         RepeatItemInstance(template: template, form: rootFormControl);
     for (var childTemplate in template.fields) {
-      elements[childTemplate.name] = buildFormElement(
+      elements[childTemplate.name!] = buildFormElement(
           rootFormControl, childTemplate,
           initialFormValue: initialFormValue?[childTemplate.name]);
     }

@@ -5,8 +5,8 @@ import 'package:datarun/data_run/screens/form/element_widgets/form_widget_factor
 import 'package:datarun/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
-class SectionWidget extends HookConsumerWidget {
-  SectionWidget({super.key, required this.element, String path = ''});
+class PopupSectionWidget extends HookConsumerWidget {
+  PopupSectionWidget({super.key, required this.element, String path = ''});
 
   final SectionInstance element;
 
@@ -20,7 +20,7 @@ class SectionWidget extends HookConsumerWidget {
       formGroup: formInstance.form.control(element.pathRecursive) as FormGroup,
       child: Column(
         children: element.elements.values.map((childElement) {
-          return FormElementWidgetFactory.createWidget(childElement);
+          return PopupFormElementWidgetFactory.createWidget(childElement);
         }).toList(),
       ),
     );

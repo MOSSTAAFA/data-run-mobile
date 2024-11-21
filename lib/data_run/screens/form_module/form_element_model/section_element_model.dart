@@ -2,7 +2,7 @@ part of 'form_element_model.dart';
 
 class SectionElementModel extends CollectionElementModel<Map<String, Object?>> {
   SectionElementModel({
-    required super.templatePath,
+    super.templatePath,
     super.hidden,
     Map<String, FormElementModel<dynamic>> elements = const {},
   }) : assert(!elements.keys.any((name) => name.contains('.')),
@@ -140,25 +140,18 @@ class SectionElementModel extends CollectionElementModel<Map<String, Object?>> {
   }
 
   @override
-  SectionElementModel clone() {
-    final result = SectionElementModel(
-        hidden: hidden,
-        // value: value,
-        // dirty: dirty,
-        // valid: valid,
-        templatePath: templatePath,
-        elements:
-            _elements.map((key, element) => MapEntry(key, element.clone())));
-    result.setDependencies(List.from(dependencies));
-    if (hidden) {
-      result.markAsHidden();
-    }
+  SectionElementModel getInstance() =>
+      SectionElementModel(templatePath: templatePath);
 
-    if (dirty && !hidden) {
-      result.markAsDirty();
-    }
-
-    result.parent = parent;
-    return result;
+  @override
+  SectionElementModel clone(CollectionElementModel<dynamic>? parent) {
+    final instance = getInstance();
+    instance.parent = parent;
+    final elements =
+    _elements.map((key, element) => MapEntry(key, element.clone(instance)));
+    instance.addAll(elements);
+    return instance;
   }
+
+
 }

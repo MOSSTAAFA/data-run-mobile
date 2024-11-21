@@ -30,7 +30,7 @@ class FormInstanceEntryView extends HookConsumerWidget {
         shrinkWrap: true,
         itemCount: formInstance.elements.values.length,
         itemBuilder: (BuildContext context, int index) =>
-            FormElementWidgetFactory.createWidget(
+            PopupFormElementWidgetFactory.createWidget(
           formInstance.elements.values.toList()[index],
         ),
       ),

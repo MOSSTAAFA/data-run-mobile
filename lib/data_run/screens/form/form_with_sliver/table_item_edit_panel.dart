@@ -50,7 +50,7 @@ class EditPanel extends HookConsumerWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child:
-                    FormElementWidgetFactory.createWidget(repeatItemInstance),
+                    PopupFormElementWidgetFactory.createWidget(repeatItemInstance),
               ),
             ),
           ),

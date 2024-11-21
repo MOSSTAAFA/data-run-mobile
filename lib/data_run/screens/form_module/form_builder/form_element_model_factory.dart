@@ -1,6 +1,7 @@
 import 'package:d2_remote/modules/datarun/form/entities/form_version.entity.dart';
-import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
+import 'package:datarun/data_run/screens/form_module/form/code_generator.dart';
 import 'package:datarun/data_run/screens/form_module/form_element_model/form_element_model.dart';
 
 class FormElementModelFactory {
@@ -10,7 +11,7 @@ class FormElementModelFactory {
     final Map<String, FormElementModel<dynamic>> elements = {};
 
     for (var template in formFlatTemplate.fields) {
-      elements[template.name] = buildFormElement(template,
+      elements[template.name!] = buildFormElement(template,
           initialValue: initialValue?[template.name]);
     }
 
@@ -37,7 +38,7 @@ class FormElementModelFactory {
     final section = SectionElementModel(templatePath: elementTemplate.path!);
 
     for (var childTemplate in elementTemplate.fields) {
-      elements[childTemplate.name] = buildFormElement(childTemplate,
+      elements[childTemplate.name!] = buildFormElement(childTemplate,
           initialValue: initialValue?[childTemplate.name]);
     }
     section.addAll(elements);
@@ -51,11 +52,13 @@ class FormElementModelFactory {
 
     elementTemplate.fields.sort((a, b) => (a.order).compareTo(b.order));
     for (var childTemplate in elementTemplate.fields) {
-      elements[childTemplate.name] = buildFormElement(childTemplate,
+      elements[childTemplate.name!] = buildFormElement(childTemplate,
           initialValue: initialValue?[childTemplate.name]);
     }
     final repeatedSection = RepeatItemElementModel(
-        templatePath: elementTemplate.path!, elements: elements);
+        templatePath: elementTemplate.path!,
+        elements: elements,
+        uid: CodeGenerator.generateUid());
 
     return repeatedSection;
   }

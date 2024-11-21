@@ -28,7 +28,6 @@ class FieldWidget extends HookConsumerWidget {
 
     useEffect(() {
       final subscription = control.valueChanges.listen((value) {
-        // element.updateValue(value);
         if (value == null) {
           element.updateValue(value);
         } else {
@@ -41,23 +40,16 @@ class FieldWidget extends HookConsumerWidget {
     }, [control]);
 
     if (!elementPropertiesSnapshot.hasData) {
-      return Container();
+      return CircularProgressIndicator();
     }
 
-    return Builder(builder: (context) {
-      if (elementPropertiesSnapshot.data!.hidden) {
-        return SizedBox.shrink();
-      } else {
-        return Card(
-          shadowColor: Theme.of(context).colorScheme.shadow,
-          surfaceTintColor: Theme.of(context).colorScheme.primary,
-          elevation: 1,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: FieldFactory.fromType(element: element),
-          ),
-        );
-      }
-    });
+    if (elementPropertiesSnapshot.data!.hidden) {
+      return SizedBox.shrink();
+    }
+
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: FieldFactory.fromType(element: element),
+    );
   }
 }
