@@ -118,6 +118,9 @@ sealed class FormElementInstance<T> {
 
   void markAsHidden({bool updateParent = true, bool emitEvent = true}) {
     logDebug(info: '${name}, mark as Hidden');
+    if(hidden) {
+      return;
+    }
     updateStatus(elementState.copyWith(hidden: true, errors: {}));
     elementControl!.reset(disabled: true);
     elementControl!.updateValueAndValidity(
@@ -129,6 +132,10 @@ sealed class FormElementInstance<T> {
 
   void markAsVisible({bool updateParent = true, bool emitEvent = true}) {
     logDebug(info: '${name}, mark as visible');
+    if(!hidden) {
+      return;
+    }
+
     updateStatus(elementState.copyWith(hidden: false));
     elementControl!.markAsEnabled();
     updateValueAndValidity(updateParent: true, emitEvent: emitEvent);
@@ -137,6 +144,9 @@ sealed class FormElementInstance<T> {
 
   void markAsMandatory({bool updateParent = true, bool emitEvent = true}) {
     logDebug(info: '${name}, markAsMandatory');
+    if(mandatory) {
+      return;
+    }
     updateStatus(elementState.copyWith(mandatory: true));
 
     final elementValidators = [

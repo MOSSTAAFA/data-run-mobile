@@ -93,23 +93,21 @@ class FormInstanceEntryViewSliver extends HookConsumerWidget {
       builder: (BuildContext context) {
         return FormMetadataWidget(
           formMetadata: formMetadata,
-          child: CustomScrollView(
-            slivers: [EditPanel(
-              repeatItemInstance: item,
-              isNew: isNew,
-              onSave: () {
-                if (item.elementControl.dirty) {
-                  element.elementControl.markAsTouched();
-                }
-                if (context.mounted) Navigator.pop(context);
-              },
-              onCancel: () {
-                if (item.elementControl.dirty) {
-                  element.elementControl.markAsTouched();
-                }
-                if (context.mounted) Navigator.pop(context);
-              },
-            )],
+          child: EditPanel(
+            repeatItemInstance: item,
+            isNew: isNew,
+            onSave: () {
+              if (item.elementControl.dirty) {
+                element.elementControl.markAsTouched();
+              }
+              if (context.mounted) Navigator.pop(context);
+            },
+            onCancel: () {
+              if (item.elementControl.dirty) {
+                element.elementControl.markAsTouched();
+              }
+              if (context.mounted) Navigator.pop(context);
+            },
           ),
         );
       },

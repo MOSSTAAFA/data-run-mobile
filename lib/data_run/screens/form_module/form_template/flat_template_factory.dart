@@ -6,60 +6,61 @@ import 'package:datarun/data_run/screens/form_module/form_template/form_element_
 class FlatTemplateFactory {
   static List<FormElementTemplate> flatTemplateWithPath(
       List<FieldTemplate> templates,
-      {String? initialPath}) {
+      {String? initialPath,
+      String? initialRuntimePath}) {
     List<FormElementTemplate> result = [];
     for (var template in templates) {
-      result.addAll(_flattenElementTemplate(template, prefix: initialPath));
+      result.addAll(_flattenElementTemplate(template,
+          prefix: initialPath, runtimePrefix: initialRuntimePath));
     }
     return result;
   }
 
   static List<FormElementTemplate> _flattenElementTemplate(
       FieldTemplate template,
-      {String? prefix}) {
+      {String? prefix,
+      String? runtimePrefix}) {
     List<FormElementTemplate> result = [];
-
+    String fullPrefix =
+        prefix != null ? '$prefix.${template.name}' : template.name!;
+    String fullRuntimePrefix = runtimePrefix != null
+        ? '$runtimePrefix.${template.name}.{key}'
+        : '${template.name!}.{key}';
     if (template.isSection) {
-      String fullPrefix =
-          prefix != null ? '$prefix.${template.name}' : template.name!;
-
       result.add(SectionElementTemplate(
           name: template.name,
           label: template.label,
           order: template.order,
           fieldValueRenderingType: template.fieldValueRenderingType,
           path: fullPrefix,
+          runtimePath: fullRuntimePrefix,
           properties: template.properties,
           rules: template.rules,
           itemTitle: template.itemTitle,
           ruleDependencies: template.dependencies,
-          children:
-              flatTemplateWithPath(template.fields, initialPath: fullPrefix)));
+          children: flatTemplateWithPath(template.fields,
+              initialPath: fullPrefix, initialRuntimePath: fullRuntimePrefix)));
       // result.addAll(
       //     flatTemplateWithPath(template.fields, initialPath: fullPrefix));
     } else if (template.isRepeat) {
-      String fullPrefix = prefix != null
-          ? '$prefix.${template.name}.{key}'
-          : '${template.name!}.{key}';
       result.add(RepeatElementTemplate(
           name: template.name,
           label: template.label,
           order: template.order,
           fieldValueRenderingType: template.fieldValueRenderingType,
           path: fullPrefix,
+          runtimePath: fullRuntimePrefix,
           properties: template.properties,
           rules: template.rules,
           itemTitle: template.itemTitle,
           ruleDependencies: template.dependencies,
           // pathTemplate: '${fullPrefix}.{key}',
           repeatCount: template.repeatCount,
-          children:
-              flatTemplateWithPath(template.fields, initialPath: fullPrefix)));
+          children: flatTemplateWithPath(template.fields,
+              initialPath: fullPrefix, initialRuntimePath: fullRuntimePrefix)));
       // result.addAll(
       //     flatTemplateWithPath(template.fields, initialPath: fullPrefix));
     } else if (!template.isSection) {
-      String fullPrefix =
-          prefix != null ? '$prefix.${template.name}' : template.name!;
       result.add(FieldElementTemplate(
         type: template.type,
         name: template.name,
@@ -67,6 +68,7 @@ class FlatTemplateFactory {
         listName: template.listName,
         label: template.label,
         path: fullPrefix,
+        runtimePath: fullRuntimePrefix,
         mandatory: template.mandatory,
         mainField: template.mainField,
         rules: template.rules,

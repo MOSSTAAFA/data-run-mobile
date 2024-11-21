@@ -20,7 +20,7 @@ mixin PathWalkingService<T extends FormElementTemplate> {
     if (pathSegments.length > 1) {
       final parentPath =
           pathSegments.sublist(0, pathSegments.length - 1).join('.');
-      return getElementByPath(parentPath);
+      return getTemplateByPath(parentPath);
     }
     return null;
   }
@@ -48,7 +48,7 @@ mixin PathWalkingService<T extends FormElementTemplate> {
   }
 
   /// Get element by path
-  T? getElementByPath(String path) {
+  T? getTemplateByPath(String path) {
     return fields.firstOrNullWhere((element) => element.path == path);
   }
 
@@ -110,7 +110,7 @@ mixin PathWalkingService<T extends FormElementTemplate> {
       final currentPathSegment = pathSegments.sublist(0, i + 1).join('.');
 
       // in the current scope
-      final element = getElementByPath(currentPathSegment + '.' + name);
+      final element = getTemplateByPath(currentPathSegment + '.' + name);
       if (element != null) {
         return element;
       }
@@ -164,7 +164,7 @@ mixin PathWalkingService<T extends FormElementTemplate> {
     // Look for the element in the current hierarchy, moving up through ancestors
     for (int i = pathSegments.length - 1; i >= 0; i--) {
       final currentPathSegment = pathSegments.sublist(0, i + 1).join('.');
-      final scopedElement = getElementByPath(currentPathSegment + '.' + name);
+      final scopedElement = getTemplateByPath(currentPathSegment + '.' + name);
 
       if (scopedElement != null) {
         return scopedElement;

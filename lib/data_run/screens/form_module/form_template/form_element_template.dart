@@ -39,11 +39,10 @@ class FormFlatTemplate with PathWalkingService {
                 .where((o) => o.listName == option.listName)
                 .toList()),
         rootElementTemplate = SectionElementTemplate(children: fields) {
-    final itFields =
-        getFormElementTemplateIterator(rootElementTemplate)
-            .where((field) => field.path != null)
-            .toList()
-          ..sort((a, b) => (a.path!).compareTo(b.path!));
+    final itFields = getFormElementTemplateIterator(rootElementTemplate)
+        .where((field) => field.path != null)
+        .toList()
+      ..sort((a, b) => (a.path!).compareTo(b.path!));
     for (final field in itFields) {
       _flatFields[field.path!] = field;
     }
@@ -89,7 +88,7 @@ sealed class FormElementTemplate with TreeElement, EquatableMixin {
   FormElementTemplate({
     this.name,
     this.path,
-    required this.pathTemplate,
+    required this.runtimePath,
     this.order = 0,
     this.fieldValueRenderingType,
     Iterable<Rule> rules = const [],
@@ -107,7 +106,7 @@ sealed class FormElementTemplate with TreeElement, EquatableMixin {
 
   final String? name;
   final String? path;
-  final String? pathTemplate;
+  final String? runtimePath;
   final int order;
   final String? fieldValueRenderingType;
   final Map<String, String> _label = {};
@@ -128,6 +127,12 @@ sealed class FormElementTemplate with TreeElement, EquatableMixin {
   FormElementTemplate? _parent;
 
   FormElementTemplate? get parent => _parent;
+
+  String get pathRecursive => pathBuilder(name);
+
+  String pathBuilder(String? pathItem) {
+    return [parent?.pathRecursive, pathItem].whereType<String>().join('.');
+  }
 
   void setProperties(Map<String, dynamic> properties) {
     _properties.clear();
@@ -160,7 +165,7 @@ class FieldElementTemplate extends FormElementTemplate {
     required this.type,
     super.name,
     super.path,
-    super.pathTemplate,
+    super.runtimePath,
     super.order,
     super.fieldValueRenderingType,
     super.rules,
@@ -219,7 +224,7 @@ class FieldElementTemplate extends FormElementTemplate {
 class SectionElementTemplate extends FormElementTemplate {
   SectionElementTemplate(
       {super.name,
-      super.pathTemplate,
+      super.runtimePath,
       super.path,
       super.order,
       super.fieldValueRenderingType,
@@ -235,6 +240,7 @@ class SectionElementTemplate extends FormElementTemplate {
   final String? itemTitle;
 
   final List<FormElementTemplate> _children = [];
+
   List<FormElementTemplate> get children => List.unmodifiable(_children);
 
   void addAll(List<FormElementTemplate> children) {
@@ -257,7 +263,7 @@ class SectionElementTemplate extends FormElementTemplate {
 class RepeatElementTemplate extends SectionElementTemplate {
   RepeatElementTemplate(
       {super.name,
-      super.pathTemplate,
+      super.runtimePath,
       super.path,
       super.order,
       super.fieldValueRenderingType,

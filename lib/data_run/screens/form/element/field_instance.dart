@@ -35,7 +35,9 @@ class FieldInstance<T> extends FormElementInstance<T>
   @override
   void updateValue(T? value,
       {bool updateParent = true, bool emitEvent = true}) {
-
+    if(value == this.value) {
+      return;
+    }
     updateStatus(elementState.reset(value: value));
     elementControl?.reset(
       value: value,
