@@ -32,21 +32,22 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
     });
   }
 
-  // @override
-  // Map<String, Object> get errors {
-  //   final allErrors = Map<String, Object>.of(super.errors);
-  //   elements.forEach((name, element) {
-  //     if (element.enabled && element.hasErrors) {
-  //       allErrors.update(
-  //         name,
-  //             (_) => element.errors,
-  //         ifAbsent: () => element.errors,
-  //       );
-  //     }
-  //   });
-  //
-  //   return allErrors;
-  // }
+  @override
+  Map<String, dynamic> get errors {
+    final allErrors = Map<String, dynamic>.of(super.errors);
+    elements.forEach((name, element) {
+      if (element.visible && element.hasErrors) {
+        allErrors.update(
+          name,
+          (_) => element.errors,
+          ifAbsent: () => element.errors,
+        );
+      }
+    });
+
+    return allErrors;
+  }
+
   @override
   bool contains(String name) {
     return _elements.containsKey(name);
@@ -88,6 +89,10 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
         emitEvent: emitEvent,
       );
     }
+    updateValueAndValidity(
+      updateParent: updateParent,
+      emitEvent: emitEvent,
+    );
   }
 
   @override
@@ -98,15 +103,15 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
     return _elements.values.every((element) => element.hidden);
   }
 
-  @override
-  Map<String, Object?> get rawValue =>
-      _elements.map<String, Object?>((key, element) {
-        if (element is SectionElement<dynamic>) {
-          return MapEntry(key, element.rawValue);
-        }
-
-        return MapEntry(key, element.value);
-      });
+  // @override
+  // Map<String, Object?> get rawValue =>
+  //     _elements.map<String, Object?>((key, element) {
+  //       if (element is SectionElement<dynamic>) {
+  //         return MapEntry(key, element.rawValue);
+  //       }
+  //
+  //       return MapEntry(key, element.value);
+  //     });
 
   @override
   Map<String, Object?>? reduceValue() {

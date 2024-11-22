@@ -29,6 +29,7 @@ class FlatTemplateFactory {
     if (template.isSection) {
       result.add(SectionElementTemplate(
           name: template.name,
+          readOnly: template.readOnly,
           label: template.label,
           order: template.order,
           fieldValueRenderingType: template.fieldValueRenderingType,
@@ -45,6 +46,7 @@ class FlatTemplateFactory {
     } else if (template.isRepeat) {
       result.add(RepeatElementTemplate(
           name: template.name,
+          readOnly: template.readOnly,
           label: template.label,
           order: template.order,
           fieldValueRenderingType: template.fieldValueRenderingType,
@@ -63,6 +65,7 @@ class FlatTemplateFactory {
     } else if (!template.isSection) {
       result.add(FieldElementTemplate(
         type: template.type,
+        readOnly: template.readOnly,
         name: template.name,
         order: template.order,
         listName: template.listName,

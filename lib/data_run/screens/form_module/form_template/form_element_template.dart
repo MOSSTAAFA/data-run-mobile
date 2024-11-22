@@ -89,6 +89,7 @@ sealed class FormElementTemplate with TreeElement, EquatableMixin {
     this.name,
     this.path,
     required this.runtimePath,
+    this.readOnly = false,
     this.order = 0,
     this.fieldValueRenderingType,
     Iterable<Rule> rules = const [],
@@ -105,6 +106,7 @@ sealed class FormElementTemplate with TreeElement, EquatableMixin {
   ValueType get type;
 
   final String? name;
+  final bool readOnly;
   final String? path;
   final String? runtimePath;
   final int order;
@@ -163,6 +165,7 @@ sealed class FormElementTemplate with TreeElement, EquatableMixin {
 class FieldElementTemplate extends FormElementTemplate {
   FieldElementTemplate({
     required this.type,
+    super.readOnly,
     super.name,
     super.path,
     super.runtimePath,
@@ -224,6 +227,7 @@ class FieldElementTemplate extends FormElementTemplate {
 class SectionElementTemplate extends FormElementTemplate {
   SectionElementTemplate(
       {super.name,
+      super.readOnly,
       super.runtimePath,
       super.path,
       super.order,
@@ -263,6 +267,7 @@ class SectionElementTemplate extends FormElementTemplate {
 class RepeatElementTemplate extends SectionElementTemplate {
   RepeatElementTemplate(
       {super.name,
+      super.readOnly,
       super.runtimePath,
       super.path,
       super.order,

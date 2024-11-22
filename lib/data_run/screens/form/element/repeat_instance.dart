@@ -13,10 +13,28 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
   List<RepeatItemInstance> get elements => List.unmodifiable(_elements);
 
   @override
-  List<Map<String, Object?>?> get rawValue =>
-      _elements.map<Map<String, Object?>?>((element) {
-        return element.rawValue;
-      }).toList();
+  Map<String, dynamic> get errors {
+    final allErrors = Map.of(super.errors);
+    _elements.asMap().entries.forEach((entry) {
+      final element = entry.value;
+      final name = entry.key.toString();
+      if (element.visible && element.hasErrors) {
+        allErrors.update(
+          name,
+          (_) => element.errors,
+          ifAbsent: () => element.errors,
+        );
+      }
+    });
+
+    return allErrors;
+  }
+
+  // @override
+  // List<Map<String, Object?>?> get rawValue =>
+  //     _elements.map<Map<String, Object?>?>((element) {
+  //       return element.rawValue;
+  //     }).toList();
 
   /// Insert a new [element] at the end of the RepeatSection.
   void add(RepeatItemInstance element,
@@ -25,16 +43,21 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
   }
 
   /// Appends all [elements] to the end of the RepeatSection.
-  void addAll(List<RepeatItemInstance> elements,
-      {bool updateParent = true, bool emitEvent = true}) {
+  void addAll(
+      List<RepeatItemInstance> elements, {
+        bool updateParent = true,
+        bool emitEvent = true,
+      }) {
     _elements.addAll(elements);
-    for (final element in elements) {
-      element.parentSection = this;
+    for (final control in elements) {
+      control.parentSection = this;
     }
+
     updateValueAndValidity(
-      emitEvent: emitEvent,
       updateParent: updateParent,
+      emitEvent: emitEvent,
     );
+    // emitsCollectionChanged(_controls);
   }
 
   @override
@@ -51,25 +74,25 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
     bool updateParent = true,
     bool emitEvent = true,
   }) {
-    if (elements.length < index) {
-      add(element);
-      return;
-    }
-
     _elements.insert(index, element);
     element.parentSection = this;
+
     updateValueAndValidity(
       emitEvent: emitEvent,
       updateParent: updateParent,
     );
+    //
+    // if (emitEvent) {
+    //   emitsCollectionChanged(_controls);
+    // }
   }
 
   /// Removes and returns the child element at the given [index].
   void remove(
-    RepeatItemInstance element, {
-    bool emitEvent = true,
-    bool updateParent = true,
-  }) {
+      RepeatItemInstance element, {
+        bool emitEvent = true,
+        bool updateParent = true,
+      }) {
     final index = _elements.indexOf(element);
     if (index == -1) {
       throw FormControlNotFoundException();
@@ -77,29 +100,33 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
     removeAt(index, emitEvent: emitEvent, updateParent: updateParent);
   }
 
-  RepeatItemInstance? removeAt(
-    int index, {
-    bool emitEvent = true,
-    bool updateParent = true,
-  }) {
-    if (elements.length > index) {
-      final removedElement = _elements.removeAt(index);
-      removedElement.parentSection = null;
-      updateValueAndValidity(
-        emitEvent: emitEvent,
-        updateParent: updateParent,
-      );
-      return removedElement;
-    }
-    return null;
+  RepeatItemInstance removeAt(
+      int index, {
+        bool emitEvent = true,
+        bool updateParent = true,
+      }) {
+    final removedControl = _elements.removeAt(index);
+    removedControl.parentSection = null;
+    updateValueAndValidity(
+      emitEvent: emitEvent,
+      updateParent: updateParent,
+    );
+
+    // if (emitEvent) {
+    //   emitsCollectionChanged(_controls);
+    // }
+
+    return removedControl;
   }
+
+
 
   /// Removes all children elements from the repeatSection.
   void clear({bool emitEvent = true, bool updateParent = true}) {
     forEachChild((element) => element.parentSection = null);
     _elements.clear();
 
-    elementControl.clear(updateParent: updateParent, emitEvent: emitEvent);
+    // elementControl.clear(updateParent: updateParent, emitEvent: emitEvent);
     updateValueAndValidity(
       emitEvent: emitEvent,
       updateParent: updateParent,
@@ -108,7 +135,7 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
 
   void reset({List<Map<String, Object?>?>? value}) {
     updateValue(value);
-    elementControl.reset(value: value);
+    // elementControl.reset(value: value);
   }
 
   /// Checks if repeatSection contains a element by a given [name].
@@ -166,7 +193,8 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
         );
       }
     }
-    elementControl.updateValueAndValidity(updateParent: updateParent);
+
+    updateValueAndValidity(updateParent: updateParent);
   }
 
   @override
@@ -175,10 +203,15 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
       _elements.forEach(callback);
 
   @override
-  bool allElementsHidden() => elementControl.allControlsDisabled();
+  bool allElementsHidden() {
+    if (_elements.isEmpty) {
+      return false;
+    }
+    return _elements.every((control) => control.hidden);
+  }
 
-  void get repeatSectionFocus => form.focus(elementPath);
-
+  // void get repeatSectionFocus => form.focus(elementPath);
+  //
   @override
   FormArray<Map<String, Object?>> get elementControl =>
       form.control(elementPath) as FormArray<Map<String, Object?>>;

@@ -1,11 +1,10 @@
 import 'package:d2_remote/core/datarun/exception/exception.dart';
 import 'package:flutter/material.dart';
-import 'package:datarun/data_run/screens/form_module/form_element_model/form_element_model.dart';
 
 class CircularDependencyException extends FormElementException {
-  CircularDependencyException(String message, FormElementModel<dynamic>? source)
+  CircularDependencyException(String message, Object? source)
       : super(
-            'CircularDependencyException: element ${(source?.name) ?? ''} has circular dependency.');
+            'CircularDependencyException: element ${(source?.runtimeType) ?? ''} has circular dependency.');
 }
 
 class FormElementException extends DException {
@@ -14,13 +13,13 @@ class FormElementException extends DException {
 }
 
 class FormElementNotFoundException extends FormElementException {
-  FormElementNotFoundException(FormElementModel<dynamic>? source)
+  FormElementNotFoundException(Object? source)
       : super('FormElementNotFoundException', cause: source);
 }
 
 class FormRepeatElementInvalidIndexException extends FormElementException {
   FormRepeatElementInvalidIndexException(
-      {FormElementModel<dynamic>? source, required this.index})
+      {Object? source, required this.index})
       : super(
             'FormRepeatElementInvalidIndexException: Index \'$index\' is not a valid index for FormRepeatElement',
             cause: source);

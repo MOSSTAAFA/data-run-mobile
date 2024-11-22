@@ -71,14 +71,16 @@ sealed class FormElementInstance<T> {
   }
 
   FormElementState _elementState;
-
   FormElementState get elementState => _elementState;
 
-  bool get hidden => elementState.hidden;
+  Map<String, dynamic> get errors => _elementState.errors ?? {};
+  bool get hasErrors => _elementState.errors.isNotEmpty;
+
+  bool get hidden => _elementState.hidden;
 
   bool get visible => !hidden;
 
-  bool get mandatory => elementState.mandatory && visible;
+  bool get mandatory => _elementState.mandatory && visible;
 
   String get elementPath => pathRecursive;
 
@@ -121,7 +123,7 @@ sealed class FormElementInstance<T> {
     if(hidden) {
       return;
     }
-    updateStatus(elementState.copyWith(hidden: true, errors: {}));
+    updateStatus(_elementState.copyWith(hidden: true, errors: {}));
     elementControl!.reset(disabled: true);
     elementControl!.updateValueAndValidity(
         updateParent: updateParent, emitEvent: emitEvent);
@@ -136,7 +138,7 @@ sealed class FormElementInstance<T> {
       return;
     }
 
-    updateStatus(elementState.copyWith(hidden: false));
+    updateStatus(_elementState.copyWith(hidden: false));
     elementControl!.markAsEnabled();
     updateValueAndValidity(updateParent: true, emitEvent: emitEvent);
     _updateAncestors(updateParent);
@@ -147,7 +149,7 @@ sealed class FormElementInstance<T> {
     if(mandatory) {
       return;
     }
-    updateStatus(elementState.copyWith(mandatory: true));
+    updateStatus(_elementState.copyWith(mandatory: true));
 
     final elementValidators = [
       ...elementControl!.validators,
@@ -157,7 +159,7 @@ sealed class FormElementInstance<T> {
   }
 
   void markAsUnMandatory({bool updateParent = true, bool emitEvent = true}) {
-    updateStatus(elementState.copyWith(mandatory: false));
+    updateStatus(_elementState.copyWith(mandatory: false));
     final elementValidators = [
       ...elementControl!.validators,
     ]..remove(Validators.required);
@@ -166,13 +168,17 @@ sealed class FormElementInstance<T> {
   }
 
   void setErrors(Map<String, dynamic> errors) {
-    if (visible) {
+    // if (visible) {
+      updateStatus(_elementState.copyWith(errors: errors));
       elementControl?.setErrors(errors);
-    }
+    // }
   }
 
   void removeError(String key) {
-    elementControl?.removeError(key);
+    // if (visible) {
+      updateStatus(_elementState.copyWith(errors: _elementState.errors.remove(key)));
+      elementControl?.removeError(key);
+    // }
   }
 
   void reset({T? value});
@@ -187,7 +193,7 @@ sealed class FormElementInstance<T> {
 
   Stream<FormElementState> get propertiesChanged =>
       (propertiesChangedSubject ??=
-              BehaviorSubject<FormElementState>.seeded(elementState))
+              BehaviorSubject<FormElementState>.seeded(_elementState))
           as Stream<FormElementState>;
 
   @protected
@@ -238,30 +244,31 @@ sealed class FormElementInstance<T> {
     }
   }
 
-  FormElementState _calculateStatus() {
-    if (allElementsHidden()) {
-      elementControl?.markAsDisabled();
-      return _elementState.copyWith(hidden: true, errors: {});
-    } else if (elementControl?.hasErrors == true) {
-      return _elementState.copyWith(errors: elementControl!.errors);
-    }
-
-    return _elementState.copyWith(hidden: false, errors: {});
-  }
+  // FormElementState _calculateStatus() {
+  //   if (allElementsHidden()) {
+  //     elementControl?.markAsDisabled();
+  //     return _elementState.copyWith(hidden: true, errors: {});
+  //   } else if (elementControl?.hasErrors == true) {
+  //     return _elementState.copyWith(errors: elementControl!.errors);
+  //   }
+  //
+  //   elementControl?.markAsDisabled();
+  //   return _elementState.copyWith(hidden: false, errors: {});
+  // }
 
   void updateValueAndValidity({
     bool updateParent = true,
     bool emitEvent = true,
   }) {
-    if (visible) {
-      _elementState = _calculateStatus();
-    }
+    // if (visible) {
+    //   _elementState = _calculateStatus();
+    // }
 
-    if (emitEvent) {
-      updateStatus(_elementState);
-    }
+    // if (emitEvent) {
+    //   updateStatus(_elementState);
+    // }
 
-    _updateAncestors(updateParent);
+    // _updateAncestors(updateParent);
   }
 
   void dispose() {

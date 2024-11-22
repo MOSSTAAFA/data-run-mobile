@@ -39,8 +39,8 @@ class FieldInstance<T> extends FormElementInstance<T>
       return;
     }
     updateStatus(elementState.reset(value: value));
-    elementControl?.reset(
-      value: value,
+    elementControl?.updateValue(
+      value,
       updateParent: updateParent,
       emitEvent: emitEvent,
     );

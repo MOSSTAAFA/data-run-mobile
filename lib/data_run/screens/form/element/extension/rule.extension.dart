@@ -34,7 +34,7 @@ extension ApplyAction on RuleAction {
         element.markAsHidden();
         break;
       case ActionType.Error:
-        final currentElementErrors = {...element.elementControl!.errors};
+        final currentElementErrors = {...element.errors};
         currentElementErrors[getItemLocalString(message.unlockView)] =
             getItemLocalString(message.unlockView);
         element.setErrors(currentElementErrors);
@@ -83,8 +83,8 @@ extension ApplyAction on RuleAction {
         element.markAsMandatory();
         break;
       case ActionType.Assign:
-        element.elementControl!.reset(value: element.template.defaultValue);
-        break;
+      // element.reset(value: element.template.defaultValue);
+      // break;
       case ActionType.Filter:
       case ActionType.StopRepeat:
       case ActionType.Warning:
