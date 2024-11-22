@@ -18,12 +18,17 @@ extension ElementDependencyHandler<T> on FormElementInstance<T> {
     }
   }
 
-  FormElementState updateStatus(FormElementState newValue) {
+  FormElementState updateStatus(FormElementState newValue,
+      {bool emitEvent = true}) {
     // if (newValue != _elementState) {
-      _elementState = newValue;
-      propertiesChangedSubject?.add(newValue);
+    _elementState = newValue;
+    if (emitEvent) {
       logDebug(info: '$name, changed, --> Notifying subscribers');
-      notifySubscribers();
+      propertiesChangedSubject?.add(newValue);
+    } else {
+      logDebug(info: '$name, not emitting status update');
+    }
+    notifySubscribers();
     // } else {
     //   logDebug(info: '$name, same, x not Notifying subscribers');
     // }
@@ -55,9 +60,10 @@ extension ElementDependencyHandler<T> on FormElementInstance<T> {
   List<String> get resolvedDependentsNames =>
       _dependents.map((dependent) => dependent.name).toList();
 
-  void notifySubscribers() {
+  void notifySubscribers({bool emitEvent = true}) {
     logDebug(info: '$name, notifying: ${resolvedDependentsNames}');
-    _dependents.forEach((s) => s.evaluate(name));
+    _dependents.forEach(
+        (s) => s.evaluate(changedDependency: name, emitEvent: emitEvent));
   }
 
   /// didUpdateElement(covariant FormElement<E> oldElement)

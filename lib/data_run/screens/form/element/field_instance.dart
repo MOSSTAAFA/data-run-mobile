@@ -68,7 +68,9 @@ class FieldInstance<T> extends FormElementInstance<T>
   List<FormOption> get visibleOption => elementState.visibleOptions;
 
   @override
-  void evaluate([String? changedDependency]) {
+  void evaluate({String? changedDependency,
+    bool updateParent = true,
+    bool emitEvent = true}) {
     super.evaluate();
     if (choiceFilter?.expression != null) {
       final visibleOptionsUpdate = choiceFilter!.evaluate(evalContext);

@@ -104,26 +104,13 @@ class FormInstance {
     Map<String, dynamic> valuesMap =
         elements.map<String, Object?>((key, element) {
       if (element is SectionElement<dynamic>) {
-        return MapEntry(key, element.rawValue);
+        return MapEntry(key, element.value);
       }
 
       return MapEntry(key, element.value);
     });
 
     return {'formData': valuesMap};
-  }
-
-  Map<String, dynamic> get rawValueFormGroup {
-    Map<String, dynamic> valuesMap =
-        elements.map<String, dynamic>((key, element) {
-      if (element is SectionElement<dynamic>) {
-        return MapEntry(key, element.rawValue);
-      }
-
-      return MapEntry(key, element.value);
-    });
-
-    return valuesMap;
   }
 
   RepeatItemInstance onAddRepeatedItem(RepeatInstance parent) {

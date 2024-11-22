@@ -2,6 +2,7 @@ import 'package:d2_remote/modules/datarun/form/shared/field_template.entity.dart
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule/action.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule/choice_filter.dart';
+import 'package:d2_remote/modules/datarun/form/shared/rule/rule_parse_extension.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:flutter/material.dart';
 import 'package:datarun/commons/logging/logging.dart';
@@ -67,20 +68,24 @@ sealed class FormElementInstance<T> {
   FormElementInstance<Object>? get parentSection => _parentSection;
 
   set parentSection(FormElementInstance<Object>? parent) {
+    if (mandatory) {}
+
     _parentSection = parent;
   }
 
   FormElementState _elementState;
+
   FormElementState get elementState => _elementState;
 
-  Map<String, dynamic> get errors => _elementState.errors ?? {};
+  Map<String, dynamic> get errors => _elementState.errors;
+
   bool get hasErrors => _elementState.errors.isNotEmpty;
 
   bool get hidden => _elementState.hidden;
 
   bool get visible => !hidden;
 
-  bool get mandatory => _elementState.mandatory && visible;
+  bool get mandatory => _elementState.mandatory;
 
   String get elementPath => pathRecursive;
 
@@ -88,8 +93,9 @@ sealed class FormElementInstance<T> {
 
   T? reduceValue();
 
-  AbstractControl<dynamic>? get elementControl =>
-      controlExist ? form.control(elementPath) : null;
+  //
+  // AbstractControl<dynamic>? get elementControl =>
+  //     controlExist ? form.control(elementPath) : null;
 
   String get pathRecursive {
     return parentSection != null && parentSection!.name.isNotEmpty
@@ -118,15 +124,18 @@ sealed class FormElementInstance<T> {
   @protected
   FormElementInstance<dynamic>? findElement(String path);
 
+  // void validate({bool updateParent = true, bool emitEvent = true}) {}
+
   void markAsHidden({bool updateParent = true, bool emitEvent = true}) {
     logDebug(info: '${name}, mark as Hidden');
-    if(hidden) {
+    if (hidden) {
       return;
     }
-    updateStatus(_elementState.copyWith(hidden: true, errors: {}));
-    elementControl!.reset(disabled: true);
-    elementControl!.updateValueAndValidity(
-        updateParent: updateParent, emitEvent: emitEvent);
+    updateStatus(_elementState.copyWith(hidden: true, errors: {}),
+        emitEvent: emitEvent);
+    // elementControl!.reset(disabled: true);
+    // elementControl!.updateValueAndValidity(
+    //     updateParent: updateParent, emitEvent: emitEvent);
     updateValueAndValidity(updateParent: true, emitEvent: emitEvent);
     _updateAncestors(updateParent);
     // elementControl!.markAsDisabled();
@@ -134,62 +143,58 @@ sealed class FormElementInstance<T> {
 
   void markAsVisible({bool updateParent = true, bool emitEvent = true}) {
     logDebug(info: '${name}, mark as visible');
-    if(!hidden) {
+    if (!hidden) {
       return;
     }
 
-    updateStatus(_elementState.copyWith(hidden: false));
-    elementControl!.markAsEnabled();
+    updateStatus(_elementState.copyWith(hidden: false), emitEvent: emitEvent);
+    // elementControl!.markAsEnabled();
     updateValueAndValidity(updateParent: true, emitEvent: emitEvent);
     _updateAncestors(updateParent);
   }
 
   void markAsMandatory({bool updateParent = true, bool emitEvent = true}) {
     logDebug(info: '${name}, markAsMandatory');
-    if(mandatory) {
+    if (mandatory) {
       return;
     }
-    updateStatus(_elementState.copyWith(mandatory: true));
+    updateStatus(_elementState.copyWith(mandatory: true), emitEvent: emitEvent);
 
-    final elementValidators = [
-      ...elementControl!.validators,
-      Validators.required
-    ];
-    elementControl!.setValidators(elementValidators, autoValidate: true);
+    // final elementValidators = [
+    //   ...elementControl!.validators,
+    //   Validators.required
+    // ];
+    // elementControl!.setValidators(elementValidators, autoValidate: true);
   }
 
   void markAsUnMandatory({bool updateParent = true, bool emitEvent = true}) {
-    updateStatus(_elementState.copyWith(mandatory: false));
-    final elementValidators = [
-      ...elementControl!.validators,
-    ]..remove(Validators.required);
-
-    elementControl!.setValidators(elementValidators, autoValidate: true);
+    updateStatus(_elementState.copyWith(mandatory: false),
+        emitEvent: emitEvent);
+    // final elementValidators = [
+    //   ...elementControl!.validators,
+    // ]..remove(Validators.required);
+    //
+    // elementControl!.setValidators(elementValidators, autoValidate: true);
   }
 
-  void setErrors(Map<String, dynamic> errors) {
+  void setErrors(Map<String, dynamic> errors,
+      {bool updateParent = true, bool emitEvent = true}) {
     // if (visible) {
-      updateStatus(_elementState.copyWith(errors: errors));
-      elementControl?.setErrors(errors);
+    updateStatus(_elementState.copyWith(errors: errors), emitEvent: emitEvent);
+    // elementControl?.setErrors(errors);
     // }
   }
 
-  void removeError(String key) {
+  void removeError(String key,
+      {bool updateParent = true, bool emitEvent = true}) {
     // if (visible) {
-      updateStatus(_elementState.copyWith(errors: _elementState.errors.remove(key)));
-      elementControl?.removeError(key);
+    updateStatus(_elementState.copyWith(errors: {...errors}..remove(key)),
+        emitEvent: emitEvent);
+    // elementControl?.removeError(key);
     // }
   }
 
   void reset({T? value});
-
-  void toggleVisibility() {
-    if (visible) {
-      markAsHidden();
-    } else {
-      markAsVisible();
-    }
-  }
 
   Stream<FormElementState> get propertiesChanged =>
       (propertiesChangedSubject ??=
@@ -200,10 +205,13 @@ sealed class FormElementInstance<T> {
   BehaviorSubject<FormElementState?>? propertiesChangedSubject;
 
   @mustCallSuper
-  void evaluate([String? changedDependency]) {
+  void evaluate(
+      {String? changedDependency,
+      bool updateParent = true,
+      bool emitEvent = true}) {
     logDebug(
         info:
-            '$name, dependencyChanged ${changedDependency != null ?': $changedDependency' : ''} Changed to: ${evalContext[changedDependency]}, _isEvaluating: $_isEvaluating, Evaluating State...');
+            '$name, dependencyChanged ${changedDependency != null ? ': $changedDependency' : ''} Changed to: ${evalContext[changedDependency]}, _isEvaluating: $_isEvaluating, Evaluating State...');
     if (_isEvaluating) {
       return;
     }
@@ -216,8 +224,10 @@ sealed class FormElementInstance<T> {
             info:
                 '$name\'s Evaluating: ${ruleAction.expression}, action: ${ruleAction.action}');
         ruleAction.evaluate(evalContext)
-            ? ruleAction.apply(this)
-            : ruleAction.reset(this);
+            ? ruleAction.apply(this,
+                updateParent: updateParent, emitEvent: emitEvent)
+            : ruleAction.reset(this,
+                updateParent: updateParent, emitEvent: emitEvent);
       });
     } catch (e) {
       logError(info: 'Error Evaluating: ');
@@ -269,6 +279,27 @@ sealed class FormElementInstance<T> {
     // }
 
     // _updateAncestors(updateParent);
+  }
+
+  void resolveDependencies() {
+    final List<String> dependencies = <String>[
+      ...template.dependencies,
+      ...template.filterDependencies
+    ].toSet().toList();
+    if (!type.isSectionType) {
+      logDebug(
+          info:
+              'resolving dependencies for: ${name} ${dependencies.length > 0 ? ', dependencies: ${dependencies}' : '... has no dependencies'}');
+    }
+
+    for (final dependencyName in dependencies) {
+      final dependency = findElementInParentSection(dependencyName);
+      if (dependency != null) {
+        _dependencies.add(dependency);
+        dependency._addDependent(this);
+      }
+    }
+    evaluate(emitEvent: false);
   }
 
   void dispose() {

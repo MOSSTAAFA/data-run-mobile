@@ -30,6 +30,14 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
     return allErrors;
   }
 
+  void resolveDependencies() {
+    for (final element in _elements) {
+      element.resolveDependencies();
+    }
+
+    super.resolveDependencies();
+  }
+
   // @override
   // List<Map<String, Object?>?> get rawValue =>
   //     _elements.map<Map<String, Object?>?>((element) {
@@ -44,10 +52,10 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
 
   /// Appends all [elements] to the end of the RepeatSection.
   void addAll(
-      List<RepeatItemInstance> elements, {
-        bool updateParent = true,
-        bool emitEvent = true,
-      }) {
+    List<RepeatItemInstance> elements, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
     _elements.addAll(elements);
     for (final control in elements) {
       control.parentSection = this;
@@ -89,10 +97,10 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
 
   /// Removes and returns the child element at the given [index].
   void remove(
-      RepeatItemInstance element, {
-        bool emitEvent = true,
-        bool updateParent = true,
-      }) {
+    RepeatItemInstance element, {
+    bool emitEvent = true,
+    bool updateParent = true,
+  }) {
     final index = _elements.indexOf(element);
     if (index == -1) {
       throw FormControlNotFoundException();
@@ -101,10 +109,10 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
   }
 
   RepeatItemInstance removeAt(
-      int index, {
-        bool emitEvent = true,
-        bool updateParent = true,
-      }) {
+    int index, {
+    bool emitEvent = true,
+    bool updateParent = true,
+  }) {
     final removedControl = _elements.removeAt(index);
     removedControl.parentSection = null;
     updateValueAndValidity(
@@ -118,8 +126,6 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
 
     return removedControl;
   }
-
-
 
   /// Removes all children elements from the repeatSection.
   void clear({bool emitEvent = true, bool updateParent = true}) {
