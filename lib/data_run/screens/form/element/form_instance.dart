@@ -1,6 +1,7 @@
 import 'package:d2_remote/modules/datarun/form/entities/data_form_submission.entity.dart';
-import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
+import 'package:datarun/commons/logging/app_logger.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:datarun/data_run/form/form_element_factories/form_element_builder.dart';
 import 'package:datarun/data_run/form/form_element_factories/form_element_control_builder.dart';
@@ -25,21 +26,14 @@ class FormInstance {
   FormInstance(FormInstanceRef ref,
       {required FormInstanceService formInstanceService,
       required this.form,
-        required String? orgUnit,
+      required String? orgUnit,
       required this.formMetadata,
       required this.formConfiguration,
+      required SectionInstance rootSection,
       Map<String, FormElementInstance<dynamic>> elements = const {},
       required this.enabled})
       : _ref = ref,
-        _formSection = SectionInstance(
-            template: FieldTemplate(
-                mandatory: false,
-                mainField: false,
-                type: ValueType.Unknown,
-                name: '',
-                path: null),
-            form: form)
-          ..addAll(elements) {
+        _formSection = rootSection {
     form.addAll({
       '_${orgUnitControlName}':
           FormControl<String>(value: orgUnit, validators: [Validators.required])
@@ -100,26 +94,13 @@ class FormInstance {
     Map<String, dynamic> valuesMap =
         elements.map<String, Object?>((key, element) {
       if (element is SectionElement<dynamic>) {
-        return MapEntry(key, element.rawValue);
+        return MapEntry(key, element.value);
       }
 
       return MapEntry(key, element.value);
     });
 
     return {'formData': valuesMap};
-  }
-
-  Map<String, dynamic> get rawValueFormGroup {
-    Map<String, dynamic> valuesMap =
-        elements.map<String, dynamic>((key, element) {
-      if (element is SectionElement<dynamic>) {
-        return MapEntry(key, element.rawValue);
-      }
-
-      return MapEntry(key, element.value);
-    });
-
-    return valuesMap;
   }
 
   RepeatItemInstance onAddRepeatedItem(RepeatInstance parent) {

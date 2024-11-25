@@ -1,6 +1,9 @@
 import 'package:d2_remote/modules/datarun/form/shared/rule/choice_filter.dart';
+import 'package:datarun/commons/logging/logging.dart';
 import 'package:datarun/data_run/screens/form/element/exceptions/form_element_exception.dart';
+import 'package:datarun/data_run/screens/form_module/form/code_generator.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
+import 'package:rxdart/rxdart.dart';
 
 part 'field_element_model.dart';
 
@@ -11,6 +14,8 @@ part 'section_element_model.dart';
 part 'repeat_element_model.dart';
 
 part 'repeat_item_element_model.dart';
+
+// part 'element_dependency.extension.dart';
 
 enum ElementStatus {
   /// The element has passed all validation checks.
@@ -24,8 +29,14 @@ enum ElementStatus {
 }
 
 sealed class FormElementModel<T> {
+  Stream<ElementStatus> get propertiesChanged => (_statusChanges ??=
+      BehaviorSubject<ElementStatus>.seeded(status)) as Stream<ElementStatus>;
+
+  @protected
+  BehaviorSubject<ElementStatus?>? _statusChanges;
+
   FormElementModel({
-    required this.templatePath,
+    this.templatePath,
     T? value,
     bool valid = true,
     bool hidden = false,
@@ -34,10 +45,10 @@ sealed class FormElementModel<T> {
         _status = hidden ? ElementStatus.hidden : ElementStatus.valid,
         _dirty = dirty;
 
-  String get name => templatePath.split('.').last;
+  String? get name => templatePath?.split('.').last;
 
-  final String templatePath;
-  CollectionElementModel<Object>? _parent;
+  final String? templatePath;
+  CollectionElementModel<dynamic>? _parent;
 
   T? _value;
 
@@ -46,11 +57,10 @@ sealed class FormElementModel<T> {
   bool _dirty;
 
   final Map<String, dynamic> _errors = {};
-  final List<String> _dependencies = [];
 
-  CollectionElementModel<Object>? get parent => _parent;
+  CollectionElementModel<dynamic>? get parent => _parent;
 
-  T? get value => _value;
+  T? get value => reduceValue();
 
   ElementStatus get status => _status;
 
@@ -68,29 +78,18 @@ sealed class FormElementModel<T> {
 
   bool get hasErrors => errors.isNotEmpty;
 
-  List<String> get dependencies => List.unmodifiable(_dependencies);
-
   void _updateValue() {
     _value = reduceValue();
   }
 
-  // set dependencies during initialization
-  void setDependencies(List<String> dependents) {
-    _dependencies.clear();
-    _dependencies.addAll(dependents);
-  }
-
-  set parent(CollectionElementModel<Object>? parent) {
+  set parent(CollectionElementModel<dynamic>? parent) {
     _parent = parent;
   }
 
-  String get elementPath => pathRecursive;
+  String? get elementPath => name == null ? null : pathBuilder(name);
 
-  String get pathRecursive {
-    return parent != null && parent!.name.isNotEmpty
-        ? '${parent!.pathRecursive}.${name}'
-        : name;
-  }
+  String pathBuilder(String? pathItem) =>
+      [parent?.elementPath, pathItem].whereType<String>().join('.');
 
   ElementStatus _calculateStatus() {
     if (allElementsHidden()) {
@@ -103,11 +102,6 @@ sealed class FormElementModel<T> {
 
     return ElementStatus.valid;
   }
-
-  String pathBuilder(String? pathItem) => [
-        parent != null ? parent!.elementPath : null,
-        pathItem
-      ].whereType<String>().join('.');
 
   void updateValue(T? value, {bool updateParent = true, bool emitEvent = true});
 
@@ -149,10 +143,10 @@ sealed class FormElementModel<T> {
       _status = _calculateStatus();
     }
 
-    // if (emitEvent) {
-    //   _valueChanges.add(value);
-    //   _statusChanges.add(_status);
-    // }
+    if (emitEvent) {
+      // _valueChanges.add(value);
+      _statusChanges?.add(_status);
+    }
 
     _updateAncestors(updateParent);
   }
@@ -165,7 +159,7 @@ sealed class FormElementModel<T> {
 
   void _updateElementsErrors() {
     _status = _calculateStatus();
-    // _statusChanges.add(_status);
+    _statusChanges?.add(_status);
 
     parent?._updateElementsErrors();
   }
@@ -206,5 +200,79 @@ sealed class FormElementModel<T> {
 
   T? reduceValue();
 
-  FormElementModel<dynamic> clone();
+  /// Sometimes, we might need to consider only certain elements or sections based
+  /// on context, such as when gathering data for form submission (only values
+  /// of fields without sections) vs. dependency resolution (where sections
+  /// are relevant).
+  ///
+  /// **Example:**
+  ///
+  /// - When exporting data, use:
+  ///
+  /// ```dart
+  /// // to collect only field values.
+  /// traverse(filter: (element) => element is FieldElementModel)
+  /// ```
+  /// - When resolving dependencies, use:
+  ///
+  /// ```dart
+  /// // to include relevant scopes.
+  /// traverse(filter: (element) => element is SectionElementModel || element is RepeatElementModel)
+  /// ```
+  Iterable<E> traverse<E extends FormElementModel<dynamic>>(
+      {bool Function(FormElementModel<dynamic> element)? filter}) sync* {
+    if (filter == null || filter(this)) yield this as E;
+    if (this is SectionElementModel) {
+      for (final child in (this as SectionElementModel).elements.values) {
+        yield* child.traverse(filter: filter);
+      }
+    }
+
+    if (this is RepeatElementModel) {
+      for (final child in (this as RepeatElementModel).elements) {
+        yield* child.traverse(filter: filter);
+      }
+    }
+  }
+
+  TFormElement? getFirstParentOfType<
+      TFormElement extends CollectionElementModel<dynamic>>() {
+    var currentParent = parent;
+    while (currentParent != null) {
+      if (currentParent is TFormElement) {
+        return currentParent;
+      }
+      currentParent = currentParent.parent;
+    }
+    return null;
+  }
+
+  @mustCallSuper
+  void evaluate([String? changedDependency]) {
+    logDebug(info: '$name, dependencyChanged');
+    // if (_isEvaluating) {
+    //   return;
+    // }
+
+    // _isEvaluating = true;
+
+    // try {
+    //   elementRuleActions.forEach((ruleAction) {
+    //     logDebug(
+    //         info:
+    //             '$name\'s Evaluating: ${ruleAction.expression}, action: ${ruleAction.action}');
+    //     ruleAction.evaluate(evalContext)
+    //         ? ruleAction.apply(this)
+    //         : ruleAction.reset(this);
+    //   });
+    // } catch (e) {
+    //   logError(info: 'Error Evaluating: ');
+    // } finally {
+    //   _isEvaluating = false;
+    // }
+  }
+
+  FormElementModel<dynamic> getInstance();
+
+  FormElementModel<dynamic> clone(CollectionElementModel<dynamic>? parent);
 }

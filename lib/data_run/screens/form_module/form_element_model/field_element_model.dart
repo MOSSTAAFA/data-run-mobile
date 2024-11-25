@@ -1,6 +1,7 @@
 part of 'form_element_model.dart';
 
 class FieldElementModel<T> extends FormElementModel<T> {
+
   FieldElementModel({
     required super.templatePath,
     super.value,
@@ -8,15 +9,7 @@ class FieldElementModel<T> extends FormElementModel<T> {
     super.valid,
     super.dirty,
     bool mandatory = false,
-  }) : _mandatory = mandatory;
-
-  bool _mandatory;
-
-  bool get mandatory => _mandatory;
-
-  void toggleMandatory() {
-    _mandatory = !_mandatory;
-  }
+  });
 
   @override
   void updateValue(T? value,
@@ -24,6 +17,10 @@ class FieldElementModel<T> extends FormElementModel<T> {
     if (_value != value) {
       _value = value;
     }
+    updateValueAndValidity(
+      updateParent: updateParent,
+      emitEvent: emitEvent
+    );
   }
 
   @override
@@ -41,18 +38,16 @@ class FieldElementModel<T> extends FormElementModel<T> {
       <FormElementModel<dynamic>>[];
 
   @override
-  FieldElementModel<T> clone() {
-    final result =  FieldElementModel(
-        hidden: hidden,
-        value: value,
-        dirty: dirty,
-        valid: valid,
-        mandatory: mandatory,
-        templatePath: templatePath);
-    result.setDependencies(List.from(dependencies));
-    result.parent = parent;
-    return result;
+  FieldElementModel<T> clone(CollectionElementModel<dynamic>? parent) {
+    final instance = getInstance();
+    instance.parent = parent;
+    return instance;
   }
+
+  @override
+  FieldElementModel<T> getInstance() =>
+      FieldElementModel(templatePath: templatePath);
+
 }
 
 class SelectFieldElementModel<T> extends FieldElementModel<T> {

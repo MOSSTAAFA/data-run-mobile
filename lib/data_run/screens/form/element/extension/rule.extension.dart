@@ -1,4 +1,4 @@
-import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule/action.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule/rule_action.dart';
 import 'package:datarun/commons/logging/logging.dart';
@@ -12,38 +12,55 @@ extension RuleHandler on FieldTemplate {
 }
 
 extension ApplyAction on RuleAction {
-  void apply(FormElementInstance<dynamic> element) {
+  void apply(FormElementInstance<dynamic> element,
+      {bool updateParent = true, bool emitEvent = true}) {
+    if (element.mandatory && element.hidden) {
+      element.markAsUnMandatory(
+          updateParent: updateParent, emitEvent: emitEvent);
+    }
+
     switch (action) {
       case ActionType.Visibility:
         if (element.hidden) {
           logDebug(
               info: '${element.name}, applying action: ${ActionType.Show}');
-          element.markAsVisible();
+          element.markAsVisible(
+              updateParent: updateParent, emitEvent: emitEvent);
         } else {
           logDebug(
               info: '${element.name}, applying action: ${ActionType.Hide}');
-          element.markAsHidden();
+          element.markAsHidden(
+              updateParent: updateParent, emitEvent: emitEvent);
         }
         break;
       case ActionType.Show:
         logDebug(info: '${element.name}, applying action: ${ActionType.Show}');
-        element.markAsVisible();
+        element.markAsVisible(updateParent: updateParent, emitEvent: emitEvent);
         break;
       case ActionType.Hide:
         logDebug(info: '${element.name}, applying action: ${ActionType.Hide}');
-        element.markAsHidden();
+        element.markAsHidden(updateParent: updateParent, emitEvent: emitEvent);
         break;
       case ActionType.Error:
-        final currentElementErrors = {...element.elementControl!.errors};
-        currentElementErrors[getItemLocalString(message.unlockView)] =
-            getItemLocalString(message.unlockView);
-        element.setErrors(currentElementErrors);
+        if (element.visible) {
+          final currentElementErrors = {...element.errors};
+          currentElementErrors[getItemLocalString(message.unlockView)] =
+              getItemLocalString(message.unlockView);
+          element.setErrors(currentElementErrors,
+              updateParent: updateParent, emitEvent: emitEvent);
+        }
         break;
       case ActionType.Mandatory:
-        element.markAsMandatory();
+        if (element.visible) {
+          element.markAsMandatory(
+              updateParent: updateParent, emitEvent: emitEvent);
+        }
         break;
       case ActionType.Assign:
-        element.updateValue(assignedValue);
+        if (element.visible) {
+          element.updateValue(assignedValue,
+              updateParent: updateParent, emitEvent: emitEvent);
+        }
         break;
       case ActionType.Filter:
       case ActionType.StopRepeat:
@@ -55,36 +72,46 @@ extension ApplyAction on RuleAction {
     }
   }
 
-  void reset(FormElementInstance<dynamic> element) {
+  void reset(FormElementInstance<dynamic> element,
+      {bool updateParent = true, bool emitEvent = true}) {
+    if (element.mandatory && element.hidden) {
+      element.markAsUnMandatory(
+          updateParent: updateParent, emitEvent: emitEvent);
+    }
+
     switch (action) {
       case ActionType.Visibility:
         if (element.hidden) {
-          element.markAsVisible();
+          element.markAsVisible(
+              updateParent: updateParent, emitEvent: emitEvent);
         } else {
           logDebug(
               info: '${element.name}, resetting action to: ${ActionType.Hide}');
-          element.markAsHidden();
+          element.markAsHidden(
+              updateParent: updateParent, emitEvent: emitEvent);
         }
         break;
       case ActionType.Show:
         logDebug(
             info: '${element.name}, resetting action to: ${ActionType.Hide}');
-        element.markAsHidden();
+        element.markAsHidden(updateParent: updateParent, emitEvent: emitEvent);
         break;
       case ActionType.Hide:
         logDebug(
             info: '${element.name}, resetting action to: ${ActionType.Show}');
-        element.markAsVisible();
+        element.markAsVisible(updateParent: updateParent, emitEvent: emitEvent);
         break;
       case ActionType.Error:
-        element.removeError(getItemLocalString(message.unlockView));
+        element.removeError(getItemLocalString(message.unlockView),
+            updateParent: updateParent, emitEvent: emitEvent);
         break;
       case ActionType.Mandatory:
-        element.markAsMandatory();
+        element.markAsUnMandatory(
+            updateParent: updateParent, emitEvent: emitEvent);
         break;
       case ActionType.Assign:
-        element.elementControl!.reset(value: element.template.defaultValue);
-        break;
+      // element.reset(value: element.template.defaultValue);
+      // break;
       case ActionType.Filter:
       case ActionType.StopRepeat:
       case ActionType.Warning:

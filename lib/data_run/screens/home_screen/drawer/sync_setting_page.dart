@@ -1,8 +1,5 @@
-import 'package:d2_remote/modules/datarun_shared/sync/call/d2_progress.dart';
 import 'package:datarun/core/auth/user_session_manager.dart';
-import 'package:datarun/core/sync_manager/nmc_worker/sync_progress.dart';
 import 'package:datarun/core/sync_manager/sync_service.dart';
-import 'package:datarun/data_run/screens/sync_screen/sync_screen.widget.dart';
 import 'package:datarun/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

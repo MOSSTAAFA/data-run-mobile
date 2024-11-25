@@ -1,5 +1,40 @@
-import 'package:collection/collection.dart';
-import 'package:datarun/data_run/screens/form/element/form_element.dart';
+/// Returns the [transitive closure][] of [graph].
+///
+/// [transitive closure]: https://en.wikipedia.org/wiki/Transitive_closure
+///
+/// Interprets [graph] as a directed graph with a vertex for each key and edges
+/// from each key to the values that the key maps to.
+///
+/// Assumes that every vertex in the graph has a key to represent it, even if
+/// that vertex has no outgoing edges. This isn't checked, but if it's not
+/// satisfied, the function may crash or provide unexpected output. For example,
+/// `{"a": ["b"]}` is not valid, but `{"a": ["b"], "b": []}` is.
+Map<T, Set<T>> transitiveClosure<T>(Map<T, Iterable<T>> graph) {
+  // This uses [Warshall's algorithm][], modified not to add a vertex from each
+  // node to itself.
+  //
+  // [Warshall's algorithm]: https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm#Applications_and_generalizations.
+  var result = <T, Set<T>>{};
+  graph.forEach((vertex, edges) {
+    result[vertex] = Set<T>.from(edges);
+  });
+
+  // Lists are faster to iterate than maps, so we create a list since we're
+  // iterating repeatedly.
+  var keys = graph.keys.toList();
+  for (var vertex1 in keys) {
+    for (var vertex2 in keys) {
+      for (var vertex3 in keys) {
+        if (result[vertex2]!.contains(vertex1) &&
+            result[vertex1]!.contains(vertex3)) {
+          result[vertex2]!.add(vertex3);
+        }
+      }
+    }
+  }
+
+  return result;
+}
 
 Map<T, Set<T>> buildReverseDependencyMap<T>(Map<T, Iterable<T>> dependencyMap) {
   // Invert the dependency graph
@@ -28,66 +63,46 @@ List<T> topologicalSort<T>(Map<T, Iterable<T>> dependencyMap) {
   return sortedOrder.reversed.toList(); // Reverse to get correct order
 }
 
-List<T> getTopologicallySortedElements<T>(Map<T, Iterable<T>> dependencyMap) {
-  return topologicalSort(dependencyMap);
-}
+///////////////////////////////////////
+Iterable<T> dependencyOrderedIterator<T>(
+    Map<T, Iterable<T>> reverseDependencyMap) sync* {
+  final orderedElements = topologicalSort(reverseDependencyMap);
 
-Iterable<TFormElement> dependencyOrderedIterator<TFormElement extends FormElementInstance<dynamic>>(
-    Map<TFormElement, Set<TFormElement>> reverseDependencyMap) sync* {
-
-  // Step 1: Sort elements in topological order based on reverse dependencies
-  final orderedElements = getTopologicallySortedElements(reverseDependencyMap);
-
-  // Step 2: Yield elements in this topologically sorted order
   for (var element in orderedElements) {
     yield element;
   }
 }
 
-void propagateChange<TFormElement extends FormElementInstance<dynamic>>(
-    TFormElement changedElement, Map<TFormElement, Set<TFormElement>> reverseDependencyMap) {
-
+/// yield the elements that need re-evaluation
+void propagateChange<T>(
+    T changedElement, Map<String, Iterable<T>> reverseDependencyMap) /*sync**/ {
   final affectedElements = reverseDependencyMap[changedElement] ?? {};
   final orderedIterator = dependencyOrderedIterator(reverseDependencyMap);
 
   for (var element in orderedIterator) {
     if (affectedElements.contains(element)) {
-      element.evaluate(); // Update element based on its expression, etc.
+      print('evaluate: $element');
     }
   }
 }
 
-
-final dependencies = {
-  'fieldA': ['fieldB', 'fieldC'],
-  'fieldB': ['fieldD'],
-  'fieldC': ['fieldD', 'fieldE'],
-  'fieldD': [],
-  'fieldE': ['fieldF'],
-  'fieldF': ['fieldC'],  // This creates a circular dependency for demonstration
+// temporarily for test
+final dependencies = <String, Set<String>>{
+  'warehouse': <String>['country'].toSet(),
+  'country': <String>['continent', 'transaction'].toSet(),
+  'continent': <String>[].toSet(),
+  'transaction': <String>['warehouse', 'country'].toSet(),
+  // This creates a circular dependency
+  'fieldE': <String>['fieldF'].toSet(),
+  'fieldF': <String>['transaction'].toSet(),
 };
 
 void main() {
+  final reverseDepMap3 = buildReverseDependencyMap<String>(dependencies);
 
-  final reverseDepMap3 = buildReverseDependencyMap(dependencies);
   ///Step 2: Compute the Transitive Closure
-  final closure = transitiveClosure(dependencies);
+  final closure = dependencyOrderedIterator(reverseDepMap3);
   print(closure);
-  // Output: {
-  //   'fieldA': {'fieldB', 'fieldC', 'fieldD', 'fieldE', 'fieldF'},
-  //   'fieldB': {'fieldD'},
-  //   'fieldC': {'fieldD', 'fieldE', 'fieldF'},
-  //   'fieldD': {},
-  //   'fieldE': {'fieldF', 'fieldC', 'fieldD', 'fieldE'}, // Circular reference
-  //   'fieldF': {'fieldC', 'fieldD', 'fieldE'},
-  // }
 
-  /// Step 3: Identify Strongly Connected Component
-  final scc = stronglyConnectedComponents(dependencies);
-  print(scc);
-  // Output: [{'fieldA'}, {'fieldB'}, {'fieldD'}, {'fieldE', 'fieldF', 'fieldC'}]
-
-  final sccc= topologicalSort(dependencies);
-  print(sccc);
-
+  propagateChange('country', reverseDepMap3);
 }

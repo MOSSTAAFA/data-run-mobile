@@ -1,4 +1,4 @@
-import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:datarun/data_run/screens/form/element/validation/form_element_validator.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
@@ -22,7 +22,7 @@ class TemplateFormControlBuilder {
     fieldTemplate.fields.sort((a, b) => (a.order).compareTo(b.order));
 
     for (var childTemplate in fieldTemplate.fields) {
-      controls[childTemplate.name] = createElementControl(childTemplate,
+      controls[childTemplate.name!] = createElementControl(childTemplate,
           initialValue: initialValue?[childTemplate.name]);
     }
     return FormGroup(controls);
@@ -101,6 +101,13 @@ class TemplateFormControlBuilder {
         );
       case ValueType.SelectMulti:
         return FormControl<List<String>>(value: initialValue ?? []);
+      case ValueType.Reference:
+        return FormControl<String>(disabled: true);
+      case ValueType.ScannedCode:
+        return FormControl<String>(
+          value: initialValue ?? fieldTemplate.defaultValue,
+          validators: FieldValidators.getValidators(fieldTemplate),
+        );
       default:
         throw UnsupportedError(
             'Template: ${fieldTemplate.name}, unsupported element type: ${fieldTemplate.type}');

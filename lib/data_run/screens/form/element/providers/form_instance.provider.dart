@@ -2,6 +2,9 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:d2_remote/d2_remote.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
+import 'package:datarun/data_run/screens/form/element/form_element.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:datarun/data_run/form/form_element_factories/form_element_builder.dart';
 import 'package:datarun/data_run/form/form_element_factories/form_element_control_builder.dart';
@@ -55,7 +58,8 @@ Future<FormInstance> formInstance(FormInstanceRef ref,
       .canEdit();
 
   final submission = await D2Remote.formModule.formSubmission
-      .byId(formMetadata.submission!).getOne();
+      .byId(formMetadata.submission!)
+      .getOne();
 
   final Map<String, dynamic>? initialFormValue = submission.formData;
   // await ref.watch(
@@ -74,6 +78,19 @@ Future<FormInstance> formInstance(FormInstanceRef ref,
       FormGroup(await formControlBuilder.formDataControls(initialFormValue));
   final elements = await formElementBuilder.buildFormElements(form,
       initialFormValue: initialFormValue);
+
+  final _formSection = SectionInstance(
+      template: FieldTemplate(
+          mandatory: false,
+          mainField: false,
+          type: ValueType.Unknown,
+          name: '',
+          path: null),
+      elements: elements,
+      form: form)
+    ..resolveDependencies()
+    ..evaluate();
+
   final formConfiguration = await ref.watch(formConfigurationProvider(
           form: formMetadata.form, version: formMetadata.version)
       .future);
@@ -84,5 +101,5 @@ Future<FormInstance> formInstance(FormInstanceRef ref,
       elements: elements,
       formConfiguration: formConfiguration,
       formMetadata: formMetadata,
-      form: form);
+      form: form, rootSection: _formSection);
 }

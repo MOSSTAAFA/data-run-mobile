@@ -16,14 +16,6 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
   Map<String, FormElementInstance<dynamic>> get elements =>
       Map.unmodifiable(_elements);
 
-  @override
-  FormGroup get elementControl {
-    if (name.isEmpty) {
-      return form;
-    }
-    return form.control(elementPath) as FormGroup;
-  }
-
   /// Appends all [elements] to the group.
   void addAll(Map<String, FormElementInstance<dynamic>> elements) {
     _elements.addAll(elements);
@@ -32,21 +24,22 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
     });
   }
 
-  // @override
-  // Map<String, Object> get errors {
-  //   final allErrors = Map<String, Object>.of(super.errors);
-  //   elements.forEach((name, element) {
-  //     if (element.enabled && element.hasErrors) {
-  //       allErrors.update(
-  //         name,
-  //             (_) => element.errors,
-  //         ifAbsent: () => element.errors,
-  //       );
-  //     }
-  //   });
-  //
-  //   return allErrors;
-  // }
+  @override
+  Map<String, dynamic> get errors {
+    final allErrors = Map<String, dynamic>.of(super.errors);
+    elements.forEach((name, element) {
+      if (element.visible && element.hasErrors) {
+        allErrors.update(
+          name,
+          (_) => element.errors,
+          ifAbsent: () => element.errors,
+        );
+      }
+    });
+
+    return allErrors;
+  }
+
   @override
   bool contains(String name) {
     return _elements.containsKey(name);
@@ -88,6 +81,7 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
         emitEvent: emitEvent,
       );
     }
+    //
   }
 
   @override
@@ -97,16 +91,6 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
     }
     return _elements.values.every((element) => element.hidden);
   }
-
-  @override
-  Map<String, Object?> get rawValue =>
-      _elements.map<String, Object?>((key, element) {
-        if (element is SectionElement<dynamic>) {
-          return MapEntry(key, element.rawValue);
-        }
-
-        return MapEntry(key, element.value);
-      });
 
   @override
   Map<String, Object?>? reduceValue() {
@@ -125,21 +109,20 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
     _elements.forEach((_, element) {
       element.markAsHidden(updateParent: true);
     });
-    super.markAsHidden();
+    super.markAsHidden(updateParent: updateParent, emitEvent: emitEvent);
   }
 
   @override
   void markAsVisible({bool updateParent = true, bool emitEvent = true}) {
     _elements.forEach((_, element) {
-      element.markAsVisible();
+      element.markAsVisible(updateParent: true);
     });
-    super.markAsVisible();
+    super.markAsVisible(updateParent: updateParent, emitEvent: emitEvent);
   }
 
   @override
-  void reset({Map<String, Object?>? value}) {
-    updateValue(value);
-    elementControl.reset(value: value);
+  void reset({Map<String, Object?>? value, bool updateParent = true, bool emitEvent = true}) {
+    updateValue(value, updateParent: updateParent, emitEvent: emitEvent);
   }
 
   @override

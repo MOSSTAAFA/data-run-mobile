@@ -10,12 +10,12 @@ class ReactiveOuPicker<T> extends ReactiveFormField<T, String> {
     super.showErrors,
     super.validationMessages,
     super.focusNode,
-    InputDecoration decoration = const InputDecoration(),
+    InputDecoration? decoration,
     TextInputType? keyboardType,
     bool obscureText = false,
     bool canRequestFocus = true,
     bool showClearButton = false,
-    bool enabled = true,
+    double disabledOpacity = 0.5,
     String? formControlName,
     FormControl<T>? formControl,
     ReactiveFormFieldCallback<T>? onChanged,
@@ -24,18 +24,40 @@ class ReactiveOuPicker<T> extends ReactiveFormField<T, String> {
           formControl: formControl,
           formControlName: formControlName,
           builder: (ReactiveFormFieldState<T, String> field) {
-            return OrgUnitPickerField(
-              enabled: enabled,
-              initialValueUid: field.value,
-              fieldLabelText: decoration.labelText,
-              onChanged: (value) {
-                field.didChange(value);
-                onChanged?.call(field.control);
-              },
-              validator: (value) => validationMessages?.keys.first,
-              // errorInvalidText: validationMessages?.keys.first,
-              onSubmitted: field.didChange,
-              dataSource: dataSource,
+            Widget? prefixIcon =
+                decoration?.prefixIcon ?? Icon(Icons.account_tree);
+
+            final InputDecoration effectiveDecoration =
+                (decoration ?? const InputDecoration())
+                    .applyDefaults(Theme.of(field.context).inputDecorationTheme)
+                    .copyWith(prefixIcon: prefixIcon);
+
+            ;
+            return IgnorePointer(
+              ignoring: !field.control.enabled,
+              child: Opacity(
+                opacity: field.control.enabled ? 1 : disabledOpacity,
+                child: GestureDetector(
+                  onTap: () {
+
+                  },
+                  child: OrgUnitPickerField(
+                    initialValueUid: field.value,
+                    decoration: effectiveDecoration.copyWith(
+                      errorText: field.errorText,
+                      enabled: field.control.enabled,
+                    ),
+                    onChanged: (value) {
+                      field.didChange(value);
+                      onChanged?.call(field.control);
+                    },
+                    validator: (value) => validationMessages?.keys.first,
+                    // errorInvalidText: validationMessages?.keys.first,
+                    onSubmitted: field.didChange,
+                    dataSource: dataSource,
+                  ),
+                ),
+              ),
             );
           },
         );

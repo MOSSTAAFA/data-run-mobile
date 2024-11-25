@@ -22,27 +22,29 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m0(error) => "حدث خطأ أثناء التواصل API النظام: \$${error}.";
 
-  static String m1(error) => "واجهت قاعدة البيانات خطأ: \$${error}.";
+  static String m1(error) => "يجب إدخال \$${error} عنصر على الأقل";
 
-  static String m2(count) =>
+  static String m2(error) => "واجهت قاعدة البيانات خطأ: \$${error}.";
+
+  static String m3(count) =>
       "${Intl.plural(count, zero: 'لا تتوفر استمارات لهذا النشاط', one: 'تتوفر 1 استمارة', two: 'تتوفر استمارتان', other: '${count} استمارة متوفرة')}";
 
-  static String m3(error) => "الحد الأقصى للطول المسموح به هو \$${error}.";
+  static String m4(error) => "الحد الأقصى للطول المسموح به هو \$${error}.";
 
-  static String m4(count) =>
+  static String m5(count) =>
       "${Intl.plural(count, zero: ' ', one: 'شهر', two: 'شهران', few: '${count} أشهر', other: '${count} شهر')}";
 
-  static String m5(error) =>
+  static String m6(error) =>
       "حدث خطأ أثناء مزامنة البيانات: \$${error}. يرجى المحاولة مرة أخرى.";
 
-  static String m6(error) =>
+  static String m7(error) =>
       "حدث خطأ غير متوقع: \$${error}. يرجى المحاولة مرة أخرى.";
 
-  static String m7(error) => "يجب أن تكون القيمة أكبر من أو تساوي \$${error}.";
+  static String m8(error) => "يجب أن تكون القيمة أكبر من أو تساوي \$${error}.";
 
-  static String m8(error) => "يجب أن تكون القيمة أقل من أو تساوي \$${error}.";
+  static String m9(error) => "يجب أن تكون القيمة أقل من أو تساوي \$${error}.";
 
-  static String m9(count) =>
+  static String m10(count) =>
       "${Intl.plural(count, zero: '', one: 'سنة', two: 'سنتان', few: '${count} سنوات', other: '${count} سنة')}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -61,10 +63,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "appName": MessageLookupByLibrary.simpleMessage("Datarun"),
         "appVersion": MessageLookupByLibrary.simpleMessage("إصدار التطبيق"),
         "appearance": MessageLookupByLibrary.simpleMessage("المظهر"),
+        "atLeastErrorItemMustBeProvided": m1,
         "authInvalidCredentials": MessageLookupByLibrary.simpleMessage(
             "بيانات الدخول التي تم إدخالها غير صحيحة. يرجى التحقق والمحاولة مرة أخرى."),
         "authSessionExpired": MessageLookupByLibrary.simpleMessage(
             "انتهت صلاحية الجلسة. يرجى تسجيل الدخول للمتابعة."),
+        "barcodeQrScan":
+            MessageLookupByLibrary.simpleMessage("Barcode/QR Code"),
         "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
         "changePassword":
             MessageLookupByLibrary.simpleMessage("تغيير كلمة السر"),
@@ -83,7 +88,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "dashboard": MessageLookupByLibrary.simpleMessage("الرئيسية"),
         "databaseConnectionFailed": MessageLookupByLibrary.simpleMessage(
             "فشل في الاتصال بقاعدة البيانات. يرجى المحاولة مرة أخرى أو الاتصال بالدعم."),
-        "databaseInternalError": m1,
+        "databaseInternalError": m2,
         "databaseQueryFailed": MessageLookupByLibrary.simpleMessage(
             "حدث خطأ أثناء معالجة طلب قاعدة البيانات. يرجى المحاولة مرة أخرى."),
         "delete": MessageLookupByLibrary.simpleMessage("حذف"),
@@ -119,7 +124,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "قم بالرجوع ومراجعة الإخطاء أو (ليس الآن) للحفظ والمراجعة في وقت لاحق! لن يتسنى لك تعيين الاستمارة كنهائية وإرسالها إلا بعد تصحيح الأخطاء: "),
         "finalData": MessageLookupByLibrary.simpleMessage("بيانات نهائية"),
         "firstName": MessageLookupByLibrary.simpleMessage("الاسم الأول"),
-        "form": m2,
+        "form": m3,
         "formContainsSomeErrors":
             MessageLookupByLibrary.simpleMessage(" يوجد أخطاء في بعض الحقول"),
         "formSummaryView":
@@ -147,10 +152,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "قم بتعيين الاستمار كنهائية حتى يتسنى لك إرسالها، أو اختر (ليس الآن) لحفظها كمسودة إلى وقت لاحق!"),
         "markAsFinalData": MessageLookupByLibrary.simpleMessage(
             "حقول مكتملة، هل تبريد تعيين هذه البيانات كنهائية وجاهزة للإرسال؟"),
-        "maximumAllowedLengthIsError": m3,
+        "maximumAllowedLengthIsError": m4,
         "middleName": MessageLookupByLibrary.simpleMessage("الاسم الأوسط"),
         "mobile": MessageLookupByLibrary.simpleMessage("رقم الموبايل"),
-        "month": m4,
+        "month": m5,
         "monthly": MessageLookupByLibrary.simpleMessage("شهري"),
         "months": MessageLookupByLibrary.simpleMessage("أشهر"),
         "networkConnectionFailed": MessageLookupByLibrary.simpleMessage(
@@ -197,6 +202,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("مراجعة الأخطاء"),
         "save": MessageLookupByLibrary.simpleMessage("حفظ"),
         "saveAndCheck": MessageLookupByLibrary.simpleMessage("حفظ وتحقق"),
+        "scanYourCode": MessageLookupByLibrary.simpleMessage("Scan your code"),
         "searchOrgUnitsHelpText":
             MessageLookupByLibrary.simpleMessage("البحث عن مكان..."),
         "selectAColorExtractionImage":
@@ -215,7 +221,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "submissionDataEntry": MessageLookupByLibrary.simpleMessage("بيانات"),
         "submissionInitialData":
             MessageLookupByLibrary.simpleMessage("الرئيسة"),
-        "syncError": m5,
+        "syncError": m6,
         "syncFormData":
             MessageLookupByLibrary.simpleMessage("مزامنة بيانات الاستمارة"),
         "syncInterval":
@@ -233,21 +239,21 @@ class MessageLookup extends MessageLookupByLibrary {
         "toggleBrightness":
             MessageLookupByLibrary.simpleMessage("تبديل الإضاءة"),
         "undo": MessageLookupByLibrary.simpleMessage("تراجع"),
-        "unknownError": m6,
+        "unknownError": m7,
         "user": MessageLookupByLibrary.simpleMessage("مستخدم"),
         "userSettings":
             MessageLookupByLibrary.simpleMessage("إعدادات المستخدم"),
         "username": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
         "validationError": MessageLookupByLibrary.simpleMessage(
             "يرجى تصحيح الأخطاء في النموذج قبل المتابعة."),
-        "valueMustBeGreaterThanOrEqualToError": m7,
-        "valueMustBeLessThanOrEqualToError": m8,
+        "valueMustBeGreaterThanOrEqualToError": m8,
+        "valueMustBeLessThanOrEqualToError": m9,
         "version": MessageLookupByLibrary.simpleMessage("الإصدار"),
         "viewAvailableForms": MessageLookupByLibrary.simpleMessage(
             "افتح لاستعرض الاستمارات المتاحة"),
         "viewList": MessageLookupByLibrary.simpleMessage("عرض القائمة"),
         "weekly": MessageLookupByLibrary.simpleMessage("اسبوعي"),
-        "year": m9,
+        "year": m10,
         "years": MessageLookupByLibrary.simpleMessage("سنوات")
       };
 }

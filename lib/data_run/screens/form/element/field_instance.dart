@@ -30,14 +30,17 @@ class FieldInstance<T> extends FormElementInstance<T>
   FormControl<T>? get elementControl =>
       controlExist ? form.control(elementPath) as FormControl<T> : null;
 
-  AttributeType? get attributeType => template.attributeType;
+  // AttributeType? get attributeType => template.attributeType;
 
   @override
   void updateValue(T? value,
       {bool updateParent = true, bool emitEvent = true}) {
+    if(value == this.value) {
+      return;
+    }
     updateStatus(elementState.reset(value: value));
-    elementControl?.reset(
-      value: value,
+    elementControl?.updateValue(
+      value,
       updateParent: updateParent,
       emitEvent: emitEvent,
     );
@@ -45,7 +48,7 @@ class FieldInstance<T> extends FormElementInstance<T>
       updateParent: updateParent,
       emitEvent: emitEvent,
     );
-    elementControl?.markAsDirty();
+    // elementControl?.markAsDirty();
   }
 
   @override
@@ -65,7 +68,9 @@ class FieldInstance<T> extends FormElementInstance<T>
   List<FormOption> get visibleOption => elementState.visibleOptions;
 
   @override
-  void evaluate([String? changedDependency]) {
+  void evaluate({String? changedDependency,
+    bool updateParent = true,
+    bool emitEvent = true}) {
     super.evaluate();
     if (choiceFilter?.expression != null) {
       final visibleOptionsUpdate = choiceFilter!.evaluate(evalContext);

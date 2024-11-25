@@ -5,29 +5,33 @@ import 'package:datarun/commons/extensions/list_extensions.dart';
 
 class FormElementState with EquatableMixin {
   final bool hidden;
+  final bool readOnly;
   final bool mandatory;
   final Map<String, dynamic> errors;
 
   const FormElementState({
     this.hidden = false,
+    this.readOnly = false,
     this.mandatory = false,
     this.errors = const {},
   });
 
   FormElementState copyWith({
     bool? hidden,
+    bool? readOnly,
     bool? mandatory,
     Map<String, dynamic>? errors,
   }) {
     return FormElementState(
       hidden: hidden ?? this.hidden,
+      readOnly: readOnly ?? this.readOnly,
       mandatory: mandatory ?? this.mandatory,
       errors: errors ?? this.errors,
     );
   }
 
   @override
-  List<Object?> get props => [hidden, mandatory, ...errors.values];
+  List<Object?> get props => [hidden, mandatory, readOnly, ...errors.values];
 }
 
 class FieldElementState<T> extends FormElementState {
@@ -36,6 +40,7 @@ class FieldElementState<T> extends FormElementState {
 
   FieldElementState({
     super.hidden,
+    super.readOnly,
     super.mandatory,
     super.errors,
     this.visibleOptions = const [],
@@ -45,6 +50,8 @@ class FieldElementState<T> extends FormElementState {
   @override
   FieldElementState<T> copyWith(
       {bool? hidden,
+        bool? readOnly,
+
       bool? mandatory,
       Map<String, dynamic>? errors,
       T? value,
@@ -52,6 +59,7 @@ class FieldElementState<T> extends FormElementState {
     return FieldElementState<T>(
       hidden: hidden ?? this.hidden,
       mandatory: mandatory ?? this.mandatory,
+      readOnly: readOnly ?? this.readOnly,
       errors: errors ?? this.errors,
       value: value ?? this.value,
       visibleOptions: visibleOptions ?? this.visibleOptions,

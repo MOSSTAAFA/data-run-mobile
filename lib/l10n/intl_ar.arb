@@ -166,5 +166,8 @@
   "monthly": "شهري",
   "syncNow": "التحديث الآن",
   "syncInterval": "ظبط فترة التحديث التلقائي",
-  "syncSettings": "التحديث التلقائي"
+  "syncSettings": "التحديث التلقائي",
+  "atLeastErrorItemMustBeProvided": "يجب إدخال ${error} عنصر على الأقل",
+  "scanYourCode": "Scan your code",
+  "barcodeQrScan": "Barcode/QR Code"
 }

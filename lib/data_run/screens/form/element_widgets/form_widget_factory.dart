@@ -1,5 +1,7 @@
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
-import 'package:datarun/data_run/screens/form/form_with_sliver/section_element_sliver.widget.dart';
+import 'package:datarun/data_run/screens/form/element_widgets/popup_section.widget.dart';
+import 'package:datarun/data_run/screens/form/field_widgets/q_barcode_reader_field.dart';
+import 'package:datarun/data_run/screens/form/form_with_sliver/repeat_table_view.dart';
 import 'package:flutter/material.dart';
 import 'package:datarun/data_run/screens/form/field_widgets/reactive_choice_single_select_chip.widget.dart';
 import 'package:datarun/data_run/screens/form/field_widgets/q_date_picker.widget.dart';
@@ -14,23 +16,17 @@ import 'package:datarun/data_run/screens/form/field_widgets/reactive_yes_no_choi
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
 /// Factory that instantiate form input fields based on a dynamic element tree
-class FormElementWidgetFactory {
+class PopupFormElementWidgetFactory {
   static Widget createWidget(FormElementInstance<dynamic> element) {
-    // if (element.hidden) {
-    //   return SizedBox.shrink();
-    // }
-
     return switch (element) {
-      /// [FieldWidget] is a leaf in the tr
       FieldInstance() =>
         FieldWidget(key: ValueKey(element.elementPath), element: element),
-
-      /// a [SectionWidget] with other widgets inside which also call this factory to build the tree recursively until it reaches the leaf which is a [FieldWidget]
-      SectionElement() => SectionElementSliver(
+      RepeatInstance() => RepeatInstanceDataTable(
+          key: Key(element.pathRecursive),
+          repeatInstance: element,
+        ),
+      SectionInstance() => PopupSectionWidget(
           key: ValueKey(element.elementPath), element: element),
-      // SectionElement() => SectionElementWidget(
-      //     key: ValueKey(element.elementPath),
-      //     element: element),
     };
   }
 }
@@ -76,6 +72,10 @@ class FieldFactory {
       case ValueType.SelectMulti:
         return QDropDownMultiSelectWithSearchField(
             element: element as FieldInstance<List<String>>);
+      case ValueType.ScannedCode:
+        return QBarcodeReaderField(element: element as FieldInstance<String>);
+      case ValueType.Reference:
+        return const SizedBox.shrink();
       default:
         return Text('Unsupported element type: ${element.type}');
     }

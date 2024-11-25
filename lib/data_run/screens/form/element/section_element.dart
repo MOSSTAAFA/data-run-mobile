@@ -13,8 +13,6 @@ sealed class SectionElement<T> extends FormElementInstance<T> {
   /// Returns true if collection contains the element, otherwise returns false.
   bool contains(String name);
 
-  T get rawValue => (elementControl as FormControlCollection).rawValue;
-
   /// Walks the [path] to find the matching element.
   ///
   /// Returns null if no match is found.

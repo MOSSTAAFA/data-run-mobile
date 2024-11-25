@@ -5,7 +5,7 @@ class RepeatElementModel
   RepeatElementModel(
       {super.hidden,
       List<RepeatItemElementModel> elements = const [],
-      required super.templatePath}) {
+      super.templatePath}) {
     addAll(elements);
   }
 
@@ -160,7 +160,8 @@ class RepeatElementModel
     return false;
   }
 
-  int sectionIndexWhere(bool test(FormElementModel<dynamic> section),
+
+  int RepeatItemIndexWhere(bool test(RepeatItemElementModel item),
       [int start = 0]) {
     return elements.indexWhere(test);
   }
@@ -213,7 +214,7 @@ class RepeatElementModel
           .where((MapEntry<int, Map<String, Object?>?> entry) =>
               entry.key >= _elements.length)
           .map((MapEntry<int, Map<String, Object?>?> entry) {
-        final result = _elements.first.clone();
+        final result = _elements.first.clone(parent);
         result.updateValue(entry.value);
         return result;
       }).toList();
@@ -260,21 +261,17 @@ class RepeatElementModel
   }
 
   @override
-  RepeatElementModel clone() {
-    final result = RepeatElementModel(
-        hidden: hidden,
-        // value: value,
-        // dirty: dirty,
-        // valid: valid,
-        templatePath: templatePath,
-        elements: _elements.map((element) => element.clone()).toList());
-    result.setDependencies(List.from(dependencies));
+  RepeatElementModel getInstance() =>
+      RepeatElementModel(templatePath: templatePath);
 
-    if (dirty && !hidden) {
-      result.markAsDirty();
-    }
-
-    result.parent = parent;
-    return result;
+  @override
+  RepeatElementModel clone(CollectionElementModel<dynamic>? parent) {
+    final instance = getInstance();
+    instance.parent = parent;
+    final elements =
+    _elements.map((element) => element.clone(instance)).toList();
+    instance.addAll(elements);
+    return instance;
   }
+
 }

@@ -1,4 +1,4 @@
-import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:datarun/generated/l10n.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
@@ -60,10 +60,11 @@ class FieldValidators {
 
 
 Map<String, ValidationMessageFunction> validationMessages(BuildContext context) => {
-  'required': (error) => S.of(context).thisFieldIsRequired,
-  'email': (error) => S.of(context).pleaseEnterAValidEmailAddress,
-  'number': (error) => S.of(context).enterAValidNumber,
-  'min': (error) => S.of(context).valueMustBeGreaterThanOrEqualToError(error),
-  'max': (error) => S.of(context).valueMustBeLessThanOrEqualToError(error),
-  'maxLength': (error) => S.of(context).maximumAllowedLengthIsError(error),
+  'required': (error) => S.current.thisFieldIsRequired,
+  'email': (error) => S.current.pleaseEnterAValidEmailAddress,
+  'number': (error) => S.current.enterAValidNumber,
+  'min': (error) => S.current.valueMustBeGreaterThanOrEqualToError(error),
+  'max': (error) => S.current.valueMustBeLessThanOrEqualToError(error),
+  'maxLength': (error) => S.current.maximumAllowedLengthIsError(error),
+  'minLength': (error) => S.of(context).atLeastErrorItemMustBeProvided(error),
 };

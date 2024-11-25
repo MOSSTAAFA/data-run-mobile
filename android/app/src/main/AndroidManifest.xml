@@ -2,7 +2,9 @@
     package="org.datarun.app">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-giev   <application
+    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <application
         android:label="Datarun"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">

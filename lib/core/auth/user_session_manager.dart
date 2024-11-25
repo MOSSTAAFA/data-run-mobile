@@ -31,7 +31,7 @@ class UserSessionManager {
   UserSessionManager(this.prefs);
 
   bool get isFirstSession {
-    final session = sessionData;
+    // final session = sessionData;
     return sessionData == null;
   }
 

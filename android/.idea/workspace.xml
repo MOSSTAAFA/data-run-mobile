@@ -5,22 +5,45 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0bd49654-43fa-4aeb-aa7f-ff0751ad4742" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetSelector.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/migrations.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/other.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/studiobot.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/form_with_sliver/repeat_table/edit_panel.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/form_with_sliver/repeat_table/repeat_item_row.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/form_with_sliver/repeat_table/repeat_table.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/form_with_sliver/repeat_table/repeat_table_rows_source.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/form_with_sliver/repeat_table/show_edit_panel.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/form_with_sliver_/form_entry_view_silver.widget.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/form_with_sliver_/repeat_item_expansion_panel.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/form_with_sliver_/repeat_paginated_table.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/form_with_sliver_/repeat_section.widget.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/form_with_sliver_/repeat_table_view.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/form_with_sliver_/section.widget.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/form_with_sliver_/section_element_sliver.widget.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/form_with_sliver_/table_item_edit_panel.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../data-run-sdk" beforeDir="false" afterPath="$PROJECT_DIR$/../data-run-sdk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/../macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pubspec.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/data_run/form/form_element_factories/form_element_builder.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/form/form_element_factories/form_element_builder.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/data_run/form/form_element_factories/form_element_builder.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/form/form_element_factories/form_element_builder.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/data_run/form/form_element_factories/form_element_control_builder.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/form/form_element_factories/form_element_control_builder.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/data_run/form/form_element_factories/form_element_control_builder.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/form/form_element_factories/form_element_control_builder.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/data_run/form/form_template/template_form_control_builder.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/form/form_template/template_form_control_builder.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/element/form_element.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/element/form_element.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/element/form_instance.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/element/form_instance.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/element/providers/form_instance.provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/element/providers/form_instance.provider.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/element/providers/form_instance.provider.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/element/providers/form_instance.provider.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/element/validation/form_element_validator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/element/validation/form_element_validator.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/element_widgets/form_widget_factory.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/element_widgets/form_widget_factory.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/form_with_sliver/form_entry_view_silver.widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/form_with_sliver/form_entry_view_silver.widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/form_with_sliver/repeat_table_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/form_with_sliver/repeat_table_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form_module/form_template/flat_template_factory.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form_module/form_template/flat_template_factory.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form_ui_elements/bottom_sheet/form_completion_dialog_config/configure_form_completion_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form_ui_elements/bottom_sheet/form_completion_dialog_config/configure_form_completion_dialog.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/generated/intl/messages_ar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/generated/intl/messages_ar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/generated/intl/messages_en.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/generated/intl/messages_en.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/generated/l10n.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/generated/l10n.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/l10n/intl_ar.arb" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/l10n/intl_ar.arb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/l10n/intl_en.arb" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/l10n/intl_en.arb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../pubspec.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +56,9 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=PhysicalDevice, isTemplate=false, identifier=serial=520051765a1fa593)]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+    <projectState path="$PROJECT_DIR$/../../../../../../android-tools/flutter/packages/flutter_tools/gradle">
       <ProjectState />
     </projectState>
   </component>
@@ -87,14 +113,13 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "android.gradle.sync.needed": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "com.google.services.firebase.aqiPopupShown": "true",
     "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "develop",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Hamza/Learn/my-projects/jhipster-projects/data-run/apps_from_net_to_test/datarun",
+    "last_opened_file_path": "D:/Hamza/Learn/my-projects/jhipster-projects/data-run/test-flutter-apps/datarunmobile",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.17",
     "project.structure.side.proportion": "0.2",

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:d2_remote/modules/datarun/form/shared/dynamic_form_field.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule/choice_filter.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule/rule_parse_extension.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
@@ -35,7 +35,7 @@ class FormElementBuilder {
     for (var template in formFlatTemplate.formTemplate.fields) {
       template.fields.sort((a, b) => (a.order).compareTo(b.order));
 
-      elements[template.name] = buildFormElement(form, template,
+      elements[template.name!] = buildFormElement(form, template,
           initialFormValue: initialFormValue?[template.name]);
     }
 
@@ -66,7 +66,7 @@ class FormElementBuilder {
     final section = SectionInstance(form: rootFormControl, template: template);
 
     for (var childTemplate in template.fields) {
-      elements[childTemplate.name] = buildFormElement(
+      elements[childTemplate.name!] = buildFormElement(
           rootFormControl, childTemplate,
           initialFormValue: initialFormValue?[childTemplate.name]);
     }
@@ -84,7 +84,7 @@ class FormElementBuilder {
     final repeatedSection =
         RepeatItemInstance(template: template, form: rootFormControl);
     for (var childTemplate in template.fields) {
-      elements[childTemplate.name] = buildFormElement(
+      elements[childTemplate.name!] = buildFormElement(
           rootFormControl, childTemplate,
           initialFormValue: initialFormValue?[childTemplate.name]);
     }
@@ -147,7 +147,9 @@ class FormElementBuilder {
         return FieldInstance<String>(
             form: rootFormControl,
             elementProperties: FieldElementState<String>(
-                value: initialFormValue, mandatory: templateElement.mandatory),
+                readOnly: templateElement.readOnly,
+                value: initialFormValue,
+                mandatory: templateElement.mandatory),
             template: templateElement);
       case ValueType.Integer:
       case ValueType.IntegerPositive:
@@ -156,7 +158,9 @@ class FormElementBuilder {
         return FieldInstance<int>(
             form: rootFormControl,
             elementProperties: FieldElementState<int>(
-                value: initialFormValue, mandatory: templateElement.mandatory),
+                readOnly: templateElement.readOnly,
+                value: initialFormValue,
+                mandatory: templateElement.mandatory),
             template: templateElement);
 
       case ValueType.Number:
@@ -166,7 +170,9 @@ class FormElementBuilder {
         return FieldInstance<double>(
           form: rootFormControl,
           elementProperties: FieldElementState<double>(
-              value: initialFormValue, mandatory: templateElement.mandatory),
+              readOnly: templateElement.readOnly,
+              value: initialFormValue,
+              mandatory: templateElement.mandatory),
           template: templateElement,
         );
       case ValueType.Boolean:
@@ -175,7 +181,9 @@ class FormElementBuilder {
         return FieldInstance<bool>(
           form: rootFormControl,
           elementProperties: FieldElementState<bool>(
-              value: initialFormValue, mandatory: templateElement.mandatory),
+              readOnly: templateElement.readOnly,
+              value: initialFormValue,
+              mandatory: templateElement.mandatory),
           template: templateElement,
         );
       case ValueType.SelectOne:
@@ -189,9 +197,9 @@ class FormElementBuilder {
                           [])
               : null,
           elementProperties: FieldElementState<String>(
+              readOnly: templateElement.readOnly,
               value: initialFormValue,
               mandatory: templateElement.mandatory,
-
               visibleOptions:
                   formFlatTemplate.optionLists[templateElement.listName!] ??
                       []),
@@ -208,6 +216,7 @@ class FormElementBuilder {
                         [])
                 : null,
             elementProperties: FieldElementState<List<String>>(
+                readOnly: templateElement.readOnly,
                 value: initialFormValue != null
                     ? (initialFormValue is List)
                         ? initialFormValue.cast<String>()
@@ -216,6 +225,22 @@ class FormElementBuilder {
                 mandatory: templateElement.mandatory,
                 visibleOptions: templateElement.options),
             template: templateElement);
+      case ValueType.Reference:
+        return FieldInstance<String>(
+          form: rootFormControl,
+          elementProperties: FieldElementState<String>(
+              readOnly: true, value: initialFormValue, mandatory: false),
+          template: templateElement,
+        );
+      case ValueType.ScannedCode:
+        return FieldInstance<String>(
+          form: rootFormControl,
+          elementProperties: FieldElementState<String>(
+              readOnly: templateElement.readOnly,
+              value: initialFormValue,
+              mandatory: templateElement.mandatory),
+          template: templateElement,
+        );
       default:
         throw Exception('Unsupported element type: ${templateElement.type}');
     }
