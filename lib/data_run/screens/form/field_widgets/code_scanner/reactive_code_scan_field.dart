@@ -5,6 +5,8 @@ import 'package:reactive_forms/reactive_forms.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
+typedef OnScan = void Function(String code);
+
 class ReactiveCodeScanField<T> extends ReactiveFormField<T, String> {
   ReactiveCodeScanField({
     super.key,
@@ -22,6 +24,7 @@ class ReactiveCodeScanField<T> extends ReactiveFormField<T, String> {
     bool enableInteractiveSelection = true,
     bool showClearIcon = false,
     Widget clearIcon = const Icon(Icons.clear),
+    OnScan? onScan,
   }) : super(
           builder: (field) {
             Widget? suffixIcon = decoration?.suffixIcon;
@@ -64,6 +67,7 @@ class ReactiveCodeScanField<T> extends ReactiveFormField<T, String> {
                       barcodeScanRes = 'Failed to get platform version.';
                     }
 
+                    onScan?.call(barcodeScanRes);
                     if (int.tryParse(barcodeScanRes) != -1) {
                       field.didChange(barcodeScanRes);
                     }
