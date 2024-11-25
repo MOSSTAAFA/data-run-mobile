@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:datarun/data_run/screens/form/element/form_element.dart';
@@ -22,19 +21,21 @@ class QTextTypeField<T> extends HookConsumerWidget {
         formInstance.form.control(element.pathRecursive) as FormControl<T>;
 
     return ReactiveTextField<T>(
-      onTapOutside:control.hasFocus
-          ? (event) => control.unfocus()
-          : null,
-      formControl: control,
-      maxLength: element.maxLength,
-      maxLines: element.maxLines,
-      keyboardType: element.inputType,
-      textAlign: element.type.isNumeric ? TextAlign.end : TextAlign.start,
-      validationMessages: validationMessages(context),
-      decoration: InputDecoration(
-        enabled: control.enabled,
-        labelText: element.label,
-      )
-    );
+        onTapOutside: control.hasFocus
+            ? (event) {
+                control.markAsTouched();
+                control.unfocus();
+              }
+            : null,
+        formControl: control,
+        maxLength: element.maxLength,
+        maxLines: element.maxLines,
+        keyboardType: element.inputType,
+        textAlign: element.type.isNumeric ? TextAlign.end : TextAlign.start,
+        validationMessages: validationMessages(context),
+        decoration: InputDecoration(
+          enabled: control.enabled,
+          labelText: element.label,
+        ));
   }
 }

@@ -1463,6 +1463,36 @@ class S {
       args: [],
     );
   }
+
+  /// `At least ${error} Item must be provided`
+  String atLeastErrorItemMustBeProvided(Object error) {
+    return Intl.message(
+      'At least \$$error Item must be provided',
+      name: 'atLeastErrorItemMustBeProvided',
+      desc: '',
+      args: [error],
+    );
+  }
+
+  /// `Scan your code`
+  String get scanYourCode {
+    return Intl.message(
+      'Scan your code',
+      name: 'scanYourCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Barcode/QR Code`
+  String get barcodeQrScan {
+    return Intl.message(
+      'Barcode/QR Code',
+      name: 'barcodeQrScan',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -141,6 +141,13 @@ class FormElementControlBuilder {
         );
       case ValueType.SelectMulti:
         return FormControl<List<String>>(value: initialValue ?? []);
+      case ValueType.Reference:
+        return FormControl<String>(disabled: true);
+      case ValueType.ScannedCode:
+        return FormControl<String>(
+          value: initialValue ?? fieldTemplate.defaultValue,
+          validators: FieldValidators.getValidators(fieldTemplate),
+        );
       default:
         throw UnsupportedError(
             'Template: ${fieldTemplate.name}, unsupported element type: ${fieldTemplate.type}');

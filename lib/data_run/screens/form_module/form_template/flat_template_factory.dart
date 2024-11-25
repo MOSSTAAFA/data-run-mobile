@@ -75,7 +75,7 @@ class FlatTemplateFactory {
         mandatory: template.mandatory,
         mainField: template.mainField,
         rules: template.rules,
-        referenceInfo: template.referenceInfo,
+        // referenceInfo: template.referenceInfo,
         choiceFilter: template.choiceFilter,
         defaultValue: template.defaultValue,
         options: template.options,

@@ -64,10 +64,10 @@ class ConfigureFormCompletionDialog {
 
   BottomSheetBodyModel _getBody(SectionInstance rootSection) {
     bool controlHasErrors = rootSection.form.hasErrors;
-    bool elementHasErrors = rootSection.elementState.errors.isNotEmpty;
+    // bool elementHasErrors = rootSection.elementState.errors.isNotEmpty;
     final controlErrors = rootSection.form.errors;
-    final elementErrors =rootSection.elementState.errors;
-    return elementHasErrors
+    // final elementErrors =rootSection.elementState.errors;
+    return controlHasErrors
         ? BottomSheetBodyModel.errorsBody(
             message: S.current.fieldsWithErrorInfo,
             fieldsWithIssues: _getFieldsWithIssues(rootSection))
@@ -104,7 +104,7 @@ class ConfigureFormCompletionDialog {
     // logDebug(info: 'formErrorsMapFlatt: $formErrorsFlatt');
     final Iterable<FieldInstance<dynamic>> fieldsWithErrors =
         getFormElementIterator<FieldInstance<dynamic>>(rootSection)
-            .where((field) => field.elementControl!.hasErrors);
+            .where((field) => field.elementControl!.hasErrors && field.visible);
     final fieldsIssues = fieldsWithErrors.map((element) => FieldWithIssue(
         parent: element.parentSection?.label,
         fieldPath: element.pathRecursive,
@@ -128,28 +128,4 @@ class ConfigureFormCompletionDialog {
   ValidationMessageFunction? _findValidationMessage(String errorKey) {
     return validationMessages(navigatorKey.currentContext!)[errorKey];
   }
-}
-
-// path format to jsonPath
-String formatPath(Map<String, dynamic> current, String currentPath) {
-  String formattedPath = currentPath;
-
-  if (current is Map<String, dynamic>) {
-    current.forEach((key, value) {
-      String newPath = formattedPath.isEmpty ? key : '$formattedPath.$key';
-      if (value is Map || value is List) {
-        formattedPath = formatPath(value, newPath); // Recursive call for nested structures
-      } else {
-        // Final field value
-        print(newPath); // Print or store the formatted path
-      }
-    });
-  } else if (current is List) {
-    for (int i = 0; i < current.length; i++) {
-      String newPath = '$formattedPath[$i]';
-      formatPath(current[i], newPath); // Recursively handle the array
-    }
-  }
-
-  return formattedPath;
 }

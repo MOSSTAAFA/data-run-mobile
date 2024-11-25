@@ -26,21 +26,14 @@ class FormInstance {
   FormInstance(FormInstanceRef ref,
       {required FormInstanceService formInstanceService,
       required this.form,
-        required String? orgUnit,
+      required String? orgUnit,
       required this.formMetadata,
       required this.formConfiguration,
+      required SectionInstance rootSection,
       Map<String, FormElementInstance<dynamic>> elements = const {},
       required this.enabled})
       : _ref = ref,
-        _formSection = SectionInstance(
-            template: FieldTemplate(
-                mandatory: false,
-                mainField: false,
-                type: ValueType.Unknown,
-                name: '',
-                path: null),
-            form: form)
-          ..addAll(elements) {
+        _formSection = rootSection {
     form.addAll({
       '_${orgUnitControlName}':
           FormControl<String>(value: orgUnit, validators: [Validators.required])
@@ -89,9 +82,6 @@ class FormInstance {
 
   Future<DataFormSubmission> saveFormData() async {
     final Map<String, Object?> formValue = form.value;
-    final Map<String, Object?> formValue2 = formSection.value ?? {};
-    AppLogger.logInfo('formGroupValue: $formValue');
-    AppLogger.logInfo('formSectionValue: $formValue2');
     DataFormSubmission? formSubmission;
     formSubmission = await formSubmissionList.getSubmission(submissionUid!);
     formSubmission!.orgUnit = form.control('_${orgUnitControlName}').value;

@@ -1,5 +1,6 @@
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:datarun/data_run/screens/form/element_widgets/popup_section.widget.dart';
+import 'package:datarun/data_run/screens/form/field_widgets/q_barcode_reader_field.dart';
 import 'package:datarun/data_run/screens/form/form_with_sliver/repeat_table_view.dart';
 import 'package:flutter/material.dart';
 import 'package:datarun/data_run/screens/form/field_widgets/reactive_choice_single_select_chip.widget.dart';
@@ -21,12 +22,11 @@ class PopupFormElementWidgetFactory {
       FieldInstance() =>
         FieldWidget(key: ValueKey(element.elementPath), element: element),
       RepeatInstance() => RepeatInstanceDataTable(
-        key: Key(element.pathRecursive),
-        repeatInstance: element,
-      ),
+          key: Key(element.pathRecursive),
+          repeatInstance: element,
+        ),
       SectionInstance() => PopupSectionWidget(
           key: ValueKey(element.elementPath), element: element),
-
     };
   }
 }
@@ -72,6 +72,10 @@ class FieldFactory {
       case ValueType.SelectMulti:
         return QDropDownMultiSelectWithSearchField(
             element: element as FieldInstance<List<String>>);
+      case ValueType.ScannedCode:
+        return QBarcodeReaderField(element: element as FieldInstance<String>);
+      case ValueType.Reference:
+        return const SizedBox.shrink();
       default:
         return Text('Unsupported element type: ${element.type}');
     }

@@ -205,5 +205,8 @@
   "monthly": "Monthly",
   "syncNow": "Sync Now",
   "syncInterval": "Sync Interval",
-  "syncSettings": "Sync Settings"
+  "syncSettings": "Sync Settings",
+  "atLeastErrorItemMustBeProvided": "At least ${error} Item must be provided",
+  "scanYourCode": "Scan your code",
+  "barcodeQrScan": "Barcode/QR Code"
 }

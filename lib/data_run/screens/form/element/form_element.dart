@@ -93,9 +93,9 @@ sealed class FormElementInstance<T> {
 
   T? reduceValue();
 
-  //
-  // AbstractControl<dynamic>? get elementControl =>
-  //     controlExist ? form.control(elementPath) : null;
+
+  AbstractControl<dynamic>? get elementControl =>
+      controlExist ? form.control(elementPath) : null;
 
   String get pathRecursive {
     return parentSection != null && parentSection!.name.isNotEmpty
@@ -133,7 +133,7 @@ sealed class FormElementInstance<T> {
     }
     updateStatus(_elementState.copyWith(hidden: true, errors: {}),
         emitEvent: emitEvent);
-    // elementControl!.reset(disabled: true);
+    elementControl!.reset(disabled: true);
     // elementControl!.updateValueAndValidity(
     //     updateParent: updateParent, emitEvent: emitEvent);
     updateValueAndValidity(updateParent: true, emitEvent: emitEvent);
@@ -148,7 +148,8 @@ sealed class FormElementInstance<T> {
     }
 
     updateStatus(_elementState.copyWith(hidden: false), emitEvent: emitEvent);
-    // elementControl!.markAsEnabled();
+    elementControl!.markAsEnabled();
+    // evaluate();
     updateValueAndValidity(updateParent: true, emitEvent: emitEvent);
     _updateAncestors(updateParent);
   }

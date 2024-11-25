@@ -12,6 +12,7 @@ import 'package:datarun/data_run/screens/form_module/form_template/form_element_
 import 'package:datarun/core/utils/get_item_local_string.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 
 class RepeatInstanceDataTable extends HookConsumerWidget {
   RepeatInstanceDataTable(
@@ -31,7 +32,8 @@ class RepeatInstanceDataTable extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final formTemplate = FormFlatTemplateInheritWidget.of(context);
     final tableColumns = formTemplate
-        .getChildrenOfType<FieldElementTemplate>(repeatInstance.pathRecursive);
+        .getChildrenOfType<FieldElementTemplate>(repeatInstance.pathRecursive)
+      ..sort((a, b) => (a.order).compareTo(b.order));
 
     //
     useRegisterDependencies(repeatInstance);
@@ -50,25 +52,30 @@ class RepeatInstanceDataTable extends HookConsumerWidget {
 
     final ValueNotifier<int?> initialFirstRowIndex = useState(null);
 
-    return PaginatedDataTable(
-      initialFirstRowIndex: initialFirstRowIndex.value,
-      showFirstLastButtons: true,
-      actions: [
-        ElevatedButton(
-          onPressed: () async {
-            initialFirstRowIndex.value = await onAdd?.call();
-          },
-          child: Icon(Icons.add),
-        ),
-      ],
-      header: Text('${repeatInstance.label}'),
-      rowsPerPage: 5,
-      columns: _buildColumns(tableColumns, context),
-      source: buildTableDataSource(),
+    return ReactiveFormArray(
+      formArray: repeatInstance.elementControl,
+      builder:
+          (BuildContext context, FormArray<dynamic> formArray, Widget? child) =>
+              PaginatedDataTable(
+        initialFirstRowIndex: initialFirstRowIndex.value,
+        showFirstLastButtons: true,
+        actions: [
+          ElevatedButton(
+            onPressed: () async {
+              initialFirstRowIndex.value = await onAdd?.call();
+            },
+            child: Icon(Icons.add),
+          ),
+        ],
+        header: Text('${repeatInstance.label}'),
+        rowsPerPage: 5,
+        columns: _buildColumns(tableColumns, context),
+        source: buildTableDataSource(ref),
+      ),
     );
   }
 
-  RepeatTableDataSource buildTableDataSource() {
+  RepeatTableDataSource buildTableDataSource(WidgetRef ref) {
     return RepeatTableDataSource(
         repeatInstance: repeatInstance,
         onEdit: (index) async {
@@ -77,7 +84,7 @@ class RepeatInstanceDataTable extends HookConsumerWidget {
         onDelete: (index) async {
           await onDelete?.call(index);
           // formInstance.onRemoveRepeatedItem(index, repeatInstance);
-        });
+        }, ref: ref,);
   }
 
   List<DataColumn> _buildColumns(
@@ -98,8 +105,9 @@ class RepeatInstanceDataTable extends HookConsumerWidget {
 
 class RepeatTableDataSource extends DataTableSource {
   RepeatTableDataSource(
-      {required this.repeatInstance, this.onDelete, this.onEdit});
+      {required this.repeatInstance, this.onDelete, this.onEdit, required this.ref});
 
+  final WidgetRef ref;
   final RepeatInstance repeatInstance;
   final Function(int)? onDelete;
   final Function(int)? onEdit;
@@ -142,38 +150,84 @@ class RepeatTableDataSource extends DataTableSource {
 
   Widget userFriendlyValue(FieldInstance<dynamic> field) {
     final value = field.value ?? '-';
+    final isDisabled = field.hidden;
+
+    final textStyle = isDisabled
+        ? TextStyle(color: Colors.grey, backgroundColor: Colors.grey[200])
+        : null;
+
     if (field.elementControl?.hasErrors == true) {
       return Text(
         '$value! ${S.current.fieldContainErrors}',
-        style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+        style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold).merge(textStyle),
       );
     }
+
     switch (field.type) {
       case ValueType.Date:
       case ValueType.DateTime:
       case ValueType.Time:
-        return Text(modelToViewValue(field.value) ?? '-');
+        return Text(modelToViewValue(field.value) ?? '-', style: textStyle);
       case ValueType.SelectMulti:
-        return Text(field.visibleOption
-            .where((option) => option.name == field.value)
-            .whereType<String>()
-            .join(', '));
+        return Text(
+            field.visibleOption
+                .where((option) => option.name == field.value)
+                .whereType<String>()
+                .join(', '),
+            style: textStyle);
       case ValueType.SelectOne:
         if (field.elementControl?.hasErrors == true) {
           return Text(
             S.current.fieldContainErrors,
-            style: const TextStyle(color: Colors.red),
+            style: TextStyle(color: Colors.red).merge(textStyle),
           );
         }
-        return Text(getItemLocalString(
-            field.visibleOption
-                .firstOrNullWhere((option) => option.name == field.value)
-                ?.label,
-            defaultString: '-'));
+        return Text(
+            getItemLocalString(
+                field.visibleOption
+                    .firstOrNullWhere((option) => option.name == field.value)
+                    ?.label,
+                defaultString: '-'),
+            style: textStyle);
       default:
-        return Text('${field.value ?? '-'}');
+        return Text('$value', style: textStyle);
     }
   }
+
+  // Widget userFriendlyValue(FieldInstance<dynamic> field) {
+  //   final value = field.value ?? '-';
+  //   if (field.elementControl?.hasErrors == true) {
+  //     return Text(
+  //       '$value! ${S.current.fieldContainErrors}',
+  //       style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+  //     );
+  //   }
+  //   switch (field.type) {
+  //     case ValueType.Date:
+  //     case ValueType.DateTime:
+  //     case ValueType.Time:
+  //       return Text(modelToViewValue(field.value) ?? '-');
+  //     case ValueType.SelectMulti:
+  //       return Text(field.visibleOption
+  //           .where((option) => option.name == field.value)
+  //           .whereType<String>()
+  //           .join(', '));
+  //     case ValueType.SelectOne:
+  //       if (field.elementControl?.hasErrors == true) {
+  //         return Text(
+  //           S.current.fieldContainErrors,
+  //           style: const TextStyle(color: Colors.red),
+  //         );
+  //       }
+  //       return Text(getItemLocalString(
+  //           field.visibleOption
+  //               .firstOrNullWhere((option) => option.name == field.value)
+  //               ?.label,
+  //           defaultString: '-'));
+  //     default:
+  //       return Text('${field.value ?? '-'}');
+  //   }
+  // }
 
   String? modelToViewValue(String? modelValue) {
     return modelValue == null ? null : sdk.DateUtils.format(modelValue);

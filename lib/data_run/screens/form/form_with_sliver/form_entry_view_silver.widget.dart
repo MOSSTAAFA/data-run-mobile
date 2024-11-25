@@ -87,27 +87,29 @@ class FormInstanceEntryViewSliver extends HookConsumerWidget {
       RepeatItemInstance item, bool isNew, RepeatInstance element) async {
     final formMetadata = FormMetadataWidget.of(context);
 
-    await showModalBottomSheet(
-      isScrollControlled: true,
+    await showDialog(
+      // isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {
         return FormMetadataWidget(
           formMetadata: formMetadata,
-          child: EditPanel(
-            repeatItemInstance: item,
-            isNew: isNew,
-            onSave: () {
-              if (item.elementControl.dirty) {
-                element.elementControl.markAsTouched();
-              }
-              if (context.mounted) Navigator.pop(context);
-            },
-            onCancel: () {
-              if (item.elementControl.dirty) {
-                element.elementControl.markAsTouched();
-              }
-              if (context.mounted) Navigator.pop(context);
-            },
+          child: Dialog(
+            child: EditPanel(
+              repeatItemInstance: item,
+              isNew: isNew,
+              onSave: () {
+                if (item.elementControl!.dirty) {
+                  element.elementControl.markAsTouched();
+                }
+                if (context.mounted) Navigator.pop(context);
+              },
+              onCancel: () {
+                if (item.elementControl!.dirty) {
+                  element.elementControl.markAsTouched();
+                }
+                if (context.mounted) Navigator.pop(context);
+              },
+            ),
           ),
         );
       },

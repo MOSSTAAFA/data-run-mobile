@@ -20,8 +20,8 @@ class OrgUnitPickerField extends StatefulWidget {
       this.onChanged,
       this.focusNode,
       this.validator,
-      this.enabled = true,
-      this.onSaved})
+      this.onSaved,
+      this.prefixIcon})
       : super(key: key);
 
   final String? initialValueUid;
@@ -31,7 +31,7 @@ class OrgUnitPickerField extends StatefulWidget {
 
   final ValueChanged<String?>? onSaved;
   final ValueChanged<String?>? onChanged;
-
+  final Widget? prefixIcon;
   final TreeNodeDataSource dataSource;
   final String? errorInvalidText;
   final String? fieldHintText;
@@ -43,8 +43,6 @@ class OrgUnitPickerField extends StatefulWidget {
   final TextInputType? keyboardType;
 
   final bool autofocus;
-
-  final bool enabled;
 
   final FocusNode? focusNode;
 
@@ -154,7 +152,6 @@ class _OrgUnitPickerFieldState extends State<OrgUnitPickerField/*<T>*/ > {
                 : const UnderlineInputBorder());
 
     return TextFormField(
-      enabled: widget.enabled,
       readOnly: true,
       validator: widget.validator,
       decoration: InputDecoration(
@@ -165,8 +162,6 @@ class _OrgUnitPickerFieldState extends State<OrgUnitPickerField/*<T>*/ > {
                 onPressed: _clearValue,
                 icon: Icon(Icons.close))
             : null,
-        prefixIcon: Icon(Icons.account_tree),
-        errorText: widget.errorInvalidText,
         hintText: widget.fieldHintText ?? S.of(context).orgUnitHelpText,
         labelText: widget.fieldLabelText ?? S.of(context).orgUnitInputLabel,
       ).applyDefaults(
@@ -175,7 +170,7 @@ class _OrgUnitPickerFieldState extends State<OrgUnitPickerField/*<T>*/ > {
       controller: _controller,
       focusNode: widget.focusNode,
       style: Theme.of(context).textTheme.bodyMedium,
-      onTap: widget.enabled ? onShowPicker : null,
+      onTap: onShowPicker,
     );
   }
 }
