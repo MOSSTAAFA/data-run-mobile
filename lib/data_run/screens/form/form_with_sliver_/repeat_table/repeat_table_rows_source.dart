@@ -7,7 +7,6 @@ import 'package:datarun/generated/l10n.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:d2_remote/core/datarun/utilities/date_utils.dart' as sdk;
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class RepeatTableDataSource extends DataTableSource {
   RepeatTableDataSource(
@@ -37,23 +36,19 @@ class RepeatTableDataSource extends DataTableSource {
       ...rowFieldsStates
           .map((field) => DataCell(userFriendlyValue(field)))
           .toList(),
-      if (repeatInstance.elementControl.enabled)
-        DataCell(IconButton(
-            icon: Icon(Icons.edit),
-            onPressed: () {
-              onEdit?.call(index);
-            })),
-      if (repeatInstance.elementControl.enabled)
-        DataCell(IconButton(
-            icon: Icon(
-              Icons.delete,
-              color: Colors.red,
-            ),
-            onPressed: repeatInstance.elementControl.enabled
-                ? () {
-                    onDelete?.call(index);
-                  }
-                : null)),
+      DataCell(IconButton(
+          icon: Icon(Icons.edit),
+          onPressed: () {
+            onEdit?.call(index);
+          })),
+      DataCell(IconButton(
+          icon: Icon(
+            Icons.delete,
+            color: Colors.red,
+          ),
+          onPressed: () {
+            onDelete?.call(index);
+          })),
     ]);
   }
 
@@ -66,14 +61,6 @@ class RepeatTableDataSource extends DataTableSource {
       );
     }
     switch (field.type) {
-      case ValueType.ScannedCode:
-        return Row(
-          children: [
-            Icon(MdiIcons.barcode),
-            SizedBox(width: 4),
-            Text(modelToViewValue(field.value) ?? '-'),
-          ],
-        );
       case ValueType.Date:
       case ValueType.DateTime:
       case ValueType.Time:

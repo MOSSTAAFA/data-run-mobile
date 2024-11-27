@@ -4,7 +4,7 @@ extension ElementDependencyHandler<T> on FormElementInstance<T> {
   Map<String, dynamic> get evalContext {
     return {
       for (final dependency in _dependencies)
-        dependency.name: calculationFriendlyValue(dependency)
+        dependency.name!: calculationFriendlyValue(dependency)
     };
   }
 
@@ -52,28 +52,14 @@ extension ElementDependencyHandler<T> on FormElementInstance<T> {
     _dependents.add(dependent);
   }
 
-  // void addDependency(FormElementInstance<dynamic> dependency) {
-  //   addDependency(dependency);
-  //   dependency.addDependent(this);
-  // }
-
   List<String> get resolvedDependentsNames =>
-      _dependents.map((dependent) => dependent.name).toList();
+      _dependents.map((dependent) => dependent.name!).toList();
 
   void notifySubscribers({bool emitEvent = true}) {
     logDebug(info: '$name, notifying: ${resolvedDependentsNames}');
     _dependents.forEach(
         (s) => s.evaluate(changedDependency: name, emitEvent: emitEvent));
   }
-
-  /// didUpdateElement(covariant FormElement<E> oldElement)
-  /// void didChange(ViewDataType value)
-  /// void didChangeDependencies()
-// void onDependencyChanged(String changedDependency, value) {
-//
-//   reEvaluateStatus();
-//   notifyDependents();
-// }
 
   /// the element use name to find the dependency in closest parent
   /// and register itself and add them to their dependencies
@@ -110,19 +96,4 @@ extension ElementDependencyHandler<T> on FormElementInstance<T> {
 
     return null;
   }
-
-// void setNotifiers(Map<String, FormElementInstance<dynamic>> notifiers) {
-//   _unresolvedDependencies.clear();
-//   _unresolvedDependencies.addAll(
-//       requiredNotifiersNames.where((item) => !notifiers.keys.contains(item)));
-//   if (_unresolvedDependencies.length > 0) {
-//     loggerEvaluation.w({
-//       'unresolved dependencies': _unresolvedDependencies,
-//       'element': name,
-//     });
-//   }
-//
-//   _notifiers.addAll(notifiers);
-//   // final Listenable fff = Listenable.merge(notifiers.values);
-// }
 }

@@ -206,7 +206,13 @@
   "syncNow": "Sync Now",
   "syncInterval": "Sync Interval",
   "syncSettings": "Sync Settings",
-  "atLeastErrorItemMustBeProvided": "At least ${error} Item must be provided",
+  "saveAndEditNext": "Save and Edit Next",
+  "saveAndClose": "Save",
+  "saveAndAddAnother": "Add Another",
+  "newItem": "New Item",
+  "editItem": "Edit Item",
+  "unsavedChangesWarning": "Unsaved changes",
+  "closeWithoutSaving": "Close without saving?",
   "scanYourCode": "Scan your code",
   "barcodeQrScan": "Barcode/QR Code"
 }

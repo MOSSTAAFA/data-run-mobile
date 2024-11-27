@@ -17,7 +17,7 @@ class PopupSectionWidget extends HookConsumerWidget {
             formInstanceProvider(formMetadata: FormMetadataWidget.of(context)))
         .requireValue;
     return ReactiveForm(
-      formGroup: formInstance.form.control(element.pathRecursive) as FormGroup,
+      formGroup: formInstance.form.control(element.elementPath!) as FormGroup,
       child: Column(
         children: element.elements.values.map((childElement) {
           return PopupFormElementWidgetFactory.createWidget(childElement);

@@ -22,7 +22,7 @@ class PopupFormElementWidgetFactory {
       FieldInstance() =>
         FieldWidget(key: ValueKey(element.elementPath), element: element),
       RepeatInstance() => RepeatInstanceDataTable(
-          key: Key(element.pathRecursive),
+          key: Key(element.elementPath!),
           repeatInstance: element,
         ),
       SectionInstance() => PopupSectionWidget(
@@ -33,7 +33,7 @@ class PopupFormElementWidgetFactory {
 
 /// a Factory that is called by the [FieldWidget] to create the input widget based on ValueType of element
 class FieldFactory {
-  static Widget fromType<T>({required FieldInstance<T> element}) {
+  static Widget fromType<T>(FieldInstance<T> element) {
     switch (element.type) {
       case ValueType.Text:
       case ValueType.LongText:

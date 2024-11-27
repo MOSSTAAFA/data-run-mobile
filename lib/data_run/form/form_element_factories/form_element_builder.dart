@@ -8,6 +8,7 @@ import 'package:datarun/data_run/screens/form/element/form_element.dart';
 import 'package:datarun/data_run/screens/form/element/form_metadata.dart';
 import 'package:datarun/data_run/screens/form/element/members/form_element_state.dart';
 import 'package:datarun/data_run/screens/form/element/providers/form_instance.provider.dart';
+import 'package:datarun/data_run/screens/form_module/form/code_generator.dart';
 import 'package:datarun/data_run/screens/form_module/form_template/form_element_template.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -81,8 +82,12 @@ class FormElementBuilder {
     final Map<String, FormElementInstance<dynamic>> elements = {};
 
     template.fields.sort((a, b) => (a.order).compareTo(b.order));
-    final repeatedSection =
-        RepeatItemInstance(template: template, form: rootFormControl);
+    final repeatedSection = RepeatItemInstance(
+        template: template,
+        form: rootFormControl,
+        uid: (initialFormValue?.isNotEmpty ?? false)
+            ? CodeGenerator.generateUid()
+            : null);
     for (var childTemplate in template.fields) {
       elements[childTemplate.name!] = buildFormElement(
           rootFormControl, childTemplate,

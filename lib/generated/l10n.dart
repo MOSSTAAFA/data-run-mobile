@@ -1464,13 +1464,73 @@ class S {
     );
   }
 
-  /// `At least ${error} Item must be provided`
-  String atLeastErrorItemMustBeProvided(Object error) {
+  /// `Save and Edit Next`
+  String get saveAndEditNext {
     return Intl.message(
-      'At least \$$error Item must be provided',
-      name: 'atLeastErrorItemMustBeProvided',
+      'Save and Edit Next',
+      name: 'saveAndEditNext',
       desc: '',
-      args: [error],
+      args: [],
+    );
+  }
+
+  /// `Save`
+  String get saveAndClose {
+    return Intl.message(
+      'Save',
+      name: 'saveAndClose',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Another`
+  String get saveAndAddAnother {
+    return Intl.message(
+      'Add Another',
+      name: 'saveAndAddAnother',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New Item`
+  String get newItem {
+    return Intl.message(
+      'New Item',
+      name: 'newItem',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit Item`
+  String get editItem {
+    return Intl.message(
+      'Edit Item',
+      name: 'editItem',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unsaved changes`
+  String get unsavedChangesWarning {
+    return Intl.message(
+      'Unsaved changes',
+      name: 'unsavedChangesWarning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Close without saving?`
+  String get closeWithoutSaving {
+    return Intl.message(
+      'Close without saving?',
+      name: 'closeWithoutSaving',
+      desc: '',
+      args: [],
     );
   }
 

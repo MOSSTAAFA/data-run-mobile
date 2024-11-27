@@ -23,29 +23,27 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m0(error) =>
       "An error occurred while interacting with the API \$${error}.";
 
-  static String m1(error) => "At least \$${error} Item must be provided";
+  static String m1(error) => "Database returned an Error \$${error}.";
 
-  static String m2(error) => "Database returned an Error \$${error}.";
-
-  static String m3(count) =>
+  static String m2(count) =>
       "${Intl.plural(count, zero: 'no forms available', one: '1 form available', two: '2 forms available', other: '${count} forms available')}";
 
-  static String m4(error) => "The maximum allowed length is \$${error}.";
+  static String m3(error) => "The maximum allowed length is \$${error}.";
 
-  static String m5(count) =>
+  static String m4(count) =>
       "${Intl.plural(count, zero: ' ', one: '1 Month', two: '2 Months', few: '${count} Years', other: '${count} Months')}";
 
-  static String m6(error) => "Error While Trying to Sync data \$${error}.";
+  static String m5(error) => "Error While Trying to Sync data \$${error}.";
 
-  static String m7(error) => "Error: \$${error}.";
+  static String m6(error) => "Error: \$${error}.";
 
-  static String m8(error) =>
+  static String m7(error) =>
       "The value must be greater than or equal to \$${error}.";
 
-  static String m9(error) =>
+  static String m8(error) =>
       "The value must be less than or equal to \$${error}.";
 
-  static String m10(count) =>
+  static String m9(count) =>
       "${Intl.plural(count, zero: ' ', one: '1 Year', two: '2 Years', few: '${count} Years', other: '${count} Years')}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -64,7 +62,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "appName": MessageLookupByLibrary.simpleMessage("Datarun"),
         "appVersion": MessageLookupByLibrary.simpleMessage("App Version"),
         "appearance": MessageLookupByLibrary.simpleMessage("Appearance"),
-        "atLeastErrorItemMustBeProvided": m1,
         "authInvalidCredentials": MessageLookupByLibrary.simpleMessage(
             "Invalid login credentials provided."),
         "authSessionExpired": MessageLookupByLibrary.simpleMessage(
@@ -77,6 +74,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "checkFieldsLater":
             MessageLookupByLibrary.simpleMessage("Check Fields later"),
         "clear": MessageLookupByLibrary.simpleMessage("Clear"),
+        "closeWithoutSaving":
+            MessageLookupByLibrary.simpleMessage("Close without saving?"),
         "configurationReady":
             MessageLookupByLibrary.simpleMessage("Configuration Ready"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
@@ -90,7 +89,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "dashboard": MessageLookupByLibrary.simpleMessage("Dashboard"),
         "databaseConnectionFailed": MessageLookupByLibrary.simpleMessage(
             "Failed to connect to the database."),
-        "databaseInternalError": m2,
+        "databaseInternalError": m1,
         "databaseQueryFailed": MessageLookupByLibrary.simpleMessage(
             "Error occurred while querying the database."),
         "delete": MessageLookupByLibrary.simpleMessage("Delete"),
@@ -107,6 +106,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "dismiss": MessageLookupByLibrary.simpleMessage("Dismiss"),
         "done": MessageLookupByLibrary.simpleMessage("Done"),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
+        "editItem": MessageLookupByLibrary.simpleMessage("Edit Item"),
         "empty": MessageLookupByLibrary.simpleMessage("Empty"),
         "enterAValidNumber": MessageLookupByLibrary.simpleMessage(
             "Please enter a valid number."),
@@ -127,7 +127,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Fields with Error"),
         "finalData": MessageLookupByLibrary.simpleMessage("Final Data"),
         "firstName": MessageLookupByLibrary.simpleMessage("First Name"),
-        "form": m3,
+        "form": m2,
         "formContainsSomeErrors":
             MessageLookupByLibrary.simpleMessage("Form contains some errors"),
         "formSummaryView":
@@ -154,16 +154,17 @@ class MessageLookup extends MessageLookupByLibrary {
             "Make Form Final for Send to server, or save as draft!"),
         "markAsFinalData": MessageLookupByLibrary.simpleMessage(
             "Make the form Final before exiting."),
-        "maximumAllowedLengthIsError": m4,
+        "maximumAllowedLengthIsError": m3,
         "middleName": MessageLookupByLibrary.simpleMessage("Middle Name"),
         "mobile": MessageLookupByLibrary.simpleMessage("Mobile"),
-        "month": m5,
+        "month": m4,
         "monthly": MessageLookupByLibrary.simpleMessage("Monthly"),
         "months": MessageLookupByLibrary.simpleMessage("Months"),
         "networkConnectionFailed": MessageLookupByLibrary.simpleMessage(
             "Connection failed. Check your network."),
         "networkTimeout": MessageLookupByLibrary.simpleMessage(
             "Request timed out. Please try again."),
+        "newItem": MessageLookupByLibrary.simpleMessage("New Item"),
         "nmcpYemen": MessageLookupByLibrary.simpleMessage("NMCP Yemen"),
         "noAuthenticatedUser": MessageLookupByLibrary.simpleMessage(
             "Credentials do not match authenticated user. Cannot login offline."),
@@ -200,7 +201,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "preferences": MessageLookupByLibrary.simpleMessage("Preferences"),
         "reviewFormData": MessageLookupByLibrary.simpleMessage("Review Form"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
+        "saveAndAddAnother":
+            MessageLookupByLibrary.simpleMessage("Add Another"),
         "saveAndCheck": MessageLookupByLibrary.simpleMessage("Save and Check"),
+        "saveAndClose": MessageLookupByLibrary.simpleMessage("Save"),
+        "saveAndEditNext":
+            MessageLookupByLibrary.simpleMessage("Save and Edit Next"),
         "scanYourCode": MessageLookupByLibrary.simpleMessage("Scan your code"),
         "searchOrgUnitsHelpText":
             MessageLookupByLibrary.simpleMessage("Search Org Units..."),
@@ -221,7 +227,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Starting sync..."),
         "submissionDataEntry": MessageLookupByLibrary.simpleMessage("Data"),
         "submissionInitialData": MessageLookupByLibrary.simpleMessage("Main"),
-        "syncError": m6,
+        "syncError": m5,
         "syncFormData": MessageLookupByLibrary.simpleMessage("Sync Form Data"),
         "syncInterval": MessageLookupByLibrary.simpleMessage("Sync Interval"),
         "syncNow": MessageLookupByLibrary.simpleMessage("Sync Now"),
@@ -235,20 +241,22 @@ class MessageLookup extends MessageLookupByLibrary {
         "toggleBrightness":
             MessageLookupByLibrary.simpleMessage("Toggle Brightness"),
         "undo": MessageLookupByLibrary.simpleMessage("Undo"),
-        "unknownError": m7,
+        "unknownError": m6,
+        "unsavedChangesWarning":
+            MessageLookupByLibrary.simpleMessage("Unsaved changes"),
         "user": MessageLookupByLibrary.simpleMessage("user"),
         "userSettings": MessageLookupByLibrary.simpleMessage("User Settings"),
         "username": MessageLookupByLibrary.simpleMessage("Username"),
         "validationError": MessageLookupByLibrary.simpleMessage(
             "Please correct the errors in the form."),
-        "valueMustBeGreaterThanOrEqualToError": m8,
-        "valueMustBeLessThanOrEqualToError": m9,
+        "valueMustBeGreaterThanOrEqualToError": m7,
+        "valueMustBeLessThanOrEqualToError": m8,
         "version": MessageLookupByLibrary.simpleMessage("Version"),
         "viewAvailableForms": MessageLookupByLibrary.simpleMessage(
             "Expand to View Available Forms"),
         "viewList": MessageLookupByLibrary.simpleMessage("View List"),
         "weekly": MessageLookupByLibrary.simpleMessage("Weekly"),
-        "year": m10,
+        "year": m9,
         "years": MessageLookupByLibrary.simpleMessage("Years")
       };
 }

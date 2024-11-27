@@ -27,7 +27,7 @@ class QOrgUnitPickerField extends HookConsumerWidget {
     return AsyncValueWidget(
       value: dataSourceAsyncValue,
       valueBuilder: (dataSource) => ReactiveOuPicker(
-        formControl: formInstance.form.control(element.pathRecursive)
+        formControl: formInstance.form.control(element.elementPath!)
             as FormControl<String>,
         validationMessages: validationMessages(context),
         decoration: InputDecoration(labelText: element.label),

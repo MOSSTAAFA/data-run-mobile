@@ -38,6 +38,24 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
     super.resolveDependencies();
   }
 
+  @override
+  void evaluate(
+      {String? changedDependency,
+      bool updateParent = true,
+      bool emitEvent = true}) {
+    for (final element in _elements) {
+      element.evaluate(
+          changedDependency: changedDependency,
+          updateParent: updateParent,
+          emitEvent: emitEvent);
+    }
+
+    super.evaluate(
+        changedDependency: changedDependency,
+        updateParent: updateParent,
+        emitEvent: emitEvent);
+  }
+
   // @override
   // List<Map<String, Object?>?> get rawValue =>
   //     _elements.map<Map<String, Object?>?>((element) {
@@ -113,8 +131,8 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
     bool emitEvent = true,
     bool updateParent = true,
   }) {
-    final removedControl = _elements.removeAt(index);
-    removedControl.parentSection = null;
+    final removedElement = _elements.removeAt(index);
+    removedElement.parentSection = null;
     updateValueAndValidity(
       emitEvent: emitEvent,
       updateParent: updateParent,
@@ -124,7 +142,7 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
     //   emitsCollectionChanged(_controls);
     // }
 
-    return removedControl;
+    return removedElement;
   }
 
   /// Removes all children elements from the repeatSection.
@@ -205,7 +223,7 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
 
   @override
   void forEachChild(
-          void Function(FormElementInstance<dynamic> element) callback) =>
+          void Function(RepeatItemInstance element) callback) =>
       _elements.forEach(callback);
 
   @override
@@ -216,18 +234,16 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
     return _elements.every((control) => control.hidden);
   }
 
-  // void get repeatSectionFocus => form.focus(elementPath);
-  //
   @override
   FormArray<Map<String, Object?>> get elementControl =>
-      form.control(elementPath) as FormArray<Map<String, Object?>>;
+      form.control(elementPath!) as FormArray<Map<String, Object?>>;
 
   @override
   void dispose() {
-    // forEachChild((element) {
-    //   element.parentSection = null;
-    //   element.dispose();
-    // });
+    forEachChild((element) {
+      element.parentSection = null;
+      element.dispose();
+    });
     // elementControl.closeCollectionEvents();
     super.dispose();
   }

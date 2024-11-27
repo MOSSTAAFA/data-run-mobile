@@ -18,7 +18,7 @@ class QTextTypeField<T> extends HookConsumerWidget {
             formInstanceProvider(formMetadata: FormMetadataWidget.of(context)))
         .requireValue;
     final control =
-        formInstance.form.control(element.pathRecursive) as FormControl<T>;
+        formInstance.form.control(element.elementPath!) as FormControl<T>;
 
     return ReactiveTextField<T>(
         onTapOutside: control.hasFocus
@@ -34,6 +34,7 @@ class QTextTypeField<T> extends HookConsumerWidget {
         textAlign: element.type.isNumeric ? TextAlign.end : TextAlign.start,
         validationMessages: validationMessages(context),
         decoration: InputDecoration(
+          errorMaxLines: 2,
           enabled: control.enabled,
           labelText: element.label,
         ));

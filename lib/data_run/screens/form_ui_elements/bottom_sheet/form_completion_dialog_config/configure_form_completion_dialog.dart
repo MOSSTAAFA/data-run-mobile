@@ -37,8 +37,8 @@ class ConfigureFormCompletionDialog {
   FormCompletionButton _getMainButton(SectionInstance rootSection) {
     if (rootSection.form.hasErrors) {
       return FormCompletionButton(
-          buttonStyle: DialogButtonStyle.mainButton(
-              text: S.current.reviewFormData),
+          buttonStyle:
+              DialogButtonStyle.mainButton(text: S.current.reviewFormData),
           action: FormBottomDialogActionType.CheckFields);
     } else {
       return FormCompletionButton(
@@ -56,8 +56,8 @@ class ConfigureFormCompletionDialog {
       ;
     } else {
       return FormCompletionButton(
-          buttonStyle: DialogButtonStyle.secondaryButton(
-              text: S.current.notNow),
+          buttonStyle:
+              DialogButtonStyle.secondaryButton(text: S.current.notNow),
           action: FormBottomDialogActionType.NotNow);
     }
   }
@@ -75,7 +75,8 @@ class ConfigureFormCompletionDialog {
             message: S.current.makeFormFinalOrSaveBody);
   }
 
-  Map<String, dynamic> flattenErrorMap(Map<String, dynamic> errorMap, {String prefix = ''}) {
+  Map<String, dynamic> flattenErrorMap(Map<String, dynamic> errorMap,
+      {String prefix = ''}) {
     Map<String, dynamic> flatMap = {};
 
     errorMap.forEach((key, value) {
@@ -87,7 +88,8 @@ class ConfigureFormCompletionDialog {
       } else if (value is List) {
         // If the value is a list, iterate through each item and flatten
         for (int i = 0; i < value.length; i++) {
-          flatMap.addAll(flattenErrorMap({i.toString(): value[i]}, prefix: '$newKey.$i'));
+          flatMap.addAll(
+              flattenErrorMap({i.toString(): value[i]}, prefix: '$newKey.$i'));
         }
       } else {
         // Otherwise, it's a leaf node (error value), add it to the flatMap
@@ -107,7 +109,7 @@ class ConfigureFormCompletionDialog {
             .where((field) => field.elementControl!.hasErrors && field.visible);
     final fieldsIssues = fieldsWithErrors.map((element) => FieldWithIssue(
         parent: element.parentSection?.label,
-        fieldPath: element.pathRecursive,
+        fieldPath: element.elementPath!,
         fieldName: element.label,
         message: _getErrorMessage(element)));
 

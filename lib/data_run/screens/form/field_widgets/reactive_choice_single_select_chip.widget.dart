@@ -23,7 +23,7 @@ class QReactiveChoiceSingleSelectChips extends ConsumerWidget {
         .requireValue;
 
     return ReactiveChoiceChips<String>(
-      formControl: formInstance.form.control(element.pathRecursive)
+      formControl: formInstance.form.control(element.elementPath!)
           as FormControl<String>,
       validationMessages: validationMessages(context),
       selectedColor: Theme.of(context).colorScheme.error.withAlpha(100),

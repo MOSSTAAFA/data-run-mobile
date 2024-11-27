@@ -22,7 +22,7 @@ class QSwitchField extends ConsumerWidget {
         Expanded(child: Text('${element.label}')),
         ReactiveCheckbox(
           tristate: true,
-          formControl: formInstance.form.control(element.pathRecursive)
+          formControl: formInstance.form.control(element.elementPath!)
               as FormControl<bool>,
         )
       ],

@@ -26,7 +26,7 @@ class QDropDownWithSearchField extends HookConsumerWidget {
             formInstanceProvider(formMetadata: FormMetadataWidget.of(context)))
         .requireValue;
     return ReactiveDropdownSearch<String, String>(
-      formControl: formInstance.form.control(element.pathRecursive)
+      formControl: formInstance.form.control(element.elementPath!)
           as FormControl<String>,
       clearButtonProps: const ClearButtonProps(isVisible: true),
       validationMessages: validationMessages(context),

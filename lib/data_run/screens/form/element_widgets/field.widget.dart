@@ -16,15 +16,11 @@ class FieldWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    useRegisterDependencies(element);
+    // useRegisterDependencies(element);
 
     final elementPropertiesSnapshot = useStream(element.propertiesChanged);
-    final formInstance = ref
-        .watch(
-            formInstanceProvider(formMetadata: FormMetadataWidget.of(context)))
-        .requireValue;
-    final control = formInstance.form.control(element.pathRecursive)
-        as FormControl<dynamic>;
+
+    final control = element.elementControl;
 
     useEffect(() {
       final subscription = control.valueChanges.listen((value) {
@@ -49,7 +45,7 @@ class FieldWidget extends HookConsumerWidget {
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: FieldFactory.fromType(element: element),
+      child: FieldFactory.fromType(element),
     );
   }
 }

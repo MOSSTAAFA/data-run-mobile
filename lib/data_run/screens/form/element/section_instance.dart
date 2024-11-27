@@ -16,6 +16,8 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
   Map<String, FormElementInstance<dynamic>> get elements =>
       Map.unmodifiable(_elements);
 
+  FormGroup get elementControl => elementPath != null ? form.control(elementPath!) as FormGroup :  form;
+
   /// Appends all [elements] to the group.
   void addAll(Map<String, FormElementInstance<dynamic>> elements) {
     _elements.addAll(elements);
@@ -38,6 +40,32 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
     });
 
     return allErrors;
+  }
+
+  void resolveDependencies() {
+    for (final element in _elements.values) {
+      element.resolveDependencies();
+    }
+
+    super.resolveDependencies();
+  }
+
+  @override
+  void evaluate(
+      {String? changedDependency,
+      bool updateParent = true,
+      bool emitEvent = true}) {
+    for (final element in _elements.values) {
+      element.evaluate(
+          changedDependency: changedDependency,
+          updateParent: updateParent,
+          emitEvent: emitEvent);
+    }
+
+    super.evaluate(
+        changedDependency: changedDependency,
+        updateParent: updateParent,
+        emitEvent: emitEvent);
   }
 
   @override
@@ -121,7 +149,10 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
   }
 
   @override
-  void reset({Map<String, Object?>? value, bool updateParent = true, bool emitEvent = true}) {
+  void reset(
+      {Map<String, Object?>? value,
+      bool updateParent = true,
+      bool emitEvent = true}) {
     updateValue(value, updateParent: updateParent, emitEvent: emitEvent);
   }
 

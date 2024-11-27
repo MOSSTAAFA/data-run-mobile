@@ -65,9 +65,6 @@ Future<FormInstance> formInstance(FormInstanceRef ref,
   // await ref.watch(
   //     formInitialDataProvider(submission: formMetadata.submission!).future);
 
-  final service = await ref
-      .watch(formInstanceServiceProvider(formMetadata: formMetadata).future);
-
   final formControlBuilder = await ref.watch(
       formElementControlBuilderProvider(formMetadata: formMetadata).future);
 
@@ -84,22 +81,22 @@ Future<FormInstance> formInstance(FormInstanceRef ref,
           mandatory: false,
           mainField: false,
           type: ValueType.Unknown,
-          name: '',
           path: null),
       elements: elements,
       form: form)
     ..resolveDependencies()
     ..evaluate();
 
-  final formConfiguration = await ref.watch(formConfigurationProvider(
-          form: formMetadata.form, version: formMetadata.version)
-      .future);
+  // final formConfiguration = await ref.watch(formConfigurationProvider(
+  //         form: formMetadata.form, version: formMetadata.version)
+  //     .future);
   return FormInstance(ref,
       enabled: enabled,
       orgUnit: submission.orgUnit,
-      formInstanceService: service,
       elements: elements,
-      formConfiguration: formConfiguration,
       formMetadata: formMetadata,
-      form: form, rootSection: _formSection);
+      form: form,
+      rootSection: _formSection,
+      formFlatTemplate: await ref
+          .watch(formFlatTemplateProvider(formMetadata: formMetadata).future));
 }

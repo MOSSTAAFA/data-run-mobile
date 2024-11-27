@@ -23,27 +23,30 @@ class FieldInstance<T> extends FormElementInstance<T>
 
   dynamic get defaultValue => template.defaultValue;
 
+  List<String> get dependencyNames =>
+      [...template.dependencies, ...template.filterDependencies];
+
   @override
   T? reduceValue() => elementState.value;
 
   @override
-  FormControl<T>? get elementControl =>
-      controlExist ? form.control(elementPath) as FormControl<T> : null;
+  FormControl<T> get elementControl =>
+      form.control(elementPath!) as FormControl<T>;
 
   // AttributeType? get attributeType => template.attributeType;
 
   @override
   void updateValue(T? value,
       {bool updateParent = true, bool emitEvent = true}) {
-    if(value == this.value) {
+    if (value == this.value) {
       return;
     }
     updateStatus(elementState.reset(value: value));
-    elementControl?.updateValue(
-      value,
-      updateParent: updateParent,
-      emitEvent: emitEvent,
-    );
+    // elementControl.updateValue(
+    //   value,
+    //   updateParent: updateParent,
+    //   emitEvent: emitEvent,
+    // );
     updateValueAndValidity(
       updateParent: updateParent,
       emitEvent: emitEvent,
@@ -62,16 +65,17 @@ class FieldInstance<T> extends FormElementInstance<T>
   @override
   void reset({T? value}) {
     updateStatus(elementState.reset(value: value));
-    elementControl!.reset(value: template.defaultValue);
+    elementControl.reset(value: template.defaultValue);
   }
 
   List<FormOption> get visibleOption => elementState.visibleOptions;
 
   @override
-  void evaluate({String? changedDependency,
-    bool updateParent = true,
-    bool emitEvent = true}) {
-    super.evaluate();
+  void evaluate(
+      {String? changedDependency,
+      bool updateParent = true,
+      bool emitEvent = true}) {
+    super.evaluate(updateParent: updateParent, emitEvent: emitEvent);
     if (choiceFilter?.expression != null) {
       final visibleOptionsUpdate = choiceFilter!.evaluate(evalContext);
       logDebug(
@@ -87,7 +91,7 @@ class FieldInstance<T> extends FormElementInstance<T>
           info:
               '$name, option changed: ${oldState.value != newState.value},  ${oldState.value} => ${newState.value}');
       updateStatus(newState /* notify: oldState.value != newState.value*/);
-      elementControl?.updateValue(newState.value);
+      elementControl.updateValue(newState.value);
     }
   }
 }

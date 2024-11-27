@@ -47,7 +47,7 @@ class ReactiveCodeScanField<T> extends ReactiveFormField<T, String> {
                     .applyDefaults(Theme.of(field.context).inputDecorationTheme)
                     .copyWith(
                         suffixIcon: suffixIcon,
-                        prefix: Icon(Icons.qr_code_scanner));
+                        prefixIcon: Icon(Icons.qr_code_scanner));
 
             return IgnorePointer(
               ignoring: !field.control.enabled,

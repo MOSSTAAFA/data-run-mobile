@@ -401,7 +401,7 @@ class _FormInstanceServiceProviderElement
       (origin as FormInstanceServiceProvider).formMetadata;
 }
 
-String _$formInstanceHash() => r'68e77aea567a99501e1152d6d77a2055bb9852c4';
+String _$formInstanceHash() => r'72d932f5ac47a869e886c0b89d073e7122a9b073';
 
 /// See also [formInstance].
 @ProviderFor(formInstance)

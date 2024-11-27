@@ -28,10 +28,10 @@ class FormInstanceEntryView extends HookConsumerWidget {
       child: ListView.builder(
         controller: scrollController,
         shrinkWrap: true,
-        itemCount: formInstance.elements.values.length,
+        itemCount: formInstance.formSection.elements.values.length,
         itemBuilder: (BuildContext context, int index) =>
             PopupFormElementWidgetFactory.createWidget(
-          formInstance.elements.values.toList()[index],
+          formInstance.formSection.elements.values.toList()[index],
         ),
       ),
     );

@@ -20,12 +20,13 @@ class QBarcodeReaderField<T> extends ConsumerWidget {
             formInstanceProvider(formMetadata: FormMetadataWidget.of(context)))
         .requireValue;
     final control =
-        formInstance.form.control(element.pathRecursive) as FormControl<T>;
+        formInstance.form.control(element.elementPath!) as FormControl<T>;
 
     return ReactiveCodeScanField<T>(
         formControl: control,
         validationMessages: validationMessages(context),
         decoration: InputDecoration(
+          // prefixIcon: ,
           enabled: control.enabled,
           labelText: element.label,
         ));

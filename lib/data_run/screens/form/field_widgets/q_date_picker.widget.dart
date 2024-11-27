@@ -18,10 +18,10 @@ class QDatePickerField<T> extends ConsumerWidget {
         .watch(
             formInstanceProvider(formMetadata: FormMetadataWidget.of(context)))
         .requireValue;
-    formInstance.form.control(element.pathRecursive) as FormControl<T>;
+    formInstance.form.control(element.elementPath!) as FormControl<T>;
     return ReactiveTextField<String>(
       // formControl: element.elementControl,
-      formControl: formInstance.form.control(element.pathRecursive)
+      formControl: formInstance.form.control(element.elementPath!)
           as FormControl<String>,
       readOnly: true,
       valueAccessor: QDateTimeValueAccessor(),

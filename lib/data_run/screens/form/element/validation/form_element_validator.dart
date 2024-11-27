@@ -66,5 +66,4 @@ Map<String, ValidationMessageFunction> validationMessages(BuildContext context) 
   'min': (error) => S.current.valueMustBeGreaterThanOrEqualToError(error),
   'max': (error) => S.current.valueMustBeLessThanOrEqualToError(error),
   'maxLength': (error) => S.current.maximumAllowedLengthIsError(error),
-  'minLength': (error) => S.of(context).atLeastErrorItemMustBeProvided(error),
 };

@@ -167,7 +167,14 @@
   "syncNow": "التحديث الآن",
   "syncInterval": "ظبط فترة التحديث التلقائي",
   "syncSettings": "التحديث التلقائي",
+  "saveAndEditNext": "حفظ ثم التالي",
+  "saveAndClose": "حفظ",
+  "saveAndAddAnother": "إضافة",
+  "newItem": "إضافة",
+  "editItem": "تعديل",
+  "unsavedChangesWarning": "تغييرات غير محفوظة",
+  "closeWithoutSaving": "إغلاق دون حفظ؟",
   "atLeastErrorItemMustBeProvided": "يجب إدخال ${error} عنصر على الأقل",
-  "scanYourCode": "Scan your code",
+  "scanYourCode": "مسح كود",
   "barcodeQrScan": "Barcode/QR Code"
 }
