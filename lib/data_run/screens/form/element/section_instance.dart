@@ -16,7 +16,8 @@ class SectionInstance extends SectionElement<Map<String, Object?>> {
   Map<String, FormElementInstance<dynamic>> get elements =>
       Map.unmodifiable(_elements);
 
-  FormGroup get elementControl => elementPath != null ? form.control(elementPath!) as FormGroup :  form;
+  FormGroup get elementControl =>
+      elementPath != null ? form.control(elementPath!) as FormGroup : form;
 
   /// Appends all [elements] to the group.
   void addAll(Map<String, FormElementInstance<dynamic>> elements) {

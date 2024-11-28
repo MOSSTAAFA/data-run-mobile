@@ -68,6 +68,7 @@ dependencies:
   flutter_treeview: ^1.0.7+1
   easy_sticky_header: ^1.1.1
   flutter_barcode_scanner: ^2.0.0
+  gs1_barcode_parser: ^1.1.0
 #  sentry_flutter: ^8.3.0
 
 dev_dependencies:

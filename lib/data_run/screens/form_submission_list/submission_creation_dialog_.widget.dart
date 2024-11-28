@@ -45,18 +45,18 @@ class SubmissionCreationDialogState
 
     String? syncableId;
     try {
-      // if (model.form.valid) {
-      syncableId = await _createEntity(context, model);
+      if (model.form.valid) {
+        syncableId = await _createEntity(context, model);
 
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.of(context).pop(syncableId);
-      });
-      // } else {
-      // model.form.
-      setState(() {
-        _isLoading = false;
-      });
-      // }
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          Navigator.of(context).pop(syncableId);
+        });
+      } else {
+        // model.form.
+        setState(() {
+          _isLoading = false;
+        });
+      }
     } catch (e) {
       setState(() {
         _isLoading = false;
@@ -89,6 +89,16 @@ class SubmissionCreationDialogState
         content: SingleChildScrollView(
           child: Column(
             children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ReactiveOuPicker<String?>(
+                  dataSource: model.dataSource,
+                  validationMessages: validationMessages(context),
+                  formControl:
+                      model.form.control('_${orgUnitControlName}')
+                          as FormControl<String>,
+                ),
+              ),
               if (_isLoading)
                 const Padding(
                   padding: EdgeInsets.all(8.0),

@@ -23,7 +23,7 @@ class FieldInstance<T> extends FormElementInstance<T>
 
   dynamic get defaultValue => template.defaultValue;
 
-  List<String> get dependencyNames =>
+  List<String> get dependencies =>
       [...template.dependencies, ...template.filterDependencies];
 
   @override
@@ -42,15 +42,17 @@ class FieldInstance<T> extends FormElementInstance<T>
       return;
     }
     updateStatus(elementState.reset(value: value));
-    // elementControl.updateValue(
-    //   value,
-    //   updateParent: updateParent,
-    //   emitEvent: emitEvent,
-    // );
-    updateValueAndValidity(
+    // _elementState = elementState.reset(value: value);
+    // evaluate();
+    elementControl.updateValue(
+      value,
       updateParent: updateParent,
       emitEvent: emitEvent,
     );
+    // updateValueAndValidity(
+    //   updateParent: updateParent,
+    //   emitEvent: emitEvent,
+    // );
     // elementControl?.markAsDirty();
   }
 
@@ -70,6 +72,26 @@ class FieldInstance<T> extends FormElementInstance<T>
 
   List<FormOption> get visibleOption => elementState.visibleOptions;
 
+  // FieldElementState<dynamic> calculateState() {
+  //   FieldElementState<T> newCommonState =
+  //       super.calculateState() as FieldElementState<T>;
+  //
+  //   if (choiceFilter?.expression != null) {
+  //     final visibleOptionsUpdate = choiceFilter!.evaluate(evalContext);
+  //
+  //     final oldState = elementState.copyWith();
+  //     newCommonState = newCommonState.resetValueFromVisibleOptions(
+  //         visibleOptions: visibleOptionsUpdate);
+  //     logDebug(
+  //         '$name, option changed: ${oldState.value != newCommonState.value},  ${oldState.value} => ${newCommonState.value}');
+  //
+  //     // updateStatus(newState /* notify: oldState.value != newState.value*/);
+  //     // elementControl.updateValue(newState.value);
+  //   }
+  //
+  //   return newCommonState;
+  // }
+
   @override
   void evaluate(
       {String? changedDependency,
@@ -79,17 +101,14 @@ class FieldInstance<T> extends FormElementInstance<T>
     if (choiceFilter?.expression != null) {
       final visibleOptionsUpdate = choiceFilter!.evaluate(evalContext);
       logDebug(
-          info:
-              'all field options: ${choiceFilter!.options.map((o) => o.name)}');
+          'all field options: ${choiceFilter!.options.map((o) => o.name)}');
       logDebug(
-          info:
-              'only visibleOptionsUpdate: ${visibleOptionsUpdate.map((o) => o.name)}');
+          'only visibleOptionsUpdate: ${visibleOptionsUpdate.map((o) => o.name)}');
       final oldState = elementState.copyWith(); // clone
       final newState = elementState.resetValueFromVisibleOptions(
           visibleOptions: visibleOptionsUpdate);
       logDebug(
-          info:
-              '$name, option changed: ${oldState.value != newState.value},  ${oldState.value} => ${newState.value}');
+          '$name, option changed: ${oldState.value != newState.value},  ${oldState.value} => ${newState.value}');
       updateStatus(newState /* notify: oldState.value != newState.value*/);
       elementControl.updateValue(newState.value);
     }

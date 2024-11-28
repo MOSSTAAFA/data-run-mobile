@@ -1,11 +1,14 @@
+import 'dart:async';
+
 import 'package:d2_remote/modules/datarun/form/shared/field_template.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule/action.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule/choice_filter.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule/rule_parse_extension.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
+import 'package:datarun/commons/logging/new_app_logging.dart';
+import 'package:datarun/data_run/form/form_template/field_template_traverse.extension.dart';
 import 'package:flutter/material.dart';
-import 'package:datarun/commons/logging/logging.dart';
 import 'package:datarun/data_run/screens/form/element/exceptions/form_element_exception.dart';
 import 'package:datarun/data_run/screens/form/element/extension/rule.extension.dart';
 import 'package:datarun/data_run/screens/form/element/members/form_element_state.dart';
@@ -28,6 +31,14 @@ part 'section_instance.dart';
 typedef ElementControl<T> = AbstractControl<T>? Function(String path);
 
 sealed class FormElementInstance<T> {
+  Stream<FormElementState> get propertiesChanged =>
+      (propertiesChangedSubject ??=
+              BehaviorSubject<FormElementState>.seeded(_elementState))
+          as Stream<FormElementState>;
+
+  @protected
+  BehaviorSubject<FormElementState?>? propertiesChangedSubject;
+
   FormElementInstance(
       {required this.form,
       required this.template,
@@ -49,13 +60,13 @@ sealed class FormElementInstance<T> {
       .toList();
 
   final Set<FormElementInstance<dynamic>> _dependents = Set();
-  final Set<FormElementInstance<dynamic>> _dependencies = Set();
+  final Set<FormElementInstance<dynamic>> _resolvedDependencies = Set();
 
   Set<FormElementInstance<dynamic>> get dependents =>
       Set.unmodifiable(_dependents);
 
-  Set<FormElementInstance<dynamic>> get dependencies =>
-      Set.unmodifiable(_dependencies);
+  Set<FormElementInstance<dynamic>> get resolvedDependencies =>
+      Set.unmodifiable(_resolvedDependencies);
 
   String? get name => template.name;
 
@@ -144,34 +155,35 @@ sealed class FormElementInstance<T> {
   // void validate({bool updateParent = true, bool emitEvent = true}) {}
 
   void markAsHidden({bool updateParent = true, bool emitEvent = true}) {
-    logDebug(info: '${name}, mark as Hidden');
+    logDebug('${name}, mark as Hidden');
     if (hidden) {
       return;
     }
     updateStatus(_elementState.copyWith(hidden: true, errors: {}),
         emitEvent: emitEvent);
-    elementControl!.reset(disabled: true);
+    elementControl!.reset(
+        disabled: true, updateParent: updateParent, emitEvent: emitEvent);
     // elementControl!.updateValueAndValidity(
     //     updateParent: updateParent, emitEvent: emitEvent);
-    _updateAncestors(updateParent);
+    // _updateAncestors(updateParent);
     // elementControl!.markAsDisabled();
   }
 
   void markAsVisible({bool updateParent = true, bool emitEvent = true}) {
-    logDebug(info: '${name}, mark as visible');
+    logDebug('${name}, mark as visible');
     if (!hidden) {
       return;
     }
 
     updateStatus(_elementState.copyWith(hidden: false), emitEvent: emitEvent);
-    elementControl!.markAsEnabled();
-    // evaluate();
-    updateValueAndValidity(updateParent: true, emitEvent: emitEvent);
-    _updateAncestors(updateParent);
+    elementControl!
+        .markAsEnabled(updateParent: updateParent, emitEvent: emitEvent);
+    // updateValueAndValidity(updateParent: true, emitEvent: emitEvent);
+    // _updateAncestors(updateParent);
   }
 
   void markAsMandatory({bool updateParent = true, bool emitEvent = true}) {
-    logDebug(info: '${name}, markAsMandatory');
+    // logDebug(info: '${name}, markAsMandatory');
     if (mandatory) {
       return;
     }
@@ -191,15 +203,15 @@ sealed class FormElementInstance<T> {
       ...elementControl!.validators,
     ]..remove(Validators.required);
 
-    elementControl!.setValidators(elementValidators, autoValidate: true);
+    elementControl!.setValidators(elementValidators,
+        autoValidate: true, updateParent: updateParent, emitEvent: emitEvent);
   }
 
-  void setErrors(Map<String, dynamic> errors,
-      {bool updateParent = true, bool emitEvent = true}) {
+  void setErrors(Map<String, dynamic> errors, {bool markAsDirty = true}) {
     // if (visible) {
-    updateStatus(_elementState.copyWith(errors: errors), emitEvent: emitEvent);
+    updateStatus(_elementState.copyWith(errors: errors));
     // _updateControlsErrors();
-    elementControl?.setErrors(errors);
+    elementControl?.setErrors(errors, markAsDirty: markAsDirty);
     // }
   }
 
@@ -214,14 +226,6 @@ sealed class FormElementInstance<T> {
   }
 
   void reset({T? value});
-
-  Stream<FormElementState> get propertiesChanged =>
-      (propertiesChangedSubject ??=
-              BehaviorSubject<FormElementState>.seeded(_elementState))
-          as Stream<FormElementState>;
-
-  @protected
-  BehaviorSubject<FormElementState?>? propertiesChangedSubject;
 
   // @mustCallSuper
   // void evaluate(
@@ -255,62 +259,75 @@ sealed class FormElementInstance<T> {
 
   static final Set<String> _evaluationStack = {};
 
-  @mustCallSuper
   void evaluate(
       {String? changedDependency,
       bool updateParent = true,
       bool emitEvent = true}) {
-    logDebug(info: 'Evaluating $name due to change in $changedDependency');
-    logDebug(info: 'Evaluation Context for $name: ${evalContext.keys}');
+    if (_isEvaluating) {
+      return;
+    }
 
-    // if (_isEvaluating) {
+    _isEvaluating = true;
+
+    // if(hidden) {
+    //   return;
+    // }
+    // if (dependencies.length == 0 || !dependencies.contains(changedDependency)) {
     //   return;
     // }
 
+    logDebug(
+        'Evaluating ${name ?? 'root'} due to change in $changedDependency');
+    logDebug('Evaluation Context for ${name ?? 'root'}: ${evalContext}');
+
     if (_evaluationStack.contains(name)) {
-      logError(info: 'Circular dependency detected on: $name');
+      logError('Circular dependency detected on: ${name ?? 'root'}');
       return;
     }
 
     _evaluationStack.add(name ?? 'root'); // Track current element
 
-    // _isEvaluating = true;
-
     try {
+      // final previousState = elementState;
       for (var ruleAction in elementRuleActions) {
-        logDebug(info: 'Expression: ${ruleAction.expression}');
-        logDebug(info: 'Evaluation Result: ${ruleAction.evaluate(evalContext)}');
+        logDebug('Expression: ${ruleAction.expression}');
+        logDebug('Evaluation Result: ${ruleAction.evaluate(evalContext)}');
         ruleAction.evaluate(evalContext)
-            ? ruleAction.apply(this,
-                updateParent: updateParent, emitEvent: emitEvent)
-            : ruleAction.reset(this,
-                updateParent: updateParent, emitEvent: emitEvent);
+            ? ruleAction.apply(this)
+            : ruleAction.reset(this);
       }
+      // FormElementState newState = calculateState();
+
+      // if (newState != previousState) {
+      //   updateStatus(newState, emitEvent: emitEvent);
+      // }
     } catch (e) {
-      logError(info: 'Error Evaluating: $name');
+      logError('Error Evaluating: ${name ?? 'root'}');
     } finally {
       _isEvaluating = false;
       _evaluationStack.remove(name); // Remove from stack after evaluation
     }
   }
 
-  TFormElement?
-      getFirstParentOfType<TFormElement extends SectionElement<dynamic>>() {
-    var currentParent = parentSection;
-    while (currentParent != null) {
-      if (currentParent is TFormElement) {
-        return currentParent;
-      }
-      currentParent = currentParent.parentSection;
-    }
-    return null;
-  }
-
-  void _updateAncestors(bool updateParent) {
-    if (updateParent) {
-      _parentSection?.updateValueAndValidity(updateParent: updateParent);
-    }
-  }
+  // FormElementState calculateState() {
+  //   FormElementState newState = elementState.copyWith();
+  //
+  //   ///
+  //   for (var ruleAction in elementRuleActions) {
+  //     logDebug('Expression: ${ruleAction.expression}');
+  //     logDebug('Evaluation Result: ${ruleAction.evaluate(evalContext)}');
+  //     newState = ruleAction.evaluate(evalContext)
+  //         ? ruleAction.apply(this)
+  //         : ruleAction.reset(this);
+  //   }
+  //   return newState;
+  // }
+  //
+  // void _updateAncestors(bool updateParent) {
+  //   if (updateParent) {
+  //     _parentSection?.updateValueAndValidity(updateParent: updateParent);
+  //   }
+  // }
 
   // FormElementState _calculateStatus() {
   //   if (allElementsHidden()) {
@@ -339,34 +356,85 @@ sealed class FormElementInstance<T> {
     // _updateAncestors(updateParent);
   }
 
-  List<String> get dependencyNames => template.dependencies;
+  List<String> get dependencies => template.dependencies;
+
+  List<String> get resolvedDependencyNames =>
+      _resolvedDependencies.map((dependency) => dependency.name!).toList();
 
   void resolveDependencies() {
-    if (!template.type.isSectionType) {
-      logDebug(
-          info:
-              'resolving dependencies: ${name} ${dependencyNames.length > 0 ? ': ${dependencies}' : '... no dependencies'}');
+    if (dependencies.isEmpty) {
+      logDebug('${name ?? 'root'} has no dependencies to resolve.');
+      return;
     }
 
-    for (final dependencyName in dependencyNames) {
+    logDebug('Resolving dependencies', data: {
+      'element': name ?? 'root',
+      'dependencies': dependencies,
+    });
+
+    for (final dependencyName in dependencies) {
       final dependency = findElementInParentSection(dependencyName);
       if (dependency != null) {
-        _dependencies.add(dependency);
+        _resolvedDependencies.add(dependency);
         dependency._addDependent(this);
       }
     }
-    // evaluate(emitEvent: false);
+
+    final unresolvedDependencies = dependencies
+        .where((dependency) => !resolvedDependencyNames.contains(dependency))
+        .toList();
+
+    if (unresolvedDependencies.isNotEmpty) {
+      logWarning('Could not resolve some dependencies', data: {
+        'element': name ?? 'root',
+        'unresolved_dependencies': unresolvedDependencies,
+      });
+    }
+
+    if (resolvedDependencies.isNotEmpty) {
+      logDebug('Resolved dependencies', data: {
+        'element': name ?? 'root',
+        'resolved_dependencies': resolvedDependencyNames,
+      });
+    }
   }
+
+  //
+  // void resolveDependencies() {
+  //   if (dependencies.length > 0) {
+  //     logDebug(info: '$name, resolving dependencies: $dependencies');
+  //   }
+  //
+  //   for (final dependencyName in dependencies) {
+  //     final dependency = findElementInParentSection(dependencyName);
+  //     if (dependency != null) {
+  //       _resolvedDependencies.add(dependency);
+  //       dependency._addDependent(this);
+  //     }
+  //   }
+  //
+  //   if (resolvedDependencies.length != dependencies.length) {
+  //     logDebug(
+  //         info:
+  //             '$name, could not resolve dependencies: ${dependencies..where((dependency) => !resolvedDependencyNames.contains(dependency))}');
+  //   }
+  //
+  //   if (resolvedDependencies.length > 0) {
+  //     logDebug(
+  //         info:
+  //         '$name, resolve dependencies: $resolvedDependencyNames');
+  //   }
+  // }
 
   void dispose() {
     // elementControl?.dispose();
-    logDebug(info: 'element: $name, disposeMethod');
-    if (_dependencies.isNotEmpty)
+    logDebug('element: ${name ?? 'root'}, disposeMethod');
+    if (_resolvedDependencies.isNotEmpty)
       // propertiesChangedSubject?.close();
-      _dependencies.forEach((FormElementInstance<dynamic> d) {
-        logDebug(info: '$name, unsubscribing from: ${d.name}');
+      _resolvedDependencies.forEach((FormElementInstance<dynamic> d) {
+        logDebug('${name ?? 'root'}, unsubscribing from: ${d.name ?? 'root'}');
         d._dependents.remove(this);
       });
-    _dependencies.clear();
+    _resolvedDependencies.clear();
   }
 }

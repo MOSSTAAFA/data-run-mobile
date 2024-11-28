@@ -1,31 +1,22 @@
 import 'package:datarun/data_run/screens/form/element/form_element.dart';
-import 'package:datarun/data_run/screens/form/element/providers/form_instance.provider.dart';
 import 'package:datarun/data_run/screens/form/element_widgets/field.widget.dart';
 import 'package:datarun/data_run/screens/form/form_with_sliver/repeat_table_view.dart';
-import 'package:datarun/data_run/screens/form/hooks/use_form_element.dart';
-import 'package:datarun/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 class SectionWidget extends HookConsumerWidget {
   SectionWidget({
     super.key,
     required this.element,
-    // required this.parentIndex,
-    // required this.label,
     Color? headerColor,
   }) : this.headerColor = headerColor;
 
   final SectionInstance element;
   final Color? headerColor;
-
-  // final int parentIndex;
-  // final String label;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -62,8 +53,6 @@ class SectionWidget extends HookConsumerWidget {
           key: Key(element.elementPath!),
           element: element,
           headerColor: Colors.orange.shade600,
-          // parentIndex: 2,
-          // label: '$parentIndex.${parentIndex + 1}. ${element.label}',
         );
       } else if (element is RepeatInstance) {
         return SliverStickyHeader(

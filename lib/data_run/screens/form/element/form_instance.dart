@@ -24,7 +24,6 @@ class FormInstance {
   FormInstance(FormInstanceRef ref,
       {required this.form,
       required this.formFlatTemplate,
-      required String? orgUnit,
       required this.formMetadata,
       // required this.formConfiguration,
       required SectionInstance rootSection,
@@ -32,10 +31,6 @@ class FormInstance {
       required this.enabled})
       : _ref = ref,
         _formSection = rootSection {
-    form.addAll({
-      '_${orgUnitControlName}':
-          FormControl<String>(value: orgUnit, validators: [Validators.required])
-    });
     var formElementMap = {
       for (var x
           in getFormElementIterator<FormElementInstance<dynamic>>(rootSection)
@@ -75,29 +70,29 @@ class FormInstance {
     final Map<String, Object?> formValue = form.value;
     DataFormSubmission? formSubmission;
     formSubmission = await formSubmissionList.getSubmission(submissionUid!);
-    formSubmission!.orgUnit = form.control('_${orgUnitControlName}').value;
-    formSubmission.formData.clear();
+    formSubmission!.formData.clear();
     formSubmission.formData.addAll(formValue);
     return formSubmissionList.updateSubmission(formSubmission);
   }
 
   RepeatItemInstance onAddRepeatedItem(RepeatInstance parent) {
-    final instanceBuilder = _ref
-        .read(formElementBuilderProvider(formMetadata: formMetadata))
-        .requireValue;
     final instanceControllerBuilder = _ref
         .read(formElementControlBuilderProvider(formMetadata: formMetadata))
         .requireValue;
 
     final itemFormGroup =
         instanceControllerBuilder.createSectionFormGroup(parent.template);
-    final itemInstance = instanceBuilder.buildRepeatItem(form, parent.template);
-    parent
-      ..add(itemInstance)
-      ..resolveDependencies()
-      ..evaluate();
     parent.elementControl.add(itemFormGroup);
-    _forElementMap[itemInstance.elementPath!] = itemInstance;
+
+    final itemInstance = FormElementBuilder.buildRepeatItem(
+        form, formFlatTemplate, parent.template);
+    parent..add(itemInstance)
+    ..resolveDependencies()
+    ..evaluate();
+    // _forElementMap[itemInstance.elementPath!] = itemInstance;
+    itemInstance.resolveDependencies();
+    itemInstance.evaluate();
+    // parent.evaluate();
     parent.elementControl.markAsDirty();
     return itemInstance;
   }
@@ -105,71 +100,7 @@ class FormInstance {
   void onRemoveRepeatedItem(int index, RepeatInstance parent) {
     parent.removeAt(index);
     parent.elementControl.removeAt(index);
-    parent.elementControl.markAsDirty();
-  }
-
-  Future<void> markSubmissionAsFinal() {
-    return formSubmissionList.markSubmissionAsFinal(submissionUid!);
-  }
-
-  ///////////////
-
-  // void onAddRepeatedItem(RepeatInstance parentTableInstance) {
-  //   final elementFormGroupControl =
-  //   ElementControlBuilder.forSection(parentTableInstance.template);
-  //   final RepeatItemInstance elementInstance =
-  //   ElementInstanceBuilder.forRepeatItem(
-  //       forFlatTemplate, parentTableInstance.template);
-  //   final parentArray =
-  //   form.control(parentTableInstance.elementPath!) as FormArray;
-  //
-  //   parentArray.add(elementFormGroupControl, emitEvent: false);
-  //   parentTableInstance.add(elementInstance,
-  //       updateParent: true, emitEvent: false);
-  //   elementInstance
-  //     ..resolveDependencies()
-  //     ..evaluate(emitEvent: false);
-  // }
-
-  // bool onSaveRepeatedItem(
-  //     RepeatInstance parentTableInstance, RepeatItemInstance elementInstance) {
-  //   final parentArray =
-  //   form.control(parentTableInstance.elementPath!) as FormArray;
-  //   final elementFormGroupControl =
-  //   parentArray.control(elementInstance.name) as FormGroup;
-  //   if (elementFormGroupControl.valid) {
-  //     parentArray.markAsTouched();
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
-
-  bool onRepeatItemAddCancel(
-      RepeatInstance parentTableInstance, RepeatItemInstance elementInstance,
-      {required bool isNew}) {
-    final elementFormGroupControl = parentTableInstance.elementControl
-        .control(elementInstance.name) as FormGroup;
-    if (isNew) {
-      if (elementFormGroupControl.valid) {
-        parentTableInstance.elementControl.markAsTouched();
-        return true;
-      }
-      parentTableInstance.elementControl.markAsTouched();
-      return false;
-    } else if (elementFormGroupControl.dirty) {
-      if (elementFormGroupControl.valid) {
-        parentTableInstance.elementControl.markAsTouched();
-        return true;
-      }
-      parentTableInstance.elementControl.markAsTouched();
-      return false;
-    } else {
-      if (elementFormGroupControl.valid) {
-        return true;
-      }
-      return false;
-    }
+    parent.evaluate();
   }
 
   bool onRemoveLastItem(RepeatInstance parent) {
@@ -178,6 +109,7 @@ class FormInstance {
       final lastParentItem = parent.elements.last;
       final itemFormGroup = form.control(lastParentItem.elementPath!);
       parent.remove(lastParentItem);
+      parent.evaluate();
       parentArray.remove(itemFormGroup);
       logDebug(info: 'last Item deleted');
       return true;
@@ -186,6 +118,71 @@ class FormInstance {
       return false;
     }
   }
+
+  Future<void> markSubmissionAsFinal() {
+    return formSubmissionList.markSubmissionAsFinal(submissionUid!);
+  }
+
+///////////////
+
+// void onAddRepeatedItem(RepeatInstance parentTableInstance) {
+//   final elementFormGroupControl =
+//   ElementControlBuilder.forSection(parentTableInstance.template);
+//   final RepeatItemInstance elementInstance =
+//   ElementInstanceBuilder.forRepeatItem(
+//       forFlatTemplate, parentTableInstance.template);
+//   final parentArray =
+//   form.control(parentTableInstance.elementPath!) as FormArray;
+//
+//   parentArray.add(elementFormGroupControl, emitEvent: false);
+//   parentTableInstance.add(elementInstance,
+//       updateParent: true, emitEvent: false);
+//   elementInstance
+//     ..resolveDependencies()
+//     ..evaluate(emitEvent: false);
+// }
+
+// bool onSaveRepeatedItem(
+//     RepeatInstance parentTableInstance, RepeatItemInstance elementInstance) {
+//   final parentArray =
+//   form.control(parentTableInstance.elementPath!) as FormArray;
+//   final elementFormGroupControl =
+//   parentArray.control(elementInstance.name) as FormGroup;
+//   if (elementFormGroupControl.valid) {
+//     parentArray.markAsTouched();
+//     return true;
+//   } else {
+//     return false;
+//   }
+// }
+
+// bool onRepeatItemAddCancel(
+//     RepeatInstance parentTableInstance, RepeatItemInstance elementInstance,
+//     {required bool isNew}) {
+//   final elementFormGroupControl = parentTableInstance.elementControl
+//       .control(elementInstance.name) as FormGroup;
+//   if (isNew) {
+//     if (elementFormGroupControl.valid) {
+//       parentTableInstance.elementControl.markAsTouched();
+//       return true;
+//     }
+//     parentTableInstance.elementControl.markAsTouched();
+//     return false;
+//   } else if (elementFormGroupControl.dirty) {
+//     if (elementFormGroupControl.valid) {
+//       parentTableInstance.elementControl.markAsTouched();
+//       return true;
+//     }
+//     parentTableInstance.elementControl.markAsTouched();
+//     return false;
+//   } else {
+//     if (elementFormGroupControl.valid) {
+//       return true;
+//     }
+//     return false;
+//   }
+// }
+
 //
 // ElementExtendedControl createNewItemExtendedControl(
 //     RepeatInstance repeatInstance) {

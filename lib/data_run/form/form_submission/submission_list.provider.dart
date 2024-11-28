@@ -64,7 +64,7 @@ class FormSubmissions extends _$FormSubmissions {
   Future<DataFormSubmission> createNewSubmission(
       {required String activityUid,
       required String teamUid,
-      required String orgUnit,
+      // required String orgUnit,
       required int version,
       Map<String, dynamic> formData = const {},
       Geometry? geometry}) async {
@@ -75,7 +75,7 @@ class FormSubmissions extends _$FormSubmissions {
         version: version,
         activity: activityUid,
         team: teamUid,
-        orgUnit: orgUnit,
+        // orgUnit: orgUnit,
         formData: formData,
         dirty: true,
         synced: false,

@@ -65,15 +65,16 @@ Future<FormInstance> formInstance(FormInstanceRef ref,
   // await ref.watch(
   //     formInitialDataProvider(submission: formMetadata.submission!).future);
 
+  final formFlatTemplate = await ref
+      .watch(formFlatTemplateProvider(formMetadata: formMetadata).future);
+
   final formControlBuilder = await ref.watch(
       formElementControlBuilderProvider(formMetadata: formMetadata).future);
 
-  final formElementBuilder = await ref
-      .watch(formElementBuilderProvider(formMetadata: formMetadata).future);
-
   final form =
       FormGroup(await formControlBuilder.formDataControls(initialFormValue));
-  final elements = await formElementBuilder.buildFormElements(form,
+
+  final elements = FormElementBuilder.buildFormElements(form, formFlatTemplate,
       initialFormValue: initialFormValue);
 
   final _formSection = SectionInstance(
@@ -92,11 +93,9 @@ Future<FormInstance> formInstance(FormInstanceRef ref,
   //     .future);
   return FormInstance(ref,
       enabled: enabled,
-      orgUnit: submission.orgUnit,
       elements: elements,
       formMetadata: formMetadata,
       form: form,
       rootSection: _formSection,
-      formFlatTemplate: await ref
-          .watch(formFlatTemplateProvider(formMetadata: formMetadata).future));
+      formFlatTemplate: formFlatTemplate);
 }

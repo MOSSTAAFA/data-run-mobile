@@ -63,13 +63,13 @@ class FormInstanceEntryViewSliver extends HookConsumerWidget {
           sliver: SliverToBoxAdapter(
             child: ReactiveFormArray(
               formArray: element.elementControl,
-              builder: (BuildContext context, FormArray<dynamic> formArray,
-                  Widget? child) {
-                return RepeatInstanceDataTable(
-                  key: Key(element.elementPath!),
-                  repeatInstance: element,
-                );
-              },
+              builder: (BuildContext context,
+                      FormArray<Map<String, Object?>> formArray,
+                      Widget? child) =>
+                  RepeatInstanceDataTable(
+                key: Key(element.elementPath!),
+                repeatInstance: element,
+              ),
             ),
           ),
         );

@@ -3,6 +3,7 @@ import 'package:datarun/data_run/form/form_element/form_element_iterators/form_e
 import 'package:datarun/data_run/screens/form/element/control_model/element_extended_control.dart';
 import 'package:datarun/data_run/screens/form/element/form_instance.dart';
 import 'package:datarun/data_run/screens/form/element/providers/form_instance.provider.dart';
+import 'package:datarun/data_run/screens/form/form_with_sliver/repeat_table.widget.dart';
 import 'package:datarun/data_run/screens/form/form_with_sliver/repeat_table/edit_panel.dart';
 import 'package:datarun/data_run/screens/form/form_with_sliver/repeat_table/repeat_table_rows_source.dart';
 import 'package:datarun/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
@@ -28,52 +29,21 @@ class RepeatInstanceDataTable extends HookConsumerWidget {
             formInstanceProvider(formMetadata: FormMetadataWidget.of(context)))
         .requireValue;
 
-    // final control = repeatInstance.elementControl;
-    // final formHook = useFormElement(repeatInstance, control);
     final elementPropertiesSnapshot =
         useStream(repeatInstance.propertiesChanged);
 
-    // useEffect(() {
-    //   if (elementPropertiesSnapshot.hasData) {
-    //     final elementState = elementPropertiesSnapshot.data!;
-    //     if (repeatInstance.hidden) {
-    //       control.reset(disabled: true, emitEvent: false);
-    //     } else {
-    //       control.markAsEnabled();
-    //       if (repeatInstance.mandatory) {
-    //         control.setValidators(
-    //             [...control.validators]..add(Validators.required));
-    //       }
-    //
-    //       if (repeatInstance.hasErrors) {
-    //         control.setErrors(elementState.errors);
-    //       }
-    //     }
-    //   }
-    // }, [elementPropertiesSnapshot.data]);
-
-    // final visibleTableColumns = useMemoized(() {
-    //   return getFormElementIterator<FieldInstance<dynamic>>(repeatInstance)
+    // final List<FormElementTemplate> tableColumns = useMemoized(() {
+    //   getFormElementIterator<FieldInstance<dynamic>>(repeatInstance)
     //       .where((element) => element.visible)
     //       .map((element) => element.template);
-    // }, [repeatInstance.dependencies]);
-
-    final tableColumns = useMemoized(() {
-      getFormElementIterator<FieldInstance<dynamic>>(repeatInstance)
-          .where((element) => element.visible)
-          .map((element) => element.template);
-      return formInstance.formFlatTemplate
-          .getChildrenOfType<FieldElementTemplate>(repeatInstance.elementPath!)
-        ..sort((a, b) => a.order.compareTo(b.order));
-    }, [repeatInstance.elementPath]);
+    //   return formInstance.formFlatTemplate
+    //       .getChildrenOfType<FieldElementTemplate>(repeatInstance.elementPath!)
+    //     ..sort((a, b) => a.order.compareTo(b.order));
+    // }, [repeatInstance.elementPath]);
 
     final Future<void> Function(int index) onEdit =
         useCallback((int index) async {
       final itemInstance = repeatInstance.elements[index];
-      // final itemControl =
-      //     formInstance.form.control(itemInstance.elementPath!) as FormGroup;
-      // final extendedControl = formInstance.onAddRepeatedItem(repeatInstance);
-      // ElementExtendedControl(itemControl, itemInstance);
       await _showEditPanel(context, formInstance, itemInstance, index);
     }, [repeatInstance, formInstance]);
 
@@ -86,77 +56,16 @@ class RepeatInstanceDataTable extends HookConsumerWidget {
     }
 
     if (elementPropertiesSnapshot.data!.hidden) {
-      formInstance.form
-          .control(repeatInstance.elementPath!)
-          .reset(disabled: true);
       return const SizedBox.shrink();
     }
 
-    return Opacity(
-      opacity: repeatInstance.elementControl.enabled ? 1 : 0.5,
-      child: PaginatedDataTable(
-        showFirstLastButtons: true,
-        actions: [
-          ElevatedButton(
-            onPressed: repeatInstance.elementControl.enabled
-                ? () async {
-                    await _showEditPanel(context, formInstance);
-                  }
-                : null,
-            child: Icon(Icons.add),
-          ),
-        ],
-        header: Text('${repeatInstance.label}'),
-        rowsPerPage: 5,
-        columns: _buildColumns(tableColumns, context,
-            editMode: repeatInstance.elementControl.enabled),
-        //_buildVisibleColumns(visibleTableColumns, context),
-        source: buildTableDataSource(context, formInstance,
-            onEdit: onEdit, onDelete: onDelete),
-      ),
-    );
-  }
-
-  RepeatTableDataSource buildTableDataSource(
-      BuildContext context, FormInstance formInstance,
-      {Future<void> Function(int index)? onEdit,
-      Future<void> Function(int index)? onDelete}) {
-    return RepeatTableDataSource(
-      repeatInstance: repeatInstance,
-      onEdit: onEdit,
-      onDelete: onDelete,
-    );
-  }
-
-  List<DataColumn> _buildColumns(
-      List<FormElementTemplate> tableColumns, BuildContext context,
-      {bool editMode = true}) {
-    return [
-      const DataColumn(label: Text('#')),
-      ...tableColumns
-          .map((fieldTemplate) => DataColumn(
-              label: Text(getItemLocalString(fieldTemplate.label,
-                  defaultString: fieldTemplate.name)),
-              numeric: fieldTemplate.type.isNumeric))
-          .toList(),
-      if (editMode) DataColumn(label: Text(S.of(context).edit)),
-      if (editMode) DataColumn(label: Text(S.of(context).delete)),
-    ];
-  }
-
-  List<DataColumn> _buildVisibleColumns(
-      Iterable<FieldTemplate> tableColumns, BuildContext context) {
-    return [
-      const DataColumn(label: Text('#')),
-      ...tableColumns
-          .map((fieldTemplate) => DataColumn(
-              label: Text(getItemLocalString(fieldTemplate.label,
-                  defaultString: fieldTemplate.name)),
-              numeric: fieldTemplate.type.isNumeric))
-          .toList(),
-      DataColumn(label: Text(S.of(context).edit)),
-      DataColumn(label: Text(S.of(context).delete)),
-    ];
+    return RepeatTable(
+        repeatInstance: repeatInstance,
+        onEdit: onEdit,
+        onDelete: onDelete,
+        onAdd: () async {
+          await _showEditPanel(context, formInstance);
+        });
   }
 
   Future<void> _showEditPanel(BuildContext context, FormInstance formInstance,

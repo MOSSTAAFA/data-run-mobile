@@ -46,8 +46,7 @@ extension ApplyAction on RuleAction {
           final currentElementErrors = {...element.errors};
           currentElementErrors[getItemLocalString(message.unlockView)] =
               getItemLocalString(message.unlockView);
-          element.setErrors(currentElementErrors,
-              updateParent: updateParent, emitEvent: emitEvent);
+          element.setErrors(currentElementErrors);
         }
         break;
       case ActionType.Mandatory:

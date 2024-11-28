@@ -3,7 +3,7 @@ part of '../form_element.dart';
 extension ElementDependencyHandler<T> on FormElementInstance<T> {
   Map<String, dynamic> get evalContext {
     return {
-      for (final dependency in _dependencies)
+      for (final dependency in _resolvedDependencies)
         dependency.name!: calculationFriendlyValue(dependency)
     };
   }
@@ -18,25 +18,48 @@ extension ElementDependencyHandler<T> on FormElementInstance<T> {
     }
   }
 
-  FormElementState updateStatus(FormElementState newValue,
-      {bool emitEvent = true}) {
+  void updateStatus(FormElementState newValue, {bool emitEvent = true}) {
     // if (newValue != _elementState) {
     _elementState = newValue;
     if (emitEvent) {
-      logDebug(info: '$name, changed, --> Notifying subscribers');
+      logDebug('${name ?? 'root'}, changed, --> Notifying subscribers');
       propertiesChangedSubject?.add(newValue);
     } else {
-      logDebug(info: '$name, not emitting status update');
+      logDebug('${name ?? 'root'}, not emitting status update');
     }
-    notifySubscribers();
-    // } else {
-    //   logDebug(info: '$name, same, x not Notifying subscribers');
-    // }
-    return _elementState;
+    // applyStateToControl(newValue, updateParent: true, emitEvent: emitEvent);
+    notifySubscribers(emitEvent: emitEvent);
   }
 
+  // void applyStateToControl(
+  //   FormElementState newState, {
+  //   bool updateParent = true,
+  //   bool emitEvent = true,
+  // }) {
+  //   // updateValue(value);
+  //   // elementControl!
+  //   //     .updateValue(newState.value, updateParent: false, emitEvent: false);
+  //   if (newState.hidden) {
+  //     markAsHidden(/*updateParent: false, emitEvent: false*/);
+  //     // elementControl!
+  //     //     .reset(disabled: true, updateParent: false, emitEvent: false);
+  //   } else {
+  //     markAsVisible(/*updateParent: false, emitEvent: false*/);
+  //     // elementControl!.markAsEnabled(updateParent: false, emitEvent: false);
+  //     if (newState.mandatory) {
+  //       markAsMandatory(/*updateParent: false, emitEvent: false*/);
+  //     }
+  //     if (newState.hasErrors) {
+  //       setErrors(newState.errors);
+  //     }
+  //   }
+  //
+  //   elementControl!.updateValueAndValidity(
+  //       updateParent: updateParent, emitEvent: emitEvent);
+  // }
+
   void addDependency(FormElementInstance<dynamic> dependency) {
-    _dependencies.add(dependency);
+    _resolvedDependencies.add(dependency);
     dependency._addDependent(this);
   }
 
@@ -45,7 +68,7 @@ extension ElementDependencyHandler<T> on FormElementInstance<T> {
   }
 
   void removeDependency(FormElementInstance<dynamic> dependency) {
-    _dependencies.remove(dependency);
+    _resolvedDependencies.remove(dependency);
   }
 
   void _addDependent(FormElementInstance<dynamic> dependent) {
@@ -56,7 +79,7 @@ extension ElementDependencyHandler<T> on FormElementInstance<T> {
       _dependents.map((dependent) => dependent.name!).toList();
 
   void notifySubscribers({bool emitEvent = true}) {
-    logDebug(info: '$name, notifying: ${resolvedDependentsNames}');
+    logDebug('${name ?? 'root'}, notifying: ${resolvedDependentsNames}');
     _dependents.forEach(
         (s) => s.evaluate(changedDependency: name, emitEvent: emitEvent));
   }

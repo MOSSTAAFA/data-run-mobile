@@ -36,10 +36,53 @@ class ActivityFormTile extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text(
-                          formMetadata.formLabel,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        Flexible(
+                          child: GestureDetector(
+                            onTap: () {
+                              _showDescriptionDialog(
+                                  context, formMetadata.formLabel, null);
+                            },
+                            child: Text(
+                              formMetadata.formLabel,
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                              softWrap: true,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                            ),
+                          ),
                         ),
+                        // Flexible(
+                        //   child: Marquee(
+                        //     text: formMetadata.formLabel,
+                        //     style: const TextStyle(fontWeight: FontWeight.bold),
+                        //     scrollAxis: Axis.horizontal,
+                        //     crossAxisAlignment: CrossAxisAlignment.start,
+                        //     blankSpace: 20.0,
+                        //     velocity: 50.0,
+                        //     pauseAfterRound: Duration(seconds: 1),
+                        //     startPadding: 10.0,
+                        //     accelerationDuration: Duration(seconds: 1),
+                        //     accelerationCurve: Curves.linear,
+                        //     decelerationDuration: Duration(milliseconds: 500),
+                        //     decelerationCurve: Curves.easeOut,
+                        //   ),
+                        // ),
+                        // Flexible(
+                        //   child: ExpandableText(
+                        //     formMetadata.formLabel,
+                        //     expandText: 'show more',
+                        //     collapseText: 'show less',
+                        //     maxLines: 2,
+                        //     linkColor: Colors.blue,
+                        //     style: const TextStyle(fontWeight: FontWeight.bold),
+                        //   ),
+                        // ),
+                        // Text(
+                        //   formMetadata.formLabel,
+                        //   style: const TextStyle(fontWeight: FontWeight.bold),
+                        //   softWrap: true,
+                        // ),
                         Text(
                           '${S.of(context).version}: ${formMetadata.version}',
                           style: Theme.of(context).textTheme.bodySmall,
@@ -71,5 +114,29 @@ class ActivityFormTile extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _showDescriptionDialog(
+    BuildContext context,
+    String formLabel,
+    String? description,
+  ) {
+    if (description != null && description.isNotEmpty) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(formLabel),
+            content: Text(description),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text(S.of(context).ok),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 }
