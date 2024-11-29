@@ -2,14 +2,14 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:d2_remote/d2_remote.dart';
-import 'package:d2_remote/modules/datarun/form/shared/field_template.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template/field_template.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template/section_template.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:datarun/data_run/screens/form/element/form_element.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:datarun/data_run/form/form_element_factories/form_element_builder.dart';
 import 'package:datarun/data_run/form/form_element_factories/form_element_control_builder.dart';
 import 'package:datarun/data_run/form/form_template/template_providers.dart';
-import 'package:datarun/data_run/form/shared/form_configuration.dart';
 import 'package:datarun/data_run/screens/form/element/form_metadata.dart';
 import 'package:datarun/data_run/screens/form/element/service/device_info_service.dart';
 import 'package:datarun/data_run/screens/form/element/form_instance.dart';
@@ -78,11 +78,7 @@ Future<FormInstance> formInstance(FormInstanceRef ref,
       initialFormValue: initialFormValue);
 
   final _formSection = SectionInstance(
-      template: FieldTemplate(
-          mandatory: false,
-          mainField: false,
-          type: ValueType.Unknown,
-          path: null),
+      template: SectionTemplate(type: ValueType.Unknown, path: null),
       elements: elements,
       form: form)
     ..resolveDependencies()

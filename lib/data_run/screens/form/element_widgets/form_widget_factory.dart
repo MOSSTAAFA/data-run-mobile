@@ -13,7 +13,6 @@ import 'package:datarun/data_run/screens/form/element_widgets/field.widget.dart'
 import 'package:datarun/data_run/screens/form/field_widgets/q_drop_down_with_search_field.widget.dart';
 import 'package:datarun/data_run/screens/form/field_widgets/q_text_type_field.widget.dart';
 import 'package:datarun/data_run/screens/form/field_widgets/reactive_yes_no_choice_chips.widget.dart';
-import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
 /// Factory that instantiate form input fields based on a dynamic element tree
 class PopupFormElementWidgetFactory {

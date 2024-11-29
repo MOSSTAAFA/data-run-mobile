@@ -1,13 +1,16 @@
 import 'dart:async';
 
-import 'package:d2_remote/modules/datarun/form/shared/field_template.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template/field_template.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template/section_template.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template/template.dart';
+import 'package:d2_remote/modules/datarun/form/shared/template_extensions/form_traverse_extension.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:datarun/data_run/screens/form/element/form_metadata.dart';
 import 'package:datarun/data_run/screens/form/element/providers/form_instance.provider.dart';
 import 'package:datarun/data_run/screens/form/element/service/form_instance_service.dart';
 import 'package:datarun/data_run/screens/form/element/validation/form_element_validator.dart';
 import 'package:datarun/data_run/screens/form_module/form_template/form_element_template.dart';
-import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'form_element_control_builder.g.dart';
@@ -46,18 +49,21 @@ class FormElementControlBuilder {
     return controls;
   }
 
-  AbstractControl<dynamic> createElementControl(FieldTemplate fieldTemplate,
+  AbstractControl<dynamic> createElementControl(Template fieldTemplate,
       {initialValue}) {
-    if (fieldTemplate.type.isSection) {
-      return createSectionFormGroup(fieldTemplate, initialValue: initialValue);
-    } else if (fieldTemplate.type.isRepeatSection) {
-      return createRepeatFormArray(fieldTemplate, initialValue: initialValue);
+    if (fieldTemplate.isSection) {
+      return createSectionFormGroup(fieldTemplate as SectionTemplate,
+          initialValue: initialValue);
+    } else if (fieldTemplate.isRepeat) {
+      return createRepeatFormArray(fieldTemplate as SectionTemplate,
+          initialValue: initialValue);
     } else {
-      return createFieldFormControl(fieldTemplate, initialValue: initialValue);
+      return createFieldFormControl(fieldTemplate as FieldTemplate,
+          initialValue: initialValue);
     }
   }
 
-  FormGroup createSectionFormGroup<T>(FieldTemplate fieldTemplate,
+  FormGroup createSectionFormGroup<T>(SectionTemplate fieldTemplate,
       {dynamic initialValue}) {
     final Map<String, AbstractControl<dynamic>> controls = {};
     fieldTemplate.fields.sort((a, b) => (a.order).compareTo(b.order));
@@ -70,7 +76,7 @@ class FormElementControlBuilder {
   }
 
   FormArray<Map<String, Object?>> createRepeatFormArray(
-      FieldTemplate fieldTemplate,
+      SectionTemplate fieldTemplate,
       {dynamic initialValue}) {
     final formArray = FormArray<Map<String, Object?>>((initialValue ?? [])
         .map<FormGroup>(

@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:datarun/commons/logging/logging.dart';
+import 'package:datarun/commons/logging/new_app_logging.dart';
 import 'package:datarun/data_run/screens/form/element/form_element.dart';
-import 'package:datarun/data_run/screens/form/element/providers/form_instance.provider.dart';
 import 'package:datarun/data_run/screens/form/element_widgets/form_widget_factory.dart';
-import 'package:datarun/data_run/screens/form/hooks/register_dependencies.dart';
-import 'package:datarun/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
-import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
 class FieldWidget extends HookConsumerWidget {
   FieldWidget({super.key, required this.element});
@@ -31,7 +27,7 @@ class FieldWidget extends HookConsumerWidget {
         }
       });
 
-      logDebug(info: 'call use effect: ${element.name}, unsubscribe');
+      logDebug('call use effect: ${element.name}, unsubscribe');
       return () => subscription;
     }, [control]);
 

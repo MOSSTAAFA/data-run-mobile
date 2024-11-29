@@ -1,17 +1,16 @@
-import 'dart:async';
 
-import 'package:d2_remote/modules/datarun/form/shared/field_template.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template/field_template.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template/section_template.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template/template.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule/choice_filter.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule/rule_parse_extension.dart';
+import 'package:d2_remote/modules/datarun/form/shared/template_extensions/form_traverse_extension.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:datarun/data_run/screens/form/element/form_element.dart';
-import 'package:datarun/data_run/screens/form/element/form_metadata.dart';
 import 'package:datarun/data_run/screens/form/element/members/form_element_state.dart';
-import 'package:datarun/data_run/screens/form/element/providers/form_instance.provider.dart';
 import 'package:datarun/data_run/screens/form_module/form/code_generator.dart';
 import 'package:datarun/data_run/screens/form_module/form_template/form_element_template.dart';
-import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 
 class FormElementBuilder {
   static Map<String, FormElementInstance<dynamic>> buildFormElements(
@@ -19,8 +18,9 @@ class FormElementBuilder {
       {dynamic initialFormValue}) {
     final Map<String, FormElementInstance<dynamic>> elements = {};
 
-    for (var template in formFlatTemplate.formTemplate.fields) {
-      template.fields.sort((a, b) => (a.order).compareTo(b.order));
+    for (var template in formFlatTemplate.formTemplate.fields
+      ..sort((a, b) => (a.order).compareTo(b.order))) {
+      // template.fields.sort((a, b) => (a.order).compareTo(b.order));
 
       elements[template.name!] = buildFormElement(
           form, formFlatTemplate, template,
@@ -31,22 +31,25 @@ class FormElementBuilder {
   }
 
   static FormElementInstance<dynamic> buildFormElement(
-      FormGroup form, FormFlatTemplate formFlatTemplate, FieldTemplate template,
+      FormGroup form, FormFlatTemplate formFlatTemplate, Template template,
       {dynamic initialFormValue}) {
-    if (template.type.isSection) {
-      return buildSectionInstance(form, formFlatTemplate, template,
+    if (template.isSection) {
+      return buildSectionInstance(
+          form, formFlatTemplate, template as SectionTemplate,
           initialFormValue: initialFormValue);
-    } else if (template.type.isRepeatSection) {
-      return buildRepeatInstance(form, formFlatTemplate, template,
+    } else if (template.isRepeat) {
+      return buildRepeatInstance(
+          form, formFlatTemplate, template as SectionTemplate,
           initialFormValue: initialFormValue);
     } else {
-      return buildFieldInstance(form, formFlatTemplate, template,
+      return buildFieldInstance(
+          form, formFlatTemplate, template as FieldTemplate,
           initialFormValue: initialFormValue);
     }
   }
 
   static SectionInstance buildSectionInstance(FormGroup rootFormControl,
-      FormFlatTemplate formFlatTemplate, FieldTemplate template,
+      FormFlatTemplate formFlatTemplate, SectionTemplate template,
       {dynamic initialFormValue}) {
     final Map<String, FormElementInstance<dynamic>> elements = {};
     template.fields.sort((a, b) => (a.order).compareTo(b.order));
@@ -64,7 +67,7 @@ class FormElementBuilder {
   }
 
   static RepeatItemInstance buildRepeatItem(FormGroup rootFormControl,
-      FormFlatTemplate formFlatTemplate, FieldTemplate template,
+      FormFlatTemplate formFlatTemplate, SectionTemplate template,
       {Map<String, Object?>? initialFormValue}) {
     final Map<String, FormElementInstance<dynamic>> elements = {};
 
@@ -98,7 +101,7 @@ class FormElementBuilder {
   }
 
   static RepeatInstance buildRepeatInstance(FormGroup rootFormControl,
-      FormFlatTemplate formFlatTemplate, FieldTemplate template,
+      FormFlatTemplate formFlatTemplate, SectionTemplate template,
       {List<dynamic>? initialFormValue}) {
     final List<RepeatItemInstance> elements = initialFormValue
             ?.map((value) => buildRepeatItem(
@@ -216,7 +219,7 @@ class FormElementBuilder {
                         : <String>[initialFormValue]
                     : <String>[],
                 mandatory: templateElement.mandatory,
-                visibleOptions: templateElement.options),
+                visibleOptions: templateElement.options.unlockView),
             template: templateElement);
       case ValueType.Reference:
         return FieldInstance<String>(

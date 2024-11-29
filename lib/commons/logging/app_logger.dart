@@ -26,9 +26,8 @@ class AppLogger {
   }
 
   static void logException(DException exception) {
-    _logger.e('Exception: ${exception.message}',
-        error: exception.cause,
-        stackTrace: StackTrace.current);
+    logError('Exception: ${exception.message}',
+        {'error': exception.cause, 'stackTrace': StackTrace.current});
   }
 
 // Other custom logging functions as needed

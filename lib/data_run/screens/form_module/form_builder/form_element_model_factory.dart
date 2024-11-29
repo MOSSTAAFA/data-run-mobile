@@ -1,5 +1,8 @@
 import 'package:d2_remote/modules/datarun/form/entities/form_version.entity.dart';
-import 'package:d2_remote/modules/datarun/form/shared/field_template.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template/field_template.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template/section_template.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template/template.dart';
+import 'package:d2_remote/modules/datarun/form/shared/template_extensions/form_traverse_extension.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:datarun/data_run/screens/form_module/form/code_generator.dart';
 import 'package:datarun/data_run/screens/form_module/form_element_model/form_element_model.dart';
@@ -18,19 +21,21 @@ class FormElementModelFactory {
     return elements;
   }
 
-  static FormElementModel<dynamic> buildFormElement(
-      FieldTemplate elementTemplate,
+  static FormElementModel<dynamic> buildFormElement(Template elementTemplate,
       {dynamic initialValue}) {
-    if (elementTemplate.type.isSection) {
-      return buildSectionModel(elementTemplate, initialValue: initialValue);
-    } else if (elementTemplate.type.isRepeatSection) {
-      return buildRepeatModel(elementTemplate, initialValue: initialValue);
+    if (elementTemplate.isSection) {
+      return buildSectionModel(elementTemplate as SectionTemplate,
+          initialValue: initialValue);
+    } else if (elementTemplate.isRepeat) {
+      return buildRepeatModel(elementTemplate as SectionTemplate,
+          initialValue: initialValue);
     } else {
-      return buildFieldModel(elementTemplate, initialValue: initialValue);
+      return buildFieldModel(elementTemplate as FieldTemplate,
+          initialValue: initialValue);
     }
   }
 
-  static SectionElementModel buildSectionModel(FieldTemplate elementTemplate,
+  static SectionElementModel buildSectionModel(SectionTemplate elementTemplate,
       {dynamic initialValue}) {
     final Map<String, FormElementModel<dynamic>> elements = {};
     elementTemplate.fields.sort((a, b) => (a.order).compareTo(b.order));
@@ -46,7 +51,7 @@ class FormElementModelFactory {
     return section;
   }
 
-  static RepeatItemElementModel buildRepeatItem(FieldTemplate elementTemplate,
+  static RepeatItemElementModel buildRepeatItem(SectionTemplate elementTemplate,
       {Map<String, Object?>? initialValue}) {
     final Map<String, FormElementModel<dynamic>> elements = {};
 
@@ -63,7 +68,7 @@ class FormElementModelFactory {
     return repeatedSection;
   }
 
-  static RepeatElementModel buildRepeatModel(FieldTemplate elementTemplate,
+  static RepeatElementModel buildRepeatModel(SectionTemplate elementTemplate,
       {List<dynamic>? initialValue}) {
     final repeatInstance = RepeatElementModel(
         templatePath: elementTemplate.path!,

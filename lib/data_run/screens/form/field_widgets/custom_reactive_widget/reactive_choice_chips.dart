@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:datarun/data_run/screens/form/field_widgets/custom_reactive_widget/reactive_chip_option.dart';
-import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 
 /// A list of `Chip`s that acts like radio buttons
 class ReactiveChoiceChips<T> extends ReactiveFormField<T, T> {

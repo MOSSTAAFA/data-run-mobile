@@ -4,9 +4,10 @@ import 'package:d2_remote/core/datarun/utilities/date_utils.dart';
 import 'package:d2_remote/d2_remote.dart';
 import 'package:d2_remote/modules/data/tracker/models/geometry.dart';
 import 'package:d2_remote/modules/datarun/form/entities/data_form_submission.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template/section_template.entity.dart';
 import 'package:d2_remote/modules/metadatarun/org_unit/entities/org_unit.entity.dart';
 import 'package:d2_remote/shared/utilities/save_option.util.dart';
-import 'package:datarun/commons/logging/logging.dart';
+import 'package:datarun/commons/logging/new_app_logging.dart';
 import 'package:datarun/core/common/state.dart';
 import 'package:datarun/core/utils/get_item_local_string.dart';
 import 'package:datarun/data_run/form/form_submission/form_submission_repository.dart';
@@ -15,6 +16,7 @@ import 'package:datarun/data_run/form/form_submission/submission_summary.model.d
 import 'package:datarun/data_run/form/shared/form_configuration.dart';
 import 'package:datarun/data_run/form/shared/submission_status.dart';
 import 'package:datarun/data_run/screens/form/element/form_metadata.dart';
+import 'package:datarun/data_run/screens/form_submission_list/submission_info.widget.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -120,7 +122,7 @@ class FormSubmissions extends _$FormSubmissions {
       await future;
       return true;
     } on DError catch (e) {
-      logError(info: '# DataRun Error: ${e.toString()}');
+      logError('# DataRun Error: ${e.toString()}');
       return false;
     }
   }
@@ -190,6 +192,8 @@ Future<SubmissionItemSummaryModel> submissionInfo(SubmissionInfoRef ref,
           .getOne()
       : null;
 
+  // extractValues(
+  //     submission.formData, SectionTemplate(fields: formConfig.allFields),);
   final formData = submission.formData.map<String, dynamic>((k, v) => MapEntry(
       formConfig.getFieldDisplayName(k),
       formConfig.getUserFriendlyValue(k, v)));

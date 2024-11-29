@@ -1,6 +1,4 @@
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
-import 'package:datarun/core/sync_manager/nmc_worker/sync_status_controller.dart';
-import 'package:datarun/data_run/screens/form/element/form_element.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

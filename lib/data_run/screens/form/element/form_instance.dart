@@ -1,5 +1,5 @@
-import 'package:d2_remote/core/datarun/logging/logging.dart';
 import 'package:d2_remote/modules/datarun/form/entities/data_form_submission.entity.dart';
+import 'package:datarun/commons/logging/new_app_logging.dart';
 import 'package:datarun/data_run/form/form_element/form_element_iterators/form_element_iterator.dart';
 import 'package:datarun/data_run/screens/form_module/form_template/form_element_template.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,7 +9,7 @@ import 'package:datarun/data_run/form/form_submission/submission_list.provider.d
 import 'package:datarun/data_run/screens/form/element/form_element.dart';
 import 'package:datarun/data_run/screens/form/element/providers/form_instance.provider.dart';
 import 'package:datarun/data_run/screens/form/element/form_metadata.dart';
-import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 
 const orgUnitControlName = 'orgUnit';
 const formAttributesGroupName = 'attributes';
@@ -68,6 +68,7 @@ class FormInstance {
 
   Future<DataFormSubmission> saveFormData() async {
     final Map<String, Object?> formValue = form.value;
+    logInfo('formValue');
     DataFormSubmission? formSubmission;
     formSubmission = await formSubmissionList.getSubmission(submissionUid!);
     formSubmission!.formData.clear();
@@ -111,10 +112,10 @@ class FormInstance {
       parent.remove(lastParentItem);
       parent.evaluate();
       parentArray.remove(itemFormGroup);
-      logDebug(info: 'last Item deleted');
+      logDebug('last Item deleted');
       return true;
     } catch (e) {
-      logError(info: 'last Item not exist');
+      logError('last Item not exist');
       return false;
     }
   }

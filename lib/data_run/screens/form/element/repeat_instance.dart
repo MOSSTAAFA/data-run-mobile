@@ -16,11 +16,11 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
     List<RepeatItemInstance> elements = const [],
   }) {
     addAll(elements);
-    final visibilityDependencies = template
-        .depthFirstTraversal()
-        .where((element) => !element.type.isSectionType)
-        .expand((element) => element.visibilityDependencies)
-        .toSet();
+    // final visibilityDependencies = template
+    //     .depthFirstTraversal()
+    //     .where((element) => !element.isSectionType)
+    //     .expand((element) => element.visibilityDependencies)
+    //     .toSet();
 
     // _visibilityDependencies.addAll(visibilityDependencies);
   }

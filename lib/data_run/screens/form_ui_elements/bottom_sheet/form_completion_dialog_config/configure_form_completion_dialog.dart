@@ -8,7 +8,7 @@ import 'package:datarun/data_run/screens/form_ui_elements/bottom_sheet/form_comp
 import 'package:datarun/generated/l10n.dart';
 import 'package:datarun/utils/navigator_key.dart';
 import 'package:flutter/material.dart';
-import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 
 class ConfigureFormCompletionDialog {
   const ConfigureFormCompletionDialog();
@@ -102,8 +102,8 @@ class ConfigureFormCompletionDialog {
 
   Map<String, List<FieldWithIssue>> _getFieldsWithIssues(
       SectionInstance rootSection) {
-    // logDebug(info: 'formErrorsMap: $formErrors');
-    // logDebug(info: 'formErrorsMapFlatt: $formErrorsFlatt');
+    // logDebug('formErrorsMap: $formErrors');
+    // logDebug('formErrorsMapFlatt: $formErrorsFlatt');
     final Iterable<FieldInstance<dynamic>> fieldsWithErrors =
         getFormElementIterator<FieldInstance<dynamic>>(rootSection)
             .where((field) => field.elementControl!.hasErrors && field.visible);

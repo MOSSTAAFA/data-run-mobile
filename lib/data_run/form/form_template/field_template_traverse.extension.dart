@@ -1,10 +1,13 @@
-import 'package:d2_remote/modules/datarun/form/shared/field_template.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template/template.dart';
 
-extension DepthFirstTraversal on FieldTemplate {
-  Iterable<FieldTemplate> depthFirstTraversal() sync* {
-    yield this; // Start with the root node
-    for (final field in fields) {
-      yield* field.depthFirstTraversal();
-    }
+/// dfs traversal for Template
+Iterable<TemplateType> getDfsTemplateIterator<TemplateType extends Template>(
+    Template template) sync* {
+  if (template is TemplateType) {
+    yield template;
+  }
+
+  for (final item in template.fields) {
+    yield* getDfsTemplateIterator<TemplateType>(item);
   }
 }

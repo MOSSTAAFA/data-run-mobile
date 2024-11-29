@@ -1,7 +1,8 @@
-import 'package:d2_remote/modules/datarun/form/shared/field_template.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template/field_template.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:datarun/generated/l10n.dart';
-import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
+import 'package:flutter/material.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 
 class FieldValidators {
   static List<Validator<dynamic>> getValidators(ElementAttributesMixin element) {
@@ -12,7 +13,7 @@ class FieldValidators {
     if (element.type == ValueType.Age)
       validators
           .add(Validators.number(allowedDecimals: 2, allowNegatives: false));
-    if (element.type.isInteger) validators.add(Validators.number());
+    if (element.type?.isInteger ?? false) validators.add(Validators.number());
     if (element.type == ValueType.IntegerZeroOrPositive)
       validators.addAll(
           [Validators.number(allowNegatives: false), Validators.min(0)]);
@@ -35,7 +36,7 @@ class FieldValidators {
       messages['number'] = (error) => 'Age must be a valid number.';
       messages['min'] = (error) => 'Age cannot be negative.';
     }
-    if (element.type.isInteger) {
+    if (element.type?.isInteger ?? false) {
       messages['number'] = (error) => 'Please enter an integer.';
     }
     if (element.type == ValueType.IntegerZeroOrPositive) {

@@ -1,4 +1,4 @@
-import 'package:d2_remote/core/datarun/logging/logging.dart';
+import 'package:datarun/commons/logging/new_app_logging.dart';
 import 'package:datarun/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:reactive_forms/reactive_forms.dart';
@@ -62,7 +62,7 @@ class ReactiveCodeScanField<T> extends ReactiveFormField<T, String> {
                           cancelText,
                           true,
                           scanMode ?? ScanMode.DEFAULT);
-                      logDebug(info: barcodeScanRes);
+                      logDebug(barcodeScanRes);
                     } on PlatformException {
                       barcodeScanRes = 'Failed to get platform version.';
                     }

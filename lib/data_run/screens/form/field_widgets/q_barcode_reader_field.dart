@@ -5,7 +5,7 @@ import 'package:datarun/data_run/screens/form/inherited_widgets/form_metadata_in
 import 'package:flutter/material.dart';
 import 'package:datarun/data_run/screens/form/element/form_element.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 
 class QBarcodeReaderField<T> extends ConsumerWidget {
   final FieldInstance<T> element;

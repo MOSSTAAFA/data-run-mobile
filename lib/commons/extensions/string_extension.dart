@@ -1,7 +1,7 @@
 // ignore_for_file: strict_raw_type
 
 import 'package:d2_remote/core/datarun/utilities/date_utils.dart';
-import 'package:datarun/commons/logging/logging.dart';
+import 'package:datarun/commons/logging/new_app_logging.dart';
 
 extension StringNullExtension on String? {
   DateTime? toDate() {
@@ -9,31 +9,31 @@ extension StringNullExtension on String? {
     try {
       return DateUtils.databaseDateFormat().parse(this ?? '');
     } catch (e) {
-      logError(info: 'wrong DateTime format');
+      logError('wrong DateTime format');
     }
 
     try {
       return DateUtils.uiDateFormat().parse(this ?? '');
     } catch (e) {
-      logError(info: 'wrong DateTime format');
+      logError('wrong DateTime format');
     }
 
     try {
       return DateUtils.oldUiDateFormat().parse(this ?? '');
     } catch (e) {
-      logError(info: 'wrong DateTime format');
+      logError('wrong DateTime format');
     }
 
     try {
       return DateUtils.databaseDateFormatNoZone().parse(this ?? '');
     } catch (e) {
-      logError(info: 'wrong DateTime format');
+      logError('wrong DateTime format');
     }
 
     try {
       return DateUtils.dateTimeFormat().parse(this ?? '');
     } catch (e) {
-      logError(info: 'wrong DateTime format');
+      logError('wrong DateTime format');
     }
 
     return date;

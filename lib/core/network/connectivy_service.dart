@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:http/http.dart' as http;
-import 'package:datarun/commons/logging/logging.dart';
+import 'package:datarun/commons/logging/new_app_logging.dart';
 
 class ConnectivityService {
   static final ConnectivityService _instance = ConnectivityService._internal();
@@ -24,7 +24,7 @@ class ConnectivityService {
       _lastConnectivityCheckResult != ConnectivityResult.none && _isOnline;
 
   Future<void> initialize() {
-    logDebug(info: 'initializing: ', runtimeType: this.runtimeType);
+    logDebug('initializing: ', data: {'runtimeType': this.runtimeType});
     Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
       if (result != _lastConnectivityCheckResult) {
         _checkInternetConnection();
@@ -46,21 +46,21 @@ class ConnectivityService {
 
   Future<bool> _checkInternetConnection() async {
     try {
-      logDebug(info: 'checkInternetConnection: ping https://google.com ...', runtimeType: this.runtimeType);
+      logDebug('checkInternetConnection: ping https://google.com ...', data: {'runtimeType': this.runtimeType});
       final response = await http
           .get(Uri.parse('https://google.com'))
           .timeout(Duration(seconds: 5));
       if (response.statusCode == 200) {
-        logDebug(info: 'Device is online!', runtimeType: this.runtimeType);
+        logDebug('Device is online!', data: {'runtimeType': this.runtimeType});
         _isOnline = true;
         _connectivityStatusController.add(true);
       } else {
-        logDebug(info: 'Device is offline!', runtimeType: this.runtimeType);
+        logDebug('Device is offline!', data: {'runtimeType': this.runtimeType});
         _isOnline = false;
         _connectivityStatusController.add(false);
       }
     } catch (_) {
-      logDebug(info: 'Error checking internet Access, setting the status to offline!', runtimeType: this.runtimeType);
+      logDebug('Error checking internet Access, setting the status to offline!', data: {'runtimeType': this.runtimeType});
       _isOnline = false;
       _connectivityStatusController.add(false);
     }

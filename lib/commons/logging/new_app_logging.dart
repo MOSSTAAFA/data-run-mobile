@@ -1,4 +1,5 @@
 import 'dart:developer' as developer;
+import 'package:d2_remote/core/datarun/exception/exception.dart';
 import 'package:flutter/foundation.dart';
 
 typedef LogWriterCallback = void Function(String message,
@@ -89,4 +90,9 @@ void logError(String message, {Map<String, dynamic>? data}) {
 
 void logWarning(String message, {Map<String, dynamic>? data}) {
   logger.logWarning(message, data: data);
+}
+
+void logException(DException exception) {
+  logger.logError('Exception: ${exception.message}',
+      data: {'error': exception.cause});
 }

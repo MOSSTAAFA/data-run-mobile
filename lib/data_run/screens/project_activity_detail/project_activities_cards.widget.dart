@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:datarun/commons/custom_widgets/async_value.widget.dart';
 import 'package:datarun/data_run/screens/project_activity_detail/activity_expanded_card.widget.dart';
 import 'package:datarun/data_run/screens/project_activity_detail/model/project_activities.provider.dart';
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class ProjectActivitiesCards extends ConsumerStatefulWidget {
   const ProjectActivitiesCards({
@@ -24,7 +23,7 @@ class ProjectActivitiesCards extends ConsumerStatefulWidget {
 
 class _ProjectActivitiesScreenState
     extends ConsumerState<ProjectActivitiesCards> {
-  final ItemScrollController itemScrollController = ItemScrollController();
+  final ScrollController itemScrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +32,7 @@ class _ProjectActivitiesScreenState
 
     return AsyncValueWidget(
       value: value,
-      valueBuilder: (List<DActivity> activities) => ScrollablePositionedList.builder(
+      valueBuilder: (List<DActivity> activities) => ListView.builder(
         shrinkWrap: true,
         itemCount: activities.length,
         itemBuilder: (BuildContext context, int index) => ActivityExpandedCard(
@@ -41,7 +40,7 @@ class _ProjectActivitiesScreenState
           onDescriptionClick: () =>
               widget.onDescriptionClick?.call(activities[index]),
         ),
-        itemScrollController: itemScrollController,
+        controller: itemScrollController,
       ),
     );
   }

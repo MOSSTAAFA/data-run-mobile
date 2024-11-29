@@ -1,4 +1,10 @@
 import 'package:d2_remote/modules/datarun/form/entities/data_form_submission.entity.dart';
+import 'package:d2_remote/modules/datarun/form/entities/form_template.entity.dart';
+import 'package:d2_remote/modules/datarun/form/entities/form_version.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template/section_template.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template/template.dart';
+import 'package:datarun/data_run/form/form_template/field_template_traverse.extension.dart';
+import 'package:datarun/data_run/form/form_template/template_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:datarun/commons/custom_widgets/async_value.widget.dart';
@@ -22,6 +28,7 @@ class SubmissionListScreen extends StatefulHookConsumerWidget {
 
 class SubmissionListState extends ConsumerState<SubmissionListScreen> {
   SyncStatus? _selectedStatus;
+  final List<Template> formTemplates = [];
 
   Future<void> _showSyncDialog(List<String> entityUids) async {
     final formMetadata = FormMetadataWidget.of(context);
@@ -43,57 +50,72 @@ class SubmissionListState extends ConsumerState<SubmissionListScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final formMetadata = FormMetadataWidget.of(context);
-    return Scaffold(
-        key: ValueKey(formMetadata.form),
-        appBar: AppBar(
-          title: Text(formMetadata.formLabel),
-        ),
-        body: Column(
-          children: [
-            _buildFilterBar(),
-            Expanded(
-                child: AsyncValueWidget(
-              value: ref.watch(
-                submissionFilteredByStateProvider(
-                    form: formMetadata.form, status: _selectedStatus),
-              ),
-              valueBuilder: (submissions) => ListView.builder(
-                itemCount: submissions.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final DataFormSubmission entity = submissions[index];
+    final formTemplateAsync = ref.watch(formVersionAsyncProvider(
+        form: formMetadata.form, version: formMetadata.version));
+    return AsyncValueWidget(
+      value: formTemplateAsync,
+      valueBuilder: (formTemplate) {
+        return Scaffold(
+            key: ValueKey(formMetadata.form),
+            appBar: AppBar(
+              title: Text(formMetadata.formLabel),
+            ),
+            body: Column(
+              children: [
+                _buildFilterBar(),
+                Expanded(
+                    child: AsyncValueWidget(
+                  value: ref.watch(
+                    submissionFilteredByStateProvider(
+                        form: formMetadata.form, status: _selectedStatus),
+                  ),
+                  valueBuilder: (submissions) => ListView.builder(
+                    itemCount: submissions.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final DataFormSubmission entity = submissions[index];
 
-                  return FormMetadataWidget(
-                    formMetadata: FormMetadataWidget.of(context)
-                        .copyWith(submission: entity.uid),
-                    child: Card(
-                      shadowColor: Theme.of(context).colorScheme.shadow,
-                      surfaceTintColor: Theme.of(context).colorScheme.primary,
-                      elevation: .7,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      child: SubmissionInfo(
-                          submissionEntity: entity,
-                          onSyncPressed: (uid) =>
-                              _showSyncDialog([entity.uid!]),
-                          onTap: () =>
-                              _goToDataEntryForm(entity.uid!, entity.version)),
-                    ),
-                  );
-                },
-              ),
-            )),
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            _showAddEntityDialog();
-          },
-          tooltip: S.current.addNew,
-          child: const Icon(Icons.add),
-        ));
+                      return FormMetadataWidget(
+                        formMetadata: FormMetadataWidget.of(context)
+                            .copyWith(submission: entity.uid),
+                        child: Card(
+                          shadowColor: Theme.of(context).colorScheme.shadow,
+                          surfaceTintColor:
+                              Theme.of(context).colorScheme.primary,
+                          elevation: .7,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                          child: SubmissionInfo(
+                              rootSection:
+                                  SectionTemplate(fields: formTemplate.fields),
+                              submissionEntity: entity,
+                              onSyncPressed: (uid) =>
+                                  _showSyncDialog([entity.uid!]),
+                              onTap: () => _goToDataEntryForm(
+                                  entity.uid!, entity.version)),
+                        ),
+                      );
+                    },
+                  ),
+                )),
+              ],
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                _showAddEntityDialog();
+              },
+              tooltip: S.current.addNew,
+              child: const Icon(Icons.add),
+            ));
+      },
+    );
   }
 
   Widget _buildFilterBar() {

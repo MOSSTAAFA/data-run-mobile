@@ -7,7 +7,7 @@ import 'package:datarun/data_run/screens/form/element/validation/form_element_va
 import 'package:datarun/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
 import 'package:datarun/core/utils/get_item_local_string.dart';
 import 'package:reactive_dropdown_search/reactive_dropdown_search.dart';
-import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 
 class QDropDownWithSearchField extends HookConsumerWidget {
   const QDropDownWithSearchField({super.key, required this.element});
@@ -42,7 +42,7 @@ class QDropDownWithSearchField extends HookConsumerWidget {
         showSelectedItems: true,
       ),
       items: options
-          .map((option) => getItemLocalString(option.label))
+          .map((option) => getItemLocalString(option.label.unlockView))
           .toSet()
           .toList(),
       showClearButton: true,
@@ -61,7 +61,7 @@ class NameToLabelValueAccessor
     return options
         .where((option) => option.name == modelValue)
         .map((option) =>
-            getItemLocalString(option.label, defaultString: option.name))
+            getItemLocalString(option.label.unlockView, defaultString: option.name))
         .firstOrNull;
   }
 
@@ -69,7 +69,7 @@ class NameToLabelValueAccessor
   String? viewToModelValue(List<String> items, String? viewValue) {
     return options
         .where((option) =>
-            getItemLocalString(option.label, defaultString: option.name) ==
+            getItemLocalString(option.label.unlockView, defaultString: option.name) ==
             viewValue)
         .map((option) => option.name)
         .firstOrNull;

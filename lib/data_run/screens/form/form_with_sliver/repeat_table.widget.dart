@@ -1,4 +1,5 @@
-import 'package:d2_remote/modules/datarun/form/shared/field_template.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template/field_template.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/template_extensions/form_traverse_extension.dart';
 import 'package:datarun/core/utils/get_item_local_string.dart';
 import 'package:datarun/data_run/form/form_element/form_element_iterators/form_element_iterator.dart';
 import 'package:datarun/data_run/screens/form/element/form_element.dart';
@@ -111,9 +112,9 @@ class RepeatTable extends HookConsumerWidget {
       const DataColumn(label: Text('#')),
       ...tableColumns
           .map((fieldTemplate) => DataColumn(
-              label: Text(getItemLocalString(fieldTemplate.label,
+              label: Text(getItemLocalString(fieldTemplate.label.unlockView,
                   defaultString: fieldTemplate.name)),
-              numeric: fieldTemplate.type.isNumeric))
+              numeric: fieldTemplate.isNumeric))
           .toList(),
       DataColumn(label: Text(S.of(context).edit)),
       DataColumn(label: Text(S.of(context).delete)),

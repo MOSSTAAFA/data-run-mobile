@@ -14,6 +14,8 @@ class FieldInstance<T> extends FormElementInstance<T>
 
   final ChoiceFilter? choiceFilter;
 
+  FieldTemplate get template => _template as FieldTemplate;
+
   FieldElementState<T> get elementState =>
       _elementState as FieldElementState<T>;
 

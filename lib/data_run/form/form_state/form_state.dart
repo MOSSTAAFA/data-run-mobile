@@ -141,41 +141,6 @@
 // //</editor-fold>
 //
 // //<editor-fold desc="FieldState">
-// class FieldState {
-//   final String name;
-//   final dynamic value; // only for leaf fields with value
-//   final bool isVisible; // New property
-//   final bool hasError;
-//   final Map<String, dynamic>? errors;
-//
-//   FieldState({
-//     required this.name,
-//     this.value,
-//     this.isVisible = true, // Defaults to visible
-//     this.hasError = false,
-//     this.errors,
-//   });
-//
-//   factory FieldState.fromTemplate(FormElementTemplate template,
-//       [dynamic value]) {
-//     return FieldState(name: template.name!, value: value);
-//   }
-//
-//   FieldState copyWith({
-//     dynamic value,
-//     bool? isVisible,
-//     bool? hasError,
-//     Map<String, dynamic>? errors,
-//   }) {
-//     return FieldState(
-//       name: name,
-//       value: value ?? this.value,
-//       isVisible: isVisible ?? this.isVisible,
-//       hasError: hasError ?? this.hasError,
-//       errors: errors ?? this.errors,
-//     );
-//   }
-// }
 //
 // //</editor-fold>
 //

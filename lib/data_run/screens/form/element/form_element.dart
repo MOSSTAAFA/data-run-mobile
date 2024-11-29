@@ -1,10 +1,13 @@
 import 'dart:async';
 
-import 'package:d2_remote/modules/datarun/form/shared/field_template.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template/field_template.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template/section_template.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template/template.dart';
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule/action.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule/choice_filter.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule/rule_parse_extension.dart';
+import 'package:d2_remote/modules/datarun/form/shared/template_extensions/form_traverse_extension.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:datarun/commons/logging/new_app_logging.dart';
 import 'package:datarun/data_run/form/form_template/field_template_traverse.extension.dart';
@@ -13,7 +16,8 @@ import 'package:datarun/data_run/screens/form/element/exceptions/form_element_ex
 import 'package:datarun/data_run/screens/form/element/extension/rule.extension.dart';
 import 'package:datarun/data_run/screens/form/element/members/form_element_state.dart';
 import 'package:datarun/core/utils/get_item_local_string.dart';
-import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
+import 'package:reactive_forms/reactive_forms.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 import 'package:rxdart/rxdart.dart';
 
 part 'extension/element_dependency.extension.dart';
@@ -41,19 +45,21 @@ sealed class FormElementInstance<T> {
 
   FormElementInstance(
       {required this.form,
-      required this.template,
+      required Template template,
       required FormElementState elementState})
-      : _elementState = elementState;
+      : _elementState = elementState, _template = template;
 
-  final FieldTemplate template;
+  final Template _template;
 
-  ValueType get type => template.type;
+  Template get template => _template;
+
+  ValueType? get type => template.type;
 
   FormGroup form;
 
   bool _isEvaluating = false;
 
-  Iterable<RuleAction> get elementRuleActions => template.ruleActions();
+  Iterable<RuleAction> get elementRuleActions => _template.ruleActions();
 
   List<RuleAction> get inEffectRuleActions => elementRuleActions
       .where((ruleAction) => ruleAction.evaluate(evalContext))
@@ -71,7 +77,7 @@ sealed class FormElementInstance<T> {
   String? get name => template.name;
 
   String get label =>
-      '${getItemLocalString(template.label, defaultString: name)}${mandatory ? ' *' : ''}';
+      '${getItemLocalString(template.label.unlockView, defaultString: name)}${mandatory ? ' *' : ''}';
 
   SectionElement<dynamic>? _parentSection;
 
@@ -183,7 +189,7 @@ sealed class FormElementInstance<T> {
   }
 
   void markAsMandatory({bool updateParent = true, bool emitEvent = true}) {
-    // logDebug(info: '${name}, markAsMandatory');
+    // logDebug('${name}, markAsMandatory');
     if (mandatory) {
       return;
     }
@@ -232,7 +238,7 @@ sealed class FormElementInstance<T> {
   //     {String? changedDependency,
   //     bool updateParent = true,
   //     bool emitEvent = true}) {
-  //   logDebug(info: '$name, context: $evalContext}, isEval: $_isEvaluating');
+  //   logDebug('$name, context: $evalContext}, isEval: $_isEvaluating');
   //   if (_isEvaluating) {
   //     return;
   //   }
@@ -251,7 +257,7 @@ sealed class FormElementInstance<T> {
   //               updateParent: updateParent, emitEvent: emitEvent);
   //     });
   //   } catch (e) {
-  //     logError(info: 'Error Evaluating: ');
+  //     logError('Error Evaluating: ');
   //   } finally {
   //     _isEvaluating = false;
   //   }
@@ -402,7 +408,7 @@ sealed class FormElementInstance<T> {
   //
   // void resolveDependencies() {
   //   if (dependencies.length > 0) {
-  //     logDebug(info: '$name, resolving dependencies: $dependencies');
+  //     logDebug('$name, resolving dependencies: $dependencies');
   //   }
   //
   //   for (final dependencyName in dependencies) {

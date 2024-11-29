@@ -10,8 +10,8 @@ extension ElementDependencyHandler<T> on FormElementInstance<T> {
 
   calculationFriendlyValue(FormElementInstance<dynamic> dependency) {
     if (!dependency.visible) {
-      return dependency.type.isNumeric ? 0 : null;
-    } else if (dependency.type.isNumeric && dependency.value == null) {
+      return dependency.template.isNumeric ? 0 : null;
+    } else if (dependency.template.isNumeric && dependency.value == null) {
       return 0;
     } else {
       return dependency.value;

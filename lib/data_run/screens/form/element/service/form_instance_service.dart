@@ -6,7 +6,7 @@ import 'package:d2_remote/modules/auth/user/entities/d_user.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/attribute_type.dart';
 import 'package:datarun/data_run/screens/form/element/service/device_info_service.dart';
 import 'package:datarun/data_run/screens/form/element/form_metadata.dart';
-import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 import 'package:uuid/uuid.dart';
 
 class FormInstanceService {

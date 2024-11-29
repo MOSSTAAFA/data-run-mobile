@@ -7,7 +7,7 @@ import 'package:datarun/data_run/screens/form/field_widgets/custom_reactive_widg
 import 'package:datarun/data_run/screens/form/field_widgets/custom_reactive_widget/reactive_o_u_picker.dart';
 import 'package:datarun/data_run/screens/form/element/form_element.dart';
 import 'package:datarun/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
-import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 
 class QOrgUnitPickerField extends HookConsumerWidget {
   const QOrgUnitPickerField({super.key, required this.element});
