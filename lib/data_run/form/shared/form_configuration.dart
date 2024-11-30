@@ -45,11 +45,15 @@ class FormConfiguration {
       required List<FormOption> options,
       required this.label,
       required List<String> orgUnits})
-      : this.allFields =
-            IMap.fromIterable<String, Template, Template>(
-                getDfsTemplateIterator(SectionTemplate(fields: fields)),
-                keyMapper: (Template field) => field.path!,
-                valueMapper: (Template field) => field),
+      : this.allFields = IMap.fromIterable<String, Template, Template>(fields,
+            keyMapper: (Template field) => field.path!,
+            valueMapper: (Template field) => field)
+        /*this.allFields = IMap.fromIterable<String, Template, Template>(
+            getDfsTemplateIterator(SectionTemplate(fields: fields))
+                .where((t) => t.path != null),
+            keyMapper: (Template field) => field.path!,
+            valueMapper: (Template field) => field)*/
+        ,
         this.optionLists =
             IMap.fromIterable<String, IList<FormOption>, FormOption>(
                 (options)..sort((p1, p2) => p1.order.compareTo(p2.order)),

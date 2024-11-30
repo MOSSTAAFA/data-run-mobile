@@ -34,18 +34,6 @@ class RepeatTable extends HookConsumerWidget {
             formInstanceProvider(formMetadata: FormMetadataWidget.of(context)))
         .requireValue;
 
-    // final tableCollectionsSnapshot =
-    // useStream(repeatInstance.collectionChanges);
-    //
-    // if (!tableCollectionsSnapshot.hasData) {
-    //   return CircularProgressIndicator();
-    // }
-
-    // final Iterable<FieldTemplate> visibleTableColumns = useMemoized(() {
-    //   return getFormElementIterator<FieldInstance<dynamic>>(repeatInstance)
-    //       .where((element) => element.visible)
-    //       .map((element) => element.template);
-    // }, [repeatInstance.resolvedDependencies]);
     final List<FormElementTemplate> tableColumns = useMemoized(() {
       getFormElementIterator<FieldInstance<dynamic>>(repeatInstance)
           .where((element) => element.visible)

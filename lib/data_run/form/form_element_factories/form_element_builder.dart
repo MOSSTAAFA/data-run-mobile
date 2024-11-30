@@ -1,4 +1,3 @@
-
 import 'package:d2_remote/modules/datarun/form/shared/field_template/field_template.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/field_template/section_template.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/field_template/template.dart';
@@ -68,17 +67,16 @@ class FormElementBuilder {
 
   static RepeatItemInstance buildRepeatItem(FormGroup rootFormControl,
       FormFlatTemplate formFlatTemplate, SectionTemplate template,
-      {Map<String, Object?>? initialFormValue}) {
+      {Map<String, Object?>? initialFormValue, required String parentUid}) {
     final Map<String, FormElementInstance<dynamic>> elements = {};
 
-    template.fields.sort((a, b) => (a.order).compareTo(b.order));
     final repeatedSection = RepeatItemInstance(
         template: template,
         form: rootFormControl,
-        uid: (initialFormValue?.isNotEmpty ?? false)
-            ? CodeGenerator.generateUid()
-            : null);
-    for (var childTemplate in template.fields) {
+        parentUid: parentUid,
+        uid: initialFormValue?['repeatUid'] as String?);
+    for (var childTemplate
+        in template.fields.sort((a, b) => (a.order).compareTo(b.order))) {
       elements[childTemplate.name!] = buildFormElement(
           rootFormControl, formFlatTemplate, childTemplate,
           initialFormValue: initialFormValue?[childTemplate.name]);
@@ -106,7 +104,8 @@ class FormElementBuilder {
     final List<RepeatItemInstance> elements = initialFormValue
             ?.map((value) => buildRepeatItem(
                 rootFormControl, formFlatTemplate, template,
-                initialFormValue: value))
+                initialFormValue: value,
+                parentUid: value['parentUid'] as String))
             .toList() ??
         [];
 

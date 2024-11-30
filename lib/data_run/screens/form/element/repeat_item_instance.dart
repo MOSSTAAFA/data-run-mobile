@@ -6,12 +6,13 @@ class RepeatItemInstance extends SectionInstance {
       {required super.template,
       required super.form,
       super.elements,
+      required this.parentUid,
       String? uid,
       this.selected = false})
       : _uid = uid;
 
   bool selected;
-
+  final String parentUid;
   String? _uid;
 
   String? get uid => _uid;
@@ -36,6 +37,20 @@ class RepeatItemInstance extends SectionInstance {
     }
 
     _parentSection = parent;
+  }
+
+  @override
+  Map<String, Object?>? reduceValue() {
+    final map = <String, Object?>{};
+    map['parentUid'] = parentUid;
+    map['repeatUid'] = _uid ?? CodeGenerator.generateUid();
+    _elements.forEach((key, element) {
+      if (element.visible || hidden) {
+        map[key] = element.value;
+      }
+    });
+
+    return map;
   }
 
   String pathBuilder(String pathItem) {

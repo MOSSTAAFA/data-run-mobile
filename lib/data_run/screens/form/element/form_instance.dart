@@ -1,16 +1,17 @@
 import 'package:d2_remote/modules/datarun/form/entities/data_form_submission.entity.dart';
 import 'package:datarun/commons/logging/new_app_logging.dart';
 import 'package:datarun/data_run/form/form_element/form_element_iterators/form_element_iterator.dart';
-import 'package:datarun/data_run/screens/form_module/form_template/form_element_template.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:datarun/data_run/form/form_element_factories/form_element_builder.dart';
 import 'package:datarun/data_run/form/form_element_factories/form_element_control_builder.dart';
+import 'package:datarun/data_run/screens/form_module/form/code_generator.dart';
+import 'package:datarun/data_run/screens/form_module/form_template/form_element_template.dart';
+import 'package:datarun/data_run/form/form_element_factories/form_element_builder.dart';
 import 'package:datarun/data_run/form/form_submission/submission_list.provider.dart';
 import 'package:datarun/data_run/screens/form/element/form_element.dart';
 import 'package:datarun/data_run/screens/form/element/providers/form_instance.provider.dart';
 import 'package:datarun/data_run/screens/form/element/form_metadata.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
+const formUid = 'formDataUid';
 const orgUnitControlName = 'orgUnit';
 const formAttributesGroupName = 'attributes';
 const formDataGroupName = 'formData';
@@ -25,11 +26,13 @@ class FormInstance {
       {required this.form,
       required this.formFlatTemplate,
       required this.formMetadata,
-      // required this.formConfiguration,
+      Map<String, Object?> initialValue = const {},
       required SectionInstance rootSection,
       Map<String, FormElementInstance<dynamic>> elements = const {},
       required this.enabled})
       : _ref = ref,
+        _formDataUid =
+            initialValue['_${formUid}'] ?? CodeGenerator.generateCompositeUid(),
         _formSection = rootSection {
     var formElementMap = {
       for (var x
@@ -38,12 +41,16 @@ class FormInstance {
         x.elementPath!: x
     };
     _forElementMap.addAll(formElementMap);
-
+    _initialValue.addAll({...initialValue, '_${formUid}': _formDataUid});
     if (!enabled) {
       form.markAsDisabled();
     }
   }
 
+
+  Map<String, Object?> _initialValue = {};
+
+  final Object _formDataUid;
   final FormGroup form;
   final FormFlatTemplate formFlatTemplate;
   final bool enabled;
@@ -67,29 +74,37 @@ class FormInstance {
   String? get submissionUid => formMetadata.submission;
 
   Future<DataFormSubmission> saveFormData() async {
-    final Map<String, Object?> formValue = form.value;
-    logInfo('formValue');
-    DataFormSubmission? formSubmission;
-    formSubmission = await formSubmissionList.getSubmission(submissionUid!);
-    formSubmission!.formData.clear();
-    formSubmission.formData.addAll(formValue);
+    final formSubmission =
+        await formSubmissionList.getSubmission(submissionUid!);
+
+    formSection.value.forEach((key, value) {
+      _initialValue.update(
+        key,
+        (_) => value,
+        ifAbsent: () => value,
+      );
+    });
+
+    formSubmission!.formData
+      ..clear()
+      ..addAll(_initialValue);
+
     return formSubmissionList.updateSubmission(formSubmission);
   }
 
   RepeatItemInstance onAddRepeatedItem(RepeatInstance parent) {
-    final instanceControllerBuilder = _ref
-        .read(formElementControlBuilderProvider(formMetadata: formMetadata))
-        .requireValue;
+    final itemFormGroup = FormElementControlBuilder.createSectionFormGroup(
+        formFlatTemplate, parent.template);
 
-    final itemFormGroup =
-        instanceControllerBuilder.createSectionFormGroup(parent.template);
     parent.elementControl.add(itemFormGroup);
 
     final itemInstance = FormElementBuilder.buildRepeatItem(
-        form, formFlatTemplate, parent.template);
-    parent..add(itemInstance)
-    ..resolveDependencies()
-    ..evaluate();
+        form, formFlatTemplate, parent.template,
+        parentUid: _formDataUid as String);
+    parent
+      ..add(itemInstance)
+      ..resolveDependencies()
+      ..evaluate();
     // _forElementMap[itemInstance.elementPath!] = itemInstance;
     itemInstance.resolveDependencies();
     itemInstance.evaluate();

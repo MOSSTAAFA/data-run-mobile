@@ -1,5 +1,6 @@
 import 'package:d2_remote/modules/datarun/form/entities/form_version.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/attribute_type.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template/scanned_code_properties.dart';
 import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/option_set.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule/rule.dart';
@@ -181,6 +182,7 @@ class FieldElementTemplate extends FormElementTemplate {
     this.choiceFilter,
     this.defaultValue,
     this.attributeType,
+    this.scannedCodeProperties,
     Iterable<FormOption> options = const [],
     Iterable<String> filterDependencies = const [],
   }) {
@@ -196,6 +198,7 @@ class FieldElementTemplate extends FormElementTemplate {
   final dynamic defaultValue;
   final AttributeType? attributeType;
   final String? calculation;
+  final ScannedCodeProperties? scannedCodeProperties;
   final List<FormOption> _options = [];
 
   /// <name, path>

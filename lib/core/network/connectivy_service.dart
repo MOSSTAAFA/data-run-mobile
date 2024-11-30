@@ -24,7 +24,7 @@ class ConnectivityService {
       _lastConnectivityCheckResult != ConnectivityResult.none && _isOnline;
 
   Future<void> initialize() {
-    logDebug('initializing: ', data: {'runtimeType': this.runtimeType});
+    // logDebug('initializing: ', data: {'runtimeType': this.runtimeType});
     Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
       if (result != _lastConnectivityCheckResult) {
         _checkInternetConnection();

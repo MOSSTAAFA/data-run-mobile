@@ -5,88 +5,62 @@ import 'package:d2_remote/modules/datarun/form/shared/field_template/section_tem
 import 'package:d2_remote/modules/datarun/form/shared/field_template/template.dart';
 import 'package:d2_remote/modules/datarun/form/shared/template_extensions/form_traverse_extension.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
-import 'package:datarun/data_run/screens/form/element/form_metadata.dart';
-import 'package:datarun/data_run/screens/form/element/providers/form_instance.provider.dart';
-import 'package:datarun/data_run/screens/form/element/service/form_instance_service.dart';
 import 'package:datarun/data_run/screens/form/element/validation/form_element_validator.dart';
 import 'package:datarun/data_run/screens/form_module/form_template/form_element_template.dart';
 import 'package:reactive_forms/reactive_forms.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-part 'form_element_control_builder.g.dart';
-
-@riverpod
-Future<FormElementControlBuilder> formElementControlBuilder(
-    FormElementControlBuilderRef ref,
-    {required FormMetadata formMetadata}) async {
-  final formFlatTemplate = await ref
-      .watch(formFlatTemplateProvider(formMetadata: formMetadata).future);
-  final formInstanceService = await ref
-      .watch(formInstanceServiceProvider(formMetadata: formMetadata).future);
-
-  return FormElementControlBuilder(
-      formFlatTemplate: formFlatTemplate,
-      formInstanceService: formInstanceService);
-}
 
 class FormElementControlBuilder {
-  FormElementControlBuilder(
-      {required this.formInstanceService, required this.formFlatTemplate});
 
-  final FormFlatTemplate formFlatTemplate;
-  final FormInstanceService formInstanceService;
-
-  Future<Map<String, AbstractControl<dynamic>>> formDataControls(
-      initialValue) async {
-    final Map<String, AbstractControl<dynamic>> controls =
-        await formInstanceService.formAttributesControls(initialValue);
+  static Map<String, AbstractControl<dynamic>> formDataControls(FormFlatTemplate formFlatTemplate,
+      initialValue) {
+    final Map<String, AbstractControl<dynamic>> controls = {};
 
     for (var element in formFlatTemplate.formTemplate.fields) {
-      controls[element.name!] = createElementControl(element,
+      controls[element.name!] = createElementControl(formFlatTemplate, element,
           initialValue: initialValue?[element.name]);
     }
 
     return controls;
   }
 
-  AbstractControl<dynamic> createElementControl(Template fieldTemplate,
+  static AbstractControl<dynamic> createElementControl(FormFlatTemplate formFlatTemplate, Template fieldTemplate,
       {initialValue}) {
     if (fieldTemplate.isSection) {
-      return createSectionFormGroup(fieldTemplate as SectionTemplate,
+      return createSectionFormGroup(formFlatTemplate, fieldTemplate as SectionTemplate,
           initialValue: initialValue);
     } else if (fieldTemplate.isRepeat) {
-      return createRepeatFormArray(fieldTemplate as SectionTemplate,
+      return createRepeatFormArray(formFlatTemplate, fieldTemplate as SectionTemplate,
           initialValue: initialValue);
     } else {
-      return createFieldFormControl(fieldTemplate as FieldTemplate,
+      return createFieldFormControl(formFlatTemplate, fieldTemplate as FieldTemplate,
           initialValue: initialValue);
     }
   }
 
-  FormGroup createSectionFormGroup<T>(SectionTemplate fieldTemplate,
+  static FormGroup createSectionFormGroup<T>(FormFlatTemplate formFlatTemplate, SectionTemplate fieldTemplate,
       {dynamic initialValue}) {
     final Map<String, AbstractControl<dynamic>> controls = {};
     fieldTemplate.fields.sort((a, b) => (a.order).compareTo(b.order));
 
     for (var childTemplate in fieldTemplate.fields) {
-      controls[childTemplate.name!] = createElementControl(childTemplate,
+      controls[childTemplate.name!] = createElementControl(formFlatTemplate, childTemplate,
           initialValue: initialValue?[childTemplate.name]);
     }
     return FormGroup(controls);
   }
 
-  FormArray<Map<String, Object?>> createRepeatFormArray(
+  static FormArray<Map<String, Object?>> createRepeatFormArray(FormFlatTemplate formFlatTemplate,
       SectionTemplate fieldTemplate,
       {dynamic initialValue}) {
     final formArray = FormArray<Map<String, Object?>>((initialValue ?? [])
         .map<FormGroup>(
-            (e) => createSectionFormGroup(fieldTemplate, initialValue: e))
+            (e) => createSectionFormGroup(formFlatTemplate, fieldTemplate, initialValue: e))
         .toList());
 
     return formArray;
   }
 
-  AbstractControl<dynamic> createFieldFormControl(FieldTemplate fieldTemplate,
+  static AbstractControl<dynamic> createFieldFormControl(formFlatTemplate, FieldTemplate fieldTemplate,
       {initialValue}) {
     switch (fieldTemplate.type) {
       case ValueType.Text:

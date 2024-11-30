@@ -26,15 +26,6 @@ class RepeatInstanceDataTable extends HookConsumerWidget {
     final elementPropertiesSnapshot =
         useStream(repeatInstance.propertiesChanged);
 
-    // final List<FormElementTemplate> tableColumns = useMemoized(() {
-    //   getFormElementIterator<FieldInstance<dynamic>>(repeatInstance)
-    //       .where((element) => element.visible)
-    //       .map((element) => element.template);
-    //   return formInstance.formFlatTemplate
-    //       .getChildrenOfType<FieldElementTemplate>(repeatInstance.elementPath!)
-    //     ..sort((a, b) => a.order.compareTo(b.order));
-    // }, [repeatInstance.elementPath]);
-
     final Future<void> Function(int index) onEdit =
         useCallback((int index) async {
       final itemInstance = repeatInstance.elements[index];
@@ -106,6 +97,7 @@ class RepeatInstanceDataTable extends HookConsumerWidget {
                     repeatInstance: repeatInstance,
                     item: repeatItem!,
                     onSave: (formGroup, action) {
+                      repeatInstance.elementControl.markAllAsTouched();
                       repeatItem!.updateValue(formGroup.value);
                       if (formGroup.valid) {
                         itemSaved = true;

@@ -62,17 +62,15 @@ Future<FormInstance> formInstance(FormInstanceRef ref,
       .getOne();
 
   final Map<String, dynamic>? initialFormValue = submission.formData;
-  // await ref.watch(
-  //     formInitialDataProvider(submission: formMetadata.submission!).future);
+
+  final formInstanceService = await ref
+      .watch(formInstanceServiceProvider(formMetadata: formMetadata).future);
 
   final formFlatTemplate = await ref
       .watch(formFlatTemplateProvider(formMetadata: formMetadata).future);
 
-  final formControlBuilder = await ref.watch(
-      formElementControlBuilderProvider(formMetadata: formMetadata).future);
-
-  final form =
-      FormGroup(await formControlBuilder.formDataControls(initialFormValue));
+  final form = FormGroup(FormElementControlBuilder.formDataControls(
+      formFlatTemplate, initialFormValue));
 
   final elements = FormElementBuilder.buildFormElements(form, formFlatTemplate,
       initialFormValue: initialFormValue);
@@ -89,6 +87,8 @@ Future<FormInstance> formInstance(FormInstanceRef ref,
   //     .future);
   return FormInstance(ref,
       enabled: enabled,
+      initialValue:
+          await formInstanceService.formAttributesControls(initialFormValue),
       elements: elements,
       formMetadata: formMetadata,
       form: form,

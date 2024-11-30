@@ -84,8 +84,7 @@ class SubmissionInfoState extends ConsumerState<SubmissionInfo> {
                 style: Theme.of(context).textTheme.labelSmall,
               ),
             Text(
-              generateFormSummary(
-                  submissionSummary.formData.unlock, widget.rootSection),
+              submissionSummary.formData.join(', '),
               style: Theme.of(context).textTheme.labelMedium,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
