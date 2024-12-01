@@ -1,6 +1,7 @@
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:datarun/data_run/screens/form/element_widgets/popup_section.widget.dart';
 import 'package:datarun/data_run/screens/form/field_widgets/q_barcode_reader_field.dart';
+import 'package:datarun/data_run/screens/form/form_with_sliver/repeat_table.widget.dart';
 import 'package:datarun/data_run/screens/form/form_with_sliver/repeat_table_view.dart';
 import 'package:flutter/material.dart';
 import 'package:datarun/data_run/screens/form/field_widgets/reactive_choice_single_select_chip.widget.dart';
@@ -20,7 +21,7 @@ class PopupFormElementWidgetFactory {
     return switch (element) {
       FieldInstance() =>
         FieldWidget(key: ValueKey(element.elementPath), element: element),
-      RepeatInstance() => RepeatInstanceDataTable(
+      RepeatInstance() => RepeatTable(
           key: Key(element.elementPath!),
           repeatInstance: element,
         ),

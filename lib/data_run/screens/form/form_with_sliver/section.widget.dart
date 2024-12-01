@@ -1,5 +1,6 @@
 import 'package:datarun/data_run/screens/form/element/form_element.dart';
 import 'package:datarun/data_run/screens/form/element_widgets/field.widget.dart';
+import 'package:datarun/data_run/screens/form/form_with_sliver/repeat_table.widget.dart';
 import 'package:datarun/data_run/screens/form/form_with_sliver/repeat_table_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -72,7 +73,7 @@ class SectionWidget extends HookConsumerWidget {
             ]),
           ),
           sliver: SliverToBoxAdapter(
-            child: RepeatInstanceDataTable(
+            child: RepeatTable(
               key: Key(element.elementPath!),
               repeatInstance: element,
             ),

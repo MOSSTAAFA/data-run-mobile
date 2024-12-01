@@ -1,4 +1,5 @@
 import 'package:d2_remote/modules/datarun/form/shared/field_template/field_template.entity.dart';
+import 'package:d2_remote/modules/datarun/form/shared/field_template/scanned_code_template.dart';
 import 'package:d2_remote/modules/datarun/form/shared/field_template/section_template.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/field_template/template.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule/choice_filter.dart';
@@ -39,6 +40,10 @@ class FormElementBuilder {
     } else if (template.isRepeat) {
       return buildRepeatInstance(
           form, formFlatTemplate, template as SectionTemplate,
+          initialFormValue: initialFormValue);
+    } else if(template.type == ValueType.ScannedCode) {
+      return buildFieldInstance(
+          form, formFlatTemplate, template as FieldTemplate,
           initialFormValue: initialFormValue);
     } else {
       return buildFieldInstance(
@@ -98,6 +103,24 @@ class FormElementBuilder {
     // return repeatedSection;
   }
 
+  // static RepeatInstance buildScannedCode(FormGroup rootFormControl,
+  //     FormFlatTemplate formFlatTemplate, ScannedCodeTemplate template,
+  //     {List<dynamic>? initialFormValue}) {
+  //   final List<RepeatItemInstance> elements = initialFormValue
+  //       ?.map((value) => buildRepeatItem(
+  //       rootFormControl, formFlatTemplate, template,
+  //       initialFormValue: value,
+  //       parentUid: value['parentUid'] as String))
+  //       .toList() ??
+  //       [];
+  //
+  //   final repeatedSection =
+  //   RepeatInstance(template: template, form: rootFormControl);
+  //
+  //   repeatedSection.addAll(elements);
+  //   return repeatedSection;
+  // }
+
   static RepeatInstance buildRepeatInstance(FormGroup rootFormControl,
       FormFlatTemplate formFlatTemplate, SectionTemplate template,
       {List<dynamic>? initialFormValue}) {
@@ -114,17 +137,6 @@ class FormElementBuilder {
 
     repeatedSection.addAll(elements);
     return repeatedSection;
-    //
-    // final repeatInstance = RepeatInstance(
-    //     template: template,
-    //     form: rootFormControl,
-    //     elements: initialFormValue
-    //             ?.map((value) => buildRepeatItem(rootFormControl, template,
-    //                 initialFormValue: value))
-    //             .toList() ??
-    //         []);
-    //
-    // return repeatInstance;
   }
 
   static FieldInstance<dynamic> buildFieldInstance(FormGroup rootFormControl,

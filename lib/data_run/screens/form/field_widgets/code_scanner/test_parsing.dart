@@ -76,29 +76,34 @@ void scanBarcode() async {
   final parser = GS1BarcodeParser.defaultParser();
   final result = parser.parse(barcode);
   final result1 = parser.parse(barcodeScanRes);
-  final result2 = parser.parse(barcodeScanRes2);
-  print(result);
+  final GS1Barcode result2 = parser.parse(barcodeScanRes2);
+
+  /// data = {
+  // 01 (GTIN): 07640217811759,
+  // 11 (PROD DATE): 2024-06-30 00:00:00.000,
+  // 10 (BATCH/LOT): 104724,
+  // 21 (SERIAL): E6DAF62C0,
+  // }
+  final Content = result1.getAIData('01');
+  final GTIN = result2.getAIData('02');
+  final countBundle = result1.getAIData('37');
+  final countSingle = result2.getAIData('37') ?? 1;
+
+  final prodDate1 = result1.getAIData('11');
+  final prodDate2 = result2.getAIData('11');
+  final BATCH = result1.getAIData('10');
+  final SERIAL = result2.getAIData('21');
   print(result1);
   print(result2);
-  // // Define the validator with expected parameters
-  // BarcodeValidator validator = BarcodeValidator(
-  //   startCode: "]C1",
-  //   fixedGtin: "076402178101",
-  //   productionDateLength: 8,
-  //   // Assuming format is YYYYMMDD
-  //   batchNumberLength: 6,
-  //   serialNumberPrefix: "E6D",
-  //   serialNumberLength: 7, // Length excluding the prefix
-  // );
+  print('content: $Content');
+  print('GTIN: $GTIN');
+  print('Bundle count: $countBundle');
+  print('Single count: $countSingle');
+  print('prodDate bundle: ${prodDate1}');
+  print('prodDate Single: ${prodDate2}');
+  print('BATCH: $BATCH');
+  print('SERIAL: $SERIAL');
 
-  // final valid1 = barcodeScanRes.contains(']C10207640217811759');
-  // final valid2 =barcodeScanRes2.contains('76402178');
-  // // Validate the scanned barcode
-  // if (validator.isValidBarcode(barcodeScanRes)) {
-  //   print('Valid barcode: $barcodeScanRes');
-  // } else {
-  //   print('Invalid barcode: $barcodeScanRes');
-  // }
 }
 
 void main() {

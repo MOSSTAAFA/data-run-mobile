@@ -47,7 +47,6 @@ class FormInstance {
     }
   }
 
-
   Map<String, Object?> _initialValue = {};
 
   final Object _formDataUid;
@@ -119,7 +118,7 @@ class FormInstance {
     parent.evaluate();
   }
 
-  bool onRemoveLastItem(RepeatInstance parent) {
+  RepeatItemInstance? onRemoveLastItem(RepeatInstance parent) {
     try {
       final parentArray = form.control(parent.elementPath!) as FormArray;
       final lastParentItem = parent.elements.last;
@@ -128,10 +127,10 @@ class FormInstance {
       parent.evaluate();
       parentArray.remove(itemFormGroup);
       logDebug('last Item deleted');
-      return true;
+      return lastParentItem;
     } catch (e) {
       logError('last Item not exist');
-      return false;
+      return null;
     }
   }
 

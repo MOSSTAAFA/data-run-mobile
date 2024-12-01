@@ -18,6 +18,27 @@ class RepeatTableDataSource extends DataTableSource {
     this.elements.addAll(elements);
   }
 
+  void removeItem(RepeatItemInstance item) {
+    elements.remove(item);
+    notifyListeners();
+  }
+
+  void updateItems(List<RepeatItemInstance> items) {
+    elements.updateById(items, (item) => item.elementPath == item.elementPath);
+    notifyListeners();
+  }
+
+  void addItem(RepeatItemInstance item) {
+    elements.add(item);
+    notifyListeners();
+  }
+
+  void setItems(List<RepeatItemInstance> items) {
+    elements.clear();
+    elements.addAll(items);
+    notifyListeners();
+  }
+
   // final RepeatInstance repeatInstance;
   final Function(int)? onDelete;
   final Function(int)? onEdit;
@@ -76,7 +97,8 @@ class RepeatTableDataSource extends DataTableSource {
 
     if (field.hidden) {
       return Container(
-        color: Colors.grey.shade300, // Light grey background for the entire cell
+        color: Colors.grey.shade300,
+        // Light grey background for the entire cell
         padding: const EdgeInsets.all(8.0),
         child: Text(
           '  '.toString(),
@@ -118,7 +140,8 @@ class RepeatTableDataSource extends DataTableSource {
           cellContent = Text(getItemLocalString(
               field.visibleOption
                   .firstOrNullWhere((option) => option.name == field.value)
-                  ?.label.unlockView,
+                  ?.label
+                  .unlockView,
               defaultString: '-'));
         }
         break;
@@ -138,7 +161,6 @@ class RepeatTableDataSource extends DataTableSource {
 
     return cellContent;
   }
-
 
   String? modelToViewValue(String? modelValue) {
     return modelValue == null ? null : sdk.DateUtils.format(modelValue);

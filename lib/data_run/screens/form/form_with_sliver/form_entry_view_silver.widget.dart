@@ -1,5 +1,6 @@
 import 'package:datarun/data_run/screens/form/element/form_element.dart';
 import 'package:datarun/data_run/screens/form/element_widgets/field.widget.dart';
+import 'package:datarun/data_run/screens/form/form_with_sliver/repeat_table.widget.dart';
 import 'package:datarun/data_run/screens/form/form_with_sliver/repeat_table_view.dart';
 import 'package:datarun/data_run/screens/form/form_with_sliver/section.widget.dart';
 import 'package:flutter/material.dart';
@@ -66,7 +67,7 @@ class FormInstanceEntryViewSliver extends HookConsumerWidget {
               builder: (BuildContext context,
                       FormArray<Map<String, Object?>> formArray,
                       Widget? child) =>
-                  RepeatInstanceDataTable(
+                  RepeatTable(
                 key: Key(element.elementPath!),
                 repeatInstance: element,
               ),
