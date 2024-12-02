@@ -115,44 +115,41 @@ class FieldInstance<T> extends FormElementInstance<T>
   }
 }
 
-class ScannedFieldInstance<T> extends FieldInstance<T>
-    with ElementAttributesMixin {
-  ScannedFieldInstance({
-    required super.elementProperties,
-    required super.form,
-    required super.template,
-    Map<String, ValidationMessageFunction> validationMessages = const {},
-  }) {
-    this.validationMessages.addAll(validationMessages);
-  }
-
-  FieldTemplate get template => _template as FieldTemplate;
-
-  FieldElementState<T> get elementState =>
-      _elementState as FieldElementState<T>;
-
-  @override
-  void evaluate(
-      {String? changedDependency,
-        bool updateParent = true,
-        bool emitEvent = true}) {
-    super.evaluate(updateParent: updateParent, emitEvent: emitEvent);
-    if (choiceFilter?.expression != null) {
-      final visibleOptionsUpdate = choiceFilter!.evaluate(evalContext);
-      logDebug(
-          'all field options: ${choiceFilter!.options.map((o) => o.name)}');
-      logDebug(
-          'only visibleOptionsUpdate: ${visibleOptionsUpdate.map((o) => o.name)}');
-      final oldState = elementState.copyWith(); // clone
-      final newState = elementState.resetValueFromVisibleOptions(
-          visibleOptions: visibleOptionsUpdate);
-      logDebug(
-          '$name, option changed: ${oldState.value != newState.value},  ${oldState.value} => ${newState.value}');
-      updateStatus(newState /* notify: oldState.value != newState.value*/);
-      elementControl.updateValue(newState.value);
-    }
-  }
-}
+// class ScannedFieldInstance<T> extends FieldInstance<T>
+//     with ElementAttributesMixin {
+//   ScannedFieldInstance({
+//     required super.elementProperties,
+//     required super.form,
+//     required super.template,
+//   });
+//
+//   FieldTemplate get template => _template as FieldTemplate;
+//
+//   FieldElementState<T> get elementState =>
+//       _elementState as FieldElementState<T>;
+//
+//   @override
+//   void evaluate(
+//       {String? changedDependency,
+//         bool updateParent = true,
+//         bool emitEvent = true}) {
+//     super.evaluate(updateParent: updateParent, emitEvent: emitEvent);
+//     if (choiceFilter?.expression != null) {
+//       final visibleOptionsUpdate = choiceFilter!.evaluate(evalContext);
+//       logDebug(
+//           'all field options: ${choiceFilter!.options.map((o) => o.name)}');
+//       logDebug(
+//           'only visibleOptionsUpdate: ${visibleOptionsUpdate.map((o) => o.name)}');
+//       final oldState = elementState.copyWith(); // clone
+//       final newState = elementState.resetValueFromVisibleOptions(
+//           visibleOptions: visibleOptionsUpdate);
+//       logDebug(
+//           '$name, option changed: ${oldState.value != newState.value},  ${oldState.value} => ${newState.value}');
+//       updateStatus(newState /* notify: oldState.value != newState.value*/);
+//       elementControl.updateValue(newState.value);
+//     }
+//   }
+// }
 
 //
 // class FieldWithOptionsInstance<T> extends FieldInstance<T> {

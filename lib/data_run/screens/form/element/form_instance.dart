@@ -112,10 +112,11 @@ class FormInstance {
     return itemInstance;
   }
 
-  void onRemoveRepeatedItem(int index, RepeatInstance parent) {
-    parent.removeAt(index);
+  RepeatItemInstance onRemoveRepeatedItem(int index, RepeatInstance parent) {
+    final removedItem = parent.removeAt(index);
     parent.elementControl.removeAt(index);
     parent.evaluate();
+    return removedItem;
   }
 
   RepeatItemInstance? onRemoveLastItem(RepeatInstance parent) {

@@ -68,7 +68,7 @@ class _HomeScreenWidgetState extends ConsumerState<HomeScreen> {
                   title: Text(S.of(context).fetchUpdates),
                   subtitle: lastSyncTime != null
                       ? Text(
-                      sdk.DateUtils.dateTimeFormat().format(lastSyncTime))
+                      sdk.DDateUtils.dateTimeFormat().format(lastSyncTime))
                       : Text(S.of(context).noSyncYet),
                   trailing: Icon(Icons.check_circle, color: userSessionManager.syncDone ? Colors.green : Colors.red),
                   onTap: () {

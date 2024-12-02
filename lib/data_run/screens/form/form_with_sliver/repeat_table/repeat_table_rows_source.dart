@@ -18,6 +18,14 @@ class RepeatTableDataSource extends DataTableSource {
     this.elements.addAll(elements);
   }
 
+  void markEnabled() {
+    if (editable) {
+      return;
+    }
+    editable = true;
+    notifyListeners();
+  }
+
   void removeItem(RepeatItemInstance item) {
     elements.remove(item);
     notifyListeners();
@@ -43,7 +51,7 @@ class RepeatTableDataSource extends DataTableSource {
   final Function(int)? onDelete;
   final Function(int)? onEdit;
   final List<RepeatItemInstance> elements = [];
-  final bool editable;
+  bool editable;
 
   int _selectedCount = 0;
 
@@ -163,7 +171,7 @@ class RepeatTableDataSource extends DataTableSource {
   }
 
   String? modelToViewValue(String? modelValue) {
-    return modelValue == null ? null : sdk.DateUtils.format(modelValue);
+    return modelValue == null ? null : sdk.DDateUtils.format(modelValue);
   }
 
   @override

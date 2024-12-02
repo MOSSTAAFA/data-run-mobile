@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:d2_remote/modules/datarun/form/shared/field_template/field_template.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/field_template/section_template.entity.dart';

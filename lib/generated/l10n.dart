@@ -1304,10 +1304,10 @@ class S {
     );
   }
 
-  /// `MOH, NMCP Yemen`
+  /// `NMCP Yemen`
   String get developer {
     return Intl.message(
-      'MOH, NMCP Yemen',
+      'NMCP Yemen',
       name: 'developer',
       desc: '',
       args: [],

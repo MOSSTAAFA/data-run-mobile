@@ -173,7 +173,7 @@
   "newItem": "إضافة",
   "editItem": "تعديل",
   "unsavedChangesWarning": "تغييرات غير محفوظة",
-  "closeWithoutSaving": "إغلاق دون حفظ؟",
+  "closeWithoutSaving": "إغلاق وحذف؟",
   "atLeastErrorItemMustBeProvided": "يجب إدخال ${error} عنصر على الأقل",
   "scanYourCode": "مسح كود",
   "barcodeQrScan": "Barcode/QR Code"

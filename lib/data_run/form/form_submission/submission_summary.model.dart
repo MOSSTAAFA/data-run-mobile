@@ -7,13 +7,13 @@ class SubmissionItemSummaryModel with EquatableMixin {
       {this.code,
       required this.orgUnit,
       required this.syncStatus,
-      Iterable<dynamic>? formData})
-      : this.formData = IList.orNull(formData) ?? const IList.empty();
+      Map<String, dynamic>? formData})
+      : this.formData = IMap.orNull(formData) ?? const IMap.empty();
 
   final String? code;
   final String orgUnit;
   final SyncStatus syncStatus;
-  final IList<dynamic> formData;
+  final IMap<String, dynamic> formData;
 
   @override
   List<Object?> get props => [code, orgUnit, syncStatus, formData];

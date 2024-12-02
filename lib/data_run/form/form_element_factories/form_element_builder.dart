@@ -1,5 +1,4 @@
 import 'package:d2_remote/modules/datarun/form/shared/field_template/field_template.entity.dart';
-import 'package:d2_remote/modules/datarun/form/shared/field_template/scanned_code_template.dart';
 import 'package:d2_remote/modules/datarun/form/shared/field_template/section_template.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/field_template/template.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule/choice_filter.dart';
@@ -8,7 +7,6 @@ import 'package:d2_remote/modules/datarun/form/shared/template_extensions/form_t
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:datarun/data_run/screens/form/element/form_element.dart';
 import 'package:datarun/data_run/screens/form/element/members/form_element_state.dart';
-import 'package:datarun/data_run/screens/form_module/form/code_generator.dart';
 import 'package:datarun/data_run/screens/form_module/form_template/form_element_template.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 

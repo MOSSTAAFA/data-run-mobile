@@ -1,7 +1,6 @@
 import 'package:d2_remote/modules/datarun/form/shared/field_template/field_template.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/template_extensions/form_traverse_extension.dart';
 import 'package:datarun/core/utils/get_item_local_string.dart';
-import 'package:datarun/data_run/form/form_element/form_element_iterators/form_element_iterator.dart';
 import 'package:datarun/data_run/screens/form/element/form_element.dart';
 import 'package:datarun/data_run/screens/form/element/form_instance.dart';
 import 'package:datarun/data_run/screens/form/element/providers/form_instance.provider.dart';
@@ -55,7 +54,10 @@ class RepeatTableState extends ConsumerState<RepeatTable> {
         .read(
             formInstanceProvider(formMetadata: FormMetadataWidget.of(context)))
         .requireValue;
-    formInstance.onRemoveRepeatedItem(index, _repeatInstance);
+    final removed = formInstance.onRemoveRepeatedItem(index, _repeatInstance);
+    _dataSource.removeItem(removed);
+    _repeatInstance.elementControl.markAsTouched();
+    // formInstance.saveFormData();
   }
 
   @override
@@ -73,9 +75,9 @@ class RepeatTableState extends ConsumerState<RepeatTable> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // if (widget.repeatInstance.hidden) {
-    //   widget.repeatInstance.elementControl.markAsDisabled();
-    // }
+    if (widget.repeatInstance.hidden) {
+      widget.repeatInstance.elementControl.markAsDisabled(emitEvent: false);
+    }
     if (widget.repeatInstance.elements != _repeatInstance.elements) {
       _dataSource.updateItems(_repeatInstance.elements);
     }
@@ -89,27 +91,10 @@ class RepeatTableState extends ConsumerState<RepeatTable> {
         .requireValue;
 
     final List<FormElementTemplate> tableColumns = useMemoized(() {
-      getFormElementIterator<FieldInstance<dynamic>>(_repeatInstance)
-          .where((element) => element.visible)
-          .map((element) => element.template);
       return formInstance.formFlatTemplate
           .getChildrenOfType<FieldElementTemplate>(_repeatInstance.elementPath!)
         ..sort((a, b) => a.order.compareTo(b.order));
     }, [_repeatInstance.elementPath]);
-
-    // final Future<void> Function(int index) onEdit =
-    //     useCallback((int index) async {
-    //   final itemInstance = _dataSource.elements[index];
-    //   await _showEditPanel(context, formInstance, itemInstance, index);
-    // }, [_dataSource, formInstance]);
-    //
-    // final onDelete = useCallback((int index) async {
-    //
-    // }, [formInstance, _repeatInstance]);
-
-    // final tableDataSource = buildTableDataSource(
-    //     context, formInstance, _repeatInstance.elements,
-    //     onEdit: onEdit, onDelete: onDelete);
 
     return Opacity(
       opacity: _dataSource.editable ? 1 : 0.5,
@@ -128,7 +113,10 @@ class RepeatTableState extends ConsumerState<RepeatTable> {
             child: Icon(Icons.add),
           ),
         ],
-        header: Text('${_repeatInstance.label}'),
+        header: Text(
+          '${_repeatInstance.label}',
+          softWrap: true,
+        ),
         rowsPerPage: 5,
         columns: _buildColumns(tableColumns, context,
             editMode: _dataSource.editable),
@@ -159,8 +147,18 @@ class RepeatTableState extends ConsumerState<RepeatTable> {
                   defaultString: fieldTemplate.name)),
               numeric: fieldTemplate.type.isNumeric))
           .toList(),
-      if (editMode) DataColumn(label: Text(S.of(context).edit)),
-      if (editMode) DataColumn(label: Text(S.of(context).delete)),
+      if (editMode)
+        DataColumn(
+            label: Text(
+          S.of(context).edit,
+          softWrap: true,
+        )),
+      if (editMode)
+        DataColumn(
+            label: Text(
+          S.of(context).delete,
+          softWrap: true,
+        )),
     ];
   }
 
@@ -209,8 +207,8 @@ class RepeatTableState extends ConsumerState<RepeatTable> {
               formMetadata: formInstance.formMetadata,
               child: Builder(builder: (context) {
                 String title = repeatItem == null
-                    ? '${S.of(context).newItem}: ${_repeatInstance.template.itemTitle}'
-                    : '${S.of(context).editItem}: ${_repeatInstance.template.itemTitle}';
+                    ? '${S.of(context).newItem}: ${_repeatInstance.template.itemTitle ?? _repeatInstance.label}'
+                    : '${S.of(context).editItem}: ${_repeatInstance.template.itemTitle ?? _repeatInstance.label}';
 
                 // if (repeatItem == null) {
                 //   repeatItem = formInstance.onAddRepeatedItem(_repeatInstance);
@@ -225,6 +223,7 @@ class RepeatTableState extends ConsumerState<RepeatTable> {
                     item: repeatItem,
                     onSave: (formGroup, action) {
                       _repeatInstance.elementControl.markAsTouched();
+                      formInstance.saveFormData();
                       _dataSource.updateItems(_repeatInstance.elements);
                       repeatItem.updateValue(formGroup.value);
                       if (formGroup.valid) {
@@ -260,8 +259,7 @@ class RepeatTableState extends ConsumerState<RepeatTable> {
       Navigator.of(context).pop(); // Close the current dialog
 
       if (action == EditActionType.SAVE_AND_ADD_ANOTHER) {
-        final repeatItem =
-        formInstance.onAddRepeatedItem(_repeatInstance);
+        final repeatItem = formInstance.onAddRepeatedItem(_repeatInstance);
         _dataSource.addItem(repeatItem);
         _showEditPanel(context, formInstance, repeatItem);
       } else if (action == EditActionType.SAVE_AND_CLOSE) {

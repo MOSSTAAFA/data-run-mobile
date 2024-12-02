@@ -29,25 +29,20 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdkVersion flutter.compileSdkVersion
-    ndkVersion flutter.ndkVersion
+    compileSdk 34
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = 21
+        targetCompatibility = 21
+        coreLibraryDesugaringEnabled true
     }
 
-//    namespace = "org.datarun.app"
-//    compileOptions {
-//        sourceCompatibility = JavaVersion.VERSION_1_8
-//        targetCompatibility = JavaVersion.VERSION_1_8
-//    }
+    namespace = "org.datarun.app"
+    kotlinOptions { jvmTarget = "21" }
 
-//    kotlinOptions {
-//        jvmTarget = JavaVersion.VERSION_1_8
-//    }
-    kotlinOptions { jvmTarget = "17" }
-
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
 
     defaultConfig {
         applicationId = "org.datarun.app"
@@ -72,8 +67,12 @@ android {
             signingConfig = signingConfigs.release
         }
     }
+    ndkVersion = "25.1.8937393"
 }
 
 flutter {
     source '../..'
+}
+dependencies {
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.3'
 }

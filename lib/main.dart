@@ -5,7 +5,6 @@ import 'package:d2_remote/modules/datarun_shared/utilities/authenticated_user.da
 import 'package:datarun/commons/prefs/preference_provider.dart';
 import 'package:datarun/core/auth/auth_service.dart';
 import 'package:datarun/core/auth/user_session_manager.dart';
-import 'package:datarun/core/network/connectivy_service.dart';
 import 'package:datarun/data_run/screens/login_screen/auth_wrapper.dart';
 import 'package:datarun/generated/l10n.dart';
 import 'package:datarun/main.reflectable.dart';
@@ -31,7 +30,7 @@ Future<void> main() async {
   // // SDK initialization and repository setup
   // await D2Remote.initialize();
 
-  await ConnectivityService.instance.initialize();
+  // await ConnectivityService.instance.initialize();
 
   FlutterError.demangleStackTrace = (StackTrace stack) {
     if (stack is stack_trace.Trace) {

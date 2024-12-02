@@ -5,11 +5,12 @@ import 'package:datarun/commons/constants.dart';
 import 'package:datarun/commons/errors_management/d_exception_reporter.dart';
 import 'package:datarun/commons/logging/new_app_logging.dart';
 import 'package:datarun/core/auth/user_session_manager.dart';
-import 'package:datarun/core/network/connectivy_service.dart';
 import 'package:datarun/data_run/screens/login_screen/login_page.dart';
 import 'package:datarun/utils/navigator_key.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../network/connectivy_service.dart';
 
 part 'auth_service.g.dart';
 
@@ -27,9 +28,9 @@ class AuthService {
     WidgetsFlutterBinding.ensureInitialized();
     final networkAvailable =
         await ConnectivityService.instance.isNetworkAvailable();
-    final isOnline = await ConnectivityService.instance.isOnline;
+    // final isOnline = await ConnectivityService.instance.isOnline;
 
-    if (!networkAvailable || !isOnline) {
+    if (!networkAvailable/* || !isOnline*/) {
       return await _attemptNetworkAuthentication();
     } else {
       /// Allow offline access with valid session

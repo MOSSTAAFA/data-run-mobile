@@ -1,9 +1,11 @@
 import 'package:d2_remote/modules/datarun/form/entities/data_form_submission.entity.dart';
-import 'package:d2_remote/modules/datarun/form/entities/form_template.entity.dart';
-import 'package:d2_remote/modules/datarun/form/entities/form_version.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/field_template/field_template.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/field_template/section_template.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/field_template/template.dart';
+import 'package:datarun/commons/logging/new_app_logging.dart';
+import 'package:datarun/core/utils/get_item_local_string.dart';
+import 'package:datarun/data_run/form/form_template/field_template_traverse.extension.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:datarun/data_run/form/form_submission/submission_list.provider.dart';
@@ -55,7 +57,8 @@ class SubmissionInfoState extends ConsumerState<SubmissionInfo> {
             const SizedBox(height: 4),
             Text(
               'V${widget.submissionEntity.version}',
-              style: Theme.of(context).textTheme.labelSmall,
+              style: Theme.of(context).textTheme.bodySmall,
+              softWrap: true,
             ),
           ],
         ),
@@ -84,7 +87,8 @@ class SubmissionInfoState extends ConsumerState<SubmissionInfo> {
                 style: Theme.of(context).textTheme.labelSmall,
               ),
             Text(
-              submissionSummary.formData.join(', '),
+              generateFormSummary(
+                  submissionSummary.formData.unlockView, widget.rootSection),
               style: Theme.of(context).textTheme.labelMedium,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
@@ -157,6 +161,23 @@ class SubmissionInfoState extends ConsumerState<SubmissionInfo> {
     final mainValues = extractValues(fields, rootSection.fields.unlockView,
         criteria: (t) => t is FieldTemplate && t.mainField == true);
 
+    final flatFormValue = flattenValueMap(fields);
+
+    final flatTemplate =
+        getDfsTemplateIterator(rootSection).where((t) => t.mainField);
+    Map<String, dynamic> labelsMap = Map.fromIterable(flatTemplate,
+        key: (t) => t.path,
+        value: (t) =>
+            getItemLocalString((t.label as IMap<String, String>).unlockView));
+
+    final labelsValueMap = labelsMap.entries
+        .map((e) => '${e.value}, ${flatFormValue[e.key]}')
+        .toList();
+
+    logDebug('flatFormValue: ${flatFormValue}');
+    logDebug('labelsMap: ${labelsMap}');
+    logDebug('labelsValueMap: ${labelsValueMap}');
+
     final String fieldSummary =
         // fields.entries
         //     .where((MapEntry<String, dynamic> entry) =>
@@ -166,7 +187,7 @@ class SubmissionInfoState extends ConsumerState<SubmissionInfo> {
         //         !syncableVariable.contains(entry.key))
         //     .take(itemsToTake)
         //     .map((MapEntry<String, dynamic> entry) => '${entry.key}: ${entry.value}')
-        mainValues.join(', ');
+        labelsValueMap.join(', ');
 
     return fieldSummary.isNotEmpty ? fieldSummary : 'No additional data';
   }
@@ -198,6 +219,31 @@ class SubmissionInfoState extends ConsumerState<SubmissionInfo> {
 //   'form',
 //   'formData',
 // ];
+
+Map<String, dynamic> flattenValueMap(Map<String, dynamic> formValue,
+    {String prefix = ''}) {
+  Map<String, dynamic> flatMap = {};
+
+  formValue.forEach((key, value) {
+    String newKey = prefix.isEmpty ? key : '$prefix.$key';
+
+    if (value is Map<String, dynamic>) {
+      // If the value is a map, recursively flatten it
+      flatMap.addAll(flattenValueMap(value, prefix: newKey));
+    } else if (value is List) {
+      // If the value is a list, iterate through each item and flatten
+      for (int i = 0; i < value.length; i++) {
+        flatMap.addAll(
+            flattenValueMap({i.toString(): value[i]}, prefix: '$newKey.$i'));
+      }
+    } else {
+      // Otherwise, it's a leaf node (error value), add it to the flatMap
+      flatMap[newKey] = value;
+    }
+  });
+
+  return flatMap;
+}
 
 List<dynamic> extractValues(
   Map<String, dynamic> formValues,

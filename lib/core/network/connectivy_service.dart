@@ -16,27 +16,33 @@ class ConnectivityService {
   Stream<bool> get connectivityStatusStream =>
       _connectivityStatusController.stream;
 
-  ConnectivityResult _lastConnectivityCheckResult = ConnectivityResult.none;
+  List<ConnectivityResult> _lastConnectivityCheckResult = [ConnectivityResult.none];
 
-  bool _isOnline = false;
+  // bool _isOnline = false;
 
-  bool get isOnline =>
-      _lastConnectivityCheckResult != ConnectivityResult.none && _isOnline;
+  // bool get isOnline =>
+  //     _lastConnectivityCheckResult != ConnectivityResult.none && _isOnline;
 
-  Future<void> initialize() {
-    // logDebug('initializing: ', data: {'runtimeType': this.runtimeType});
-    Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
-      if (result != _lastConnectivityCheckResult) {
-        _checkInternetConnection();
-        _lastConnectivityCheckResult = result;
-      }
-    });
-    return _checkInternetConnection();
-  }
+  // Future<void> initialize() {
+  //   // logDebug('initializing: ', data: {'runtimeType': this.runtimeType});
+  //   StreamSubscription<List<ConnectivityResult>> subscription = Connectivity()
+  //       .onConnectivityChanged
+  //       .listen((List<ConnectivityResult> result) {
+  //     // Received changes in available connectivity types!
+  //   });
+  //
+  //   Connectivity().onConnectivityChanged.listen((result) {
+  //     if (result != _lastConnectivityCheckResult) {
+  //       // _checkInternetConnection();
+  //       _lastConnectivityCheckResult = result;
+  //     }
+  //   });
+  //   return _checkInternetConnection();
+  // }
 
   Future<bool> isNetworkAvailable() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult == ConnectivityResult.none) {
+    if (connectivityResult.contains(ConnectivityResult.none)) {
       return false;
     }
 
@@ -44,29 +50,31 @@ class ConnectivityService {
         connectivityResult == ConnectivityResult.mobile;
   }
 
-  Future<bool> _checkInternetConnection() async {
-    try {
-      logDebug('checkInternetConnection: ping https://google.com ...', data: {'runtimeType': this.runtimeType});
-      final response = await http
-          .get(Uri.parse('https://google.com'))
-          .timeout(Duration(seconds: 5));
-      if (response.statusCode == 200) {
-        logDebug('Device is online!', data: {'runtimeType': this.runtimeType});
-        _isOnline = true;
-        _connectivityStatusController.add(true);
-      } else {
-        logDebug('Device is offline!', data: {'runtimeType': this.runtimeType});
-        _isOnline = false;
-        _connectivityStatusController.add(false);
-      }
-    } catch (_) {
-      logDebug('Error checking internet Access, setting the status to offline!', data: {'runtimeType': this.runtimeType});
-      _isOnline = false;
-      _connectivityStatusController.add(false);
-    }
-
-    return _isOnline;
-  }
+  // Future<bool> _checkInternetConnection() async {
+  //   try {
+  //     logDebug('checkInternetConnection: ping https://google.com ...',
+  //         data: {'runtimeType': this.runtimeType});
+  //     final response = await http
+  //         .get(Uri.parse('https://google.com'))
+  //         .timeout(Duration(seconds: 5));
+  //     if (response.statusCode == 200) {
+  //       logDebug('Device is online!', data: {'runtimeType': this.runtimeType});
+  //       _isOnline = true;
+  //       _connectivityStatusController.add(true);
+  //     } else {
+  //       logDebug('Device is offline!', data: {'runtimeType': this.runtimeType});
+  //       _isOnline = false;
+  //       _connectivityStatusController.add(false);
+  //     }
+  //   } catch (_) {
+  //     logDebug('Error checking internet Access, setting the status to offline!',
+  //         data: {'runtimeType': this.runtimeType});
+  //     _isOnline = false;
+  //     _connectivityStatusController.add(false);
+  //   }
+  //
+  //   return _isOnline;
+  // }
 
   void dispose() {
     _connectivityStatusController.close();

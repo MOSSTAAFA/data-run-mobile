@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:d2_remote/d2_remote.dart';
-import 'package:d2_remote/modules/datarun/form/shared/field_template/field_template.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/field_template/section_template.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:datarun/data_run/screens/form/element/form_element.dart';

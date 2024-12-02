@@ -10,14 +10,14 @@ import 'package:d2_remote/modules/datarun/form/shared/rule/rule_parse_extension.
 import 'package:d2_remote/modules/datarun/form/shared/template_extensions/form_traverse_extension.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:datarun/commons/logging/new_app_logging.dart';
-import 'package:datarun/data_run/form/form_template/field_template_traverse.extension.dart';
-import 'package:datarun/data_run/screens/form/element/form_instance.dart';
 import 'package:datarun/data_run/screens/form_module/form/code_generator.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:datarun/data_run/screens/form/element/exceptions/form_element_exception.dart';
 import 'package:datarun/data_run/screens/form/element/extension/rule.extension.dart';
 import 'package:datarun/data_run/screens/form/element/members/form_element_state.dart';
 import 'package:datarun/core/utils/get_item_local_string.dart';
+import 'package:gs1_barcode_parser/gs1_barcode_parser.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:rxdart/rxdart.dart';
@@ -34,6 +34,10 @@ part 'section_element.dart';
 
 part 'section_instance.dart';
 
+// part '../../../form/scanned_code/repeat_scan_instance.dart';
+
+part '../../../form/scanned_code/gs1_scanned_item.dart';
+
 typedef ElementControl<T> = AbstractControl<T>? Function(String path);
 
 sealed class FormElementInstance<T> {
@@ -49,7 +53,8 @@ sealed class FormElementInstance<T> {
       {required this.form,
       required Template template,
       required FormElementState elementState})
-      : _elementState = elementState, _template = template;
+      : _elementState = elementState,
+        _template = template;
 
   final Template _template;
 

@@ -1,16 +1,11 @@
 import 'package:datarun/data_run/screens/form/element/form_element.dart';
 import 'package:datarun/data_run/screens/form/element_widgets/field.widget.dart';
-import 'package:datarun/data_run/screens/form/form_with_sliver/repeat_table.widget.dart';
-import 'package:datarun/data_run/screens/form/form_with_sliver/repeat_table_view.dart';
+import 'package:datarun/data_run/screens/form/form_with_sliver/repeat_table/repeat_table_sliver.dart';
 import 'package:datarun/data_run/screens/form/form_with_sliver/section.widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:datarun/data_run/screens/form/element/providers/form_instance.provider.dart';
 import 'package:datarun/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:reactive_forms/reactive_forms.dart';
 
 class FormInstanceEntryViewSliver extends HookConsumerWidget {
   const FormInstanceEntryViewSliver({
@@ -48,31 +43,9 @@ class FormInstanceEntryViewSliver extends HookConsumerWidget {
           element: element,
         );
       } else if (element is RepeatInstance) {
-        return SliverStickyHeader(
-          header: Container(
-            color: Colors.black45,
-            padding: EdgeInsets.all(16),
-            child: Row(children: [
-              Icon(MdiIcons.table),
-              Expanded(
-                child: Text(element.label,
-                    style: TextStyle(
-                        color: Colors.white, overflow: TextOverflow.fade)),
-              )
-            ]),
-          ),
-          sliver: SliverToBoxAdapter(
-            child: ReactiveFormArray(
-              formArray: element.elementControl,
-              builder: (BuildContext context,
-                      FormArray<Map<String, Object?>> formArray,
-                      Widget? child) =>
-                  RepeatTable(
-                key: Key(element.elementPath!),
-                repeatInstance: element,
-              ),
-            ),
-          ),
+        return RepeatTableSliver(
+          key: Key('${element.elementPath!}_RepeatTableSliver'),
+          repeatInstance: element,
         );
       } else if (element is FieldInstance) {
         return SliverToBoxAdapter(
@@ -132,33 +105,34 @@ class FormInstanceEntryViewSliver extends HookConsumerWidget {
 // }
 }
 
-class SectionHeader extends HookConsumerWidget {
-  const SectionHeader({super.key, required this.element});
-
-  final FormElementInstance<dynamic> element;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final elementPropertiesSnapshot = useStream(element.propertiesChanged);
-    if (!elementPropertiesSnapshot.hasData) {
-      return const CircularProgressIndicator();
-    }
-
-    if (element is FieldInstance) {
-      return SizedBox.shrink();
-    }
-
-    return Container(
-      height: 40.0,
-      color: elementPropertiesSnapshot.data!.errors.isNotEmpty
-          ? Colors.deepOrange
-          : Theme.of(context).primaryColor,
-      padding: EdgeInsets.symmetric(horizontal: 16.0),
-      alignment: Alignment.centerRight,
-      child: Text(
-        element.label,
-        style: TextStyle(color: Colors.white),
-      ),
-    );
-  }
-}
+//
+// class SectionHeader extends HookConsumerWidget {
+//   const SectionHeader({super.key, required this.element});
+//
+//   final FormElementInstance<dynamic> element;
+//
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final elementPropertiesSnapshot = useStream(element.propertiesChanged);
+//     if (!elementPropertiesSnapshot.hasData) {
+//       return const CircularProgressIndicator();
+//     }
+//
+//     if (element is FieldInstance) {
+//       return SizedBox.shrink();
+//     }
+//
+//     return Container(
+//       height: 40.0,
+//       color: elementPropertiesSnapshot.data!.errors.isNotEmpty
+//           ? Colors.deepOrange
+//           : Theme.of(context).primaryColor,
+//       padding: EdgeInsets.symmetric(horizontal: 16.0),
+//       alignment: Alignment.centerRight,
+//       child: Text(
+//         element.label,
+//         style: TextStyle(color: Colors.white),
+//       ),
+//     );
+//   }
+// }

@@ -1,12 +1,10 @@
 import 'package:datarun/data_run/screens/form/element/form_element.dart';
 import 'package:datarun/data_run/screens/form/element_widgets/field.widget.dart';
-import 'package:datarun/data_run/screens/form/form_with_sliver/repeat_table.widget.dart';
-import 'package:datarun/data_run/screens/form/form_with_sliver/repeat_table_view.dart';
+import 'package:datarun/data_run/screens/form/form_with_sliver/repeat_table/repeat_table_sliver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 class SectionWidget extends HookConsumerWidget {
@@ -56,28 +54,9 @@ class SectionWidget extends HookConsumerWidget {
           headerColor: Colors.orange.shade600,
         );
       } else if (element is RepeatInstance) {
-        return SliverStickyHeader(
-          header: Container(
-            color: Colors.blue,
-            padding: EdgeInsets.all(16),
-            child: Row(children: [
-              const Icon(MdiIcons.fileExcel),
-              Text(element.label,
-                  style: TextStyle(
-                      color: Colors.white, overflow: TextOverflow.fade)),
-              Expanded(
-                child: Text(element.label,
-                    style: TextStyle(
-                        color: Colors.white, overflow: TextOverflow.fade)),
-              )
-            ]),
-          ),
-          sliver: SliverToBoxAdapter(
-            child: RepeatTable(
-              key: Key(element.elementPath!),
-              repeatInstance: element,
-            ),
-          ),
+        return RepeatTableSliver(
+          key: Key('${element.elementPath!}_RepeatTableSliver'),
+          repeatInstance: element,
         );
       } else if (element is FieldInstance) {
         return SliverToBoxAdapter(

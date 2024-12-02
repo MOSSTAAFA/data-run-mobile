@@ -1,9 +1,10 @@
 // import 'package:flutter/material.dart';
+// import 'package:qr_code_scanner/qr_code_scanner.dart';
 //
-// class LiveScanner extends StatelessWidget {
+// class BarcodeLiveScanner extends StatelessWidget {
 //   final Function(String) onCodeScanned;
 //
-//   LiveScanner({required this.onCodeScanned});
+//   BarcodeLiveScanner({required this.onCodeScanned});
 //
 //   @override
 //   Widget build(BuildContext context) {

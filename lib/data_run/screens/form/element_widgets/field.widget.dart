@@ -32,7 +32,7 @@ class FieldWidget extends HookConsumerWidget {
     }, [control]);
 
     if (!elementPropertiesSnapshot.hasData) {
-      return CircularProgressIndicator();
+      return SizedBox.shrink();
     }
 
     if (elementPropertiesSnapshot.data!.hidden) {

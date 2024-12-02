@@ -3,7 +3,6 @@ import 'package:d2_remote/modules/datarun/form/shared/field_template/section_tem
 import 'package:d2_remote/modules/datarun/form/shared/field_template/template.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule/rule_parse_extension.dart';
 import 'package:d2_remote/modules/datarun/form/shared/template_extensions/form_traverse_extension.dart';
-import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:datarun/data_run/screens/form_module/form_template/form_element_template.dart';
 
 class FlatTemplateFactory {

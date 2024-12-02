@@ -26,14 +26,13 @@ dependencies:
   equatable: ^2.0.5
   intl: ^0.19.0
   shared_preferences: ^2.0.15
-  dio: ^5.0.0
+#  dio: ^5.0.0
   reflectable: ^4.0.5
   freezed: ^2.5.2
   freezed_annotation: ^2.4.1
   percent_indicator: ^4.2.3
   reactive_forms: ^17.0.1
   uuid: ^4.5.0
-  device_info_plus: ^10.1.2
   flutter_riverpod: 3.0.0-dev.3
   hooks_riverpod: 3.0.0-dev.3
   riverpod_annotation: 3.0.0-dev.3
@@ -43,29 +42,15 @@ dependencies:
   expressions: ^0.2.3
   flutter_sticky_header: ^0.7.0
   collection: ^1.18.0
-  connectivity_plus: ^2.1.0
-  flutter_barcode_scanner: ^2.0.0
+#  connectivity_plus: ^2.1.0
+#  flutter_barcode_scanner: ^2.0.0
   reactive_dropdown_search: ^4.0.0
   sliver_tools: ^0.2.12
   flutter_fancy_tree_view: ^1.6.0
-#  reactive_forms_annotations:
-#  reactive_date_time_picker: ^4.0.0
-#  flutter_form_builder: ^9.3.0
-#  web: ^1.0.0
-#  toggle_switch: ^2.3.0
-#  scrollable: ^1.0.5
-#  expression_language: ^1.0.1
-#  form_builder_validators: ^10.0.1
-#  scrollable_positioned_list: ^0.3.8
-#  rounded_loading_button_plus: ^3.0.1
-#  animated_tree_view: ^2.2.1
-#  flutter_tree: ^2.0.3
-#  petitparser: ^4.0.0
-#  logger: ^2.4.0
-#  json_path: ^0.3.1
-#  flutter_treeview: ^1.0.7+1
-#  easy_sticky_header: ^1.1.1
   gs1_barcode_parser: ^1.1.0
+  qr_code_scanner: ^1.0.0
+  device_info_plus: ^11.1.1
+  connectivity_plus: ^6.1.0
 #  sentry_flutter: ^8.3.0
 
 dev_dependencies:

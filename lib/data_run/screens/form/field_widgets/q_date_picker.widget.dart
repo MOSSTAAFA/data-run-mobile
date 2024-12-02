@@ -50,7 +50,7 @@ class QDateTimeValueAccessor<T> extends ControlValueAccessor<String, String> {
   /// Converts value from UI data type to [control] data type.
   @override
   String? modelToViewValue(String? modelValue) {
-    return modelValue == null ? null : sdk.DateUtils.format(modelValue);
+    return modelValue == null ? null : sdk.DDateUtils.format(modelValue);
   }
 
   /// Returns the value that must be supplied to the UI widget.
@@ -58,6 +58,6 @@ class QDateTimeValueAccessor<T> extends ControlValueAccessor<String, String> {
   /// Converts value from [control] data type to UI data type.
   @override
   String? viewToModelValue(String? viewValue) {
-    return viewValue == null ? null : sdk.DateUtils.formatForDb(viewValue);
+    return viewValue == null ? null : sdk.DDateUtils.formatForDb(viewValue);
   }
 }

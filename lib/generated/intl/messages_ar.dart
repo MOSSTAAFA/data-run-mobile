@@ -73,7 +73,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "checkFieldsLater": MessageLookupByLibrary.simpleMessage("ليس الآن"),
         "clear": MessageLookupByLibrary.simpleMessage("تصفية"),
         "closeWithoutSaving":
-            MessageLookupByLibrary.simpleMessage("إغلاق دون حفظ؟"),
+            MessageLookupByLibrary.simpleMessage("إغلاق وحذف؟"),
         "configurationReady":
             MessageLookupByLibrary.simpleMessage("اكتملت تهيئة التطبيق"),
         "confirm": MessageLookupByLibrary.simpleMessage("تأكيد"),

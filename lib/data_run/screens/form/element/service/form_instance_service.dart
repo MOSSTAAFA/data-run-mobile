@@ -47,7 +47,7 @@ class FormInstanceService {
       switch (attributeType) {
         AttributeType.uuid => initialValue ?? _uuid,
         AttributeType.today => initialValue ??
-            DateUtils.databaseDateFormat().format(DateTime.now().toUtc()),
+            DDateUtils.databaseDateFormat().format(DateTime.now().toUtc()),
         AttributeType.username =>
           initialValue ?? await getUserAttribute(AttributeType.username),
         AttributeType.phoneNumber =>

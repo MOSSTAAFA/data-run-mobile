@@ -67,16 +67,16 @@ class BarcodeValidator {
 }
 
 void scanBarcode() async {
-  String barcodeScanRes = ']C102076402178117593750\u001d1124070010104724';
-  String barcodeScanRes2 =
+  String code1 = ']C102076402178117593750\u001d1124070010104724';
+  String code2 =
       '\u001d01076402178117591124070010104724\u001d21E6DAF62C0';
 
   final String barcode =
       ']C101040123456789011715012910ABC1233932971471131030005253922471142127649716';
   final parser = GS1BarcodeParser.defaultParser();
   final result = parser.parse(barcode);
-  final result1 = parser.parse(barcodeScanRes);
-  final GS1Barcode result2 = parser.parse(barcodeScanRes2);
+  final result1 = parser.parse(code1);
+  final GS1Barcode result2 = parser.parse(code2);
 
   /// data = {
   // 01 (GTIN): 07640217811759,
