@@ -14,9 +14,12 @@ class RepeatTableDataSource extends DataTableSource {
       {this.onDelete,
       this.onEdit,
       this.editable = true,
+        // required this.colsLength,
       List<RepeatItemInstance> elements = const []}) {
     this.elements.addAll(elements);
   }
+
+  // int colsLength;
 
   void markEnabled() {
     if (editable) {

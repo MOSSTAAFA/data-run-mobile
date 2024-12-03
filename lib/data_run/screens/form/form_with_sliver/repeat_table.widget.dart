@@ -38,6 +38,8 @@ class RepeatTableState extends ConsumerState<RepeatTable> {
   late final RepeatTableDataSource _dataSource;
   late final RepeatInstance _repeatInstance;
 
+  // late final int tableColumnsLength;
+
   // late final FormInstance formInstance;
 
   Future<void> onEdit(int index) async {
@@ -142,10 +144,12 @@ class RepeatTableState extends ConsumerState<RepeatTable> {
     return [
       const DataColumn(label: Text('#')),
       ...tableColumns
-          .map((fieldTemplate) => DataColumn(
-              label: Text(getItemLocalString(fieldTemplate.label,
-                  defaultString: fieldTemplate.name)),
-              numeric: fieldTemplate.type.isNumeric))
+          .asMap()
+          .entries
+          .map((e) => DataColumn(
+              label: Text(
+                  '${getItemLocalString(e.value.label, defaultString: e.value.name)}'),
+              numeric: e.value.type.isNumeric))
           .toList(),
       if (editMode)
         DataColumn(

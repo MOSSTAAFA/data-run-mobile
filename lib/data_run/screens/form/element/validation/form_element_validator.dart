@@ -5,9 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 class FieldValidators {
-  static List<Validator<dynamic>> getValidators(ElementAttributesMixin element) {
+  static String ArReg1 =
+      r'^[\u0621-\u064A]{2,}[ ]{1}[\u0621-\u064A]{2,}[ ]{1}[\u0621-\u064A]{2,}[ ]{1}[\u0621-\u064A]{2,}[ ]{0,1}[\u0621-\u064A]{0,}[ ]{0,1}$';
+  static String ArReg2 = r'^([\u0621-\u064A]+\s){3}[\u0621-\u064A]+$';
+
+  static List<Validator<dynamic>> getValidators(
+      ElementAttributesMixin element) {
     Set<Validator<dynamic>> validators = Set();
 
+    if (element.type == ValueType.FullName)
+      validators.add(Validators.pattern(ArReg1));
     if (element.mandatory) validators.add(Validators.required);
     if (element.type == ValueType.Email) validators.add(Validators.email);
     if (element.type == ValueType.Age)
@@ -30,8 +37,10 @@ class FieldValidators {
       ElementAttributesMixin element) {
     final Map<String, String Function(Object error)> messages = {};
 
-    if (element.mandatory) messages['required'] = (error) => 'This field is mandatory.';
-    if (element.type == ValueType.Email) messages['email'] = (error) => 'Invalid email format.';
+    if (element.mandatory)
+      messages['required'] = (error) => 'This field is mandatory.';
+    if (element.type == ValueType.Email)
+      messages['email'] = (error) => 'Invalid email format.';
     if (element.type == ValueType.Age) {
       messages['number'] = (error) => 'Age must be a valid number.';
       messages['min'] = (error) => 'Age cannot be negative.';
@@ -59,12 +68,13 @@ class FieldValidators {
   }
 }
 
-
-Map<String, ValidationMessageFunction> validationMessages(BuildContext context) => {
-  'required': (error) => S.current.thisFieldIsRequired,
-  'email': (error) => S.current.pleaseEnterAValidEmailAddress,
-  'number': (error) => S.current.enterAValidNumber,
-  'min': (error) => S.current.valueMustBeGreaterThanOrEqualToError(error),
-  'max': (error) => S.current.valueMustBeLessThanOrEqualToError(error),
-  'maxLength': (error) => S.current.maximumAllowedLengthIsError(error),
-};
+Map<String, ValidationMessageFunction> validationMessages(
+        BuildContext context) =>
+    {
+      'required': (error) => S.current.thisFieldIsRequired,
+      'email': (error) => S.current.pleaseEnterAValidEmailAddress,
+      'number': (error) => S.current.enterAValidNumber,
+      'min': (error) => S.current.valueMustBeGreaterThanOrEqualToError(error),
+      'max': (error) => S.current.valueMustBeLessThanOrEqualToError(error),
+      'maxLength': (error) => S.current.maximumAllowedLengthIsError(error),
+    };

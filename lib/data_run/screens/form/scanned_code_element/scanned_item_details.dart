@@ -7,9 +7,15 @@ class ScannedItemDetailsWidget extends StatelessWidget {
   const ScannedItemDetailsWidget({
     Key? key,
     required this.itemForm,
+    required this.onAddItem,
+    required this.onCancel,
+    required this.onRescan,
   }) : super(key: key);
 
   final FormGroup itemForm;
+  final VoidCallback onAddItem;
+  final VoidCallback onCancel;
+  final VoidCallback onRescan;
 
   @override
   Widget build(BuildContext context) {
@@ -28,18 +34,28 @@ class ScannedItemDetailsWidget extends StatelessWidget {
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ),
-              ListTile(
-                title: Text('GTIN: ${control.value?.gtin ?? '-'}'),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                        'Production Date: ${control.value?.productionDate != null ? DateFormat('yyyy-MM-dd').format(control.value!.productionDate!) : '-'}'),
-                    Text('Batch/Lot: ${control.value?.batchLot ?? '-'}'),
-                    Text('Serial: ${control.value?.serialNumber ?? '-'}'),
-                    Text(
-                        'Type: ${control.value?.isBundle != null ? control.value!.isBundle ? 'Bundle' : 'Single Item' : '-'}'),
-                  ],
+              const Divider(),
+              const SizedBox(height: 10),
+              Flexible(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      ListTile(
+                        title: Text('GTIN: ${control.value?.gtin ?? '-'}'),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                                'Production Date: ${control.value?.productionDate != null ? DateFormat('yyyy-MM-dd').format(control.value!.productionDate!) : '-'}'),
+                            Text('Batch/Lot: ${control.value?.batchLot ?? '-'}'),
+                            Text('Serial: ${control.value?.serialNumber ?? '-'}'),
+                            Text(
+                                'Type: ${control.value?.isBundle != null ? control.value!.isBundle ? 'Bundle' : 'Single Item' : '-'}'),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               Padding(
@@ -60,6 +76,22 @@ class ScannedItemDetailsWidget extends StatelessWidget {
                     ),
                   ],
                 ),
+              ),
+              OverflowBar(
+                children: [
+                  ElevatedButton(
+                    onPressed: onAddItem,
+                    child: Text('Add Item'),
+                  ),
+                  TextButton(
+                    onPressed: onCancel,
+                    child: Text('Cancel'),
+                  ),
+                  TextButton(
+                    onPressed: onRescan,
+                    child: Text('Rescan'),
+                  ),
+                ],
               ),
             ],
           );

@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:http/http.dart' as http;
-import 'package:datarun/commons/logging/new_app_logging.dart';
 
 class ConnectivityService {
   static final ConnectivityService _instance = ConnectivityService._internal();
@@ -46,8 +44,9 @@ class ConnectivityService {
       return false;
     }
 
-    return connectivityResult == ConnectivityResult.wifi ||
-        connectivityResult == ConnectivityResult.mobile;
+   final result = connectivityResult.contains(ConnectivityResult.wifi) ||
+        connectivityResult.contains(ConnectivityResult.mobile);
+    return result;
   }
 
   // Future<bool> _checkInternetConnection() async {

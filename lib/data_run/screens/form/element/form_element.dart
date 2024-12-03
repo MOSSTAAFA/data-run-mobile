@@ -19,7 +19,6 @@ import 'package:datarun/data_run/screens/form/element/members/form_element_state
 import 'package:datarun/core/utils/get_item_local_string.dart';
 import 'package:gs1_barcode_parser/gs1_barcode_parser.dart';
 import 'package:reactive_forms/reactive_forms.dart';
-import 'package:reactive_forms/reactive_forms.dart';
 import 'package:rxdart/rxdart.dart';
 
 part 'extension/element_dependency.extension.dart';
@@ -33,8 +32,6 @@ part 'repeat_item_instance.dart';
 part 'section_element.dart';
 
 part 'section_instance.dart';
-
-// part '../../../form/scanned_code/repeat_scan_instance.dart';
 
 part '../../../form/scanned_code/gs1_scanned_item.dart';
 

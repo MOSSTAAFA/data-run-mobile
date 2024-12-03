@@ -47,8 +47,11 @@ dependencies:
   gs1_barcode_parser: ^1.1.0
   device_info_plus: ^11.1.1
   connectivity_plus: ^6.1.0
-  mobile_scanner: ^6.0.2
+#  mobile_scanner: ^6.0.2
   image_picker: ^1.1.2
+  sentry_flutter: ^8.10.1
+  flutter_barcode_scanner: ^2.0.0
+
 #  sentry_flutter: ^8.3.0
 
 dev_dependencies:

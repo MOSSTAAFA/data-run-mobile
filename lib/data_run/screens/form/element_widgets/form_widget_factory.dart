@@ -1,5 +1,6 @@
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:datarun/data_run/screens/form/element_widgets/popup_section.widget.dart';
+import 'package:datarun/data_run/screens/form/field_widgets/q_barcode_reader_field.dart';
 import 'package:datarun/data_run/screens/form/form_with_sliver/repeat_table.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:datarun/data_run/screens/form/field_widgets/reactive_choice_single_select_chip.widget.dart';
@@ -75,8 +76,8 @@ class FieldFactory {
         return QDropDownMultiSelectWithSearchField(
             element: element as FieldInstance<List<String>>);
       case ValueType.ScannedCode:
-        return QTextTypeField(element: element);
-        // return QBarcodeReaderField(element: element as FieldInstance<String>);
+        // return QTextTypeField(element: element);
+        return QBarcodeReaderField(element: element as FieldInstance<String>);
       case ValueType.Reference:
         return const SizedBox.shrink();
       default:

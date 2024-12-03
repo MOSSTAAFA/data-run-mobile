@@ -56,9 +56,9 @@ class Gs1ScannedItem with EquatableMixin {
   /// Utility method to display key information
   String getDetails() {
     if (isBundle) {
-      return 'Bundle of $count items (GTIN: $gtin, Batch: $batchLot, Production Date: $productionDate), Available AIs: ${AIs}';
+      return 'GTIN: ${gtin}, Batch: ${batchLot}, Production Date: ${productionDate}) | ${count} items';
     } else if (isSingleItem) {
-      return 'Single item (GTIN: $gtin, Serial: $serialNumber, Batch: $batchLot, Production Date: $productionDate), Available AIs: ${AIs}';
+      return 'GTIN: ${gtin}, Serial: ${serialNumber}, Batch: ${batchLot}, Production Date: ${productionDate}) | ${count} item';
     } else {
       return 'Unknown type';
     }
