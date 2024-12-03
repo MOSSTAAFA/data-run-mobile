@@ -5,70 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0bd49654-43fa-4aeb-aa7f-ff0751ad4742" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../lib/core/auth/connectivity_test.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../lib/data_run/form/scanned_code/barcode_model_.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../lib/data_run/form/scanned_code/gs1_scanned_item.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../lib/data_run/form/scanned_code/gs1_scanned_item_model.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../lib/data_run/form/scanned_code/qr_view_example.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../lib/data_run/form/scanned_code/repeat_scan_instance.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../lib/data_run/form/scanned_code/scanned_items_notifier.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/field_widgets/code_scanner/reactive_gs1_code_scan_details.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/form_with_sliver/repeat_table/repeat_table_sliver.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/appInsightsSettings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/appInsightsSettings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/migrations.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/migrations.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data-run-sdk" beforeDir="false" afterPath="$PROJECT_DIR$/../data-run-sdk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/commons/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/commons/constants.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/commons/custom_widgets/barcode_scan_field.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/commons/custom_widgets/barcode_scan_field.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/commons/extensions/string_extension.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/commons/extensions/string_extension.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/core/auth/auth_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/core/auth/auth_service.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/core/network/connectivy_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/core/network/connectivy_service.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/data_run/form/form_element_factories/form_element_builder.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/form/form_element_factories/form_element_builder.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/data_run/form/form_element_factories/form_element_control_builder.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/form/form_element_factories/form_element_control_builder.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/data_run/form/form_submission/submission_list.provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/form/form_submission/submission_list.provider.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../lib/data_run/form/form_submission/submission_list.provider.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/form/form_submission/submission_list.provider.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/data_run/form/form_submission/submission_summary.model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/form/form_submission/submission_summary.model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/data_run/form/shared/form_configuration.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/form/shared/form_configuration.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/element/field_instance.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/element/field_instance.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/element/form_element.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/element/form_element.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/element/form_instance.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/element/form_instance.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/element/providers/form_instance.provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/element/providers/form_instance.provider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/element/providers/form_instance.provider.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/element/providers/form_instance.provider.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/element/scanned_code_element.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/form/scanned_code/scanned_code_element.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/element/service/form_instance_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/element/service/form_instance_service.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/element/validator/scan_validator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/form/scanned_code/scan_validator.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/element_widgets/field.widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/element_widgets/field.widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/element_widgets/form_widget_factory.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/element_widgets/form_widget_factory.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/element_widgets/scanned_items_table.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/element_widgets/scanned_items_table.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/field_widgets/code_scanner/live_scanner.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/field_widgets/code_scanner/live_scanner.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/field_widgets/code_scanner/reactive_code_scan_field.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/field_widgets/code_scanner/reactive_code_scan_field.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/field_widgets/code_scanner/test_parsing.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/form/scanned_code/test_parsing.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/field_widgets/q_barcode_reader_field.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/field_widgets/q_barcode_reader_field.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/field_widgets/q_date_picker.widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/field_widgets/q_date_picker.widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/form_with_sliver/form_entry_view_silver.widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/form_with_sliver/form_entry_view_silver.widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/form_with_sliver/repeat_table.widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/form_with_sliver/repeat_table.widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/form_with_sliver/repeat_table/repeat_table_rows_source.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/form_with_sliver/repeat_table/repeat_table_rows_source.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/form_with_sliver/section.widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/form_with_sliver/section.widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form_module/form_template/flat_template_factory.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form_module/form_template/flat_template_factory.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form_submission_list/submission_info.widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form_submission_list/submission_info.widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form_submission_list/submission_list_screen.widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form_submission_list/submission_list_screen.widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/home_screen/drawer/about_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/home_screen/drawer/about_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/home_screen/home_screen.widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/home_screen/home_screen.widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/generated/intl/messages_ar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/generated/intl/messages_ar.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/generated/intl/messages_en.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/generated/intl/messages_en.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/generated/l10n.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/generated/l10n.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/l10n/intl_ar.arb" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/l10n/intl_ar.arb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/l10n/intl_en.arb" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/l10n/intl_en.arb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/utils/mass_utils/formatting.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/utils/mass_utils/formatting.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../pubspec.lock" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../pubspec.yaml" afterDir="false" />
     </list>
@@ -80,12 +27,12 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=C:\Users\mstfy\.android\avd\Pixel_9_Pro_XL_API_33.avd)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=C:\Users\Hamza\.android\avd\Small_Phone_API_34.avd)]" />
   <component name="ExternalProjectsData">
-    <projectState path="$PROJECT_DIR$">
+    <projectState path="$PROJECT_DIR$/../../../../../../android-tools/flutter/packages/flutter_tools/gradle">
       <ProjectState />
     </projectState>
-    <projectState path="$PROJECT_DIR$/../../../../../../android-tools/flutter/packages/flutter_tools/gradle">
+    <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
   </component>
@@ -107,7 +54,7 @@
     </system>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../../../../android-tools/flutter" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -140,18 +87,17 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "android.gradle.sync.needed": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "com.google.services.firebase.aqiPopupShown": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "stable",
+    "git-widget-placeholder": "form-modeling",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Hamza/Learn/my-projects/jhipster-projects/data-run/datarun-mobile/android",
+    "last_opened_file_path": "C:/Gradle/gradle-8.10.1",
     "project.structure.last.edited": "Dependencies",
     "project.structure.proportion": "0.17",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "com.android.studio.ml.bot.mainConfigurable",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
     "show.do.not.copy.http.proxy.settings.to.gradle": "true",
     "show.migrate.to.gradle.popup": "false"
   }

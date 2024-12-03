@@ -9,7 +9,7 @@ class Gs1ScannedItem with EquatableMixin {
     this.batchLot,
     this.productionDate,
     this.serialNumber,
-    this.bundleCount,
+    this.count,
   });
 
   factory Gs1ScannedItem.fromScannedCode(GS1Barcode? barcode) => Gs1ScannedItem(
@@ -21,7 +21,7 @@ class Gs1ScannedItem with EquatableMixin {
         batchLot: barcode?.getAIRawData('10'),
         productionDate: barcode?.getAIData('11'),
         serialNumber: barcode?.getAIRawData('21'),
-        bundleCount: barcode?.getAIRawData('37') != null
+        count: barcode?.getAIRawData('37') != null
             ? int.tryParse(barcode!.getAIRawData('37')!)
             : 1,
         AIs: barcode?.elements.keys,
@@ -50,13 +50,13 @@ class Gs1ScannedItem with EquatableMixin {
   /// Serial number, exclusive to single items
   final String? serialNumber;
 
-  /// Quantity of items in the bundle (only for bundles)
-  final int? bundleCount;
+  /// Quantity of items in the bundle or one for single item
+  final int? count;
 
   /// Utility method to display key information
   String getDetails() {
     if (isBundle) {
-      return 'Bundle of $bundleCount items (GTIN: $gtin, Batch: $batchLot, Production Date: $productionDate), Available AIs: ${AIs}';
+      return 'Bundle of $count items (GTIN: $gtin, Batch: $batchLot, Production Date: $productionDate), Available AIs: ${AIs}';
     } else if (isSingleItem) {
       return 'Single item (GTIN: $gtin, Serial: $serialNumber, Batch: $batchLot, Production Date: $productionDate), Available AIs: ${AIs}';
     } else {
@@ -72,7 +72,7 @@ class Gs1ScannedItem with EquatableMixin {
     String? batchLot,
     DateTime? productionDate,
     String? serialNumber,
-    int? bundleCount,
+    int? count,
   }) {
     return Gs1ScannedItem(
       AIs: AIs ?? this.AIs,
@@ -82,7 +82,7 @@ class Gs1ScannedItem with EquatableMixin {
       batchLot: batchLot ?? this.batchLot,
       productionDate: productionDate ?? this.productionDate,
       serialNumber: serialNumber ?? this.serialNumber,
-      bundleCount: bundleCount ?? this.bundleCount,
+      count: count ?? this.count,
     );
   }
 
@@ -94,7 +94,7 @@ class Gs1ScannedItem with EquatableMixin {
         batchLot,
         productionDate,
         serialNumber,
-        bundleCount
+        count
       ];
 
   factory Gs1ScannedItem.fromMap(Map<String, dynamic> map) {
@@ -106,7 +106,7 @@ class Gs1ScannedItem with EquatableMixin {
       batchLot: map['batchLot'] as String,
       productionDate: map['productionDate'] as DateTime,
       serialNumber: map['serialNumber'] as String,
-      bundleCount: map['bundleCount'] as int,
+      count: map['count'] as int,
     );
   }
 
@@ -119,19 +119,9 @@ class Gs1ScannedItem with EquatableMixin {
       'batchLot': this.batchLot,
       'productionDate': this.productionDate,
       'serialNumber': this.serialNumber,
-      'bundleCount': this.bundleCount,
+      'count': this.count,
     };
   }
-
-// @override
-// String toString() {
-//   final elem = barcode?.elements.entries.fold(
-//       '',
-//           (String previousValue, element) =>
-//       previousValue +
-//           '${element.key} (${AI.AIS[element.key]!.dataTitle}): ${element.value.data},\n');
-//   return 'code = ${code.codeTitle},\ndata = {\n$elem}';
-// }
 }
 
 void main() {
