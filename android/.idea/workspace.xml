@@ -4,18 +4,50 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0bd49654-43fa-4aeb-aa7f-ff0751ad4742" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+    <list default="true" id="0c7ca941-03ab-4d42-9254-9a21e20f5d13" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/field_widgets/code_scanner/barcode_scanner_widget.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/field_widgets/code_scanner/scanned_items_table.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/field_widgets/code_scanner/scanner_button_widgets.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/field_widgets/code_scanner/scanner_error_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.metadata" beforeDir="false" afterPath="$PROJECT_DIR$/../.metadata" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/appInsightsSettings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetSelector.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/kotlinc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/migrations.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/migrations.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/studiobot.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/debug/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/debug/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/kotlin/org/datarun/app/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/kotlin/org/datarun/app/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/profile/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/profile/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mass_pro_android.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/data_run/form/form_submission/submission_list.provider.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/form/form_submission/submission_list.provider.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/docs/getting-started.md" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/docs/getting-started.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/docusaurus.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/docusaurus.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/src/pages/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/src/pages/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../flutter_launcher_icons.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../flutter_launcher_icons.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/data_run/form/scanned_code/gs1_scanned_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/form/scanned_code/gs1_scanned_item.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/field_widgets/code_scanner/enhanced_scanner.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/field_widgets/code_scanner/live_scanner.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/field_widgets/code_scanner/reactive_code_scan_field.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/field_widgets/code_scanner/reactive_code_scan_field.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/field_widgets/code_scanner/reactive_gs1_code_scan_details.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/scanned_code_element/barcode_scanner_simple.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/scanned_code_element/barcode_scanner_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/scanned_code_element/barcode_scanner_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/scanned_code_element/scanned_item_details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/scanned_code_element/scanned_item_details.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/data_run/screens/form/scanned_code_element/scanned_items_table.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/data_run/screens/form/scanned_code_element/scanned_items_table.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../pubspec.lock" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../pubspec.yaml" afterDir="false" />
     </list>
@@ -27,86 +59,37 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=C:\Users\Hamza\.android\avd\Small_Phone_API_34.avd)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=PhysicalDevice, isTemplate=false, identifier=serial=2972c1510205)]" />
   <component name="ExternalProjectsData">
-    <projectState path="$PROJECT_DIR$/../../../../../../android-tools/flutter/packages/flutter_tools/gradle">
-      <ProjectState />
-    </projectState>
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
   </component>
-  <component name="ExternalProjectsManager">
-    <system id="GRADLE">
-      <state>
-        <projects_view>
-          <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="android" type="f1a62948:ProjectNode" />
-              </path>
-            </expand>
-            <select />
-          </tree_state>
-        </projects_view>
-      </state>
-    </system>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
-    <option name="ROOT_SYNC" value="DONT_SYNC" />
-  </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;Hamza-ye&quot;
-  }
-}</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Hamza-ye/datarun-mobile.git&quot;,
-    &quot;accountId&quot;: &quot;84d92070-af3d-4dbe-bce5-802464f60368&quot;
-  }
-}</component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 4
+  &quot;associatedIndex&quot;: 1
 }</component>
-  <component name="ProjectId" id="2jvZC12GIWKmuSq8zwa42ekhHUP" />
+  <component name="ProjectId" id="2pjjubKQEfov8jQbwU1RT02rQAa" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Gradle.Upgrade Gradle wrapper.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "com.google.services.firebase.aqiPopupShown": "true",
     "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "form-modeling",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Gradle/gradle-8.10.1",
-    "project.structure.last.edited": "Dependencies",
-    "project.structure.proportion": "0.17",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
-    "show.do.not.copy.http.proxy.settings.to.gradle": "true",
+    "last_opened_file_path": "C:/Users/Hamza/datarun/datarunmobile",
     "show.migrate.to.gradle.popup": "false"
   }
 }]]></component>
-  <component name="PsdUISettings">
-    <option name="MODULE_TAB" value="Properties" />
-    <option name="LAST_EDITED_SIGNING_CONFIG" value="debug" />
-    <option name="LAST_EDITED_BUILD_TYPE" value="release" />
-  </component>
   <component name="RunManager">
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
       <module name="android.app.main" />
@@ -180,11 +163,11 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="0bd49654-43fa-4aeb-aa7f-ff0751ad4742" name="Changes" comment="" />
-      <created>1722269380475</created>
+      <changelist id="0c7ca941-03ab-4d42-9254-9a21e20f5d13" name="Changes" comment="" />
+      <created>1733286601730</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1722269380475</updated>
+      <updated>1733286601730</updated>
     </task>
     <servers />
   </component>

@@ -30,11 +30,6 @@ enum ElementStatus {
 }
 
 sealed class FormElementModel<T> {
-  Stream<ElementStatus> get propertiesChanged => (_statusChanges ??=
-      BehaviorSubject<ElementStatus>.seeded(status)) as Stream<ElementStatus>;
-
-  @protected
-  BehaviorSubject<ElementStatus?>? _statusChanges;
 
   FormElementModel({
     this.templatePath,
@@ -45,6 +40,11 @@ sealed class FormElementModel<T> {
   })  : _value = value,
         _status = hidden ? ElementStatus.hidden : ElementStatus.valid,
         _dirty = dirty;
+  Stream<ElementStatus> get propertiesChanged => (_statusChanges ??=
+      BehaviorSubject<ElementStatus>.seeded(status)) as Stream<ElementStatus>;
+
+  @protected
+  BehaviorSubject<ElementStatus?>? _statusChanges;
 
   String? get name => templatePath?.split('.').last;
 

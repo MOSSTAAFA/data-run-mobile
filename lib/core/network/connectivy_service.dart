@@ -2,9 +2,9 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 class ConnectivityService {
-  static final ConnectivityService _instance = ConnectivityService._internal();
 
   ConnectivityService._internal();
+  static final ConnectivityService _instance = ConnectivityService._internal();
 
   static ConnectivityService get instance => _instance;
 
@@ -14,7 +14,6 @@ class ConnectivityService {
   Stream<bool> get connectivityStatusStream =>
       _connectivityStatusController.stream;
 
-  List<ConnectivityResult> _lastConnectivityCheckResult = [ConnectivityResult.none];
 
   // bool _isOnline = false;
 

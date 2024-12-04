@@ -176,5 +176,18 @@
   "closeWithoutSaving": "إغلاق وحذف؟",
   "atLeastErrorItemMustBeProvided": "يجب إدخال ${error} عنصر على الأقل",
   "scanYourCode": "مسح كود",
-  "barcodeQrScan": "Barcode/QR Code"
+  "barcodeQrScan": "Barcode/QR Code",
+  "acceptCode": "معلومات الكود؟",
+  "scanBarcode": "قارئ باركود",
+  "invalidScannedCode": "باركود غير صالح!",
+  "rescan": "إعادة مسح",
+  "gtin": "الرقم التجاري",
+  "batch": "رقم التشغيلة",
+  "serial": "التسلسلي",
+  "count": "الكمية",
+  "productionDate": "تاريخ الانتاج",
+  "controllerNotReady": "المتحكم غير جاهز.",
+  "permissionDenied": "تم رفض الإذن",
+  "scanningIsUnsupportedOnThisDevice": "الجهاز لا يدعم مسح الباركود",
+  "genericError": "خطأ غير محدد"
 }

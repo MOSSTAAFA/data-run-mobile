@@ -1,14 +1,6 @@
 part of 'form_element.dart';
 
 class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
-  // final _collectionChanges =
-  //     StreamController<List<RepeatItemInstance>>.broadcast();
-  Stream<List<RepeatItemInstance>> get collectionChanges =>
-      (collectionChangedSubject ??=
-              BehaviorSubject<List<RepeatItemInstance>>.seeded(_elements))
-          as Stream<List<RepeatItemInstance>>;
-  @protected
-  BehaviorSubject<List<RepeatItemInstance>?>? collectionChangedSubject;
 
   RepeatInstance({
     required super.template,
@@ -24,10 +16,18 @@ class RepeatInstance extends SectionElement<List<Map<String, Object?>?>> {
 
     // _visibilityDependencies.addAll(visibilityDependencies);
   }
+  // final _collectionChanges =
+  //     StreamController<List<RepeatItemInstance>>.broadcast();
+  Stream<List<RepeatItemInstance>> get collectionChanges =>
+      (collectionChangedSubject ??=
+              BehaviorSubject<List<RepeatItemInstance>>.seeded(_elements))
+          as Stream<List<RepeatItemInstance>>;
+  @protected
+  BehaviorSubject<List<RepeatItemInstance>?>? collectionChangedSubject;
 
   final List<RepeatItemInstance> _elements = [];
 
-  final List<String> _visibilityDependencies = [];
+  // final List<String> _visibilityDependencies = [];
 
   /// Gets the list of child elements.
   List<RepeatItemInstance> get elements => List.unmodifiable(_elements);

@@ -13,7 +13,7 @@ import 'package:reactive_forms/reactive_forms.dart';
 class QReactiveChoiceSingleSelectChips extends ConsumerWidget {
   QReactiveChoiceSingleSelectChips({super.key, required this.element});
 
-  FieldInstance<String> element;
+  final FieldInstance<String> element;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -29,7 +29,7 @@ class QReactiveChoiceSingleSelectChips extends ConsumerWidget {
       selectedColor: Theme.of(context).colorScheme.error.withAlpha(100),
       options: _getChipOptions(element.visibleOption, wide: true),
       decoration: InputDecoration(
-        enabled: element.elementControl!.enabled,
+        enabled: element.elementControl.enabled,
         // border: const OutlineInputBorder(gapPadding: 20),
         // contentPadding: const EdgeInsets.all(16),
         labelText: element.label,

@@ -38,9 +38,8 @@ class FormElementModelFactory {
   static SectionElementModel buildSectionModel(SectionTemplate elementTemplate,
       {dynamic initialValue}) {
     final Map<String, FormElementModel<dynamic>> elements = {};
-    elementTemplate.fields.sort((a, b) => (a.order).compareTo(b.order));
 
-    final section = SectionElementModel(templatePath: elementTemplate.path!);
+    final section = SectionElementModel(templatePath: elementTemplate.path);
 
     for (var childTemplate in elementTemplate.fields) {
       elements[childTemplate.name!] = buildFormElement(childTemplate,
@@ -55,13 +54,12 @@ class FormElementModelFactory {
       {Map<String, Object?>? initialValue}) {
     final Map<String, FormElementModel<dynamic>> elements = {};
 
-    elementTemplate.fields.sort((a, b) => (a.order).compareTo(b.order));
     for (var childTemplate in elementTemplate.fields) {
       elements[childTemplate.name!] = buildFormElement(childTemplate,
           initialValue: initialValue?[childTemplate.name]);
     }
     final repeatedSection = RepeatItemElementModel(
-        templatePath: elementTemplate.path!,
+        templatePath: elementTemplate.path,
         elements: elements,
         uid: CodeGenerator.generateUid());
 
@@ -71,7 +69,7 @@ class FormElementModelFactory {
   static RepeatElementModel buildRepeatModel(SectionTemplate elementTemplate,
       {List<dynamic>? initialValue}) {
     final repeatInstance = RepeatElementModel(
-        templatePath: elementTemplate.path!,
+        templatePath: elementTemplate.path,
         elements: initialValue
                 ?.map<RepeatItemElementModel>((value) =>
                     buildRepeatItem(elementTemplate, initialValue: value))
@@ -94,7 +92,7 @@ class FormElementModelFactory {
       case ValueType.DateTime:
       case ValueType.OrganisationUnit:
         return FieldElementModel<String>(
-          templatePath: elementTemplate.path!,
+          templatePath: elementTemplate.path,
           mandatory: elementTemplate.mandatory,
           value: initialValue ?? elementTemplate.defaultValue,
         );
@@ -103,7 +101,7 @@ class FormElementModelFactory {
       case ValueType.IntegerNegative:
       case ValueType.IntegerZeroOrPositive:
         return FieldElementModel<int>(
-          templatePath: elementTemplate.path!,
+          templatePath: elementTemplate.path,
           mandatory: elementTemplate.mandatory,
           value: initialValue ?? elementTemplate.defaultValue,
         );
@@ -113,7 +111,7 @@ class FormElementModelFactory {
       case ValueType.Percentage:
       case ValueType.Age:
         return FieldElementModel<double>(
-          templatePath: elementTemplate.path!,
+          templatePath: elementTemplate.path,
           mandatory: elementTemplate.mandatory,
           value: initialValue ?? elementTemplate.defaultValue,
         );
@@ -121,18 +119,18 @@ class FormElementModelFactory {
       case ValueType.TrueOnly:
       case ValueType.YesNo:
         return FieldElementModel<bool>(
-          templatePath: elementTemplate.path!,
+          templatePath: elementTemplate.path,
           mandatory: elementTemplate.mandatory,
           value: initialValue ?? elementTemplate.defaultValue,
         );
       case ValueType.SelectOne:
         return FieldElementModel<String>(
-            templatePath: elementTemplate.path!,
+            templatePath: elementTemplate.path,
             mandatory: elementTemplate.mandatory,
             value: initialValue ?? elementTemplate.defaultValue);
       case ValueType.SelectMulti:
         return FieldElementModel<List<String>>(
-            templatePath: elementTemplate.path!,
+            templatePath: elementTemplate.path,
             mandatory: elementTemplate.mandatory,
             value: initialValue ?? elementTemplate.defaultValue);
       default:

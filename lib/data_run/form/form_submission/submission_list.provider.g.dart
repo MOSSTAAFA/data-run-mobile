@@ -625,7 +625,7 @@ class _SubmissionFilteredByStateProviderElement
   String get sortBy => (origin as SubmissionFilteredByStateProvider).sortBy;
 }
 
-String _$submissionInfoHash() => r'76c42d62ae5a8f43c000a35e9bdd2b366393b39f';
+String _$submissionInfoHash() => r'937f47eced29e48bb7b8f329eb92845a3c105460';
 
 /// See also [submissionInfo].
 @ProviderFor(submissionInfo)

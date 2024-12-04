@@ -6,9 +6,9 @@ import 'package:datarun/utils/navigator_key.dart';
 import 'package:flutter/material.dart';
 
 class DExceptionReporter {
-  static DExceptionReporter instance = DExceptionReporter._internal();
 
   DExceptionReporter._internal();
+  static DExceptionReporter instance = DExceptionReporter._internal();
 
   void report(Object? error, {bool showToUser = false}) {
     final message = ErrorMessage.getMessage(error);

@@ -47,10 +47,10 @@ class QDropDownMultiSelectWithSearchField extends HookConsumerWidget {
 
 class NameToLabelValueAccessor
     extends DropDownSearchMultiSelectionValueAccessor<String, String> {
-  final List<String> items;
-  final List<FormOption> options;
 
   NameToLabelValueAccessor({this.items = const [], this.options = const []});
+  final List<String> items;
+  final List<FormOption> options;
 
   @override
   List<String>? modelToViewValue(List<String> items, List<String>? modelValue) {

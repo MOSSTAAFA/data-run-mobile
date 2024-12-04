@@ -214,5 +214,18 @@
   "unsavedChangesWarning": "Unsaved changes",
   "closeWithoutSaving": "Close without saving?",
   "scanYourCode": "Scan your code",
-  "barcodeQrScan": "Barcode/QR Code"
+  "barcodeQrScan": "Barcode/QR Code",
+  "acceptCode": "Accept code?",
+  "scanBarcode": "Scan barcode",
+  "invalidScannedCode": "Invalid scanned code!",
+  "rescan": "Rescan",
+  "gtin": "GTIN",
+  "batch": "Batch",
+  "serial": "Serial",
+  "count": "Count",
+  "productionDate": "Production Date",
+  "controllerNotReady": "Controller not ready.",
+  "permissionDenied": "Permission denied",
+  "scanningIsUnsupportedOnThisDevice": "Scanning is unsupported on this device",
+  "genericError": "Generic Error"
 }

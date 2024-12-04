@@ -11,10 +11,10 @@ import 'package:datarun/generated/l10n.dart';
 
 // The M3 sizes are coming from the tokens, but are hand coded,
 // as the current token DB does not contain landscape versions.
-const Size _inputPortraitDialogSizeM2 = Size(330.0, 470.0);
-const Size _inputPortraitDialogSizeM3 = Size(328.0, 470.0);
-const Size _inputLandscapeDialogSize = Size(496, 160.0);
-const double _kMaxTextScaleFactor = 1.3;
+// const Size _inputPortraitDialogSizeM2 = Size(330.0, 470.0);
+// const Size _inputPortraitDialogSizeM3 = Size(328.0, 470.0);
+// const Size _inputLandscapeDialogSize = Size(496, 160.0);
+// const double _kMaxTextScaleFactor = 1.3;
 
 class OrgUnitPickerDialog extends ConsumerStatefulWidget {
   const OrgUnitPickerDialog(
@@ -107,16 +107,16 @@ class _OrgUnitPickerDialogState
     super.dispose();
   }
 
-  Size _dialogSize(BuildContext context) {
-    final bool useMaterial3 = Theme.of(context).useMaterial3;
-    final Orientation orientation = MediaQuery.orientationOf(context);
-
-    return switch (orientation) {
-      (Orientation.portrait) when useMaterial3 => _inputPortraitDialogSizeM3,
-      (Orientation.portrait) => _inputPortraitDialogSizeM2,
-      (Orientation.landscape) => _inputLandscapeDialogSize,
-    };
-  }
+  // Size _dialogSize(BuildContext context) {
+  //   final bool useMaterial3 = Theme.of(context).useMaterial3;
+  //   final Orientation orientation = MediaQuery.orientationOf(context);
+  //
+  //   return switch (orientation) {
+  //     (Orientation.portrait) when useMaterial3 => _inputPortraitDialogSizeM3,
+  //     (Orientation.portrait) => _inputPortraitDialogSizeM2,
+  //     (Orientation.landscape) => _inputLandscapeDialogSize,
+  //   };
+  // }
 
   void _handleOk() {
     Navigator.pop(context, _selectedNode);
@@ -222,13 +222,12 @@ class _OrgUnitPickerDialogState
         MaterialLocalizations.of(context);
     final DatePickerThemeData datePickerTheme = DatePickerTheme.of(context);
     final DatePickerThemeData defaults = DatePickerTheme.defaults(context);
-    const double fontSizeToScale = 14.0;
-    final double textScaleFactor = MediaQuery.textScalerOf(context)
-            .clamp(maxScaleFactor: _kMaxTextScaleFactor)
-            .scale(fontSizeToScale) /
-        fontSizeToScale;
-    final Size dialogSize = _dialogSize(context) * textScaleFactor;
-    final DialogTheme dialogTheme = theme.dialogTheme;
+    // const double fontSizeToScale = 14.0;
+    // final double textScaleFactor = MediaQuery.textScalerOf(context)
+    //         .clamp(maxScaleFactor: _kMaxTextScaleFactor)
+    //         .scale(fontSizeToScale) /
+    //     fontSizeToScale;
+    // final Size dialogSize = _dialogSize(context) * textScaleFactor;
 
     final Widget actions = Container(
       alignment: AlignmentDirectional.centerEnd,
@@ -300,29 +299,29 @@ class _OrgUnitPickerDialogState
       );
     }
 
-    Widget _buildTreeView() {
-      return Container(
-        width: dialogSize.width,
-        height: dialogSize.height,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-              blurRadius: 8,
-              offset: Offset(0, 4),
-            ),
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: Column(
-            children: [],
-          ),
-        ),
-      );
-    }
+    // Widget _buildTreeView() {
+    //   return Container(
+    //     width: dialogSize.width,
+    //     height: dialogSize.height,
+    //     decoration: BoxDecoration(
+    //       color: Colors.white,
+    //       borderRadius: BorderRadius.circular(12),
+    //       boxShadow: [
+    //         BoxShadow(
+    //           color: Colors.black12,
+    //           blurRadius: 8,
+    //           offset: Offset(0, 4),
+    //         ),
+    //       ],
+    //     ),
+    //     child: ClipRRect(
+    //       borderRadius: BorderRadius.circular(12),
+    //       child: Column(
+    //         children: [],
+    //       ),
+    //     ),
+    //   );
+    // }
 
     return Column(
       children: [

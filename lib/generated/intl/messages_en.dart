@@ -50,6 +50,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "about": MessageLookupByLibrary.simpleMessage("About"),
         "accept": MessageLookupByLibrary.simpleMessage("Accept"),
+        "acceptCode": MessageLookupByLibrary.simpleMessage("Accept code?"),
         "accountDisabled": MessageLookupByLibrary.simpleMessage(
             "This account is disabled. contact Administrator for details."),
         "accountInformation":
@@ -68,6 +69,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Your session has expired. Please log in again."),
         "barcodeQrScan":
             MessageLookupByLibrary.simpleMessage("Barcode/QR Code"),
+        "batch": MessageLookupByLibrary.simpleMessage("Batch"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "changePassword":
             MessageLookupByLibrary.simpleMessage("Change Password"),
@@ -83,6 +85,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "Are you sure you want to sync the selected entities?"),
         "conformDeleteMsg": MessageLookupByLibrary.simpleMessage(
             "Are you sure you want to remove this section?"),
+        "controllerNotReady":
+            MessageLookupByLibrary.simpleMessage("Controller not ready."),
+        "count": MessageLookupByLibrary.simpleMessage("Count"),
         "currentUsername":
             MessageLookupByLibrary.simpleMessage("Current username"),
         "daily": MessageLookupByLibrary.simpleMessage("Daily"),
@@ -133,10 +138,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "formSummaryView":
             MessageLookupByLibrary.simpleMessage("Form Summary View"),
         "fullName": MessageLookupByLibrary.simpleMessage("Full Name"),
+        "genericError": MessageLookupByLibrary.simpleMessage("Generic Error"),
+        "gtin": MessageLookupByLibrary.simpleMessage("GTIN"),
         "hidePassword": MessageLookupByLibrary.simpleMessage("Hide Password"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
         "internetIsConnected":
             MessageLookupByLibrary.simpleMessage("internet Is Connected"),
+        "invalidScannedCode":
+            MessageLookupByLibrary.simpleMessage("Invalid scanned code!"),
         "itemRemoved": MessageLookupByLibrary.simpleMessage("Item Removed"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
         "lastConfigurationSyncTime":
@@ -194,11 +203,16 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Select Org Unit"),
         "organization": MessageLookupByLibrary.simpleMessage("Organization"),
         "password": MessageLookupByLibrary.simpleMessage("password"),
+        "permissionDenied":
+            MessageLookupByLibrary.simpleMessage("Permission denied"),
         "personInformation":
             MessageLookupByLibrary.simpleMessage("Person Information"),
         "pleaseEnterAValidEmailAddress": MessageLookupByLibrary.simpleMessage(
             "enter a valid email address."),
         "preferences": MessageLookupByLibrary.simpleMessage("Preferences"),
+        "productionDate":
+            MessageLookupByLibrary.simpleMessage("Production Date"),
+        "rescan": MessageLookupByLibrary.simpleMessage("Rescan"),
         "reviewFormData": MessageLookupByLibrary.simpleMessage("Review Form"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
         "saveAndAddAnother":
@@ -207,7 +221,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "saveAndClose": MessageLookupByLibrary.simpleMessage("Save"),
         "saveAndEditNext":
             MessageLookupByLibrary.simpleMessage("Save and Edit Next"),
+        "scanBarcode": MessageLookupByLibrary.simpleMessage("Scan barcode"),
         "scanYourCode": MessageLookupByLibrary.simpleMessage("Scan your code"),
+        "scanningIsUnsupportedOnThisDevice":
+            MessageLookupByLibrary.simpleMessage(
+                "Scanning is unsupported on this device"),
         "searchOrgUnitsHelpText":
             MessageLookupByLibrary.simpleMessage("Search Org Units..."),
         "selectAColorExtractionImage": MessageLookupByLibrary.simpleMessage(
@@ -220,6 +238,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Select Image for Color Extraction"),
         "selected": MessageLookupByLibrary.simpleMessage("selected"),
         "send": MessageLookupByLibrary.simpleMessage("Send"),
+        "serial": MessageLookupByLibrary.simpleMessage("Serial"),
         "serverUrl": MessageLookupByLibrary.simpleMessage("Server URL"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
         "showPassword": MessageLookupByLibrary.simpleMessage("Show Password"),

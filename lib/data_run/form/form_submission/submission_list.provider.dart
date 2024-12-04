@@ -11,7 +11,6 @@ import 'package:datarun/core/utils/get_item_local_string.dart';
 import 'package:datarun/data_run/form/form_submission/form_submission_repository.dart';
 import 'package:datarun/data_run/form/form_submission/submission_list_util.dart';
 import 'package:datarun/data_run/form/form_submission/submission_summary.model.dart';
-import 'package:datarun/data_run/form/shared/form_configuration.dart';
 import 'package:datarun/data_run/form/shared/submission_status.dart';
 import 'package:datarun/data_run/screens/form/element/form_metadata.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
@@ -178,10 +177,6 @@ Future<SubmissionItemSummaryModel> submissionInfo(SubmissionInfoRef ref,
 
   final submission =
       allSubmissions.firstWhere((t) => t.uid == formMetadata.submission!);
-
-  final formConfig = await ref.watch(formConfigurationProvider(
-          form: formMetadata.form, version: formMetadata.version)
-      .future);
 
   final OrgUnit? orgUnit = submission.orgUnit != null
       ? await D2Remote.organisationUnitModuleD.orgUnit

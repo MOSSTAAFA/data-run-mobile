@@ -1,4 +1,3 @@
-import 'package:datarun/core/auth/user_session_manager.dart';
 import 'package:datarun/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -8,7 +7,6 @@ class AboutPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final sessionInfo = ref.watch(userSessionManagerProvider);
 
     return ListView(
       padding: const EdgeInsets.all(16.0),

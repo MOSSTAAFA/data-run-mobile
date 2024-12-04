@@ -53,7 +53,6 @@ class ConfigureFormCompletionDialog {
           buttonStyle: DialogButtonStyle.secondaryButton(
               text: S.current.checkFieldsLater),
           action: FormBottomDialogActionType.NotNow);
-      ;
     } else {
       return FormCompletionButton(
           buttonStyle:
@@ -65,7 +64,6 @@ class ConfigureFormCompletionDialog {
   BottomSheetBodyModel _getBody(SectionInstance rootSection) {
     bool controlHasErrors = rootSection.form.hasErrors;
     // bool elementHasErrors = rootSection.elementState.errors.isNotEmpty;
-    final controlErrors = rootSection.form.errors;
     // final elementErrors =rootSection.elementState.errors;
     return controlHasErrors
         ? BottomSheetBodyModel.errorsBody(
@@ -106,7 +104,7 @@ class ConfigureFormCompletionDialog {
     // logDebug('formErrorsMapFlatt: $formErrorsFlatt');
     final Iterable<FieldInstance<dynamic>> fieldsWithErrors =
         getFormElementIterator<FieldInstance<dynamic>>(rootSection)
-            .where((field) => field.elementControl!.hasErrors && field.visible);
+            .where((field) => field.elementControl.hasErrors && field.visible);
     final fieldsIssues = fieldsWithErrors.map((element) => FieldWithIssue(
         parent: element.parentSection?.label,
         fieldPath: element.elementPath!,
@@ -119,11 +117,11 @@ class ConfigureFormCompletionDialog {
   }
 
   String _getErrorMessage(FieldInstance<dynamic> field) {
-    final errorKey = field.elementControl!.errors.keys.first;
+    final errorKey = field.elementControl.errors.keys.first;
     final validationMessage = _findValidationMessage(errorKey);
 
     return validationMessage != null
-        ? validationMessage(field.elementControl!.getError(errorKey)!)
+        ? validationMessage(field.elementControl.getError(errorKey)!)
         : errorKey;
   }
 

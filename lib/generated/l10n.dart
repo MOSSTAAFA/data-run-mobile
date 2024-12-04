@@ -1553,6 +1553,136 @@ class S {
       args: [],
     );
   }
+
+  /// `Accept code?`
+  String get acceptCode {
+    return Intl.message(
+      'Accept code?',
+      name: 'acceptCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Scan barcode`
+  String get scanBarcode {
+    return Intl.message(
+      'Scan barcode',
+      name: 'scanBarcode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invalid scanned code!`
+  String get invalidScannedCode {
+    return Intl.message(
+      'Invalid scanned code!',
+      name: 'invalidScannedCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rescan`
+  String get rescan {
+    return Intl.message(
+      'Rescan',
+      name: 'rescan',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `GTIN`
+  String get gtin {
+    return Intl.message(
+      'GTIN',
+      name: 'gtin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Batch`
+  String get batch {
+    return Intl.message(
+      'Batch',
+      name: 'batch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Serial`
+  String get serial {
+    return Intl.message(
+      'Serial',
+      name: 'serial',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Count`
+  String get count {
+    return Intl.message(
+      'Count',
+      name: 'count',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Production Date`
+  String get productionDate {
+    return Intl.message(
+      'Production Date',
+      name: 'productionDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Controller not ready.`
+  String get controllerNotReady {
+    return Intl.message(
+      'Controller not ready.',
+      name: 'controllerNotReady',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Permission denied`
+  String get permissionDenied {
+    return Intl.message(
+      'Permission denied',
+      name: 'permissionDenied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Scanning is unsupported on this device`
+  String get scanningIsUnsupportedOnThisDevice {
+    return Intl.message(
+      'Scanning is unsupported on this device',
+      name: 'scanningIsUnsupportedOnThisDevice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Generic Error`
+  String get genericError {
+    return Intl.message(
+      'Generic Error',
+      name: 'genericError',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

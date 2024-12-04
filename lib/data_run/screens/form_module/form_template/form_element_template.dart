@@ -6,7 +6,6 @@ import 'package:d2_remote/modules/datarun/form/shared/option_set.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/rule/rule.dart';
 import 'package:d2_remote/modules/datarun/form/shared/value_type.dart';
 import 'package:datarun/data_run/screens/form_module/form_template/form_element_template_iterator.dart';
-import 'package:equatable/equatable.dart';
 import 'package:datarun/data_run/screens/form_module/form_template/flat_template_factory.dart';
 import 'package:datarun/data_run/screens/form_module/form_template/path_walking_service.dart';
 
@@ -84,7 +83,7 @@ class FormFlatTemplate with PathWalkingService {
 }
 
 // @immutable
-sealed class FormElementTemplate with TreeElement, EquatableMixin {
+sealed class FormElementTemplate with TreeElement/*, EquatableMixin*/ {
   FormElementTemplate({
     this.name,
     this.path,
@@ -156,9 +155,9 @@ sealed class FormElementTemplate with TreeElement, EquatableMixin {
     _ruleDependencies.addAll(ruleDependencies);
   }
 
-  @override
-  List<Object?> get props =>
-      [type, name, path, order, _rules, _label, fieldValueRenderingType];
+  // @override
+  // List<Object?> get props =>
+  //     [type, name, path, order, _rules, _label, fieldValueRenderingType];
 }
 
 // @immutable
@@ -255,8 +254,8 @@ class SectionElementTemplate extends FormElementTemplate {
     _children.addAll(children);
   }
 
-  @override
-  List<Object?> get props => super.props..addAll([itemTitle]);
+  // @override
+  // List<Object?> get props => super.props..addAll([itemTitle]);
 
   @override
   ValueType get type => ValueType.Section;
@@ -291,6 +290,6 @@ class RepeatElementTemplate extends SectionElementTemplate {
   @override
   ValueType get type => ValueType.RepeatableSection;
 
-  @override
-  List<Object?> get props => super.props..addAll([itemTitle]);
+  // @override
+  // List<Object?> get props => super.props..addAll([itemTitle]);
 }

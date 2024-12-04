@@ -14,18 +14,18 @@ enum EditActionType {
 }
 
 class EditPanel extends StatelessWidget {
-  // final ElementExtendedControl control;
-  final String? title;
-  final void Function(FormGroup form, EditActionType action) onSave;
-
-  final RepeatInstance repeatInstance;
-  final RepeatItemInstance item;
 
   EditPanel(
       {required this.repeatInstance,
       required this.item,
       this.title,
       required this.onSave});
+  // final ElementExtendedControl control;
+  final String? title;
+  final void Function(FormGroup form, EditActionType action) onSave;
+
+  final RepeatInstance repeatInstance;
+  final RepeatItemInstance item;
 
   @override
   Widget build(BuildContext context) {

@@ -14,8 +14,6 @@ LoginReactiveFormModel loginReactiveFormModel(LoginReactiveFormModelRef ref) {
 }
 
 class LoginReactiveFormModel {
-  static String URL_PATTERN =
-      r'^(http|https):\/\/[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,6}(:[0-9]{1,5})?(\/.*)?$';
 
   LoginReactiveFormModel(this._authService, this.userSessionManager)
       : this.form = FormGroup({
@@ -24,6 +22,8 @@ class LoginReactiveFormModel {
           'serverUrl': FormControl<String>(
               validators: [Validators.pattern(URL_PATTERN)], disabled: true),
         });
+  static String URL_PATTERN =
+      r'^(http|https):\/\/[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,6}(:[0-9]{1,5})?(\/.*)?$';
 
   final AuthService _authService;
   final UserSessionManager userSessionManager;

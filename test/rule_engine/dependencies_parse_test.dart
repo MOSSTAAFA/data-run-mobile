@@ -14,7 +14,4 @@ void main() {
     dep[field.name!] = field.dependencies;
     templates.add(field);
   }
-
-  print(dep);
-
 }

@@ -25,7 +25,7 @@ class QDatePickerField<T> extends ConsumerWidget {
       readOnly: true,
       valueAccessor: QDateTimeValueAccessor(),
       decoration: InputDecoration(
-        enabled: element.elementControl!.enabled,
+        enabled: element.elementControl.enabled,
         labelText: element.label,
         suffixIcon: ReactiveDatePicker<String?>(
           formControl: element.elementControl as FormControl<String?>,
@@ -34,7 +34,7 @@ class QDatePickerField<T> extends ConsumerWidget {
           builder: (context, picker, child) {
             return IconButton(
               onPressed:
-                  element.elementControl!.enabled ? picker.showPicker : null,
+                  element.elementControl.enabled ? picker.showPicker : null,
               icon: const Icon(Icons.date_range),
             );
           },

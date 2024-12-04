@@ -8,10 +8,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 class QBarcodeReaderField<T> extends ConsumerWidget {
-  final FieldInstance<T> element;
 
   const QBarcodeReaderField({Key? key, required this.element})
       : super(key: key);
+  final FieldInstance<T> element;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

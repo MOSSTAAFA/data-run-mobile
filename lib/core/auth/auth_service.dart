@@ -20,9 +20,9 @@ AuthService authService(AuthServiceRef ref) {
 }
 
 class AuthService {
-  final UserSessionManager _sessionManager;
 
   AuthService(this._sessionManager);
+  final UserSessionManager _sessionManager;
 
   Future<bool> isAuthenticatedOnline() async {
     WidgetsFlutterBinding.ensureInitialized();

@@ -1,5 +1,4 @@
 import 'package:d2_remote/modules/datarun/form/entities/data_form_submission.entity.dart';
-import 'package:d2_remote/modules/datarun/form/shared/field_template/field_template.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/field_template/section_template.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/field_template/template.dart';
 import 'package:datarun/commons/logging/new_app_logging.dart';
@@ -144,9 +143,9 @@ class SubmissionInfoState extends ConsumerState<SubmissionInfo> {
 
     scaffoldMessenger.showSnackBar(
       SnackBar(
-        content: const Text("Item removed"),
+        content: const Text('Item removed'),
         action: SnackBarAction(
-          label: "Undo",
+          label: 'Undo',
           onPressed: () {
             // Code to undo deletion
           },
@@ -158,8 +157,6 @@ class SubmissionInfoState extends ConsumerState<SubmissionInfo> {
   String generateFormSummary(
       Map<String, dynamic> fields, SectionTemplate rootSection,
       [int itemsToTake = 5]) {
-    final mainValues = extractValues(fields, rootSection.fields.unlockView,
-        criteria: (t) => t is FieldTemplate && t.mainField == true);
 
     final flatFormValue = flattenValueMap(fields);
 

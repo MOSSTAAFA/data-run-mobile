@@ -9,15 +9,7 @@ abstract class ElementStat with EquatableMixin {
   List<Object?> get props => [id];
 }
 
-class FieldState extends ElementStat {
-  final String id;
-  final bool isVisible;
-  final bool isEditable;
-
-  //
-  final bool hasError;
-  final Map<String, dynamic>? errors;
-  final dynamic value; // only for leaf fields with value
+class FieldState extends ElementStat { // only for leaf fields with value
 
   FieldState({
     required this.id,
@@ -28,9 +20,6 @@ class FieldState extends ElementStat {
     this.errors,
   });
 
-  @override
-  List<Object?> get props => super.props + [value, hasError, errors, isVisible];
-
   factory FieldState.fromTemplate(FormElementTemplate template,
       [dynamic value]) {
     return FieldState(
@@ -39,6 +28,17 @@ class FieldState extends ElementStat {
       value: value,
     );
   }
+  final String id;
+  final bool isVisible;
+  final bool isEditable;
+
+  //
+  final bool hasError;
+  final Map<String, dynamic>? errors;
+  final dynamic value;
+
+  @override
+  List<Object?> get props => super.props + [value, hasError, errors, isVisible];
 
   FieldState copyWith({
     String? id,
@@ -60,8 +60,6 @@ class FieldState extends ElementStat {
 }
 
 class SectionState extends ElementStat {
-  final String id;
-  final bool isVisible;
 
   SectionState({
     required this.id,
@@ -72,6 +70,8 @@ class SectionState extends ElementStat {
       [dynamic value]) {
     return SectionState(id: '${template.name!}_${CodeGenerator.generateUid()}');
   }
+  final String id;
+  final bool isVisible;
 
   SectionState copyWith({
     String? id,

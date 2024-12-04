@@ -54,7 +54,6 @@ class FormElementBuilder {
       FormFlatTemplate formFlatTemplate, SectionTemplate template,
       {dynamic initialFormValue}) {
     final Map<String, FormElementInstance<dynamic>> elements = {};
-    template.fields.sort((a, b) => (a.order).compareTo(b.order));
 
     final section = SectionInstance(form: rootFormControl, template: template);
 
@@ -196,7 +195,7 @@ class FormElementBuilder {
           form: rootFormControl,
           choiceFilter: templateElement.choiceFilter != null
               ? ChoiceFilter(
-                  expression: templateElement.evalChoiceFilterExpression!,
+                  expression: templateElement.evalChoiceFilterExpression,
                   options:
                       formFlatTemplate.optionLists[templateElement.listName!] ??
                           [])
@@ -215,7 +214,7 @@ class FormElementBuilder {
             form: rootFormControl,
             choiceFilter: templateElement.choiceFilter != null
                 ? ChoiceFilter(
-                    expression: templateElement.evalChoiceFilterExpression!,
+                    expression: templateElement.evalChoiceFilterExpression,
                     options: formFlatTemplate
                             .optionLists[templateElement.listName!] ??
                         [])

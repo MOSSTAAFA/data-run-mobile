@@ -5,11 +5,6 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 version: 1.0.2+2
 
-# analyzer:
-# strong-mode: true
-# language:
-# enableSuperMixins: true
-
 environment:
   sdk: ">=3.3.0 <4.0.0"
 
@@ -36,8 +31,6 @@ dependencies:
   hooks_riverpod: 3.0.0-dev.3
   riverpod_annotation: 3.0.0-dev.3
   fast_immutable_collections: ^10.2.4
-  provider: ^6.1.2
-  flutter_launcher_icons: ^0.9.3
   expressions: ^0.2.3
   flutter_sticky_header: ^0.7.0
   collection: ^1.18.0
@@ -47,10 +40,11 @@ dependencies:
   gs1_barcode_parser: ^1.1.0
   device_info_plus: ^11.1.1
   connectivity_plus: ^6.1.0
-#  mobile_scanner: ^6.0.2
-  image_picker: ^1.1.2
+  mobile_scanner: ^6.0.2
+  flutter_launcher_icons: ^0.14.1
+#  image_picker: ^1.1.2
   sentry_flutter: ^8.10.1
-  flutter_barcode_scanner: ^2.0.0
+#  flutter_barcode_scanner: ^2.0.0
 
 #  sentry_flutter: ^8.3.0
 

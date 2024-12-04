@@ -39,7 +39,6 @@ class FormElementControlBuilder {
   static FormGroup createSectionFormGroup<T>(FormFlatTemplate formFlatTemplate, SectionTemplate fieldTemplate,
       {dynamic initialValue}) {
     final Map<String, AbstractControl<dynamic>> controls = {};
-    fieldTemplate.fields.sort((a, b) => (a.order).compareTo(b.order));
 
     for (var childTemplate in fieldTemplate.fields) {
       controls[childTemplate.name!] = createElementControl(formFlatTemplate, childTemplate,

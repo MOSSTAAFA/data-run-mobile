@@ -49,6 +49,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "about": MessageLookupByLibrary.simpleMessage("عنا"),
         "accept": MessageLookupByLibrary.simpleMessage("قبول"),
+        "acceptCode": MessageLookupByLibrary.simpleMessage("معلومات الكود؟"),
         "accountDisabled": MessageLookupByLibrary.simpleMessage(
             "تم تعطيل هذا الحساب. يرجى الاتصال بالمسؤول للمساعدة."),
         "accountInformation":
@@ -67,6 +68,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "انتهت صلاحية الجلسة. يرجى تسجيل الدخول للمتابعة."),
         "barcodeQrScan":
             MessageLookupByLibrary.simpleMessage("Barcode/QR Code"),
+        "batch": MessageLookupByLibrary.simpleMessage("رقم التشغيلة"),
         "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
         "changePassword":
             MessageLookupByLibrary.simpleMessage("تغيير كلمة السر"),
@@ -81,6 +83,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "هل أنت متأكد أنك تريد مزامنة البيانات المحددة؟"),
         "conformDeleteMsg": MessageLookupByLibrary.simpleMessage(
             "هل أنت متأكد أنك تريد إزالة هذا القسم؟"),
+        "controllerNotReady":
+            MessageLookupByLibrary.simpleMessage("المتحكم غير جاهز."),
+        "count": MessageLookupByLibrary.simpleMessage("الكمية"),
         "currentUsername":
             MessageLookupByLibrary.simpleMessage("المستخدم الحالي"),
         "daily": MessageLookupByLibrary.simpleMessage("يومي"),
@@ -130,10 +135,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "formSummaryView":
             MessageLookupByLibrary.simpleMessage("عرض خلاصة الاستمارة"),
         "fullName": MessageLookupByLibrary.simpleMessage("الاسم الكامل"),
+        "genericError": MessageLookupByLibrary.simpleMessage("خطأ غير محدد"),
+        "gtin": MessageLookupByLibrary.simpleMessage("الرقم التجاري"),
         "hidePassword": MessageLookupByLibrary.simpleMessage("اخفاء كلمة السر"),
         "home": MessageLookupByLibrary.simpleMessage("الرئيسة"),
         "internetIsConnected":
             MessageLookupByLibrary.simpleMessage("متصل بالإنترنت"),
+        "invalidScannedCode":
+            MessageLookupByLibrary.simpleMessage("باركود غير صالح!"),
         "itemRemoved": MessageLookupByLibrary.simpleMessage("تم الحذف"),
         "language": MessageLookupByLibrary.simpleMessage("اللغة"),
         "lastConfigurationSyncTime":
@@ -194,11 +203,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "organization":
             MessageLookupByLibrary.simpleMessage("الوحدة التنظيمية"),
         "password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
+        "permissionDenied":
+            MessageLookupByLibrary.simpleMessage("تم رفض الإذن"),
         "personInformation":
             MessageLookupByLibrary.simpleMessage("معلومات الشخص"),
         "pleaseEnterAValidEmailAddress": MessageLookupByLibrary.simpleMessage(
             "يرجى إدخال عنوان بريد إلكتروني صالح."),
         "preferences": MessageLookupByLibrary.simpleMessage("التفضيلات"),
+        "productionDate": MessageLookupByLibrary.simpleMessage("تاريخ الانتاج"),
+        "rescan": MessageLookupByLibrary.simpleMessage("إعادة مسح"),
         "reviewFormData":
             MessageLookupByLibrary.simpleMessage("مراجعة الأخطاء"),
         "save": MessageLookupByLibrary.simpleMessage("حفظ"),
@@ -207,7 +220,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "saveAndClose": MessageLookupByLibrary.simpleMessage("حفظ"),
         "saveAndEditNext":
             MessageLookupByLibrary.simpleMessage("حفظ ثم التالي"),
+        "scanBarcode": MessageLookupByLibrary.simpleMessage("قارئ باركود"),
         "scanYourCode": MessageLookupByLibrary.simpleMessage("مسح كود"),
+        "scanningIsUnsupportedOnThisDevice":
+            MessageLookupByLibrary.simpleMessage("الجهاز لا يدعم مسح الباركود"),
         "searchOrgUnitsHelpText":
             MessageLookupByLibrary.simpleMessage("البحث عن مكان..."),
         "selectAColorExtractionImage":
@@ -219,6 +235,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("حدد صورة لاستخلاص ثيم منها"),
         "selected": MessageLookupByLibrary.simpleMessage("عناصر محددة"),
         "send": MessageLookupByLibrary.simpleMessage("إرسال"),
+        "serial": MessageLookupByLibrary.simpleMessage("التسلسلي"),
         "serverUrl": MessageLookupByLibrary.simpleMessage("رابط السيرفر"),
         "settings": MessageLookupByLibrary.simpleMessage("إعدادات"),
         "showPassword": MessageLookupByLibrary.simpleMessage("أظهر كلمة السر"),

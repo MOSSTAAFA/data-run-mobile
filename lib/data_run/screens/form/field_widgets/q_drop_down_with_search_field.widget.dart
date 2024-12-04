@@ -52,9 +52,9 @@ class QDropDownWithSearchField extends HookConsumerWidget {
 
 class NameToLabelValueAccessor
     extends DropDownSearchValueAccessor<String, String> {
-  final List<FormOption> options;
 
   NameToLabelValueAccessor(this.options);
+  final List<FormOption> options;
 
   @override
   String? modelToViewValue(List<String> items, String? modelValue) {

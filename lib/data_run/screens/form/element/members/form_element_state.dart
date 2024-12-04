@@ -5,6 +5,13 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:datarun/commons/extensions/list_extensions.dart';
 
 class FormElementState with EquatableMixin {
+
+  const FormElementState({
+    this.hidden = false,
+    this.readOnly = false,
+    this.mandatory = false,
+    this.errors = const {},
+  });
   final bool hidden;
   final bool readOnly;
   final bool mandatory;
@@ -13,13 +20,6 @@ class FormElementState with EquatableMixin {
   bool get hasErrors => errors.isNotEmpty;
 
   bool get isVisible => !hidden;
-
-  const FormElementState({
-    this.hidden = false,
-    this.readOnly = false,
-    this.mandatory = false,
-    this.errors = const {},
-  });
 
   FormElementState AddError(MapEntry<String, dynamic> newErrors) => copyWith(
       errors: Map<String, dynamic>.of(errors)..addEntries([newErrors]));
@@ -49,8 +49,6 @@ class FormElementState with EquatableMixin {
 }
 
 class FieldElementState<T> extends FormElementState {
-  final T? value;
-  List<FormOption> visibleOptions;
 
   FieldElementState({
     super.hidden,
@@ -60,6 +58,8 @@ class FieldElementState<T> extends FormElementState {
     this.visibleOptions = const [],
     this.value,
   });
+  final T? value;
+  final List<FormOption> visibleOptions;
 
   @override
   FieldElementState<T> copyWith(

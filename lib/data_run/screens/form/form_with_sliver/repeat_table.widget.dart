@@ -1,5 +1,3 @@
-import 'package:d2_remote/modules/datarun/form/shared/field_template/field_template.entity.dart';
-import 'package:d2_remote/modules/datarun/form/shared/template_extensions/form_traverse_extension.dart';
 import 'package:datarun/core/utils/get_item_local_string.dart';
 import 'package:datarun/data_run/screens/form/element/form_element.dart';
 import 'package:datarun/data_run/screens/form/element/form_instance.dart';
@@ -166,20 +164,20 @@ class RepeatTableState extends ConsumerState<RepeatTable> {
     ];
   }
 
-  List<DataColumn> _buildVisibleColumns(
-      Iterable<FieldTemplate> tableColumns, BuildContext context) {
-    return [
-      const DataColumn(label: Text('#')),
-      ...tableColumns
-          .map((fieldTemplate) => DataColumn(
-              label: Text(getItemLocalString(fieldTemplate.label.unlockView,
-                  defaultString: fieldTemplate.name)),
-              numeric: fieldTemplate.isNumeric))
-          .toList(),
-      DataColumn(label: Text(S.of(context).edit)),
-      DataColumn(label: Text(S.of(context).delete)),
-    ];
-  }
+  // List<DataColumn> _buildVisibleColumns(
+  //     Iterable<FieldTemplate> tableColumns, BuildContext context) {
+  //   return [
+  //     const DataColumn(label: Text('#')),
+  //     ...tableColumns
+  //         .map((fieldTemplate) => DataColumn(
+  //             label: Text(getItemLocalString(fieldTemplate.label.unlockView,
+  //                 defaultString: fieldTemplate.name)),
+  //             numeric: fieldTemplate.isNumeric))
+  //         .toList(),
+  //     DataColumn(label: Text(S.of(context).edit)),
+  //     DataColumn(label: Text(S.of(context).delete)),
+  //   ];
+  // }
 
   Future<void> _showEditPanel(BuildContext context, FormInstance formInstance,
       [RepeatItemInstance? repeatItem]) async {

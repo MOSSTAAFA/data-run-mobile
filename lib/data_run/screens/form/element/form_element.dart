@@ -38,13 +38,6 @@ part '../../../form/scanned_code/gs1_scanned_item.dart';
 typedef ElementControl<T> = AbstractControl<T>? Function(String path);
 
 sealed class FormElementInstance<T> {
-  Stream<FormElementState> get propertiesChanged =>
-      (propertiesChangedSubject ??=
-              BehaviorSubject<FormElementState>.seeded(_elementState))
-          as Stream<FormElementState>;
-
-  @protected
-  BehaviorSubject<FormElementState?>? propertiesChangedSubject;
 
   FormElementInstance(
       {required this.form,
@@ -52,6 +45,13 @@ sealed class FormElementInstance<T> {
       required FormElementState elementState})
       : _elementState = elementState,
         _template = template;
+  Stream<FormElementState> get propertiesChanged =>
+      (propertiesChangedSubject ??=
+              BehaviorSubject<FormElementState>.seeded(_elementState))
+          as Stream<FormElementState>;
+
+  @protected
+  BehaviorSubject<FormElementState?>? propertiesChangedSubject;
 
   final Template _template;
 
@@ -119,22 +119,22 @@ sealed class FormElementInstance<T> {
     return control!.errors[errorCode];
   }
 
-  void _updateControlsErrors() {
-    _elementState = _calculateStatus();
-    // _statusChanges.add(_status);
+  // void _updateControlsErrors() {
+  //   _elementState = _calculateStatus();
+  //   // _statusChanges.add(_status);
+  //
+  //   _parentSection?._updateControlsErrors();
+  // }
 
-    _parentSection?._updateControlsErrors();
-  }
-
-  FormElementState _calculateStatus() {
-    if (allElementsHidden()) {
-      return _elementState.copyWith(hidden: true);
-    } else if (hasErrors) {
-      return _elementState.copyWith(errors: errors);
-    }
-
-    return _elementState;
-  }
+  // FormElementState _calculateStatus() {
+  //   if (allElementsHidden()) {
+  //     return _elementState.copyWith(hidden: true);
+  //   } else if (hasErrors) {
+  //     return _elementState.copyWith(errors: errors);
+  //   }
+  //
+  //   return _elementState;
+  // }
 
   T? reduceValue();
 

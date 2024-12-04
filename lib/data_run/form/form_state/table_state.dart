@@ -8,13 +8,6 @@ import 'package:datarun/data_run/screens/form_module/form/code_generator.dart';
 enum CellStatus { valid, invalid }
 
 class TableState extends ElementStat {
-  final SectionTemplate _template;
-  final String? id;
-  final bool isEditable;
-  final List<RowState> rows; // Hierarchical structure
-  /// Flat map for quick lookups
-  /// { "row.1_col1": CellState, "row1_col2": CellState, ... }
-  final Map<String, CellState> cells;
 
   TableState(
       {this.id,
@@ -24,6 +17,13 @@ class TableState extends ElementStat {
       required this.rows,
       required this.cells})
       : _template = template;
+  final SectionTemplate _template;
+  final String? id;
+  final bool isEditable;
+  final List<RowState> rows; // Hierarchical structure
+  /// Flat map for quick lookups
+  /// { "row.1_col1": CellState, "row1_col2": CellState, ... }
+  final Map<String, CellState> cells;
 
   // Immutable update to a specific cell
   TableState updateCell(String rowKey, String colKey, int? newValue) {
@@ -90,18 +90,8 @@ class TableState extends ElementStat {
 }
 
 class RowState {
-  final String id;
-  final List<CellState> cells;
 
   RowState({required this.id, required this.cells});
-
-  RowState updateCell(String colKey, CellState updatedCell) {
-    final updatedCells = cells.map((cell) {
-      return cell.id == colKey ? updatedCell : cell;
-    }).toList();
-
-    return RowState(id: id, cells: updatedCells);
-  }
 
   factory RowState.fromTemplate(SectionTemplate template,
       [dynamic initialValue]) {
@@ -112,15 +102,19 @@ class RowState {
     }).toList();
     return RowState(id: rowId, cells: cells);
   }
+  final String id;
+  final List<CellState> cells;
+
+  RowState updateCell(String colKey, CellState updatedCell) {
+    final updatedCells = cells.map((cell) {
+      return cell.id == colKey ? updatedCell : cell;
+    }).toList();
+
+    return RowState(id: id, cells: updatedCells);
+  }
 }
 
 class CellState {
-  Template _template;
-
-  final String id;
-  final dynamic value;
-  final bool isEditable;
-  final String? error;
 
   CellState({
     required this.id,
@@ -130,14 +124,6 @@ class CellState {
     required Template template,
   }) : _template = template;
 
-  CellState copyWith({int? value, String? error}) {
-    return CellState(
-        id: id,
-        value: value ?? this.value,
-        error: error ?? this.error,
-        template: _template);
-  }
-
   factory CellState.fromTemplate(String rowId, Template template,
       [dynamic value]) {
     return CellState(
@@ -146,6 +132,20 @@ class CellState {
       value: value,
       template: template,
     );
+  }
+  Template _template;
+
+  final String id;
+  final dynamic value;
+  final bool isEditable;
+  final String? error;
+
+  CellState copyWith({int? value, String? error}) {
+    return CellState(
+        id: id,
+        value: value ?? this.value,
+        error: error ?? this.error,
+        template: _template);
   }
 }
 

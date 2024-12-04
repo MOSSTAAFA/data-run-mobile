@@ -1,11 +1,11 @@
 import 'package:reactive_forms/reactive_forms.dart';
 
 class MaxRowsValidator extends Validator<dynamic> {
-  final int maxRows;
 
   MaxRowsValidator({
     required this.maxRows,
   }) : super();
+  final int maxRows;
 
   @override
   Map<String, dynamic>? validate(AbstractControl<dynamic> control) {
@@ -30,13 +30,13 @@ class MaxRowsValidator extends Validator<dynamic> {
 }
 
 class MinRowsValidator extends Validator<dynamic> {
-  final int maxRows;
-  final int minRows;
 
   MinRowsValidator({
     required this.maxRows,
     required this.minRows,
   }) : super();
+  final int maxRows;
+  final int minRows;
 
   @override
   Map<String, dynamic>? validate(AbstractControl<dynamic> control) {
