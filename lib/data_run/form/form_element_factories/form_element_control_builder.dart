@@ -1,4 +1,3 @@
-
 import 'package:d2_remote/modules/datarun/form/shared/field_template/field_template.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/field_template/section_template.entity.dart';
 import 'package:d2_remote/modules/datarun/form/shared/field_template/template.dart';
@@ -9,9 +8,8 @@ import 'package:datarun/data_run/screens/form_module/form_template/form_element_
 import 'package:reactive_forms/reactive_forms.dart';
 
 class FormElementControlBuilder {
-
-  static Map<String, AbstractControl<dynamic>> formDataControls(FormFlatTemplate formFlatTemplate,
-      initialValue) {
+  static Map<String, AbstractControl<dynamic>> formDataControls(
+      FormFlatTemplate formFlatTemplate, initialValue) {
     final Map<String, AbstractControl<dynamic>> controls = {};
 
     for (var element in formFlatTemplate.formTemplate.fields) {
@@ -22,43 +20,51 @@ class FormElementControlBuilder {
     return controls;
   }
 
-  static AbstractControl<dynamic> createElementControl(FormFlatTemplate formFlatTemplate, Template fieldTemplate,
+  static AbstractControl<dynamic> createElementControl(
+      FormFlatTemplate formFlatTemplate, Template fieldTemplate,
       {initialValue}) {
     if (fieldTemplate.isSection) {
-      return createSectionFormGroup(formFlatTemplate, fieldTemplate as SectionTemplate,
+      return createSectionFormGroup(
+          formFlatTemplate, fieldTemplate as SectionTemplate,
           initialValue: initialValue);
     } else if (fieldTemplate.isRepeat) {
-      return createRepeatFormArray(formFlatTemplate, fieldTemplate as SectionTemplate,
+      return createRepeatFormArray(
+          formFlatTemplate, fieldTemplate as SectionTemplate,
           initialValue: initialValue);
     } else {
-      return createFieldFormControl(formFlatTemplate, fieldTemplate as FieldTemplate,
+      return createFieldFormControl(
+          formFlatTemplate, fieldTemplate as FieldTemplate,
           initialValue: initialValue);
     }
   }
 
-  static FormGroup createSectionFormGroup<T>(FormFlatTemplate formFlatTemplate, SectionTemplate fieldTemplate,
+  static FormGroup createSectionFormGroup<T>(
+      FormFlatTemplate formFlatTemplate, SectionTemplate fieldTemplate,
       {dynamic initialValue}) {
     final Map<String, AbstractControl<dynamic>> controls = {};
 
     for (var childTemplate in fieldTemplate.fields) {
-      controls[childTemplate.name!] = createElementControl(formFlatTemplate, childTemplate,
+      controls[childTemplate.name!] = createElementControl(
+          formFlatTemplate, childTemplate,
           initialValue: initialValue?[childTemplate.name]);
     }
     return FormGroup(controls);
   }
 
-  static FormArray<Map<String, Object?>> createRepeatFormArray(FormFlatTemplate formFlatTemplate,
-      SectionTemplate fieldTemplate,
+  static FormArray<Map<String, Object?>> createRepeatFormArray(
+      FormFlatTemplate formFlatTemplate, SectionTemplate fieldTemplate,
       {dynamic initialValue}) {
     final formArray = FormArray<Map<String, Object?>>((initialValue ?? [])
-        .map<FormGroup>(
-            (e) => createSectionFormGroup(formFlatTemplate, fieldTemplate, initialValue: e))
+        .map<FormGroup>((e) => createSectionFormGroup(
+            formFlatTemplate, fieldTemplate,
+            initialValue: e))
         .toList());
 
     return formArray;
   }
 
-  static AbstractControl<dynamic> createFieldFormControl(formFlatTemplate, FieldTemplate fieldTemplate,
+  static AbstractControl<dynamic> createFieldFormControl(
+      formFlatTemplate, FieldTemplate fieldTemplate,
       {initialValue}) {
     switch (fieldTemplate.type) {
       case ValueType.Text:
@@ -118,7 +124,12 @@ class FormElementControlBuilder {
           validators: FieldValidators.getValidators(fieldTemplate),
         );
       case ValueType.SelectMulti:
-        return FormControl<List<String>>(value: initialValue ?? []);
+        return FormControl<List<String>>(
+            value: initialValue != null
+                ? (initialValue is List)
+                    ? initialValue.cast<String>()
+                    : <String>[initialValue]
+                : <String>[]);
       case ValueType.Reference:
         return FormControl<String>(disabled: true);
       case ValueType.ScannedCode:

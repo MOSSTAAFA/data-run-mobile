@@ -165,7 +165,7 @@ class SubmissionInfoState extends ConsumerState<SubmissionInfo> {
     Map<String, dynamic> labelsMap = Map.fromIterable(flatTemplate,
         key: (t) => t.path,
         value: (t) =>
-            getItemLocalString((t.label as IMap<String, String>).unlockView));
+            getItemLocalString((t.label as IMap<String, String?>).unlockView));
 
     final labelsValueMap = labelsMap.entries
         .map((e) => '${e.value}, ${flatFormValue[e.key]}')

@@ -175,6 +175,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Request timed out. Please try again."),
         "newItem": MessageLookupByLibrary.simpleMessage("New Item"),
         "nmcpYemen": MessageLookupByLibrary.simpleMessage("NMCP Yemen"),
+        "no": MessageLookupByLibrary.simpleMessage("No"),
         "noAuthenticatedUser": MessageLookupByLibrary.simpleMessage(
             "Credentials do not match authenticated user. Cannot login offline."),
         "noAuthenticatedUserOffline": MessageLookupByLibrary.simpleMessage(
@@ -276,6 +277,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "viewList": MessageLookupByLibrary.simpleMessage("View List"),
         "weekly": MessageLookupByLibrary.simpleMessage("Weekly"),
         "year": m9,
-        "years": MessageLookupByLibrary.simpleMessage("Years")
+        "years": MessageLookupByLibrary.simpleMessage("Years"),
+        "yes": MessageLookupByLibrary.simpleMessage("Yes")
       };
 }

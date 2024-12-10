@@ -227,5 +227,7 @@
   "controllerNotReady": "Controller not ready.",
   "permissionDenied": "Permission denied",
   "scanningIsUnsupportedOnThisDevice": "Scanning is unsupported on this device",
-  "genericError": "Generic Error"
+  "genericError": "Generic Error",
+  "yes": "Yes",
+  "no": "No"
 }

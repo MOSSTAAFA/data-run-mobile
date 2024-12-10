@@ -20,11 +20,11 @@ class QDropDownMultiSelectWithSearchField extends HookConsumerWidget {
         .watch(
             formInstanceProvider(formMetadata: FormMetadataWidget.of(context)))
         .requireValue;
-    return ReactiveDropdownSearchMultiSelection(
+    return ReactiveDropdownSearchMultiSelection<String, String>(
       formControl: formInstance.form.control(element.elementPath!)
           as FormControl<List<String>>,
       validationMessages: validationMessages(context),
-      clearButtonProps: const ClearButtonProps(isVisible: true),
+      // clearButtonProps: const ClearButtonProps(isVisible: true),
       valueAccessor: NameToLabelValueAccessor(options: element.visibleOption),
       dropdownDecoratorProps: DropDownDecoratorProps(
         dropdownSearchDecoration: InputDecoration(
@@ -34,30 +34,31 @@ class QDropDownMultiSelectWithSearchField extends HookConsumerWidget {
         ),
       ),
       popupProps: PopupPropsMultiSelection.menu(
-        showSelectedItems: true,
+        showSelectedItems: false,
       ),
+      compareFn: (item, selectedItem) => item == selectedItem,
       items: element.visibleOption
           .map((option) => getItemLocalString(option.label.unlockView))
           .toSet()
           .toList(),
-      showClearButton: true,
+      // showClearButton: true,
     );
   }
 }
 
 class NameToLabelValueAccessor
     extends DropDownSearchMultiSelectionValueAccessor<String, String> {
-
   NameToLabelValueAccessor({this.items = const [], this.options = const []});
+
   final List<String> items;
   final List<FormOption> options;
 
   @override
   List<String>? modelToViewValue(List<String> items, List<String>? modelValue) {
     return options
-        .where((option) => option.name == modelValue)
-        .map((option) =>
-            getItemLocalString(option.label.unlockView, defaultString: option.name))
+        .where((option) => (modelValue?.contains(option.name) ?? false))
+        .map((option) => getItemLocalString(option.label.unlockView,
+            defaultString: option.name))
         .toList();
   }
 
@@ -65,8 +66,8 @@ class NameToLabelValueAccessor
   List<String>? viewToModelValue(List<String> items, List<String>? modelValue) {
     return options
         .where((option) =>
-            modelValue?.contains(
-                getItemLocalString(option.label.unlockView, defaultString: option.name)) ==
+            modelValue?.contains(getItemLocalString(option.label.unlockView,
+                defaultString: option.name)) ==
             true)
         .map((option) => option.name)
         .toList();

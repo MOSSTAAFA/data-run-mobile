@@ -80,14 +80,12 @@ Future<FormInstance> formInstance(FormInstanceRef ref,
       form: form)
     ..resolveDependencies()
     ..evaluate();
+  final attributeMap =
+      await formInstanceService.formAttributesControls(initialFormValue);
 
-  // final formConfiguration = await ref.watch(formConfigurationProvider(
-  //         form: formMetadata.form, version: formMetadata.version)
-  //     .future);
   return FormInstance(ref,
       enabled: enabled,
-      initialValue:
-          await formInstanceService.formAttributesControls(initialFormValue),
+      initialValue: {...?initialFormValue, ...attributeMap},
       elements: elements,
       formMetadata: formMetadata,
       form: form,

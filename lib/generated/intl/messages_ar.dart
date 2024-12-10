@@ -174,6 +174,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "newItem": MessageLookupByLibrary.simpleMessage("إضافة"),
         "nmcpYemen": MessageLookupByLibrary.simpleMessage(
             "البرنامج الوطني لمكافحة الملاريا"),
+        "no": MessageLookupByLibrary.simpleMessage("لا"),
         "noAuthenticatedUser": MessageLookupByLibrary.simpleMessage(
             "بيانات الاعتماد المقدمة لا تطابق مستخدمًا سبق وأن سجل. لا يمكن تسجيل الدخول في وضع عدم الاتصال بالإنترنت."),
         "noAuthenticatedUserOffline": MessageLookupByLibrary.simpleMessage(
@@ -278,6 +279,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "viewList": MessageLookupByLibrary.simpleMessage("عرض القائمة"),
         "weekly": MessageLookupByLibrary.simpleMessage("اسبوعي"),
         "year": m9,
-        "years": MessageLookupByLibrary.simpleMessage("سنوات")
+        "years": MessageLookupByLibrary.simpleMessage("سنوات"),
+        "yes": MessageLookupByLibrary.simpleMessage("نعم")
       };
 }

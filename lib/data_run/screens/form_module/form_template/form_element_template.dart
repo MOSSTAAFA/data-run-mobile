@@ -92,7 +92,7 @@ sealed class FormElementTemplate with TreeElement/*, EquatableMixin*/ {
     this.order = 0,
     this.fieldValueRenderingType,
     Iterable<Rule> rules = const [],
-    Map<String, String> label = const {},
+    Map<String, dynamic> label = const {},
     Map<String, dynamic> properties = const {},
     Iterable<String> ruleDependencies = const [],
   }) {
@@ -110,7 +110,7 @@ sealed class FormElementTemplate with TreeElement/*, EquatableMixin*/ {
   final String? runtimePath;
   final int order;
   final String? fieldValueRenderingType;
-  final Map<String, String> _label = {};
+  final Map<String, dynamic> _label = {};
   final List<Rule> _rules = [];
   final List<String> _ruleDependencies = [];
   final Map<String, dynamic> _properties = {};

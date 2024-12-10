@@ -189,5 +189,7 @@
   "controllerNotReady": "المتحكم غير جاهز.",
   "permissionDenied": "تم رفض الإذن",
   "scanningIsUnsupportedOnThisDevice": "الجهاز لا يدعم مسح الباركود",
-  "genericError": "خطأ غير محدد"
+  "genericError": "خطأ غير محدد",
+  "yes": "نعم",
+  "no": "لا"
 }

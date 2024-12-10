@@ -57,7 +57,7 @@ class FieldFactory {
       case ValueType.Boolean:
       case ValueType.YesNo:
         return ReactiveYesNoChoiceChips(
-            element: element as FieldInstance<String>);
+            element: element as FieldInstance<bool>);
       case ValueType.TrueOnly:
         return QSwitchField(element: element as FieldInstance<bool>);
       case ValueType.OrganisationUnit:

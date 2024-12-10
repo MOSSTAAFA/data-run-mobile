@@ -39,7 +39,7 @@ class FormElementBuilder {
       return buildRepeatInstance(
           form, formFlatTemplate, template as SectionTemplate,
           initialFormValue: initialFormValue);
-    } else if(template.type == ValueType.ScannedCode) {
+    } else if (template.type == ValueType.ScannedCode) {
       return buildFieldInstance(
           form, formFlatTemplate, template as FieldTemplate,
           initialFormValue: initialFormValue);
@@ -227,7 +227,9 @@ class FormElementBuilder {
                         : <String>[initialFormValue]
                     : <String>[],
                 mandatory: templateElement.mandatory,
-                visibleOptions: templateElement.options.unlockView),
+                visibleOptions:
+                    formFlatTemplate.optionLists[templateElement.listName!] ??
+                        []),
             template: templateElement);
       case ValueType.Reference:
         return FieldInstance<String>(
