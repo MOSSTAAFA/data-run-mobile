@@ -73,8 +73,6 @@ class FormInstance {
   String? get submissionUid => formMetadata.submission;
 
   Future<DataFormSubmission> saveFormData() async {
-    final initValue  = _initialValue;
-    final currentValue = _formSection.value;
     final formSubmission =
         await formSubmissionList.getSubmission(submissionUid!);
 

@@ -1,4 +1,3 @@
-import 'package:d2_remote/modules/datarun/form/shared/form_option.entity.dart';
 import 'package:datarun/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,7 +7,6 @@ import 'package:datarun/data_run/screens/form/element/validation/form_element_va
 import 'package:datarun/data_run/screens/form/field_widgets/custom_reactive_widget/reactive_chip_option.dart';
 import 'package:datarun/data_run/screens/form/field_widgets/custom_reactive_widget/reactive_choice_chips.dart';
 import 'package:datarun/data_run/screens/form/inherited_widgets/form_metadata_inherit_widget.dart';
-import 'package:datarun/core/utils/get_item_local_string.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 class ReactiveYesNoChoiceChips extends ConsumerWidget {
